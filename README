@@ -1,0 +1,38 @@
+Author:       Eva Nieuwenhuis
+University:   UvA
+Student id':  13717405
+
+The goal was to make a model that simulates dynamics in the multiple myeloma (MM)
+microenvironment with three cell types: MM cells, osteoblasts (OBs) and osteoclasts
+(OCs). The model simulates a public goods game in in the framework of evolutionary
+game theory with collective interactions and nonlinear benefits. The model was used
+to determine the effects of several treatment on the multiple myeloma and to investigate
+the effects of resistance development.
+
+PYTHON AND LIBRARY VESIONS  
+Python version 3.11.4 is used. To run the different codes in the code file some
+libraries need to be installed.
+
+cancer_model.py
+* numpy (version 1.26.0)
+    - install: pip install numpy==1.26.0
+* matplotlib (version 3.8.0)
+    - install: pip install matplotlib==3.8.0
+* pandas (version 2.1.3)
+    - install: pip install pandas==2.1.3
+* seabron (version 0.13.0)
+    - install: pip install seaborn==0.13.0
+* ternary (version 0.1)
+    - install: pip install ternary==0.1
+* plotly (version 5.18.0)
+    - install: pip install plotly==5.18.0
+
+THE MODEL: cancer_model.py
+Cancer_model.py contains the code to reproduce the results of the paper: Game Theory
+of Tumor–Stroma Interactions in Multiple Myeloma: Effect of Nonlinear Benefits by
+Sartakhti et al., 2018). It shows the effect of nonlinear benefits compared to linear
+benefits.
+
+HOW TO RUN
+The model:
+      python cancer_model.py
