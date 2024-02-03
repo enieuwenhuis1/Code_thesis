@@ -2,16 +2,16 @@ Author:       Eva Nieuwenhuis
 University:   UvA
 Student id:  13717405
 
-The goal was to make a model that simulates the dynamics in the multiple myeloma 
+The goal was to make a model that simulates the dynamics in the multiple myeloma
 (MM) microenvironment to determine the effects of several treatments and resistance 
-levels. A model is ideally fot this because it generates results fast, it is cheap
-and easy reproducible. There is looked at three cell types: MM cells, osteoblasts 
+levels. A model is ideally for this because it generates results fast, it is cheap
+and easy reproducible. There is looked at three cell types: MM cells, osteoblasts
 (OBs) and osteoclasts (OCs). The model simulates a public goods game in the framework
 of evolutionary game theory with collective interactions and nonlinear benefits.
 The impact of the following treatments was studied: ....
 
-PYTHON AND LIBRARY VESIONS  
-Python version 3.11.4 is used. 
+PYTHON AND LIBRARY VESIONS
+Python version 3.11.4 is used.
 To run the codes in the code file some libraries need to be installed.
 
 cancer_model.py
@@ -35,14 +35,14 @@ Sartakhti et al., 2018). It shows the effect of nonlinear benefits compared to l
 benefits.
 
 THE DATA
-The folder data contains all the generated data that is used to make the figures and 
-to perform the statistical tests. 
+The folder data contains all the generated data that is used to make the figures and
+to perform the statistical tests.
 
-THE VISUALISATION 
+THE VISUALISATION
 Data_visualisation.py contains the code to make all the used figures. The data
 utilised for the figures is generated with cancer_model.py.
 
-In the folder visualisation all made figures are shown. 
+In the folder visualisation all made figures are shown.
 
 THE STATISTICAL TESTS
 Statistics_tests.py contains all the statistical test that are performed on the data
