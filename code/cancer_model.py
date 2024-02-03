@@ -17,6 +17,7 @@ import matplotlib.pyplot as plt
 import ternary
 import plotly.graph_objects as go
 import plotly.express as px
+import os
 
 """
 The formulas described in the materials and methods (formulas 1 to 10).
@@ -368,6 +369,41 @@ def benefit_function(n, h, B_max, s, N):
 
     return benefit_value
 
+def save_data(data_frame, file_name):
+    """ Function that saves a dataframe as csv file
+
+    Parameters:
+    -----------
+    file_name: String
+        The name of the csv file.
+    data_frame:
+        The data frame contain the collected data.
+    """
+
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    data_folder = os.path.join(script_dir, '..', 'data')
+    os.makedirs(data_folder, exist_ok=True)
+    data_frame.to_csv(os.path.join(data_folder, file_name), index=False)
+
+def collect_data(file_name):
+    """ Function that reads the data from a csv file to a dataframe
+
+    Parameters:
+    -----------
+    file_name : String
+        The name of the csv file.
+
+    Returns:
+    --------
+    data_frame:
+        The data frame contain the collected data.
+    """
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    data_folder = os.path.join(script_dir, '..', 'data')
+    file_path = os.path.join(data_folder, file_name)
+    data_frame = pd.read_csv(file_path)
+
+    return data_frame
 
 """Figure in materials and methods (figure 10)"""
 # Parameters
@@ -378,16 +414,28 @@ B_value = 1.0
 # Steepness values
 steepness_values = [0.1, 1.0, 10.0, 20.0, 100.0]
 
-# Make a plot
-fig, ax =plt.subplots(figsize=(10, 6))
-n_values = np.linspace(0, N, 100)
+# Create a data frame
+df_figure_10 = pd.DataFrame(columns=['n_values', 'benefit_values', 's_value'])
 
 # Loop over the steepness values
 for s_value in steepness_values:
+    n_values = np.linspace(0, N, 100)
+    benefit_data= [benefit_function(n, h_value, B_value, s_value, N) for n in n_values]
 
-    # Calculate the benefit values and plot them
-    benefit_values = [benefit_function(n, h_value, B_value, s_value, N) for n in n_values]
-    plt.plot(n_values, benefit_values, label=f's={s_value}')
+    # Add the data to the dataframe
+    df_figure_10 = pd.concat([df_figure_10, pd.DataFrame({'n_values': n_values, 'benefit_values': benefit_data, 's_value': s_value})])
+
+# Save the data as csv file
+save_data(df_figure_10, 'data_figure_10.csv')
+
+# collect the dataframe from the csv file
+data_figure_10 = collect_data('data_figure_10.csv')
+
+# Make a plot
+fig, ax = plt.subplots(figsize=(10, 6))
+for s_value, group in data_figure_10.groupby('s_value'):
+    plt.plot(group['n_values'], group['benefit_values'], label=f's={s_value}')
+
 
 # Make the plot clear
 ax.set_xticks([0, 10])
@@ -455,7 +503,7 @@ nMM = 7
 generations = 200
 
 column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
-df = pd.DataFrame(columns=column_names)
+df_figure_1 = pd.DataFrame(columns=column_names)
 
 # Run simulation
 for generation in range(generations):
@@ -486,7 +534,7 @@ for generation in range(generations):
     # beginning values get added to the dataframe at generation =0)
     new_row = pd.DataFrame([{'Generation':generation, 'xOC': xOC, 'xOB': xOB,
                                             'xMM': xMM, 'W_average': W_average}])
-    df = pd.concat([df, new_row], ignore_index=True)
+    df_figure_1 = pd.concat([df_figure_1, new_row], ignore_index=True)
 
     # Update the xOC, xOB, xMM values
     xOC = max(0, xOC + xOC_change)
@@ -498,8 +546,14 @@ for generation in range(generations):
     # nOB = int(xOB * N)
     # nMM = int(xMM * N)
 
+# Save the data as csv file
+save_data(df_figure_1, 'data_figure_1.csv')
+
+# collect the dataframe from the csv file
+data_figure_1 = collect_data('data_figure_1.csv')
+
 # Plotting
-df.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+data_figure_1.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
 plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
 plt.xlabel('Generations')
 plt.ylabel('fitness/ frequency')
@@ -507,18 +561,17 @@ plt.legend()
 plt.show()
 
 # Make a ternary plot
-""" So when i plot it in a ternary plot it does not go to the richt point"""
-fig = px.line_ternary(df, a='xOB', b='xMM', c='xOC')
+""" So when i plot it in a ternary plot it does not go to the right point"""
+fig = px.line_ternary(data_figure_1, a='xOB', b='xMM', c='xOC')
 
 fig.update_layout(
     ternary=dict(
         aaxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
         baxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
-        caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
-    )
-)
+        caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
 
 fig.show()
+
 
 """ Sigmoid benefits figure 2"""
 # Number of cells
@@ -547,17 +600,29 @@ h_values = [0.1, 0.3, 0.5, 0.7, 0.9]
 s = 20
 B = 1
 
-# Make subplots
-fig, axes = plt.subplots(1, len(h_values), figsize=(15, 5))
+# Create a DataFrame to store the data
+df_sigmoides_figure_2 = pd.DataFrame(columns=['n_values', 'benefit_values', 'h_value'])
 
 # Loop over h values
-for i, h_value in enumerate(h_values):
-    # Calculate the benefit values and plot them
+for h_value in h_values:
     n_values = np.linspace(0, N, 100)
-    benefit_values = [benefit_function(n, h_value, B, s, N) for n in n_values]
-    axes[i].plot(n_values, benefit_values, label=f'h={h_value}')
+    benefit_values = [benefit_function(n, h_value, B_value, s_value, N) for n in n_values]
 
-    # give titles
+    # Add the data to the dataframe
+    df_sigmoides_figure_2 = pd.concat([df_sigmoides_figure_2, pd.DataFrame({'n_values': n_values, 'benefit_values': benefit_values, 'h_value': h_value})])
+
+# Save the data as csv file
+save_data(df_sigmoides_figure_2, 'data_sigmoides_figure_2.csv')
+
+# collect the dataframe from the csv file
+data_sigmoides_figure_2 = collect_data('data_sigmoides_figure_2.csv')
+
+# Make a plot
+fig, axes = plt.subplots(1, len(h_values), figsize=(15, 5))
+for i, (h_value, group) in enumerate(data_sigmoides_figure_2.groupby('h_value')):
+    axes[i].plot(group['n_values'], group['benefit_values'], label=f'h={h_value}')
+
+    # Give titles
     axes[i].set_title(f'h={h_value}')
     axes[i].set_xlabel('Number of producers')
     axes[i].set_ylabel('Benefit')
@@ -566,8 +631,7 @@ for i, h_value in enumerate(h_values):
     axes[i].set_yticks([0, 1])
     axes[i].set_yticklabels(['0', r'$B_{ij}$'], fontsize=11)
 
-
-# Plot the plot =
+# Show the plot
 plt.tight_layout()
 plt.show()
 
@@ -627,7 +691,7 @@ nMM = 3
 generations = 100
 
 column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
-df = pd.DataFrame(columns=column_names)
+df_figure_7 = pd.DataFrame(columns=column_names)
 
 # Run simulation
 for generation in range(generations):
@@ -657,15 +721,21 @@ for generation in range(generations):
     # Add row to dataframe
     new_row = pd.DataFrame([{'Generation':generation, 'xOC': xOC, 'xOB': xOB,
                                             'xMM': xMM, 'W_average': W_average}])
-    df = pd.concat([df, new_row], ignore_index=True)
+    df_figure_7 = pd.concat([df_figure_7, new_row], ignore_index=True)
 
     # Update xOC, xOB, xMM values
     xOC = max(0, xOC + xOC_change)
     xOB = max(0, xOB + xOB_change)
     xMM = max(0, xMM + xMM_change)
 
+# Save the data as csv file
+save_data(df_figure_7, 'data_figure_7.csv')
+
+# collect the dataframe from the csv file
+data_figure_7 = collect_data('data_figure_7.csv')
+
 # Make a line plot
-df.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+data_figure_7.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
 plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
 plt.xlabel('Generations')
 plt.ylabel('fitness/ frequency')
@@ -673,7 +743,7 @@ plt.legend()
 plt.show()
 
 # Make a ternary plot
-fig = px.line_ternary(df, a='xOB', b='xMM', c='xOC')
+fig = px.line_ternary(data_figure_7, a='xOB', b='xMM', c='xOC')
 fig.show()
 
 """ Start figure 8 line plot. But it is not correct"""
@@ -731,7 +801,7 @@ nMM = 16
 generations = 100
 
 column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
-df = pd.DataFrame(columns=column_names)
+df_figure_8 = pd.DataFrame(columns=column_names)
 
 # Run simulation
 for generation in range(generations):
@@ -761,7 +831,7 @@ for generation in range(generations):
     # Add row to dataframe
     new_row = pd.DataFrame([{'Generation':generation, 'xOC': xOC, 'xOB': xOB,
                                             'xMM': xMM, 'W_average': W_average}])
-    df = pd.concat([df, new_row], ignore_index=True)
+    df_figure_8 = pd.concat([df_figure_8, new_row], ignore_index=True)
 
     # Update xOC, xOB, xMM values
     xOC = max(0, xOC + xOC_change)
@@ -772,8 +842,15 @@ for generation in range(generations):
     # nOB = int(xOB * N)
     # nMM = int(xMM * N)
 
+# Save the data as csv file
+save_data(df_figure_8, 'data_figure_8.csv')
+
+# collect the dataframe from the csv file
+data_figure_8 = collect_data('data_figure_8.csv')
+
+
 # Make a line plot
-df.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+data_figure_8.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
 plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
 plt.xlabel('Generations')
 plt.ylabel('fitness/ frequency')
