@@ -3,7 +3,7 @@ University:   UvA
 Student id:  13717405
 
 The goal was to make a model that simulates the dynamics in the multiple myeloma
-(MM) microenvironment to determine the effects of several treatments and resistance 
+(MM) microenvironment to determine the effects of several treatments and resistance
 levels. A model is ideally for this because it generates results fast, it is cheap
 and easy reproducible. There is looked at three cell types: MM cells, osteoblasts
 (OBs) and osteoclasts (OCs). The model simulates a public goods game in the framework
@@ -28,21 +28,30 @@ cancer_model.py
 * plotly (version 5.18.0)
     - install: pip install plotly==5.18.0
 
+
 THE MODEL: cancer_model.py
 Cancer_model.py contains the code to reproduce the results of the paper: Game Theory
 of Tumor–Stroma Interactions in Multiple Myeloma: Effect of Nonlinear Benefits by
 Sartakhti et al., 2018). It shows the effect of nonlinear benefits compared to linear
 benefits.
 
+TEST THE CODE
+To test the functions in the model, doc test are added and automatically run when the
+cancer_model.py code. 
+
 THE DATA
 The folder data contains all the generated data that is used to make the figures and
-to perform the statistical tests.
+to perform the statistical tests. This folder contains a folder named reproduced_
+data_Sartakhti with all the reproduced data of the paper of Sartakhti et al., 2018
+and a folder named ... with ...
 
 THE VISUALISATION
 Data_visualisation.py contains the code to make all the used figures. The data
 utilised for the figures is generated with cancer_model.py.
 
-In the folder visualisation all made figures are shown.
+In the folder visualisation all made figures are shown. This folder contains a folder
+named reproduced_results_Sartakhti with all the reproduced figures of the paper of
+Sartakhti et al., 2018 and a folder named ... with ....
 
 THE STATISTICAL TESTS
 Statistics_tests.py contains all the statistical test that are performed on the data
@@ -57,3 +66,8 @@ The visualisation, data_visualisation.py:
 
 The tests, statistics_tests.py:
          - python statistics_tests.py
+
+References
+Sartakhti, J. S., Manshaei, M. H., & Archetti, M. (2018). Game Theory of Tumor–Stroma
+Interactions in Multiple Myeloma: Effect of nonlinear benefits. Games, 9(2), 32.
+https://doi.org/10.3390/g9020032

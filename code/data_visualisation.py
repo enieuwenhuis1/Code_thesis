@@ -66,9 +66,8 @@ df_figure_10 = pd.DataFrame(columns=['n_values', 'benefit_values', 's_value'])
 for s_value in steepness_values:
     n_values = np.linspace(0, N, 100)
     benefit_data= [benefit_function(n, h_value, B_value, s_value, N) for n in n_values]
-
-    # Add the data to the dataframe
-    df_figure_10 = pd.concat([df_figure_10, pd.DataFrame({'n_values': n_values, 'benefit_values': benefit_data, 's_value': s_value})])
+    df_figure_10 = pd.concat([df_figure_10, pd.DataFrame({'n_values': n_values,
+                                'benefit_values': benefit_data, 's_value': s_value})])
 
 # Save the data as csv file
 save_data(df_figure_10, 'data_figure_10.csv', r'..\data\reproduced_data_Sartakhti')
@@ -90,7 +89,8 @@ plt.title('Sigmoide benefits for different inflection points')
 plt.xlabel('Number of cells (ni)')
 plt.ylabel('Benefit')
 plt.legend()
-save_figure(plt, 'Benefit_curve_figure_10', r'..\visualisation\reproduced_results_Sartakhti')
+save_figure(plt, 'Benefit_function_figure_10',
+                            r'..\visualisation\reproduced_results_Sartakhti')
 plt.show()
 
 
@@ -194,10 +194,10 @@ for generation in range(generations):
 # Save the data as csv file
 save_data(df_figure_1, 'data_figure_1.csv', r'..\data\reproduced_data_Sartakhti')
 
-# collect the dataframe from the csv file
+# Collect the dataframe from the csv file
 data_figure_1 = collect_data('data_figure_1.csv', r'..\data\reproduced_data_Sartakhti')
 
-# Plotting
+# Make a plot
 data_figure_1.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
 plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
 plt.xlabel('Generations')
@@ -257,13 +257,16 @@ for h_value in h_values:
     benefit_values = [benefit_function(n, h_value, B_value, s_value, N) for n in n_values]
 
     # Add the data to the dataframe
-    df_sigmoides_figure_2 = pd.concat([df_sigmoides_figure_2, pd.DataFrame({'n_values': n_values, 'benefit_values': benefit_values, 'h_value': h_value})])
+    df_sigmoides_figure_2 = pd.concat([df_sigmoides_figure_2, pd.DataFrame({
+    'n_values': n_values, 'benefit_values': benefit_values, 'h_value': h_value})])
 
 # Save the data as csv file
-save_data(df_sigmoides_figure_2, 'data_sigmoides_figure_2.csv', r'..\data\reproduced_data_Sartakhti')
+save_data(df_sigmoides_figure_2, 'data_sigmoides_figure_2.csv',
+                                            r'..\data\reproduced_data_Sartakhti')
 
-# collect the dataframe from the csv file
-data_sigmoides_figure_2 = collect_data('data_sigmoides_figure_2.csv', r'..\data\reproduced_data_Sartakhti')
+# Collect the dataframe from the csv file
+data_sigmoides_figure_2 = collect_data('data_sigmoides_figure_2.csv',
+                                            r'..\data\reproduced_data_Sartakhti')
 
 # Make a plot
 fig, axes = plt.subplots(1, len(h_values), figsize=(14, 5))
@@ -285,7 +288,8 @@ save_figure(plt, 'Benefit_curves_figure_2', r'..\visualisation\reproduced_result
 plt.show()
 
 """Make the ternary plost of figure 2"""
-df_ternary_figure_2 = pd.DataFrame(columns=['Generation', 'xOC', 'xOB', 'xMM', 'W_average', 'h_value'])
+df_ternary_figure_2 = pd.DataFrame(columns=['Generation', 'xOC', 'xOB', 'xMM',
+                                                            'W_average', 'h_value'])
 
 generations = 500
 
@@ -353,10 +357,12 @@ for h_value in h_values:
         xMM = max(0, xMM + xMM_change)
 
 # Save the data as csv file
-save_data(df_ternary_figure_2, 'data_ternary_figure_2.csv', r'..\data\reproduced_data_Sartakhti')
+save_data(df_ternary_figure_2, 'data_ternary_figure_2.csv',
+                                            r'..\data\reproduced_data_Sartakhti')
 
 # Collect the dataframe from the csv file
-data_teranary_figure_2 = collect_data('data_ternary_figure_2.csv', r'..\data\reproduced_data_Sartakhti')
+data_teranary_figure_2 = collect_data('data_ternary_figure_2.csv',
+                                            r'..\data\reproduced_data_Sartakhti')
 
 # Loop over all the h values
 for h_value in h_values:
@@ -405,7 +411,7 @@ hMM_OC = 0.5
 hMM_OB = 0.5
 hMM_MM = 0.5
 
-# steepness of the function at the inflection points
+# Steepness of the function at the inflection points
 sOC_OC = 50
 sOC_OB = 30
 sOC_MM = 50
@@ -459,7 +465,8 @@ for generation in range(generations):
     # Add row to dataframe
     new_row = pd.DataFrame([{'Generation':generation, 'xOC': xOC, 'xOB': xOB,
                                             'xMM': xMM, 'W_average': W_average}])
-    df_figure_3_non_linear = pd.concat([df_figure_3_non_linear, new_row], ignore_index=True)
+    df_figure_3_non_linear = pd.concat([df_figure_3_non_linear, new_row],
+                                                                ignore_index=True)
 
     # Update xOC, xOB, xMM values
     xOC = max(0, xOC + xOC_change)
@@ -520,12 +527,16 @@ for generation in range(generations):
     xMM = max(0, xMM + xMM_change)
 
 # Save the data as csv file
-save_data(df_figure_3_non_linear, 'data_figure_3_non_linear.csv', r'..\data\reproduced_data_Sartakhti')
-save_data(df_figure_3_linear, 'data_figure_3_linear.csv', r'..\data\reproduced_data_Sartakhti')
+save_data(df_figure_3_non_linear, 'data_figure_3_non_linear.csv',
+                                            r'..\data\reproduced_data_Sartakhti')
+save_data(df_figure_3_linear, 'data_figure_3_linear.csv',
+                                            r'..\data\reproduced_data_Sartakhti')
 
-# collect the dataframe from the csv file
-data_figure_3_non_linear = collect_data('data_figure_3_non_linear.csv', r'..\data\reproduced_data_Sartakhti')
-data_figure_3_linear = collect_data('data_figure_3_linear.csv', r'..\data\reproduced_data_Sartakhti')
+# Collect the dataframe from the csv file
+data_figure_3_non_linear = collect_data('data_figure_3_non_linear.csv',
+                                            r'..\data\reproduced_data_Sartakhti')
+data_figure_3_linear = collect_data('data_figure_3_linear.csv',
+                                            r'..\data\reproduced_data_Sartakhti')
 
 # Make a line plot of non-linear data
 data_figure_3_non_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
@@ -534,7 +545,8 @@ plt.xlabel('Generations')
 plt.ylabel('fitness/ frequency')
 plt.title('Nonlinear benefits (figure 3)')
 plt.legend()
-save_figure(plt, 'Line_plot_figure_3_non_linear', r'..\visualisation\reproduced_results_Sartakhti')
+save_figure(plt, 'Line_plot_figure_3_non_linear',
+                                r'..\visualisation\reproduced_results_Sartakhti')
 plt.show()
 
 # Make a ternary plot of non-linear data
@@ -545,7 +557,8 @@ fig.update_layout(
         baxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
         caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
 fig.update_layout(title_text=f'Nonliear benefits (figure 3)')
-save_ternary(fig, 'Ternary_plot_figure_3_non_linear', r'..\visualisation\reproduced_results_Sartakhti')
+save_ternary(fig, 'Ternary_plot_figure_3_non_linear',
+                                r'..\visualisation\reproduced_results_Sartakhti')
 fig.show()
 
 # Make a line plot of linear data
@@ -555,7 +568,8 @@ plt.xlabel('Generations')
 plt.ylabel('fitness/ frequency')
 plt.title('Linear benfits (figure 3)')
 plt.legend()
-save_figure(plt, 'Line_plot_figure_3_linear', r'..\visualisation\reproduced_results_Sartakhti')
+save_figure(plt, 'Line_plot_figure_3_linear',
+                                r'..\visualisation\reproduced_results_Sartakhti')
 plt.show()
 
 # Make a ternary plot  of linear data
@@ -566,7 +580,8 @@ fig.update_layout(
         baxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
         caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
 fig.update_layout(title_text= 'Linear benefits (figure 3)')
-save_ternary(fig, 'Ternary_plot_figure_3_linear', r'..\visualisation\reproduced_results_Sartakhti')
+save_ternary(fig, 'Ternary_plot_figure_3_linear',
+                                r'..\visualisation\reproduced_results_Sartakhti')
 fig.show()
 
 """ Start figure 4 line plot. But it is not correct"""
@@ -600,7 +615,7 @@ hMM_OC = 0.3
 hMM_OB = 0.5
 hMM_MM = 0.1
 
-# steepness of the function at the inflection points
+# Steepness of the function at the inflection points
 sOC_OC = 10
 sOC_OB = 10
 sOC_MM = 100
@@ -661,7 +676,6 @@ for generation in range(generations):
     xOB = max(0, xOB + xOB_change)
     xMM = max(0, xMM + xMM_change)
 
-
 # Initial frequencies and values --> are needed to make a plot but are not mentioned
 xOC = 0.2
 xOB = 0.5
@@ -715,12 +729,16 @@ for generation in range(generations):
     xMM = max(0, xMM + xMM_change)
 
 # Save the data as csv file
-save_data(df_figure_4_non_linear, 'data_figure_4_non_linear.csv', r'..\data\reproduced_data_Sartakhti')
-save_data(df_figure_4_linear, 'data_figure_4_linear.csv', r'..\data\reproduced_data_Sartakhti')
+save_data(df_figure_4_non_linear, 'data_figure_4_non_linear.csv',
+                                            r'..\data\reproduced_data_Sartakhti')
+save_data(df_figure_4_linear, 'data_figure_4_linear.csv',
+                                            r'..\data\reproduced_data_Sartakhti')
 
-# collect the dataframe from the csv file
-data_figure_4_non_linear = collect_data('data_figure_4_non_linear.csv', r'..\data\reproduced_data_Sartakhti')
-data_figure_4_linear = collect_data('data_figure_4_linear.csv', r'..\data\reproduced_data_Sartakhti')
+# Collect the dataframe from the csv file
+data_figure_4_non_linear = collect_data('data_figure_4_non_linear.csv',
+                                            r'..\data\reproduced_data_Sartakhti')
+data_figure_4_linear = collect_data('data_figure_4_linear.csv',
+                                            r'..\data\reproduced_data_Sartakhti')
 
 # Make a line plot of non-linear data
 data_figure_4_non_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
@@ -729,7 +747,8 @@ plt.xlabel('Generations')
 plt.ylabel('fitness/ frequency')
 plt.title('Non linear benefits (figure 4)')
 plt.legend()
-save_figure(plt, 'Line_plot_figure_4_non_linear', r'..\visualisation\reproduced_results_Sartakhti')
+save_figure(plt, 'Line_plot_figure_4_non_linear',
+                                r'..\visualisation\reproduced_results_Sartakhti')
 plt.show()
 
 # Make a ternary plot of non-linear data
@@ -740,7 +759,8 @@ fig.update_layout(
         baxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
         caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
 fig.update_layout(title_text= 'Nonlinear benefits (figure 4)')
-save_ternary(fig, 'Ternary_plot_figure_4_non_linear', r'..\visualisation\reproduced_results_Sartakhti')
+save_ternary(fig, 'Ternary_plot_figure_4_non_linear',
+                                r'..\visualisation\reproduced_results_Sartakhti')
 fig.show()
 
 # Make a line plot of linear data
@@ -795,7 +815,7 @@ hMM_OC = 0.3
 hMM_OB = 0.2
 hMM_MM = 0.1
 
-# steepness of the function at the inflection points
+# Steepness of the function at the inflection points
 sOC_OC = 10
 sOC_OB = 10
 sOC_MM = 100
@@ -913,7 +933,7 @@ for generation in range(generations):
 save_data(df_figure_5_non_linear, 'data_figure_5_non_linear.csv', r'..\data\reproduced_data_Sartakhti')
 save_data(df_figure_5_linear, 'data_figure_5_linear.csv', r'..\data\reproduced_data_Sartakhti')
 
-# collect the dataframe from the csv file
+# Collect the dataframe from the csv file
 data_figure_5_non_linear = collect_data('data_figure_5_non_linear.csv', r'..\data\reproduced_data_Sartakhti')
 data_figure_5_linear = collect_data('data_figure_5_linear.csv', r'..\data\reproduced_data_Sartakhti')
 
@@ -990,7 +1010,7 @@ hMM_OC = 0.5
 hMM_OB = 0.5
 hMM_MM = 0.5
 
-# steepness of the function at the inflection points
+# Steepness of the function at the inflection points
 sOC_OC = 10
 sOC_OB = 10
 sOC_MM = 50
@@ -1108,7 +1128,7 @@ for generation in range(generations):
 save_data(df_figure_6_non_linear, 'data_figure_6_non_linear.csv', r'..\data\reproduced_data_Sartakhti')
 save_data(df_figure_6_linear, 'data_figure_6_linear.csv', r'..\data\reproduced_data_Sartakhti')
 
-# collect the dataframe from the csv file
+# Collect the dataframe from the csv file
 data_figure_6_non_linear = collect_data('data_figure_6_non_linear.csv', r'..\data\reproduced_data_Sartakhti')
 data_figure_6_linear = collect_data('data_figure_6_linear.csv', r'..\data\reproduced_data_Sartakhti')
 
@@ -1185,7 +1205,7 @@ hMM_OC = 0.4
 hMM_OB = 0.3
 hMM_MM = 0.7
 
-# steepness of the function at the inflection points
+# Steepness of the function at the inflection points
 sOC_OC = 20
 sOC_OB = 20
 sOC_MM = 5
@@ -1303,7 +1323,7 @@ for generation in range(generations):
 save_data(df_figure_7_non_linear, 'data_figure_7_non_linear.csv', r'..\data\reproduced_data_Sartakhti')
 save_data(df_figure_7_linear, 'data_figure_7_linear.csv', r'..\data\reproduced_data_Sartakhti')
 
-# collect the dataframe from the csv file
+# Collect the dataframe from the csv file
 data_figure_7_non_linear = collect_data('data_figure_7_non_linear.csv', r'..\data\reproduced_data_Sartakhti')
 data_figure_7_linear = collect_data('data_figure_7_linear.csv', r'..\data\reproduced_data_Sartakhti')
 
@@ -1380,7 +1400,7 @@ hMM_OC = 0.2
 hMM_OB = 0.2
 hMM_MM = 0.2
 
-# steepness of the function at the inflection points
+# Steepness of the function at the inflection points
 sOC_OC = 4
 sOC_OB = 4
 sOC_MM = 40
@@ -1397,7 +1417,7 @@ xOC = 0.1
 xOB = 0.2
 xMM = 0.7
 
-# starting number of each cell type
+# Starting number of each cell type
 nOC = 2
 nOB = 4
 nMM = 16
@@ -1448,7 +1468,7 @@ for generation in range(generations):
     # nMM = int(xMM * N)
 
 
-# steepness of the function at the inflection points
+# Steepness of the function at the inflection points
 s_linear = 0.00001
 
 # Initial frequencies and values --> are needed to make a plot but are not mentioned
@@ -1510,7 +1530,7 @@ for generation in range(generations):
 save_data(df_figure_8_non_linear, 'data_figure_8_non_linear.csv', r'..\data\reproduced_data_Sartakhti')
 save_data(df_figure_8_linear, 'data_figure_8_linear.csv', r'..\data\reproduced_data_Sartakhti')
 
-# collect the dataframe from the csv file
+# Collect the dataframe from the csv file
 data_figure_8_non_linear = collect_data('data_figure_8_non_linear.csv', r'..\data\reproduced_data_Sartakhti')
 data_figure_8_linear = collect_data('data_figure_8_linear.csv', r'..\data\reproduced_data_Sartakhti')
 
