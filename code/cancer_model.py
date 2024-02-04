@@ -409,501 +409,501 @@ def collect_data(file_name, folder_path):
     data_frame = pd.read_csv(file_path)
 
     return data_frame
-
-def save_figure(figure, file_name, folder_path):
-    """
-    Save the figure to a specific folder.
-
-    Parameters:
-    -----------
-    figure: Matplotlib figure
-        Figure object that needs to be saved.
-    file_name : String
-        The name for the plot.
-    folder_path: String:
-        Path to the folder where the data will be saved.
-    """
-    os.makedirs(folder_path, exist_ok=True)
-    figure.savefig(os.path.join(folder_path, file_name))
-
-def save_ternary(figure, file_name, folder_path):
-    """
-    Save the ternary plot in a specific folder.
-
-    Parameters:
-    -----------
-    figure: Matplotlib figure
-        Figure object that needs to be saved.
-    file_name : String
-        The name for the plot.
-    folder_path: String:
-        Path to the folder where the data will be saved.
-    """
-    os.makedirs(folder_path, exist_ok=True)
-    pio.write_image(figure, os.path.join(folder_path, f'{file_name}.png'), format='png')
-
-
-"""Figure in materials and methods (figure 10)"""
-# Parameters
-N = 10
-h_value = 0.4
-B_value = 1.0
-
-# Steepness values
-steepness_values = [0.1, 1.0, 10.0, 20.0, 100.0]
-
-# Create a data frame
-df_figure_10 = pd.DataFrame(columns=['n_values', 'benefit_values', 's_value'])
-
-# Loop over the steepness values
-for s_value in steepness_values:
-    n_values = np.linspace(0, N, 100)
-    benefit_data= [benefit_function(n, h_value, B_value, s_value, N) for n in n_values]
-
-    # Add the data to the dataframe
-    df_figure_10 = pd.concat([df_figure_10, pd.DataFrame({'n_values': n_values, 'benefit_values': benefit_data, 's_value': s_value})])
-
-# Save the data as csv file
-save_data(df_figure_10, 'data_figure_10.csv', r'..\data\reproduced_data_Sartakhti')
-
-# collect the dataframe from the csv file
-data_figure_10 = collect_data('data_figure_10.csv', r'..\data\reproduced_data_Sartakhti')
-
-# Make a plot
-fig, ax = plt.subplots(figsize=(10, 6))
-for s_value, group in data_figure_10.groupby('s_value'):
-    plt.plot(group['n_values'], group['benefit_values'], label=f's={s_value}')
-
-
-# Make the plot clear
-ax.set_xticks([0, 10])
-ax.set_xticklabels(['0', 'N'], fontsize=11)
-ax.set_yticks([0, 1])
-ax.set_yticklabels(['0', r'$B_{ij}$'], fontsize=11)
-plt.title('Sigmoid Benefits')
-plt.xlabel('Number of cells (ni)')
-plt.ylabel('Benefit')
-plt.legend()
-save_figure(plt, 'Benefit_curve_figure_10', r'..\visualisation\reproduced_results_Sartakhti')
-plt.show()
-
-
-""" Start figure 1 """
-"""
-I want to recreate figure 1 here but I don't know how to do that.
-
-1. To create a triangle I now use: px.line_ternary. But I don't know how to add the
-    color differences of the fitness and the arrows of the direction. I also tried
-    it in mathplotlib but that doesn't work very well either. So maybe you know a
-    better way (possibly in mathplotlib)?
-2. The line that is now being plotted does not correspond to what the figure in
-    the article shows, so something is going wrong there as well. So maybe there
-    is an error in the formulas that I can't find?
-3. Furthermore, I don't know what to take as starting values for xOC, xOB and xMM
-    and nOC, nOB and nMM because that is not stated anywhere?
-4. I also don't know if I should update nOC, nOB and nMM in the loop? And if so does
-    N stay te same number over different generations of does it become bigger.
-5. And is fitness the average fitness or just one of the cell types?
-"""
-
-# Number of cells
-N = 10
-
-# Cost of producing growth factors
-cOC_value = 0.1
-cOB_value = 0.2
-cMM_value = 0.3
-
-# Maximal benefit values
-BOC_OC = 0.0
-BOC_OB = 1.0
-BOC_MM = 1.1
-BOB_OC = 1.0
-BOB_OB = 0.0
-BOB_MM = 0.0
-BMM_OC = 1.1
-BMM_OB = -0.3
-BMM_MM = 0.0
-
-# Steepness and inflection point
-s = 0.00001
-h = 0.7
-
-# Initial frequencies and values --> are needed to make a plot but are not mentioned
-xOC = 0.2
-xOB = 0.1
-xMM = 0.7
-
-nOC = 2
-nOB = 1
-nMM = 7
-
-# Simulation parameters
-generations = 200
-
-column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
-df_figure_1 = pd.DataFrame(columns=column_names)
-
-# Run simulation
-for generation in range(generations):
-
-    # Calculate the benefit values
-    bOC_OC = benefit_function(nOC, h, BOC_OC, s, N)
-    bOB_OC = benefit_function(nOB, h, BOB_OC, s, N)
-    bMM_OC = benefit_function(nMM, h, BMM_OC, s, N)
-
-    bOC_OB = benefit_function(nOC, h, BOC_OB, s, N)
-    bOB_OB = benefit_function(nOB, h, BOB_OB, s, N)
-    bMM_OB = benefit_function(nMM, h, BMM_OB, s, N)
-
-    bOC_MM = benefit_function(nOC, h, BOC_MM, s, N)
-    bOB_MM = benefit_function(nOB, h, BOB_MM, s, N)
-    bMM_MM = benefit_function(nMM, h, BMM_MM, s, N)
-
-    # Determine the fitness values
-    fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM, bOC_OC,
-                                bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB, bMM_OB,
-                                cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
-
-    # Determine the change of the xOC, xOB, xMM values and W average value
-    xOC_change, xOB_change, xMM_change, W_average = calculate_replicator_dynamics(
-                                N, xOC, xOB, xMM, fitness_OC, fitness_OB, fitness_MM)
-
-    # Add row to dataframe (first add row and the update because then also the
-    # beginning values get added to the dataframe at generation =0)
-    new_row = pd.DataFrame([{'Generation':generation, 'xOC': xOC, 'xOB': xOB,
-                                            'xMM': xMM, 'W_average': W_average}])
-    df_figure_1 = pd.concat([df_figure_1, new_row], ignore_index=True)
-
-    # Update the xOC, xOB, xMM values
-    xOC = max(0, xOC + xOC_change)
-    xOB = max(0, xOB + xOB_change)
-    xMM = max(0, xMM + xMM_change)
-
-    """# Do the nOC,nOB and nMM need to be updated ?"""
-    # nOC = int(xOC * N)
-    # nOB = int(xOB * N)
-    # nMM = int(xMM * N)
-
-# Save the data as csv file
-save_data(df_figure_1, 'data_figure_1.csv', r'..\data\reproduced_data_Sartakhti')
-
-# collect the dataframe from the csv file
-data_figure_1 = collect_data('data_figure_1.csv', r'..\data\reproduced_data_Sartakhti')
-
-# Plotting
-data_figure_1.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
-plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
-plt.xlabel('Generations')
-plt.ylabel('fitness/ frequency')
-plt.legend()
-save_figure(plt, 'Line_plot_figure_1', r'..\visualisation\reproduced_results_Sartakhti')
-plt.show()
-
-# Make a ternary plot
-""" So when i plot it in a ternary plot it does not go to the right point"""
-fig = px.line_ternary(data_figure_1, a='xOB', b='xMM', c='xOC')
-
-fig.update_layout(
-    ternary=dict(
-        aaxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
-        baxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
-        caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
-
-save_ternary(fig, 'Ternary_plot_figure_1', r'..\visualisation\reproduced_results_Sartakhti')
-fig.show()
-
-
-""" Sigmoid benefits figure 2"""
-# Number of cells
-N = 10
-
-# Cost of producing growth factors
-cOC_value = 0.1
-cOB_value = 0.2
-cMM_value = 0.3
-
-# Maximal benefit values
-BOC_OC = 0
-BOC_OB = 1.0
-BOC_MM = 1.1
-BOB_OC = 1
-BOB_OB = 0
-BOB_MM = 0
-BMM_OC = 1.1
-BMM_OB = -0.3
-BMM_MM = 0
-
-# The inflection points
-h_values = [0.1, 0.3, 0.5, 0.7, 0.9]
-
-# Steepness of the function and a random maximal benefit for the demostration
-s_value = 20
-B_value = 1
-
-# Create a DataFrame to store the data
-df_sigmoides_figure_2 = pd.DataFrame(columns=['n_values', 'benefit_values', 'h_value'])
-
-# Loop over h values
-for h_value in h_values:
-    n_values = np.linspace(0, N, 100)
-    benefit_values = [benefit_function(n, h_value, B_value, s_value, N) for n in n_values]
-
-    # Add the data to the dataframe
-    df_sigmoides_figure_2 = pd.concat([df_sigmoides_figure_2, pd.DataFrame({'n_values': n_values, 'benefit_values': benefit_values, 'h_value': h_value})])
-
-# Save the data as csv file
-save_data(df_sigmoides_figure_2, 'data_sigmoides_figure_2.csv', r'..\data\reproduced_data_Sartakhti')
-
-# collect the dataframe from the csv file
-data_sigmoides_figure_2 = collect_data('data_sigmoides_figure_2.csv', r'..\data\reproduced_data_Sartakhti')
-
-# Make a plot
-fig, axes = plt.subplots(1, len(h_values), figsize=(12, 5))
-for i, (h_value, group) in enumerate(data_sigmoides_figure_2.groupby('h_value')):
-    axes[i].plot(group['n_values'], group['benefit_values'], label=f'h={h_value}')
-
-    # Give titles
-    axes[i].set_title(f'h={h_value}')
-    axes[i].set_xlabel('Number of producers')
-    axes[i].set_ylabel('Benefit')
-    axes[i].set_xticks([0, 10])
-    axes[i].set_xticklabels(['0', 'N'], fontsize=11)
-    axes[i].set_yticks([0, 1])
-    axes[i].set_yticklabels(['0', r'$B_{ij}$'], fontsize=11)
-
-# Show the plot
-plt.tight_layout()
-save_figure(plt, 'Benefit_curves_figure_2', r'..\visualisation\reproduced_results_Sartakhti')
-plt.show()
-
-
-""" Start figure 7 line plot. But it is not correct"""
-# Number of cells
-N = 10
-
-# Cost of producing growth factors
-cOC_value = 0.1
-cOB_value = 0.12
-cMM_value = 0.14
-
-# Maximal benefit values
-BOC_OC = 1.0
-BOB_OC = 0.7
-BMM_OC = 0.9
-BOC_OB = 1.0
-BOB_OB = 0.7
-BMM_OB = 0.9
-BOC_MM = 1.0
-BOB_MM = 0.7
-BMM_MM = 0.9
-
-# Positions of the inflection points
-hOC_OC = 0.4
-hOC_OB = 0.7
-hOC_MM = 0.1
-hOB_OC = 0.7
-hOB_OB = 0.4
-hOB_MM = 0.2
-hMM_OC = 0.4
-hMM_OB = 0.3
-hMM_MM = 0.7
-
-# steepness of the function at the inflection points
-sOC_OC = 20
-sOC_OB = 20
-sOC_MM = 5
-sOB_OC = 10
-sOB_OB = 10
-sOB_MM = 50
-sMM_OC = 10
-sMM_OB = 5
-sMM_MM = 5
-
-# Initial frequencies and values --> are needed to make a plot but are not mentioned
-xOC = 0.2
-xOB = 0.5
-xMM = 0.3
-
-nOC = 2
-nOB = 5
-nMM = 3
-
-# Simulation parameters
-generations = 100
-
-column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
-df_figure_7 = pd.DataFrame(columns=column_names)
-
-# Run simulation
-for generation in range(generations):
-
-    # Calcuate the benefit values
-    bOC_OC = benefit_function(nOC, hOC_OC, BOC_OC, sOC_OC, N)
-    bOB_OC = benefit_function(nOB, hOB_OC, BOB_OC, sOB_OC, N)
-    bMM_OC = benefit_function(nMM, hMM_OC, BMM_OC, sMM_OC, N)
-
-    bOC_OB = benefit_function(nOC, hOC_OB, BOC_OB, sOC_OB, N)
-    bOB_OB = benefit_function(nOB, hOB_OB, BOB_OB, sOB_OB, N)
-    bMM_OB = benefit_function(nMM, hMM_OB, BMM_OB, sMM_OB, N)
-
-    bOC_MM = benefit_function(nOC, hOC_MM, BOC_MM, sOC_MM, N)
-    bOB_MM = benefit_function(nOB, hOB_MM, BOB_MM, sOB_MM, N)
-    bMM_MM = benefit_function(nMM, hMM_MM, BMM_MM, sMM_MM, N)
-
-    # Determine the fitness values
-    fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM,
-                                bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
-                                 bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
-
-    # Determine the change of the xOC, xOB, xMM values and W average value
-    xOC_change, xOB_change, xMM_change, W_average = calculate_replicator_dynamics(
-                                N, xOC, xOB, xMM, fitness_OC, fitness_OB, fitness_MM)
-
-    # Add row to dataframe
-    new_row = pd.DataFrame([{'Generation':generation, 'xOC': xOC, 'xOB': xOB,
-                                            'xMM': xMM, 'W_average': W_average}])
-    df_figure_7 = pd.concat([df_figure_7, new_row], ignore_index=True)
-
-    # Update xOC, xOB, xMM values
-    xOC = max(0, xOC + xOC_change)
-    xOB = max(0, xOB + xOB_change)
-    xMM = max(0, xMM + xMM_change)
-
-# Save the data as csv file
-save_data(df_figure_7, 'data_figure_7.csv', r'..\data\reproduced_data_Sartakhti')
-
-# collect the dataframe from the csv file
-data_figure_7 = collect_data('data_figure_7.csv', r'..\data\reproduced_data_Sartakhti')
-
-# Make a line plot
-data_figure_7.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
-plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
-plt.xlabel('Generations')
-plt.ylabel('fitness/ frequency')
-plt.legend()
-save_figure(plt, 'Line_plot_figure_7', r'..\visualisation\reproduced_results_Sartakhti')
-plt.show()
-
-# Make a ternary plot
-fig = px.line_ternary(data_figure_7, a='xOB', b='xMM', c='xOC')
-save_ternary(fig, 'Ternary_plot_figure_7', r'..\visualisation\reproduced_results_Sartakhti')
-fig.show()
-
-""" Start figure 8 line plot. But it is not correct"""
-# Number of cells
-N = 20
-
-# Cost of producing growth factors
-cOC_value = 1.2
-cOB_value = 1.0
-cMM_value = 1.8
-
-# Maximal benefit values
-BOC_OC = 1.1
-BOB_OC = 0.95
-BMM_OC = 1.8
-BOC_OB = 1.1
-BOB_OB = 1.1
-BMM_OB = -0.35
-BOC_MM = 1.1
-BOB_MM = 1.5
-BMM_MM = 0.35
-
-# Positions of the inflection points
-hOC_OC = 0.0
-hOC_OB = 0.0
-hOC_MM = 0.0
-hOB_OC = 0.0
-hOB_OB = 0.0
-hOB_MM = 0.0
-hMM_OC = 0.2
-hMM_OB = 0.2
-hMM_MM = 0.2
-
-# steepness of the function at the inflection points
-sOC_OC = 4
-sOC_OB = 4
-sOC_MM = 40
-sOB_OC = 4
-sOB_OB = 4
-sOB_MM = 4
-sMM_OC = 6
-sMM_OB = 6
-sMM_MM = 1000
-
-# Initial frequencies and values --> are needed to make a plot but are not mentioned
-xOC = 0.1
-xOB = 0.2
-xMM = 0.7
-
-nOC = 2
-nOB = 4
-nMM = 16
-
-# Simulation parameters
-generations = 100
-
-column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
-df_figure_8 = pd.DataFrame(columns=column_names)
-
-# Run simulation
-for generation in range(generations):
-
-    # Calcuate the benefit values
-    bOC_OC = benefit_function(nOC, hOC_OC, BOC_OC, sOC_OC, N)
-    bOB_OC = benefit_function(nOB, hOB_OC, BOB_OC, sOB_OC, N)
-    bMM_OC = benefit_function(nMM, hMM_OC, BMM_OC, sMM_OC, N)
-
-    bOC_OB = benefit_function(nOC, hOC_OB, BOC_OB, sOC_OB, N)
-    bOB_OB = benefit_function(nOB, hOB_OB, BOB_OB, sOB_OB, N)
-    bMM_OB = benefit_function(nMM, hMM_OB, BMM_OB, sMM_OB, N)
-
-    bOC_MM = benefit_function(nOC, hOC_MM, BOC_MM, sOC_MM, N)
-    bOB_MM = benefit_function(nOB, hOB_MM, BOB_MM, sOB_MM, N)
-    bMM_MM = benefit_function(nMM, hMM_MM, BMM_MM, sMM_MM, N)
-
-    # Determine the fitness values
-    fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM,
-                            bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
-                            bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
-
-    # Determine the change of the xOC, xOB, xMM values and W average value
-    xOC_change, xOB_change, xMM_change, W_average = calculate_replicator_dynamics(
-                                N, xOC, xOB, xMM, fitness_OC, fitness_OB, fitness_MM)
-
-    # Add row to dataframe
-    new_row = pd.DataFrame([{'Generation':generation, 'xOC': xOC, 'xOB': xOB,
-                                            'xMM': xMM, 'W_average': W_average}])
-    df_figure_8 = pd.concat([df_figure_8, new_row], ignore_index=True)
-
-    # Update xOC, xOB, xMM values
-    xOC = max(0, xOC + xOC_change)
-    xOB = max(0, xOB + xOB_change)
-    xMM = max(0, xMM + xMM_change)
-
-    # nOC = int(xOC * N)
-    # nOB = int(xOB * N)
-    # nMM = int(xMM * N)
-
-# Save the data as csv file
-save_data(df_figure_8, 'data_figure_8.csv', r'..\data\reproduced_data_Sartakhti')
-
-# collect the dataframe from the csv file
-data_figure_8 = collect_data('data_figure_8.csv', r'..\data\reproduced_data_Sartakhti')
-
-# Make a line plot
-data_figure_8.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
-plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
-plt.xlabel('Generations')
-plt.ylabel('fitness/ frequency')
-plt.title('figure 8')
-plt.legend()
-
-save_figure(plt, 'Line_plot_figure_8', r'..\visualisation\reproduced_results_Sartakhti')
-plt.show()
-
-# Make a ternary plot
-fig = px.line_ternary(data_figure_8, a='xOB', b='xMM', c='xOC')
-save_ternary(fig, 'Ternary_plot_figure_8', r'..\visualisation\reproduced_results_Sartakhti')
-fig.show()
+# 
+# def save_figure(figure, file_name, folder_path):
+#     """
+#     Save the figure to a specific folder.
+#
+#     Parameters:
+#     -----------
+#     figure: Matplotlib figure
+#         Figure object that needs to be saved.
+#     file_name : String
+#         The name for the plot.
+#     folder_path: String:
+#         Path to the folder where the data will be saved.
+#     """
+#     os.makedirs(folder_path, exist_ok=True)
+#     figure.savefig(os.path.join(folder_path, file_name))
+#
+# def save_ternary(figure, file_name, folder_path):
+#     """
+#     Save the ternary plot in a specific folder.
+#
+#     Parameters:
+#     -----------
+#     figure: Matplotlib figure
+#         Figure object that needs to be saved.
+#     file_name : String
+#         The name for the plot.
+#     folder_path: String:
+#         Path to the folder where the data will be saved.
+#     """
+#     os.makedirs(folder_path, exist_ok=True)
+#     pio.write_image(figure, os.path.join(folder_path, f'{file_name}.png'), format='png')
+#
+#
+# """Figure in materials and methods (figure 10)"""
+# # Parameters
+# N = 10
+# h_value = 0.4
+# B_value = 1.0
+#
+# # Steepness values
+# steepness_values = [0.1, 1.0, 10.0, 20.0, 100.0]
+#
+# # Create a data frame
+# df_figure_10 = pd.DataFrame(columns=['n_values', 'benefit_values', 's_value'])
+#
+# # Loop over the steepness values
+# for s_value in steepness_values:
+#     n_values = np.linspace(0, N, 100)
+#     benefit_data= [benefit_function(n, h_value, B_value, s_value, N) for n in n_values]
+#
+#     # Add the data to the dataframe
+#     df_figure_10 = pd.concat([df_figure_10, pd.DataFrame({'n_values': n_values, 'benefit_values': benefit_data, 's_value': s_value})])
+#
+# # Save the data as csv file
+# save_data(df_figure_10, 'data_figure_10.csv', r'..\data\reproduced_data_Sartakhti')
+#
+# # collect the dataframe from the csv file
+# data_figure_10 = collect_data('data_figure_10.csv', r'..\data\reproduced_data_Sartakhti')
+#
+# # Make a plot
+# fig, ax = plt.subplots(figsize=(10, 6))
+# for s_value, group in data_figure_10.groupby('s_value'):
+#     plt.plot(group['n_values'], group['benefit_values'], label=f's={s_value}')
+#
+#
+# # Make the plot clear
+# ax.set_xticks([0, 10])
+# ax.set_xticklabels(['0', 'N'], fontsize=11)
+# ax.set_yticks([0, 1])
+# ax.set_yticklabels(['0', r'$B_{ij}$'], fontsize=11)
+# plt.title('Sigmoid Benefits')
+# plt.xlabel('Number of cells (ni)')
+# plt.ylabel('Benefit')
+# plt.legend()
+# save_figure(plt, 'Benefit_curve_figure_10', r'..\visualisation\reproduced_results_Sartakhti')
+# plt.show()
+#
+#
+# """ Start figure 1 """
+# """
+# I want to recreate figure 1 here but I don't know how to do that.
+#
+# 1. To create a triangle I now use: px.line_ternary. But I don't know how to add the
+#     color differences of the fitness and the arrows of the direction. I also tried
+#     it in mathplotlib but that doesn't work very well either. So maybe you know a
+#     better way (possibly in mathplotlib)?
+# 2. The line that is now being plotted does not correspond to what the figure in
+#     the article shows, so something is going wrong there as well. So maybe there
+#     is an error in the formulas that I can't find?
+# 3. Furthermore, I don't know what to take as starting values for xOC, xOB and xMM
+#     and nOC, nOB and nMM because that is not stated anywhere?
+# 4. I also don't know if I should update nOC, nOB and nMM in the loop? And if so does
+#     N stay te same number over different generations of does it become bigger.
+# 5. And is fitness the average fitness or just one of the cell types?
+# """
+#
+# # Number of cells
+# N = 10
+#
+# # Cost of producing growth factors
+# cOC_value = 0.1
+# cOB_value = 0.2
+# cMM_value = 0.3
+#
+# # Maximal benefit values
+# BOC_OC = 0.0
+# BOC_OB = 1.0
+# BOC_MM = 1.1
+# BOB_OC = 1.0
+# BOB_OB = 0.0
+# BOB_MM = 0.0
+# BMM_OC = 1.1
+# BMM_OB = -0.3
+# BMM_MM = 0.0
+#
+# # Steepness and inflection point
+# s = 0.00001
+# h = 0.7
+#
+# # Initial frequencies and values --> are needed to make a plot but are not mentioned
+# xOC = 0.2
+# xOB = 0.1
+# xMM = 0.7
+#
+# nOC = 2
+# nOB = 1
+# nMM = 7
+#
+# # Simulation parameters
+# generations = 200
+#
+# column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
+# df_figure_1 = pd.DataFrame(columns=column_names)
+#
+# # Run simulation
+# for generation in range(generations):
+#
+#     # Calculate the benefit values
+#     bOC_OC = benefit_function(nOC, h, BOC_OC, s, N)
+#     bOB_OC = benefit_function(nOB, h, BOB_OC, s, N)
+#     bMM_OC = benefit_function(nMM, h, BMM_OC, s, N)
+#
+#     bOC_OB = benefit_function(nOC, h, BOC_OB, s, N)
+#     bOB_OB = benefit_function(nOB, h, BOB_OB, s, N)
+#     bMM_OB = benefit_function(nMM, h, BMM_OB, s, N)
+#
+#     bOC_MM = benefit_function(nOC, h, BOC_MM, s, N)
+#     bOB_MM = benefit_function(nOB, h, BOB_MM, s, N)
+#     bMM_MM = benefit_function(nMM, h, BMM_MM, s, N)
+#
+#     # Determine the fitness values
+#     fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM, bOC_OC,
+#                                 bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB, bMM_OB,
+#                                 cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
+#
+#     # Determine the change of the xOC, xOB, xMM values and W average value
+#     xOC_change, xOB_change, xMM_change, W_average = calculate_replicator_dynamics(
+#                                 N, xOC, xOB, xMM, fitness_OC, fitness_OB, fitness_MM)
+#
+#     # Add row to dataframe (first add row and the update because then also the
+#     # beginning values get added to the dataframe at generation =0)
+#     new_row = pd.DataFrame([{'Generation':generation, 'xOC': xOC, 'xOB': xOB,
+#                                             'xMM': xMM, 'W_average': W_average}])
+#     df_figure_1 = pd.concat([df_figure_1, new_row], ignore_index=True)
+#
+#     # Update the xOC, xOB, xMM values
+#     xOC = max(0, xOC + xOC_change)
+#     xOB = max(0, xOB + xOB_change)
+#     xMM = max(0, xMM + xMM_change)
+#
+#     """# Do the nOC,nOB and nMM need to be updated ?"""
+#     # nOC = int(xOC * N)
+#     # nOB = int(xOB * N)
+#     # nMM = int(xMM * N)
+#
+# # Save the data as csv file
+# save_data(df_figure_1, 'data_figure_1.csv', r'..\data\reproduced_data_Sartakhti')
+#
+# # collect the dataframe from the csv file
+# data_figure_1 = collect_data('data_figure_1.csv', r'..\data\reproduced_data_Sartakhti')
+#
+# # Plotting
+# data_figure_1.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+# plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
+# plt.xlabel('Generations')
+# plt.ylabel('fitness/ frequency')
+# plt.legend()
+# save_figure(plt, 'Line_plot_figure_1', r'..\visualisation\reproduced_results_Sartakhti')
+# plt.show()
+#
+# # Make a ternary plot
+# """ So when i plot it in a ternary plot it does not go to the right point"""
+# fig = px.line_ternary(data_figure_1, a='xOB', b='xMM', c='xOC')
+#
+# fig.update_layout(
+#     ternary=dict(
+#         aaxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
+#         baxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
+#         caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
+#
+# save_ternary(fig, 'Ternary_plot_figure_1', r'..\visualisation\reproduced_results_Sartakhti')
+# fig.show()
+#
+#
+# """ Sigmoid benefits figure 2"""
+# # Number of cells
+# N = 10
+#
+# # Cost of producing growth factors
+# cOC_value = 0.1
+# cOB_value = 0.2
+# cMM_value = 0.3
+#
+# # Maximal benefit values
+# BOC_OC = 0
+# BOC_OB = 1.0
+# BOC_MM = 1.1
+# BOB_OC = 1
+# BOB_OB = 0
+# BOB_MM = 0
+# BMM_OC = 1.1
+# BMM_OB = -0.3
+# BMM_MM = 0
+#
+# # The inflection points
+# h_values = [0.1, 0.3, 0.5, 0.7, 0.9]
+#
+# # Steepness of the function and a random maximal benefit for the demostration
+# s_value = 20
+# B_value = 1
+#
+# # Create a DataFrame to store the data
+# df_sigmoides_figure_2 = pd.DataFrame(columns=['n_values', 'benefit_values', 'h_value'])
+#
+# # Loop over h values
+# for h_value in h_values:
+#     n_values = np.linspace(0, N, 100)
+#     benefit_values = [benefit_function(n, h_value, B_value, s_value, N) for n in n_values]
+#
+#     # Add the data to the dataframe
+#     df_sigmoides_figure_2 = pd.concat([df_sigmoides_figure_2, pd.DataFrame({'n_values': n_values, 'benefit_values': benefit_values, 'h_value': h_value})])
+#
+# # Save the data as csv file
+# save_data(df_sigmoides_figure_2, 'data_sigmoides_figure_2.csv', r'..\data\reproduced_data_Sartakhti')
+#
+# # collect the dataframe from the csv file
+# data_sigmoides_figure_2 = collect_data('data_sigmoides_figure_2.csv', r'..\data\reproduced_data_Sartakhti')
+#
+# # Make a plot
+# fig, axes = plt.subplots(1, len(h_values), figsize=(12, 5))
+# for i, (h_value, group) in enumerate(data_sigmoides_figure_2.groupby('h_value')):
+#     axes[i].plot(group['n_values'], group['benefit_values'], label=f'h={h_value}')
+#
+#     # Give titles
+#     axes[i].set_title(f'h={h_value}')
+#     axes[i].set_xlabel('Number of producers')
+#     axes[i].set_ylabel('Benefit')
+#     axes[i].set_xticks([0, 10])
+#     axes[i].set_xticklabels(['0', 'N'], fontsize=11)
+#     axes[i].set_yticks([0, 1])
+#     axes[i].set_yticklabels(['0', r'$B_{ij}$'], fontsize=11)
+#
+# # Show the plot
+# plt.tight_layout()
+# save_figure(plt, 'Benefit_curves_figure_2', r'..\visualisation\reproduced_results_Sartakhti')
+# plt.show()
+#
+#
+# """ Start figure 7 line plot. But it is not correct"""
+# # Number of cells
+# N = 10
+#
+# # Cost of producing growth factors
+# cOC_value = 0.1
+# cOB_value = 0.12
+# cMM_value = 0.14
+#
+# # Maximal benefit values
+# BOC_OC = 1.0
+# BOB_OC = 0.7
+# BMM_OC = 0.9
+# BOC_OB = 1.0
+# BOB_OB = 0.7
+# BMM_OB = 0.9
+# BOC_MM = 1.0
+# BOB_MM = 0.7
+# BMM_MM = 0.9
+#
+# # Positions of the inflection points
+# hOC_OC = 0.4
+# hOC_OB = 0.7
+# hOC_MM = 0.1
+# hOB_OC = 0.7
+# hOB_OB = 0.4
+# hOB_MM = 0.2
+# hMM_OC = 0.4
+# hMM_OB = 0.3
+# hMM_MM = 0.7
+#
+# # steepness of the function at the inflection points
+# sOC_OC = 20
+# sOC_OB = 20
+# sOC_MM = 5
+# sOB_OC = 10
+# sOB_OB = 10
+# sOB_MM = 50
+# sMM_OC = 10
+# sMM_OB = 5
+# sMM_MM = 5
+#
+# # Initial frequencies and values --> are needed to make a plot but are not mentioned
+# xOC = 0.2
+# xOB = 0.5
+# xMM = 0.3
+#
+# nOC = 2
+# nOB = 5
+# nMM = 3
+#
+# # Simulation parameters
+# generations = 100
+#
+# column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
+# df_figure_7 = pd.DataFrame(columns=column_names)
+#
+# # Run simulation
+# for generation in range(generations):
+#
+#     # Calcuate the benefit values
+#     bOC_OC = benefit_function(nOC, hOC_OC, BOC_OC, sOC_OC, N)
+#     bOB_OC = benefit_function(nOB, hOB_OC, BOB_OC, sOB_OC, N)
+#     bMM_OC = benefit_function(nMM, hMM_OC, BMM_OC, sMM_OC, N)
+#
+#     bOC_OB = benefit_function(nOC, hOC_OB, BOC_OB, sOC_OB, N)
+#     bOB_OB = benefit_function(nOB, hOB_OB, BOB_OB, sOB_OB, N)
+#     bMM_OB = benefit_function(nMM, hMM_OB, BMM_OB, sMM_OB, N)
+#
+#     bOC_MM = benefit_function(nOC, hOC_MM, BOC_MM, sOC_MM, N)
+#     bOB_MM = benefit_function(nOB, hOB_MM, BOB_MM, sOB_MM, N)
+#     bMM_MM = benefit_function(nMM, hMM_MM, BMM_MM, sMM_MM, N)
+#
+#     # Determine the fitness values
+#     fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM,
+#                                 bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
+#                                  bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
+#
+#     # Determine the change of the xOC, xOB, xMM values and W average value
+#     xOC_change, xOB_change, xMM_change, W_average = calculate_replicator_dynamics(
+#                                 N, xOC, xOB, xMM, fitness_OC, fitness_OB, fitness_MM)
+#
+#     # Add row to dataframe
+#     new_row = pd.DataFrame([{'Generation':generation, 'xOC': xOC, 'xOB': xOB,
+#                                             'xMM': xMM, 'W_average': W_average}])
+#     df_figure_7 = pd.concat([df_figure_7, new_row], ignore_index=True)
+#
+#     # Update xOC, xOB, xMM values
+#     xOC = max(0, xOC + xOC_change)
+#     xOB = max(0, xOB + xOB_change)
+#     xMM = max(0, xMM + xMM_change)
+#
+# # Save the data as csv file
+# save_data(df_figure_7, 'data_figure_7.csv', r'..\data\reproduced_data_Sartakhti')
+#
+# # collect the dataframe from the csv file
+# data_figure_7 = collect_data('data_figure_7.csv', r'..\data\reproduced_data_Sartakhti')
+#
+# # Make a line plot
+# data_figure_7.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+# plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
+# plt.xlabel('Generations')
+# plt.ylabel('fitness/ frequency')
+# plt.legend()
+# save_figure(plt, 'Line_plot_figure_7', r'..\visualisation\reproduced_results_Sartakhti')
+# plt.show()
+#
+# # Make a ternary plot
+# fig = px.line_ternary(data_figure_7, a='xOB', b='xMM', c='xOC')
+# save_ternary(fig, 'Ternary_plot_figure_7', r'..\visualisation\reproduced_results_Sartakhti')
+# fig.show()
+#
+# """ Start figure 8 line plot. But it is not correct"""
+# # Number of cells
+# N = 20
+#
+# # Cost of producing growth factors
+# cOC_value = 1.2
+# cOB_value = 1.0
+# cMM_value = 1.8
+#
+# # Maximal benefit values
+# BOC_OC = 1.1
+# BOB_OC = 0.95
+# BMM_OC = 1.8
+# BOC_OB = 1.1
+# BOB_OB = 1.1
+# BMM_OB = -0.35
+# BOC_MM = 1.1
+# BOB_MM = 1.5
+# BMM_MM = 0.35
+#
+# # Positions of the inflection points
+# hOC_OC = 0.0
+# hOC_OB = 0.0
+# hOC_MM = 0.0
+# hOB_OC = 0.0
+# hOB_OB = 0.0
+# hOB_MM = 0.0
+# hMM_OC = 0.2
+# hMM_OB = 0.2
+# hMM_MM = 0.2
+#
+# # steepness of the function at the inflection points
+# sOC_OC = 4
+# sOC_OB = 4
+# sOC_MM = 40
+# sOB_OC = 4
+# sOB_OB = 4
+# sOB_MM = 4
+# sMM_OC = 6
+# sMM_OB = 6
+# sMM_MM = 1000
+#
+# # Initial frequencies and values --> are needed to make a plot but are not mentioned
+# xOC = 0.1
+# xOB = 0.2
+# xMM = 0.7
+#
+# nOC = 2
+# nOB = 4
+# nMM = 16
+#
+# # Simulation parameters
+# generations = 100
+#
+# column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
+# df_figure_8 = pd.DataFrame(columns=column_names)
+#
+# # Run simulation
+# for generation in range(generations):
+#
+#     # Calcuate the benefit values
+#     bOC_OC = benefit_function(nOC, hOC_OC, BOC_OC, sOC_OC, N)
+#     bOB_OC = benefit_function(nOB, hOB_OC, BOB_OC, sOB_OC, N)
+#     bMM_OC = benefit_function(nMM, hMM_OC, BMM_OC, sMM_OC, N)
+#
+#     bOC_OB = benefit_function(nOC, hOC_OB, BOC_OB, sOC_OB, N)
+#     bOB_OB = benefit_function(nOB, hOB_OB, BOB_OB, sOB_OB, N)
+#     bMM_OB = benefit_function(nMM, hMM_OB, BMM_OB, sMM_OB, N)
+#
+#     bOC_MM = benefit_function(nOC, hOC_MM, BOC_MM, sOC_MM, N)
+#     bOB_MM = benefit_function(nOB, hOB_MM, BOB_MM, sOB_MM, N)
+#     bMM_MM = benefit_function(nMM, hMM_MM, BMM_MM, sMM_MM, N)
+#
+#     # Determine the fitness values
+#     fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM,
+#                             bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
+#                             bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
+#
+#     # Determine the change of the xOC, xOB, xMM values and W average value
+#     xOC_change, xOB_change, xMM_change, W_average = calculate_replicator_dynamics(
+#                                 N, xOC, xOB, xMM, fitness_OC, fitness_OB, fitness_MM)
+#
+#     # Add row to dataframe
+#     new_row = pd.DataFrame([{'Generation':generation, 'xOC': xOC, 'xOB': xOB,
+#                                             'xMM': xMM, 'W_average': W_average}])
+#     df_figure_8 = pd.concat([df_figure_8, new_row], ignore_index=True)
+#
+#     # Update xOC, xOB, xMM values
+#     xOC = max(0, xOC + xOC_change)
+#     xOB = max(0, xOB + xOB_change)
+#     xMM = max(0, xMM + xMM_change)
+#
+#     # nOC = int(xOC * N)
+#     # nOB = int(xOB * N)
+#     # nMM = int(xMM * N)
+#
+# # Save the data as csv file
+# save_data(df_figure_8, 'data_figure_8.csv', r'..\data\reproduced_data_Sartakhti')
+#
+# # collect the dataframe from the csv file
+# data_figure_8 = collect_data('data_figure_8.csv', r'..\data\reproduced_data_Sartakhti')
+#
+# # Make a line plot
+# data_figure_8.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+# plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
+# plt.xlabel('Generations')
+# plt.ylabel('fitness/ frequency')
+# plt.title('figure 8')
+# plt.legend()
+#
+# save_figure(plt, 'Line_plot_figure_8', r'..\visualisation\reproduced_results_Sartakhti')
+# plt.show()
+#
+# # Make a ternary plot
+# fig = px.line_ternary(data_figure_8, a='xOB', b='xMM', c='xOC')
+# save_ternary(fig, 'Ternary_plot_figure_8', r'..\visualisation\reproduced_results_Sartakhti')
+# fig.show()

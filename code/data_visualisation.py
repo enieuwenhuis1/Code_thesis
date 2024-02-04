@@ -50,7 +50,6 @@ def save_ternary(figure, file_name, folder_path):
     os.makedirs(folder_path, exist_ok=True)
     pio.write_image(figure, os.path.join(folder_path, f'{file_name}.png'), format='png')
 
-
 """Figure in materials and methods (figure 10)"""
 # Parameters
 N = 10
@@ -74,7 +73,7 @@ for s_value in steepness_values:
 # Save the data as csv file
 save_data(df_figure_10, 'data_figure_10.csv', r'..\data\reproduced_data_Sartakhti')
 
-# collect the dataframe from the csv file
+# Collect the dataframe from the csv file
 data_figure_10 = collect_data('data_figure_10.csv', r'..\data\reproduced_data_Sartakhti')
 
 # Make a plot
@@ -82,13 +81,12 @@ fig, ax = plt.subplots(figsize=(10, 6))
 for s_value, group in data_figure_10.groupby('s_value'):
     plt.plot(group['n_values'], group['benefit_values'], label=f's={s_value}')
 
-
 # Make the plot clear
 ax.set_xticks([0, 10])
 ax.set_xticklabels(['0', 'N'], fontsize=11)
 ax.set_yticks([0, 1])
 ax.set_yticklabels(['0', r'$B_{ij}$'], fontsize=11)
-plt.title('Sigmoid Benefits')
+plt.title('Sigmoide benefits for different inflection points')
 plt.xlabel('Number of cells (ni)')
 plt.ylabel('Benefit')
 plt.legend()
@@ -203,7 +201,8 @@ data_figure_1 = collect_data('data_figure_1.csv', r'..\data\reproduced_data_Sart
 data_figure_1.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
 plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
 plt.xlabel('Generations')
-plt.ylabel('fitness/ frequency')
+plt.ylabel('Fitness/ Frequency')
+plt.title('Bistability with linear benefits (figure 1)')
 plt.legend()
 save_figure(plt, 'Line_plot_figure_1', r'..\visualisation\reproduced_results_Sartakhti')
 plt.show()
@@ -217,7 +216,7 @@ fig.update_layout(
         aaxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
         baxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
         caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
-
+fig.update_layout(title_text='Bistability with linear benefits (figure 1)')
 save_ternary(fig, 'Ternary_plot_figure_1', r'..\visualisation\reproduced_results_Sartakhti')
 fig.show()
 
@@ -267,12 +266,12 @@ save_data(df_sigmoides_figure_2, 'data_sigmoides_figure_2.csv', r'..\data\reprod
 data_sigmoides_figure_2 = collect_data('data_sigmoides_figure_2.csv', r'..\data\reproduced_data_Sartakhti')
 
 # Make a plot
-fig, axes = plt.subplots(1, len(h_values), figsize=(12, 5))
+fig, axes = plt.subplots(1, len(h_values), figsize=(14, 5))
 for i, (h_value, group) in enumerate(data_sigmoides_figure_2.groupby('h_value')):
     axes[i].plot(group['n_values'], group['benefit_values'], label=f'h={h_value}')
 
     # Give titles
-    axes[i].set_title(f'h={h_value}')
+    axes[i].set_title(f'Sigmoide benefit h={h_value}')
     axes[i].set_xlabel('Number of producers')
     axes[i].set_ylabel('Benefit')
     axes[i].set_xticks([0, 10])
@@ -285,6 +284,875 @@ plt.tight_layout()
 save_figure(plt, 'Benefit_curves_figure_2', r'..\visualisation\reproduced_results_Sartakhti')
 plt.show()
 
+"""Make the ternary plost of figure 2"""
+df_ternary_figure_2 = pd.DataFrame(columns=['Generation', 'xOC', 'xOB', 'xMM', 'W_average', 'h_value'])
+
+generations = 500
+
+for h_value in h_values:
+    # Reset initial values for each h iteration
+    xOC = 0.3
+    xOB = 0.3
+    xMM = 0.4
+    N = 10
+    nOC = 3
+    nOB = 3
+    nMM = 4
+
+    # Cost of producing growth factors
+    cOC_value = 0.1
+    cOB_value = 0.2
+    cMM_value = 0.3
+
+    # Maximal benefit values
+    BOC_OC = 0
+    BOC_OB = 1.0
+    BOC_MM = 1.1
+    BOB_OC = 1
+    BOB_OB = 0
+    BOB_MM = 0
+    BMM_OC = 1.1
+    BMM_OB = -0.3
+    BMM_MM = 0
+
+    # Steepness of the function and a random maximal benefit for the demostration
+    s_value = 20
+
+    # Loop for the number of generations
+    for generation in range(generations):
+        # Calcuate the benefit values
+        bOC_OC = benefit_function(nOC, h_value, BOC_OC, s_value, N)
+        bOB_OC = benefit_function(nOB, h_value, BOB_OC, s_value, N)
+        bMM_OC = benefit_function(nMM, h_value, BMM_OC, s_value, N)
+
+        bOC_OB = benefit_function(nOC, h_value, BOC_OB, s_value, N)
+        bOB_OB = benefit_function(nOB, h_value, BOB_OB, s_value, N)
+        bMM_OB = benefit_function(nMM, h_value, BMM_OB, s_value, N)
+
+        bOC_MM = benefit_function(nOC, h_value, BOC_MM, s_value, N)
+        bOB_MM = benefit_function(nOB, h_value, BOB_MM, s_value, N)
+        bMM_MM = benefit_function(nMM, h_value, BMM_MM, s_value, N)
+
+        # Determine the fitness values
+        fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM,
+                                    bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
+                                     bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
+
+        # Determine the change of the xOC, xOB, xMM values and W average value
+        xOC_change, xOB_change, xMM_change, W_average = calculate_replicator_dynamics(
+                                    N, xOC, xOB, xMM, fitness_OC, fitness_OB, fitness_MM)
+
+        # Add row to DataFrame with 'h_value' column
+        new_row = pd.DataFrame([{'Generation': generation, 'xOC': xOC, 'xOB': xOB,
+                                  'xMM': xMM, 'W_average': W_average, 'h_value': h_value}])
+        df_ternary_figure_2 = pd.concat([df_ternary_figure_2 , new_row], ignore_index=True)
+
+        # Update xOC, xOB, xMM values
+        xOC = max(0, xOC + xOC_change)
+        xOB = max(0, xOB + xOB_change)
+        xMM = max(0, xMM + xMM_change)
+
+# Save the data as csv file
+save_data(df_ternary_figure_2, 'data_ternary_figure_2.csv', r'..\data\reproduced_data_Sartakhti')
+
+# Collect the dataframe from the csv file
+data_teranary_figure_2 = collect_data('data_ternary_figure_2.csv', r'..\data\reproduced_data_Sartakhti')
+
+# Loop over all the h values
+for h_value in h_values:
+    # Create a subset DataFrame for the current h_value
+    subset_df = data_teranary_figure_2[data_teranary_figure_2['h_value'] == h_value]
+    fig = px.line_ternary(subset_df, a='xOB', b='xMM', c='xOC')
+    fig.update_layout(
+        ternary=dict(
+            aaxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
+            baxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
+            caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
+    fig.update_layout(title_text=f'Sigmoide benefits with inflection point h is {h_value} (figure 2)')
+    name = f'subset_plot_h_{h_value}_figure_2.png'
+    save_ternary(fig, name, r'..\visualisation\reproduced_results_Sartakhti')
+    fig.show()
+
+
+""" Start figure 3 line plot. But it is not correct"""
+# Number of cells
+N = 25
+
+# Cost of producing growth factors
+cOC_value = 0.1
+cOB_value = 0.1
+cMM_value = 0.1
+
+# Maximal benefit values
+BOC_OC = 0.6
+BOB_OC = 1.0
+BMM_OC = 3.0
+BOC_OB = 1.1
+BOB_OB = 0.6
+BMM_OB = -0.5
+BOC_MM = 2.0
+BOB_MM = 0.0
+BMM_MM = 1.0
+
+# Positions of the inflection points
+hOC_OC = 0.0
+hOC_OB = 0.01
+hOC_MM = 0.2
+hOB_OC = 0.05
+hOB_OB = 0.05
+hOB_MM = 0.2
+hMM_OC = 0.5
+hMM_OB = 0.5
+hMM_MM = 0.5
+
+# steepness of the function at the inflection points
+sOC_OC = 50
+sOC_OB = 30
+sOC_MM = 50
+sOB_OC = 30
+sOB_OB = 30
+sOB_MM = 30
+sMM_OC = 5
+sMM_OB = 20
+sMM_MM = 50
+
+# Initial frequencies and values --> are needed to make a plot but are not mentioned
+xOC = 0.2
+xOB = 0.4
+xMM = 0.4
+
+nOC = 5
+nOB = 10
+nMM = 10
+
+# Simulation parameters
+generations = 100
+
+column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
+df_figure_3_non_linear = pd.DataFrame(columns=column_names)
+
+# Run simulation with non linear benefist
+for generation in range(generations):
+
+    # Calcuate the benefit values
+    bOC_OC = benefit_function(nOC, hOC_OC, BOC_OC, sOC_OC, N)
+    bOB_OC = benefit_function(nOB, hOB_OC, BOB_OC, sOB_OC, N)
+    bMM_OC = benefit_function(nMM, hMM_OC, BMM_OC, sMM_OC, N)
+
+    bOC_OB = benefit_function(nOC, hOC_OB, BOC_OB, sOC_OB, N)
+    bOB_OB = benefit_function(nOB, hOB_OB, BOB_OB, sOB_OB, N)
+    bMM_OB = benefit_function(nMM, hMM_OB, BMM_OB, sMM_OB, N)
+
+    bOC_MM = benefit_function(nOC, hOC_MM, BOC_MM, sOC_MM, N)
+    bOB_MM = benefit_function(nOB, hOB_MM, BOB_MM, sOB_MM, N)
+    bMM_MM = benefit_function(nMM, hMM_MM, BMM_MM, sMM_MM, N)
+
+    # Determine the fitness values
+    fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM,
+                                bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
+                                 bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
+
+    # Determine the change of the xOC, xOB, xMM values and W average value
+    xOC_change, xOB_change, xMM_change, W_average = calculate_replicator_dynamics(
+                                N, xOC, xOB, xMM, fitness_OC, fitness_OB, fitness_MM)
+
+    # Add row to dataframe
+    new_row = pd.DataFrame([{'Generation':generation, 'xOC': xOC, 'xOB': xOB,
+                                            'xMM': xMM, 'W_average': W_average}])
+    df_figure_3_non_linear = pd.concat([df_figure_3_non_linear, new_row], ignore_index=True)
+
+    # Update xOC, xOB, xMM values
+    xOC = max(0, xOC + xOC_change)
+    xOB = max(0, xOB + xOB_change)
+    xMM = max(0, xMM + xMM_change)
+
+
+# Initial frequencies and values --> are needed to make a plot but are not mentioned
+xOC = 0.2
+xOB = 0.4
+xMM = 0.4
+
+nOC = 5
+nOB = 10
+nMM = 10
+
+s_linear = 0.0001
+
+# Simulation parameters
+generations = 100
+
+column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
+df_figure_3_linear = pd.DataFrame(columns=column_names)
+
+# Run simulation with linear benefits
+for generation in range(generations):
+
+    # Calcuate the benefit values
+    bOC_OC = benefit_function(nOC, hOC_OC, BOC_OC, s_linear, N)
+    bOB_OC = benefit_function(nOB, hOB_OC, BOB_OC, s_linear, N)
+    bMM_OC = benefit_function(nMM, hMM_OC, BMM_OC, s_linear, N)
+
+    bOC_OB = benefit_function(nOC, hOC_OB, BOC_OB, s_linear, N)
+    bOB_OB = benefit_function(nOB, hOB_OB, BOB_OB, s_linear, N)
+    bMM_OB = benefit_function(nMM, hMM_OB, BMM_OB, s_linear, N)
+
+    bOC_MM = benefit_function(nOC, hOC_MM, BOC_MM, s_linear, N)
+    bOB_MM = benefit_function(nOB, hOB_MM, BOB_MM, s_linear, N)
+    bMM_MM = benefit_function(nMM, hMM_MM, BMM_MM, s_linear, N)
+
+    # Determine the fitness values
+    fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM,
+                                bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
+                                 bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
+
+    # Determine the change of the xOC, xOB, xMM values and W average value
+    xOC_change, xOB_change, xMM_change, W_average = calculate_replicator_dynamics(
+                                N, xOC, xOB, xMM, fitness_OC, fitness_OB, fitness_MM)
+
+    # Add row to dataframe
+    new_row = pd.DataFrame([{'Generation':generation, 'xOC': xOC, 'xOB': xOB,
+                                            'xMM': xMM, 'W_average': W_average}])
+    df_figure_3_linear = pd.concat([df_figure_3_linear, new_row], ignore_index=True)
+
+    # Update xOC, xOB, xMM values
+    xOC = max(0, xOC + xOC_change)
+    xOB = max(0, xOB + xOB_change)
+    xMM = max(0, xMM + xMM_change)
+
+# Save the data as csv file
+save_data(df_figure_3_non_linear, 'data_figure_3_non_linear.csv', r'..\data\reproduced_data_Sartakhti')
+save_data(df_figure_3_linear, 'data_figure_3_linear.csv', r'..\data\reproduced_data_Sartakhti')
+
+# collect the dataframe from the csv file
+data_figure_3_non_linear = collect_data('data_figure_3_non_linear.csv', r'..\data\reproduced_data_Sartakhti')
+data_figure_3_linear = collect_data('data_figure_3_linear.csv', r'..\data\reproduced_data_Sartakhti')
+
+# Make a line plot of non-linear data
+data_figure_3_non_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
+plt.xlabel('Generations')
+plt.ylabel('fitness/ frequency')
+plt.title('Nonlinear benefits (figure 3)')
+plt.legend()
+save_figure(plt, 'Line_plot_figure_3_non_linear', r'..\visualisation\reproduced_results_Sartakhti')
+plt.show()
+
+# Make a ternary plot of non-linear data
+fig = px.line_ternary(data_figure_3_non_linear, a='xOB', b='xMM', c='xOC')
+fig.update_layout(
+    ternary=dict(
+        aaxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
+        baxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
+        caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
+fig.update_layout(title_text=f'Nonliear benefits (figure 3)')
+save_ternary(fig, 'Ternary_plot_figure_3_non_linear', r'..\visualisation\reproduced_results_Sartakhti')
+fig.show()
+
+# Make a line plot of linear data
+data_figure_3_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
+plt.xlabel('Generations')
+plt.ylabel('fitness/ frequency')
+plt.title('Linear benfits (figure 3)')
+plt.legend()
+save_figure(plt, 'Line_plot_figure_3_linear', r'..\visualisation\reproduced_results_Sartakhti')
+plt.show()
+
+# Make a ternary plot  of linear data
+fig = px.line_ternary(data_figure_3_linear, a='xOB', b='xMM', c='xOC')
+fig.update_layout(
+    ternary=dict(
+        aaxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
+        baxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
+        caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
+fig.update_layout(title_text= 'Linear benefits (figure 3)')
+save_ternary(fig, 'Ternary_plot_figure_3_linear', r'..\visualisation\reproduced_results_Sartakhti')
+fig.show()
+
+""" Start figure 4 line plot. But it is not correct"""
+# Number of cells
+N = 20
+
+# Cost of producing growth factors
+cOC_value = 1.5
+cOB_value = 0.5
+cMM_value = 2.0
+
+# Maximal benefit values
+BOC_OC = 0.6
+BOB_OC = 1.0
+BMM_OC = 3.0
+BOC_OB = 1.1
+BOB_OB = 0.5
+BMM_OB = -0.5
+BOC_MM = 2.3
+BOB_MM = 0.0
+BMM_MM = 1.5
+
+# Positions of the inflection points
+hOC_OC = 0.0
+hOC_OB = 0.0
+hOC_MM = 0.0
+hOB_OC = 0.0
+hOB_OB = 0.0
+hOB_MM = 0.0
+hMM_OC = 0.3
+hMM_OB = 0.5
+hMM_MM = 0.1
+
+# steepness of the function at the inflection points
+sOC_OC = 10
+sOC_OB = 10
+sOC_MM = 100
+sOB_OC = 10
+sOB_OB = 10
+sOB_MM = 20
+sMM_OC = 10
+sMM_OB = 10
+sMM_MM = 100
+
+# Initial frequencies and values --> are needed to make a plot but are not mentioned
+xOC = 0.2
+xOB = 0.5
+xMM = 0.3
+
+nOC = 4
+nOB = 10
+nMM = 6
+
+# Simulation parameters
+generations = 100
+
+column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
+df_figure_4_non_linear = pd.DataFrame(columns=column_names)
+
+# Run simulation with non linear benefist
+for generation in range(generations):
+
+    # Calcuate the benefit values
+    bOC_OC = benefit_function(nOC, hOC_OC, BOC_OC, sOC_OC, N)
+    bOB_OC = benefit_function(nOB, hOB_OC, BOB_OC, sOB_OC, N)
+    bMM_OC = benefit_function(nMM, hMM_OC, BMM_OC, sMM_OC, N)
+
+    bOC_OB = benefit_function(nOC, hOC_OB, BOC_OB, sOC_OB, N)
+    bOB_OB = benefit_function(nOB, hOB_OB, BOB_OB, sOB_OB, N)
+    bMM_OB = benefit_function(nMM, hMM_OB, BMM_OB, sMM_OB, N)
+
+    bOC_MM = benefit_function(nOC, hOC_MM, BOC_MM, sOC_MM, N)
+    bOB_MM = benefit_function(nOB, hOB_MM, BOB_MM, sOB_MM, N)
+    bMM_MM = benefit_function(nMM, hMM_MM, BMM_MM, sMM_MM, N)
+
+    # Determine the fitness values
+    fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM,
+                                bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
+                                 bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
+
+    # Determine the change of the xOC, xOB, xMM values and W average value
+    xOC_change, xOB_change, xMM_change, W_average = calculate_replicator_dynamics(
+                                N, xOC, xOB, xMM, fitness_OC, fitness_OB, fitness_MM)
+
+    # Add row to dataframe
+    new_row = pd.DataFrame([{'Generation':generation, 'xOC': xOC, 'xOB': xOB,
+                                            'xMM': xMM, 'W_average': W_average}])
+    df_figure_4_non_linear = pd.concat([df_figure_4_non_linear, new_row], ignore_index=True)
+
+    # Update xOC, xOB, xMM values
+    xOC = max(0, xOC + xOC_change)
+    xOB = max(0, xOB + xOB_change)
+    xMM = max(0, xMM + xMM_change)
+
+
+# Initial frequencies and values --> are needed to make a plot but are not mentioned
+xOC = 0.2
+xOB = 0.5
+xMM = 0.3
+
+nOC = 4
+nOB = 10
+nMM = 6
+
+s_linear = 0.0001
+
+# Simulation parameters
+generations = 100
+
+column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
+df_figure_4_linear = pd.DataFrame(columns=column_names)
+
+# Run simulation with linear benefits
+for generation in range(generations):
+
+    # Calcuate the benefit values
+    bOC_OC = benefit_function(nOC, hOC_OC, BOC_OC, s_linear, N)
+    bOB_OC = benefit_function(nOB, hOB_OC, BOB_OC, s_linear, N)
+    bMM_OC = benefit_function(nMM, hMM_OC, BMM_OC, s_linear, N)
+
+    bOC_OB = benefit_function(nOC, hOC_OB, BOC_OB, s_linear, N)
+    bOB_OB = benefit_function(nOB, hOB_OB, BOB_OB, s_linear, N)
+    bMM_OB = benefit_function(nMM, hMM_OB, BMM_OB, s_linear, N)
+
+    bOC_MM = benefit_function(nOC, hOC_MM, BOC_MM, s_linear, N)
+    bOB_MM = benefit_function(nOB, hOB_MM, BOB_MM, s_linear, N)
+    bMM_MM = benefit_function(nMM, hMM_MM, BMM_MM, s_linear, N)
+
+    # Determine the fitness values
+    fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM,
+                                bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
+                                 bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
+
+    # Determine the change of the xOC, xOB, xMM values and W average value
+    xOC_change, xOB_change, xMM_change, W_average = calculate_replicator_dynamics(
+                                N, xOC, xOB, xMM, fitness_OC, fitness_OB, fitness_MM)
+
+    # Add row to dataframe
+    new_row = pd.DataFrame([{'Generation':generation, 'xOC': xOC, 'xOB': xOB,
+                                            'xMM': xMM, 'W_average': W_average}])
+    df_figure_4_linear = pd.concat([df_figure_4_linear, new_row], ignore_index=True)
+
+    # Update xOC, xOB, xMM values
+    xOC = max(0, xOC + xOC_change)
+    xOB = max(0, xOB + xOB_change)
+    xMM = max(0, xMM + xMM_change)
+
+# Save the data as csv file
+save_data(df_figure_4_non_linear, 'data_figure_4_non_linear.csv', r'..\data\reproduced_data_Sartakhti')
+save_data(df_figure_4_linear, 'data_figure_4_linear.csv', r'..\data\reproduced_data_Sartakhti')
+
+# collect the dataframe from the csv file
+data_figure_4_non_linear = collect_data('data_figure_4_non_linear.csv', r'..\data\reproduced_data_Sartakhti')
+data_figure_4_linear = collect_data('data_figure_4_linear.csv', r'..\data\reproduced_data_Sartakhti')
+
+# Make a line plot of non-linear data
+data_figure_4_non_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
+plt.xlabel('Generations')
+plt.ylabel('fitness/ frequency')
+plt.title('Non linear benefits (figure 4)')
+plt.legend()
+save_figure(plt, 'Line_plot_figure_4_non_linear', r'..\visualisation\reproduced_results_Sartakhti')
+plt.show()
+
+# Make a ternary plot of non-linear data
+fig = px.line_ternary(data_figure_4_non_linear, a='xOB', b='xMM', c='xOC')
+fig.update_layout(
+    ternary=dict(
+        aaxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
+        baxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
+        caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
+fig.update_layout(title_text= 'Nonlinear benefits (figure 4)')
+save_ternary(fig, 'Ternary_plot_figure_4_non_linear', r'..\visualisation\reproduced_results_Sartakhti')
+fig.show()
+
+# Make a line plot of linear data
+data_figure_4_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
+plt.xlabel('Generations')
+plt.ylabel('fitness/ frequency')
+plt.title('Linear benefits (figure 4)')
+plt.legend()
+save_figure(plt, 'Line_plot_figure_4_linear', r'..\visualisation\reproduced_results_Sartakhti')
+plt.show()
+
+# Make a ternary plot  of linear data
+fig = px.line_ternary(data_figure_4_linear, a='xOB', b='xMM', c='xOC')
+fig.update_layout(
+    ternary=dict(
+        aaxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
+        baxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
+        caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
+fig.update_layout(title_text= 'Linear benefits (figure 4)')
+save_ternary(fig, 'Ternary_plot_figure_4_linear', r'..\visualisation\reproduced_results_Sartakhti')
+fig.show()
+
+""" Start figure 5 line plot. But it is not correct"""
+# Number of cells
+N = 20
+
+# Cost of producing growth factors
+cOC_value = 0.1
+cOB_value = 0.2
+cMM_value = 0.3
+
+# Maximal benefit values
+BOC_OC = 0.55
+BOB_OC = 1.0
+BMM_OC = 0.8
+BOC_OB = 1.1
+BOB_OB = 0.5
+BMM_OB = -0.5
+BOC_MM = 0.6
+BOB_MM = 0.0
+BMM_MM = 1.5
+
+# Positions of the inflection points
+hOC_OC = 0.0
+hOC_OB = 0.0
+hOC_MM = 0.0
+hOB_OC = 0.0
+hOB_OB = 0.0
+hOB_MM = 0.0
+hMM_OC = 0.3
+hMM_OB = 0.2
+hMM_MM = 0.1
+
+# steepness of the function at the inflection points
+sOC_OC = 10
+sOC_OB = 10
+sOC_MM = 100
+sOB_OC = 10
+sOB_OB = 10
+sOB_MM = 20
+sMM_OC = 10
+sMM_OB = 10
+sMM_MM = 100
+
+# Initial frequencies and values --> are needed to make a plot but are not mentioned
+xOC = 0.2
+xOB = 0.5
+xMM = 0.3
+
+nOC = 4
+nOB = 10
+nMM = 6
+
+# Simulation parameters
+generations = 100
+
+column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
+df_figure_5_non_linear = pd.DataFrame(columns=column_names)
+
+# Run simulation with non linear benefist
+for generation in range(generations):
+
+    # Calcuate the benefit values
+    bOC_OC = benefit_function(nOC, hOC_OC, BOC_OC, sOC_OC, N)
+    bOB_OC = benefit_function(nOB, hOB_OC, BOB_OC, sOB_OC, N)
+    bMM_OC = benefit_function(nMM, hMM_OC, BMM_OC, sMM_OC, N)
+
+    bOC_OB = benefit_function(nOC, hOC_OB, BOC_OB, sOC_OB, N)
+    bOB_OB = benefit_function(nOB, hOB_OB, BOB_OB, sOB_OB, N)
+    bMM_OB = benefit_function(nMM, hMM_OB, BMM_OB, sMM_OB, N)
+
+    bOC_MM = benefit_function(nOC, hOC_MM, BOC_MM, sOC_MM, N)
+    bOB_MM = benefit_function(nOB, hOB_MM, BOB_MM, sOB_MM, N)
+    bMM_MM = benefit_function(nMM, hMM_MM, BMM_MM, sMM_MM, N)
+
+    # Determine the fitness values
+    fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM,
+                                bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
+                                 bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
+
+    # Determine the change of the xOC, xOB, xMM values and W average value
+    xOC_change, xOB_change, xMM_change, W_average = calculate_replicator_dynamics(
+                                N, xOC, xOB, xMM, fitness_OC, fitness_OB, fitness_MM)
+
+    # Add row to dataframe
+    new_row = pd.DataFrame([{'Generation':generation, 'xOC': xOC, 'xOB': xOB,
+                                            'xMM': xMM, 'W_average': W_average}])
+    df_figure_5_non_linear = pd.concat([df_figure_5_non_linear, new_row], ignore_index=True)
+
+    # Update xOC, xOB, xMM values
+    xOC = max(0, xOC + xOC_change)
+    xOB = max(0, xOB + xOB_change)
+    xMM = max(0, xMM + xMM_change)
+
+
+# Initial frequencies and values --> are needed to make a plot but are not mentioned
+xOC = 0.2
+xOB = 0.5
+xMM = 0.3
+
+nOC = 4
+nOB = 10
+nMM = 6
+
+s_linear = 0.0001
+
+# Simulation parameters
+generations = 100
+
+column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
+df_figure_5_linear = pd.DataFrame(columns=column_names)
+
+# Run simulation with linear benefits
+for generation in range(generations):
+
+    # Calcuate the benefit values
+    bOC_OC = benefit_function(nOC, hOC_OC, BOC_OC, s_linear, N)
+    bOB_OC = benefit_function(nOB, hOB_OC, BOB_OC, s_linear, N)
+    bMM_OC = benefit_function(nMM, hMM_OC, BMM_OC, s_linear, N)
+
+    bOC_OB = benefit_function(nOC, hOC_OB, BOC_OB, s_linear, N)
+    bOB_OB = benefit_function(nOB, hOB_OB, BOB_OB, s_linear, N)
+    bMM_OB = benefit_function(nMM, hMM_OB, BMM_OB, s_linear, N)
+
+    bOC_MM = benefit_function(nOC, hOC_MM, BOC_MM, s_linear, N)
+    bOB_MM = benefit_function(nOB, hOB_MM, BOB_MM, s_linear, N)
+    bMM_MM = benefit_function(nMM, hMM_MM, BMM_MM, s_linear, N)
+
+    # Determine the fitness values
+    fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM,
+                                bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
+                                 bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
+
+    # Determine the change of the xOC, xOB, xMM values and W average value
+    xOC_change, xOB_change, xMM_change, W_average = calculate_replicator_dynamics(
+                                N, xOC, xOB, xMM, fitness_OC, fitness_OB, fitness_MM)
+
+    # Add row to dataframe
+    new_row = pd.DataFrame([{'Generation':generation, 'xOC': xOC, 'xOB': xOB,
+                                            'xMM': xMM, 'W_average': W_average}])
+    df_figure_5_linear = pd.concat([df_figure_5_linear, new_row], ignore_index=True)
+
+    # Update xOC, xOB, xMM values
+    xOC = max(0, xOC + xOC_change)
+    xOB = max(0, xOB + xOB_change)
+    xMM = max(0, xMM + xMM_change)
+
+# Save the data as csv file
+save_data(df_figure_5_non_linear, 'data_figure_5_non_linear.csv', r'..\data\reproduced_data_Sartakhti')
+save_data(df_figure_5_linear, 'data_figure_5_linear.csv', r'..\data\reproduced_data_Sartakhti')
+
+# collect the dataframe from the csv file
+data_figure_5_non_linear = collect_data('data_figure_5_non_linear.csv', r'..\data\reproduced_data_Sartakhti')
+data_figure_5_linear = collect_data('data_figure_5_linear.csv', r'..\data\reproduced_data_Sartakhti')
+
+# Make a line plot of non-linear data
+data_figure_5_non_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
+plt.xlabel('Generations')
+plt.ylabel('fitness/ frequency')
+plt.title('Nonlinear benefits (figure 5)')
+plt.legend()
+save_figure(plt, 'Line_plot_figure_5_non_linear', r'..\visualisation\reproduced_results_Sartakhti')
+plt.show()
+
+# Make a ternary plot of non-linear data
+fig = px.line_ternary(data_figure_5_non_linear, a='xOB', b='xMM', c='xOC')
+fig.update_layout(
+    ternary=dict(
+        aaxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
+        baxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
+        caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
+fig.update_layout(title_text= 'Nonlinear benefits (figure 5)')
+save_ternary(fig, 'Ternary_plot_figure_5_non_linear', r'..\visualisation\reproduced_results_Sartakhti')
+fig.show()
+
+# Make a line plot of linear data
+data_figure_5_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
+plt.xlabel('Generations')
+plt.ylabel('fitness/ frequency')
+plt.legend()
+plt.title('linear benefits (figure 5)')
+save_figure(plt, 'Line_plot_figure_5_linear', r'..\visualisation\reproduced_results_Sartakhti')
+plt.show()
+
+# Make a ternary plot  of linear data
+fig = px.line_ternary(data_figure_5_linear, a='xOB', b='xMM', c='xOC')
+fig.update_layout(
+    ternary=dict(
+        aaxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
+        baxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
+        caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
+fig.update_layout(title_text= 'Linear benefits (figure 5)')
+save_ternary(fig, 'Ternary_plot_figure_5_linear', r'..\visualisation\reproduced_results_Sartakhti')
+fig.show()
+
+""" Start figure 6 line plot. But it is not correct"""
+# Number of cells
+N = 20
+
+# Cost of producing growth factors
+cOC_value = 0.1
+cOB_value = 0.1
+cMM_value = 0.1
+
+# Maximal benefit values
+BOC_OC = 0.45
+BOB_OC = 0.9
+BMM_OC = 2.0
+BOC_OB = 0.9
+BOB_OB = 0.3
+BMM_OB = -0.3
+BOC_MM = 2.0
+BOB_MM = 0.0
+BMM_MM = 0.9
+
+# Positions of the inflection points
+hOC_OC = 0.05
+hOC_OB = 0.05
+hOC_MM = 0.5
+hOB_OC = 0.05
+hOB_OB = 0.05
+hOB_MM = 0.5
+hMM_OC = 0.5
+hMM_OB = 0.5
+hMM_MM = 0.5
+
+# steepness of the function at the inflection points
+sOC_OC = 10
+sOC_OB = 10
+sOC_MM = 50
+sOB_OC = 10
+sOB_OB = 10
+sOB_MM = 10
+sMM_OC = 50
+sMM_OB = 50
+sMM_MM = 50
+
+# Initial frequencies and values --> are needed to make a plot but are not mentioned
+xOC = 0.2
+xOB = 0.5
+xMM = 0.3
+
+nOC = 4
+nOB = 10
+nMM = 6
+
+# Simulation parameters
+generations = 100
+
+column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
+df_figure_6_non_linear = pd.DataFrame(columns=column_names)
+
+# Run simulation with non linear benefist
+for generation in range(generations):
+
+    # Calcuate the benefit values
+    bOC_OC = benefit_function(nOC, hOC_OC, BOC_OC, sOC_OC, N)
+    bOB_OC = benefit_function(nOB, hOB_OC, BOB_OC, sOB_OC, N)
+    bMM_OC = benefit_function(nMM, hMM_OC, BMM_OC, sMM_OC, N)
+
+    bOC_OB = benefit_function(nOC, hOC_OB, BOC_OB, sOC_OB, N)
+    bOB_OB = benefit_function(nOB, hOB_OB, BOB_OB, sOB_OB, N)
+    bMM_OB = benefit_function(nMM, hMM_OB, BMM_OB, sMM_OB, N)
+
+    bOC_MM = benefit_function(nOC, hOC_MM, BOC_MM, sOC_MM, N)
+    bOB_MM = benefit_function(nOB, hOB_MM, BOB_MM, sOB_MM, N)
+    bMM_MM = benefit_function(nMM, hMM_MM, BMM_MM, sMM_MM, N)
+
+    # Determine the fitness values
+    fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM,
+                                bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
+                                 bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
+
+    # Determine the change of the xOC, xOB, xMM values and W average value
+    xOC_change, xOB_change, xMM_change, W_average = calculate_replicator_dynamics(
+                                N, xOC, xOB, xMM, fitness_OC, fitness_OB, fitness_MM)
+
+    # Add row to dataframe
+    new_row = pd.DataFrame([{'Generation':generation, 'xOC': xOC, 'xOB': xOB,
+                                            'xMM': xMM, 'W_average': W_average}])
+    df_figure_6_non_linear = pd.concat([df_figure_6_non_linear, new_row], ignore_index=True)
+
+    # Update xOC, xOB, xMM values
+    xOC = max(0, xOC + xOC_change)
+    xOB = max(0, xOB + xOB_change)
+    xMM = max(0, xMM + xMM_change)
+
+
+# Initial frequencies and values --> are needed to make a plot but are not mentioned
+xOC = 0.2
+xOB = 0.5
+xMM = 0.3
+
+nOC = 4
+nOB = 10
+nMM = 6
+
+s_linear = 0.0001
+
+# Simulation parameters
+generations = 100
+
+column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
+df_figure_6_linear = pd.DataFrame(columns=column_names)
+
+# Run simulation with linear benefits
+for generation in range(generations):
+
+    # Calcuate the benefit values
+    bOC_OC = benefit_function(nOC, hOC_OC, BOC_OC, s_linear, N)
+    bOB_OC = benefit_function(nOB, hOB_OC, BOB_OC, s_linear, N)
+    bMM_OC = benefit_function(nMM, hMM_OC, BMM_OC, s_linear, N)
+
+    bOC_OB = benefit_function(nOC, hOC_OB, BOC_OB, s_linear, N)
+    bOB_OB = benefit_function(nOB, hOB_OB, BOB_OB, s_linear, N)
+    bMM_OB = benefit_function(nMM, hMM_OB, BMM_OB, s_linear, N)
+
+    bOC_MM = benefit_function(nOC, hOC_MM, BOC_MM, s_linear, N)
+    bOB_MM = benefit_function(nOB, hOB_MM, BOB_MM, s_linear, N)
+    bMM_MM = benefit_function(nMM, hMM_MM, BMM_MM, s_linear, N)
+
+    # Determine the fitness values
+    fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM,
+                                bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
+                                 bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
+
+    # Determine the change of the xOC, xOB, xMM values and W average value
+    xOC_change, xOB_change, xMM_change, W_average = calculate_replicator_dynamics(
+                                N, xOC, xOB, xMM, fitness_OC, fitness_OB, fitness_MM)
+
+    # Add row to dataframe
+    new_row = pd.DataFrame([{'Generation':generation, 'xOC': xOC, 'xOB': xOB,
+                                            'xMM': xMM, 'W_average': W_average}])
+    df_figure_6_linear = pd.concat([df_figure_6_linear, new_row], ignore_index=True)
+
+    # Update xOC, xOB, xMM values
+    xOC = max(0, xOC + xOC_change)
+    xOB = max(0, xOB + xOB_change)
+    xMM = max(0, xMM + xMM_change)
+
+# Save the data as csv file
+save_data(df_figure_6_non_linear, 'data_figure_6_non_linear.csv', r'..\data\reproduced_data_Sartakhti')
+save_data(df_figure_6_linear, 'data_figure_6_linear.csv', r'..\data\reproduced_data_Sartakhti')
+
+# collect the dataframe from the csv file
+data_figure_6_non_linear = collect_data('data_figure_6_non_linear.csv', r'..\data\reproduced_data_Sartakhti')
+data_figure_6_linear = collect_data('data_figure_6_linear.csv', r'..\data\reproduced_data_Sartakhti')
+
+# Make a line plot of non-linear data
+data_figure_6_non_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
+plt.xlabel('Generations')
+plt.ylabel('fitness/ frequency')
+plt.title('Nonlinear benefits (figure 6)')
+plt.legend()
+save_figure(plt, 'Line_plot_figure_6_non_linear', r'..\visualisation\reproduced_results_Sartakhti')
+plt.show()
+
+# Make a ternary plot of non-linear data
+fig = px.line_ternary(data_figure_6_non_linear, a='xOB', b='xMM', c='xOC')
+fig.update_layout(
+    ternary=dict(
+        aaxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
+        baxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
+        caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
+fig.update_layout(title_text= 'Nonlinear benefits (figure 6)')
+save_ternary(fig, 'Ternary_plot_figure_6_non_linear', r'..\visualisation\reproduced_results_Sartakhti')
+fig.show()
+
+# Make a line plot of linear data
+data_figure_6_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
+plt.xlabel('Generations')
+plt.ylabel('fitness/ frequency')
+plt.title('Linear benefits (figure 6)')
+plt.legend()
+save_figure(plt, 'Line_plot_figure_6_linear', r'..\visualisation\reproduced_results_Sartakhti')
+plt.show()
+
+# Make a ternary plot  of linear data
+fig = px.line_ternary(data_figure_6_linear, a='xOB', b='xMM', c='xOC')
+fig.update_layout(
+    ternary=dict(
+        aaxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
+        baxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
+        caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
+fig.update_layout(title_text= 'Linear benefits (figure 6)')
+save_ternary(fig, 'Ternary_plot_figure_6_linear', r'..\visualisation\reproduced_results_Sartakhti')
+fig.show()
 
 """ Start figure 7 line plot. But it is not correct"""
 # Number of cells
@@ -341,9 +1209,9 @@ nMM = 3
 generations = 100
 
 column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
-df_figure_7 = pd.DataFrame(columns=column_names)
+df_figure_7_non_linear = pd.DataFrame(columns=column_names)
 
-# Run simulation
+# Run simulation with non linear benefist
 for generation in range(generations):
 
     # Calcuate the benefit values
@@ -371,7 +1239,60 @@ for generation in range(generations):
     # Add row to dataframe
     new_row = pd.DataFrame([{'Generation':generation, 'xOC': xOC, 'xOB': xOB,
                                             'xMM': xMM, 'W_average': W_average}])
-    df_figure_7 = pd.concat([df_figure_7, new_row], ignore_index=True)
+    df_figure_7_non_linear = pd.concat([df_figure_7_non_linear, new_row], ignore_index=True)
+
+    # Update xOC, xOB, xMM values
+    xOC = max(0, xOC + xOC_change)
+    xOB = max(0, xOB + xOB_change)
+    xMM = max(0, xMM + xMM_change)
+
+
+# Initial frequencies and values --> are needed to make a plot but are not mentioned
+xOC = 0.2
+xOB = 0.5
+xMM = 0.3
+
+nOC = 2
+nOB = 5
+nMM = 3
+
+s_linear = 0.000001
+
+# Simulation parameters
+generations = 100
+
+column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
+df_figure_7_linear = pd.DataFrame(columns=column_names)
+
+# Run simulation with linear benefits
+for generation in range(generations):
+
+    # Calcuate the benefit values
+    bOC_OC = benefit_function(nOC, hOC_OC, BOC_OC, s_linear, N)
+    bOB_OC = benefit_function(nOB, hOB_OC, BOB_OC, s_linear, N)
+    bMM_OC = benefit_function(nMM, hMM_OC, BMM_OC, s_linear, N)
+
+    bOC_OB = benefit_function(nOC, hOC_OB, BOC_OB, s_linear, N)
+    bOB_OB = benefit_function(nOB, hOB_OB, BOB_OB, s_linear, N)
+    bMM_OB = benefit_function(nMM, hMM_OB, BMM_OB, s_linear, N)
+
+    bOC_MM = benefit_function(nOC, hOC_MM, BOC_MM, s_linear, N)
+    bOB_MM = benefit_function(nOB, hOB_MM, BOB_MM, s_linear, N)
+    bMM_MM = benefit_function(nMM, hMM_MM, BMM_MM, s_linear, N)
+
+    # Determine the fitness values
+    fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM,
+                                bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
+                                 bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
+
+    # Determine the change of the xOC, xOB, xMM values and W average value
+    xOC_change, xOB_change, xMM_change, W_average = calculate_replicator_dynamics(
+                                N, xOC, xOB, xMM, fitness_OC, fitness_OB, fitness_MM)
+
+    # Add row to dataframe
+    new_row = pd.DataFrame([{'Generation':generation, 'xOC': xOC, 'xOB': xOB,
+                                            'xMM': xMM, 'W_average': W_average}])
+    df_figure_7_linear = pd.concat([df_figure_7_linear, new_row], ignore_index=True)
 
     # Update xOC, xOB, xMM values
     xOC = max(0, xOC + xOC_change)
@@ -379,23 +1300,53 @@ for generation in range(generations):
     xMM = max(0, xMM + xMM_change)
 
 # Save the data as csv file
-save_data(df_figure_7, 'data_figure_7.csv', r'..\data\reproduced_data_Sartakhti')
+save_data(df_figure_7_non_linear, 'data_figure_7_non_linear.csv', r'..\data\reproduced_data_Sartakhti')
+save_data(df_figure_7_linear, 'data_figure_7_linear.csv', r'..\data\reproduced_data_Sartakhti')
 
 # collect the dataframe from the csv file
-data_figure_7 = collect_data('data_figure_7.csv', r'..\data\reproduced_data_Sartakhti')
+data_figure_7_non_linear = collect_data('data_figure_7_non_linear.csv', r'..\data\reproduced_data_Sartakhti')
+data_figure_7_linear = collect_data('data_figure_7_linear.csv', r'..\data\reproduced_data_Sartakhti')
 
-# Make a line plot
-data_figure_7.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+# Make a line plot of non-linear data
+data_figure_7_non_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
 plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
 plt.xlabel('Generations')
 plt.ylabel('fitness/ frequency')
+plt.title('Nonlinear benefits (figure 7)')
 plt.legend()
-save_figure(plt, 'Line_plot_figure_7', r'..\visualisation\reproduced_results_Sartakhti')
+save_figure(plt, 'Line_plot_figure_7_non_linear', r'..\visualisation\reproduced_results_Sartakhti')
 plt.show()
 
-# Make a ternary plot
-fig = px.line_ternary(data_figure_7, a='xOB', b='xMM', c='xOC')
-save_ternary(fig, 'Ternary_plot_figure_7', r'..\visualisation\reproduced_results_Sartakhti')
+# Make a ternary plot of non-linear data
+fig = px.line_ternary(data_figure_7_non_linear, a='xOB', b='xMM', c='xOC')
+fig.update_layout(
+    ternary=dict(
+        aaxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
+        baxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
+        caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
+fig.update_layout(title_text= 'Nonlinear benefits (figure 7)')
+save_ternary(fig, 'Ternary_plot_figure_7_non_linear', r'..\visualisation\reproduced_results_Sartakhti')
+fig.show()
+
+# Make a line plot of linear data
+data_figure_7_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
+plt.xlabel('Generations')
+plt.ylabel('fitness/ frequency')
+plt.legend('Linear benefits (figure 7)')
+plt.legend()
+save_figure(plt, 'Line_plot_figure_7_linear', r'..\visualisation\reproduced_results_Sartakhti')
+plt.show()
+
+# Make a ternary plot  of linear data
+fig = px.line_ternary(data_figure_7_linear, a='xOB', b='xMM', c='xOC')
+fig.update_layout(
+    ternary=dict(
+        aaxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
+        baxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
+        caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
+fig.update_layout(title_text= 'Linear benefits (figure 7)')
+save_ternary(fig, 'Ternary_plot_figure_7_linear', r'..\visualisation\reproduced_results_Sartakhti')
 fig.show()
 
 """ Start figure 8 line plot. But it is not correct"""
@@ -439,23 +1390,25 @@ sOB_MM = 4
 sMM_OC = 6
 sMM_OB = 6
 sMM_MM = 1000
+s_linear = 0.00001
 
 # Initial frequencies and values --> are needed to make a plot but are not mentioned
 xOC = 0.1
 xOB = 0.2
 xMM = 0.7
 
+# starting number of each cell type
 nOC = 2
 nOB = 4
 nMM = 16
 
-# Simulation parameters
 generations = 100
 
+# make a dataframe for the situation with non-linear benefits
 column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
-df_figure_8 = pd.DataFrame(columns=column_names)
+df_figure_8_non_linear = pd.DataFrame(columns=column_names)
 
-# Run simulation
+# Run simulation with non linear benefits
 for generation in range(generations):
 
     # Calcuate the benefit values
@@ -483,7 +1436,7 @@ for generation in range(generations):
     # Add row to dataframe
     new_row = pd.DataFrame([{'Generation':generation, 'xOC': xOC, 'xOB': xOB,
                                             'xMM': xMM, 'W_average': W_average}])
-    df_figure_8 = pd.concat([df_figure_8, new_row], ignore_index=True)
+    df_figure_8_non_linear = pd.concat([df_figure_8_non_linear, new_row], ignore_index=True)
 
     # Update xOC, xOB, xMM values
     xOC = max(0, xOC + xOC_change)
@@ -494,24 +1447,112 @@ for generation in range(generations):
     # nOB = int(xOB * N)
     # nMM = int(xMM * N)
 
+
+# steepness of the function at the inflection points
+s_linear = 0.00001
+
+# Initial frequencies and values --> are needed to make a plot but are not mentioned
+xOC = 0.1
+xOB = 0.2
+xMM = 0.7
+
+# starting number of each cell type
+nOC = 2
+nOB = 4
+nMM = 16
+
+generations = 1000
+
+# Make a dataframe for the situation with linear benefits
+df_figure_8_linear = pd.DataFrame(columns=column_names)
+
+# Run simulation with linear benefits
+for generation in range(generations):
+
+    # Calcuate the benefit values
+    bOC_OC = benefit_function(nOC, hOC_OC, BOC_OC, s_linear, N)
+    bOB_OC = benefit_function(nOB, hOB_OC, BOB_OC, s_linear, N)
+    bMM_OC = benefit_function(nMM, hMM_OC, BMM_OC, s_linear, N)
+
+    bOC_OB = benefit_function(nOC, hOC_OB, BOC_OB, s_linear, N)
+    bOB_OB = benefit_function(nOB, hOB_OB, BOB_OB, s_linear, N)
+    bMM_OB = benefit_function(nMM, hMM_OB, BMM_OB, s_linear, N)
+
+    bOC_MM = benefit_function(nOC, hOC_MM, BOC_MM, s_linear, N)
+    bOB_MM = benefit_function(nOB, hOB_MM, BOB_MM, s_linear, N)
+    bMM_MM = benefit_function(nMM, hMM_MM, BMM_MM, s_linear, N)
+
+    # Determine the fitness values
+    fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM,
+                            bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
+                            bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
+
+    # Determine the change of the xOC, xOB, xMM values and W average value
+    xOC_change, xOB_change, xMM_change, W_average = calculate_replicator_dynamics(
+                                N, xOC, xOB, xMM, fitness_OC, fitness_OB, fitness_MM)
+
+    # Add row to dataframe
+    new_row = pd.DataFrame([{'Generation':generation, 'xOC': xOC, 'xOB': xOB,
+                                            'xMM': xMM, 'W_average': W_average}])
+    df_figure_8_linear = pd.concat([df_figure_8_linear, new_row], ignore_index=True)
+
+    # Update xOC, xOB, xMM values
+    xOC = max(0, xOC + xOC_change)
+    xOB = max(0, xOB + xOB_change)
+    xMM = max(0, xMM + xMM_change)
+
+    # nOC = int(xOC * N)
+    # nOB = int(xOB * N)
+    # nMM = int(xMM * N)
+
+
 # Save the data as csv file
-save_data(df_figure_8, 'data_figure_8.csv', r'..\data\reproduced_data_Sartakhti')
+save_data(df_figure_8_non_linear, 'data_figure_8_non_linear.csv', r'..\data\reproduced_data_Sartakhti')
+save_data(df_figure_8_linear, 'data_figure_8_linear.csv', r'..\data\reproduced_data_Sartakhti')
 
 # collect the dataframe from the csv file
-data_figure_8 = collect_data('data_figure_8.csv', r'..\data\reproduced_data_Sartakhti')
+data_figure_8_non_linear = collect_data('data_figure_8_non_linear.csv', r'..\data\reproduced_data_Sartakhti')
+data_figure_8_linear = collect_data('data_figure_8_linear.csv', r'..\data\reproduced_data_Sartakhti')
 
-# Make a line plot
-data_figure_8.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+# Make a line plot of non linear data
+data_figure_8_non_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
 plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
 plt.xlabel('Generations')
 plt.ylabel('fitness/ frequency')
-plt.title('figure 8')
+plt.title('Nonlinear benefits (figure 8)')
 plt.legend()
 
-save_figure(plt, 'Line_plot_figure_8', r'..\visualisation\reproduced_results_Sartakhti')
+save_figure(plt, 'Line_plot_figure_8_non_linear', r'..\visualisation\reproduced_results_Sartakhti')
 plt.show()
 
-# Make a ternary plot
-fig = px.line_ternary(data_figure_8, a='xOB', b='xMM', c='xOC')
-save_ternary(fig, 'Ternary_plot_figure_8', r'..\visualisation\reproduced_results_Sartakhti')
+# Make a ternary plot of non linear data
+fig = px.line_ternary(data_figure_8_non_linear, a='xOB', b='xMM', c='xOC')
+fig.update_layout(
+    ternary=dict(
+        aaxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
+        baxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
+        caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
+fig.update_layout(title_text= 'Nonlinear benefits (figure 8)')
+save_ternary(fig, 'Ternary_plot_figure_8_non_linear', r'..\visualisation\reproduced_results_Sartakhti')
+fig.show()
+
+# Make a line plot of linear data
+data_figure_8_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
+plt.xlabel('Generations')
+plt.ylabel('fitness/ frequency')
+plt.title('Linear benefits (figure 8)')
+plt.legend()
+save_figure(plt, 'Line_plot_figure_8_linear', r'..\visualisation\reproduced_results_Sartakhti')
+plt.show()
+
+# Make a ternary plot of linear data
+fig = px.line_ternary(data_figure_8_linear, a='xOB', b='xMM', c='xOC')
+fig.update_layout(
+    ternary=dict(
+        aaxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
+        baxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
+        caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
+fig.update_layout(title_text= 'Linear benefits (figure 8)')
+save_ternary(fig, 'Ternary_plot_figure_8_linear', r'..\visualisation\reproduced_results_Sartakhti')
 fig.show()
