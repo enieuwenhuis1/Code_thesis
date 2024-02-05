@@ -16,21 +16,10 @@ https://doi.org/10.3390/g9020032
 
 import math
 import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-import ternary
-import plotly.graph_objects as go
-import plotly.express as px
 import os
-
-# Do doc tests
-if __name__ == "__main__":
-    import doctest
-    doctest.testmod()
 
 """
 The formulas described in the materials and methods (formulas 1 to 10).
-
 x_OC = frequency osteoclasten
 x_OB = frequency osteoblasen
 x_MM = frequency multiplemyeloma cells
@@ -46,9 +35,9 @@ def probability_number_cells(nOC, nOB, N, xOC, xOB, xMM):
     Parameters:
     -----------
     nOC: Int
-        The number of osteoclasts in cell group.
+        The number of osteoclasts in the population.
     nOB: Int
-        The Number of osteoblasts in the cell group.
+        The Number of osteoblasts in the population.
     N: Int
         The total number of cells in the group excluding the focal cell itself.
     xOC: Float
@@ -61,7 +50,7 @@ def probability_number_cells(nOC, nOB, N, xOC, xOB, xMM):
     Returns:
     -----------
     probability: Float
-        Probability that cell group contains nOC, nOB and N - nOC - nOB MM cells.
+        Probability that population contains nOC, nOB and N - nOC - nOB MM cells.
 
     Example:
     -----------
@@ -88,7 +77,7 @@ actions, decisions, or strategies in a given game. For osteoclasts (OC), osteobl
 of cells of each type in a group, the effects of beneficial growth factors produced by
 each cell type, and the associated costs.
 
-VOC=bOC,OC (nOC+1)+bOB,OC(nOB)+bMM,OC(N−1−nOC−nOB)−cOC
+VOC= bOC,OC(nOC+1)+ bOB,OC(nOB)+ bMM,OC(N−1−nOC−nOB)−cOC
 - Positive terms: positive contributions to the payoff, the effects of growth factors
 - Negative term: the cost of producing growth factors
 ​"""
@@ -99,9 +88,9 @@ def payoff_OC(nOC, nOB, N, bOC_OC, bOB_OC, bMM_OC, cOC):
      Parameters:
     -----------
     nOC: Int
-        The number of osteoclasts in cell group.
+        The number of osteoclasts in population.
     nOB: Int
-        The Number of osteoblasts in the cell group.
+        The Number of osteoblasts in the population.
     N: Int
         The total number of cells in the group excluding the focal cell itself.
     bOC_OC: Float
@@ -109,7 +98,7 @@ def payoff_OC(nOC, nOB, N, bOC_OC, bOB_OC, bMM_OC, cOC):
     bOB_OC: Float
         The benefit on a OC of the growth factors produced by an OB.
     bMM_OC: Float
-        The benefit on a OC of the growth factors produced by an MM.
+        The benefit on a OC of the growth factors produced by an MM cell.
     cOC: Float
         The cost of producing growth factors by OC.
 
@@ -133,9 +122,9 @@ def payoff_OB(nOC, nOB, N, bOC_OB, bOB_OB, bMM_OB, cOB):
      Parameters:
     -----------
     nOC: Int
-        The number of osteoclasts in cell group.
+        The number of osteoclasts in population.
     nOB: Int
-        The Number of osteoblasts in the cell group.
+        The Number of osteoblasts in the population.
     N: Int
         The total number of cells in the group excluding the focal cell itself.
     bOC_OB: Float
@@ -143,13 +132,13 @@ def payoff_OB(nOC, nOB, N, bOC_OB, bOB_OB, bMM_OB, cOB):
     bOB_OB: Float
         The benefit on a OB of the growth factors produced by an OB.
     bMM_OB: Float
-        The benefit on a OB of the growth factors produced by an MM.
+        The benefit on a OB of the growth factors produced by an MM cell.
     cOB: Float
         The cost of producing growth factors by OB.
 
     Returns:
     -----------
-    VOC: Float
+    VOB: Float
         Payoff for osteoblasts.
 
     Example:
@@ -167,24 +156,24 @@ def payoff_MM(nOC, nOB, N, bOC_MM, bOB_MM, bMM_MM, cMM):
     Parameters:
     -----------
     nOC: Int
-        The number of osteoclasts in cell group.
+        The number of osteoclasts in population.
     nOB: Int
-        The Number of osteoblasts in the cell group.
+        The Number of osteoblasts in the population.
     N: Int
         The total number of cells in the group excluding the focal cell itself.
     bOC_MM: Float
-        The benefit on a OC of the growth factors produced by an OC.
+        The benefit on a MM cell of the growth factors produced by an OC.
     bOB_MM: Float
-        The benefit on a OC of the growth factors produced by an OB.
+        The benefit on a MM cell of the growth factors produced by an OB.
     bMM_MM: Float
-        The benefit on a OC of the growth factors produced by an MM.
+        The benefit on a MM cell of the growth factors produced by an MM cell.
     cMM: Float
-        The cost of producing growth factors by MM
+        The cost of producing growth factors by multiple myeloma cells
 
     Returns:
     -----------
-    VOC: Float
-        Payoff for multiple myeloma.
+    VMM: Float
+        Payoff for multiple myeloma cells.
 
     Example:
     -----------
@@ -228,7 +217,7 @@ def calculate_fitness(N, xOC, xOB, xMM, bOC_OC, bOB_OC, bMM_OC, cOC, bOC_OB, bOB
     bOB_OC: Float
        The benefit on a OC of the growth factors produced by an OB.
     bMM_OC: Float
-       The benefit on a OC of the growth factors produced by an MM.
+       The benefit on a OC of the growth factors produced by an MM cell.
     cOC: Float
        The cost of producing growth factors by OC.
     bOC_OB: Float
@@ -236,17 +225,17 @@ def calculate_fitness(N, xOC, xOB, xMM, bOC_OC, bOB_OC, bMM_OC, cOC, bOC_OB, bOB
     bOB_OB: Float
        The benefit on a OB of the growth factors produced by an OB.
     bMM_OB: Float
-       The benefit on a OB of the growth factors produced by an MM.
+       The benefit on a OB of the growth factors produced by an MM cell.
     cOB: Float
        The cost of producing growth factors by OB.
     bOC_MM: Float
-       The benefit on a OC of the growth factors produced by an OC.
+       The benefit on an MM cell of the growth factors produced by an OC.
     bOB_MM: Float
-       The benefit on a OC of the growth factors produced by an OB.
+       The benefit on an MM cell of the growth factors produced by an OB.
     bMM_MM: Float
-       The benefit on a OC of the growth factors produced by an MM.
+       The benefit on an MM cell of the growth factors produced by an MM cell.
     cMM: Float
-       The cost of producing growth factors by MM.
+       The cost of producing growth factors by MM cells.
 
     Returns:
     -----------
@@ -260,10 +249,9 @@ def calculate_fitness(N, xOC, xOB, xMM, bOC_OC, bOB_OC, bMM_OC, cOC, bOC_OB, bOB
     Example:
     -----------
     >>> calculate_fitness(10, 0.3, 0.4, 0.3, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7,
-                                                        0.8, 0.9, 1.0, 1.1, 1.2)
+    ... 0.8, 0.9, 1.0, 1.1, 1.2)
     (0.15821162519999998, 0.5527329200999999, 0.9472542150000003)
     """
-
     fitness_OC = 0
     fitness_OB = 0
     fitness_MM = 0
@@ -287,7 +275,7 @@ def calculate_fitness(N, xOC, xOB, xMM, bOC_OC, bOB_OC, bMM_OC, cOC, bOC_OB, bOB
             fitness_MM += probability_value * payoff_MM_value
 
     # Normalize the fitness values
-    normalization_factor = 1 / (N - 1)
+    normalization_factor = 1/ (N-1)
     normalized_fitness_OC = normalization_factor * fitness_OC
     normalized_fitness_OB = normalization_factor * fitness_OB
     normalized_fitness_MM = normalization_factor * fitness_MM
@@ -353,16 +341,16 @@ type j. The more cells of type i (higher n) the higher the benefit becaues more
 growth factors (10).
 """
 
-def sigmoid(n, h, B_max, s, N):
+def sigmoid(n_i, h, B_max, s, N):
     """ Functionthat calculates the sigmoid value.
 
     Parameters:
     -----------
-    n : Int
+    n_i : Int
         The number of cells of type i.
     h : Float
         The position of the inflection point.
-    B : Float
+    B_max : Float
         The maximum benefit.
     s : Float
         The  steepness of the function.
@@ -379,23 +367,23 @@ def sigmoid(n, h, B_max, s, N):
     >>> sigmoid(2, 0.5, 10, 2, 20)
     3.1002551887238754
     """
-    sigmoid_value = B_max / (1 + np.exp(s * (h - n/ N)))
+    sigmoid_value = B_max / (1 + np.exp(s * (h - n_i/ N)))
     return sigmoid_value
 
-def benefit_function(n, h, B_max, s, N):
+def benefit_function(n_i, h, B_max, s, N):
     """ Function that calculates the benefit value of the growth factors produced
     by cell type i on cell type j (9).
 
     Parameters:
     -----------
-    n : Int
+    n_i : Int
         The number of cells of type i.
     h : Float
         The position of the inflection point.
-    B : Float
+    B_max : Float
         The maximum benefit.
     s : Float
-        The  steepness of the function.
+        The steepness of the function.
     N : Int
         The total number of cell in the group.
 
@@ -407,10 +395,10 @@ def benefit_function(n, h, B_max, s, N):
 
     Example:
     -----------
-    >>> benefit_function(0, 0.5, 10, 2, 20)
-    0.0
+    >>> benefit_function(4, 0.5, 10, 2, 20)
+    0.18480653891012727
     """
-    benefit_value = (sigmoid(n, h, B_max, s, N) - sigmoid(0, h, B_max, s, N)) / \
+    benefit_value = (sigmoid(n_i, h, B_max, s, N) - sigmoid(0, h, B_max, s, N)) / \
                         (sigmoid(N, h, B_max, s, N) - sigmoid(0, h, B_max, s, N))
 
     # If the benefit value is nan set it to zero
@@ -420,15 +408,15 @@ def benefit_function(n, h, B_max, s, N):
     return benefit_value
 
 def save_data(data_frame, file_name, folder_path):
-    """ Function that saves a dataframe as csv file
+    """ Function that saves a dataframe as csv file.
 
     Parameters:
     -----------
+    data_frame: DataFrame
+        The data frame contain the collected data.
     file_name: String
         The name of the csv file.
-    data_frame:
-        The data frame contain the collected data.
-    folder_path: String:
+    folder_path: String
         Path to the folder where the data will be saved.
     """
     os.makedirs(folder_path, exist_ok=True)
@@ -436,7 +424,7 @@ def save_data(data_frame, file_name, folder_path):
     data_frame.to_csv(file_path, index=False)
 
 def collect_data(file_name, folder_path):
-    """ Function that reads the data from a csv file to a dataframe
+    """ Function that reads the data from a csv file to a dataframe.
 
     Parameters:
     -----------
@@ -447,7 +435,7 @@ def collect_data(file_name, folder_path):
 
     Returns:
     --------
-    data_frame:
+    data_frame: DataFrame
         The data frame contain the collected data.
     """
     os.makedirs(folder_path, exist_ok=True)
@@ -455,3 +443,8 @@ def collect_data(file_name, folder_path):
     data_frame = pd.read_csv(file_path)
 
     return data_frame
+
+# Do doc tests
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
