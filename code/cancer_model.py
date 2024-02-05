@@ -19,7 +19,6 @@ import numpy as np
 import os
 import pandas as pd
 
-
 """
 The formulas described in the materials and methods (formulas 1 to 10).
 x_OC = frequency osteoclasten
@@ -400,7 +399,7 @@ def benefit_function(n_i, h, B_max, s, N):
     >>> benefit_function(4, 0.5, 10, 2, 20)
     0.18480653891012727
     """
-    # Avoid deviding by zero 
+    # Avoid deviding by zero
     if B_max == 0:
         benefit_value = 0
     else:
@@ -451,7 +450,7 @@ def collect_data(file_name, folder_path):
 
     return data_frame
 
-# Do doc tests
 if __name__ == "__main__":
+    # Do doc tests
     import doctest
     doctest.testmod()

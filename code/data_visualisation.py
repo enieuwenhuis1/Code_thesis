@@ -79,10 +79,7 @@ def save_ternary(figure, file_name, folder_path):
     os.makedirs(folder_path, exist_ok=True)
     pio.write_image(figure, os.path.join(folder_path, f'{file_name}.png'), format='png')
 
-
-
 """Figure in materials and methods (figure 10)"""
-
 def figure_10():
     """Function that recreates figure 10 in the paper of Sartakhti et al., 2018."""
     # Parameters
@@ -127,7 +124,6 @@ def figure_10():
     save_figure(plt, 'Benefit_function_figure_10',
                                 r'..\visualisation\reproduced_results_Sartakhti')
     plt.show()
-
 
 """ Start figure 1 """
 """
@@ -257,7 +253,6 @@ def figure_1():
                                 r'..\visualisation\reproduced_results_Sartakhti')
     fig.show()
 
-
 """ Sigmoid benefits figure 2"""
 def figure_2():
     """Function that recreates the figures of figure 2 in the paper of Sartakhti
@@ -334,6 +329,7 @@ def figure_2():
 
     generations = 500
 
+    # Loop over the inflection point values
     for h_value in h_values:
         # Reset initial values for each h iteration
         xOC = 0.3
@@ -360,7 +356,7 @@ def figure_2():
         BMM_OB = -0.3
         BMM_MM = 0
 
-        # Steepness of the function and a random maximal benefit for the demostration
+        # Steepness of the function at the inflection point
         s_value = 20
 
         # Loop for the number of generations
@@ -471,12 +467,9 @@ def figure_3():
     xOC = 0.2
     xOB = 0.4
     xMM = 0.4
-
     nOC = 5
     nOB = 10
     nMM = 10
-
-    # Simulation parameters
     generations = 100
 
     column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
@@ -518,19 +511,15 @@ def figure_3():
         xOB = max(0, xOB + xOB_change)
         xMM = max(0, xMM + xMM_change)
 
-
     # Initial frequencies and values --> are needed to make a plot but are not mentioned
     xOC = 0.2
     xOB = 0.4
     xMM = 0.4
-
     nOC = 5
     nOB = 10
     nMM = 10
 
     s_linear = 0.0001
-
-    # Simulation parameters
     generations = 100
 
     column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
@@ -678,12 +667,9 @@ def figure_4():
     xOC = 0.2
     xOB = 0.5
     xMM = 0.3
-
     nOC = 4
     nOB = 10
     nMM = 6
-
-    # Simulation parameters
     generations = 100
 
     column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
@@ -728,14 +714,10 @@ def figure_4():
     xOC = 0.2
     xOB = 0.5
     xMM = 0.3
-
     nOC = 4
     nOB = 10
     nMM = 6
-
     s_linear = 0.0001
-
-    # Simulation parameters
     generations = 100
 
     column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
@@ -887,8 +869,6 @@ def figure_5():
     nOC = 4
     nOB = 10
     nMM = 6
-
-    # Simulation parameters
     generations = 100
 
     column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
@@ -930,7 +910,6 @@ def figure_5():
         xOB = max(0, xOB + xOB_change)
         xMM = max(0, xMM + xMM_change)
 
-
     # Initial frequencies and values --> are needed to make a plot but are not mentioned
     xOC = 0.2
     xOB = 0.5
@@ -939,10 +918,7 @@ def figure_5():
     nOC = 4
     nOB = 10
     nMM = 6
-
     s_linear = 0.0001
-
-    # Simulation parameters
     generations = 100
 
     column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
@@ -1094,8 +1070,6 @@ def figure_6():
     nOC = 4
     nOB = 10
     nMM = 6
-
-    # Simulation parameters
     generations = 100
 
     column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
@@ -1136,7 +1110,6 @@ def figure_6():
         xOB = max(0, xOB + xOB_change)
         xMM = max(0, xMM + xMM_change)
 
-
     # Initial frequencies and values --> are needed to make a plot but are not mentioned
     xOC = 0.2
     xOB = 0.5
@@ -1145,10 +1118,7 @@ def figure_6():
     nOC = 4
     nOB = 10
     nMM = 6
-
     s_linear = 0.0001
-
-    # Simulation parameters
     generations = 100
 
     column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
@@ -1300,8 +1270,6 @@ def figure_7():
     nOC = 2
     nOB = 5
     nMM = 3
-
-    # Simulation parameters
     generations = 100
 
     column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
@@ -1343,7 +1311,6 @@ def figure_7():
         xOB = max(0, xOB + xOB_change)
         xMM = max(0, xMM + xMM_change)
 
-
     # Initial frequencies and values --> are needed to make a plot but are not mentioned
     xOC = 0.2
     xOB = 0.5
@@ -1352,10 +1319,7 @@ def figure_7():
     nOC = 2
     nOB = 5
     nMM = 3
-
     s_linear = 0.0001
-
-    # Simulation parameters
     generations = 100
 
     column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
@@ -1505,11 +1469,9 @@ def figure_8():
     xOB = 0.2
     xMM = 0.7
 
-    # Starting number of each cell type
     nOC = 2
     nOB = 4
     nMM = 16
-
     generations = 100
 
     # make a dataframe for the situation with non-linear benefits
@@ -1556,7 +1518,6 @@ def figure_8():
         # nOB = int(xOB * N)
         # nMM = int(xMM * N)
 
-
     # Steepness of the function at the inflection points
     s_linear = 0.0001
 
@@ -1565,11 +1526,9 @@ def figure_8():
     xOB = 0.2
     xMM = 0.7
 
-    # starting number of each cell type
     nOC = 2
     nOB = 4
     nMM = 16
-
     generations = 1000
 
     # Make a dataframe for the situation with linear benefits
@@ -1613,7 +1572,6 @@ def figure_8():
         # nOC = int(xOC * N)
         # nOB = int(xOB * N)
         # nMM = int(xMM * N)
-
 
     # Save the data as csv file
     save_data(df_figure_8_non_linear, 'data_figure_8_non_linear.csv',
@@ -1674,16 +1632,15 @@ def figure_8():
                                     r'..\visualisation\reproduced_results_Sartakhti')
     fig.show()
 
-
 def figure_9():
     """Function that recreates the figures of figure 9 in the paper of Sartakhti
     et al., 2018."""
+
     # Make the needed dataframes
     column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
     df_figure_9_no_treatment = pd.DataFrame(columns=column_names)
     df_figure_9_reducing_MM = pd.DataFrame(columns=column_names)
     df_figure_9_increasing_h = pd.DataFrame(columns=column_names)
-
 
     # Reset initial values for each h iteration
     xOC = 0.5
@@ -1930,9 +1887,6 @@ def figure_9():
     save_figure(plt, 'Line_plot_figure_9_increasing_h',
                                     r'..\visualisation\reproduced_results_Sartakhti')
     plt.show()
-
-
-
 
 if __name__ == "__main__":
     main()

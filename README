@@ -50,8 +50,9 @@ data_Sartakhti with all the reproduced data of the paper of Sartakhti et al., 20
 and a folder named ... with ...
 
 THE VISUALISATION
-Data_visualisation.py contains the code to make all the used figures. The data
-utilised for the figures is generated with cancer_model.py.
+Data_visualisation.py contains the code to make all the figures of the paper of
+Sartakhti et al., 2018. The data utilised for the figures is generated with
+cancer_model.py.
 
 In the folder visualisation all made figures are shown. This folder contains a folder
 named reproduced_results_Sartakhti with all the reproduced figures of the paper of
