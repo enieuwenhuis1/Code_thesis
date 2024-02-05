@@ -17,6 +17,8 @@ To run the codes in the code file some libraries need to be installed.
 cancer_model.py:
 * numpy (version 1.26.0)
     - install: pip install numpy==1.26.0
+* pandas (version 2.1.3)
+    - install: pip install pandas==2.1.3
 
 data_visualisation.py:
 * numpy (version 1.26.0)

@@ -34,17 +34,20 @@ def main():
     # # Make the figures in figure 5 in the paper of Sartakhti et al., 2018.
     # figure_5()
 
-    # Make the figures in figure 6 in the paper of Sartakhti et al., 2018.
-    figure_6()
+    # # Make the figures in figure 6 in the paper of Sartakhti et al., 2018.
+    # figure_6()
+    #
+    # # Make the figures in figure 7 in the paper of Sartakhti et al., 2018.
+    # figure_7()
+    #
+    # # Make the figures in figure 8 in the paper of Sartakhti et al., 2018.
+    # figure_8()
 
-    # Make the figures in figure 7 in the paper of Sartakhti et al., 2018.
-    figure_7()
+    # Make the figures in figure 9 in the paper of Sartakhti et al., 2018.
+    figure_9()
 
-    # Make the figures in figure 8 in the paper of Sartakhti et al., 2018.
-    figure_8()
-
-    # Make figure 10 in the paper of Sartakhti et al., 2018.
-    figure_10()
+    # # Make figure 10 in the paper of Sartakhti et al., 2018.
+    # figure_10()
 
 def save_figure(figure, file_name, folder_path):
     """Save the figure to a specific folder.
@@ -76,6 +79,8 @@ def save_ternary(figure, file_name, folder_path):
     os.makedirs(folder_path, exist_ok=True)
     pio.write_image(figure, os.path.join(folder_path, f'{file_name}.png'), format='png')
 
+
+
 """Figure in materials and methods (figure 10)"""
 
 def figure_10():
@@ -102,7 +107,8 @@ def figure_10():
     save_data(df_figure_10, 'data_figure_10.csv', r'..\data\reproduced_data_Sartakhti')
 
     # Collect the dataframe from the csv file
-    data_figure_10 = collect_data('data_figure_10.csv', r'..\data\reproduced_data_Sartakhti')
+    data_figure_10 = collect_data('data_figure_10.csv',
+                                            r'..\data\reproduced_data_Sartakhti')
 
     # Make a plot
     fig, ax = plt.subplots(figsize=(10, 6))
@@ -247,7 +253,8 @@ def figure_1():
             baxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
             caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
     fig.update_layout(title_text='Bistability with linear benefits (figure 1)')
-    save_ternary(fig, 'Ternary_plot_figure_1', r'..\visualisation\reproduced_results_Sartakhti')
+    save_ternary(fig, 'Ternary_plot_figure_1',
+                                r'..\visualisation\reproduced_results_Sartakhti')
     fig.show()
 
 
@@ -317,12 +324,13 @@ def figure_2():
 
     # Show the plot
     plt.tight_layout()
-    save_figure(plt, 'Benefit_curves_figure_2', r'..\visualisation\reproduced_results_Sartakhti')
+    save_figure(plt, 'Benefit_curves_figure_2',
+                                r'..\visualisation\reproduced_results_Sartakhti')
     plt.show()
 
     """Make the ternary plost of figure 2"""
     df_ternary_figure_2 = pd.DataFrame(columns=['Generation', 'xOC', 'xOB', 'xMM',
-                                                                'W_average', 'h_value'])
+                                                            'W_average', 'h_value'])
 
     generations = 500
 
@@ -372,8 +380,8 @@ def figure_2():
 
             # Determine the fitness values
             fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM,
-                                        bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
-                                         bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
+                                bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
+                                bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
 
             # Determine the change of the xOC, xOB, xMM values and W average value
             xOC_change, xOB_change, xMM_change, W_average = calculate_replicator_dynamics(
@@ -381,7 +389,7 @@ def figure_2():
 
             # Add row to DataFrame with 'h_value' column
             new_row = pd.DataFrame([{'Generation': generation, 'xOC': xOC, 'xOB': xOB,
-                                      'xMM': xMM, 'W_average': W_average, 'h_value': h_value}])
+                                'xMM': xMM, 'W_average': W_average, 'h_value': h_value}])
             df_ternary_figure_2 = pd.concat([df_ternary_figure_2 , new_row], ignore_index=True)
 
             # Update xOC, xOB, xMM values
@@ -1665,6 +1673,266 @@ def figure_8():
     save_ternary(fig, 'Ternary_plot_figure_8_linear',
                                     r'..\visualisation\reproduced_results_Sartakhti')
     fig.show()
+
+
+def figure_9():
+    """Function that recreates the figures of figure 9 in the paper of Sartakhti
+    et al., 2018."""
+    # Make the needed dataframes
+    column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
+    df_figure_9_no_treatment = pd.DataFrame(columns=column_names)
+    df_figure_9_reducing_MM = pd.DataFrame(columns=column_names)
+    df_figure_9_increasing_h = pd.DataFrame(columns=column_names)
+
+
+    # Reset initial values for each h iteration
+    xOC = 0.5
+    xOB = 0.4
+    xMM = 0.1
+    N = 10
+    nOC = 5
+    nOB = 4
+    nMM = 1
+
+    # Cost of producing growth factors
+    cOC_value = 0.1
+    cOB_value = 0.2
+    cMM_value = 0.3
+
+    # Maximal benefit values
+    BOC_OC = 0
+    BOC_OB = 1.0
+    BOC_MM = 1.1
+    BOB_OC = 1
+    BOB_OB = 0
+    BOB_MM = 0
+    BMM_OC = 1.1
+    BMM_OB = -0.3
+    BMM_MM = 0
+
+    # Steepness of the function and a random maximal benefit for the demostration
+    s_value = 20
+    h_value = 0.3
+    generations = 100
+
+    # Loop for the number of generations
+    for generation in range(generations):
+        # Calcuate the benefit values
+        bOC_OC = benefit_function(nOC, h_value, BOC_OC, s_value, N)
+        bOB_OC = benefit_function(nOB, h_value, BOB_OC, s_value, N)
+        bMM_OC = benefit_function(nMM, h_value, BMM_OC, s_value, N)
+
+        bOC_OB = benefit_function(nOC, h_value, BOC_OB, s_value, N)
+        bOB_OB = benefit_function(nOB, h_value, BOB_OB, s_value, N)
+        bMM_OB = benefit_function(nMM, h_value, BMM_OB, s_value, N)
+
+        bOC_MM = benefit_function(nOC, h_value, BOC_MM, s_value, N)
+        bOB_MM = benefit_function(nOB, h_value, BOB_MM, s_value, N)
+        bMM_MM = benefit_function(nMM, h_value, BMM_MM, s_value, N)
+
+        # Determine the fitness values
+        fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM,
+                                    bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
+                                     bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
+
+        # Determine the change of the xOC, xOB, xMM values and W average value
+        xOC_change, xOB_change, xMM_change, W_average = calculate_replicator_dynamics(
+                                    xOC, xOB, xMM, fitness_OC, fitness_OB, fitness_MM)
+
+        # Add row to DataFrame with 'h_value' column
+        new_row = pd.DataFrame([{'Generation': generation, 'xOC': xOC, 'xOB': xOB,
+                                  'xMM': xMM, 'W_average': W_average, 'h_value': h_value}])
+        df_figure_9_no_treatment = pd.concat([df_figure_9_no_treatment, new_row], ignore_index=True)
+
+        # Update xOC, xOB, xMM values
+        xOC = max(0, xOC + xOC_change)
+        xOB = max(0, xOB + xOB_change)
+        xMM = max(0, xMM + xMM_change)
+
+    # Save the data as csv file
+    save_data(df_figure_9_no_treatment, 'data_figure_9_no_treatment.csv',
+                                                r'..\data\reproduced_data_Sartakhti')
+
+    # Collect the dataframe from the csv file
+    data_figure_9_no_treatment = collect_data('data_figure_9_no_treatment.csv',
+                                                r'..\data\reproduced_data_Sartakhti')
+
+    # Reset initial values for each h iteration
+    xOC = 0.8
+    xOB = 0.1
+    xMM = 0.1
+    N = 10
+    nOC = 8
+    nOB = 1
+    nMM = 1
+
+    # Steepness of the function and a random maximal benefit for the demostration
+    s_value = 20
+    h_value = 0.3
+
+    # Loop for the number of generations
+    for generation in range(generations):
+        # Calcuate the benefit values
+        bOC_OC = benefit_function(nOC, h_value, BOC_OC, s_value, N)
+        bOB_OC = benefit_function(nOB, h_value, BOB_OC, s_value, N)
+        bMM_OC = benefit_function(nMM, h_value, BMM_OC, s_value, N)
+
+        bOC_OB = benefit_function(nOC, h_value, BOC_OB, s_value, N)
+        bOB_OB = benefit_function(nOB, h_value, BOB_OB, s_value, N)
+        bMM_OB = benefit_function(nMM, h_value, BMM_OB, s_value, N)
+
+        bOC_MM = benefit_function(nOC, h_value, BOC_MM, s_value, N)
+        bOB_MM = benefit_function(nOB, h_value, BOB_MM, s_value, N)
+        bMM_MM = benefit_function(nMM, h_value, BMM_MM, s_value, N)
+
+        # Determine the fitness values
+        fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM,
+                                    bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
+                                     bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
+
+        # Determine the change of the xOC, xOB, xMM values and W average value
+        xOC_change, xOB_change, xMM_change, W_average = calculate_replicator_dynamics(
+                                    xOC, xOB, xMM, fitness_OC, fitness_OB, fitness_MM)
+
+        # Add row to DataFrame with 'h_value' column
+        new_row = pd.DataFrame([{'Generation': generation, 'xOC': xOC, 'xOB': xOB,
+                                  'xMM': xMM, 'W_average': W_average, 'h_value': h_value}])
+        df_figure_9_reducing_MM = pd.concat([df_figure_9_reducing_MM, new_row],
+                                                                ignore_index=True)
+
+        # Update xOC, xOB, xMM values
+        xOC = max(0, xOC + xOC_change)
+        xOB = max(0, xOB + xOB_change)
+        xMM = max(0, xMM + xMM_change)
+
+    # Save the data as csv file
+    save_data(df_figure_9_reducing_MM, 'data_figure_9_reducing_MM.csv',
+                                                r'..\data\reproduced_data_Sartakhti')
+
+    # Collect the dataframe from the csv file
+    data_figure_9_reducing_MM = collect_data('data_figure_9_reducing_MM.csv',
+                                                r'..\data\reproduced_data_Sartakhti')
+
+
+    # Reset initial values for each h iteration
+    xOC = 0.6
+    xOB = 0.01
+    xMM = 0.39
+    N = 10
+    nOC = 6
+    nOB = 0.1
+    nMM = 3.9
+
+    # Steepness of the function and a random maximal benefit for the demostration
+    s_value = 20
+    h_value = 0.7
+
+    # Loop for the number of generations
+    for generation in range(generations):
+        # Calcuate the benefit values
+        bOC_OC = benefit_function(nOC, h_value, BOC_OC, s_value, N)
+        bOB_OC = benefit_function(nOB, h_value, BOB_OC, s_value, N)
+        bMM_OC = benefit_function(nMM, h_value, BMM_OC, s_value, N)
+
+        bOC_OB = benefit_function(nOC, h_value, BOC_OB, s_value, N)
+        bOB_OB = benefit_function(nOB, h_value, BOB_OB, s_value, N)
+        bMM_OB = benefit_function(nMM, h_value, BMM_OB, s_value, N)
+
+        bOC_MM = benefit_function(nOC, h_value, BOC_MM, s_value, N)
+        bOB_MM = benefit_function(nOB, h_value, BOB_MM, s_value, N)
+        bMM_MM = benefit_function(nMM, h_value, BMM_MM, s_value, N)
+
+        # Determine the fitness values
+        fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM,
+                                    bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
+                                     bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
+
+        # Determine the change of the xOC, xOB, xMM values and W average value
+        xOC_change, xOB_change, xMM_change, W_average = calculate_replicator_dynamics(
+                                    xOC, xOB, xMM, fitness_OC, fitness_OB, fitness_MM)
+
+        # Add row to DataFrame with 'h_value' column
+        new_row = pd.DataFrame([{'Generation': generation, 'xOC': xOC, 'xOB': xOB,
+                                  'xMM': xMM, 'W_average': W_average, 'h_value': h_value}])
+        df_figure_9_increasing_h = pd.concat([df_figure_9_increasing_h, new_row],
+                                                                ignore_index=True)
+
+        # Update xOC, xOB, xMM values
+        xOC = max(0, xOC + xOC_change)
+        xOB = max(0, xOB + xOB_change)
+        xMM = max(0, xMM + xMM_change)
+
+    # Save the data as csv file
+    save_data(df_figure_9_increasing_h, 'data_figure_9_increasing_h.csv',
+                                                r'..\data\reproduced_data_Sartakhti')
+
+    # Collect the dataframe from the csv file
+    data_figure_9_increasing_h = collect_data('data_figure_9_increasing_h.csv',
+                                                r'..\data\reproduced_data_Sartakhti')
+
+    # Make a ternary plot to show the effect of a decrease in MM cells
+    fig1 = px.line_ternary(data_figure_9_reducing_MM, a='xOB', b='xMM', c='xOC')
+    fig2 = px.line_ternary(data_figure_9_no_treatment, a='xOB', b='xMM', c='xOC')
+    fig1.update_layout(
+        ternary=dict(
+            aaxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
+            baxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
+            caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
+
+
+    # Add both lines to one ternary plot
+    for trace in fig2.data:
+        fig1.add_trace(trace)
+    fig1.data[0].update(line=dict(color='red'))
+    fig1.data[1].update(line=dict(color='blue'))
+    fig1.update_layout(title_text= 'Reducing MM cells (figure 9)')
+    save_ternary(fig1, 'Ternary_plot_figure_9_reducing_MM',
+                                    r'..\visualisation\reproduced_results_Sartakhti')
+    # fig1.show()
+
+    # Make a line plot of the effect of a decrease in MM cells
+    data_figure_9_reducing_MM.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+    plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
+    plt.xlabel('Generations')
+    plt.ylabel('fitness/ frequency')
+    plt.title('Reducing MM cells (figure 9)')
+    plt.legend()
+    save_figure(plt, 'Line_plot_figure_9_reducing_MM',
+                                    r'..\visualisation\reproduced_results_Sartakhti')
+    plt.show()
+
+    # Make a ternary plot to show the effect of an increase in h
+    fig3 = px.line_ternary(data_figure_9_increasing_h, a='xOB', b='xMM', c='xOC')
+    fig3.update_layout(
+        ternary=dict(
+            aaxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
+            baxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
+            caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
+
+
+    # Add both lines to one ternary plot
+    for trace in fig2.data:
+        fig3.add_trace(trace)
+    fig3.data[0].update(line=dict(color='red'))
+    fig3.data[1].update(line=dict(color='blue'))
+    fig3.update_layout(title_text= 'Increasing h (figure 9)')
+    save_ternary(fig3, 'Ternary_plot_figure_9_increasing_h',
+                                    r'..\visualisation\reproduced_results_Sartakhti')
+    # fig3.show()
+
+    # Make a line plot of the effect of a increase in the h value
+    data_figure_9_increasing_h.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+    plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
+    plt.xlabel('Generations')
+    plt.ylabel('fitness/ frequency')
+    plt.title('Increase of the inflection point h (figure 9)')
+    plt.legend()
+    save_figure(plt, 'Line_plot_figure_9_increasing_h',
+                                    r'..\visualisation\reproduced_results_Sartakhti')
+    plt.show()
+
+
+
 
 if __name__ == "__main__":
     main()

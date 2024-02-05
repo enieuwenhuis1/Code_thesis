@@ -17,6 +17,8 @@ https://doi.org/10.3390/g9020032
 import math
 import numpy as np
 import os
+import pandas as pd
+
 
 """
 The formulas described in the materials and methods (formulas 1 to 10).
@@ -398,8 +400,13 @@ def benefit_function(n_i, h, B_max, s, N):
     >>> benefit_function(4, 0.5, 10, 2, 20)
     0.18480653891012727
     """
-    benefit_value = (sigmoid(n_i, h, B_max, s, N) - sigmoid(0, h, B_max, s, N)) / \
-                        (sigmoid(N, h, B_max, s, N) - sigmoid(0, h, B_max, s, N))
+    # Avoid deviding by zero 
+    if B_max == 0:
+        benefit_value = 0
+    else:
+        benefit_value = (sigmoid(n_i, h, B_max, s, N) - sigmoid(0, h, B_max, s, N)) / \
+                            (sigmoid(N, h, B_max, s, N) - sigmoid(0, h, B_max, s, N))
+
 
     # If the benefit value is nan set it to zero
     if math.isnan(benefit_value):
