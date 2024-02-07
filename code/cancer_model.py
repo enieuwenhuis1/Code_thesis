@@ -136,6 +136,8 @@ def payoff_OC(nOC, nOB, N, bOC_OC, bOB_OC, bMM_OC, cOC):
     """
     VOC = (bOC_OC * (nOC + 1)) + (bOB_OC * nOB) + (bMM_OC * (N - 1 - nOC - nOB)) \
                                                                         - cOC #(2)
+    # VOC = (((bOC_OC * (nOC + 1)) + (bOB_OC * nOB) + (bMM_OC * (N - 1 - nOC - nOB)))/N) \
+    #                                                                     - cOC #(2)
     return VOC
 
 def payoff_OB(nOC, nOB, N, bOC_OB, bOB_OB, bMM_OB, cOB):
@@ -170,6 +172,9 @@ def payoff_OB(nOC, nOB, N, bOC_OB, bOB_OB, bMM_OB, cOB):
     """
     VOB = (bOC_OB * nOC) + (bOB_OB * (nOB + 1)) + (bMM_OB * (N - 1 - nOC - nOB)) \
                                                                         - cOB #(3)
+    # VOB = (((bOC_OB * nOC) + (bOB_OB * (nOB + 1)) + (bMM_OB * (N - 1 - nOC - nOB)))/N) \
+    #                                                                     - cOB #(3)
+
     return VOB
 
 def payoff_MM(nOC, nOB, N, bOC_MM, bOB_MM, bMM_MM, cMM):
@@ -203,6 +208,7 @@ def payoff_MM(nOC, nOB, N, bOC_MM, bOB_MM, bMM_MM, cMM):
     3.4
     """
     VMM = (bOC_MM * nOC) + (bOB_MM * nOB) + (bMM_MM * (N - nOC - nOB)) - cMM #(4)
+    # VMM = (((bOC_MM * nOC) + (bOB_MM * nOB) + (bMM_MM * (N - nOC - nOB))) /N) - cMM
     return VMM
 
 """
@@ -290,11 +296,11 @@ def calculate_fitness(N, xOC, xOB, xMM, bOC_OC, bOB_OC, bMM_OC, cOC, bOC_OB, bOB
 
             # Determine the fitness of the OC, OB and MM cells
             payoff_OC_value = payoff_OC(nOC, nOB, N, bOC_OC, bOB_OC, bMM_OC, cOC)
-            fitness_OC += probability_value * (payoff_OC_value/ N)
+            fitness_OC += probability_value * (payoff_OC_value)
             payoff_OB_value = payoff_OB(nOC, nOB, N, bOC_OB, bOB_OB, bMM_OB, cOB)
-            fitness_OB += probability_value * (payoff_OB_value/N)
+            fitness_OB += probability_value * (payoff_OB_value)
             payoff_MM_value = payoff_MM(nOC, nOB, N, bOC_MM, bOB_MM, bMM_MM, cMM)
-            fitness_MM += probability_value * (payoff_MM_value/N)
+            fitness_MM += probability_value * (payoff_MM_value)
 
     # Normalize the fitness values
     normalization_factor = 1
@@ -349,6 +355,7 @@ def calculate_replicator_dynamics(xOC, xOB, xMM, WOC, WOB, WMM):
     """
     # Determine the average fittness
     W_average = xOC * WOC + xOB * WOB + xMM * WMM
+
 
     # Determine the new frequencies based of replicator dynamics
     xOC_change = xOC * (WOC - W_average) # (6)

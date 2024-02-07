@@ -28,6 +28,8 @@ import plotly.express as px
 from cancer_model import *
 import plotly.io as pio
 from scipy.special import comb
+
+
 # def probability_number_cells(nOC, nOB, N, xOC, xOB, xMM):
 #     """ Function that calulates the probability that a group of cells contains
 #     specific numbers of OC (nOC), OB (nOB), and MM (N - nOC - nOB) cells (1).
@@ -583,6 +585,69 @@ xOB = 0.45
 xMM = 0.05
 
 generations = 50
+
+import numpy as np
+from scipy.integrate import odeint
+import pandas as pd
+
+# Define the differential equations
+def dynamics(variables, t, N, c1, c2, c3, a, b, d):
+    xOC, xOB, xMM = variables
+
+    WOC = fitness_WOC(xOC, xOB, xMM, N, c1, c2, c3, a, b)
+    WOB = fitness_WOB(xOC, xOB, xMM, N, c1, c2, c3, a, d)
+    WMM = fitness_WMM(xOC, xOB, xMM, N, c1, c2, c3, b)
+
+    W_average = xOC * WOC + xOB * WOB + xMM * WMM
+
+    xOC_change = xOC * (WOC - W_average)
+    xOB_change = xOB * (WOB - W_average)
+    xMM_change = xMM * (WMM - W_average)
+
+    dxOCdt = max(0, xOC + xOC_change)
+    dxOBdt = max(0, xOB + xOB_change)
+    dxMMdt = max(0, xMM + xMM_change)
+
+    return [dxOCdt, dxOBdt, dxMMdt]
+
+# Initial values
+xOC_initial = 0.5
+xOB_initial = 0.3
+xMM_initial = 0.2
+a = 1
+b = 2.5
+d = -0.3
+
+N = 10
+c3 = 1.4
+c2 = 1.2
+c1 = 1
+
+# Time points to integrate over
+t = np.linspace(0, generations)  # Adjust this according to your requirement
+
+# Solve the differential equations
+solution = odeint(dynamics, [xOC_initial, xOB_initial, xMM_initial], t, args=(N, c1, c2, c3, a, b, d))
+
+# Create a dataframe to store the solution
+columns = ['Generation', 'xOC', 'xOB', 'xMM']
+df_solution = pd.DataFrame(columns=columns)
+
+# Populate the dataframe
+for i in range(len(t)):
+    new_row = pd.DataFrame([[t[i], solution[i][0], solution[i][1], solution[i][2]]], columns=columns)
+    df_solution = pd.concat([df_solution, new_row], ignore_index=True)
+
+# Plot the results
+import matplotlib.pyplot as plt
+
+plt.plot(df_solution['Generation'], df_solution['xOC'], label='xOC')
+plt.plot(df_solution['Generation'], df_solution['xOB'], label='xOB')
+plt.plot(df_solution['Generation'], df_solution['xMM'], label='xMM')
+plt.xlabel('Generation')
+plt.ylabel('Frequency')
+plt.legend()
+plt.show()
 
 column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
 df_figure_2_first_line = pd.DataFrame(columns=column_names)

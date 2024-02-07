@@ -17,37 +17,39 @@ import plotly.graph_objects as go
 import plotly.express as px
 from cancer_model import *
 import plotly.io as pio
+from scipy.integrate import odeint
+
 
 def main():
     # Make figure 1 in the paper of Sartakhti et al., 2018.
     figure_1()
 
     # Make the figures in figure 2 in the paper of Sartakhti et al., 2018.
-    # figure_2()
-    #
+    figure_2()
+
     # Make the figures in figure 3 in the paper of Sartakhti et al., 2018.
-    # figure_3()
+    figure_3()
 
     # Make the figures in figure 4 in the paper of Sartakhti et al., 2018.
-    # figure_4()
+    figure_4()
 
-    # # Make the figures in figure 5 in the paper of Sartakhti et al., 2018.
-    # figure_5()
+    # Make the figures in figure 5 in the paper of Sartakhti et al., 2018.
+    figure_5()
 
-    # # Make the figures in figure 6 in the paper of Sartakhti et al., 2018.
-    # figure_6()
-    #
-    # # Make the figures in figure 7 in the paper of Sartakhti et al., 2018.
-    # figure_7()
-    #
-    # # Make the figures in figure 8 in the paper of Sartakhti et al., 2018.
-    # figure_8()
+    # Make the figures in figure 6 in the paper of Sartakhti et al., 2018.
+    figure_6()
+
+    # Make the figures in figure 7 in the paper of Sartakhti et al., 2018.
+    figure_7()
+
+    # Make the figures in figure 8 in the paper of Sartakhti et al., 2018.
+    figure_8()
 
     # Make the figures in figure 9 in the paper of Sartakhti et al., 2018.
-    # figure_9()
+    figure_9()
 
-    # # Make figure 10 in the paper of Sartakhti et al., 2018.
-    # figure_10()
+    # Make figure 10 in the paper of Sartakhti et al., 2018.
+    figure_10()
 
 def save_figure(figure, file_name, folder_path):
     """Save the figure to a specific folder.
@@ -142,6 +144,139 @@ I want to recreate figure 1 here but I don't know how to do that.
     N stay te same number over different generations of does it become bigger.
 5. And is fitness the average fitness or just one of the cell types?
 """
+
+def dynamics_same_h_and_s(y, t, parameters):
+    """Determines the frequenty dynamics in a population over time. The h value and s
+    value are for all interactions the same.
+
+    Parameters:
+    -----------
+    y : list
+        Current state of the system, containing the frequencies and counts of each strategy.
+        y = [xOC, xOB, xMM, nOC, nOB, nMM], where:
+            xOC, xOB, xMM : float
+                Frequencies of strategies OC, OB, and MM, respectively, ranging from 0 to 1.
+            nOC, nOB, nMM : int
+                Counts of individuals following strategies OC, OB, and MM, respectively.
+    t : float
+        Current time in the simulation.
+    parameters : tuple
+        Tuple containing parameters required for computation.
+        parameters = (N, h, s, BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM, cOC_value, cOB_value, cMM_value), where:
+            N : int
+                Total population size.
+            h : float
+                Inflection point value.
+            s : float
+                Steepness of the inflection points.
+            BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM : float
+                Maximal benefit values
+    """
+    xOC, xOB, xMM = y
+    N, h, s, BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM, cOC_value, cOB_value, cMM_value = parameters
+
+    nOC = xOC * N
+    nOB = xOB * N
+    nMM = xMM * N
+
+    # Calculate the benefit values
+    bOC_OC = benefit_function(nOC, h, BOC_OC, s, N)
+    bOB_OC = benefit_function(nOB, h, BOB_OC, s, N)
+    bMM_OC = benefit_function(nMM, h, BMM_OC, s, N)
+
+    bOC_OB = benefit_function(nOC, h, BOC_OB, s, N)
+    bOB_OB = benefit_function(nOB, h, BOB_OB, s, N)
+    bMM_OB = benefit_function(nMM, h, BMM_OB, s, N)
+
+    bOC_MM = benefit_function(nOC, h, BOC_MM, s, N)
+    bOB_MM = benefit_function(nOB, h, BOB_MM, s, N)
+    bMM_MM = benefit_function(nMM, h, BMM_MM, s, N)
+
+    # Determine the fitness values
+    fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM, bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB, bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
+
+    # Determine the change of the xOC, xOB, xMM values and W average value
+    xOC_change, xOB_change, xMM_change, W_average = calculate_replicator_dynamics(
+                                xOC, xOB, xMM, fitness_OC, fitness_OB, fitness_MM)
+
+    return [xOC_change, xOB_change, xMM_change]
+
+def dynamics_different_h_and_s(y, t, parameters):
+    """
+    Simulate the dynamics of a population with three strategies over time. The s and
+    h value is deppendent on the interaction kind.
+
+    Parameters:
+    -----------
+    y : list
+        Current state of the system, containing the frequencies of each strategy.
+        y = [xOC, xOB, xMM], where:
+            xOC, xOB, xMM : float
+                Frequencies of strategies OC, OB, and MM, respectively, ranging from 0 to 1.
+    t : numpy.ndarray
+        Array of time points at which the system is evaluated.
+    parameters : tuple
+        Tuple containing parameters required for computation.
+        parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC, hMM_OB, hMM_MM,
+                      sOC_OC, sOC_OB, sOC_MM, sOB_OC, sOB_OB, sOB_MM, sMM_OC, sMM_OB, sMM_MM,
+                      BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM,
+                      cOC_value, cOB_value, cMM_value), where:
+            N : int
+                Total population size.
+            hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC, hMM_OB, hMM_MM : float
+                Values of h for each interaction between strategies.
+            sOC_OC, sOC_OB, sOC_MM, sOB_OC, sOB_OB, sOB_MM, sMM_OC, sMM_OB, sMM_MM : float
+                Values of s for each interaction between strategies.
+            BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM : float
+                Benefit values for each interaction between strategies.
+            cOC_value, cOB_value, cMM_value : float
+                Cost values associated with each strategy.
+
+    Returns:
+    --------
+    list
+        List containing the changes in frequencies of each strategy.
+        [xOC_change, xOB_change, xMM_change], where:
+            xOC_change, xOB_change, xMM_change : float
+                Changes in frequencies of strategies OC, OB, and MM, respectively.
+    """
+    # Unpack state variables and parameters
+    xOC, xOB, xMM = y
+    N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC, hMM_OB, hMM_MM, \
+    sOC_OC, sOC_OB, sOC_MM, sOB_OC, sOB_OB, sOB_MM, sMM_OC, sMM_OB, sMM_MM, \
+    BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM, \
+    cOC_value, cOB_value, cMM_value = parameters
+
+    # Calculate the number of individuals following each strategy
+    nOC = xOC * N
+    nOB = xOB * N
+    nMM = xMM * N
+
+    # Calculate benefit values for each interaction
+    bOC_OC = benefit_function(nOC, hOC_OC, BOC_OC, sOC_OC, N)
+    bOB_OC = benefit_function(nOB, hOB_OC, BOB_OC, sOB_OC, N)
+    bMM_OC = benefit_function(nMM, hMM_OC, BMM_OC, sMM_OC, N)
+
+    bOC_OB = benefit_function(nOC, hOC_OB, BOC_OB, sOC_OB, N)
+    bOB_OB = benefit_function(nOB, hOB_OB, BOB_OB, sOB_OB, N)
+    bMM_OB = benefit_function(nMM, hMM_OB, BMM_OB, sMM_OB, N)
+
+    bOC_MM = benefit_function(nOC, hOC_MM, BOC_MM, sOC_MM, N)
+    bOB_MM = benefit_function(nOB, hOB_MM, BOB_MM, sOB_MM, N)
+    bMM_MM = benefit_function(nMM, hMM_MM, BMM_MM, sMM_MM, N)
+
+    # Determine fitness values for each strategy
+    fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM,
+                                bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
+                                 bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
+
+    # Determine changes in strategy frequencies
+    xOC_change, xOB_change, xMM_change, _ = calculate_replicator_dynamics(
+                                xOC, xOB, xMM, fitness_OC, fitness_OB, fitness_MM)
+
+    return [xOC_change, xOB_change, xMM_change]
+
+
 def figure_1():
     """Function that recreates figure 1 in the paper of Sartakhti et al., 2018."""
     # Number of cells
@@ -168,60 +303,25 @@ def figure_1():
     h = 0.7
 
     # Initial frequencies and values --> are needed to make a plot but are not mentioned
-    xOC = 0.2
+    xOC = 0.1
     xOB = 0.3
-    xMM = 0.5
+    xMM = 0.6
 
-    nOC = 2
+    nOC = 1
     nOB = 3
-    nMM = 5
+    nMM = 6
 
-    # Simulation parameters
-    generations = 200
+    # Set initial condition and parameters
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, h, s, BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM, cOC_value, cOB_value, cMM_value)
+    t = np.linspace(0, 50, 50)
 
-    column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
-    df_figure_1 = pd.DataFrame(columns=column_names)
+    # Solve ODE
+    y = odeint(dynamics_same_h_and_s, y0, t, args=(parameters,))
 
-    # Run simulation
-    for generation in range(generations):
-
-        # Calculate the benefit values
-        bOC_OC = benefit_function(nOC, h, BOC_OC, s, N)
-        bOB_OC = benefit_function(nOB, h, BOB_OC, s, N)
-        bMM_OC = benefit_function(nMM, h, BMM_OC, s, N)
-
-        bOC_OB = benefit_function(nOC, h, BOC_OB, s, N)
-        bOB_OB = benefit_function(nOB, h, BOB_OB, s, N)
-        bMM_OB = benefit_function(nMM, h, BMM_OB, s, N)
-
-        bOC_MM = benefit_function(nOC, h, BOC_MM, s, N)
-        bOB_MM = benefit_function(nOB, h, BOB_MM, s, N)
-        bMM_MM = benefit_function(nMM, h, BMM_MM, s, N)
-
-        # Determine the fitness values
-        fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM, bOC_OC,
-                                    bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB, bMM_OB,
-                                    cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
-
-        # Determine the change of the xOC, xOB, xMM values and W average value
-        xOC_change, xOB_change, xMM_change, W_average = calculate_replicator_dynamics(
-                                    xOC, xOB, xMM, fitness_OC, fitness_OB, fitness_MM)
-
-        # Add row to dataframe (first add row and the update because then also the
-        # beginning values get added to the dataframe at generation =0)
-        new_row = pd.DataFrame([{'Generation':generation, 'xOC': xOC, 'xOB': xOB,
-                                                'xMM': xMM, 'W_average': W_average}])
-        df_figure_1 = pd.concat([df_figure_1, new_row], ignore_index=True)
-
-        # Update the xOC, xOB, xMM values
-        xOC = max(0, xOC + xOC_change)
-        xOB = max(0, xOB + xOB_change)
-        xMM = max(0, xMM + xMM_change)
-
-        """# Do the nOC,nOB and nMM need to be updated ?"""
-        # nOC = int(xOC * N)
-        # nOB = int(xOB * N)
-        # nMM = int(xMM * N)
+    # Extract the solution and create dataframe
+    xOC_values, xOB_values, xMM_values = y[:, 0], y[:, 1], y[:, 2]
+    df_figure_1 = pd.DataFrame({'Generation': t, 'xOC': xOC_values, 'xOB': xOB_values, 'xMM': xMM_values})
 
     # Save the data as csv file
     save_data(df_figure_1, 'data_figure_1.csv', r'..\data\reproduced_data_Sartakhti')
@@ -230,7 +330,7 @@ def figure_1():
     data_figure_1 = collect_data('data_figure_1.csv', r'..\data\reproduced_data_Sartakhti')
 
     # Make a plot
-    data_figure_1.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+    data_figure_1.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -324,10 +424,7 @@ def figure_2():
     plt.show()
 
     """Make the ternary plost of figure 2"""
-    df_ternary_figure_2 = pd.DataFrame(columns=['Generation', 'xOC', 'xOB', 'xMM',
-                                                            'W_average', 'h_value'])
-
-    generations = 500
+    df_ternary_figure_2 = pd.DataFrame(columns=['Generation', 'xOC', 'xOB', 'xMM', 'h_value'])
 
     # Loop over the inflection point values
     for h_value in h_values:
@@ -358,40 +455,58 @@ def figure_2():
 
         # Steepness of the function at the inflection point
         s_value = 20
+        generations = 100
 
-        # Loop for the number of generations
-        for generation in range(generations):
-            # Calcuate the benefit values
-            bOC_OC = benefit_function(nOC, h_value, BOC_OC, s_value, N)
-            bOB_OC = benefit_function(nOB, h_value, BOB_OC, s_value, N)
-            bMM_OC = benefit_function(nMM, h_value, BMM_OC, s_value, N)
+        # Set initial condition and parameters
+        y0 = [xOC, xOB, xMM]
+        parameters = (N, h_value, s_value, BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM, cOC_value, cOB_value, cMM_value)
+        t = np.linspace(0, 200)
 
-            bOC_OB = benefit_function(nOC, h_value, BOC_OB, s_value, N)
-            bOB_OB = benefit_function(nOB, h_value, BOB_OB, s_value, N)
-            bMM_OB = benefit_function(nMM, h_value, BMM_OB, s_value, N)
+        # Solve ODE
+        y = odeint(dynamics_same_h_and_s, y0, t, args=(parameters,))
 
-            bOC_MM = benefit_function(nOC, h_value, BOC_MM, s_value, N)
-            bOB_MM = benefit_function(nOB, h_value, BOB_MM, s_value, N)
-            bMM_MM = benefit_function(nMM, h_value, BMM_MM, s_value, N)
+        # Extract the solution and create dataframe
+        xOC_values, xOB_values, xMM_values = y[:, 0], y[:, 1], y[:, 2]
+        df = pd.DataFrame({'Generation': t, 'xOC': xOC_values, 'xOB': xOB_values, 'xMM': xMM_values})
+        df['h_value'] = h_value
+        df_ternary_figure_2 = pd.concat([df, df_ternary_figure_2], ignore_index=True)
 
-            # Determine the fitness values
-            fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM,
-                                bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
-                                bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
 
-            # Determine the change of the xOC, xOB, xMM values and W average value
-            xOC_change, xOB_change, xMM_change, W_average = calculate_replicator_dynamics(
-                                        xOC, xOB, xMM, fitness_OC, fitness_OB, fitness_MM)
 
-            # Add row to DataFrame with 'h_value' column
-            new_row = pd.DataFrame([{'Generation': generation, 'xOC': xOC, 'xOB': xOB,
-                                'xMM': xMM, 'W_average': W_average, 'h_value': h_value}])
-            df_ternary_figure_2 = pd.concat([df_ternary_figure_2 , new_row], ignore_index=True)
-
-            # Update xOC, xOB, xMM values
-            xOC = max(0, xOC + xOC_change)
-            xOB = max(0, xOB + xOB_change)
-            xMM = max(0, xMM + xMM_change)
+        # # Loop for the number of generations
+        # for generation in range(generations):
+        #     # Calcuate the benefit values
+        #     bOC_OC = benefit_function(nOC, h_value, BOC_OC, s_value, N)
+        #     bOB_OC = benefit_function(nOB, h_value, BOB_OC, s_value, N)
+        #     bMM_OC = benefit_function(nMM, h_value, BMM_OC, s_value, N)
+        #
+        #     bOC_OB = benefit_function(nOC, h_value, BOC_OB, s_value, N)
+        #     bOB_OB = benefit_function(nOB, h_value, BOB_OB, s_value, N)
+        #     bMM_OB = benefit_function(nMM, h_value, BMM_OB, s_value, N)
+        #
+        #     bOC_MM = benefit_function(nOC, h_value, BOC_MM, s_value, N)
+        #     bOB_MM = benefit_function(nOB, h_value, BOB_MM, s_value, N)
+        #     bMM_MM = benefit_function(nMM, h_value, BMM_MM, s_value, N)
+        #
+        #     # Determine the fitness values
+        #     fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM,
+        #                         bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
+        #                         bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
+        #
+        #     # Determine the change of the xOC, xOB, xMM values and W average value
+        #     xOC_change, xOB_change, xMM_change, W_average = calculate_replicator_dynamics(
+        #                                 xOC, xOB, xMM, fitness_OC, fitness_OB, fitness_MM)
+        #
+        #     # Add row to DataFrame with 'h_value' column
+        #     new_row = pd.DataFrame([{'Generation': generation, 'xOC': xOC, 'xOB': xOB,
+        #                         'xMM': xMM, 'h_value': h_value}])
+        #     df_ternary_figure_2 = pd.concat([df_ternary_figure_2 , new_row], ignore_index=True)
+        #
+        #
+        #     # Update xOC, xOB, xMM values
+        #     xOC = max(0, xOC + xOC_change)
+        #     xOB = max(0, xOB + xOB_change)
+        #     xMM = max(0, xMM + xMM_change)
 
     # Save the data as csv file
     save_data(df_ternary_figure_2, 'data_ternary_figure_2.csv',
@@ -465,100 +580,52 @@ def figure_3():
 
     # Initial frequencies and values --> are needed to make a plot but are not mentioned
     xOC = 0.2
-    xOB = 0.4
-    xMM = 0.4
+    xOB = 0.2
+    xMM = 0.6
     nOC = 5
-    nOB = 10
-    nMM = 10
-    generations = 100
+    nOB = 5
+    nMM = 15
 
-    column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
-    df_figure_3_non_linear = pd.DataFrame(columns=column_names)
+    # Set initial condition and parameters
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC, hMM_OB, hMM_MM, \
+    sOC_OC, sOC_OB, sOC_MM, sOB_OC, sOB_OB, sOB_MM, sMM_OC, sMM_OB, sMM_MM, \
+    BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM, \
+    cOC_value, cOB_value, cMM_value)
+    t = np.linspace(0, 100)
 
-    # Run simulation with non linear benefist
-    for generation in range(generations):
+    # Solve ODE
+    y = odeint(dynamics_different_h_and_s, y0, t, args=(parameters,))
 
-        # Calcuate the benefit values
-        bOC_OC = benefit_function(nOC, hOC_OC, BOC_OC, sOC_OC, N)
-        bOB_OC = benefit_function(nOB, hOB_OC, BOB_OC, sOB_OC, N)
-        bMM_OC = benefit_function(nMM, hMM_OC, BMM_OC, sMM_OC, N)
-
-        bOC_OB = benefit_function(nOC, hOC_OB, BOC_OB, sOC_OB, N)
-        bOB_OB = benefit_function(nOB, hOB_OB, BOB_OB, sOB_OB, N)
-        bMM_OB = benefit_function(nMM, hMM_OB, BMM_OB, sMM_OB, N)
-
-        bOC_MM = benefit_function(nOC, hOC_MM, BOC_MM, sOC_MM, N)
-        bOB_MM = benefit_function(nOB, hOB_MM, BOB_MM, sOB_MM, N)
-        bMM_MM = benefit_function(nMM, hMM_MM, BMM_MM, sMM_MM, N)
-
-        # Determine the fitness values
-        fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM,
-                                    bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
-                                     bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
-
-        # Determine the change of the xOC, xOB, xMM values and W average value
-        xOC_change, xOB_change, xMM_change, W_average = calculate_replicator_dynamics(
-                                    xOC, xOB, xMM, fitness_OC, fitness_OB, fitness_MM)
-
-        # Add row to dataframe
-        new_row = pd.DataFrame([{'Generation':generation, 'xOC': xOC, 'xOB': xOB,
-                                                'xMM': xMM, 'W_average': W_average}])
-        df_figure_3_non_linear = pd.concat([df_figure_3_non_linear, new_row],
-                                                                    ignore_index=True)
-
-        # Update xOC, xOB, xMM values
-        xOC = max(0, xOC + xOC_change)
-        xOB = max(0, xOB + xOB_change)
-        xMM = max(0, xMM + xMM_change)
+    # Extract the solution and create dataframe
+    xOC_values, xOB_values, xMM_values = y[:, 0], y[:, 1], y[:, 2]
+    df_figure_3_non_linear = pd.DataFrame({'Generation': t, 'xOC': xOC_values, 'xOB': xOB_values, 'xMM': xMM_values})
 
     # Initial frequencies and values --> are needed to make a plot but are not mentioned
     xOC = 0.2
-    xOB = 0.4
-    xMM = 0.4
+    xOB = 0.2
+    xMM = 0.6
     nOC = 5
-    nOB = 10
-    nMM = 10
+    nOB = 5
+    nMM = 15
 
-    s_linear = 0.0001
-    generations = 100
 
-    column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
-    df_figure_3_linear = pd.DataFrame(columns=column_names)
+    s_linear = 1e-10
 
-    # Run simulation with linear benefits
-    for generation in range(generations):
+    # Set initial condition and parameters
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC, hMM_OB, hMM_MM, \
+    s_linear, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear, \
+    BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM, \
+    cOC_value, cOB_value, cMM_value)
+    t = np.linspace(0, 100)
 
-        # Calcuate the benefit values
-        bOC_OC = benefit_function(nOC, hOC_OC, BOC_OC, s_linear, N)
-        bOB_OC = benefit_function(nOB, hOB_OC, BOB_OC, s_linear, N)
-        bMM_OC = benefit_function(nMM, hMM_OC, BMM_OC, s_linear, N)
+    # Solve ODE
+    y = odeint(dynamics_different_h_and_s, y0, t, args=(parameters,))
 
-        bOC_OB = benefit_function(nOC, hOC_OB, BOC_OB, s_linear, N)
-        bOB_OB = benefit_function(nOB, hOB_OB, BOB_OB, s_linear, N)
-        bMM_OB = benefit_function(nMM, hMM_OB, BMM_OB, s_linear, N)
-
-        bOC_MM = benefit_function(nOC, hOC_MM, BOC_MM, s_linear, N)
-        bOB_MM = benefit_function(nOB, hOB_MM, BOB_MM, s_linear, N)
-        bMM_MM = benefit_function(nMM, hMM_MM, BMM_MM, s_linear, N)
-
-        # Determine the fitness values
-        fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM,
-                                    bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
-                                     bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
-
-        # Determine the change of the xOC, xOB, xMM values and W average value
-        xOC_change, xOB_change, xMM_change, W_average = calculate_replicator_dynamics(
-                                    xOC, xOB, xMM, fitness_OC, fitness_OB, fitness_MM)
-
-        # Add row to dataframe
-        new_row = pd.DataFrame([{'Generation':generation, 'xOC': xOC, 'xOB': xOB,
-                                                'xMM': xMM, 'W_average': W_average}])
-        df_figure_3_linear = pd.concat([df_figure_3_linear, new_row], ignore_index=True)
-
-        # Update xOC, xOB, xMM values
-        xOC = max(0, xOC + xOC_change)
-        xOB = max(0, xOB + xOB_change)
-        xMM = max(0, xMM + xMM_change)
+    # Extract the solution and create dataframe
+    xOC_values, xOB_values, xMM_values = y[:, 0], y[:, 1], y[:, 2]
+    df_figure_3_linear = pd.DataFrame({'Generation': t, 'xOC': xOC_values, 'xOB': xOB_values, 'xMM': xMM_values})
 
     # Save the data as csv file
     save_data(df_figure_3_non_linear, 'data_figure_3_non_linear.csv',
@@ -573,7 +640,7 @@ def figure_3():
                                                 r'..\data\reproduced_data_Sartakhti')
 
     # Make a line plot of non-linear data
-    data_figure_3_non_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+    data_figure_3_non_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('fitness/ frequency')
@@ -596,7 +663,7 @@ def figure_3():
     fig.show()
 
     # Make a line plot of linear data
-    data_figure_3_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+    data_figure_3_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('fitness/ frequency')
@@ -670,45 +737,20 @@ def figure_4():
     nOC = 4
     nOB = 10
     nMM = 6
-    generations = 100
+    # Set initial condition and parameters
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC, hMM_OB, hMM_MM, \
+    sOC_OC, sOC_OB, sOC_MM, sOB_OC, sOB_OB, sOB_MM, sMM_OC, sMM_OB, sMM_MM, \
+    BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM, \
+    cOC_value, cOB_value, cMM_value)
+    t = np.linspace(0, 100)
 
-    column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
-    df_figure_4_non_linear = pd.DataFrame(columns=column_names)
+    # Solve ODE
+    y = odeint(dynamics_different_h_and_s, y0, t, args=(parameters,))
 
-    # Run simulation with non linear benefist
-    for generation in range(generations):
-
-        # Calcuate the benefit values
-        bOC_OC = benefit_function(nOC, hOC_OC, BOC_OC, sOC_OC, N)
-        bOB_OC = benefit_function(nOB, hOB_OC, BOB_OC, sOB_OC, N)
-        bMM_OC = benefit_function(nMM, hMM_OC, BMM_OC, sMM_OC, N)
-
-        bOC_OB = benefit_function(nOC, hOC_OB, BOC_OB, sOC_OB, N)
-        bOB_OB = benefit_function(nOB, hOB_OB, BOB_OB, sOB_OB, N)
-        bMM_OB = benefit_function(nMM, hMM_OB, BMM_OB, sMM_OB, N)
-
-        bOC_MM = benefit_function(nOC, hOC_MM, BOC_MM, sOC_MM, N)
-        bOB_MM = benefit_function(nOB, hOB_MM, BOB_MM, sOB_MM, N)
-        bMM_MM = benefit_function(nMM, hMM_MM, BMM_MM, sMM_MM, N)
-
-        # Determine the fitness values
-        fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM,
-                                    bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
-                                     bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
-
-        # Determine the change of the xOC, xOB, xMM values and W average value
-        xOC_change, xOB_change, xMM_change, W_average = calculate_replicator_dynamics(
-                                    xOC, xOB, xMM, fitness_OC, fitness_OB, fitness_MM)
-
-        # Add row to dataframe
-        new_row = pd.DataFrame([{'Generation':generation, 'xOC': xOC, 'xOB': xOB,
-                                                'xMM': xMM, 'W_average': W_average}])
-        df_figure_4_non_linear = pd.concat([df_figure_4_non_linear, new_row], ignore_index=True)
-
-        # Update xOC, xOB, xMM values
-        xOC = max(0, xOC + xOC_change)
-        xOB = max(0, xOB + xOB_change)
-        xMM = max(0, xMM + xMM_change)
+    # Extract the solution and create dataframe
+    xOC_values, xOB_values, xMM_values = y[:, 0], y[:, 1], y[:, 2]
+    df_figure_4_non_linear = pd.DataFrame({'Generation': t, 'xOC': xOC_values, 'xOB': xOB_values, 'xMM': xMM_values})
 
     # Initial frequencies and values --> are needed to make a plot but are not mentioned
     xOC = 0.2
@@ -717,46 +759,34 @@ def figure_4():
     nOC = 4
     nOB = 10
     nMM = 6
-    s_linear = 0.0001
-    generations = 100
 
-    column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
-    df_figure_4_linear = pd.DataFrame(columns=column_names)
+    s_linear = 10e-10
+    # Set initial condition and parameters
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC, hMM_OB, hMM_MM, \
+    s_linear, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear, \
+    BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM, \
+    cOC_value, cOB_value, cMM_value)
+    t = np.linspace(0, 100)
 
-    # Run simulation with linear benefits
-    for generation in range(generations):
+    # Solve ODE
+    y = odeint(dynamics_different_h_and_s, y0, t, args=(parameters,))
 
-        # Calcuate the benefit values
-        bOC_OC = benefit_function(nOC, hOC_OC, BOC_OC, s_linear, N)
-        bOB_OC = benefit_function(nOB, hOB_OC, BOB_OC, s_linear, N)
-        bMM_OC = benefit_function(nMM, hMM_OC, BMM_OC, s_linear, N)
+    # Set initial condition and parameters
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC, hMM_OB, hMM_MM, \
+    sOC_OC, sOC_OB, sOC_MM, sOB_OC, sOB_OB, sOB_MM, sMM_OC, sMM_OB, sMM_MM, \
+    BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM, \
+    cOC_value, cOB_value, cMM_value)
+    t = np.linspace(0, 100)
 
-        bOC_OB = benefit_function(nOC, hOC_OB, BOC_OB, s_linear, N)
-        bOB_OB = benefit_function(nOB, hOB_OB, BOB_OB, s_linear, N)
-        bMM_OB = benefit_function(nMM, hMM_OB, BMM_OB, s_linear, N)
+    # Solve ODE
+    y = odeint(dynamics_different_h_and_s, y0, t, args=(parameters,))
 
-        bOC_MM = benefit_function(nOC, hOC_MM, BOC_MM, s_linear, N)
-        bOB_MM = benefit_function(nOB, hOB_MM, BOB_MM, s_linear, N)
-        bMM_MM = benefit_function(nMM, hMM_MM, BMM_MM, s_linear, N)
+    # Extract the solution and create dataframe
+    xOC_values, xOB_values, xMM_values = y[:, 0], y[:, 1], y[:, 2]
+    df_figure_4_linear = pd.DataFrame({'Generation': t, 'xOC': xOC_values, 'xOB': xOB_values, 'xMM': xMM_values})
 
-        # Determine the fitness values
-        fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM,
-                                    bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
-                                     bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
-
-        # Determine the change of the xOC, xOB, xMM values and W average value
-        xOC_change, xOB_change, xMM_change, W_average = calculate_replicator_dynamics(
-                                    xOC, xOB, xMM, fitness_OC, fitness_OB, fitness_MM)
-
-        # Add row to dataframe
-        new_row = pd.DataFrame([{'Generation':generation, 'xOC': xOC, 'xOB': xOB,
-                                                'xMM': xMM, 'W_average': W_average}])
-        df_figure_4_linear = pd.concat([df_figure_4_linear, new_row], ignore_index=True)
-
-        # Update xOC, xOB, xMM values
-        xOC = max(0, xOC + xOC_change)
-        xOB = max(0, xOB + xOB_change)
-        xMM = max(0, xMM + xMM_change)
 
     # Save the data as csv file
     save_data(df_figure_4_non_linear, 'data_figure_4_non_linear.csv',
@@ -771,7 +801,7 @@ def figure_4():
                                                 r'..\data\reproduced_data_Sartakhti')
 
     # Make a line plot of non-linear data
-    data_figure_4_non_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+    data_figure_4_non_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('fitness/ frequency')
@@ -794,7 +824,7 @@ def figure_4():
     fig.show()
 
     # Make a line plot of linear data
-    data_figure_4_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+    data_figure_4_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('fitness/ frequency')
@@ -869,46 +899,21 @@ def figure_5():
     nOC = 4
     nOB = 10
     nMM = 6
-    generations = 100
 
-    column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
-    df_figure_5_non_linear = pd.DataFrame(columns=column_names)
+    # Set initial condition and parameters
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC, hMM_OB, hMM_MM, \
+    sOC_OC, sOC_OB, sOC_MM, sOB_OC, sOB_OB, sOB_MM, sMM_OC, sMM_OB, sMM_MM, \
+    BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM, \
+    cOC_value, cOB_value, cMM_value)
+    t = np.linspace(0, 100)
 
-    # Run simulation with non linear benefist
-    for generation in range(generations):
+    # Solve ODE
+    y = odeint(dynamics_different_h_and_s, y0, t, args=(parameters,))
 
-        # Calcuate the benefit values
-        bOC_OC = benefit_function(nOC, hOC_OC, BOC_OC, sOC_OC, N)
-        bOB_OC = benefit_function(nOB, hOB_OC, BOB_OC, sOB_OC, N)
-        bMM_OC = benefit_function(nMM, hMM_OC, BMM_OC, sMM_OC, N)
-
-        bOC_OB = benefit_function(nOC, hOC_OB, BOC_OB, sOC_OB, N)
-        bOB_OB = benefit_function(nOB, hOB_OB, BOB_OB, sOB_OB, N)
-        bMM_OB = benefit_function(nMM, hMM_OB, BMM_OB, sMM_OB, N)
-
-        bOC_MM = benefit_function(nOC, hOC_MM, BOC_MM, sOC_MM, N)
-        bOB_MM = benefit_function(nOB, hOB_MM, BOB_MM, sOB_MM, N)
-        bMM_MM = benefit_function(nMM, hMM_MM, BMM_MM, sMM_MM, N)
-
-        # Determine the fitness values
-        fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM,
-                                    bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
-                                     bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
-
-        # Determine the change of the xOC, xOB, xMM values and W average value
-        xOC_change, xOB_change, xMM_change, W_average = calculate_replicator_dynamics(
-                                    xOC, xOB, xMM, fitness_OC, fitness_OB, fitness_MM)
-
-        # Add row to dataframe
-        new_row = pd.DataFrame([{'Generation':generation, 'xOC': xOC, 'xOB': xOB,
-                                                'xMM': xMM, 'W_average': W_average}])
-        df_figure_5_non_linear = pd.concat([df_figure_5_non_linear, new_row],
-                                                                    ignore_index=True)
-
-        # Update xOC, xOB, xMM values
-        xOC = max(0, xOC + xOC_change)
-        xOB = max(0, xOB + xOB_change)
-        xMM = max(0, xMM + xMM_change)
+    # Extract the solution and create dataframe
+    xOC_values, xOB_values, xMM_values = y[:, 0], y[:, 1], y[:, 2]
+    df_figure_5_non_linear = pd.DataFrame({'Generation': t, 'xOC': xOC_values, 'xOB': xOB_values, 'xMM': xMM_values})
 
     # Initial frequencies and values --> are needed to make a plot but are not mentioned
     xOC = 0.2
@@ -918,46 +923,22 @@ def figure_5():
     nOC = 4
     nOB = 10
     nMM = 6
-    s_linear = 0.0001
-    generations = 100
 
-    column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
-    df_figure_5_linear = pd.DataFrame(columns=column_names)
+    s_linear = 10e-10
+    # Set initial condition and parameters
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC, hMM_OB, hMM_MM, \
+    s_linear, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear, \
+    BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM, \
+    cOC_value, cOB_value, cMM_value)
+    t = np.linspace(0, 100)
 
-    # Run simulation with linear benefits
-    for generation in range(generations):
+    # Solve ODE
+    y = odeint(dynamics_different_h_and_s, y0, t, args=(parameters,))
 
-        # Calcuate the benefit values
-        bOC_OC = benefit_function(nOC, hOC_OC, BOC_OC, s_linear, N)
-        bOB_OC = benefit_function(nOB, hOB_OC, BOB_OC, s_linear, N)
-        bMM_OC = benefit_function(nMM, hMM_OC, BMM_OC, s_linear, N)
-
-        bOC_OB = benefit_function(nOC, hOC_OB, BOC_OB, s_linear, N)
-        bOB_OB = benefit_function(nOB, hOB_OB, BOB_OB, s_linear, N)
-        bMM_OB = benefit_function(nMM, hMM_OB, BMM_OB, s_linear, N)
-
-        bOC_MM = benefit_function(nOC, hOC_MM, BOC_MM, s_linear, N)
-        bOB_MM = benefit_function(nOB, hOB_MM, BOB_MM, s_linear, N)
-        bMM_MM = benefit_function(nMM, hMM_MM, BMM_MM, s_linear, N)
-
-        # Determine the fitness values
-        fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM,
-                                    bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
-                                     bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
-
-        # Determine the change of the xOC, xOB, xMM values and W average value
-        xOC_change, xOB_change, xMM_change, W_average = calculate_replicator_dynamics(
-                                    xOC, xOB, xMM, fitness_OC, fitness_OB, fitness_MM)
-
-        # Add row to dataframe
-        new_row = pd.DataFrame([{'Generation':generation, 'xOC': xOC, 'xOB': xOB,
-                                                'xMM': xMM, 'W_average': W_average}])
-        df_figure_5_linear = pd.concat([df_figure_5_linear, new_row], ignore_index=True)
-
-        # Update xOC, xOB, xMM values
-        xOC = max(0, xOC + xOC_change)
-        xOB = max(0, xOB + xOB_change)
-        xMM = max(0, xMM + xMM_change)
+    # Extract the solution and create dataframe
+    xOC_values, xOB_values, xMM_values = y[:, 0], y[:, 1], y[:, 2]
+    df_figure_5_linear = pd.DataFrame({'Generation': t, 'xOC': xOC_values, 'xOB': xOB_values, 'xMM': xMM_values})
 
     # Save the data as csv file
     save_data(df_figure_5_non_linear, 'data_figure_5_non_linear.csv',
@@ -972,7 +953,7 @@ def figure_5():
                                                 r'..\data\reproduced_data_Sartakhti')
 
     # Make a line plot of non-linear data
-    data_figure_5_non_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+    data_figure_5_non_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('fitness/ frequency')
@@ -995,7 +976,7 @@ def figure_5():
     fig.show()
 
     # Make a line plot of linear data
-    data_figure_5_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+    data_figure_5_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('fitness/ frequency')
@@ -1070,45 +1051,21 @@ def figure_6():
     nOC = 4
     nOB = 10
     nMM = 6
-    generations = 100
 
-    column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
-    df_figure_6_non_linear = pd.DataFrame(columns=column_names)
+    # Set initial condition and parameters
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC, hMM_OB, hMM_MM, \
+    sOC_OC, sOC_OB, sOC_MM, sOB_OC, sOB_OB, sOB_MM, sMM_OC, sMM_OB, sMM_MM, \
+    BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM, \
+    cOC_value, cOB_value, cMM_value)
+    t = np.linspace(0, 100)
 
-    # Run simulation with non linear benefist
-    for generation in range(generations):
+    # Solve ODE
+    y = odeint(dynamics_different_h_and_s, y0, t, args=(parameters,))
 
-        # Calcuate the benefit values
-        bOC_OC = benefit_function(nOC, hOC_OC, BOC_OC, sOC_OC, N)
-        bOB_OC = benefit_function(nOB, hOB_OC, BOB_OC, sOB_OC, N)
-        bMM_OC = benefit_function(nMM, hMM_OC, BMM_OC, sMM_OC, N)
-
-        bOC_OB = benefit_function(nOC, hOC_OB, BOC_OB, sOC_OB, N)
-        bOB_OB = benefit_function(nOB, hOB_OB, BOB_OB, sOB_OB, N)
-        bMM_OB = benefit_function(nMM, hMM_OB, BMM_OB, sMM_OB, N)
-
-        bOC_MM = benefit_function(nOC, hOC_MM, BOC_MM, sOC_MM, N)
-        bOB_MM = benefit_function(nOB, hOB_MM, BOB_MM, sOB_MM, N)
-        bMM_MM = benefit_function(nMM, hMM_MM, BMM_MM, sMM_MM, N)
-
-        # Determine the fitness values
-        fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM,
-                                    bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
-                                     bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
-
-        # Determine the change of the xOC, xOB, xMM values and W average value
-        xOC_change, xOB_change, xMM_change, W_average = calculate_replicator_dynamics(
-                                    xOC, xOB, xMM, fitness_OC, fitness_OB, fitness_MM)
-
-        # Add row to dataframe
-        new_row = pd.DataFrame([{'Generation':generation, 'xOC': xOC, 'xOB': xOB,
-                                                'xMM': xMM, 'W_average': W_average}])
-        df_figure_6_non_linear = pd.concat([df_figure_6_non_linear, new_row], ignore_index=True)
-
-        # Update xOC, xOB, xMM values
-        xOC = max(0, xOC + xOC_change)
-        xOB = max(0, xOB + xOB_change)
-        xMM = max(0, xMM + xMM_change)
+    # Extract the solution and create dataframe
+    xOC_values, xOB_values, xMM_values = y[:, 0], y[:, 1], y[:, 2]
+    df_figure_6_non_linear = pd.DataFrame({'Generation': t, 'xOC': xOC_values, 'xOB': xOB_values, 'xMM': xMM_values})
 
     # Initial frequencies and values --> are needed to make a plot but are not mentioned
     xOC = 0.2
@@ -1118,46 +1075,22 @@ def figure_6():
     nOC = 4
     nOB = 10
     nMM = 6
-    s_linear = 0.0001
-    generations = 100
 
-    column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
-    df_figure_6_linear = pd.DataFrame(columns=column_names)
+    s_linear = 10e-10
+    # Set initial condition and parameters
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC, hMM_OB, hMM_MM, \
+    s_linear, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear, \
+    BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM, \
+    cOC_value, cOB_value, cMM_value)
+    t = np.linspace(0, 100)
 
-    # Run simulation with linear benefits
-    for generation in range(generations):
+    # Solve ODE
+    y = odeint(dynamics_different_h_and_s, y0, t, args=(parameters,))
 
-        # Calcuate the benefit values
-        bOC_OC = benefit_function(nOC, hOC_OC, BOC_OC, s_linear, N)
-        bOB_OC = benefit_function(nOB, hOB_OC, BOB_OC, s_linear, N)
-        bMM_OC = benefit_function(nMM, hMM_OC, BMM_OC, s_linear, N)
-
-        bOC_OB = benefit_function(nOC, hOC_OB, BOC_OB, s_linear, N)
-        bOB_OB = benefit_function(nOB, hOB_OB, BOB_OB, s_linear, N)
-        bMM_OB = benefit_function(nMM, hMM_OB, BMM_OB, s_linear, N)
-
-        bOC_MM = benefit_function(nOC, hOC_MM, BOC_MM, s_linear, N)
-        bOB_MM = benefit_function(nOB, hOB_MM, BOB_MM, s_linear, N)
-        bMM_MM = benefit_function(nMM, hMM_MM, BMM_MM, s_linear, N)
-
-        # Determine the fitness values
-        fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM,
-                                    bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
-                                     bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
-
-        # Determine the change of the xOC, xOB, xMM values and W average value
-        xOC_change, xOB_change, xMM_change, W_average = calculate_replicator_dynamics(
-                                    xOC, xOB, xMM, fitness_OC, fitness_OB, fitness_MM)
-
-        # Add row to dataframe
-        new_row = pd.DataFrame([{'Generation':generation, 'xOC': xOC, 'xOB': xOB,
-                                                'xMM': xMM, 'W_average': W_average}])
-        df_figure_6_linear = pd.concat([df_figure_6_linear, new_row], ignore_index=True)
-
-        # Update xOC, xOB, xMM values
-        xOC = max(0, xOC + xOC_change)
-        xOB = max(0, xOB + xOB_change)
-        xMM = max(0, xMM + xMM_change)
+    # Extract the solution and create dataframe
+    xOC_values, xOB_values, xMM_values = y[:, 0], y[:, 1], y[:, 2]
+    df_figure_6_linear = pd.DataFrame({'Generation': t, 'xOC': xOC_values, 'xOB': xOB_values, 'xMM': xMM_values})
 
     # Save the data as csv file
     save_data(df_figure_6_non_linear, 'data_figure_6_non_linear.csv',
@@ -1172,7 +1105,7 @@ def figure_6():
                                                 r'..\data\reproduced_data_Sartakhti')
 
     # Make a line plot of non-linear data
-    data_figure_6_non_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+    data_figure_6_non_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('fitness/ frequency')
@@ -1195,7 +1128,7 @@ def figure_6():
     fig.show()
 
     # Make a line plot of linear data
-    data_figure_6_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+    data_figure_6_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('fitness/ frequency')
@@ -1270,46 +1203,21 @@ def figure_7():
     nOC = 2
     nOB = 5
     nMM = 3
-    generations = 100
 
-    column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
-    df_figure_7_non_linear = pd.DataFrame(columns=column_names)
+    # Set initial condition and parameters
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC, hMM_OB, hMM_MM, \
+    sOC_OC, sOC_OB, sOC_MM, sOB_OC, sOB_OB, sOB_MM, sMM_OC, sMM_OB, sMM_MM, \
+    BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM, \
+    cOC_value, cOB_value, cMM_value)
+    t = np.linspace(0, 100)
 
-    # Run simulation with non linear benefist
-    for generation in range(generations):
+    # Solve ODE
+    y = odeint(dynamics_different_h_and_s, y0, t, args=(parameters,))
 
-        # Calcuate the benefit values
-        bOC_OC = benefit_function(nOC, hOC_OC, BOC_OC, sOC_OC, N)
-        bOB_OC = benefit_function(nOB, hOB_OC, BOB_OC, sOB_OC, N)
-        bMM_OC = benefit_function(nMM, hMM_OC, BMM_OC, sMM_OC, N)
-
-        bOC_OB = benefit_function(nOC, hOC_OB, BOC_OB, sOC_OB, N)
-        bOB_OB = benefit_function(nOB, hOB_OB, BOB_OB, sOB_OB, N)
-        bMM_OB = benefit_function(nMM, hMM_OB, BMM_OB, sMM_OB, N)
-
-        bOC_MM = benefit_function(nOC, hOC_MM, BOC_MM, sOC_MM, N)
-        bOB_MM = benefit_function(nOB, hOB_MM, BOB_MM, sOB_MM, N)
-        bMM_MM = benefit_function(nMM, hMM_MM, BMM_MM, sMM_MM, N)
-
-        # Determine the fitness values
-        fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM,
-                                    bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
-                                     bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
-
-        # Determine the change of the xOC, xOB, xMM values and W average value
-        xOC_change, xOB_change, xMM_change, W_average = calculate_replicator_dynamics(
-                                    xOC, xOB, xMM, fitness_OC, fitness_OB, fitness_MM)
-
-        # Add row to dataframe
-        new_row = pd.DataFrame([{'Generation':generation, 'xOC': xOC, 'xOB': xOB,
-                                                'xMM': xMM, 'W_average': W_average}])
-        df_figure_7_non_linear = pd.concat([df_figure_7_non_linear, new_row],
-                                                                    ignore_index=True)
-
-        # Update xOC, xOB, xMM values
-        xOC = max(0, xOC + xOC_change)
-        xOB = max(0, xOB + xOB_change)
-        xMM = max(0, xMM + xMM_change)
+    # Extract the solution and create dataframe
+    xOC_values, xOB_values, xMM_values = y[:, 0], y[:, 1], y[:, 2]
+    df_figure_7_non_linear = pd.DataFrame({'Generation': t, 'xOC': xOC_values, 'xOB': xOB_values, 'xMM': xMM_values})
 
     # Initial frequencies and values --> are needed to make a plot but are not mentioned
     xOC = 0.2
@@ -1319,46 +1227,22 @@ def figure_7():
     nOC = 2
     nOB = 5
     nMM = 3
-    s_linear = 0.0001
-    generations = 100
 
-    column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
-    df_figure_7_linear = pd.DataFrame(columns=column_names)
+    s_linear = 10e-10
+    # Set initial condition and parameters
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC, hMM_OB, hMM_MM, \
+    s_linear, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear, \
+    BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM, \
+    cOC_value, cOB_value, cMM_value)
+    t = np.linspace(0, 100)
 
-    # Run simulation with linear benefits
-    for generation in range(generations):
+    # Solve ODE
+    y = odeint(dynamics_different_h_and_s, y0, t, args=(parameters,))
 
-        # Calcuate the benefit values
-        bOC_OC = benefit_function(nOC, hOC_OC, BOC_OC, s_linear, N)
-        bOB_OC = benefit_function(nOB, hOB_OC, BOB_OC, s_linear, N)
-        bMM_OC = benefit_function(nMM, hMM_OC, BMM_OC, s_linear, N)
-
-        bOC_OB = benefit_function(nOC, hOC_OB, BOC_OB, s_linear, N)
-        bOB_OB = benefit_function(nOB, hOB_OB, BOB_OB, s_linear, N)
-        bMM_OB = benefit_function(nMM, hMM_OB, BMM_OB, s_linear, N)
-
-        bOC_MM = benefit_function(nOC, hOC_MM, BOC_MM, s_linear, N)
-        bOB_MM = benefit_function(nOB, hOB_MM, BOB_MM, s_linear, N)
-        bMM_MM = benefit_function(nMM, hMM_MM, BMM_MM, s_linear, N)
-
-        # Determine the fitness values
-        fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM,
-                                    bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
-                                     bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
-
-        # Determine the change of the xOC, xOB, xMM values and W average value
-        xOC_change, xOB_change, xMM_change, W_average = calculate_replicator_dynamics(
-                                    xOC, xOB, xMM, fitness_OC, fitness_OB, fitness_MM)
-
-        # Add row to dataframe
-        new_row = pd.DataFrame([{'Generation':generation, 'xOC': xOC, 'xOB': xOB,
-                                                'xMM': xMM, 'W_average': W_average}])
-        df_figure_7_linear = pd.concat([df_figure_7_linear, new_row], ignore_index=True)
-
-        # Update xOC, xOB, xMM values
-        xOC = max(0, xOC + xOC_change)
-        xOB = max(0, xOB + xOB_change)
-        xMM = max(0, xMM + xMM_change)
+    # Extract the solution and create dataframe
+    xOC_values, xOB_values, xMM_values = y[:, 0], y[:, 1], y[:, 2]
+    df_figure_7_linear = pd.DataFrame({'Generation': t, 'xOC': xOC_values, 'xOB': xOB_values, 'xMM': xMM_values})
 
     # Save the data as csv file
     save_data(df_figure_7_non_linear, 'data_figure_7_non_linear.csv',
@@ -1373,7 +1257,7 @@ def figure_7():
                                                 r'..\data\reproduced_data_Sartakhti')
 
     # Make a line plot of non-linear data
-    data_figure_7_non_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+    data_figure_7_non_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('fitness/ frequency')
@@ -1396,7 +1280,7 @@ def figure_7():
     fig.show()
 
     # Make a line plot of linear data
-    data_figure_7_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+    data_figure_7_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('fitness/ frequency')
@@ -1472,54 +1356,21 @@ def figure_8():
     nOC = 2
     nOB = 4
     nMM = 16
-    generations = 100
 
-    # make a dataframe for the situation with non-linear benefits
-    column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
-    df_figure_8_non_linear = pd.DataFrame(columns=column_names)
+    # Set initial condition and parameters
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC, hMM_OB, hMM_MM, \
+    sOC_OC, sOC_OB, sOC_MM, sOB_OC, sOB_OB, sOB_MM, sMM_OC, sMM_OB, sMM_MM, \
+    BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM, \
+    cOC_value, cOB_value, cMM_value)
+    t = np.linspace(0, 100)
 
-    # Run simulation with non linear benefits
-    for generation in range(generations):
+    # Solve ODE
+    y = odeint(dynamics_different_h_and_s, y0, t, args=(parameters,))
 
-        # Calcuate the benefit values
-        bOC_OC = benefit_function(nOC, hOC_OC, BOC_OC, sOC_OC, N)
-        bOB_OC = benefit_function(nOB, hOB_OC, BOB_OC, sOB_OC, N)
-        bMM_OC = benefit_function(nMM, hMM_OC, BMM_OC, sMM_OC, N)
-
-        bOC_OB = benefit_function(nOC, hOC_OB, BOC_OB, sOC_OB, N)
-        bOB_OB = benefit_function(nOB, hOB_OB, BOB_OB, sOB_OB, N)
-        bMM_OB = benefit_function(nMM, hMM_OB, BMM_OB, sMM_OB, N)
-
-        bOC_MM = benefit_function(nOC, hOC_MM, BOC_MM, sOC_MM, N)
-        bOB_MM = benefit_function(nOB, hOB_MM, BOB_MM, sOB_MM, N)
-        bMM_MM = benefit_function(nMM, hMM_MM, BMM_MM, sMM_MM, N)
-
-        # Determine the fitness values
-        fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM,
-                                bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
-                                bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
-
-        # Determine the change of the xOC, xOB, xMM values and W average value
-        xOC_change, xOB_change, xMM_change, W_average = calculate_replicator_dynamics(
-                                    xOC, xOB, xMM, fitness_OC, fitness_OB, fitness_MM)
-
-        # Add row to dataframe
-        new_row = pd.DataFrame([{'Generation':generation, 'xOC': xOC, 'xOB': xOB,
-                                                'xMM': xMM, 'W_average': W_average}])
-        df_figure_8_non_linear = pd.concat([df_figure_8_non_linear, new_row],
-                                                                    ignore_index=True)
-
-        # Update xOC, xOB, xMM values
-        xOC = max(0, xOC + xOC_change)
-        xOB = max(0, xOB + xOB_change)
-        xMM = max(0, xMM + xMM_change)
-
-        # nOC = int(xOC * N)
-        # nOB = int(xOB * N)
-        # nMM = int(xMM * N)
-
-    # Steepness of the function at the inflection points
-    s_linear = 0.0001
+    # Extract the solution and create dataframe
+    xOC_values, xOB_values, xMM_values = y[:, 0], y[:, 1], y[:, 2]
+    df_figure_8_non_linear = pd.DataFrame({'Generation': t, 'xOC': xOC_values, 'xOB': xOB_values, 'xMM': xMM_values})
 
     # Initial frequencies and values --> are needed to make a plot but are not mentioned
     xOC = 0.1
@@ -1529,49 +1380,22 @@ def figure_8():
     nOC = 2
     nOB = 4
     nMM = 16
-    generations = 1000
 
-    # Make a dataframe for the situation with linear benefits
-    df_figure_8_linear = pd.DataFrame(columns=column_names)
+    s_linear = 10e-10
+    # Set initial condition and parameters
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC, hMM_OB, hMM_MM, \
+    s_linear, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear, \
+    BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM, \
+    cOC_value, cOB_value, cMM_value)
+    t = np.linspace(0, 100)
 
-    # Run simulation with linear benefits
-    for generation in range(generations):
+    # Solve ODE
+    y = odeint(dynamics_different_h_and_s, y0, t, args=(parameters,))
 
-        # Calcuate the benefit values
-        bOC_OC = benefit_function(nOC, hOC_OC, BOC_OC, s_linear, N)
-        bOB_OC = benefit_function(nOB, hOB_OC, BOB_OC, s_linear, N)
-        bMM_OC = benefit_function(nMM, hMM_OC, BMM_OC, s_linear, N)
-
-        bOC_OB = benefit_function(nOC, hOC_OB, BOC_OB, s_linear, N)
-        bOB_OB = benefit_function(nOB, hOB_OB, BOB_OB, s_linear, N)
-        bMM_OB = benefit_function(nMM, hMM_OB, BMM_OB, s_linear, N)
-
-        bOC_MM = benefit_function(nOC, hOC_MM, BOC_MM, s_linear, N)
-        bOB_MM = benefit_function(nOB, hOB_MM, BOB_MM, s_linear, N)
-        bMM_MM = benefit_function(nMM, hMM_MM, BMM_MM, s_linear, N)
-
-        # Determine the fitness values
-        fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM,
-                                bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
-                                bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
-
-        # Determine the change of the xOC, xOB, xMM values and W average value
-        xOC_change, xOB_change, xMM_change, W_average = calculate_replicator_dynamics(
-                                    xOC, xOB, xMM, fitness_OC, fitness_OB, fitness_MM)
-
-        # Add row to dataframe
-        new_row = pd.DataFrame([{'Generation':generation, 'xOC': xOC, 'xOB': xOB,
-                                                'xMM': xMM, 'W_average': W_average}])
-        df_figure_8_linear = pd.concat([df_figure_8_linear, new_row], ignore_index=True)
-
-        # Update xOC, xOB, xMM values
-        xOC = max(0, xOC + xOC_change)
-        xOB = max(0, xOB + xOB_change)
-        xMM = max(0, xMM + xMM_change)
-
-        # nOC = int(xOC * N)
-        # nOB = int(xOB * N)
-        # nMM = int(xMM * N)
+    # Extract the solution and create dataframe
+    xOC_values, xOB_values, xMM_values = y[:, 0], y[:, 1], y[:, 2]
+    df_figure_8_linear = pd.DataFrame({'Generation': t, 'xOC': xOC_values, 'xOB': xOB_values, 'xMM': xMM_values})
 
     # Save the data as csv file
     save_data(df_figure_8_non_linear, 'data_figure_8_non_linear.csv',
@@ -1586,7 +1410,7 @@ def figure_8():
                                                 r'..\data\reproduced_data_Sartakhti')
 
     # Make a line plot of non linear data
-    data_figure_8_non_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+    data_figure_8_non_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('fitness/ frequency')
@@ -1610,7 +1434,7 @@ def figure_8():
     fig.show()
 
     # Make a line plot of linear data
-    data_figure_8_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+    data_figure_8_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('fitness/ frequency')
@@ -1670,41 +1494,18 @@ def figure_9():
     # Steepness of the function and a random maximal benefit for the demostration
     s_value = 20
     h_value = 0.3
-    generations = 100
 
-    # Loop for the number of generations
-    for generation in range(generations):
-        # Calcuate the benefit values
-        bOC_OC = benefit_function(nOC, h_value, BOC_OC, s_value, N)
-        bOB_OC = benefit_function(nOB, h_value, BOB_OC, s_value, N)
-        bMM_OC = benefit_function(nMM, h_value, BMM_OC, s_value, N)
+    # Set initial condition and parameters
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, h_value, s_value, BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM, cOC_value, cOB_value, cMM_value)
+    t = np.linspace(0, 100)
 
-        bOC_OB = benefit_function(nOC, h_value, BOC_OB, s_value, N)
-        bOB_OB = benefit_function(nOB, h_value, BOB_OB, s_value, N)
-        bMM_OB = benefit_function(nMM, h_value, BMM_OB, s_value, N)
+    # Solve ODE
+    y = odeint(dynamics_same_h_and_s, y0, t, args=(parameters,))
 
-        bOC_MM = benefit_function(nOC, h_value, BOC_MM, s_value, N)
-        bOB_MM = benefit_function(nOB, h_value, BOB_MM, s_value, N)
-        bMM_MM = benefit_function(nMM, h_value, BMM_MM, s_value, N)
-
-        # Determine the fitness values
-        fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM,
-                                    bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
-                                     bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
-
-        # Determine the change of the xOC, xOB, xMM values and W average value
-        xOC_change, xOB_change, xMM_change, W_average = calculate_replicator_dynamics(
-                                    xOC, xOB, xMM, fitness_OC, fitness_OB, fitness_MM)
-
-        # Add row to DataFrame with 'h_value' column
-        new_row = pd.DataFrame([{'Generation': generation, 'xOC': xOC, 'xOB': xOB,
-                                  'xMM': xMM, 'W_average': W_average, 'h_value': h_value}])
-        df_figure_9_no_treatment = pd.concat([df_figure_9_no_treatment, new_row], ignore_index=True)
-
-        # Update xOC, xOB, xMM values
-        xOC = max(0, xOC + xOC_change)
-        xOB = max(0, xOB + xOB_change)
-        xMM = max(0, xMM + xMM_change)
+    # Extract the solution and create dataframe
+    xOC_values, xOB_values, xMM_values = y[:, 0], y[:, 1], y[:, 2]
+    df_figure_9_no_treatment = pd.DataFrame({'Generation': t, 'xOC': xOC_values, 'xOB': xOB_values, 'xMM': xMM_values})
 
     # Save the data as csv file
     save_data(df_figure_9_no_treatment, 'data_figure_9_no_treatment.csv',
@@ -1727,40 +1528,17 @@ def figure_9():
     s_value = 20
     h_value = 0.3
 
-    # Loop for the number of generations
-    for generation in range(generations):
-        # Calcuate the benefit values
-        bOC_OC = benefit_function(nOC, h_value, BOC_OC, s_value, N)
-        bOB_OC = benefit_function(nOB, h_value, BOB_OC, s_value, N)
-        bMM_OC = benefit_function(nMM, h_value, BMM_OC, s_value, N)
+    # Set initial condition and parameters
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, h_value, s_value, BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM, cOC_value, cOB_value, cMM_value)
+    t = np.linspace(0, 100)
 
-        bOC_OB = benefit_function(nOC, h_value, BOC_OB, s_value, N)
-        bOB_OB = benefit_function(nOB, h_value, BOB_OB, s_value, N)
-        bMM_OB = benefit_function(nMM, h_value, BMM_OB, s_value, N)
+    # Solve ODE
+    y = odeint(dynamics_same_h_and_s, y0, t, args=(parameters,))
 
-        bOC_MM = benefit_function(nOC, h_value, BOC_MM, s_value, N)
-        bOB_MM = benefit_function(nOB, h_value, BOB_MM, s_value, N)
-        bMM_MM = benefit_function(nMM, h_value, BMM_MM, s_value, N)
-
-        # Determine the fitness values
-        fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM,
-                                    bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
-                                     bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
-
-        # Determine the change of the xOC, xOB, xMM values and W average value
-        xOC_change, xOB_change, xMM_change, W_average = calculate_replicator_dynamics(
-                                    xOC, xOB, xMM, fitness_OC, fitness_OB, fitness_MM)
-
-        # Add row to DataFrame with 'h_value' column
-        new_row = pd.DataFrame([{'Generation': generation, 'xOC': xOC, 'xOB': xOB,
-                                  'xMM': xMM, 'W_average': W_average, 'h_value': h_value}])
-        df_figure_9_reducing_MM = pd.concat([df_figure_9_reducing_MM, new_row],
-                                                                ignore_index=True)
-
-        # Update xOC, xOB, xMM values
-        xOC = max(0, xOC + xOC_change)
-        xOB = max(0, xOB + xOB_change)
-        xMM = max(0, xMM + xMM_change)
+    # Extract the solution and create dataframe
+    xOC_values, xOB_values, xMM_values = y[:, 0], y[:, 1], y[:, 2]
+    df_figure_9_reducing_MM = pd.DataFrame({'Generation': t, 'xOC': xOC_values, 'xOB': xOB_values, 'xMM': xMM_values})
 
     # Save the data as csv file
     save_data(df_figure_9_reducing_MM, 'data_figure_9_reducing_MM.csv',
@@ -1784,40 +1562,17 @@ def figure_9():
     s_value = 20
     h_value = 0.7
 
-    # Loop for the number of generations
-    for generation in range(generations):
-        # Calcuate the benefit values
-        bOC_OC = benefit_function(nOC, h_value, BOC_OC, s_value, N)
-        bOB_OC = benefit_function(nOB, h_value, BOB_OC, s_value, N)
-        bMM_OC = benefit_function(nMM, h_value, BMM_OC, s_value, N)
+    # Set initial condition and parameters
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, h_value, s_value, BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM, cOC_value, cOB_value, cMM_value)
+    t = np.linspace(0, 100)
 
-        bOC_OB = benefit_function(nOC, h_value, BOC_OB, s_value, N)
-        bOB_OB = benefit_function(nOB, h_value, BOB_OB, s_value, N)
-        bMM_OB = benefit_function(nMM, h_value, BMM_OB, s_value, N)
+    # Solve ODE
+    y = odeint(dynamics_same_h_and_s, y0, t, args=(parameters,))
 
-        bOC_MM = benefit_function(nOC, h_value, BOC_MM, s_value, N)
-        bOB_MM = benefit_function(nOB, h_value, BOB_MM, s_value, N)
-        bMM_MM = benefit_function(nMM, h_value, BMM_MM, s_value, N)
-
-        # Determine the fitness values
-        fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM,
-                                    bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
-                                     bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
-
-        # Determine the change of the xOC, xOB, xMM values and W average value
-        xOC_change, xOB_change, xMM_change, W_average = calculate_replicator_dynamics(
-                                    xOC, xOB, xMM, fitness_OC, fitness_OB, fitness_MM)
-
-        # Add row to DataFrame with 'h_value' column
-        new_row = pd.DataFrame([{'Generation': generation, 'xOC': xOC, 'xOB': xOB,
-                                  'xMM': xMM, 'W_average': W_average, 'h_value': h_value}])
-        df_figure_9_increasing_h = pd.concat([df_figure_9_increasing_h, new_row],
-                                                                ignore_index=True)
-
-        # Update xOC, xOB, xMM values
-        xOC = max(0, xOC + xOC_change)
-        xOB = max(0, xOB + xOB_change)
-        xMM = max(0, xMM + xMM_change)
+    # Extract the solution and create dataframe
+    xOC_values, xOB_values, xMM_values = y[:, 0], y[:, 1], y[:, 2]
+    df_figure_9_increasing_h = pd.DataFrame({'Generation': t, 'xOC': xOC_values, 'xOB': xOB_values, 'xMM': xMM_values})
 
     # Save the data as csv file
     save_data(df_figure_9_increasing_h, 'data_figure_9_increasing_h.csv',
@@ -1848,7 +1603,7 @@ def figure_9():
     # fig1.show()
 
     # Make a line plot of the effect of a decrease in MM cells
-    data_figure_9_reducing_MM.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+    data_figure_9_reducing_MM.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('fitness/ frequency')
@@ -1878,7 +1633,7 @@ def figure_9():
     # fig3.show()
 
     # Make a line plot of the effect of a increase in the h value
-    data_figure_9_increasing_h.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+    data_figure_9_increasing_h.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('fitness/ frequency')
