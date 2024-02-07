@@ -20,7 +20,7 @@ import plotly.io as pio
 
 def main():
     # Make figure 1 in the paper of Sartakhti et al., 2018.
-    # figure_1()
+    figure_1()
 
     # Make the figures in figure 2 in the paper of Sartakhti et al., 2018.
     # figure_2()
@@ -44,7 +44,7 @@ def main():
     # figure_8()
 
     # Make the figures in figure 9 in the paper of Sartakhti et al., 2018.
-    figure_9()
+    # figure_9()
 
     # # Make figure 10 in the paper of Sartakhti et al., 2018.
     # figure_10()
@@ -84,7 +84,7 @@ def figure_10():
     """Function that recreates figure 10 in the paper of Sartakhti et al., 2018."""
     # Parameters
     N = 10
-    h_value = 0.4
+    h_value = 0.8
     B_value = 1.0
 
     # Steepness values
@@ -153,7 +153,7 @@ def figure_1():
     cMM_value = 0.3
 
     # Maximal benefit values
-    BOC_OC = 0.0
+    BOC_OC = 0
     BOC_OB = 1.0
     BOC_MM = 1.1
     BOB_OC = 1.0
@@ -161,20 +161,28 @@ def figure_1():
     BOB_MM = 0.0
     BMM_OC = 1.1
     BMM_OB = -0.3
-    BMM_MM = 0.0
+    BMM_MM = 0
 
     # Steepness and inflection point
-    s = 0.0001
-    h = 0.7
+    s = 1e-10
+    h = 0.3
 
-    # Initial frequencies and values --> are needed to make a plot but are not mentioned
+    # # Initial frequencies and values --> are needed to make a plot but are not mentioned
+    xOC = 0.1
+    xOB = 0.7
+    xMM = 0.2
+
+    nOC = 1
+    nOB = 7
+    nMM = 2
+
     xOC = 0.2
-    xOB = 0.1
-    xMM = 0.7
+    xOB = 0.2
+    xMM = 0.6
 
     nOC = 2
-    nOB = 1
-    nMM = 7
+    nOB = 2
+    nMM = 6
 
     # Simulation parameters
     generations = 200
@@ -182,7 +190,7 @@ def figure_1():
     column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
     df_figure_1 = pd.DataFrame(columns=column_names)
 
-    # Run simulation
+    # Run simulation for some generation
     for generation in range(generations):
 
         # Calculate the benefit values
@@ -199,7 +207,7 @@ def figure_1():
         bMM_MM = benefit_function(nMM, h, BMM_MM, s, N)
 
         # Determine the fitness values
-        fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM, bOC_OC,
+        fitness_OC, fitness_OB, fitness_MM = calculate_fitness(nOC, nOB,N, xOC, xOB, xMM, bOC_OC,
                                     bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB, bMM_OB,
                                     cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
 
@@ -217,11 +225,17 @@ def figure_1():
         xOC = max(0, xOC + xOC_change)
         xOB = max(0, xOB + xOB_change)
         xMM = max(0, xMM + xMM_change)
+        # xOC = xOC + xOC_change
+        # xOB = xOB + xOB_change
+        # xMM = xMM + xMM_change
+
+        # x_t = xOC + xOB + xMM
+        # xOC = xOC/ x_t
 
         """# Do the nOC,nOB and nMM need to be updated ?"""
-        # nOC = int(xOC * N)
-        # nOB = int(xOB * N)
-        # nMM = int(xMM * N)
+        nOC = int(xOC * N)
+        nOB = int(xOB * N)
+        nMM = int(xMM * N)
 
     # Save the data as csv file
     save_data(df_figure_1, 'data_figure_1.csv', r'..\data\reproduced_data_Sartakhti')
@@ -230,7 +244,7 @@ def figure_1():
     data_figure_1 = collect_data('data_figure_1.csv', r'..\data\reproduced_data_Sartakhti')
 
     # Make a plot
-    data_figure_1.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+    data_figure_1.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
