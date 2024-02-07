@@ -3,7 +3,7 @@ Author:       Eva Nieuwenhuis
 University:   UvA
 Student id':  13717405
 Description:  Code attempting to replicate certain figures from the paper by Sartakhti
-              et al. (2016). The used model that simulates the dynamics in the multiple
+              et al. (2016). The used model simulates the dynamics in the multiple
               myeloma (MM) microenvironment with three cell types: MM cells, osteoblasts
               (OBs) and osteoclasts (OCs). The model is a public goods game in the
               framework of evolutionary game theory with linear benefits.
@@ -22,7 +22,6 @@ import plotly.graph_objects as go
 import plotly.express as px
 from cancer_model import *
 import plotly.io as pio
-
 
 def main():
     # Do doc tests
