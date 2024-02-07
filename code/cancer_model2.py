@@ -29,6 +29,35 @@ from cancer_model import *
 import plotly.io as pio
 from scipy.special import comb
 
+N=10
+a =1
+b= -3
+d= 8
+
+x =0.3
+y= 0.2
+z= 0.5
+
+c1 =-2
+c2 = 5
+c3 = 2
+M = np.array([
+    [0, a, b],
+    [a, 0, d],
+    [b, 0, 0]])
+
+
+freq = np.array([x, y, z])
+cost = np.array([c1, c2, c3])
+
+WOC_matrix = M * freq *cost * ((N-1)/N)
+WOC = np.sum(WOC_matrix[0]) - c1
+
+def fitness_WOC(x, y, z, N, c1, c2, c3, a, b):
+    return (b*c3*z + a*c2*y)*(N - 1)/N - c1
+
+print( fitness_WOC(x, y, z, N, c1, c2, c3, a, b))
+print(WOC)
 
 # def probability_number_cells(nOC, nOB, N, xOC, xOB, xMM):
 #     """ Function that calulates the probability that a group of cells contains
@@ -561,7 +590,269 @@ from scipy.special import comb
 # print('xOC_change, xOB_change, xMM_change', xOC_change, xOB_change, xMM_change)
 
 
-"""figure 2"""
+
+"""
+M = np.array([
+       Goc Gob Gmm
+    OC [a, b, c],
+    OB [d, e, f],
+    MM [g, h, i]])
+"""
+def fitness_WOC(x, y, z, N, c1, c2, c3, matrix):
+    """
+    Function that calculates the fitness of an osteoclast in a population.
+
+    Parameters:
+    -----------
+    x: float
+        Frequency of OCs.
+    y: float
+        Frequency of OBs.
+    z: float
+        Frequency of the MM cells.
+    N: int
+        Number of individuals within the interaction range.
+    c1: float
+        Cost parameter OCs.
+    c2: float
+        Cost parameter OBs.
+    c3: float
+        Cost parameter MM cells.
+    matrix : numpy.ndarray
+        3x3 matrix containing interaction factors.
+
+    Returns:
+    --------
+    WOC : float
+        Fitness of an OC.
+    """
+    # Extract the correct matrix values
+    a = matrix[0, 0]
+    b = matrix[0, 1]
+    c = matrix[0, 2]
+
+    WOC = (c*c3*z + b*c2*y + a* c1* x)*(N - 1)/N - c1
+    return WOC
+
+def fitness_WOB(x, y, z, N, c1, c2, c3, matrix):
+    """
+    Function that calculates the fitness of an osteoblast in a population.
+
+    Parameters:
+    -----------
+    x: float
+        Frequency of OCs.
+    y: float
+        Frequency of OBs.
+    z: float
+        Frequency of the MM cells.
+    N: int
+        Number of individuals within the interaction range.
+    c1: float
+        Cost parameter OCs.
+    c2: float
+        Cost parameter OBs.
+    c3: float
+        Cost parameter MM cells.
+    matrix: numpy.ndarray
+        3x3 matrix containing interaction factors.
+
+    Returns:
+    --------
+    WOB : float
+        Fitness of an OB.
+    """
+
+    # Extract the correct matrix values
+    d = matrix[1, 0]
+    e = matrix[1, 1]
+    f = matrix[1, 2]
+
+    WOB = (d*c1*x + f*c3*z + e*c2*y)*(N - 1)/N - c2
+    return WOB
+
+def fitness_WMM(x, y, z, N, c1, c2, c3,matrix):
+    """
+    Function that calculates the fitness of an MM cell in a population.
+
+    Parameters:
+    -----------
+    x: float
+        Frequency of OCs.
+    y: float
+        Frequency of OBs.
+    z: float
+        Frequency of the MM cells.
+    N: int
+        Number of individuals within the interaction range.
+    c1: float
+        Cost parameter OCs.
+    c2: float
+        Cost parameter OBs.
+    c3: float
+        Cost parameter MM cells.
+    matrix: numpy.ndarray
+        3x3 matrix containing interaction factors.
+
+    Returns:
+    --------
+    WOB : float
+        Fitness of an MM cell.
+    """
+    # Extract the correct matrix values
+    g = matrix[2, 0]
+    h = matrix[2, 1]
+    i = matrix[2, 2]
+
+    WMM = (g*c1*x + i*c3*z + h*c2*y)*(N - 1)/N - c3
+    return WMM
+
+"""Figure 2"""
+
+def figure_2():
+    # Set start parameter values
+    xOC = 0.5
+    xOB = 0.45
+    xMM = 0.05
+    N = 10
+    c3 = 1.4
+    c2 = 1.2
+    c1 = 1
+
+    # Payoff matrix
+    matrix = np.array([
+        [0, 1, 2.5],
+        [1, 0, -0.3],
+        [2.5, 0, 0]])
+
+    generations = 50
+
+    column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
+    df_figure_2_first_line = pd.DataFrame(columns=column_names)
+
+    # Determine the frequentie value a number of times
+    for generation in range(generations):
+
+        WOC = fitness_WOC(xOC, xOB, xMM, N, c1, c2, c3, matrix)
+        WOB = fitness_WOB(xOC, xOB, xMM, N, c1, c2, c3, matrix)
+        WMM = fitness_WMM(xOC, xOB, xMM, N, c1, c2, c3, matrix)
+        print(WMM, WOB, WOC)
+
+        # Determine the average fittness
+        W_average = xOC * WOC + xOB * WOB + xMM * WMM
+        print(W_average, 'W_average')
+
+        # Determine the new frequencies based of replicator dynamics
+        xOC_change = xOC * (WOC - W_average) # (6)
+        xOB_change = xOB * (WOB - W_average) # (7)
+        xMM_change = xMM * (WMM - W_average)
+
+        # Add row to dataframe (first add row and the update because then also the
+        # beginning values get added to the dataframe at generation =0)
+        new_row = pd.DataFrame([{'Generation':generation, 'xOC': xOC, 'xOB': xOB,
+                                                'xMM': xMM, 'W_average': W_average}])
+        df_figure_2_first_line = pd.concat([df_figure_2_first_line, new_row], ignore_index=True)
+
+        # Update the xOC, xOB, xMM values
+        xOC = max(0, xOC + xOC_change)
+        xOB = max(0, xOB + xOB_change)
+        xMM = max(0, xMM + xMM_change)
+
+        """# Do the nOC,nOB and nMM need to be updated ?"""
+        nOC = xOC * N
+        nOB = xOB * N
+        nMM = xMM * N
+
+    # Set new start parameter values
+    xOC = 0.2
+    xOB = 0.4
+    xMM = 0.4
+
+    column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
+    df_figure_2_second_line = pd.DataFrame(columns=column_names)
+
+    for generation in range(generations):
+
+        WOC = fitness_WOC(xOC, xOB, xMM, N, c1, c2, c3, matrix)
+        WOB = fitness_WOB(xOC, xOB, xMM, N, c1, c2, c3, matrix)
+        WMM = fitness_WMM(xOC, xOB, xMM, N, c1, c2, c3, matrix)
+        print(WMM, WOB, WOC)
+
+        # Determine the average fittness
+        W_average = xOC * WOC + xOB * WOB + xMM * WMM
+        print(W_average, 'W_average')
+
+        # Determine the new frequencies based of replicator dynamics
+        xOC_change = xOC * (WOC - W_average) # (6)
+        xOB_change = xOB * (WOB - W_average) # (7)
+        xMM_change = xMM * (WMM - W_average)
+
+        # Add row to dataframe (first add row and the update because then also the
+        # beginning values get added to the dataframe at generation =0)
+        new_row = pd.DataFrame([{'Generation':generation, 'xOC': xOC, 'xOB': xOB,
+                                                'xMM': xMM, 'W_average': W_average}])
+        df_figure_2_second_line = pd.concat([df_figure_2_second_line, new_row], ignore_index=True)
+
+        # Update the xOC, xOB, xMM values
+        xOC = max(0, xOC + xOC_change)
+        xOB = max(0, xOB + xOB_change)
+        xMM = max(0, xMM + xMM_change)
+
+        """# Do the nOC,nOB and nMM need to be updated ?"""
+        nOC = xOC * N
+        nOB = xOB * N
+        nMM = xMM * N
+
+    # Make a plot
+    df_figure_2_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+    plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
+    plt.xlabel('Generations')
+    plt.ylabel('Fitness/ Frequency')
+    plt.title('Bistability with linear benefits (figure 1)')
+    plt.legend()
+
+    plt.show()
+
+    df_figure_2_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+    plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
+    plt.xlabel('Generations')
+    plt.ylabel('Fitness/ Frequency')
+    plt.title('Bistability with linear benefits (figure 1)')
+    plt.legend()
+
+    plt.show()
+
+    # Make a ternary plot
+    """ So when i plot it in a ternary plot it does not go to the right point"""
+    fig1 = px.line_ternary(df_figure_2_first_line, a='xOC', b='xOB', c='xMM')
+    fig2 = px.line_ternary(df_figure_2_second_line, a='xOC', b='xOB', c='xMM')
+
+
+    fig1.update_layout(
+        ternary=dict(
+            aaxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
+            baxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
+            caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
+
+
+    # Add both lines to one ternary plot
+    for trace in fig2.data:
+        fig1.add_trace(trace)
+    fig1.data[0].update(line=dict(color='red'))
+    fig1.data[1].update(line=dict(color='blue'))
+    fig1.update_layout(title_text= 'Dynamics (figure 2)')
+
+    fig1.update_layout(
+        ternary=dict(
+            aaxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
+            baxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
+            caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
+    fig1.update_layout(title_text='Dynamics (figure 2)')
+    fig1.show()
+
+
+
+# """figure 5"""
 def fitness_WOC(x, y, z, N, c1, c2, c3, a, b):
     return (b*c3*z + a*c2*y)*(N - 1)/N - c1
 
@@ -570,227 +861,6 @@ def fitness_WOB(x, y, z, N, c1, c2, c3, a, d):
 
 def fitness_WMM(x, y, z, N, c1, c2, c3, b):
     return (b*c1*x*(N - 1)/N) - c3
-
-a = 1
-b = 2.5
-d = -0.3
-
-N = 10
-c3 = 1.4
-c2 = 1.2
-c1 = 1
-
-xOC = 0.5
-xOB = 0.45
-xMM = 0.05
-
-generations = 50
-
-import numpy as np
-from scipy.integrate import odeint
-import pandas as pd
-
-# Define the differential equations
-def dynamics(variables, t, N, c1, c2, c3, a, b, d):
-    xOC, xOB, xMM = variables
-
-    WOC = fitness_WOC(xOC, xOB, xMM, N, c1, c2, c3, a, b)
-    WOB = fitness_WOB(xOC, xOB, xMM, N, c1, c2, c3, a, d)
-    WMM = fitness_WMM(xOC, xOB, xMM, N, c1, c2, c3, b)
-
-    W_average = xOC * WOC + xOB * WOB + xMM * WMM
-
-    xOC_change = xOC * (WOC - W_average)
-    xOB_change = xOB * (WOB - W_average)
-    xMM_change = xMM * (WMM - W_average)
-
-    dxOCdt = max(0, xOC + xOC_change)
-    dxOBdt = max(0, xOB + xOB_change)
-    dxMMdt = max(0, xMM + xMM_change)
-
-    return [dxOCdt, dxOBdt, dxMMdt]
-
-# Initial values
-xOC_initial = 0.5
-xOB_initial = 0.3
-xMM_initial = 0.2
-a = 1
-b = 2.5
-d = -0.3
-
-N = 10
-c3 = 1.4
-c2 = 1.2
-c1 = 1
-
-# Time points to integrate over
-t = np.linspace(0, generations)  # Adjust this according to your requirement
-
-# Solve the differential equations
-solution = odeint(dynamics, [xOC_initial, xOB_initial, xMM_initial], t, args=(N, c1, c2, c3, a, b, d))
-
-# Create a dataframe to store the solution
-columns = ['Generation', 'xOC', 'xOB', 'xMM']
-df_solution = pd.DataFrame(columns=columns)
-
-# Populate the dataframe
-for i in range(len(t)):
-    new_row = pd.DataFrame([[t[i], solution[i][0], solution[i][1], solution[i][2]]], columns=columns)
-    df_solution = pd.concat([df_solution, new_row], ignore_index=True)
-
-# Plot the results
-import matplotlib.pyplot as plt
-
-plt.plot(df_solution['Generation'], df_solution['xOC'], label='xOC')
-plt.plot(df_solution['Generation'], df_solution['xOB'], label='xOB')
-plt.plot(df_solution['Generation'], df_solution['xMM'], label='xMM')
-plt.xlabel('Generation')
-plt.ylabel('Frequency')
-plt.legend()
-plt.show()
-
-column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
-df_figure_2_first_line = pd.DataFrame(columns=column_names)
-
-for generation in range(generations):
-
-    WOC = fitness_WOC(xOC, xOB, xMM, N, c1, c2, c3, a, b)
-    WOB = fitness_WOB(xOC, xOB, xMM, N, c1, c2, c3, a, d)
-    WMM = fitness_WMM(xOC, xOB, xMM, N, c1, c2, c3, b)
-    print(WMM, WOB, WOC)
-
-    # Determine the average fittness
-    W_average = xOC * WOC + xOB * WOB + xMM * WMM
-    print(W_average, 'W_average')
-
-    # Determine the new frequencies based of replicator dynamics
-    xOC_change = xOC * (WOC - W_average) # (6)
-    xOB_change = xOB * (WOB - W_average) # (7)
-    xMM_change = xMM * (WMM - W_average)
-
-    # Add row to dataframe (first add row and the update because then also the
-    # beginning values get added to the dataframe at generation =0)
-    new_row = pd.DataFrame([{'Generation':generation, 'xOC': xOC, 'xOB': xOB,
-                                            'xMM': xMM, 'W_average': W_average}])
-    df_figure_2_first_line = pd.concat([df_figure_2_first_line, new_row], ignore_index=True)
-
-    # Update the xOC, xOB, xMM values
-    xOC = max(0, xOC + xOC_change)
-    xOB = max(0, xOB + xOB_change)
-    xMM = max(0, xMM + xMM_change)
-
-    """# Do the nOC,nOB and nMM need to be updated ?"""
-    nOC = xOC * N
-    nOB = xOB * N
-    nMM = xMM * N
-
-a = 1
-b = 2.5
-d = -0.3
-
-N = 10
-c3 = 1.4
-c2 = 1.2
-c1 = 1
-
-xOC = 0.4
-xOB = 0.3
-xMM = 0.3
-
-generations = 50
-
-column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
-df_figure_2_second_line = pd.DataFrame(columns=column_names)
-
-for generation in range(generations):
-
-    WOC = fitness_WOC(xOC, xOB, xMM, N, c1, c2, c3, a, b)
-    WOB = fitness_WOB(xOC, xOB, xMM, N, c1, c2, c3, a, d)
-    WMM = fitness_WMM(xOC, xOB, xMM, N, c1, c2, c3, b)
-    print(WMM, WOB, WOC)
-
-    # Determine the average fittness
-    W_average = xOC * WOC + xOB * WOB + xMM * WMM
-    print(W_average, 'W_average')
-
-    # Determine the new frequencies based of replicator dynamics
-    xOC_change = xOC * (WOC - W_average) # (6)
-    xOB_change = xOB * (WOB - W_average) # (7)
-    xMM_change = xMM * (WMM - W_average)
-
-    # Add row to dataframe (first add row and the update because then also the
-    # beginning values get added to the dataframe at generation =0)
-    new_row = pd.DataFrame([{'Generation':generation, 'xOC': xOC, 'xOB': xOB,
-                                            'xMM': xMM, 'W_average': W_average}])
-    df_figure_2_second_line = pd.concat([df_figure_2_second_line, new_row], ignore_index=True)
-
-    # Update the xOC, xOB, xMM values
-    xOC = max(0, xOC + xOC_change)
-    xOB = max(0, xOB + xOB_change)
-    xMM = max(0, xMM + xMM_change)
-
-    """# Do the nOC,nOB and nMM need to be updated ?"""
-    nOC = xOC * N
-    nOB = xOB * N
-    nMM = xMM * N
-
-# Make a plot
-df_figure_2_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
-plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
-plt.xlabel('Generations')
-plt.ylabel('Fitness/ Frequency')
-plt.title('Bistability with linear benefits (figure 1)')
-plt.legend()
-
-plt.show()
-
-df_figure_2_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
-plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
-plt.xlabel('Generations')
-plt.ylabel('Fitness/ Frequency')
-plt.title('Bistability with linear benefits (figure 1)')
-plt.legend()
-
-plt.show()
-
-# Make a ternary plot
-""" So when i plot it in a ternary plot it does not go to the right point"""
-fig1 = px.line_ternary(df_figure_2_first_line, a='xOC', b='xOB', c='xMM')
-fig2 = px.line_ternary(df_figure_2_second_line, a='xOC', b='xOB', c='xMM')
-
-
-fig1.update_layout(
-    ternary=dict(
-        aaxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
-        baxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
-        caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
-
-
-# Add both lines to one ternary plot
-for trace in fig2.data:
-    fig1.add_trace(trace)
-fig1.data[0].update(line=dict(color='red'))
-fig1.data[1].update(line=dict(color='blue'))
-fig1.update_layout(title_text= 'Dynamics (figure 2)')
-
-fig1.update_layout(
-    ternary=dict(
-        aaxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
-        baxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
-        caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
-fig1.update_layout(title_text='Dynamics (figure 2)')
-fig1.show()
-
-#
-# """figure 5"""
-# def fitness_WOC(x, y, z, N, c1, c2, c3, a, b):
-#     return (b*c3*z + a*c2*y)*(N - 1)/N - c1
-#
-# def fitness_WOB(x, y, z, N, c1, c2, c3, a, d):
-#     return (a*c1*x - d*c3*z)*(N - 1)/N - c2
-#
-# def fitness_WMM(x, y, z, N, c1, c2, c3, b):
-#     return (b*c1*x*(N - 1)/N) - c3
 #
 # a = 1
 # b = 2.5

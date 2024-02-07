@@ -19,6 +19,8 @@ cancer_model.py:
     - install: pip install numpy==1.26.0
 * pandas (version 2.1.3)
     - install: pip install pandas==2.1.3
+* scipy (version 1.11.4)
+    - install: pip install scipy==1.11.4
 
 data_visualisation.py:
 * numpy (version 1.26.0)
@@ -32,39 +34,73 @@ data_visualisation.py:
 * plotly (version 5.18.0)
     - install: pip install plotly==5.18.0
 
+cancer_model_linear.py:
+* numpy (version 1.26.0)
+    - install: pip install numpy==1.26.0
+* matplotlib (version 3.8.0)
+    - install: pip install matplotlib==3.8.0
+* pandas (version 2.1.3)
+    - install: pip install pandas==2.1.3
+* ternary (version 0.1)
+    - install: pip install ternary==0.1
+* plotly (version 5.18.0)
+    - install: pip install plotly==5.18.0
+* numpy (version 1.26.0)
+    - install: pip install numpy==1.26.0
+* pandas (version 2.1.3)
+    - install: pip install pandas==2.1.3
 
-THE MODEL: cancer_model.py
-Cancer_model.py contains the code to reproduce the results of the paper: Game Theory
-of Tumor–Stroma Interactions in Multiple Myeloma: Effect of Nonlinear Benefits by
-Sartakhti et al., 2018). It shows the effect of nonlinear benefits compared to linear
-benefits.
+
+THE MODEL OF Sartakhti et al., 2016: cancer_model_linear.py
+Cancer_model.py contains the code to reproduce the results of the paper: Evolutionary
+dynamics of Tumor-Stroma interactions in multiple myeloma by Sartakhti et al., 2016.
+Here the benefits are linear an there are collective interactions.
 
 TEST THE CODE
 To test the functions in the model, doc tests are added and automatically run when
-the cancer_model.py code.
+the cancer_model_linear.py code is run.
 
-THE DATA
-The folder data contains all the generated data that is used to make the figures and
-to perform the statistical tests. This folder contains a folder named reproduced_
-data_Sartakhti with all the reproduced data of the paper of Sartakhti et al., 2018
-and a folder named ... with ...
+
+THE MODEL OF Sartakhti et al., 2018: cancer_model.py
+Cancer_model.py contains the code to reproduce the results of the paper: Game Theory
+of Tumor–Stroma Interactions in Multiple Myeloma: Effect of Nonlinear Benefits by
+Sartakhti et al., 2018. It shows the effect of nonlinear benefits compared to linear
+benefits. There are collective interactions.
+
+TEST THE CODE
+To test the functions in the model, doc tests are added and automatically run when
+the cancer_model.py code is run.
 
 THE VISUALISATION
 Data_visualisation.py contains the code to make all the figures of the paper of
 Sartakhti et al., 2018. The data utilised for the figures is generated with
 cancer_model.py.
 
+THE DATA
+The folder data contains all the generated data that is used to make the figures and
+to perform the statistical tests. This folder contains a folder named reproduced_
+data_Sartakhti with all the reproduced data of the paper of Sartakhti et al., 2018,
+a folder named reproduced_data_Sartakhti_linear with all the reproduced data of
+the paper of Sartakhti et al., 2016 and a folder named ... with ...
+
+
+# THE FIGURES
 In the folder visualisation all made figures are shown. This folder contains a folder
 named reproduced_results_Sartakhti with all the reproduced figures of the paper of
-Sartakhti et al., 2018 and a folder named ... with ....
+Sartakhti et al., 2018, a folder named reproduced_results_Sartakhti_linear with all
+the reproduced figures of the paper of Sartakhti et al., 2016 and a folder named
+ ... with ....
 
 THE STATISTICAL TESTS
 Statistics_tests.py contains all the statistical test that are performed on the data
 generated with cancer_model.py.
 
 HOW TO RUN
-The model, cancer_model:
-         - python cancer_model.py
+The model based on the paper of Sartakhti et al., 2018 , cancer_model:
+         - python cancer_model_linear.py
+
+The model based on the paper of Sartakhti et al., 2016, cancer_model_linear:
+        - python cancer_model_linear.py
 
 The visualisation, data_visualisation.py:
          - python data_visualisation.py
@@ -76,3 +112,7 @@ References
 Sartakhti, J. S., Manshaei, M. H., & Archetti, M. (2018). Game Theory of Tumor–Stroma
 Interactions in Multiple Myeloma: Effect of nonlinear benefits. Games, 9(2), 32.
 https://doi.org/10.3390/g9020032
+
+Sartakhti, J. S., Manshaei, M. H., Bateni, S., & Archetti, M. (2016). Evolutionary
+dynamics of Tumor-Stroma interactions in multiple myeloma. PLOS ONE, 11(12),
+e0168856. https://doi.org/10.1371/journal.pone.0168856
