@@ -20,6 +20,27 @@ import os
 import pandas as pd
 
 """
+Author:       Eva Nieuwenhuis
+University:   UvA
+Student id':  13717405
+Description:  Code with the model that simulates the dynamics in the multiple myeloma
+              (MM) microenvironment with three cell types: MM cells, osteoblasts (OBs)
+              and osteoclasts (OCs). The model is a public goods game in the framework
+              of evolutionary game theory with collective interactions and nonlinear
+              benefits.
+              The model is based on a in the paper of Sartakhti et al., 2018.
+
+Sartakhti, J. S., Manshaei, M. H., & Archetti, M. (2018). Game Theory of Tumor–Stroma
+Interactions in Multiple Myeloma: Effect of nonlinear benefits. Games, 9(2), 32.
+https://doi.org/10.3390/g9020032
+"""
+
+import math
+import numpy as np
+import os
+import pandas as pd
+
+"""
 The formulas described in the materials and methods (formulas 1 to 10).
 x_OC = frequency osteoclasten
 x_OB = frequency osteoblasen
@@ -59,9 +80,8 @@ def probability_number_cells(nOC, nOB, N, xOC, xOB, xMM):
     0.05878656000000001
     """
     # Number of ways to choose nOC OC cells and nOB OB cells from a total of N−1 cells
-    combination_part_1 = math.factorial(N - 1)/ (math.factorial(nOC) * math.factorial(N - 1 - nOC))
-    combination_part_2 = math.factorial(N - 1-nOC)/ (math.factorial(nOB) * math.factorial(N - 1 - nOC - nOB))
-    combination_part = combination_part_1 * combination_part_2
+    combination_part = math.factorial(N - 1)/ (math.factorial(nOC) * math.factorial(nOB) \
+                                                    * math.factorial(N - 1 - nOC - nOB))
 
     # Probability of having nOC osteoclasts, nOB osteoblast and N - nOB - nOC - 1
     # multiple myeloma cells
@@ -84,7 +104,7 @@ VOC= bOC,OC(nOC+1)+ bOB,OC(nOB)+ bMM,OC(N−1−nOC−nOB)−cOC
 - Negative term: the cost of producing growth factors
 ​"""
 
-def payoff_OC(nOC, nOB, N, bOC_OC, bOB_OC, bMM_OC, cOC, cOB, cMM):
+def payoff_OC(nOC, nOB, N, bOC_OC, bOB_OC, bMM_OC, cOC):
     """Function that calculates the payoff for osteoclasts (2).
 
      Parameters:
@@ -114,16 +134,11 @@ def payoff_OC(nOC, nOB, N, bOC_OC, bOB_OC, bMM_OC, cOC, cOB, cMM):
     >>> payoff_OC(2, 3, 15, 0.1, 0.2, 0.3, 0.4)
     3.1999999999999997
     """
-    print(nOC, nOB, N, bOC_OC, bOB_OC, bMM_OC, cOC, 'values')
     VOC = (bOC_OC * (nOC + 1)) + (bOB_OC * nOB) + (bMM_OC * (N - 1 - nOC - nOB)) \
                                                                         - cOC #(2)
-    # VOC = (((bOC_OC * (nOC + 1) *cOC) + (bOB_OC * nOB*cOB) + (bMM_OC * cMM* (N - 1 - nOC - nOB)))/ N )\
-    #                                                                     - cOC #(2)
-    # VOC = (((bOC_OC * (nOC + 1) ) + (bOB_OC * nOB) + (bMM_OC * (N - 1 - nOC - nOB)))/ N )\
-    #                                                                     - cOC #(2)
     return VOC
 
-def payoff_OB(nOC, nOB, N, bOC_OB, bOB_OB, bMM_OB, cOC, cOB, cMM):
+def payoff_OB(nOC, nOB, N, bOC_OB, bOB_OB, bMM_OB, cOB):
     """Function that calculates the payoff for osteoblasts (3).
 
      Parameters:
@@ -153,16 +168,11 @@ def payoff_OB(nOC, nOB, N, bOC_OB, bOB_OB, bMM_OB, cOC, cOB, cMM):
     >>> payoff_OB(2, 3, 15, 0.1, 0.2, 0.3, 0.4)
     3.3
     """
-    print(nOC, nOB, N, bOC_OB, bOB_OB, bMM_OB, cOB, 'values')
     VOB = (bOC_OB * nOC) + (bOB_OB * (nOB + 1)) + (bMM_OB * (N - 1 - nOC - nOB)) \
                                                                         - cOB #(3)
-    # VOB = (((bOC_OB * nOC *cOC) + (bOB_OB * (nOB + 1)* cOB) + (bMM_OB * cMM *(N - 1 - nOC - nOB)))/N) \
-    #                                                                     - cOB #(3)
-    # VOB = (((bOC_OB * nOC) + (bOB_OB * (nOB + 1)) + (bMM_OB * (N - 1 - nOC - nOB)))/N) \
-    #                                                                     - cOB #(3)
     return VOB
 
-def payoff_MM(nOC, nOB, N, bOC_MM, bOB_MM, bMM_MM, cOC, cOB, cMM):
+def payoff_MM(nOC, nOB, N, bOC_MM, bOB_MM, bMM_MM, cMM):
     """Function that calculates the payoff for multiple myeloma cells (4).
 
     Parameters:
@@ -192,9 +202,7 @@ def payoff_MM(nOC, nOB, N, bOC_MM, bOB_MM, bMM_MM, cOC, cOB, cMM):
     >>> payoff_MM(2, 3, 15, 0.1, 0.2, 0.3, 0.4)
     3.4
     """
-    VMM = (((bOC_MM * nOC* cOC) + (bOB_MM * nOB* cOB) + (bMM_MM * cMM *(N - nOC - nOB)))/N) - cMM
     VMM = (bOC_MM * nOC) + (bOB_MM * nOB) + (bMM_MM * (N - nOC - nOB)) - cMM #(4)
-    # VMM = (((bOC_MM * nOC) + (bOB_MM * nOB) + (bMM_MM  *(N - nOC - nOB)))/N) - cMM
     return VMM
 
 """
@@ -211,7 +219,7 @@ P(nOC, nOB)= the probability of a group having a particular combination of osteo
 Vi = the payoff for type i.
 """
 
-def calculate_fitness(nOC, nOB, N, xOC, xOB, xMM, bOC_OC, bOB_OC, bMM_OC, cOC, bOC_OB, bOB_OB,
+def calculate_fitness(N, xOC, xOB, xMM, bOC_OC, bOB_OC, bMM_OC, cOC, bOC_OB, bOB_OB,
                                         bMM_OB, cOB, bOC_MM, bOB_MM, bMM_MM, cMM):
     """ Function that calculates the fitness of the osteoblasts, osteoclasts and
     multiple myeloma cells (5).
@@ -281,21 +289,18 @@ def calculate_fitness(nOC, nOB, N, xOC, xOB, xMM, bOC_OC, bOB_OC, bMM_OC, cOC, b
             probability_value = probability_number_cells(nOC, nOB, N, xOC, xOB, xMM)
 
             # Determine the fitness of the OC, OB and MM cells
-            payoff_OC_value = payoff_OC(nOC, nOB, N, bOC_OC, bOB_OC, bMM_OC, cOC, cOB, cMM)
-            print('P1',payoff_OC_value)
-            fitness_OC += probability_value * payoff_OC_value
-            payoff_OB_value = payoff_OB(nOC, nOB, N, bOC_OB, bOB_OB, bMM_OB, cOC, cOB, cMM)
-            print('P2',payoff_OB_value)
-            fitness_OB += probability_value * payoff_OB_value
-            payoff_MM_value = payoff_MM(nOC, nOB, N, bOC_MM, bOB_MM, bMM_MM, cOC, cOB, cMM)
-            print('P3',payoff_MM_value)
-            fitness_MM += probability_value * payoff_MM_value
+            payoff_OC_value = payoff_OC(nOC, nOB, N, bOC_OC, bOB_OC, bMM_OC, cOC)
+            fitness_OC += probability_value * (payoff_OC_value/ N)
+            payoff_OB_value = payoff_OB(nOC, nOB, N, bOC_OB, bOB_OB, bMM_OB, cOB)
+            fitness_OB += probability_value * (payoff_OB_value/N)
+            payoff_MM_value = payoff_MM(nOC, nOB, N, bOC_MM, bOB_MM, bMM_MM, cMM)
+            fitness_MM += probability_value * (payoff_MM_value/N)
 
     # Normalize the fitness values
     normalization_factor = 1
-    normalized_fitness_OC = fitness_OC/ normalization_factor
-    normalized_fitness_OB = fitness_OB/ normalization_factor
-    normalized_fitness_MM = fitness_MM/ normalization_factor
+    normalized_fitness_OC = normalization_factor * fitness_OC
+    normalized_fitness_OB = normalization_factor * fitness_OB
+    normalized_fitness_MM = normalization_factor * fitness_MM
 
     return normalized_fitness_OC, normalized_fitness_OB, normalized_fitness_MM
 
@@ -422,6 +427,7 @@ def benefit_function(n_i, h, B_max, s, N):
         benefit_value = (sigmoid(n_i, h, B_max, s, N) - sigmoid(0, h, B_max, s, N)) / \
                             (sigmoid(N, h, B_max, s, N) - sigmoid(0, h, B_max, s, N))
 
+
     # If the benefit value is nan set it to zero
     if math.isnan(benefit_value):
         benefit_value = 1
@@ -465,7 +471,7 @@ def collect_data(file_name, folder_path):
 
     return data_frame
 
-# if __name__ == "__main__":
-#     # Do doc tests
-#     # import doctest
-#     # doctest.testmod()
+if __name__ == "__main__":
+    # Do doc tests
+    import doctest
+    doctest.testmod()
