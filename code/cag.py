@@ -37,7 +37,7 @@ def main():
     import doctest
     doctest.testmod()
 
-    # # Make figure 2 in the paper of Sartakhti et al., 2016.
+    # #Make figure 2 in the paper of Sartakhti et al., 2016.
     # figure_2()
     #
     # # Make figure 3 in the paper of Sartakhti et al., 2016.
@@ -57,33 +57,33 @@ def main():
     #
     # # Make figure 9B in the paper of Sartakhti et al., 2016.
     # figure_9B()
-
-    # Make figure 9C in the paper of Sartakhti et al., 2016.
-    figure_9C()
-
-    # Make figure 10A in the paper of Sartakhti et al., 2016.
-    figure_10A()
-
-    # Make figure 10B in the paper of Sartakhti et al., 2016.
-    figure_10B()
+    #
+    # # Make figure 9C in the paper of Sartakhti et al., 2016.
+    # figure_9C()
+    #
+    # # Make figure 10A in the paper of Sartakhti et al., 2016.
+    # figure_10A()
+    #
+    # # Make figure 10B in the paper of Sartakhti et al., 2016.
+    # figure_10B()
 
     # Make figure 11 in the paper of Sartakhti et al., 2016.
     figure_11()
 
     # Make figure 12A middel in the paper of Sartakhti et al., 2016.
-    figure_12A_middel()
-
-    # Make figure 12A right in the paper of Sartakhti et al., 2016.
-    figure_12A_right()
-
-    # Make figure 12B middel in the paper of Sartakhti et al., 2016.
-    figure_12B_middel()
-
-    # Make figure 12B right in the paper of Sartakhti et al., 2016.
-    figure_12B_right()
-
-    # Make figure 12C middel in the paper of Sartakhti et al., 2016.
-    figure_12C_middel()
+    # figure_12A_middel()
+    #
+    # # Make figure 12A right in the paper of Sartakhti et al., 2016.
+    # figure_12A_right()
+    #
+    # # Make figure 12B middel in the paper of Sartakhti et al., 2016.
+    # figure_12B_middel()
+    #
+    # # Make figure 12B right in the paper of Sartakhti et al., 2016.
+    # figure_12B_right()
+    #
+    # # Make figure 12C middel in the paper of Sartakhti et al., 2016.
+    # figure_12C_middel()
 
     # Make figure 12C right in the paper of Sartakhti et al., 2016.
     figure_12C_right()
@@ -118,7 +118,6 @@ def save_ternary(figure, file_name, folder_path):
     os.makedirs(folder_path, exist_ok=True)
     pio.write_image(figure, os.path.join(folder_path, f'{file_name}.png'),
                                                                 format='png')
-
 def fitness_WOC(xOC, xOB, xMM, N, cOC, cOB, cMM, matrix):
     """
     Function that calculates the fitness of an osteoclast in a population.
@@ -241,7 +240,7 @@ def fitness_WMM(xOC, xOB, xMM, N, cOC, cOB, cMM, matrix):
     ...    [0, 1, 2.5],
     ...    [1, 0, -0.3],
     ...    [2.5, 0, 0]]))
-    0.03750000000000003
+    0.03740000000000003
     """
     # Extract the necessary matrix values
     g = matrix[2, 0]
@@ -251,69 +250,6 @@ def fitness_WMM(xOC, xOB, xMM, N, cOC, cOB, cMM, matrix):
     WMM = (g*cOC*xOC + i*cMM*xMM + h*cOB*xOB)*(N - 1)/N - cMM #(20)
     return WMM
 
-def frequency_dynamics(generations, xOC, xOB, xMM, N, c1, c2, c3, matrix):
-    """
-    Function that determines the frequencies of OCs, OBs and MM cells for a specified
-    number of generations.
-
-    Parameters:
-    -----------
-    generations : Int
-        The number of generations for which frequency dynamics are simulated.
-    xOC: Float
-        Frequency of OCs.
-    xOB: Float
-        Frequency of OBs.
-    xMM: Float
-        Frequency of the MM cells.
-    N: Int
-        Number of individuals within the interaction range.
-    c1 : Float
-        Cost value of the OCs.
-    c2 : Float
-        Cost value of the OBs.
-    c3 : Float
-        Cost value of the MMs.
-    matrix : Numpy array
-        Matrix with the payoff values.
-
-    Returns:
-    -----------
-    df : DataFrame
-        DataFrame containing simulation results.
-    """
-
-    # Initialize DataFrame
-    column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
-    df = pd.DataFrame(columns=column_names)
-
-    # Perform frequency dynamics simulation
-    for generation in range(generations):
-        # Calculate fitness values for each type
-        WOC = fitness_WOC(xOC, xOB, xMM, N, c1, c2, c3, matrix)
-        WOB = fitness_WOB(xOC, xOB, xMM, N, c1, c2, c3, matrix)
-        WMM = fitness_WMM(xOC, xOB, xMM, N, c1, c2, c3, matrix)
-
-        # Calculate average fitness
-        W_average = xOC * WOC + xOB * WOB + xMM * WMM
-
-        # Calculate changes in frequencies based on replicator dynamics
-        xOC_change = xOC * (WOC - W_average)
-        xOB_change = xOB * (WOB - W_average)
-        xMM_change = xMM * (WMM - W_average)
-
-        # Add row to DataFrame
-        new_row = pd.DataFrame([{'Generation':generation, 'xOC': xOC, 'xOB': xOB,
-                                 'xMM': xMM, 'W_average': W_average}])
-        df = pd.concat([df, new_row], ignore_index=True)
-
-        # Update frequencies of each type
-        xOC = max(0, xOC + xOC_change)
-        xOB = max(0, xOB + xOB_change)
-        xMM = max(0, xMM + xMM_change)
-
-    return df
-
 def model_dynamics(y, t, N, c1, c2, c3, matrix):
     """Determines the frequenty dynamics in a population over time.
 
@@ -321,8 +257,8 @@ def model_dynamics(y, t, N, c1, c2, c3, matrix):
     -----------
     y : List
         List with the values of xOC, xOB, and xMM.
-    t : List
-        List with all the time points.
+    t : Float
+        THE time point.
     N : Int
         Number of cells in the difussion range.
     c1 : Float
@@ -339,6 +275,7 @@ def model_dynamics(y, t, N, c1, c2, c3, matrix):
     [xOC_change, xOB_change, xMM_change]: List
         List containing the changes in frequencies of xOC, xOB, and xMM.
     """
+
     xOC, xOB, xMM = y
 
     WOC = fitness_WOC(xOC, xOB, xMM, N, c1, c2, c3, matrix)
@@ -356,7 +293,7 @@ def model_dynamics(y, t, N, c1, c2, c3, matrix):
     return [xOC_change, xOB_change, xMM_change]
 
 """
-t = np.linspace(0, 50, 50)
+t = np.linspace(0, 40, 40)
 
 # Initial conditions
 y0 = [xOC, xOB, xMM]
@@ -393,18 +330,33 @@ def figure_2():
         [1, 0, -0.3],
         [2.5, 0, 0]])
 
-    generations = 50
+    t = np.linspace(0, 40, 40)
 
-    # Create dataframe
-    df_figure_2_first_line = frequency_dynamics(generations, xOC, xOB, xMM, N, c1, c2, c3, matrix)
+    # Initial conditions
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, c1, c2, c3, matrix)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_figure_2_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start frequencies
     xOC = 0.2
     xOB = 0.4
     xMM = 0.4
 
-    # Create a dataframe
-    df_figure_2_second_line = frequency_dynamics(generations, xOC, xOB, xMM, N, c1, c2, c3, matrix)
+    t = np.linspace(0, 40, 40)
+
+    # Initial conditions
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, c1, c2, c3, matrix)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_figure_2_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMM': y[:, 2]})
+
 
     # Save the data as csv file
     save_data(df_figure_2_first_line, 'df_figure_2_first_line.csv',
@@ -457,29 +409,48 @@ def figure_3():
         [1, 0, -0.3],
         [2.5, 0, 0]])
 
-    generations = 20
+    t = np.linspace(0, 40,100)
 
-    # Make a dataframe
-    df_figure_3_first_line = frequency_dynamics(generations, xOC, xOB, xMM, N,
-                                                            c1, c2, c3, matrix)
+    # Initial conditions
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, c1, c2, c3, matrix)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_figure_3_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start frequencies
     xOC = 0.945
     xOB = 0.05
     xMM = 0.005
 
-    # Make a dataframe
-    df_figure_3_second_line = frequency_dynamics(generations, xOC, xOB, xMM, N,
-                                                            c1, c2, c3, matrix)
+    t = np.linspace(0, 40, 100)
+
+    # Initial conditions
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, c1, c2, c3, matrix)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_figure_3_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start frequencies
     xOC = 0.01
     xOB = 0.19
     xMM = 0.8
 
-    # Make a dataframe
-    df_figure_3_third_line = frequency_dynamics(generations, xOC, xOB, xMM, N,
-                                                            c1, c2, c3, matrix)
+    t = np.linspace(0, 40, 100)
+
+    # Initial conditions
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, c1, c2, c3, matrix)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_figure_3_third_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Save the data as csv file
     save_data(df_figure_3_first_line, 'df_figure_2_first_line.csv',
@@ -530,20 +501,32 @@ def figure_5():
         [1, 0, -0.3],
         [2.5, 0, 0]])
 
-    generations = 40
+    t = np.linspace(0, 30, 30)
 
-    # Make a dataframe
-    df_figure_5_first_line = frequency_dynamics(generations, xOC, xOB, xMM, N,
-                                                                c1, c2, c3, matrix)
+    # Initial conditions
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, c1, c2, c3, matrix)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_figure_5_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start frequencies
     xOC = 0.3
     xOB = 0.5
     xMM = 0.2
 
-    # Make a dataframe
-    df_figure_5_second_line = frequency_dynamics(generations, xOC, xOB, xMM, N,
-                                                            c1, c2, c3, matrix)
+    t = np.linspace(0, 30, 30)
+
+    # Initial conditions
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, c1, c2, c3, matrix)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_figure_5_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Save the data as csv file
     save_data(df_figure_5_first_line, 'df_figure_5_first_line.csv',
@@ -552,7 +535,7 @@ def figure_5():
                                     r'..\data\reproduced_data_Sartakhti_linear')
 
     # Make line plots
-    df_figure_5_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+    df_figure_5_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -560,7 +543,7 @@ def figure_5():
     plt.legend()
     plt.show()
 
-    df_figure_5_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+    df_figure_5_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -605,20 +588,32 @@ def figure_8A():
         [1, 0, -0.3],
         [1.1, 0, 0]])
 
-    generations = 50
+    t = np.linspace(0, 40,100)
 
-    # Make a dataframe
-    df_figure_8A_first_line = frequency_dynamics(generations, xOC, xOB, xMM, N,
-                                                            c1, c2, c3, matrix)
+    # Initial conditions
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, c1, c2, c3, matrix)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_figure_8A_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start parameter value
     xOC = 0.2
     xOB = 0.5
     xMM = 0.3
 
-    # Create a dataframe
-    df_figure_8A_second_line = frequency_dynamics(generations, xOC, xOB, xMM, N,
-                                                            c1, c2, c3, matrix)
+    t = np.linspace(0, 40,100)
+
+    # Initial conditions
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, c1, c2, c3, matrix)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_figure_8A_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Save the data as csv file
     save_data(df_figure_8A_first_line, 'df_figure_8A_first_line.csv',
@@ -627,7 +622,7 @@ def figure_8A():
                                     r'..\data\reproduced_data_Sartakhti_linear')
 
     # Make a plot
-    df_figure_8A_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+    df_figure_8A_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -635,7 +630,7 @@ def figure_8A():
     plt.legend()
     plt.show()
 
-    df_figure_8A_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+    df_figure_8A_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -681,20 +676,32 @@ def figure_8B():
         [1, 0, -0.3],
         [1.8, 0, 0]])
 
-    generations = 50
+    t = np.linspace(0, 40, 40)
 
-    # Create a dataframe
-    df_figure_8B_first_line = frequency_dynamics(generations, xOC, xOB, xMM, N,
-                                                             c1, c2, c3, matrix)
+    # Initial conditions
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, c1, c2, c3, matrix)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_figure_8B_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start frequencies
     xOC = 0.1
     xOB = 0.7
     xMM = 0.2
 
-    # Create a dataframe
-    df_figure_8B_second_line = frequency_dynamics(generations, xOC, xOB, xMM, N,
-                                                            c1, c2, c3, matrix)
+    t = np.linspace(0, 40, 40)
+
+    # Initial conditions
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, c1, c2, c3, matrix)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_figure_8B_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Save the data as csv file
     save_data(df_figure_8B_first_line, 'df_figure_8B_first_line.csv',
@@ -703,7 +710,7 @@ def figure_8B():
                                    r'..\data\reproduced_data_Sartakhti_linear')
 
     # Make a plot
-    df_figure_8B_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+    df_figure_8B_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -711,7 +718,7 @@ def figure_8B():
     plt.legend()
     plt.show()
 
-    df_figure_8B_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+    df_figure_8B_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', ])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -757,20 +764,32 @@ def figure_9A():
         [1, 0, -0.3],
         [0.5, 0, 0]])
 
-    generations = 50
+    t = np.linspace(0, 40,100)
 
-    # Create a dataframe
-    df_figure_9A_first_line = frequency_dynamics(generations, xOC, xOB, xMM, N,
-                                                                c1, c2, c3, matrix)
+    # Initial conditions
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, c1, c2, c3, matrix)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_figure_9A_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start frequencies
     xOC = 0.4
     xOB = 0.3
     xMM = 0.3
 
-    # Make a dataframe
-    df_figure_9A_second_line =frequency_dynamics(generations, xOC, xOB, xMM, N,
-                                                            c1, c2, c3, matrix)
+    t = np.linspace(0, 40,100)
+
+    # Initial conditions
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, c1, c2, c3, matrix)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_figure_9A_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Save the data as csv file
     save_data(df_figure_9A_first_line, 'df_figure_9A_first_line.csv',
@@ -779,7 +798,7 @@ def figure_9A():
                                     r'..\data\reproduced_data_Sartakhti_linear')
 
     # Make a plot
-    df_figure_9A_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+    df_figure_9A_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -787,7 +806,7 @@ def figure_9A():
     plt.legend()
     plt.show()
 
-    df_figure_9A_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+    df_figure_9A_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -833,20 +852,32 @@ def figure_9B():
         [1, 0, 0],
         [2, 0, 0]])
 
-    generations = 50
+    t = np.linspace(0, 40,100)
 
-    # Make a dataframe
-    df_figure_9B_first_line = frequency_dynamics(generations, xOC, xOB, xMM, N,
-                                                            c1, c2, c3, matrix)
+    # Initial conditions
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, c1, c2, c3, matrix)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_figure_9B_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start frequencies
     xOC = 0.4
     xOB = 0.3
     xMM = 0.3
 
-    # Make a dataframe
-    df_figure_9B_second_line = frequency_dynamics(generations, xOC, xOB, xMM, N,
-                                                            c1, c2, c3, matrix)
+    t = np.linspace(0, 40,100)
+
+    # Initial conditions
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, c1, c2, c3, matrix)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_figure_9B_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Save the data as csv file
     save_data(df_figure_9B_first_line, 'df_figure_9B_first_line.csv',
@@ -855,7 +886,7 @@ def figure_9B():
                                     r'..\data\reproduced_data_Sartakhti_linear')
 
     # Make a plot
-    df_figure_9B_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+    df_figure_9B_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -863,7 +894,7 @@ def figure_9B():
     plt.legend()
     plt.show()
 
-    df_figure_9B_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+    df_figure_9B_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -909,20 +940,32 @@ def figure_9C():
         [1, 0, -1],
         [0.5, 0, 0]])
 
-    generations = 50
+    t = np.linspace(0, 40,100)
 
-    # Make a dataframe
-    df_figure_9C_first_line = frequency_dynamics(generations, xOC, xOB, xMM, N,
-                                                            c1, c2, c3, matrix)
+    # Initial conditions
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, c1, c2, c3, matrix)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_figure_9C_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start frequencies
     xOC = 0.4
     xOB = 0.3
     xMM = 0.3
 
-    # Make a dataframe
-    df_figure_9C_second_line = frequency_dynamics(generations, xOC, xOB, xMM, N,
-                                                            c1, c2, c3, matrix)
+    t = np.linspace(0, 40,100)
+
+    # Initial conditions
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, c1, c2, c3, matrix)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_figure_9C_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Save the data as csv file
     save_data(df_figure_9C_first_line, 'df_figure_9C_first_line.csv',
@@ -931,7 +974,7 @@ def figure_9C():
                                     r'..\data\reproduced_data_Sartakhti_linear')
 
     # Make a plot
-    df_figure_9C_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+    df_figure_9C_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -939,7 +982,7 @@ def figure_9C():
     plt.legend()
     plt.show()
 
-    df_figure_9C_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+    df_figure_9C_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -985,20 +1028,32 @@ def figure_10A():
         [1, 0, -0.3],
         [0.5, 0, 0]])
 
-    generations = 50
+    t = np.linspace(0, 40)
 
-    # Make a dataframe
-    df_figure_10A_first_line = frequency_dynamics(generations, xOC, xOB, xMM, N,
-                                                            c1, c2, c3, matrix)
+    # Initial conditions
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, c1, c2, c3, matrix)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_figure_10A_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start values
     xOC = 0.2
     xOB = 0.2
     xMM = 0.6
 
-    # Make a datadrame
-    df_figure_10A_second_line = frequency_dynamics(generations, xOC, xOB, xMM, N,
-                                                                c1, c2, c3, matrix)
+    t = np.linspace(0, 40)
+
+    # Initial conditions
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, c1, c2, c3, matrix)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_figure_10A_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Save the data as csv file
     save_data(df_figure_10A_first_line, 'df_figure_10A_first_line.csv',
@@ -1007,7 +1062,7 @@ def figure_10A():
                                     r'..\data\reproduced_data_Sartakhti_linear')
 
     # Make a plot
-    df_figure_10A_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+    df_figure_10A_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -1015,7 +1070,7 @@ def figure_10A():
     plt.legend()
     plt.show()
 
-    df_figure_10A_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+    df_figure_10A_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -1061,20 +1116,32 @@ def figure_10B():
         [1, 0, 0.3],
         [0.5, 0, 0]])
 
-    generations = 50
+    t = np.linspace(0, 40,100)
 
-    # Make a dataframe
-    df_figure_10B_first_line = frequency_dynamics(generations, xOC, xOB, xMM, N,
-                                                            c1, c2, c3, matrix)
+    # Initial conditions
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, c1, c2, c3, matrix)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_figure_10B_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start frequenties
     xOC = 0.4
     xOB = 0.3
     xMM = 0.3
 
-    # Make a dataframe
-    df_figure_10B_second_line = frequency_dynamics(generations, xOC, xOB, xMM, N,
-                                                            c1, c2, c3, matrix)
+    t = np.linspace(0, 40,100)
+
+    # Initial conditions
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, c1, c2, c3, matrix)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_figure_10B_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     save_data(df_figure_10B_first_line, 'df_figure_10B_first_line.csv',
                                     r'..\data\reproduced_data_Sartakhti_linear')
@@ -1082,7 +1149,7 @@ def figure_10B():
                                     r'..\data\reproduced_data_Sartakhti_linear')
 
     # Make a plot
-    df_figure_10B_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+    df_figure_10B_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -1090,7 +1157,7 @@ def figure_10B():
     plt.legend()
     plt.show()
 
-    df_figure_10B_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+    df_figure_10B_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -1136,46 +1203,70 @@ def figure_11():
         [1, 0, -0.3],
         [1.5, 0, 0]])
 
-    generations = 50
+    def model_dynamics_reduce_MM(y, t, N, c1, c2, c3, matrix, extra_MM):
+        """Determines the frequency dynamics in a population over time.
 
-    # Make a dataframe
-    column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
-    df_figure_11_first_line = pd.DataFrame(columns=column_names)
+        Parameters:
+        -----------
+        y : List
+            List with the values of xOC, xOB, and xMM.
+        t : Float
+            The time point.
+        N : Int
+            Number of cells in the diffusion range.
+        c1 : Float
+            Cost value of the OCs.
+        c2 : Float
+            Cost value of the OBs.
+        c3 : Float
+            Cost value of the MMs.
+        matrix : Numpy array
+            Matrix with the payoff values.
+        extra_MM : int
+            Extra parameter (not used in this function).
 
-    # Determine the frequentie value a number of times
-    for generation in range(generations):
-        generations = generation *15
+        Returns:
+        --------
+        [xOC, xOB, xMM]: List
+            List containing the updated frequencies of xOC, xOB, and xMM.
+        """
 
-        # reduce number of MM cells
-        if generation == 10:
+        xOC, xOB, xMM = y
+
+        # Check if the time condition is met
+        if t >= 10 and not hasattr(model_dynamics_reduce_MM, 'flag'):
             xOC = 0.65
             xOB = 0.25
             xMM = 0.1
+            # Set the flag to indicate that the condition has been met
+            model_dynamics_reduce_MM.flag = True
 
         WOC = fitness_WOC(xOC, xOB, xMM, N, c1, c2, c3, matrix)
         WOB = fitness_WOB(xOC, xOB, xMM, N, c1, c2, c3, matrix)
         WMM = fitness_WMM(xOC, xOB, xMM, N, c1, c2, c3, matrix)
 
-        # Determine the average fittness
+        # Determine the average fitness
         W_average = xOC * WOC + xOB * WOB + xMM * WMM
 
-        # Determine the new frequencies based of replicator dynamics
-        xOC_change = xOC * (WOC - W_average) # (15)
-        xOB_change = xOB * (WOB - W_average) # (16)
-        xMM_change = xMM * (WMM - W_average) # (17)
+        # Determine the new frequencies based on replicator dynamics
+        xOC = max(0, xOC + xOC * (WOC - W_average))
+        xOB = max(0, xOB + xOB * (WOB - W_average))
+        xMM = max(0, xMM + xMM * (WMM - W_average))
 
+        return [xOC, xOB, xMM]
 
-        # Add row to dataframe (first add row and the update because then also the
-        # beginning values get added to the dataframe at generation =0)
-        new_row = pd.DataFrame([{'Generation':generations, 'xOC': xOC, 'xOB': xOB,
-                                            'xMM': xMM, 'W_average': W_average}])
-        df_figure_11_first_line = pd.concat([df_figure_11_first_line, new_row],
-                                                                ignore_index=True)
+    t = np.linspace(0, 40,40)
 
-        # Update the xOC, xOB, xMM values
-        xOC = max(0, xOC + xOC_change)
-        xOB = max(0, xOB + xOB_change)
-        xMM = max(0, xMM + xMM_change)
+    # Initial conditions
+    y0 = [xOC, xOB, xMM]
+    extra_MM = 0
+    parameters = (N, c1, c2, c3, matrix, extra_MM)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics_reduce_MM, y0, t, args=parameters)
+    df_figure_11_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMM': y[:, 2]})
+
 
     save_data(df_figure_11_first_line, 'df_figure_11_line.csv',
                                     r'..\data\reproduced_data_Sartakhti_linear')
@@ -1223,20 +1314,32 @@ def figure_12A_middel():
         [1, 0, -0.3],
         [2.0, 0, 0]])
 
-    generations = 50
+    t = np.linspace(0, 30,100)
 
-    # Make a dataframe
-    df_figure_12A_middel_first_line = frequency_dynamics(generations, xOC, xOB,
-                                                    xMM, N, c1, c2, c3, matrix)
+    # Initial conditions
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, c1, c2, c3, matrix)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_figure_12A_middel_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start frequenties
     xOC = 0.2
     xOB = 0.2
     xMM = 0.6
 
-    # Make a dataframe
-    df_figure_12A_middel_second_line = frequency_dynamics(generations, xOC, xOB,
-                                                    xMM, N, c1, c2, c3, matrix)
+    t = np.linspace(0, 30,100)
+
+    # Initial conditions
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, c1, c2, c3, matrix)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_figure_12A_middel_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Save the data as csv file
     save_data(df_figure_12A_middel_first_line, 'df_figure_12A_middel_first_line.csv',
@@ -1246,7 +1349,7 @@ def figure_12A_middel():
 
     # Make a plot
     df_figure_12A_middel_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM',
-                                                                    'W_average'])
+                                                                    ])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -1255,7 +1358,7 @@ def figure_12A_middel():
     plt.show()
 
     df_figure_12A_middel_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM',
-                                                                    'W_average'])
+                                                                    ])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -1301,20 +1404,32 @@ def figure_12A_right():
         [1, 0, -0.3],
         [2.0, 0, 0]])
 
-    generations = 50
+    t = np.linspace(0, 30,100)
 
-    # Make a dataframe
-    df_figure_12A_right_first_line = frequency_dynamics(generations, xOC, xOB, xMM,
-                                                            N, c1, c2, c3, matrix)
+    # Initial conditions
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, c1, c2, c3, matrix)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_figure_12A_right_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start frequencies
     xOC = 0.3
     xOB = 0.3
     xMM = 0.4
 
-    # Make a dataframe
-    df_figure_12A_right_second_line = frequency_dynamics(generations, xOC, xOB,
-                                                        xMM, N, c1, c2, c3, matrix)
+    t = np.linspace(0, 30,100)
+
+    # Initial conditions
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, c1, c2, c3, matrix)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_figure_12A_right_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Save the data as csv file
     save_data(df_figure_12A_right_first_line, 'df_figure_12A_right_first_line.csv',
@@ -1324,7 +1439,7 @@ def figure_12A_right():
 
     # Make a plot
     df_figure_12A_right_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM',
-                                                                    'W_average'])
+                                                                    ])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -1332,7 +1447,7 @@ def figure_12A_right():
     plt.legend()
     plt.show()
 
-    df_figure_12A_right_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
+    df_figure_12A_right_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -1378,20 +1493,32 @@ def figure_12B_middel():
         [1, 0, -0.33],
         [0.5, 0, 0]])
 
-    generations = 50
+    t = np.linspace(0, 30,100)
 
-    # Make a dataframe
-    df_figure_12B_middel_first_line = frequency_dynamics(generations, xOC, xOB,
-                                                    xMM, N, c1, c2, c3, matrix)
+    # Initial conditions
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, c1, c2, c3, matrix)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_figure_12B_middel_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start frequenties
     xOC = 0.1
     xOB = 0.2
     xMM = 0.7
 
-    # Make a dataframe
-    df_figure_12B_middel_second_line = frequency_dynamics(generations, xOC, xOB,
-                                                        xMM, N, c1, c2, c3, matrix)
+    t = np.linspace(0, 30,100)
+
+    # Initial conditions
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, c1, c2, c3, matrix)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_figure_12B_middel_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Save the data as csv file
     save_data(df_figure_12B_middel_first_line, 'df_figure_12B_middel_first_line.csv',
@@ -1401,7 +1528,7 @@ def figure_12B_middel():
 
     # Make a plot
     df_figure_12B_middel_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM',
-                                                                    'W_average'])
+                                                                    ])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -1410,7 +1537,7 @@ def figure_12B_middel():
     plt.show()
 
     df_figure_12B_middel_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM',
-                                                                    'W_average'])
+                                                                    ])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -1457,20 +1584,32 @@ def figure_12B_right():
         [1, 0, -0.33],
         [0.5, 0, 0]])
 
-    generations = 50
+    t = np.linspace(0, 30,100)
 
-    # Make a dataframe
-    df_figure_12B_right_first_line = frequency_dynamics(generations, xOC, xOB, xMM,
-                                                            N, c1, c2, c3, matrix)
+    # Initial conditions
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, c1, c2, c3, matrix)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_figure_12B_right_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start frequencies
     xOC = 0.1
     xOB = 0.2
     xMM = 0.7
 
-    # Make a dataframe
-    df_figure_12B_right_second_line = frequency_dynamics(generations, xOC, xOB,
-                                                    xMM, N, c1, c2, c3, matrix)
+    t = np.linspace(0, 30,100)
+
+    # Initial conditions
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, c1, c2, c3, matrix)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_figure_12B_right_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Save the data as csv file
     save_data(df_figure_12B_right_first_line, 'df_figure_12B_right_first_line.csv',
@@ -1480,7 +1619,7 @@ def figure_12B_right():
 
     # Make a plot
     df_figure_12B_right_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM',
-                                                                    'W_average'])
+                                                                    ])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -1489,7 +1628,7 @@ def figure_12B_right():
     plt.show()
 
     df_figure_12B_right_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM',
-                                                                    'W_average'])
+                                                                    ])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -1536,20 +1675,32 @@ def figure_12C_middel():
         [1, 0, -0.5],
         [0.5, 0, 0]])
 
-    generations = 50
+    t = np.linspace(0, 30,100)
 
-    # Make a dataframe
-    df_figure_12C_middel_first_line = frequency_dynamics(generations, xOC, xOB, xMM,
-                                                            N, c1, c2, c3, matrix)
+    # Initial conditions
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, c1, c2, c3, matrix)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_figure_12C_middel_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start frequencies
     xOC = 0.8
     xOB = 0.1
     xMM = 0.1
 
-    # Make a dataframe
-    df_figure_12C_middel_second_line = frequency_dynamics(generations, xOC, xOB,
-                                                        xMM, N, c1, c2, c3, matrix)
+    t = np.linspace(0, 30,100)
+
+    # Initial conditions
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, c1, c2, c3, matrix)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_figure_12C_middel_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Save the data as csv file
     save_data(df_figure_12C_middel_first_line, 'df_figure_12C_middel_first_line.csv',
@@ -1558,8 +1709,7 @@ def figure_12C_middel():
                                     r'..\data\reproduced_data_Sartakhti_linear')
 
     # Make a plot
-    df_figure_12C_middel_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM',
-                                                                    'W_average'])
+    df_figure_12C_middel_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -1567,8 +1717,7 @@ def figure_12C_middel():
     plt.legend()
     plt.show()
 
-    df_figure_12C_middel_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM',
-                                                                    'W_average'])
+    df_figure_12C_middel_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -1614,11 +1763,16 @@ def figure_12C_right():
         [1, 0, -0.5],
         [0.5, 0, 0]])
 
-    generations = 50
+    t = np.linspace(0, 30,100)
 
-    # Make a dataframe
-    df_figure_12C_right_first_line = frequency_dynamics(generations, xOC, xOB, xMM,
-                                                            N, c1, c2, c3, matrix)
+    # Initial conditions
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, c1, c2, c3, matrix)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_figure_12C_right_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start values
     xOC = 0.8
@@ -1626,8 +1780,16 @@ def figure_12C_right():
     xMM = 0.1
 
     # Make a dataframe
-    df_figure_12C_right_second_line = frequency_dynamics(generations, xOC, xOB,
-                                                    xMM, N, c1, c2, c3, matrix)
+    t = np.linspace(0, 30,100)
+
+    # Initial conditions
+    y0 = [xOC, xOB, xMM]
+    parameters = (N, c1, c2, c3, matrix)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_figure_12C_right_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Save the data as csv file
     save_data(df_figure_12C_right_first_line, 'df_figure_12C_right_first_line.csv',
@@ -1636,8 +1798,7 @@ def figure_12C_right():
                                     r'..\data\reproduced_data_Sartakhti_linear')
 
     # Make a plot
-    df_figure_12C_right_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM',
-                                                                    'W_average'])
+    df_figure_12C_right_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -1645,8 +1806,7 @@ def figure_12C_right():
     plt.legend()
     plt.show()
 
-    df_figure_12C_right_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM',
-                                                                    'W_average'])
+    df_figure_12C_right_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
