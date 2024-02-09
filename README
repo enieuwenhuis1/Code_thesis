@@ -1,4 +1,4 @@
-Author:       Eva Nieuwenhuis
+nonlinearAuthor:       Eva Nieuwenhuis
 University:   UvA
 Student id:   13717405
 
@@ -14,15 +14,9 @@ PYTHON AND LIBRARY VESIONS
 Python version 3.11.4 is used.
 To run the codes in the code file some libraries need to be installed.
 
-cancer_model.py:
-* numpy (version 1.26.0)
-    - install: pip install numpy==1.26.0
-* pandas (version 2.1.3)
-    - install: pip install pandas==2.1.3
+model_S_nonlinear.py
 * scipy (version 1.11.4)
     - install: pip install scipy==1.11.4
-
-data_visualisation.py:
 * numpy (version 1.26.0)
     - install: pip install numpy==1.26.0
 * matplotlib (version 3.8.0)
@@ -34,7 +28,7 @@ data_visualisation.py:
 * plotly (version 5.18.0)
     - install: pip install plotly==5.18.0
 
-cancer_model_linear.py:
+model_S_linear.py
 * numpy (version 1.26.0)
     - install: pip install numpy==1.26.0
 * matplotlib (version 3.8.0)
@@ -47,24 +41,22 @@ cancer_model_linear.py:
     - install: pip install plotly==5.18.0
 * numpy (version 1.26.0)
     - install: pip install numpy==1.26.0
-* pandas (version 2.1.3)
-    - install: pip install pandas==2.1.3
 
 
-THE MODEL WITH LINEAR BENFITS: model_visualisation_S_linear.py
-Model_visualisation_S_linear.py contains code of the mathematical EGT formulas
+THE MODEL WITH LINEAR BENFITS: model_S_linear.py
+model_S_linear.py contains code of the mathematical EGT formulas
 as wel as code to reproduce some of the figures in the paper: Evolutionary dynamics
 of Tumor-Stroma interactions in multiple myeloma by Sartakhti et al., 2016. Here
 the benefits are linear and there are collective interactions.
 
 TEST THE CODE
 To test the functions in the model, doc tests are added and automatically run when
-the model_visualisation_S_linear.py code is run.
+the model_S_linear.py code is run.
 
 
-THE MODEL WITH NONLINEAR BENEFITS: model_S_non_linear.py
-Model_S_non_linear.py contains the code with all the mathematical EGT formulas that
-are used for trying to reproduce the results of the paper: Game Theory of Tumor–Stroma
+THE MODEL WITH NONLINEAR BENEFITS: model_S_nonlinear.py
+Model_S_nonlinear.py contains the code with all the mathematical EGT formulas as
+well as the code to reproduce the figures from the paper: Game Theory of Tumor–Stroma
 Interactions in Multiple Myeloma: Effect of Nonlinear Benefits by Sartakhti et al.,
 2018. It shows the effect of nonlinear benefits compared to linear benefits. There
 are collective interactions.
@@ -73,35 +65,27 @@ TEST THE CODE
 To test the functions in the model, doc tests are added and automatically run when
 the cancer_model.py code is run.
 
-THE VISUALISATION
-Visualisation_S_non_linear.py contains the code thati used when trying to reproduce
-the figures of the paper of Sartakhti et al., 2018. The data utilised for the figures
-is generated with model_S_non_linear.py
-
 THE DATA
 The folder data contains all the generated data that is used to make the figures and
 to perform the statistical tests. This folder contains:
-* reproduced_data_Sartakhti_non_linear: contains all the data used for the figure
+* reproduced_data_Sartakhti_nonlinear: contains all the data used for the figure
                                 reproduction in the paper of Sartakhti et al., 2016
 * reproduced_data_Sartakhti_linear: contains all the data used for the figure
                                 reproduction in the paper of Sartakhti et al., 2016
 
 THE FIGURES
 In the folder visualisation all made figures are shown. This folder contains:
-* reproduced_results_Sartakhti_non_linear: contains all the reproduced figures of
+* reproduced_results_Sartakhti_nonlinear: contains all the reproduced figures of
                                         the paper of Sartakhti et al., 2018.
 * reproduced_results_Sartakhti_linear: contains all the reproduced figures of the
                                       paper of Sartakhti et al., 2016.
 
 HOW TO RUN
-The non linear model, model_S_non_linear.py:
-         - python model_S_non_linear.py
+The non linear model and its visualisation, model_S_nonlinear.py:
+         - python model_S_nonlinear.py
 
-The visualisation of the non linear model, visualisation_S_non_linear.py:
-        - python visualisation_S_non_linear.py
-
-The linear model and its visualisation, model_visualisation_S_linear.py:
-        - python model_visualisation_S_linear.py
+The linear model and its visualisation, model_S_linear.py:
+        - python model_S_linear.py
 
 REFERENCES
 Sartakhti, J. S., Manshaei, M. H., & Archetti, M. (2018). Game Theory of Tumor–Stroma
