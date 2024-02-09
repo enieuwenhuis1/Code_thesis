@@ -11,7 +11,7 @@ Description:  Code with the model that simulates linear dynamics in the multiple
               When running the code it also shows line plots of the frequencies, these
               are not in the paper and not saved but are shown for a better understanding
               of the dynamics.
-               
+
 Sartakhti, J. S., Manshaei, M. H., Bateni, S., & Archetti, M. (2016). Evolutionary
 dynamics of Tumor-Stroma interactions in multiple myeloma. PLOS ONE, 11(12),
 e0168856. https://doi.org/10.1371/journal.pone.0168856
@@ -416,7 +416,8 @@ def figure_2():
         generation_list.append(index)
 
     # Create a new DataFrame with the calculated values
-    df_fitness_first_line = pd.DataFrame({'Generation': generation_list, 'WOC': WOC_list, 'WOB': WOB_list, 'WMM': WMM_list, 'W_average': W_average_list})
+    df_fitness_first_line = pd.DataFrame({'Generation': generation_list,
+    'WOC': WOC_list, 'WOB': WOB_list, 'WMM': WMM_list, 'W_average': W_average_list})
 
     # Make new lists
     WOC_list = []
@@ -449,13 +450,15 @@ def figure_2():
         generation_list.append(index)
 
     # Create a new DataFrame with the calculated values
-    df_fitness_second_line = pd.DataFrame({'Generation': generation_list, 'WOC': WOC_list, 'WOB': WOB_list, 'WMM': WMM_list, 'W_average': W_average_list})
+    df_fitness_second_line = pd.DataFrame({'Generation': generation_list,
+    'WOC': WOC_list, 'WOB': WOB_list, 'WMM': WMM_list, 'W_average': W_average_list})
 
     # Create a figure and axes for subplots
     fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(14,6))
 
     # Plot the first subplot
-    df_fitness_first_line.plot(x='Generation', y=['WOC', 'WOB', 'WMM', 'W_average'], ax=axes[0])
+    df_fitness_first_line.plot(x='Generation', y=['WOC', 'WOB', 'WMM', 'W_average'],
+                                                                        ax=axes[0])
     axes[0].set_title('Fitness for a scenario where c2<c1<c3 (figure 2)')
     axes[0].set_xlabel('Generations')
     axes[0].set_ylabel('Fitness')
@@ -474,7 +477,8 @@ def figure_2():
     fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(14,6))
 
     # Plot the first subplot
-    df_fitness_second_line.plot(x='Generation', y=['WOC', 'WOB', 'WMM', 'W_average'], ax=axes[0])
+    df_fitness_second_line.plot(x='Generation', y=['WOC', 'WOB', 'WMM', 'W_average'],
+                                                                        ax=axes[0])
     axes[0].set_title('Fitness for a scenario where c2<c1<c3 (figure 2)')
     axes[0].set_xlabel('Generations')
     axes[0].set_ylabel('Fitness')
@@ -589,17 +593,20 @@ def figure_3():
     fig1, axes = plt.subplots(1, 3, figsize=(15, 5))
 
     # Plot each dataframe in one subplot
-    df_figure_3_first_line.plot(ax=axes[0], x='Generation', y=['xOC', 'xOB', 'xMM'], label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+    df_figure_3_first_line.plot(ax=axes[0], x='Generation', y=['xOC', 'xOB', 'xMM'],
+                            label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     axes[0].set_title('Dynamics for a scenario where c2<c1<c3 (figure 3)')
     axes[0].set_xlabel('Generations')
     axes[0].set_ylabel('Fitness/Frequency')
 
-    df_figure_3_second_line.plot(ax=axes[1], x='Generation', y=['xOC', 'xOB', 'xMM'], label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+    df_figure_3_second_line.plot(ax=axes[1], x='Generation', y=['xOC', 'xOB', 'xMM'],
+                            label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     axes[1].set_title('Dynamics for a scenario where c2<c1<c3 (figure 3)')
     axes[1].set_xlabel('Generations')
     axes[1].set_ylabel('Fitness/Frequency')
 
-    df_figure_3_third_line.plot(ax=axes[2], x='Generation', y=['xOC', 'xOB', 'xMM'], label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+    df_figure_3_third_line.plot(ax=axes[2], x='Generation', y=['xOC', 'xOB', 'xMM'],
+                            label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     axes[2].set_title('Dynamics for a scenario where c2<c1<c3 (figure 3)')
     axes[2].set_xlabel('Generations')
     axes[2].set_ylabel('Fitness/Frequency')
@@ -660,7 +667,8 @@ def figure_5():
                                     r'..\data\reproduced_data_Sartakhti_linear')
 
     # Make line plots
-    df_figure_5_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'], label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+    df_figure_5_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -668,7 +676,8 @@ def figure_5():
     plt.legend()
     plt.show()
 
-    df_figure_5_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'], label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+    df_figure_5_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -747,7 +756,8 @@ def figure_8A():
                                     r'..\data\reproduced_data_Sartakhti_linear')
 
     # Make a plot
-    df_figure_8A_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'], label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+    df_figure_8A_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -755,7 +765,8 @@ def figure_8A():
     plt.legend()
     plt.show()
 
-    df_figure_8A_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'], label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+    df_figure_8A_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -835,7 +846,8 @@ def figure_8B():
                                    r'..\data\reproduced_data_Sartakhti_linear')
 
     # Make a plot
-    df_figure_8B_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'], label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+    df_figure_8B_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -923,7 +935,8 @@ def figure_9A():
                                     r'..\data\reproduced_data_Sartakhti_linear')
 
     # Make a plot
-    df_figure_9A_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'], label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+    df_figure_9A_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -931,7 +944,8 @@ def figure_9A():
     plt.legend()
     plt.show()
 
-    df_figure_9A_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'], label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+    df_figure_9A_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -1011,7 +1025,8 @@ def figure_9B():
                                     r'..\data\reproduced_data_Sartakhti_linear')
 
     # Make a plot
-    df_figure_9B_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'], label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+    df_figure_9B_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -1019,7 +1034,8 @@ def figure_9B():
     plt.legend()
     plt.show()
 
-    df_figure_9B_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'], label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+    df_figure_9B_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -1099,7 +1115,8 @@ def figure_9C():
                                     r'..\data\reproduced_data_Sartakhti_linear')
 
     # Make a plot
-    df_figure_9C_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'], label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+    df_figure_9C_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -1107,7 +1124,8 @@ def figure_9C():
     plt.legend()
     plt.show()
 
-    df_figure_9C_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'], label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+    df_figure_9C_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -1187,7 +1205,8 @@ def figure_10A():
                                     r'..\data\reproduced_data_Sartakhti_linear')
 
     # Make a plot
-    df_figure_10A_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'], label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+    df_figure_10A_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -1195,7 +1214,8 @@ def figure_10A():
     plt.legend()
     plt.show()
 
-    df_figure_10A_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'], label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+    df_figure_10A_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -1274,7 +1294,8 @@ def figure_10B():
                                     r'..\data\reproduced_data_Sartakhti_linear')
 
     # Make a plot
-    df_figure_10B_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'], label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+    df_figure_10B_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -1282,7 +1303,8 @@ def figure_10B():
     plt.legend()
     plt.show()
 
-    df_figure_10B_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'], label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+    df_figure_10B_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -1369,7 +1391,8 @@ def figure_11():
 
 
     # Make a plot
-    df_figure_11_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'], label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+    df_figure_11_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Frequency')
@@ -1543,7 +1566,8 @@ def figure_12A_right():
     plt.legend()
     plt.show()
 
-    df_figure_12A_right_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'], label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+    df_figure_12A_right_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -1805,7 +1829,8 @@ def figure_12C_middel():
                                     r'..\data\reproduced_data_Sartakhti_linear')
 
     # Make a plot
-    df_figure_12C_middel_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'], label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+    df_figure_12C_middel_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -1813,7 +1838,8 @@ def figure_12C_middel():
     plt.legend()
     plt.show()
 
-    df_figure_12C_middel_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'], label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+    df_figure_12C_middel_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+                            label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -1894,7 +1920,8 @@ def figure_12C_right():
                                     r'..\data\reproduced_data_Sartakhti_linear')
 
     # Make a plot
-    df_figure_12C_right_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'], label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+    df_figure_12C_right_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')
@@ -1902,7 +1929,8 @@ def figure_12C_right():
     plt.legend()
     plt.show()
 
-    df_figure_12C_right_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'], label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+    df_figure_12C_right_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+                            label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Fitness/ Frequency')

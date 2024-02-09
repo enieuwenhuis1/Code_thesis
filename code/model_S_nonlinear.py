@@ -158,8 +158,7 @@ def payoff_OC(nOC, nOB, N, bOC_OC, bOB_OC, bMM_OC, cOC):
     """
     VOC = (bOC_OC * (nOC + 1)) + (bOB_OC * nOB) + (bMM_OC * (N - 1 - nOC - nOB)) \
                                                                         - cOC #(2)
-    # VOC = (((bOC_OC * (nOC + 1)) + (bOB_OC * nOB) + (bMM_OC * (N - 1 - nOC - nOB)))/N) \
-    #                                                                     - cOC #(2)
+
     return VOC
 
 def payoff_OB(nOC, nOB, N, bOC_OB, bOB_OB, bMM_OB, cOB):
@@ -194,8 +193,6 @@ def payoff_OB(nOC, nOB, N, bOC_OB, bOB_OB, bMM_OB, cOB):
     """
     VOB = (bOC_OB * nOC) + (bOB_OB * (nOB + 1)) + (bMM_OB * (N - 1 - nOC - nOB)) \
                                                                         - cOB #(3)
-    # VOB = (((bOC_OB * nOC) + (bOB_OB * (nOB + 1)) + (bMM_OB * (N - 1 - nOC - nOB)))/N) \
-    #                                                                     - cOB #(3)
 
     return VOB
 
@@ -230,7 +227,6 @@ def payoff_MM(nOC, nOB, N, bOC_MM, bOB_MM, bMM_MM, cMM):
     3.4
     """
     VMM = (bOC_MM * nOC) + (bOB_MM * nOB) + (bMM_MM * (N - nOC - nOB)) - cMM #(4)
-    # VMM = (((bOC_MM * nOC) + (bOB_MM * nOB) + (bMM_MM * (N - nOC - nOB))) /N) - cMM
     return VMM
 
 """
@@ -739,7 +735,8 @@ def Figure_1():
         generation_list.append(index)
 
     # Create a new DataFrame with the calculated values
-    df_fitness = pd.DataFrame({'Generation': generation_list, 'WOC': WOC_list, 'WOB': WOB_list, 'WMM': WMM_list, 'W_average': W_average_list})
+    df_fitness = pd.DataFrame({'Generation': generation_list, 'WOC': WOC_list,
+                'WOB': WOB_list, 'WMM': WMM_list, 'W_average': W_average_list})
 
     # Create a Figure and axes for subplots
     fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(14,6))
@@ -1016,7 +1013,8 @@ def Figure_3():
                                 r'..\data\reproduced_data_Sartakhti_nonlinear')
 
     # Make a line plot of non-linear data
-    df_Figure_3_nonlinear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'], label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+    df_Figure_3_nonlinear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.xlabel('Generations')
     plt.ylabel('Frequency')
     plt.title('Non linear benefits (Figure 3)')
@@ -1172,7 +1170,8 @@ def Figure_4():
                                 r'..\data\reproduced_data_Sartakhti_nonlinear')
 
     # Make a line plot of non-linear data
-    df_Figure_4_nonlinear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'], label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+    df_Figure_4_nonlinear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+                    label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.xlabel('Generations')
     plt.ylabel('Frequency')
     plt.title('Non linear benefits (Figure 4)')
@@ -1194,7 +1193,8 @@ def Figure_4():
     fig.show()
 
     # Make a line plot of linear data
-    df_Figure_4_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'], label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+    df_Figure_4_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.xlabel('Generations')
     plt.ylabel('Frequency')
     plt.title('Linear benefits (Figure 4)')
@@ -1318,7 +1318,8 @@ def Figure_5():
                                 r'..\data\reproduced_data_Sartakhti_nonlinear')
 
     # Make a line plot of non-linear df
-    df_Figure_5_nonlinear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'], label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+    df_Figure_5_nonlinear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.xlabel('Generations')
     plt.ylabel('Frequency')
     plt.title('Non linear benefits (Figure 5)')
@@ -1340,7 +1341,8 @@ def Figure_5():
     fig.show()
 
     # Make a line plot of linear data
-    df_Figure_5_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'], label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+    df_Figure_5_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+                    label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.xlabel('Generations')
     plt.ylabel('Frequency')
     plt.legend()
@@ -1464,7 +1466,8 @@ def Figure_6():
                                 r'..\data\reproduced_data_Sartakhti_nonlinear')
 
     # Make a line plot of non-linear data
-    df_Figure_6_nonlinear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'], label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+    df_Figure_6_nonlinear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.xlabel('Generations')
     plt.ylabel('Frequency')
     plt.title('Non linear benefits (Figure 6)')
@@ -1486,7 +1489,8 @@ def Figure_6():
     fig.show()
 
     # Make a line plot of linear data
-    df_Figure_6_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'], label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+    df_Figure_6_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.xlabel('Generations')
     plt.ylabel('Frequency')
     plt.title('Linear benefits (Figure 6)')
@@ -1698,7 +1702,8 @@ def Figure_7():
     fig.show()
 
     # Make a line plot of linear data
-    df_Figure_7_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'], label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+    df_Figure_7_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.xlabel('Generations')
     plt.ylabel('Frequency')
     plt.title('Linear benefits (Figure 7)')
@@ -1824,8 +1829,8 @@ def Figure_8():
 
         # Determine fitness values for each strategy
         fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM,
-                                    bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
-                                     bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
+                                bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
+                                bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
 
 
         # Calculate the average fitness
@@ -1912,7 +1917,8 @@ def Figure_8():
     fig.show()
 
     # Make a line plot of linear data
-    df_Figure_8_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'], label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+    df_Figure_8_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.xlabel('Generations')
     plt.ylabel('Frequency')
     plt.title('Linear benefits (Figure 8)')
@@ -2074,7 +2080,8 @@ def Figure_9():
     fig1.show()
 
     # Make a line plot of the effect of a decrease in MM cells
-    df_Figure_9_reducing_MM.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'], label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+    df_Figure_9_reducing_MM.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.xlabel('Generations')
     plt.ylabel('Frequency')
     plt.title('Reducing MM cells (Figure 9)')
@@ -2103,7 +2110,8 @@ def Figure_9():
     fig3.show()
 
     # Make a line plot of the effect of a increase in the h value
-    df_Figure_9_increasing_h.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'], label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+    df_Figure_9_increasing_h.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.xlabel('Generations')
     plt.ylabel('Frequency')
     plt.title('Increase of the inflection point h (Figure 9)')
