@@ -11,9 +11,9 @@ Description:  Code that attempts to replicate the Figures from the paper by Sart
               The found results do not align with those presented in the paper. This
               difference may be because of potential misinterpretations or errors in
               the formulas utilized. However, as the paper has not disclosed its code,
-              direct comparisons cannot be made to determine the exact differences.
+              so direct comparisons cannot be made to determine the exact differences.
               Because the results are different I wrote my interpetation of some formulas
-              in this code.
+              above and in the formulas.
 """
 
 import math
@@ -63,13 +63,12 @@ def main():
     Figure_10()
 
 """
-The formulas described in the materials and methods (formulas 1 to 10).
+The Number of cells within the difusie range of the growth factors is N.
 x_OC = frequency osteoclasten
 x_OB = frequency osteoblasen
 x_MM = frequency multiplemyeloma cells
-x_OC + x_OB + x_MM = 1
+Cell population in te diffusible range: x_OC + x_OB + x_MM = 1
 
-N = Number of cells within the difuusie range of the growth factors
 """
 
 def probability_number_cells(nOC, nOB, N, xOC, xOB, xMM):
@@ -115,14 +114,12 @@ def probability_number_cells(nOC, nOB, N, xOC, xOB, xMM):
     return probability
 
 """
-In game theory, a "payoff" represents the benefit that a player receives through their
-actions, decisions, or strategies in a given game. For osteoclasts (OC), osteoblasts
-(OB), and multiple myeloma cells (MM), the payoffs are calculated based on the number
-of cells of each type in a group, the effects of beneficial growth factors produced by
-each cell type, and the associated costs.
+A payoff represents the benefit that a cell receives through their actions. The
+payoffs are calculated based on the number of cells of each type, the effects of
+beneficial growth factors and the growthfactor production cost costs.
 
 VOC= bOC,OC(nOC+1)+ bOB,OC(nOB)+ bMM,OC(N−1−nOC−nOB)−cOC
-- Positive terms: positive contributions to the payoff, the effects of growth factors
+- Positive terms: the effects of growth factors
 - Negative term: the cost of producing growth factors
 ​"""
 
@@ -230,17 +227,11 @@ def payoff_MM(nOC, nOB, N, bOC_MM, bOB_MM, bMM_MM, cMM):
     return VMM
 
 """
-Fitness (Wi) is calculated by considering the payoffs obtained in the randomly formed
-groups weighted by the probability that such groups occur.
-N/(N-1) = Normalization factor to ensure that the fitness values are on a comparable
-          scale across different population sizes
-nested summation = the outer sum iterates over values of nOC and the inner sum iterates
-                over values of nOB. The constraints 1 ≤ nOC ≤ N-1 and 0≤ nOB ≤ N-1-nOC.
-                In outer ring a value of OC is choosen and in inner ring a value for OB is
-                choosen
-P(nOC, nOB)= the probability of a group having a particular combination of osteoclasts
-            and osteoblasts and multiply myeloma cells
-Vi = the payoff for type i.
+Fitness (Wi) is calculated by multiplying the payoff valuesof a randomly formed
+groups by the probability that such groups occur.
+The payoff values are devided by N to normalize them. The outer sum iterates over
+nOC values and the inner sum iterates over nOB values.In outer ring a value of OC
+is choosen and in inner ring a value for OB is choosen
 """
 
 def calculate_fitness(N, xOC, xOB, xMM, bOC_OC, bOB_OC, bMM_OC, cOC, bOC_OB, bOB_OB,
@@ -329,11 +320,9 @@ def calculate_fitness(N, xOC, xOB, xMM, bOC_OC, bOB_OC, bMM_OC, cOC, bOC_OB, bOB
     return normalized_fitness_OC, normalized_fitness_OB, normalized_fitness_MM
 
 """
-Replicator dynamics says that cells with a higher fitness will increase in frequency
-over time, while those with lower fitness will decrease. W* represents the average
-fitness in the population: W* = xOC(WOC-W*)+xOB(WOB-W*) + xMM(WMM-W*).
-The frequencies of each cell type change based on the difference between the fitness
-of each cell type and the average fitness in the population.
+W* represents the average fitness in the population. The frequencies of a cell type
+change based on the difference between the fitness of the cell type and the average
+fitness in the population.
 """
 
 def calculate_replicator_dynamics(xOC, xOB, xMM, WOC, WOB, WMM):
@@ -385,7 +374,7 @@ def calculate_replicator_dynamics(xOC, xOB, xMM, WOC, WOB, WMM):
 """
 The benefit function gives the benefit of the growth factors of cell type i on cell
 type j. The more cells of type i (higher n) the higher the benefit becaues more
-growth factors (10).
+growth factors.
 """
 
 def sigmoid(n_i, h, B_max, s, N):

@@ -6,7 +6,7 @@ Description:  Code with the model that simulates linear dynamics in the multiple
               (MM) microenvironment with three cell types: MM cells, osteoblasts (OBs)
               and osteoclasts (OCs). The model is a public goods game in the framework
               of evolutionary game theory with collective interactions. It attempts to
-              replicate certain figures from the paper by Sartakhti et al. (2016).
+              replicate certain Figures from the paper by Sartakhti et al. (2016).
 
               When running the code it also shows line plots of the frequencies, these
               are not in the paper and not saved but are shown for a better understanding
@@ -41,56 +41,56 @@ def main():
     import doctest
     doctest.testmod()
 
-    # Make figure 2 in the paper of Sartakhti et al., 2016.
-    figure_2()
+    # Make Figure 2 in the paper of Sartakhti et al., 2016.
+    Figure_2()
 
-    # Make figure 3 in the paper of Sartakhti et al., 2016.
-    figure_3()
+    # Make Figure 3 in the paper of Sartakhti et al., 2016.
+    Figure_3()
 
-    # Make figure 5 in the paper of Sartakhti et al., 2016.
-    figure_5()
+    # Make Figure 5 in the paper of Sartakhti et al., 2016.
+    Figure_5()
 
-    # Make figure 8A in the paper of Sartakhti et al., 2016.
-    figure_8A()
+    # Make Figure 8A in the paper of Sartakhti et al., 2016.
+    Figure_8A()
 
-    # Make figure 8B in the paper of Sartakhti et al., 2016.
-    figure_8B()
+    # Make Figure 8B in the paper of Sartakhti et al., 2016.
+    Figure_8B()
 
-    # Make figure 9A in the paper of Sartakhti et al., 2016.
-    figure_9A()
+    # Make Figure 9A in the paper of Sartakhti et al., 2016.
+    Figure_9A()
 
-    # Make figure 9B in the paper of Sartakhti et al., 2016.
-    figure_9B()
+    # Make Figure 9B in the paper of Sartakhti et al., 2016.
+    Figure_9B()
 
-    # Make figure 9C in the paper of Sartakhti et al., 2016.
-    figure_9C()
+    # Make Figure 9C in the paper of Sartakhti et al., 2016.
+    Figure_9C()
 
-    # Make figure 10A in the paper of Sartakhti et al., 2016.
-    figure_10A()
+    # Make Figure 10A in the paper of Sartakhti et al., 2016.
+    Figure_10A()
 
-    # Make figure 10B in the paper of Sartakhti et al., 2016.
-    figure_10B()
+    # Make Figure 10B in the paper of Sartakhti et al., 2016.
+    Figure_10B()
 
-    # Make figure 11 in the paper of Sartakhti et al., 2016.
-    figure_11()
+    # Make Figure 11 in the paper of Sartakhti et al., 2016.
+    Figure_11()
 
-    # Make figure 12A middel in the paper of Sartakhti et al., 2016.
-    figure_12A_middel()
+    # Make Figure 12A middel in the paper of Sartakhti et al., 2016.
+    Figure_12A_middel()
 
-    # Make figure 12A right in the paper of Sartakhti et al., 2016.
-    figure_12A_right()
+    # Make Figure 12A right in the paper of Sartakhti et al., 2016.
+    Figure_12A_right()
 
-    # Make figure 12B middel in the paper of Sartakhti et al., 2016.
-    figure_12B_middel()
+    # Make Figure 12B middel in the paper of Sartakhti et al., 2016.
+    Figure_12B_middel()
 
-    # Make figure 12B right in the paper of Sartakhti et al., 2016.
-    figure_12B_right()
+    # Make Figure 12B right in the paper of Sartakhti et al., 2016.
+    Figure_12B_right()
 
-    # Make figure 12C middel in the paper of Sartakhti et al., 2016.
-    figure_12C_middel()
+    # Make Figure 12C middel in the paper of Sartakhti et al., 2016.
+    Figure_12C_middel()
 
-    # Make figure 12C right in the paper of Sartakhti et al., 2016.
-    figure_12C_right()
+    # Make Figure 12C right in the paper of Sartakhti et al., 2016.
+    Figure_12C_right()
 
 
 def save_data(data_frame, file_name, folder_path):
@@ -109,12 +109,12 @@ def save_data(data_frame, file_name, folder_path):
     file_path = os.path.join(folder_path, file_name)
     data_frame.to_csv(file_path, index=False)
 
-def save_figure(figure, file_name, folder_path):
-    """Save the figure to a specific folder.
+def save_Figure(Figure, file_name, folder_path):
+    """Save the Figure to a specific folder.
 
     Parameters:
     -----------
-    figure: Matplotlib figure
+    Figure: Matplotlib Figure
         Figure object that needs to be saved.
     file_name : String
         The name for the plot.
@@ -122,14 +122,14 @@ def save_figure(figure, file_name, folder_path):
         Path to the folder where the data will be saved.
     """
     os.makedirs(folder_path, exist_ok=True)
-    figure.savefig(os.path.join(folder_path, file_name))
+    Figure.savefig(os.path.join(folder_path, file_name))
 
-def save_ternary(figure, file_name, folder_path):
+def save_ternary(Figure, file_name, folder_path):
     """Save the ternary plot in a specific folder.
 
     Parameters:
     -----------
-    figure: Matplotlib figure
+    Figure: Matplotlib Figure
         Figure object that needs to be saved.
     file_name : String
         The name for the plot.
@@ -137,7 +137,7 @@ def save_ternary(figure, file_name, folder_path):
         Path to the folder where the data will be saved.
     """
     os.makedirs(folder_path, exist_ok=True)
-    pio.write_image(figure, os.path.join(folder_path, f'{file_name}.png'),
+    pio.write_image(Figure, os.path.join(folder_path, f'{file_name}.png'),
                                                                 format='png')
 def fitness_WOC(xOC, xOB, xMM, N, cOC, cOB, cMM, matrix):
     """
@@ -180,6 +180,7 @@ def fitness_WOC(xOC, xOB, xMM, N, cOC, cOB, cMM, matrix):
     b = matrix[0, 1]
     c = matrix[0, 2]
 
+    # Calculate the fitness value
     WOC = (c*cMM*xMM + b*cOB*xOB + a* cOC* xOC)*(N - 1)/N - cOC #(18)
     return WOC
 
@@ -224,6 +225,7 @@ def fitness_WOB(xOC, xOB, xMM, N, cOC, cOB, cMM, matrix):
     e = matrix[1, 1]
     f = matrix[1, 2]
 
+    # Calculate the fitness value
     WOB = (d*cOC*xOC + f*cMM*xMM + e*cOB*xOB)*(N - 1)/N - cOB #(19)
     return WOB
 
@@ -268,6 +270,7 @@ def fitness_WMM(xOC, xOB, xMM, N, cOC, cOB, cMM, matrix):
     h = matrix[2, 1]
     i = matrix[2, 2]
 
+    # Calculate the fitness value
     WMM = (g*cOC*xOC + i*cMM*xMM + h*cOB*xOB)*(N - 1)/N - cMM #(20)
     return WMM
 
@@ -296,9 +299,9 @@ def model_dynamics(y, t, N, c1, c2, c3, matrix):
     [xOC_change, xOB_change, xMM_change]: List
         List containing the changes in frequencies of xOC, xOB, and xMM.
     """
-
     xOC, xOB, xMM = y
 
+    # Determine the fitness values
     WOC = fitness_WOC(xOC, xOB, xMM, N, c1, c2, c3, matrix)
     WOB = fitness_WOB(xOC, xOB, xMM, N, c1, c2, c3, matrix)
     WMM = fitness_WMM(xOC, xOB, xMM, N, c1, c2, c3, matrix)
@@ -314,17 +317,6 @@ def model_dynamics(y, t, N, c1, c2, c3, matrix):
     return [xOC_change, xOB_change, xMM_change]
 
 """
-t = np.linspace(0, 40, 40)
-
-# Initial conditions
-y0 = [xOC, xOB, xMM]
-parameters = (N, c1, c2, c3, matrix)
-
-# determine the ODE solutions
-y = odeint(model_dynamics, y0, t, args=parameters)
-df_figure_2_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
-'xOB': y[:, 1], 'xMM': y[:, 2]})
-
 Example payoff matrix:
 M = np.array([
        Goc Gob Gmm
@@ -334,13 +326,13 @@ M = np.array([
 """
 
 """Figure 2"""
-def figure_2():
-    """Function that makes figure 2 in the paper of Sartakhti et al., 2016."""
+def Figure_2():
+    """Function that makes Figure 2 in the paper of Sartakhti et al., 2016."""
     # Set start parameter values
     xOC = 0.5
     xOB = 0.45
     xMM = 0.05
-    N = 10
+    N = 100
     c3 = 1.4
     c2 = 1.2
     c1 = 1
@@ -351,15 +343,14 @@ def figure_2():
         [1, 0, -0.3],
         [2.5, 0, 0]])
 
-    t = np.linspace(0, 30, 60)
-
     # Initial conditions
+    t = np.linspace(0, 30, 60)
     y0 = [xOC, xOB, xMM]
     parameters = (N, c1, c2, c3, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_figure_2_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    df_Figure_2_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start frequencies
@@ -367,22 +358,20 @@ def figure_2():
     xOB = 0.4
     xMM = 0.4
 
-    t = np.linspace(0, 30, 60)
-
     # Initial conditions
+    t = np.linspace(0, 30, 60)
     y0 = [xOC, xOB, xMM]
     parameters = (N, c1, c2, c3, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_figure_2_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    df_Figure_2_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
-
     # Save the data as csv file
-    save_data(df_figure_2_first_line, 'df_figure_2_first_line.csv',
+    save_data(df_Figure_2_first_line, 'df_Figure_2_first_line.csv',
                                     r'..\data\reproduced_data_Sartakhti_linear')
-    save_data(df_figure_2_second_line, 'df_figure_2_second_line.csv',
+    save_data(df_Figure_2_second_line, 'df_Figure_2_second_line.csv',
                                     r'..\data\reproduced_data_Sartakhti_linear')
 
     # Make lists
@@ -393,7 +382,7 @@ def figure_2():
     generation_list = []
 
     # Iterate over each row
-    for index, row in df_figure_2_first_line.iterrows():
+    for index, row in df_Figure_2_first_line.iterrows():
         # Extract values of xOC, xOB, and xMM for the current row
         xOC = row['xOC']
         xOB = row['xOB']
@@ -427,7 +416,7 @@ def figure_2():
     generation_list = []
 
     # Iterate over each row
-    for index, row in df_figure_2_second_line.iterrows():
+    for index, row in df_Figure_2_second_line.iterrows():
         # Extract values of xOC, xOB, and xMM for the current row
         xOC = row['xOC']
         xOB = row['xOB']
@@ -453,40 +442,40 @@ def figure_2():
     df_fitness_second_line = pd.DataFrame({'Generation': generation_list,
     'WOC': WOC_list, 'WOB': WOB_list, 'WMM': WMM_list, 'W_average': W_average_list})
 
-    # Create a figure and axes for subplots
+    # Create a Figure and axes for subplots
     fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(14,6))
 
     # Plot the first subplot
     df_fitness_first_line.plot(x='Generation', y=['WOC', 'WOB', 'WMM', 'W_average'],
                                                                         ax=axes[0])
-    axes[0].set_title('Fitness for a scenario where c2<c1<c3 (figure 2)')
+    axes[0].set_title('Fitness for a scenario where c2<c1<c3 (Figure 2)')
     axes[0].set_xlabel('Generations')
     axes[0].set_ylabel('Fitness')
     axes[0].legend(['Fitness OC', 'Fitness OB', 'Fitness MM', 'Average fitness'])
 
     # Plot the second subplot
-    df_figure_2_first_line.plot(x='Generation', y=['xOC', 'xOB', 'xMM'], ax=axes[1])
-    axes[1].set_title('Dynamics for a scenario where c2<c1<c3 (figure 2)')
+    df_Figure_2_first_line.plot(x='Generation', y=['xOC', 'xOB', 'xMM'], ax=axes[1])
+    axes[1].set_title('Dynamics for a scenario where c2<c1<c3 (Figure 2)')
     axes[1].set_xlabel('Generations')
     axes[1].set_ylabel('Fitness/Frequency')
     axes[1].legend(['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.tight_layout()
     plt.show()
 
-    # Create a figure and axes for subplots
+    # Create a Figure and axes for subplots
     fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(14,6))
 
     # Plot the first subplot
     df_fitness_second_line.plot(x='Generation', y=['WOC', 'WOB', 'WMM', 'W_average'],
                                                                         ax=axes[0])
-    axes[0].set_title('Fitness for a scenario where c2<c1<c3 (figure 2)')
+    axes[0].set_title('Fitness for a scenario where c2<c1<c3 (Figure 2)')
     axes[0].set_xlabel('Generations')
     axes[0].set_ylabel('Fitness')
     axes[0].legend(['Fitness OC', 'Fitness OB', 'Fitness MM', 'Average fitness'])
 
     # Plot the second subplot
-    df_figure_2_second_line.plot(x='Generation', y=['xOC', 'xOB', 'xMM'], ax=axes[1])
-    axes[1].set_title('Dynamics for a scenario where c2<c1<c3 (figure 2)')
+    df_Figure_2_second_line.plot(x='Generation', y=['xOC', 'xOB', 'xMM'], ax=axes[1])
+    axes[1].set_title('Dynamics for a scenario where c2<c1<c3 (Figure 2)')
     axes[1].set_xlabel('Generations')
     axes[1].set_ylabel('Fitness/Frequency')
     axes[1].legend(['Frequency OC', 'Frequency OB', 'Frequency MM'])
@@ -494,15 +483,15 @@ def figure_2():
     plt.show()
 
     # Determine the direction of both lines in a ternary plot
-    fig1 = px.line_ternary(df_figure_2_first_line, a='xOC', b='xOB', c='xMM')
-    fig2 = px.line_ternary(df_figure_2_second_line, a='xOC', b='xOB', c='xMM')
+    fig1 = px.line_ternary(df_Figure_2_first_line, a='xOC', b='xOB', c='xMM')
+    fig2 = px.line_ternary(df_Figure_2_second_line, a='xOC', b='xOB', c='xMM')
 
     # Add both lines to one ternary plot
     for trace in fig2.data:
         fig1.add_trace(trace)
     fig1.data[0].update(line=dict(color='red'))
     fig1.data[1].update(line=dict(color='blue'))
-    fig1.update_layout(title_text= 'Dynamics (figure 2)')
+    fig1.update_layout(title_text= 'Dynamics (Figure 2)')
 
     # Make the plot clear
     fig1.update_layout(
@@ -510,19 +499,19 @@ def figure_2():
             aaxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
             baxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
             caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
-    fig1.update_layout(title_text='Dynamics for a scenario where c2<c1<c3 (figure 2)')
-    save_ternary(fig1, 'Ternary_plot_figure_2',
+    fig1.update_layout(title_text='Dynamics for a scenario where c2<c1<c3 (Figure 2)')
+    save_ternary(fig1, 'Ternary_plot_Figure_2',
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
     fig1.show()
 
 """Figure 3
-The paramter values of this plot are not given so the values of figure 2 are taken.
+The paramter values of this plot are not given so the values of Figure 2 are taken.
 This is a possible reason that the plots differ from the ones in the paper. The
 Fitness is also added. As expected the equilibriums are when the average fitness is
 the highest"""
 
-def figure_3():
-    """Function that makes figure 3 in the paper of Sartakhti et al., 2016."""
+def Figure_3():
+    """Function that makes Figure 3 in the paper of Sartakhti et al., 2016."""
     # Set start parameter values
     N = 10
     c3 = 1.4
@@ -544,9 +533,9 @@ def figure_3():
     y0 = [xOC, xOB, xMM]
     parameters = (N, c1, c2, c3, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_figure_3_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    df_Figure_3_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start frequencies
@@ -554,15 +543,14 @@ def figure_3():
     xOB = 0.05
     xMM = 0.005
 
-    t = np.linspace(0, 40, 100)
-
     # Initial conditions
+    t = np.linspace(0, 40, 100)
     y0 = [xOC, xOB, xMM]
     parameters = (N, c1, c2, c3, matrix)
 
-    # determine the ODE solutions
+    # defsetermine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_figure_3_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    df_Figure_3_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start frequencies
@@ -570,54 +558,53 @@ def figure_3():
     xOB = 0.19
     xMM = 0.8
 
-    t = np.linspace(0, 40, 100)
-
     # Initial conditions
+    t = np.linspace(0, 40, 100)
     y0 = [xOC, xOB, xMM]
     parameters = (N, c1, c2, c3, matrix)
 
     # determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_figure_3_third_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    df_Figure_3_third_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Save the data as csv file
-    save_data(df_figure_3_first_line, 'df_figure_2_first_line.csv',
+    save_data(df_Figure_3_first_line, 'df_Figure_2_first_line.csv',
                                 r'..\data\reproduced_data_Sartakhti_linear')
-    save_data(df_figure_3_second_line, 'df_figure_2_second_line.csv',
+    save_data(df_Figure_3_second_line, 'df_Figure_2_second_line.csv',
                                 r'..\data\reproduced_data_Sartakhti_linear')
-    save_data(df_figure_3_third_line, 'df_figure_2_third_line.csv',
+    save_data(df_Figure_3_third_line, 'df_Figure_2_third_line.csv',
                                 r'..\data\reproduced_data_Sartakhti_linear')
 
     # Make a plot with three subplos
     fig1, axes = plt.subplots(1, 3, figsize=(15, 5))
 
     # Plot each dataframe in one subplot
-    df_figure_3_first_line.plot(ax=axes[0], x='Generation', y=['xOC', 'xOB', 'xMM'],
+    df_Figure_3_first_line.plot(ax=axes[0], x='Generation', y=['xOC', 'xOB', 'xMM'],
                             label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
-    axes[0].set_title('Dynamics for a scenario where c2<c1<c3 (figure 3)')
+    axes[0].set_title('Dynamics for a scenario where c2<c1<c3 (Figure 3)')
     axes[0].set_xlabel('Generations')
     axes[0].set_ylabel('Fitness/Frequency')
 
-    df_figure_3_second_line.plot(ax=axes[1], x='Generation', y=['xOC', 'xOB', 'xMM'],
+    df_Figure_3_second_line.plot(ax=axes[1], x='Generation', y=['xOC', 'xOB', 'xMM'],
                             label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
-    axes[1].set_title('Dynamics for a scenario where c2<c1<c3 (figure 3)')
+    axes[1].set_title('Dynamics for a scenario where c2<c1<c3 (Figure 3)')
     axes[1].set_xlabel('Generations')
     axes[1].set_ylabel('Fitness/Frequency')
 
-    df_figure_3_third_line.plot(ax=axes[2], x='Generation', y=['xOC', 'xOB', 'xMM'],
+    df_Figure_3_third_line.plot(ax=axes[2], x='Generation', y=['xOC', 'xOB', 'xMM'],
                             label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
-    axes[2].set_title('Dynamics for a scenario where c2<c1<c3 (figure 3)')
+    axes[2].set_title('Dynamics for a scenario where c2<c1<c3 (Figure 3)')
     axes[2].set_xlabel('Generations')
     axes[2].set_ylabel('Fitness/Frequency')
     plt.tight_layout()
-    save_figure(fig1, 'Line_plot_figure_3',
+    save_Figure(fig1, 'Line_plot_Figure_3',
                      r'..\visualisation\reproduced_results_Sartakhti_linear')
     plt.show()
 
 """ Figure 5"""
-def figure_5():
-    """Function that makes figure 5 in the paper of Sartakhti et al., 2016."""
+def Figure_5():
+    """Function that makes Figure 5 in the paper of Sartakhti et al., 2016."""
     # Set start values
     N = 2
     c3 = 1.4
@@ -633,15 +620,14 @@ def figure_5():
         [1, 0, -0.3],
         [2.5, 0, 0]])
 
-    t = np.linspace(0, 30, 30)
-
     # Initial conditions
+    t = np.linspace(0, 30, 30)
     y0 = [xOC, xOB, xMM]
     parameters = (N, c1, c2, c3, matrix)
 
     # determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_figure_5_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    df_Figure_5_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start frequencies
@@ -649,45 +635,42 @@ def figure_5():
     xOB = 0.5
     xMM = 0.2
 
-    t = np.linspace(0, 30, 30)
-
     # Initial conditions
+    t = np.linspace(0, 30, 30)
     y0 = [xOC, xOB, xMM]
     parameters = (N, c1, c2, c3, matrix)
 
     # determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_figure_5_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    df_Figure_5_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Save the data as csv file
-    save_data(df_figure_5_first_line, 'df_figure_5_first_line.csv',
+    save_data(df_Figure_5_first_line, 'df_Figure_5_first_line.csv',
                                     r'..\data\reproduced_data_Sartakhti_linear')
-    save_data(df_figure_5_second_line, 'df_figure_5_second_line.csv',
+    save_data(df_Figure_5_second_line, 'df_Figure_5_second_line.csv',
                                     r'..\data\reproduced_data_Sartakhti_linear')
 
     # Make line plots
-    df_figure_5_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+    df_Figure_5_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
                         label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
-    plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
-    plt.ylabel('Fitness/ Frequency')
-    plt.title('Dynamics for a scenario where c2<c1<c3 (figure 5)')
+    plt.ylabel('Frequency')
+    plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 5)')
     plt.legend()
     plt.show()
 
-    df_figure_5_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+    df_Figure_5_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
                         label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
-    plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
-    plt.ylabel('Fitness/ Frequency')
-    plt.title('Dynamics for a scenario where c2<c1<c3 (figure 5)')
+    plt.ylabel('Frequency')
+    plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 5)')
     plt.legend()
     plt.show()
 
     # Make a ternary plot
-    fig1 = px.line_ternary(df_figure_5_first_line, a='xOC', b='xOB', c='xMM')
-    fig2 = px.line_ternary(df_figure_5_second_line, a='xOC', b='xOB', c='xMM')
+    fig1 = px.line_ternary(df_Figure_5_first_line, a='xOC', b='xOB', c='xMM')
+    fig2 = px.line_ternary(df_Figure_5_second_line, a='xOC', b='xOB', c='xMM')
     fig1.update_layout(
         ternary=dict(
             aaxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
@@ -699,14 +682,14 @@ def figure_5():
         fig1.add_trace(trace)
     fig1.data[0].update(line=dict(color='red'))
     fig1.data[1].update(line=dict(color='blue'))
-    fig1.update_layout(title_text= 'Dynamics for a scenario where c2<c1<c3 (figure 5)')
-    save_ternary(fig1, 'Ternary_plot_figure_5',
+    fig1.update_layout(title_text= 'Dynamics for a scenario where c2<c1<c3 (Figure 5)')
+    save_ternary(fig1, 'Ternary_plot_Figure_5',
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
     fig1.show()
 
-"""figure 8A"""
-def figure_8A():
-    """Function that makes figure 8A in the paper of Sartakhti et al., 2016."""
+"""Figure 8A"""
+def Figure_8A():
+    """Function that makes Figure 8A in the paper of Sartakhti et al., 2016."""
     # Set start values
     N = 10
     c3 = 1.4
@@ -722,15 +705,14 @@ def figure_8A():
         [1, 0, -0.3],
         [1.1, 0, 0]])
 
-    t = np.linspace(0, 40,100)
-
     # Initial conditions
+    t = np.linspace(0, 40,100)
     y0 = [xOC, xOB, xMM]
     parameters = (N, c1, c2, c3, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_figure_8A_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    df_Figure_8A_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start parameter value
@@ -738,45 +720,42 @@ def figure_8A():
     xOB = 0.5
     xMM = 0.3
 
-    t = np.linspace(0, 40,100)
-
     # Initial conditions
+    t = np.linspace(0, 40,100)
     y0 = [xOC, xOB, xMM]
     parameters = (N, c1, c2, c3, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_figure_8A_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    df_Figure_8A_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Save the data as csv file
-    save_data(df_figure_8A_first_line, 'df_figure_8A_first_line.csv',
+    save_data(df_Figure_8A_first_line, 'df_Figure_8A_first_line.csv',
                                     r'..\data\reproduced_data_Sartakhti_linear')
-    save_data(df_figure_8A_second_line, 'df_figure_8A_second_line.csv',
+    save_data(df_Figure_8A_second_line, 'df_Figure_8A_second_line.csv',
                                     r'..\data\reproduced_data_Sartakhti_linear')
 
     # Make a plot
-    df_figure_8A_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+    df_Figure_8A_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
                         label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
-    plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
-    plt.ylabel('Fitness/ Frequency')
-    plt.title('Dynamics for a scenario where c2<c1<c3 (figure 8A)')
+    plt.ylabel('Frequency')
+    plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 8A)')
     plt.legend()
     plt.show()
 
-    df_figure_8A_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+    df_Figure_8A_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
                         label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
-    plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
-    plt.ylabel('Fitness/ Frequency')
-    plt.title('Dynamics for a scenario where c2<c1<c3 (figure 8A)')
+    plt.ylabel('Frequency')
+    plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 8A)')
     plt.legend()
     plt.show()
 
     # Make a ternary plot
-    fig1 = px.line_ternary(df_figure_8A_first_line, a='xOC', b='xOB', c='xMM')
-    fig2 = px.line_ternary(df_figure_8A_second_line, a='xOC', b='xOB', c='xMM')
+    fig1 = px.line_ternary(df_Figure_8A_first_line, a='xOC', b='xOB', c='xMM')
+    fig2 = px.line_ternary(df_Figure_8A_second_line, a='xOC', b='xOB', c='xMM')
     fig1.update_layout(
         ternary=dict(
             aaxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
@@ -788,14 +767,14 @@ def figure_8A():
         fig1.add_trace(trace)
     fig1.data[0].update(line=dict(color='red'))
     fig1.data[1].update(line=dict(color='blue'))
-    fig1.update_layout(title_text= 'Dynamics for a scenario where c2<c1<c3 (figure 8A)')
-    save_ternary(fig1, 'Ternary_plot_figure_8A',
+    fig1.update_layout(title_text= 'Dynamics for a scenario where c2<c1<c3 (Figure 8A)')
+    save_ternary(fig1, 'Ternary_plot_Figure_8A',
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
     fig1.show()
 
-"""figure 8B"""
-def figure_8B():
-    """Function that makes figure 8B in the paper of Sartakhti et al., 2016."""
+"""Figure 8B"""
+def Figure_8B():
+    """Function that makes Figure 8B in the paper of Sartakhti et al., 2016."""
     # Set start values
     N = 10
     c3 = 1.4
@@ -812,15 +791,14 @@ def figure_8B():
         [1, 0, -0.3],
         [1.8, 0, 0]])
 
-    t = np.linspace(0, 40, 40)
-
     # Initial conditions
+    t = np.linspace(0, 40, 40)
     y0 = [xOC, xOB, xMM]
     parameters = (N, c1, c2, c3, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_figure_8B_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    df_Figure_8B_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start frequencies
@@ -828,44 +806,42 @@ def figure_8B():
     xOB = 0.7
     xMM = 0.2
 
-    t = np.linspace(0, 40, 40)
-
     # Initial conditions
+    t = np.linspace(0, 40, 40)
     y0 = [xOC, xOB, xMM]
     parameters = (N, c1, c2, c3, matrix)
 
     # determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_figure_8B_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    df_Figure_8B_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Save the data as csv file
-    save_data(df_figure_8B_first_line, 'df_figure_8B_first_line.csv',
+    save_data(df_Figure_8B_first_line, 'df_Figure_8B_first_line.csv',
                                    r'..\data\reproduced_data_Sartakhti_linear')
-    save_data(df_figure_8B_second_line, 'df_figure_8B_second_line.csv',
+    save_data(df_Figure_8B_second_line, 'df_Figure_8B_second_line.csv',
                                    r'..\data\reproduced_data_Sartakhti_linear')
 
     # Make a plot
-    df_figure_8B_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+    df_Figure_8B_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
                         label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
-    plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
-    plt.ylabel('Fitness/ Frequency')
-    plt.title('Dynamics (figure 8B)')
+    plt.ylabel('Frequency')
+    plt.title('Dynamics (Figure 8B)')
     plt.legend()
     plt.show()
 
-    df_figure_8B_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', ])
-    plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
+    df_Figure_8B_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', ])
+
     plt.xlabel('Generations')
-    plt.ylabel('Fitness/ Frequency')
-    plt.title('Dynamics for a scenario where c2<c1<c3 (figure 8B)')
+    plt.ylabel('Frequency')
+    plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 8B)')
     plt.legend()
     plt.show()
 
     # Make a ternary plot
-    fig1 = px.line_ternary(df_figure_8B_first_line, a='xOC', b='xOB', c='xMM')
-    fig2 = px.line_ternary(df_figure_8B_second_line, a='xOC', b='xOB', c='xMM')
+    fig1 = px.line_ternary(df_Figure_8B_first_line, a='xOC', b='xOB', c='xMM')
+    fig2 = px.line_ternary(df_Figure_8B_second_line, a='xOC', b='xOB', c='xMM')
     fig1.update_layout(
         ternary=dict(
             aaxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
@@ -877,15 +853,15 @@ def figure_8B():
         fig1.add_trace(trace)
     fig1.data[0].update(line=dict(color='red'))
     fig1.data[1].update(line=dict(color='blue'))
-    fig1.update_layout(title_text= 'Dynamics for a scenario where c2<c1<c3 (figure 8B)')
-    save_ternary(fig1, 'Ternary_plot_figure_8B',
+    fig1.update_layout(title_text= 'Dynamics for a scenario where c2<c1<c3 (Figure 8B)')
+    save_ternary(fig1, 'Ternary_plot_Figure_8B',
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
     fig1.show()
 
 """SENARIO 2"""
-"""figure 9A"""
-def figure_9A():
-    """Function that makes figure 9A in the paper of Sartakhti et al., 2016."""
+"""Figure 9A"""
+def Figure_9A():
+    """Function that makes Figure 9A in the paper of Sartakhti et al., 2016."""
     # Set start values
     N = 10
     c3 = 1
@@ -901,15 +877,14 @@ def figure_9A():
         [1, 0, -0.3],
         [0.5, 0, 0]])
 
-    t = np.linspace(0, 40,100)
-
     # Initial conditions
+    t = np.linspace(0, 40,100)
     y0 = [xOC, xOB, xMM]
     parameters = (N, c1, c2, c3, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_figure_9A_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    df_Figure_9A_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start frequencies
@@ -917,45 +892,42 @@ def figure_9A():
     xOB = 0.3
     xMM = 0.3
 
-    t = np.linspace(0, 40,100)
-
     # Initial conditions
+    t = np.linspace(0, 40,100)
     y0 = [xOC, xOB, xMM]
     parameters = (N, c1, c2, c3, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_figure_9A_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    df_Figure_9A_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Save the data as csv file
-    save_data(df_figure_9A_first_line, 'df_figure_9A_first_line.csv',
+    save_data(df_Figure_9A_first_line, 'df_Figure_9A_first_line.csv',
                                     r'..\data\reproduced_data_Sartakhti_linear')
-    save_data(df_figure_9A_second_line, 'df_figure_9A_second_line.csv',
+    save_data(df_Figure_9A_second_line, 'df_Figure_9A_second_line.csv',
                                     r'..\data\reproduced_data_Sartakhti_linear')
 
     # Make a plot
-    df_figure_9A_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+    df_Figure_9A_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
                         label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
-    plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
-    plt.ylabel('Fitness/ Frequency')
-    plt.title('Dynamics for a scenario where c2=c1=c3 (figure 9A)')
+    plt.ylabel('Frequency')
+    plt.title('Dynamics for a scenario where c2=c1=c3 (Figure 9A)')
     plt.legend()
     plt.show()
 
-    df_figure_9A_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+    df_Figure_9A_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
                         label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
-    plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
-    plt.ylabel('Fitness/ Frequency')
-    plt.title('Dynamics for a scenario where c2=c1=c3 (figure 9A)')
+    plt.ylabel('Frequency')
+    plt.title('Dynamics for a scenario where c2=c1=c3 (Figure 9A)')
     plt.legend()
     plt.show()
 
     # Make a ternary plot
-    fig1 = px.line_ternary(df_figure_9A_first_line, a='xOC', b='xOB', c='xMM')
-    fig2 = px.line_ternary(df_figure_9A_second_line, a='xOC', b='xOB', c='xMM')
+    fig1 = px.line_ternary(df_Figure_9A_first_line, a='xOC', b='xOB', c='xMM')
+    fig2 = px.line_ternary(df_Figure_9A_second_line, a='xOC', b='xOB', c='xMM')
 
     fig1.update_layout(
         ternary=dict(
@@ -968,14 +940,14 @@ def figure_9A():
         fig1.add_trace(trace)
     fig1.data[0].update(line=dict(color='red'))
     fig1.data[1].update(line=dict(color='blue'))
-    fig1.update_layout(title_text= 'Dynamics for a scenario where c2=c1=c3 (figure 9A)')
-    save_ternary(fig1, 'Ternary_plot_figure_9A',
+    fig1.update_layout(title_text= 'Dynamics for a scenario where c2=c1=c3 (Figure 9A)')
+    save_ternary(fig1, 'Ternary_plot_Figure_9A',
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
     fig1.show()
 
 """ Figure 9B """
-def figure_9B():
-    """Function that makes figure 9B in the paper of Sartakhti et al., 2016."""
+def Figure_9B():
+    """Function that makes Figure 9B in the paper of Sartakhti et al., 2016."""
     # Set start values
     N = 10
     c3 = 1
@@ -991,15 +963,14 @@ def figure_9B():
         [1, 0, 0],
         [2, 0, 0]])
 
-    t = np.linspace(0, 40,100)
-
     # Initial conditions
+    t = np.linspace(0, 40,100)
     y0 = [xOC, xOB, xMM]
     parameters = (N, c1, c2, c3, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_figure_9B_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    df_Figure_9B_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start frequencies
@@ -1007,45 +978,42 @@ def figure_9B():
     xOB = 0.3
     xMM = 0.3
 
-    t = np.linspace(0, 40,100)
-
     # Initial conditions
+    t = np.linspace(0, 40,100)
     y0 = [xOC, xOB, xMM]
     parameters = (N, c1, c2, c3, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_figure_9B_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    df_Figure_9B_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Save the data as csv file
-    save_data(df_figure_9B_first_line, 'df_figure_9B_first_line.csv',
+    save_data(df_Figure_9B_first_line, 'df_Figure_9B_first_line.csv',
                                     r'..\data\reproduced_data_Sartakhti_linear')
-    save_data(df_figure_9B_second_line, 'df_figure_9B_second_line.csv',
+    save_data(df_Figure_9B_second_line, 'df_Figure_9B_second_line.csv',
                                     r'..\data\reproduced_data_Sartakhti_linear')
 
     # Make a plot
-    df_figure_9B_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+    df_Figure_9B_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
                         label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
-    plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
-    plt.ylabel('Fitness/ Frequency')
-    plt.title('Dynamics for a scenario where c2=c1=c3 (figure 9B)')
+    plt.ylabel('Frequency')
+    plt.title('Dynamics for a scenario where c2=c1=c3 (Figure 9B)')
     plt.legend()
     plt.show()
 
-    df_figure_9B_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+    df_Figure_9B_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
                         label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
-    plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
-    plt.ylabel('Fitness/ Frequency')
-    plt.title('Dynamics for a scenario where c2=c1=c3 (figure 9B)')
+    plt.ylabel('Frequency')
+    plt.title('Dynamics for a scenario where c2=c1=c3 (Figure 9B)')
     plt.legend()
     plt.show()
 
     # Make a ternary plot
-    fig1 = px.line_ternary(df_figure_9B_first_line, a='xOC', b='xOB', c='xMM')
-    fig2 = px.line_ternary(df_figure_9B_second_line, a='xOC', b='xOB', c='xMM')
+    fig1 = px.line_ternary(df_Figure_9B_first_line, a='xOC', b='xOB', c='xMM')
+    fig2 = px.line_ternary(df_Figure_9B_second_line, a='xOC', b='xOB', c='xMM')
 
     fig1.update_layout(
         ternary=dict(
@@ -1058,14 +1026,14 @@ def figure_9B():
         fig1.add_trace(trace)
     fig1.data[0].update(line=dict(color='red'))
     fig1.data[1].update(line=dict(color='blue'))
-    fig1.update_layout(title_text= 'Dynamics for a scenario where c2=c1=c3 (figure 9B)')
-    save_ternary(fig1, 'Ternary_plot_figure_9B',
+    fig1.update_layout(title_text= 'Dynamics for a scenario where c2=c1=c3 (Figure 9B)')
+    save_ternary(fig1, 'Ternary_plot_Figure_9B',
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
     fig1.show()
 
 """ Figure 9C """
-def figure_9C():
-    """Function that makes figure 9C in the paper of Sartakhti et al., 2016."""
+def Figure_9C():
+    """Function that makes Figure 9C in the paper of Sartakhti et al., 2016."""
     # Set start values
     N = 10
     c3 = 1
@@ -1081,15 +1049,14 @@ def figure_9C():
         [1, 0, -1],
         [0.5, 0, 0]])
 
-    t = np.linspace(0, 40,100)
-
     # Initial conditions
+    t = np.linspace(0, 40,100)
     y0 = [xOC, xOB, xMM]
     parameters = (N, c1, c2, c3, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_figure_9C_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    df_Figure_9C_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start frequencies
@@ -1097,45 +1064,42 @@ def figure_9C():
     xOB = 0.3
     xMM = 0.3
 
-    t = np.linspace(0, 40,100)
-
     # Initial conditions
+    t = np.linspace(0, 40,100)
     y0 = [xOC, xOB, xMM]
     parameters = (N, c1, c2, c3, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_figure_9C_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    df_Figure_9C_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Save the data as csv file
-    save_data(df_figure_9C_first_line, 'df_figure_9C_first_line.csv',
+    save_data(df_Figure_9C_first_line, 'df_Figure_9C_first_line.csv',
                                     r'..\data\reproduced_data_Sartakhti_linear')
-    save_data(df_figure_9C_second_line, 'df_figure_9C_second_line.csv',
+    save_data(df_Figure_9C_second_line, 'df_Figure_9C_second_line.csv',
                                     r'..\data\reproduced_data_Sartakhti_linear')
 
     # Make a plot
-    df_figure_9C_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+    df_Figure_9C_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
                         label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
-    plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
-    plt.ylabel('Fitness/ Frequency')
-    plt.title('Dynamics for a scenario where c2=c1=c3 (figure 9C)')
+    plt.ylabel('Frequency')
+    plt.title('Dynamics for a scenario where c2=c1=c3 (Figure 9C)')
     plt.legend()
     plt.show()
 
-    df_figure_9C_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+    df_Figure_9C_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
                         label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
-    plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
-    plt.ylabel('Fitness/ Frequency')
-    plt.title('Dynamics for a scenario where c2=c1=c3 (figure 9C)')
+    plt.ylabel('Frequency')
+    plt.title('Dynamics for a scenario where c2=c1=c3 (Figure 9C)')
     plt.legend()
     plt.show()
 
     # Make a ternary plot
-    fig1 = px.line_ternary(df_figure_9C_first_line, a='xOC', b='xOB', c='xMM')
-    fig2 = px.line_ternary(df_figure_9C_second_line, a='xOC', b='xOB', c='xMM')
+    fig1 = px.line_ternary(df_Figure_9C_first_line, a='xOC', b='xOB', c='xMM')
+    fig2 = px.line_ternary(df_Figure_9C_second_line, a='xOC', b='xOB', c='xMM')
     fig1.update_layout(
         ternary=dict(
             aaxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
@@ -1147,15 +1111,15 @@ def figure_9C():
         fig1.add_trace(trace)
     fig1.data[0].update(line=dict(color='red'))
     fig1.data[1].update(line=dict(color='blue'))
-    fig1.update_layout(title_text= 'Dynamics for a scenario where c2=c1=c3 (figure 9C)')
-    save_ternary(fig1, 'Ternary_plot_figure_9C',
+    fig1.update_layout(title_text= 'Dynamics for a scenario where c2=c1=c3 (Figure 9C)')
+    save_ternary(fig1, 'Ternary_plot_Figure_9C',
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
     fig1.show()
 
 """SENARIO 3"""
 """Figure 10A"""
-def figure_10A():
-    """Function that makes figure 10A in the paper of Sartakhti et al., 2016."""
+def Figure_10A():
+    """Function that makes Figure 10A in the paper of Sartakhti et al., 2016."""
     # Set start values
     N = 10
     c3 = 0.8
@@ -1171,15 +1135,14 @@ def figure_10A():
         [1, 0, -0.3],
         [0.5, 0, 0]])
 
-    t = np.linspace(0, 40)
-
     # Initial conditions
+    t = np.linspace(0, 40)
     y0 = [xOC, xOB, xMM]
     parameters = (N, c1, c2, c3, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_figure_10A_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    df_Figure_10A_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start values
@@ -1187,45 +1150,42 @@ def figure_10A():
     xOB = 0.2
     xMM = 0.6
 
-    t = np.linspace(0, 40)
-
     # Initial conditions
+    t = np.linspace(0, 40)
     y0 = [xOC, xOB, xMM]
     parameters = (N, c1, c2, c3, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_figure_10A_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    df_Figure_10A_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Save the data as csv file
-    save_data(df_figure_10A_first_line, 'df_figure_10A_first_line.csv',
+    save_data(df_Figure_10A_first_line, 'df_Figure_10A_first_line.csv',
                                     r'..\data\reproduced_data_Sartakhti_linear')
-    save_data(df_figure_10A_second_line, 'df_figure_10A_second_line.csv',
+    save_data(df_Figure_10A_second_line, 'df_Figure_10A_second_line.csv',
                                     r'..\data\reproduced_data_Sartakhti_linear')
 
     # Make a plot
-    df_figure_10A_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+    df_Figure_10A_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
                         label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
-    plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
-    plt.ylabel('Fitness/ Frequency')
-    plt.title('Dynamics for a scenario where c3<c1<c2 (figure 10A)')
+    plt.ylabel('Frequency')
+    plt.title('Dynamics for a scenario where c3<c1<c2 (Figure 10A)')
     plt.legend()
     plt.show()
 
-    df_figure_10A_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+    df_Figure_10A_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
                         label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
-    plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
-    plt.ylabel('Fitness/ Frequency')
-    plt.title('Dynamics for a scenario where c3<c1<c2 (figure 10A)')
+    plt.ylabel('Frequency')
+    plt.title('Dynamics for a scenario where c3<c1<c2 (Figure 10A)')
     plt.legend()
     plt.show()
 
     # Make a ternary plot
-    fig1 = px.line_ternary(df_figure_10A_first_line, a='xOC', b='xOB', c='xMM')
-    fig2 = px.line_ternary(df_figure_10A_second_line, a='xOC', b='xOB', c='xMM')
+    fig1 = px.line_ternary(df_Figure_10A_first_line, a='xOC', b='xOB', c='xMM')
+    fig2 = px.line_ternary(df_Figure_10A_second_line, a='xOC', b='xOB', c='xMM')
 
     fig1.update_layout(
         ternary=dict(
@@ -1238,14 +1198,14 @@ def figure_10A():
         fig1.add_trace(trace)
     fig1.data[0].update(line=dict(color='red'))
     fig1.data[1].update(line=dict(color='blue'))
-    fig1.update_layout(title_text= 'Dynamics for a scenario where c3<c1<c2 (figure 10A)')
-    save_ternary(fig1, 'Ternary_plot_figure_10A',
+    fig1.update_layout(title_text= 'Dynamics for a scenario where c3<c1<c2 (Figure 10A)')
+    save_ternary(fig1, 'Ternary_plot_Figure_10A',
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
     fig1.show()
 
 """Figure 10B"""
-def figure_10B():
-    """Function that makes figure 10B in the paper of Sartakhti et al., 2016."""
+def Figure_10B():
+    """Function that makes Figure 10B in the paper of Sartakhti et al., 2016."""
     # Set start values
     N = 10
     c3 = 0.8
@@ -1261,15 +1221,14 @@ def figure_10B():
         [1, 0, 0.3],
         [0.5, 0, 0]])
 
-    t = np.linspace(0, 40,100)
-
     # Initial conditions
+    t = np.linspace(0, 40,100)
     y0 = [xOC, xOB, xMM]
     parameters = (N, c1, c2, c3, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_figure_10B_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    df_Figure_10B_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start frequenties
@@ -1277,44 +1236,41 @@ def figure_10B():
     xOB = 0.3
     xMM = 0.3
 
-    t = np.linspace(0, 40,100)
-
     # Initial conditions
+    t = np.linspace(0, 40,100)
     y0 = [xOC, xOB, xMM]
     parameters = (N, c1, c2, c3, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_figure_10B_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    df_Figure_10B_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
-    save_data(df_figure_10B_first_line, 'df_figure_10B_first_line.csv',
+    save_data(df_Figure_10B_first_line, 'df_Figure_10B_first_line.csv',
                                     r'..\data\reproduced_data_Sartakhti_linear')
-    save_data(df_figure_10B_second_line, 'df_figure_10B_second_line.csv',
+    save_data(df_Figure_10B_second_line, 'df_Figure_10B_second_line.csv',
                                     r'..\data\reproduced_data_Sartakhti_linear')
 
     # Make a plot
-    df_figure_10B_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+    df_Figure_10B_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
                         label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
-    plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
-    plt.ylabel('Fitness/ Frequency')
-    plt.title('Dynamics for a scenario where c3<c1<c2 (figure 10B)')
+    plt.ylabel('Frequency')
+    plt.title('Dynamics for a scenario where c3<c1<c2 (Figure 10B)')
     plt.legend()
     plt.show()
 
-    df_figure_10B_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+    df_Figure_10B_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
                         label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
-    plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
-    plt.ylabel('Fitness/ Frequency')
-    plt.title('Dynamics for a scenario where c3<c1<c2 (figure 10B)')
+    plt.ylabel('Frequency')
+    plt.title('Dynamics for a scenario where c3<c1<c2 (Figure 10B)')
     plt.legend()
     plt.show()
 
     # Make a ternary plot
-    fig1 = px.line_ternary(df_figure_10B_first_line, a='xOC', b='xOB', c='xMM')
-    fig2 = px.line_ternary(df_figure_10B_second_line, a='xOC', b='xOB', c='xMM')
+    fig1 = px.line_ternary(df_Figure_10B_first_line, a='xOC', b='xOB', c='xMM')
+    fig2 = px.line_ternary(df_Figure_10B_second_line, a='xOC', b='xOB', c='xMM')
 
     fig1.update_layout(
         ternary=dict(
@@ -1327,14 +1283,14 @@ def figure_10B():
         fig1.add_trace(trace)
     fig1.data[0].update(line=dict(color='red'))
     fig1.data[1].update(line=dict(color='blue'))
-    fig1.update_layout(title_text= 'Dynamics for a scenario where c3<c1<c2 (figure 10B)')
-    save_ternary(fig1, 'Ternary_plot_figure_10B',
+    fig1.update_layout(title_text= 'Dynamics for a scenario where c3<c1<c2 (Figure 10B)')
+    save_ternary(fig1, 'Ternary_plot_Figure_10B',
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
     fig1.show()
 
 """Figure 11"""
-def figure_11():
-    """Function that makes figure 11 in the paper of Sartakhti et al., 2016."""
+def Figure_11():
+    """Function that makes Figure 11 in the paper of Sartakhti et al., 2016."""
     # Set start values
     N = 20
     c3 = 1.4
@@ -1350,33 +1306,30 @@ def figure_11():
         [1, 0, -0.3],
         [1.5, 0, 0]])
 
-    t = np.linspace(0, 20, 20)
-
     # Initial conditions
+    t = np.linspace(0, 20, 20)
     y0 = [xOC, xOB, xMM]
-    extra_MM = 0
     parameters = (N, c1, c2, c3, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_1 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
-    t = np.linspace(20, 50, 50)
     xOC = 0.65
     xOB = 0.25
     xMM = 0.1
 
     # Initial conditions
+    t = np.linspace(20, 50, 50)
     y0 = [xOC, xOB, xMM]
-    extra_MM = 0
     parameters = (N, c1, c2, c3, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
-    df_figure_11_first_line = pd.concat([df_1, df_2])
+    df_Figure_11_first_line = pd.concat([df_1, df_2])
 
     # Make lists
     WOC_list = []
@@ -1386,22 +1339,23 @@ def figure_11():
     generation_list = []
 
 
-    save_data(df_figure_11_first_line, 'df_figure_11_line.csv',
+    save_data(df_Figure_11_first_line, 'df_Figure_11_line.csv',
                                     r'..\data\reproduced_data_Sartakhti_linear')
 
 
     # Make a plot
-    df_figure_11_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+    df_Figure_11_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
                         label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
-    plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
     plt.ylabel('Frequency')
-    plt.title('Effect reducing MM cells (figure 11)')
+    plt.title('Effect reducing MM cells (Figure 11)')
     plt.legend()
+    save_Figure(plt, 'Line_plot_Figure_11',
+                        r'..\visualisation\reproduced_results_Sartakhti_linear')
     plt.show()
 
     # Make a ternary plot
-    fig1 = px.line_ternary(df_figure_11_first_line, a='xOC', b='xOB', c='xMM')
+    fig1 = px.line_ternary(df_Figure_11_first_line, a='xOC', b='xOB', c='xMM')
 
     fig1.update_layout(
         ternary=dict(
@@ -1410,14 +1364,14 @@ def figure_11():
             caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
 
     # Add both lines to one ternary plot
-    fig1.update_layout(title_text= 'Effect reducing MM cells (figure 11)')
-    save_ternary(fig1, 'Ternary_plot_figure_11',
+    fig1.update_layout(title_text= 'Effect reducing MM cells (Figure 11)')
+    save_ternary(fig1, 'Ternary_plot_Figure_11',
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
     fig1.show()
 
 """Figure 12 A middel"""
-def figure_12A_middel():
-    """Function that makes figure 12A middel in the paper of Sartakhti et al., 2016."""
+def Figure_12A_middel():
+    """Function that makes Figure 12A middel in the paper of Sartakhti et al., 2016."""
     # Set start values
     N = 15
     c3 = 1.8
@@ -1433,15 +1387,14 @@ def figure_12A_middel():
         [1, 0, -0.3],
         [2.0, 0, 0]])
 
-    t = np.linspace(0, 30,100)
-
     # Initial conditions
+    t = np.linspace(0, 30,100)
     y0 = [xOC, xOB, xMM]
     parameters = (N, c1, c2, c3, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_figure_12A_middel_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    df_Figure_12A_middel_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start frequenties
@@ -1449,45 +1402,44 @@ def figure_12A_middel():
     xOB = 0.2
     xMM = 0.6
 
-    t = np.linspace(0, 30,100)
-
     # Initial conditions
+    t = np.linspace(0, 30,100)
     y0 = [xOC, xOB, xMM]
     parameters = (N, c1, c2, c3, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_figure_12A_middel_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    df_Figure_12A_middel_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Save the data as csv file
-    save_data(df_figure_12A_middel_first_line, 'df_figure_12A_middel_first_line.csv',
+    save_data(df_Figure_12A_middel_first_line, 'df_Figure_12A_middel_first_line.csv',
                                     r'..\data\reproduced_data_Sartakhti_linear')
-    save_data(df_figure_12A_middel_second_line, 'df_figure_12A_middel_second_line.csv',
+    save_data(df_Figure_12A_middel_second_line, 'df_Figure_12A_middel_second_line.csv',
                                     r'..\data\reproduced_data_Sartakhti_linear')
 
     # Make a plot
-    df_figure_12A_middel_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM',
+    df_Figure_12A_middel_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM',
                                                                     ])
-    plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
+
     plt.xlabel('Generations')
-    plt.ylabel('Fitness/ Frequency')
-    plt.title('Dynamics for a scenario where c2<c1<c3 (figure 12A middel)')
+    plt.ylabel('Frequency')
+    plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12A middel)')
     plt.legend()
     plt.show()
 
-    df_figure_12A_middel_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM',
+    df_Figure_12A_middel_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM',
                                                                     ])
-    plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
+
     plt.xlabel('Generations')
-    plt.ylabel('Fitness/ Frequency')
-    plt.title('Dynamics for a scenario where c2<c1<c3 (figure 12A middel)')
+    plt.ylabel('Frequency')
+    plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12A middel)')
     plt.legend()
     plt.show()
 
     # Make a ternary plot
-    fig1 = px.line_ternary(df_figure_12A_middel_first_line, a='xOC', b='xOB', c='xMM')
-    fig2 = px.line_ternary(df_figure_12A_middel_second_line, a='xOC', b='xOB', c='xMM')
+    fig1 = px.line_ternary(df_Figure_12A_middel_first_line, a='xOC', b='xOB', c='xMM')
+    fig2 = px.line_ternary(df_Figure_12A_middel_second_line, a='xOC', b='xOB', c='xMM')
 
     fig1.update_layout(
         ternary=dict(
@@ -1500,14 +1452,14 @@ def figure_12A_middel():
         fig1.add_trace(trace)
     fig1.data[0].update(line=dict(color='red'))
     fig1.data[1].update(line=dict(color='blue'))
-    fig1.update_layout(title_text= 'Dynamics for a scenario where c2<c1<c3 (figure 12A middel)')
-    save_ternary(fig1, 'Ternary_plot_figure_12A_middel',
+    fig1.update_layout(title_text= 'Dynamics for a scenario where c2<c1<c3 (Figure 12A middel)')
+    save_ternary(fig1, 'Ternary_plot_Figure_12A_middel',
                     r'..\visualisation\reproduced_results_Sartakhti_linear')
     fig1.show()
 
 """Figure 12 A right"""
-def figure_12A_right():
-    """Function that makes figure 12A middel in the paper of Sartakhti et al., 2016."""
+def Figure_12A_right():
+    """Function that makes Figure 12A middel in the paper of Sartakhti et al., 2016."""
     # Set start values
     N = 2
     c3 = 1.8
@@ -1523,15 +1475,14 @@ def figure_12A_right():
         [1, 0, -0.3],
         [2.0, 0, 0]])
 
-    t = np.linspace(0, 30,100)
-
     # Initial conditions
+    t = np.linspace(0, 30,100)
     y0 = [xOC, xOB, xMM]
     parameters = (N, c1, c2, c3, matrix)
 
     # determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_figure_12A_right_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    df_Figure_12A_right_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start frequencies
@@ -1545,39 +1496,38 @@ def figure_12A_right():
     y0 = [xOC, xOB, xMM]
     parameters = (N, c1, c2, c3, matrix)
 
-    # determine the ODE solutions
+    #  the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_figure_12A_right_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    df_Figure_12A_right_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Save the data as csv file
-    save_data(df_figure_12A_right_first_line, 'df_figure_12A_right_first_line.csv',
+    save_data(df_Figure_12A_right_first_line, 'df_Figure_12A_right_first_line.csv',
                                     r'..\data\reproduced_data_Sartakhti_linear')
-    save_data(df_figure_12A_right_second_line, 'df_figure_12A_right_second_line.csv',
+    save_data(df_Figure_12A_right_second_line, 'df_Figure_12A_right_second_line.csv',
                                     r'..\data\reproduced_data_Sartakhti_linear')
 
     # Make a plot
-    df_figure_12A_right_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM',
+    df_Figure_12A_right_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM',
                                                                     ])
-    plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
+
     plt.xlabel('Generations')
-    plt.ylabel('Fitness/ Frequency')
-    plt.title('Dynamics for a scenario where c2<c1<c3 (figure 12A right)')
+    plt.ylabel('Frequency')
+    plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12A right)')
     plt.legend()
     plt.show()
 
-    df_figure_12A_right_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+    df_Figure_12A_right_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
                         label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
-    plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
-    plt.ylabel('Fitness/ Frequency')
-    plt.title('Dynamics for a scenario where c2<c1<c3 (figure 12A right)')
+    plt.ylabel('Frequency')
+    plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12A right)')
     plt.legend()
     plt.show()
 
     # Make a ternary plot
-    fig1 = px.line_ternary(df_figure_12A_right_first_line, a='xOC', b='xOB', c='xMM')
-    fig2 = px.line_ternary(df_figure_12A_right_second_line, a='xOC', b='xOB', c='xMM')
+    fig1 = px.line_ternary(df_Figure_12A_right_first_line, a='xOC', b='xOB', c='xMM')
+    fig2 = px.line_ternary(df_Figure_12A_right_second_line, a='xOC', b='xOB', c='xMM')
 
     fig1.update_layout(
         ternary=dict(
@@ -1590,14 +1540,14 @@ def figure_12A_right():
         fig1.add_trace(trace)
     fig1.data[0].update(line=dict(color='red'))
     fig1.data[1].update(line=dict(color='blue'))
-    fig1.update_layout(title_text= 'Dynamics for a scenario where c2<c1<c3 (figure 12A right)')
-    save_ternary(fig1, 'Ternary_plot_figure_12A_right',
+    fig1.update_layout(title_text= 'Dynamics for a scenario where c2<c1<c3 (Figure 12A right)')
+    save_ternary(fig1, 'Ternary_plot_Figure_12A_right',
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
     fig1.show()
 
 """ Figure 12B middel"""
-def figure_12B_middel():
-    """Function that makes figure 12B middel in the paper of Sartakhti et al., 2016."""
+def Figure_12B_middel():
+    """Function that makes Figure 12B middel in the paper of Sartakhti et al., 2016."""
     # Set start values
     N = 15
     c3 = 1.4
@@ -1613,15 +1563,14 @@ def figure_12B_middel():
         [1, 0, -0.33],
         [0.5, 0, 0]])
 
-    t = np.linspace(0, 30,100)
-
     # Initial conditions
+    t = np.linspace(0, 30,100)
     y0 = [xOC, xOB, xMM]
     parameters = (N, c1, c2, c3, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_figure_12B_middel_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    df_Figure_12B_middel_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start frequenties
@@ -1629,45 +1578,44 @@ def figure_12B_middel():
     xOB = 0.2
     xMM = 0.7
 
-    t = np.linspace(0, 30,100)
-
     # Initial conditions
+    t = np.linspace(0, 30,100)
     y0 = [xOC, xOB, xMM]
     parameters = (N, c1, c2, c3, matrix)
 
     # determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_figure_12B_middel_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    df_Figure_12B_middel_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Save the data as csv file
-    save_data(df_figure_12B_middel_first_line, 'df_figure_12B_middel_first_line.csv',
+    save_data(df_Figure_12B_middel_first_line, 'df_Figure_12B_middel_first_line.csv',
                                     r'..\data\reproduced_data_Sartakhti_linear')
-    save_data(df_figure_12B_middel_second_line, 'df_figure_12B_middel_second_line.csv',
+    save_data(df_Figure_12B_middel_second_line, 'df_Figure_12B_middel_second_line.csv',
                                     r'..\data\reproduced_data_Sartakhti_linear')
 
     # Make a plot
-    df_figure_12B_middel_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM',
+    df_Figure_12B_middel_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM',
                                                                     ])
-    plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
+
     plt.xlabel('Generations')
-    plt.ylabel('Fitness/ Frequency')
-    plt.title('Dynamics for a scenario where c2<c1<c3 (figure 12B middel)')
+    plt.ylabel('Frequency')
+    plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12B middel)')
     plt.legend()
     plt.show()
 
-    df_figure_12B_middel_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM',
+    df_Figure_12B_middel_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM',
                                                                     ])
-    plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
+
     plt.xlabel('Generations')
-    plt.ylabel('Fitness/ Frequency')
-    plt.title('Dynamics for a scenario where c2<c1<c3 (figure 12B middel)')
+    plt.ylabel('Frequency')
+    plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12B middel)')
     plt.legend()
     plt.show()
 
     # Make a ternary plot
-    fig1 = px.line_ternary(df_figure_12B_middel_first_line, a='xOC', b='xOB', c='xMM')
-    fig2 = px.line_ternary(df_figure_12B_middel_second_line, a='xOC', b='xOB', c='xMM')
+    fig1 = px.line_ternary(df_Figure_12B_middel_first_line, a='xOC', b='xOB', c='xMM')
+    fig2 = px.line_ternary(df_Figure_12B_middel_second_line, a='xOC', b='xOB', c='xMM')
 
     fig1.update_layout(
         ternary=dict(
@@ -1680,15 +1628,15 @@ def figure_12B_middel():
         fig1.add_trace(trace)
     fig1.data[0].update(line=dict(color='red'))
     fig1.data[1].update(line=dict(color='blue'))
-    fig1.update_layout(title_text= 'Dynamics for a scenario where c2<c1<c3 (figure 12B middel)')
-    save_ternary(fig1, 'Ternary_plot_figure_12B_middel',
+    fig1.update_layout(title_text= 'Dynamics for a scenario where c2<c1<c3 (Figure 12B middel)')
+    save_ternary(fig1, 'Ternary_plot_Figure_12B_middel',
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
 
     fig1.show()
 
 """ Figure 12B right"""
-def figure_12B_right():
-    """Function that makes figure 12B right in the paper of Sartakhti et al., 2016."""
+def Figure_12B_right():
+    """Function that makes Figure 12B right in the paper of Sartakhti et al., 2016."""
     # Set start values
     N = 15
     c3 = 1.4
@@ -1704,15 +1652,14 @@ def figure_12B_right():
         [1, 0, -0.33],
         [0.5, 0, 0]])
 
-    t = np.linspace(0, 30,100)
-
     # Initial conditions
+    t = np.linspace(0, 30,100)
     y0 = [xOC, xOB, xMM]
     parameters = (N, c1, c2, c3, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_figure_12B_right_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    df_Figure_12B_right_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start frequencies
@@ -1720,45 +1667,44 @@ def figure_12B_right():
     xOB = 0.2
     xMM = 0.7
 
-    t = np.linspace(0, 30,100)
-
     # Initial conditions
+    t = np.linspace(0, 30,100)
     y0 = [xOC, xOB, xMM]
     parameters = (N, c1, c2, c3, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_figure_12B_right_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    df_Figure_12B_right_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Save the data as csv file
-    save_data(df_figure_12B_right_first_line, 'df_figure_12B_right_first_line.csv',
+    save_data(df_Figure_12B_right_first_line, 'df_Figure_12B_right_first_line.csv',
                                     r'..\data\reproduced_data_Sartakhti_linear')
-    save_data(df_figure_12B_right_second_line, 'df_figure_12B_right_second_line.csv',
+    save_data(df_Figure_12B_right_second_line, 'df_Figure_12B_right_second_line.csv',
                                     r'..\data\reproduced_data_Sartakhti_linear')
 
     # Make a plot
-    df_figure_12B_right_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM',
+    df_Figure_12B_right_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM',
                                                                     ])
-    plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
+
     plt.xlabel('Generations')
-    plt.ylabel('Fitness/ Frequency')
-    plt.title('Dynamics for a scenario where c2<c1<c3 (figure 12B right)')
+    plt.ylabel('Frequency')
+    plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12B right)')
     plt.legend()
     plt.show()
 
-    df_figure_12B_right_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM',
+    df_Figure_12B_right_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM',
                                                                     ])
-    plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
+
     plt.xlabel('Generations')
-    plt.ylabel('Fitness/ Frequency')
-    plt.title('Dynamics for a scenario where c2<c1<c3 (figure 12B right)')
+    plt.ylabel('Frequency')
+    plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12B right)')
     plt.legend()
     plt.show()
 
     # Make a ternary plot
-    fig1 = px.line_ternary(df_figure_12B_right_first_line, a='xOC', b='xOB', c='xMM')
-    fig2 = px.line_ternary(df_figure_12B_right_second_line, a='xOC', b='xOB', c='xMM')
+    fig1 = px.line_ternary(df_Figure_12B_right_first_line, a='xOC', b='xOB', c='xMM')
+    fig2 = px.line_ternary(df_Figure_12B_right_second_line, a='xOC', b='xOB', c='xMM')
 
     fig1.update_layout(
         ternary=dict(
@@ -1771,15 +1717,15 @@ def figure_12B_right():
         fig1.add_trace(trace)
     fig1.data[0].update(line=dict(color='red'))
     fig1.data[1].update(line=dict(color='blue'))
-    fig1.update_layout(title_text= 'Dynamics for a scenario where c2<c1<c3 (figure 12B right)')
-    save_ternary(fig1, 'Ternary_plot_figure_12B_right',
+    fig1.update_layout(title_text= 'Dynamics for a scenario where c2<c1<c3 (Figure 12B right)')
+    save_ternary(fig1, 'Ternary_plot_Figure_12B_right',
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
 
     fig1.show()
 
 """ Figure 12C middel"""
-def figure_12C_middel():
-    """Function that makes figure 12C middel in the paper of Sartakhti et al., 2016."""
+def Figure_12C_middel():
+    """Function that makes Figure 12C middel in the paper of Sartakhti et al., 2016."""
     # Set start values
     N = 15
     c3 = 1.4
@@ -1795,15 +1741,14 @@ def figure_12C_middel():
         [1, 0, -0.5],
         [0.5, 0, 0]])
 
-    t = np.linspace(0, 30,100)
-
     # Initial conditions
+    t = np.linspace(0, 30,100)
     y0 = [xOC, xOB, xMM]
     parameters = (N, c1, c2, c3, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_figure_12C_middel_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    df_Figure_12C_middel_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start frequencies
@@ -1811,45 +1756,42 @@ def figure_12C_middel():
     xOB = 0.1
     xMM = 0.1
 
-    t = np.linspace(0, 30,100)
-
     # Initial conditions
+    t = np.linspace(0, 30,100)
     y0 = [xOC, xOB, xMM]
     parameters = (N, c1, c2, c3, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_figure_12C_middel_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    df_Figure_12C_middel_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Save the data as csv file
-    save_data(df_figure_12C_middel_first_line, 'df_figure_12C_middel_first_line.csv',
+    save_data(df_Figure_12C_middel_first_line, 'df_Figure_12C_middel_first_line.csv',
                                     r'..\data\reproduced_data_Sartakhti_linear')
-    save_data(df_figure_12C_middel_second_line, 'df_figure_12C_middel_second_line.csv',
+    save_data(df_Figure_12C_middel_second_line, 'df_Figure_12C_middel_second_line.csv',
                                     r'..\data\reproduced_data_Sartakhti_linear')
 
     # Make a plot
-    df_figure_12C_middel_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+    df_Figure_12C_middel_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
                         label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
-    plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
-    plt.ylabel('Fitness/ Frequency')
-    plt.title('Dynamics for a scenario where c2<c1<c3 (figure 12C middel)')
+    plt.ylabel('Frequency')
+    plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12C middel)')
     plt.legend()
     plt.show()
 
-    df_figure_12C_middel_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+    df_Figure_12C_middel_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
                             label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
-    plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
-    plt.ylabel('Fitness/ Frequency')
-    plt.title('Dynamics for a scenario where c2<c1<c3 (figure 12C middel)')
+    plt.ylabel('Frequency')
+    plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12C middel)')
     plt.legend()
     plt.show()
 
     # Make a ternary plot
-    fig1 = px.line_ternary(df_figure_12C_middel_first_line, a='xOC', b='xOB', c='xMM')
-    fig2 = px.line_ternary(df_figure_12C_middel_second_line, a='xOC', b='xOB', c='xMM')
+    fig1 = px.line_ternary(df_Figure_12C_middel_first_line, a='xOC', b='xOB', c='xMM')
+    fig2 = px.line_ternary(df_Figure_12C_middel_second_line, a='xOC', b='xOB', c='xMM')
 
     fig1.update_layout(
         ternary=dict(
@@ -1862,14 +1804,14 @@ def figure_12C_middel():
         fig1.add_trace(trace)
     fig1.data[0].update(line=dict(color='red'))
     fig1.data[1].update(line=dict(color='blue'))
-    fig1.update_layout(title_text= 'Dynamics for a scenario where c2<c1<c3 (figure 12C middel)')
-    save_ternary(fig1, 'Ternary_plot_figure_12C_middel',
+    fig1.update_layout(title_text= 'Dynamics for a scenario where c2<c1<c3 (Figure 12C middel)')
+    save_ternary(fig1, 'Ternary_plot_Figure_12C_middel',
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
     fig1.show()
 
 """ Figure 12C right"""
-def figure_12C_right():
-    """Function that makes figure 12C right in the paper of Sartakhti et al., 2016."""
+def Figure_12C_right():
+    """Function that makes Figure 12C right in the paper of Sartakhti et al., 2016."""
     # Set start values
     N = 15
     c3 = 0.8
@@ -1885,15 +1827,14 @@ def figure_12C_right():
         [1, 0, -0.5],
         [0.5, 0, 0]])
 
-    t = np.linspace(0, 30,100)
-
     # Initial conditions
+    t = np.linspace(0, 30,100)
     y0 = [xOC, xOB, xMM]
     parameters = (N, c1, c2, c3, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_figure_12C_right_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    df_Figure_12C_right_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start values
@@ -1901,46 +1842,42 @@ def figure_12C_right():
     xOB = 0.1
     xMM = 0.1
 
-    # Make a dataframe
-    t = np.linspace(0, 30,100)
-
     # Initial conditions
+    t = np.linspace(0, 30,100)
     y0 = [xOC, xOB, xMM]
     parameters = (N, c1, c2, c3, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_figure_12C_right_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    df_Figure_12C_right_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Save the data as csv file
-    save_data(df_figure_12C_right_first_line, 'df_figure_12C_right_first_line.csv',
+    save_data(df_Figure_12C_right_first_line, 'df_Figure_12C_right_first_line.csv',
                                     r'..\data\reproduced_data_Sartakhti_linear')
-    save_data(df_figure_12C_right_second_line, 'df_figure_12C_right_second_line.csv',
+    save_data(df_Figure_12C_right_second_line, 'df_Figure_12C_right_second_line.csv',
                                     r'..\data\reproduced_data_Sartakhti_linear')
 
     # Make a plot
-    df_figure_12C_right_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+    df_Figure_12C_right_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
                         label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
-    plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
-    plt.ylabel('Fitness/ Frequency')
-    plt.title('Dynamics for a scenario where c2<c1<c3 (figure 12C right)')
+    plt.ylabel('Frequency')
+    plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12C right)')
     plt.legend()
     plt.show()
 
-    df_figure_12C_right_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+    df_Figure_12C_right_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
                             label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
-    plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
     plt.xlabel('Generations')
-    plt.ylabel('Fitness/ Frequency')
-    plt.title('Dynamics for a scenario where c2<c1<c3 (figure 12C right)')
+    plt.ylabel('Frequency')
+    plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12C right)')
     plt.legend()
     plt.show()
 
     # Make a ternary plot
-    fig1 = px.line_ternary(df_figure_12C_right_first_line, a='xOC', b='xOB', c='xMM')
-    fig2 = px.line_ternary(df_figure_12C_right_second_line, a='xOC', b='xOB', c='xMM')
+    fig1 = px.line_ternary(df_Figure_12C_right_first_line, a='xOC', b='xOB', c='xMM')
+    fig2 = px.line_ternary(df_Figure_12C_right_second_line, a='xOC', b='xOB', c='xMM')
 
     fig1.update_layout(
         ternary=dict(
@@ -1953,8 +1890,8 @@ def figure_12C_right():
         fig1.add_trace(trace)
     fig1.data[0].update(line=dict(color='red'))
     fig1.data[1].update(line=dict(color='blue'))
-    fig1.update_layout(title_text= 'Dynamics for a scenario where c2<c1<c3 (figure 12C right)')
-    save_ternary(fig1, 'Ternary_plot_figure_12C_right',
+    fig1.update_layout(title_text= 'Dynamics for a scenario where c2<c1<c3 (Figure 12C right)')
+    save_ternary(fig1, 'Ternary_plot_Figure_12C_right',
                     r'..\visualisation\reproduced_results_Sartakhti_linear')
     fig1.show()
 
