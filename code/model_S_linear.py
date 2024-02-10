@@ -274,7 +274,7 @@ def fitness_WMM(xOC, xOB, xMM, N, cOC, cOB, cMM, matrix):
     WMM = (g*cOC*xOC + i*cMM*xMM + h*cOB*xOB)*(N - 1)/N - cMM #(20)
     return WMM
 
-def model_dynamics(y, t, N, c1, c2, c3, matrix):
+def model_dynamics(y, t, N, cOC, cOB, cMM, matrix):
     """Determines the frequenty dynamics in a population over time.
 
     Parameters:
@@ -285,11 +285,11 @@ def model_dynamics(y, t, N, c1, c2, c3, matrix):
         THE time point.
     N : Int
         Number of cells in the difussion range.
-    c1 : Float
+    cOC : Float
         Cost value of the OCs.
-    c2 : Float
+    cOB : Float
         Cost value of the OBs.
-    c3 : Float
+    cMM : Float
         Cost value of the MMs.
     matrix : Numpy array
         Matrix with the payoff values.
@@ -302,9 +302,9 @@ def model_dynamics(y, t, N, c1, c2, c3, matrix):
     xOC, xOB, xMM = y
 
     # Determine the fitness values
-    WOC = fitness_WOC(xOC, xOB, xMM, N, c1, c2, c3, matrix)
-    WOB = fitness_WOB(xOC, xOB, xMM, N, c1, c2, c3, matrix)
-    WMM = fitness_WMM(xOC, xOB, xMM, N, c1, c2, c3, matrix)
+    WOC = fitness_WOC(xOC, xOB, xMM, N, cOC, cOB, cMM, matrix)
+    WOB = fitness_WOB(xOC, xOB, xMM, N, cOC, cOB, cMM, matrix)
+    WMM = fitness_WMM(xOC, xOB, xMM, N, cOC, cOB, cMM, matrix)
 
     # Determine the average fitness
     W_average = xOC * WOC + xOB * WOB + xMM * WMM
@@ -315,6 +315,60 @@ def model_dynamics(y, t, N, c1, c2, c3, matrix):
     xMM_change = xMM * (WMM - W_average)  # (17)
 
     return [xOC_change, xOB_change, xMM_change]
+
+def freq_to_fitness_values(dataframe_frequencies, N, cOC, cOB, cMM, matrix):
+    """Function that determine the fitness values of the OCs, OBs and MM cells
+    based on there frequencies on every time point. It also calculates the
+    average fitness.
+
+    Parameters:
+    -----------
+    dataframe_frequencies: Dataframe
+        Dataframe with the frequencies of the OBs, OCs and MM cells on every
+        timepoint
+
+    Returns:
+    --------
+    dataframe_fitness: Dataframe
+        A dataframe with the fitness values of the OBs, OCs and MM cells and
+        the avreage fitness on every time point.
+    """
+
+    # Make lists
+    WOC_list = []
+    WOB_list = []
+    WMM_list = []
+    W_average_list = []
+    generation_list = []
+
+    # Iterate over each row
+    for index, row in dataframe_frequencies.iterrows():
+        # Extract values of xOC, xOB, and xMM for the current row
+        xOC = row['xOC']
+        xOB = row['xOB']
+        xMM = row['xMM']
+
+        # Assuming N, c1, c2, c3, and matrix are defined elsewhere
+        # Calculate fitness values
+        WOC = fitness_WOC(xOC, xOB, xMM, N, cOC, cOB, cMM, matrix)
+        WOB = fitness_WOB(xOC, xOB, xMM, N, cOC, cOB, cMM, matrix)
+        WMM = fitness_WMM(xOC, xOB, xMM, N, cOC, cOB, cMM, matrix)
+
+        # Calculate the average fitness
+        W_average = xOC * WOC + xOB * WOB + xMM * WMM
+
+        # Append the calculated values to the respective lists
+        WOC_list.append(WOC)
+        WOB_list.append(WOB)
+        WMM_list.append(WMM)
+        W_average_list.append(W_average)
+        generation_list.append(index)
+
+    # Create a new DataFrame with the calculated values
+    dataframe_fitness = pd.DataFrame({'Generation': generation_list,
+    'WOC': WOC_list, 'WOB': WOB_list, 'WMM': WMM_list, 'W_average': W_average_list})
+
+    return(dataframe_fitness)
 
 """
 Example payoff matrix:
@@ -374,73 +428,11 @@ def Figure_2():
     save_data(df_Figure_2_second_line, 'df_Figure_2_second_line.csv',
                                     r'..\data\reproduced_data_Sartakhti_linear')
 
-    # Make lists
-    WOC_list = []
-    WOB_list = []
-    WMM_list = []
-    W_average_list = []
-    generation_list = []
-
-    # Iterate over each row
-    for index, row in df_Figure_2_first_line.iterrows():
-        # Extract values of xOC, xOB, and xMM for the current row
-        xOC = row['xOC']
-        xOB = row['xOB']
-        xMM = row['xMM']
-
-        # Assuming N, c1, c2, c3, and matrix are defined elsewhere
-        # Calculate fitness values
-        WOC = fitness_WOC(xOC, xOB, xMM, N, c1, c2, c3, matrix)
-        WOB = fitness_WOB(xOC, xOB, xMM, N, c1, c2, c3, matrix)
-        WMM = fitness_WMM(xOC, xOB, xMM, N, c1, c2, c3, matrix)
-
-        # Calculate the average fitness
-        W_average = xOC * WOC + xOB * WOB + xMM * WMM
-
-        # Append the calculated values to the respective lists
-        WOC_list.append(WOC)
-        WOB_list.append(WOB)
-        WMM_list.append(WMM)
-        W_average_list.append(W_average)
-        generation_list.append(index)
-
-    # Create a new DataFrame with the calculated values
-    df_fitness_first_line = pd.DataFrame({'Generation': generation_list,
-    'WOC': WOC_list, 'WOB': WOB_list, 'WMM': WMM_list, 'W_average': W_average_list})
-
-    # Make new lists
-    WOC_list = []
-    WOB_list = []
-    WMM_list = []
-    W_average_list = []
-    generation_list = []
-
-    # Iterate over each row
-    for index, row in df_Figure_2_second_line.iterrows():
-        # Extract values of xOC, xOB, and xMM for the current row
-        xOC = row['xOC']
-        xOB = row['xOB']
-        xMM = row['xMM']
-
-        # Assuming N, c1, c2, c3, and matrix are defined elsewhere
-        # Calculate fitness values
-        WOC = fitness_WOC(xOC, xOB, xMM, N, c1, c2, c3, matrix)
-        WOB = fitness_WOB(xOC, xOB, xMM, N, c1, c2, c3, matrix)
-        WMM = fitness_WMM(xOC, xOB, xMM, N, c1, c2, c3, matrix)
-
-        # Calculate the average fitness
-        W_average = xOC * WOC + xOB * WOB + xMM * WMM
-
-        # Append the calculated values to the respective lists
-        WOC_list.append(WOC)
-        WOB_list.append(WOB)
-        WMM_list.append(WMM)
-        W_average_list.append(W_average)
-        generation_list.append(index)
-
-    # Create a new DataFrame with the calculated values
-    df_fitness_second_line = pd.DataFrame({'Generation': generation_list,
-    'WOC': WOC_list, 'WOB': WOB_list, 'WMM': WMM_list, 'W_average': W_average_list})
+    # determine the fitness values
+    df_fitness_first_line = freq_to_fitness_values(df_Figure_2_first_line, N, c1,
+                                                                c2, c3, matrix)
+    df_fitness_second_line = freq_to_fitness_values(df_Figure_2_second_line, N, c1,
+                                                                c2, c3, matrix)
 
     # Create a Figure and axes for subplots
     fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(14,6))
@@ -651,21 +643,50 @@ def Figure_5():
     save_data(df_Figure_5_second_line, 'df_Figure_5_second_line.csv',
                                     r'..\data\reproduced_data_Sartakhti_linear')
 
-    # Make line plots
-    df_Figure_5_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
-                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
-    plt.xlabel('Generations')
-    plt.ylabel('Frequency')
-    plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 5)')
-    plt.legend()
+    # determine the fitness values
+    df_fitness_first_line = freq_to_fitness_values(df_Figure_5_first_line, N, c1,
+                                                                    c2, c3, matrix)
+    df_fitness_second_line = freq_to_fitness_values(df_Figure_5_second_line, N, c1,
+                                                                    c2, c3, matrix)
+
+    # Create a Figure and axes for subplots
+    fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(14,6))
+
+    # Plot the first subplot
+    df_fitness_first_line.plot(x='Generation', y=['WOC', 'WOB', 'WMM', 'W_average'],
+                                                                        ax=axes[0])
+    axes[0].set_title('Fitness for a scenario where c2<c1<c3 (Figure 5)')
+    axes[0].set_xlabel('Generations')
+    axes[0].set_ylabel('Fitness')
+    axes[0].legend(['Fitness OC', 'Fitness OB', 'Fitness MM', 'Average fitness'])
+
+    # Plot the second subplot
+    df_Figure_5_first_line.plot(x='Generation', y=['xOC', 'xOB', 'xMM'], ax=axes[1])
+    axes[1].set_title('Dynamics for a scenario where c2<c1<c3 (Figure 5)')
+    axes[1].set_xlabel('Generations')
+    axes[1].set_ylabel('Fitness/Frequency')
+    axes[1].legend(['Frequency OC', 'Frequency OB', 'Frequency MM'])
+    plt.tight_layout()
     plt.show()
 
-    df_Figure_5_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
-                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
-    plt.xlabel('Generations')
-    plt.ylabel('Frequency')
-    plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 5)')
-    plt.legend()
+    # Create a Figure and axes for subplots
+    fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(14,6))
+
+    # Plot the first subplot
+    df_fitness_second_line.plot(x='Generation', y=['WOC', 'WOB', 'WMM', 'W_average'],
+                                                                        ax=axes[0])
+    axes[0].set_title('Fitness for a scenario where c2<c1<c3 (Figure 5)')
+    axes[0].set_xlabel('Generations')
+    axes[0].set_ylabel('Fitness')
+    axes[0].legend(['Fitness OC', 'Fitness OB', 'Fitness MM', 'Average fitness'])
+
+    # Plot the second subplot
+    df_Figure_5_second_line.plot(x='Generation', y=['xOC', 'xOB', 'xMM'], ax=axes[1])
+    axes[1].set_title('Dynamics for a scenario where c2<c1<c3 (Figure 5)')
+    axes[1].set_xlabel('Generations')
+    axes[1].set_ylabel('Fitness/Frequency')
+    axes[1].legend(['Frequency OC', 'Frequency OB', 'Frequency MM'])
+    plt.tight_layout()
     plt.show()
 
     # Make a ternary plot
@@ -1330,14 +1351,6 @@ def Figure_11():
     df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
     df_Figure_11_first_line = pd.concat([df_1, df_2])
-
-    # Make lists
-    WOC_list = []
-    WOB_list = []
-    WMM_list = []
-    W_average_list = []
-    generation_list = []
-
 
     save_data(df_Figure_11_first_line, 'df_Figure_11_line.csv',
                                     r'..\data\reproduced_data_Sartakhti_linear')

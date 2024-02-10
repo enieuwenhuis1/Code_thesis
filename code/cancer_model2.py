@@ -60,12 +60,12 @@ def fitness_WOC(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix):
 
     Example:
     -----------
-    >>> fitness_WOC(0.5, 0.2, 0.3, 10, 0.3, 0.4, 0.3, np.array([
-    ...    [0, 1, 2.5, 0],
-    ...    [1, 0, -0.3,0],
-    ...    [2.5, 0, 0, 0],
-    ...    [0, 0, 0, 0]]))
-    -0.025499999999999967
+    >>> fitness_WOC(0.4, 0.2, 0.3, 0.1, 10, 0.3, 0.2, 0.3, 0.5, np.array([
+    ...    [0.7, 1.0, 2.5, 2.1],
+    ...    [1.0, 1.4, -0.3, 1.0],
+    ...    [2.5, 0.2, 1.1, -0.2],
+    ...    [2.1, 0.0, -0.2, 1.2]]))
+    0.10859999999999997
     """
     # Extract the needed matrix values
     a = matrix[0, 0]
@@ -111,12 +111,12 @@ def fitness_WOB(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix):
 
     Example:
     -----------
-    >>> fitness_WOB(0.5, 0.2, 0.3,10,  0.3, 0.4, 0.3, np.array([
-    ...    [0, 1, 2.5, 0],
-    ...    [1, 0, -0.3,0],
-    ...    [2.5, 0, 0, 0],
-    ...    [0, 0, 0, 0]]))
-    -0.2893
+    >>> fitness_WOB(0.4, 0.2, 0.3, 0.1, 10, 0.3, 0.2, 0.3, 0.5, np.array([
+    ...    [0.7, 1, 2.5, 2.1],
+    ...    [1, 1.4, -0.3, 1.0],
+    ...    [2.5, 0.2, 1.1, -0.2],
+    ...    [2.1, 0, -0.2, 1.2]]))
+    -0.020900000000000002
     """
     # Extract the necessary matrix values
     e = matrix[1, 0]
@@ -162,12 +162,12 @@ def fitness_WMMd(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix):
 
     Example:
     -----------
-    >>> fitness_WMMd(0.5, 0.2, 0.3, 10, 0.3, 0.4, 0.3, np.array([
-    ...    [0, 1, 2.5, 0],
-    ...    [1, 0, -0.3,0],
-    ...    [2.5, 0, 0, 0],
-    ...    [0, 0, 0, 0]]))
-    0.03750000000000003
+    >>> fitness_WMMd(0.4, 0.2, 0.3, 0.1, 10, 0.3, 0.2, 0.3, 0.5, np.array([
+    ...    [0.7, 1.0, 2.5, 2.1],
+    ...    [1.0, 1.4, -0.3, 1.0],
+    ...    [2.5, 0.2, 1.1, -0.2],
+    ...    [2.1, 0.0, -0.2, 1.2]]))
+    0.05730000000000007
     """
     # Extract the necessary matrix values
     i = matrix[2, 0]
@@ -213,12 +213,12 @@ def fitness_WMMr(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix):
 
     Example:
     -----------
-    >>> fitness_WMMr(0.5, 0.2, 0.3, 10, 0.3, 0.4, 0.3, np.array([
-    ...    [0, 1, 2.5, 0],
-    ...    [1, 0, -0.3,0],
-    ...    [2.5, 0, 0, 0],
-    ...    [0, 0, 0, 0]]))
-    0.03750000000000003
+    >>> fitness_WMMr(0.4, 0.2, 0.3, 0.1, 10, 0.3, 0.2, 0.3, 0.5, np.array([
+    ...    [0.7, 1.0, 2.5, 2.1],
+    ...    [1.0, 1.4, -0.3, 1.0],
+    ...    [2.5, 0.2, 1.1, -0.2],
+    ...    [2.1, 0.0, -0.2, 1.2]]))
+    -0.23539999999999994
     """
     # Extract the necessary matrix values
     m = matrix[3, 0]
@@ -265,7 +265,6 @@ def model_dynamics(y, t, N, cOC, cOB, cMMd, cMMr, matrix):
     WMMd = fitness_WMMd(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix)
     WMMr = fitness_WMMr(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix)
 
-
     # Determine the average fitness
     W_average = xOC * WOC + xOB * WOB + xMMd * WMMd + xMMr * WMMr
 
@@ -276,6 +275,163 @@ def model_dynamics(y, t, N, cOC, cOB, cMMd, cMMr, matrix):
     xMMr_change = xMMr * (WMMr - W_average)
 
     return [xOC_change, xOB_change, xMMd_change, xMMr_change]
+
+def freq_to_fitness_values(dataframe_frequencies, N, cOC, cOB, cMMd, cMMr, matrix):
+    """Function that determine the fitness values of the OCs, OBs, MMr and MMr
+    based on there frequencies on every time point. It also calculates the
+    average fitness.
+
+    Parameters:
+    -----------
+    dataframe_frequencies: Dataframe
+        Dataframe with the frequencies of the OBs, OCs MMd and MMr on every
+        timepoint
+
+    Returns:
+    --------
+    dataframe_fitness: Dataframe
+        A dataframe with the fitness values of the OBs, OCs, MMd and MMr and
+        the avreage fitness on every time point.
+    """
+
+    # Make lists
+    WOC_list = []
+    WOB_list = []
+    WMMd_list = []
+    WMMr_list = []
+    W_average_list = []
+    generation_list = []
+
+    # Iterate over each row
+    for index, row in dataframe_frequencies.iterrows():
+        # Extract values of xOC, xOB, and xMM for the current row
+        xOC = row['xOC']
+        xOB = row['xOB']
+        xMMd = row['xMMd']
+        xMMr = row['xMMr']
+
+        # Determine the fitness values
+        WOC = fitness_WOC(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix)
+        WOB = fitness_WOB(xOC, xOB, xMMd, xMMr,  N, cOC, cOB, cMMd, cMMr, matrix)
+        WMMd = fitness_WMMd(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix)
+        WMMr = fitness_WMMr(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix)
+
+        # Determine the average fitness
+        W_average = xOC * WOC + xOB * WOB + xMMd * WMMd + xMMr * WMMr
+
+        # Append the calculated values to the respective lists
+        WOC_list.append(WOC)
+        WOB_list.append(WOB)
+        WMMd_list.append(WMMd)
+        WMMr_list.append(WMMr)
+        W_average_list.append(W_average)
+        generation_list.append(index)
+
+    # Create a new DataFrame with the calculated values
+    dataframe_fitness = pd.DataFrame({'Generation': generation_list,
+    'WOC': WOC_list, 'WOB': WOB_list, 'WMMd': WMMd_list, 'WMMr': WMMr_list, 'W_average': W_average_list})
+
+    return(dataframe_fitness)
+
+# Do doc tests
+import doctest
+doctest.testmod()
+
+
+def figure_freq_fitness_dynamics():
+    """Function that makes figure of the OC, OB, MMd and MMr frequency and fitness
+     values over the time"""
+
+    # Set start values
+    N = 50
+    cMMr = 1.4
+    cMMd = 1.2
+    cOB = 0.8
+    cOC = 1
+    xOC = 0.3
+    xOB = 0.3
+    xMMd = 0.2
+    xMMr = 0.2
+
+    # Payoff matrix
+    matrix = np.array([
+        [0, 1, 1.5, 1.3],
+        [1, 0, -0.3, -0.3],
+        [1.5, 0, 0, -0.2],
+        [1.3, 0, -0.2, 0]])
+
+    t = np.linspace(0, 40, 40)
+
+    # Initial conditions
+    y0 = [xOC, xOB, xMMd, xMMr]
+    parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_figure_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
+
+    # Set new start parameter value
+    xOC = 0.2
+    xOB = 0.3
+    xMMd = 0.2
+    xMMr = 0.3
+
+    t = np.linspace(0, 40, 40)
+
+    # Initial conditions
+    y0 = [xOC, xOB, xMMd, xMMr]
+    parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_figure_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
+
+    df_fitness_first_line= freq_to_fitness_values(df_figure_second_line, N, cOC, cOB, cMMd, cMMr, matrix)
+    df_fitness_second_line =freq_to_fitness_values(df_figure_first_line, N, cOC, cOB, cMMd, cMMr, matrix)
+
+    # Create a figure
+    fig, axs = plt.subplots(2, 2, figsize=(14, 8))
+
+    # Plot first subplot
+    df_figure_first_line.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+                                 label=['Frequency OC', 'Frequency OB', 'Frequency MMd',
+                                 'Frequency MMr'], ax=axs[0, 0])
+    axs[0, 0].set_xlabel('Generations')
+    axs[0, 0].set_ylabel('Frequency')
+    axs[0, 0].set_title('Frequenc dynamics for a scenario where cOB<cOC<cMMd<cMMr')
+    axs[0, 0].legend()
+
+    # Plot the second subplot
+    df_fitness_first_line.plot(x='Generation', y=['WOC', 'WOB', 'WMMd', 'WMMr', 'W_average'],
+                                                                        ax=axs[0, 1])
+    axs[0, 1].set_title('Fitness for a scenario where cOB<cOC<cMMd<cMMr')
+    axs[0, 1].set_xlabel('Generations')
+    axs[0, 1].set_ylabel('Fitness')
+    axs[0, 1].legend(['Fitness OC', 'Fitness OB', 'Fitness MMd', 'Fitness MMr', 'Average fitness'])
+
+    # Plot the third subplot
+    df_figure_second_line.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+                                 label=['Frequency OC', 'Frequency OB', 'Frequency MMd',
+                                 'Frequency MMr'], ax=axs[1, 0])
+    axs[1, 0].set_xlabel('Generations')
+    axs[1, 0].set_ylabel('Frequency')
+    axs[1, 0].set_title('Frequenc dynamics for a scenario where cOB<cOC<cMMd<cMMr')
+    axs[1, 0].legend()
+
+    # Plot the fourth subplot
+    df_fitness_second_line.plot(x='Generation', y=['WOC', 'WOB', 'WMMd', 'WMMr', 'W_average'],
+                                                                        ax=axs[1, 1])
+    axs[1, 1].set_title('Fitness for a scenario where cOB<cOC<cMMd<cMMr')
+    axs[1, 1].set_xlabel('Generations')
+    axs[1, 1].set_ylabel('Fitness')
+    axs[1, 1].legend(['Fitness OC', 'Fitness OB', 'Fitness MMd', 'Fitness MMr', 'Average fitness'])
+    plt.tight_layout()
+    plt.show()
+
+figure_freq_fitness_dynamics()
+
 
 def figure_freq_dynamics():
     """Function that makes figure of the xOC, xOB, xMMd and xMMr values over the time"""
@@ -297,7 +453,7 @@ def figure_freq_dynamics():
         [1.5, 0, 0, 0],
         [1.3, 0, 0, 0]])
 
-    t = np.linspace(0, 40,100)
+    t = np.linspace(0, 40, 40)
 
     # Initial conditions
     y0 = [xOC, xOB, xMMd, xMMr]
@@ -314,7 +470,7 @@ def figure_freq_dynamics():
     xMMd = 0.2
     xMMr = 0.3
 
-    t = np.linspace(0, 40,100)
+    t = np.linspace(0, 40, 40)
 
     # Initial conditions
     y0 = [xOC, xOB, xMMd, xMMr]
