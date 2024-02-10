@@ -3,12 +3,13 @@ University:   UvA
 Student id:   13717405
 
 The goal was to make a model that simulates the dynamics of the multiple myeloma
-(MM) microenvironment to determine the effects of several treatments and resistance
-levels. A model is ideally for this because it generates results fast, it is cheap
-and easy reproducible. There is looked at three cell types: MM cells, osteoblasts
-(OBs) and osteoclasts (OCs). The model simulates a public goods game in the framework
-of evolutionary game theory with collective interactions and nonlinear benefits.
-The impact of the following treatments was studied: ....
+(MM) microenvironment to determine the effects of several treatments and degrees 
+of resistance. A model is ideally for this because it generates results fast, it 
+is cheap and easy reproducible. There is looked at four cell types: drug-sensitive
+MM cells (MMd), resistant (MMr) MM cells, osteoblasts (OBs) and osteoclasts (OCs). 
+The model simulates a public goods game in the framework of evolutionary game theory
+with collective interactions and linear benefits. The impact of the following 
+treatments was studied: ....
 
 PYTHON AND LIBRARY VESIONS
 Python version 3.11.4 is used.
@@ -43,9 +44,9 @@ model_S_linear.py
     - install: pip install numpy==1.26.0
 
 
-THE MODEL WITH LINEAR BENFITS: model_S_linear.py
-model_S_linear.py contains code of the mathematical EGT formulas
-as wel as code to reproduce some of the figures in the paper: Evolutionary dynamics
+MODEL WITH LINEAR BENFITS: model_S_linear.py
+Model_S_linear.py contains code of the mathematical EGT formulas
+as wel as code to reproduce some of the figures in the paper Evolutionary dynamics
 of Tumor-Stroma interactions in multiple myeloma by Sartakhti et al., 2016. Here
 the benefits are linear and there are collective interactions.
 
@@ -54,12 +55,14 @@ To test the functions in the model, doc tests are added and automatically run wh
 the model_S_linear.py code is run.
 
 
-THE MODEL WITH NONLINEAR BENEFITS: model_S_nonlinear.py
+MODEL WITH NONLINEAR BENEFITS: model_S_nonlinear.py
 Model_S_nonlinear.py contains the code with all the mathematical EGT formulas as
 well as the code to reproduce the figures from the paper: Game Theory of Tumor–Stroma
 Interactions in Multiple Myeloma: Effect of Nonlinear Benefits by Sartakhti et al.,
-2018. It shows the effect of nonlinear benefits compared to linear benefits. There
+2018. It shows the effect of nonlinear benefits compared to linear benefits with 
 are collective interactions.
+The found results are not in line with the ones in the paper and since they have 
+not shared there code it is not possible to compare codes and find the differences.
 
 TEST THE CODE
 To test the functions in the model, doc tests are added and automatically run when
@@ -68,17 +71,17 @@ the cancer_model.py code is run.
 THE DATA
 The folder data contains all the generated data that is used to make the figures and
 to perform the statistical tests. This folder contains:
-* reproduced_data_Sartakhti_nonlinear: contains all the data used for the figure
-                                reproduction in the paper of Sartakhti et al., 2016
-* reproduced_data_Sartakhti_linear: contains all the data used for the figure
-                                reproduction in the paper of Sartakhti et al., 2016
+* reproduced_data_Sartakhti_nonlinear: contains all the data used for the reproduction 
+                                 of the figures in the paper of Sartakhti et al., 2018.
+* reproduced_data_Sartakhti_linear: contains all the data used for the reproduction
+                                of the figures in the paper of Sartakhti et al., 2016.
 
 THE FIGURES
 In the folder visualisation all made figures are shown. This folder contains:
-* reproduced_results_Sartakhti_nonlinear: contains all the reproduced figures of
+* reproduced_results_Sartakhti_nonlinear: contains all the reproduced figures from
                                         the paper of Sartakhti et al., 2018.
-* reproduced_results_Sartakhti_linear: contains all the reproduced figures of the
-                                      paper of Sartakhti et al., 2016.
+* reproduced_results_Sartakhti_linear: contains all the reproduced figures from the
+                                        paper of Sartakhti et al., 2016.
 
 HOW TO RUN
 The non linear model and its visualisation, model_S_nonlinear.py:
