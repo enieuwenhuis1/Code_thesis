@@ -32,30 +32,30 @@ def fitness_WOC(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix):
 
     Parameters:
     -----------
-    xOC: float
+    xOC: Float
         Frequency of OCs.
-    xOB: float
+    xOB: Float
         Frequency of OBs.
-    xMMr: float
+    xMMr: Float
         Frequency of the resistant MM cells.
-    xMMd: float
+    xMMd: Float
         Frequency of the drug-sensitive MM cells.
-    N: int
+    N: Int
         Number of individuals within the interaction range.
-    cOC: float
+    cOC: Float
         Cost parameter OCs.
-    cOB: float
+    cOB: Float
         Cost parameter OBs.
-    cMMr: float
+    cMMr: Float
         Cost parameter resistant MM cells.
-    cMMd: float
+    cMMd: Float
         Cost parameter drug-sensitive MM cells.
-    matrix : numpy.ndarray
+    matrix : Numpy.ndarray
         4x4 matrix containing the interaction factors.
 
     Returns:
     --------
-    WOC : float
+    WOC : Float
         Fitness of an OC.
 
     Example:
@@ -83,30 +83,30 @@ def fitness_WOB(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix):
 
     Parameters:
     -----------
-    xOC: float
+    xOC: Float
         Frequency of OCs.
-    xOB: float
+    xOB: Float
         Frequency of OBs.
-    xMMr: float
+    xMMr: Float
         Frequency of the resistant MM cells.
-    xMMd: float
+    xMMd: Float
         Frequency of the drug-sensitive MM cells.
-    N: int
+    N: Int
         Number of individuals within the interaction range.
-    cOC: float
+    cOC: Float
         Cost parameter OCs.
-    cOB: float
+    cOB: Float
         Cost parameter OBs.
-    cMMr: float
+    cMMr: Float
         Cost parameter resistant MM cells.
-    cMMd: float
+    cMMd: Float
         Cost parameter drug-sensitive MM cells.
-    matrix : numpy.ndarray
+    matrix : Numpy.ndarray
         4x4 matrix containing the interaction factors.
 
     Returns:
     --------
-    WOB : float
+    WOB : Float
         Fitness of an OB.
 
     Example:
@@ -134,30 +134,30 @@ def fitness_WMMd(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix):
 
     Parameters:
     -----------
-    xOC: float
+    xOC: Float
         Frequency of OCs.
-    xOB: float
+    xOB: Float
         Frequency of OBs.
-    xMMr: float
+    xMMr: Float
         Frequency of the resistant MM cells.
-    xMMd: float
+    xMMd: Float
         Frequency of the drug-sensitive MM cells.
-    N: int
+    N: Int
         Number of individuals within the interaction range.
-    cOC: float
+    cOC: Float
         Cost parameter OCs.
-    cOB: float
+    cOB: Float
         Cost parameter OBs.
-    cMMr: float
+    cMMr: Float
         Cost parameter resistant MM cells.
-    cMMd: float
+    cMMd: Float
         Cost parameter drug-sensitive MM cells.
-    matrix : numpy.ndarray
+    matrix : Numpy.ndarray
         4x4 matrix containing the interaction factors.
 
     Returns:
     --------
-    WMMd : float
+    WMMd : Float
         Fitness of a drug-sensitive MM cell.
 
     Example:
@@ -179,36 +179,89 @@ def fitness_WMMd(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix):
     WMMd = (i*xOC*cOC + j*xOB*cOB + k*xMMd*cMMd + l* xMMr*cMMr)*(N - 1)/N - cMMd
     return WMMd
 
+def fitness_WMMd(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix, drug_effect = 0):
+    """
+    Function that calculates the fitness of a drug-senstive MM cell in a population.
+
+    Parameters:
+    -----------
+    xOC: Float
+        Frequency of OCs.
+    xOB: Float
+        Frequency of OBs.
+    xMMr: Float
+        Frequency of the resistant MM cells.
+    xMMd: Float
+        Frequency of the drug-sensitive MM cells.
+    N: Int
+        Number of individuals within the interaction range.
+    cOC: Float
+        Cost parameter OCs.
+    cOB: Float
+        Cost parameter OBs.
+    cMMr: Float
+        Cost parameter resistant MM cells.
+    cMMd: Float
+        Cost parameter drug-sensitive MM cells.
+    matrix: Numpy.ndarray
+        4x4 matrix containing the interaction factors.
+    drug_effect: Float
+        The effect of a drug on the drug-sensitive MM cells
+
+    Returns:
+    --------
+    WMMd : Float
+        Fitness of a drug-sensitive MM cell.
+
+    Example:
+    -----------
+    >>> fitness_WMMd(0.4, 0.2, 0.3, 0.1, 10, 0.3, 0.2, 0.3, 0.5, np.array([
+    ...    [0.7, 1.0, 2.5, 2.1],
+    ...    [1.0, 1.4, -0.3, 1.0],
+    ...    [2.5, 0.2, 1.1, -0.2],
+    ...    [2.1, 0.0, -0.2, 1.2]]), 0)
+    0.05730000000000007
+    """
+    # Extract the necessary matrix values
+    i = matrix[2, 0]
+    j = matrix[2, 1]
+    k = matrix[2, 2]
+    l = matrix[2, 3]
+
+    # Calculate the fitness value
+    WMMd = (i*xOC*cOC + j*xOB*cOB + k*xMMd*cMMd + l* xMMr*cMMr - drug_effect * cMMd)*(N - 1)/N - cMMd
+    return WMMd
+
 def fitness_WMMr(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix):
     """
     Function that calculates the fitness of a resistant MM cell in a population.
 
     Parameters:
     -----------
-    xOC: float
+    xOC: Float
         Frequency of OCs.
-    xOB: float
+    xOB: Float
         Frequency of OBs.
-    xMMr: float
+    xMMr: Float
         Frequency of the resistant MM cells.
-    xMMd: float
+    xMMd: Float
         Frequency of the drug-sensitive MM cells.
-    N: int
+    N: Int
         Number of individuals within the interaction range.
-    cOC: float
+    cOC: Float
         Cost parameter OCs.
-    cOB: float
+    cOB: Float
         Cost parameter OBs.
-    cMMr: float
+    cMMr: Float
         Cost parameter resistant MM cells.
-    cMMd: float
+    cMMd: Float
         Cost parameter drug-sensitive MM cells.
-    matrix : numpy.ndarray
+    matrix : Numpy.ndarray
         4x4 matrix containing the interaction factors.
 
     Returns:
     --------
-    WMMr : float
+    WMMr : Float
         Fitness of a resistant MM cell.
 
     Example:
@@ -241,15 +294,15 @@ def model_dynamics(y, t, N, cOC, cOB, cMMd, cMMr, matrix):
         List with all the time points.
     N : Int
         Number of cells in the difussion range.
-    cOC: float
+    cOC: Float
         Cost parameter OCs.
     cOB: float
         Cost parameter OBs.
-    cMMr: float
+    cMMr: Float
         Cost parameter resistant MM cells.
-    cMMd: float
+    cMMd: Float
         Cost parameter drug-sensitive MM cells.
-    matrix : numpy.ndarray
+    matrix: Numpy.ndarray
         4x4 matrix containing the interaction factors.
 
     Returns:
@@ -276,6 +329,54 @@ def model_dynamics(y, t, N, cOC, cOB, cMMd, cMMr, matrix):
 
     return [xOC_change, xOB_change, xMMd_change, xMMr_change]
 
+def model_dynamics(y, t, N, cOC, cOB, cMMd, cMMr, matrix, drug_effect = 0):
+    """Determines the frequenty dynamics in a population over time.
+
+    Parameters:
+    -----------
+    y : List
+        List with the values of xOC, xOB, xMMd and xMMr.
+    t : List
+        List with all the time points.
+    N : Int
+        Number of cells in the difussion range.
+    cOC: Float
+        Cost parameter OCs.
+    cOB: float
+        Cost parameter OBs.
+    cMMr: Float
+        Cost parameter resistant MM cells.
+    cMMd: Float
+        Cost parameter drug-sensitive MM cells.
+    matrix: Numpy.ndarray
+        4x4 matrix containing the interaction factors.
+    drug_effect: Float
+        The effect of a drug on the drug-sensitive MM cells
+
+    Returns:
+    --------
+    [xOC_change, xOB_change, xMMd_change, xMMr_change]: List
+        List containing the changes in frequencies of xOC, xOB, xMMd and xMMr.
+    """
+    xOC, xOB, xMMd, xMMr = y
+
+    # Determine the fitness values
+    WOC = fitness_WOC(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix)
+    WOB = fitness_WOB(xOC, xOB, xMMd, xMMr,  N, cOC, cOB, cMMd, cMMr, matrix)
+    WMMd = fitness_WMMd(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix, drug_effect)
+    WMMr = fitness_WMMr(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix)
+
+    # Determine the average fitness
+    W_average = xOC * WOC + xOB * WOB + xMMd * WMMd + xMMr * WMMr
+
+    # Determine the new frequencies based on replicator dynamics
+    xOC_change = xOC * (WOC - W_average)
+    xOB_change = xOB * (WOB - W_average)
+    xMMd_change = xMMd * (WMMd - W_average)
+    xMMr_change = xMMr * (WMMr - W_average)
+
+    return [xOC_change, xOB_change, xMMd_change, xMMr_change]
+
 def model_dynamics_change_N(y, t, N, cOC, cOB, cMMd, cMMr, matrix):
     """Determines the frequenty dynamics in a population over time.
 
@@ -287,15 +388,15 @@ def model_dynamics_change_N(y, t, N, cOC, cOB, cMMd, cMMr, matrix):
         List with all the time points.
     N : Int
         Number of cells in the difussion range.
-    cOC: float
+    cOC: Float
         Cost parameter OCs.
-    cOB: float
+    cOB: Float
         Cost parameter OBs.
-    cMMr: float
+    cMMr: Float
         Cost parameter resistant MM cells.
-    cMMd: float
+    cMMd: Float
         Cost parameter drug-sensitive MM cells.
-    matrix : numpy.ndarray
+    matrix : Numpy.ndarray
         4x4 matrix containing the interaction factors.
 
     Returns:
@@ -447,6 +548,15 @@ def freq_to_fitness_values(dataframe_frequencies, N, cOC, cOB, cMMd, cMMr, matri
 
     return(dataframe_fitness)
 
+"""
+Example payoff matrix:
+M = np.array([
+       Goc Gob Gmmd Gmmr
+    OC  [a,  b,  c,  d],
+    OB  [e,  f,  g,  h],
+    MMd [i,  j,  k,  l],
+    MMr [m,  n,  o,  p]])
+"""
 
 # Do doc tests
 import doctest
@@ -454,7 +564,7 @@ doctest.testmod()
 
 def figure_freq_fitness_dynamics_change_N():
     """Function that makes figure of the OC, OB, MMd and MMr frequency and fitness
-     values over the time"""
+     values over the time wherby N changes over the time"""
 
     # Set start values
     N = 50
@@ -469,12 +579,12 @@ def figure_freq_fitness_dynamics_change_N():
 
     # Payoff matrix
     matrix = np.array([
-        [0, 1, 1.5, 1.3],
-        [1, 0, -0.3, -0.3],
-        [1.5, 0, 0, -0.2],
-        [1.3, 0, -0.2, 0]])
+        [0.1, 1.6, 1.8, 1.5],
+        [1.0, 0.1, -0.3, -0.3],
+        [1.8, 0, 0.2, -0.2],
+        [1.5, 0, -0.2, 0.2]])
 
-    t = np.linspace(0, 60, 60)
+    t = np.linspace(0, 30, 30)
 
     # Initial conditions
     y0 = [xOC, xOB, xMMd, xMMr]
@@ -491,7 +601,7 @@ def figure_freq_fitness_dynamics_change_N():
     xMMd = 0.2
     xMMr = 0.2
 
-    t = np.linspace(0, 60, 60)
+    t = np.linspace(0, 30, 30)
 
     # Initial conditions
     y0 = [xOC, xOB, xMMd, xMMr]
@@ -502,8 +612,8 @@ def figure_freq_fitness_dynamics_change_N():
     df_figure_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
 
-    df_fitness_first_line= freq_to_fitness_values(df_figure_second_line, N, cOC, cOB, cMMd, cMMr, matrix)
-    df_fitness_second_line =freq_to_fitness_values_change_N(df_figure_first_line, N, cOC, cOB, cMMd, cMMr, matrix)
+    df_fitness_first_line= freq_to_fitness_values(df_figure_first_line, N, cOC, cOB, cMMd, cMMr, matrix)
+    df_fitness_second_line =freq_to_fitness_values_change_N(df_figure_second_line, N, cOC, cOB, cMMd, cMMr, matrix)
 
     # Create a figure
     fig, axs = plt.subplots(2, 2, figsize=(14, 8))
@@ -531,13 +641,13 @@ def figure_freq_fitness_dynamics_change_N():
                                  'Frequency MMr'], ax=axs[1, 0])
     axs[1, 0].set_xlabel('Generations')
     axs[1, 0].set_ylabel('Frequency')
-    axs[1, 0].set_title('Frequenc dynamics for a scenario where cOB<cOC<cMMd<cMMr')
+    axs[1, 0].set_title('Frequenc dynamics for a scenario where cOB<cOC<cMMd<cMMr, N changes')
     axs[1, 0].legend()
 
     # Plot the fourth subplot
     df_fitness_second_line.plot(x='Generation', y=['WOC', 'WOB', 'WMMd', 'WMMr', 'W_average'],
                                                                         ax=axs[1, 1])
-    axs[1, 1].set_title('Fitness for a scenario where cOB<cOC<cMMd<cMMr')
+    axs[1, 1].set_title('Fitness for a scenario where cOB<cOC<cMMd<cMMr, N changes')
     axs[1, 1].set_xlabel('Generations')
     axs[1, 1].set_ylabel('Fitness')
     axs[1, 1].legend(['Fitness OC', 'Fitness OB', 'Fitness MMd', 'Fitness MMr', 'Average fitness'])
@@ -569,7 +679,7 @@ def figure_freq_fitness_dynamics():
         [1.5, 0, 0, -0.2],
         [1.3, 0, -0.2, 0]])
 
-    t = np.linspace(0, 40, 40)
+    t = np.linspace(0, 65, 65)
 
     # Initial conditions
     y0 = [xOC, xOB, xMMd, xMMr]
@@ -581,12 +691,12 @@ def figure_freq_fitness_dynamics():
     'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
 
     # Set new start parameter value
-    xOC = 0.2
-    xOB = 0.3
-    xMMd = 0.2
+    xOC = 0.1
+    xOB = 0.2
+    xMMd = 0.4
     xMMr = 0.3
 
-    t = np.linspace(0, 40, 40)
+    t = np.linspace(0, 65, 65)
 
     # Initial conditions
     y0 = [xOC, xOB, xMMd, xMMr]
@@ -597,8 +707,8 @@ def figure_freq_fitness_dynamics():
     df_figure_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
 
-    df_fitness_first_line= freq_to_fitness_values(df_figure_second_line, N, cOC, cOB, cMMd, cMMr, matrix)
-    df_fitness_second_line =freq_to_fitness_values(df_figure_first_line, N, cOC, cOB, cMMd, cMMr, matrix)
+    df_fitness_first_line= freq_to_fitness_values(df_figure_first_line, N, cOC, cOB, cMMd, cMMr, matrix)
+    df_fitness_second_line =freq_to_fitness_values(df_figure_second_line, N, cOC, cOB, cMMd, cMMr, matrix)
 
     # Create a figure
     fig, axs = plt.subplots(2, 2, figsize=(14, 8))
@@ -639,7 +749,7 @@ def figure_freq_fitness_dynamics():
     plt.tight_layout()
     plt.show()
 
-# figure_freq_fitness_dynamics()
+figure_freq_fitness_dynamics()
 
 def figure_freq_dynamics():
     """Function that makes figure of the xOC, xOB, xMMd and xMMr values over the time"""
@@ -713,7 +823,7 @@ def figure_freq_dynamics():
     plt.tight_layout()
     plt.show()
 
-# figure_freq_dynamics()
+figure_freq_dynamics()
 
 """"Different start conditions different results"""
 def figure_freq_dynamics_2():
@@ -788,86 +898,125 @@ def figure_freq_dynamics_2():
     plt.tight_layout()
     plt.show()
 
-# figure_freq_dynamics_2()
-"""
-works  ot
-N = 50
-cMMr = 1.1
-cMMd = 1.0
-cOB = 0.6
-cOC = 0.8
-xOC = 0.3
-xOB = 0.4
-xMMd = 0.2
-xMMr = 0.1
+figure_freq_dynamics_2()
 
-# Payoff matrix
-matrix = np.array([
-    [0.1, 1.6, 2.2, 1.9],
-    [1.0, 0.1, -0.3, -0.3],
-    [2.2, 0, 0.2, -0.2],
-    [1.9, 0, -0.2, 0.2]])
+def figure_freq_dynamics_drugs():
+    """Function that makes figure of the xOC, xOB, xMMd and xMMr values over the time"""
+    # Set start values
+    N = 50
+    cMMr = 1.1
+    cMMd = 1.0
+    cOB = 0.6
+    cOC = 0.8
+    xOC = 0.3
+    xOB = 0.4
+    xMMd = 0.2
+    xMMr = 0.1
 
-# Initial conditions
-t = np.linspace(0, 40, 40)
-y0 = [xOC, xOB, xMMd, xMMr]
-parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
+    # Payoff matrix
+    matrix = np.array([
+        [0.1, 1.6, 2.2, 2.1],
+        [1.0, 0.1, -0.3, -0.3],
+        [2.2, 0, 0.2, -0.2],
+        [2.1, 0, -0.2, 0.2]])
 
-# determine the ODE solutions
-y = odeint(model_dynamics, y0, t, args=parameters)
-df_1 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
-'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
+    # Initial conditions
+    t = np.linspace(0, 40, 40)
+    y0 = [xOC, xOB, xMMd, xMMr]
+    parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
 
-xOC = df_1['xOC'].iloc[-1]
-xOB = df_1['xOB'].iloc[-1]
-xMMd = df_1['xMMd'].iloc[-1]
-xMMr = df_1['xMMr'].iloc[-1]
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_1 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
 
-matrix = np.array([
-    [0.1, 1.6, 2.2, 1.9],
-    [1.0, 0.1, -0.3, -0.3],
-    [0.8, 0, 0.2, -0.2],
-    [1.9, 0, -0.2, 0.2]])
-"""
-"""
-N = 50
-cMMr = 1.1
-cMMd = 1.0
-cOB = 0.6
-cOC = 0.8
-xOC = 0.3
-xOB = 0.4
-xMMd = 0.2
-xMMr = 0.1
+    xOC = df_1['xOC'].iloc[-1]
+    xOB = df_1['xOB'].iloc[-1]
+    xMMd = df_1['xMMd'].iloc[-1]
+    xMMr = df_1['xMMr'].iloc[-1]
 
-# Payoff matrix
-matrix = np.array([
-    [0.1, 1, 2.2, 2.0],
-    [1, 0.1, -0.2, -0.2],
-    [2.2, 0, 0.2, -0.2],
-    [2.0, 0, -0.2, 0.2]])
+    drug_effect_1 = 1.5
 
-# Initial conditions
-t = np.linspace(0, 40, 40)
-y0 = [xOC, xOB, xMMd, xMMr]
-parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
+    # Initial conditions
+    t = np.linspace(40, 140, 100)
+    y0 = [xOC, xOB, xMMd, xMMr]
+    parameters = (N, cOC, cOB, cMMd, cMMr, matrix, drug_effect_1)
 
-# determine the ODE solutions
-y = odeint(model_dynamics, y0, t, args=parameters)
-df_1 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
-'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
 
-xOC = df_1['xOC'].iloc[-1]
-xOB = df_1['xOB'].iloc[-1]
-xMMd = df_1['xMMd'].iloc[-1]
-xMMr = df_1['xMMr'].iloc[-1]
+    df_figure_first_line = pd.concat([df_1, df_2])
 
-matrix = np.array([
-    [0.1, 1, 2.2, 2.0],
-    [1, 0.1, -0.2, -0.2],
-    [0.2, 0, 0.2, -0.2],
-    [2.0, 0, -0.2, 0.2]])
-"""
+    # Set new start parameter value
+    xOC = 0.4
+    xOB = 0.3
+    xMMd = 0.2
+    xMMr = 0.1
+
+    # Payoff matrix
+    matrix = np.array([
+        [0.1, 1.6, 2.2, 2.1],
+        [1.0, 0.1, -0.3, -0.3],
+        [2.2, 0, 0.2, -0.2],
+        [2.1, 0, -0.2, 0.2]])
+
+    # Initial conditions
+    t = np.linspace(0, 40, 40)
+    y0 = [xOC, xOB, xMMd, xMMr]
+    parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_1 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
+
+    xOC = df_1['xOC'].iloc[-1]
+    xOB = df_1['xOB'].iloc[-1]
+    xMMd = df_1['xMMd'].iloc[-1]
+    xMMr = df_1['xMMr'].iloc[-1]
+
+    # Payoff matrix
+    drug_effect_2 = 0.6
+
+    # Initial conditions
+    t = np.linspace(40, 140, 100)
+    y0 = [xOC, xOB, xMMd, xMMr]
+    parameters = (N, cOC, cOB, cMMd, cMMr, matrix, drug_effect_2)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
+
+    df_figure_second_line = pd.concat([df_1, df_2])
+
+    # Create a figure
+    fig, axs = plt.subplots(1, 2, figsize=(14, 6))
+
+    # Plot first line data in the first subplot
+    df_figure_first_line.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+                                 label=['Frequency OC', 'Frequency OB', 'Frequency MMd',
+                                 'Frequency MMr'], ax=axs[0])
+    axs[0].set_xlabel('Generations')
+    axs[0].set_ylabel('Frequency')
+    axs[0].set_title(f'Dynamics when drugs are added (strenght {drug_effect_1})')
+    axs[0].legend()
+
+    # Plot second line data in the second subplot
+    df_figure_second_line.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+                                  label=['Frequency OC', 'Frequency OB', 'Frequency MMd',
+                                  'Frequency MMr'], ax=axs[1])
+    axs[1].set_xlabel('Generations')
+    axs[1].set_ylabel('Frequency')
+    axs[1].set_title(f'Dynamics when drugs are added (strength {drug_effect_2})')
+    axs[1].legend()
+    plt.tight_layout()
+    plt.show()
+
+figure_freq_dynamics_drugs()
+
 def figure_freq_dynamics_GF_inhibition():
     """Function that makes figure of the xOC, xOB, xMMd and xMMr values over the time"""
     # Set start values
@@ -910,7 +1059,7 @@ def figure_freq_dynamics_GF_inhibition():
         [1.9, 0, -0.2, 0.2]])
 
     # Initial conditions
-    t = np.linspace(40, 120, 80)
+    t = np.linspace(40, 140, 100)
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
 
@@ -920,45 +1069,246 @@ def figure_freq_dynamics_GF_inhibition():
     'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
 
     df_figure_first_line = pd.concat([df_1, df_2])
-    #
-    # # Set new start parameter value
-    # xOC = 0.4
-    # xOB = 0.3
-    # xMMd = 0.2
-    # xMMr = 0.1
-    #
-    # # Initial conditions
-    # t = np.linspace(0, 55, 65)
-    # y0 = [xOC, xOB, xMMd, xMMr]
-    # parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
-    #
-    # # determine the ODE solutions
-    # y = odeint(model_dynamics, y0, t, args=parameters)
-    # df_1 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
-    # 'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
-    #
-    # xOC = df_1['xOC'].iloc[-1]
-    # xOB = df_1['xOB'].iloc[-1]
-    # xMMd = df_1['xMMd'].iloc[-1]
-    # xMMr = df_1['xMMr'].iloc[-1]
-    #
-    # matrix = np.array([
-    #     [0, 1, 1.9, 1.3],
-    #     [1, 0, -0.3, -0.3],
-    #     [0.2, 0, 0, -0.2],
-    #     [1.3, 0, -0.2, 0]])
-    #
-    # # Initial conditions
-    # t = np.linspace(55, 140, 140)
-    # y0 = [xOC, xOB, xMMd, xMMr]
-    # parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
-    #
-    # # determine the ODE solutions
-    # y = odeint(model_dynamics, y0, t, args=parameters)
-    # df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
-    # 'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
-    #
-    # df_figure_second_line = pd.concat([df_1, df_2])
+
+    # Set new start parameter value
+    xOC = 0.4
+    xOB = 0.3
+    xMMd = 0.2
+    xMMr = 0.1
+
+    # Payoff matrix
+    matrix = np.array([
+        [0.1, 1.6, 2.2, 1.9],
+        [1.0, 0.1, -0.3, -0.3],
+        [2.2, 0, 0.2, -0.2],
+        [1.9, 0, -0.2, 0.2]])
+
+    # Initial conditions
+    t = np.linspace(0, 40, 40)
+    y0 = [xOC, xOB, xMMd, xMMr]
+    parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_1 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
+
+    xOC = df_1['xOC'].iloc[-1]
+    xOB = df_1['xOB'].iloc[-1]
+    xMMd = df_1['xMMd'].iloc[-1]
+    xMMr = df_1['xMMr'].iloc[-1]
+
+    # Payoff matrix
+    matrix = np.array([
+        [0.1, 1.6, 2.2, 1.9],
+        [1.0, 0.1, -0.3, -0.3],
+        [0.8, 0, 0.2, -0.2],
+        [1.9, 0, -0.2, 0.2]])
+
+    # Initial conditions
+    t = np.linspace(40, 140, 100)
+    y0 = [xOC, xOB, xMMd, xMMr]
+    parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
+
+    df_figure_second_line = pd.concat([df_1, df_2])
+
+    # Create a figure
+    fig, axs = plt.subplots(1, 2, figsize=(14, 6))
+
+    # Plot first line data in the first subplot
+    df_figure_first_line.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+                                 label=['Frequency OC', 'Frequency OB', 'Frequency MMd',
+                                 'Frequency MMr'], ax=axs[0])
+    axs[0].set_xlabel('Generations')
+    axs[0].set_ylabel('Frequency')
+    axs[0].set_title('Dynamics for a scenario where GF get inhibited (works)')
+    axs[0].legend()
+
+    # Plot second line data in the second subplot
+    df_figure_second_line.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+                                  label=['Frequency OC', 'Frequency OB', 'Frequency MMd',
+                                  'Frequency MMr'], ax=axs[1])
+    axs[1].set_xlabel('Generations')
+    axs[1].set_ylabel('Frequency')
+    axs[1].set_title('Dynamics for a scenario where GF get inhibited (works not)')
+    axs[1].legend()
+    plt.tight_layout()
+    plt.show()
+
+figure_freq_dynamics_GF_inhibition()
+
+def figure_freq_dynamics_GF_inhibition_short():
+    """Function that makes figure of the xOC, xOB, xMMd and xMMr values over the time"""
+    # Set start values
+    N = 50
+    cMMr = 1.1
+    cMMd = 1.0
+    cOB = 0.6
+    cOC = 0.8
+    xOC = 0.3
+    xOB = 0.4
+    xMMd = 0.2
+    xMMr = 0.1
+
+    # Payoff matrix
+    matrix = np.array([
+        [0.1, 1.6, 2.2, 1.9],
+        [1.0, 0.1, -0.3, -0.3],
+        [2.2, 0, 0.2, -0.2],
+        [1.9, 0, -0.2, 0.2]])
+
+    # Initial conditions
+    t = np.linspace(0, 40, 40)
+    y0 = [xOC, xOB, xMMd, xMMr]
+    parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_1 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
+
+    xOC = df_1['xOC'].iloc[-1]
+    xOB = df_1['xOB'].iloc[-1]
+    xMMd = df_1['xMMd'].iloc[-1]
+    xMMr = df_1['xMMr'].iloc[-1]
+
+    # Payoff matrix
+    matrix = np.array([
+        [0.1, 1.6, 2.2, 1.9],
+        [1.0, 0.1, -0.3, -0.3],
+        [0.8, 0, 0.2, -0.2],
+        [1.9, 0, -0.2, 0.2]])
+
+    # Initial conditions
+    t = np.linspace(40, 75, 35)
+    y0 = [xOC, xOB, xMMd, xMMr]
+    parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
+
+    xOC = df_2['xOC'].iloc[-1]
+    xOB = df_2['xOB'].iloc[-1]
+    xMMd = df_2['xMMd'].iloc[-1]
+    xMMr = df_2['xMMr'].iloc[-1]
+
+    # Payoff matrix
+    matrix = np.array([
+        [0.1, 1.6, 2.2, 1.9],
+        [1.0, 0.1, -0.3, -0.3],
+        [2.2, 0, 0.2, -0.2],
+        [1.9, 0, -0.2, 0.2]])
+
+    # Initial conditions
+    t = np.linspace(75, 140, 65)
+    y0 = [xOC, xOB, xMMd, xMMr]
+    parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_3 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
+
+    df_figure_first_line = pd.concat([df_1, df_2, df_3])
+
+    # Set new start parameter value
+    xOC = 0.4
+    xOB = 0.3
+    xMMd = 0.2
+    xMMr = 0.1
+
+    # Payoff matrix
+    matrix = np.array([
+        [0.1, 1.6, 2.2, 1.9],
+        [1.0, 0.1, -0.3, -0.3],
+        [2.2, 0, 0.2, -0.2],
+        [1.9, 0, -0.2, 0.2]])
+
+    # Initial conditions
+    t = np.linspace(0, 40, 40)
+    y0 = [xOC, xOB, xMMd, xMMr]
+    parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_1 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
+
+    xOC = df_1['xOC'].iloc[-1]
+    xOB = df_1['xOB'].iloc[-1]
+    xMMd = df_1['xMMd'].iloc[-1]
+    xMMr = df_1['xMMr'].iloc[-1]
+
+    # Payoff matrix
+    matrix = np.array([
+        [0.1, 1.6, 2.2, 1.9],
+        [1.0, 0.1, -0.3, -0.3],
+        [0.8, 0, 0.2, -0.2],
+        [1.9, 0, -0.2, 0.2]])
+
+    # Initial conditions
+    t = np.linspace(40, 75, 35)
+    y0 = [xOC, xOB, xMMd, xMMr]
+    parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
+
+    xOC = df_2['xOC'].iloc[-1]
+    xOB = df_2['xOB'].iloc[-1]
+    xMMd = df_2['xMMd'].iloc[-1]
+    xMMr = df_2['xMMr'].iloc[-1]
+
+    # Payoff matrix
+    matrix = np.array([
+        [0.1, 1.6, 2.2, 1.9],
+        [1.0, 0.1, -0.3, -0.3],
+        [2.2, 0, 0.2, -0.2],
+        [1.9, 0, -0.2, 0.2]])
+
+    # Initial conditions
+    t = np.linspace(75, 120, 45)
+    y0 = [xOC, xOB, xMMd, xMMr]
+    parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_3 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
+
+    xOC = df_3['xOC'].iloc[-1]
+    xOB = df_3['xOB'].iloc[-1]
+    xMMd = df_3['xMMd'].iloc[-1]
+    xMMr = df_3['xMMr'].iloc[-1]
+
+    # Payoff matrix
+    matrix = np.array([
+        [0.1, 1.6, 2.2, 1.9],
+        [1.0, 0.1, -0.3, -0.3],
+        [0.8, 0, 0.2, -0.2],
+        [1.9, 0, -0.2, 0.2]])
+
+    # Initial conditions
+    t = np.linspace(120, 180, 60)
+    y0 = [xOC, xOB, xMMd, xMMr]
+    parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
+
+    # determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_4 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
+
+
+    df_figure_second_line = pd.concat([df_1, df_2, df_3, df_4])
 
 
     # Create a figure
@@ -973,18 +1323,19 @@ def figure_freq_dynamics_GF_inhibition():
     axs[0].set_title('Dynamics for a scenario where GF get inhibited (works)')
     axs[0].legend()
 
-    # # Plot second line data in the second subplot
-    # df_figure_second_line.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
-    #                               label=['Frequency OC', 'Frequency OB', 'Frequency MMd',
-    #                               'Frequency MMr'], ax=axs[1])
-    # axs[1].set_xlabel('Generations')
-    # axs[1].set_ylabel('Frequency')
-    # axs[1].set_title('Dynamics for a scenario where GF get inhibited  (works not)')
-    # axs[1].legend()
-    # plt.tight_layout()
+    # Plot second line data in the second subplot
+    df_figure_second_line.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+                                  label=['Frequency OC', 'Frequency OB', 'Frequency MMd',
+                                  'Frequency MMr'], ax=axs[1])
+    axs[1].set_xlabel('Generations')
+    axs[1].set_ylabel('Frequency')
+    axs[1].set_title('Dynamics for a scenario where GF get inhibited  (works not)')
+    axs[1].legend()
+    plt.tight_layout()
     plt.show()
 
-figure_freq_dynamics_GF_inhibition()
+figure_freq_dynamics_GF_inhibition_short()
+
 
 
 def figure_freq_dynamics_decrease_MMd():
@@ -1091,7 +1442,7 @@ def figure_freq_dynamics_decrease_MMd():
     plt.tight_layout()
     plt.show()
 
-# figure_freq_dynamics_decrease_MMd()
+figure_freq_dynamics_decrease_MMd()
 
 def figure_freq_dynamics_resistance():
     """Function that makes figure of the xOC, xOB, xMMd and xMMr values over the time"""
@@ -1165,448 +1516,3 @@ def figure_freq_dynamics_resistance():
     plt.show()
 
 figure_freq_dynamics_resistance()
-
-"""
-t = np.linspace(0, 50, 50)
-
-# Initial conditions
-y0 = [xOC, xOB, xMM]
-parameters = (N, c1, c2, c3, matrix)
-
-# determine the ODE solutions
-y = odeint(model_dynamics, y0, t, args=parameters)
-df_figure_2_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
-'xOB': y[:, 1], 'xMM': y[:, 2]})
-
-Example payoff matrix:
-M = np.array([
-       Goc Gob Gmm
-    OC [a, b, c],
-    OB [d, e, f],
-    MM [g, h, i]])
-"""
-def figure_8A():
-    """Function that makes figure 8A in the paper of Sartakhti et al., 2016."""
-    # Set start values
-    N = 10
-    cOC = 1
-    cOB = 1.2
-    cMMr = 0
-    cMMd = 1.4
-    xOC = 0.8
-    xOB = 0.2
-    xMMr = 0.0
-    xMMd = 0
-
-    # Payoff matrix
-    matrix = np.array([
-        [0, 1, 1.1, 0],
-        [1, 0, -0.3, 0],
-        [1.1, 0, 0, 0],
-        [0, 0, 0, 0]])
-
-    # t = np.linspace(0, 10,10)
-    #
-    # # Initial conditions
-    # y0 = [xOC, xOB, xMMd, cMMr]
-    # parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
-    #
-    # # determine the ODE solutions
-    # y = odeint(model_dynamics, y0, t, args=parameters)
-    # df_figure_8A_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
-    # 'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
-
-    # Set new start parameter value
-    xOC = 0.2
-    xOB = 0.5
-    xMMd = 0.3
-    xMMr = 0.0
-
-    t = np.linspace(0, 10,10)
-
-    # Initial conditions
-    y0 = [xOC, xOB, xMMd, cMMr]
-    parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
-
-    # determine the ODE solutions
-    y = odeint(model_dynamics, y0, t, args=parameters)
-    df_figure_8A_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
-    'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
-
-    # # Save the data as csv file
-    # save_data(df_figure_8A_first_line, 'df_figure_8A_first_line.csv',
-    #                                 r'..\data\reproduced_data_Sartakhti_linear')
-    # save_data(df_figure_8A_second_line, 'df_figure_8A_second_line.csv',
-    #                                 r'..\data\reproduced_data_Sartakhti_linear')
-
-    # Make a plot
-    # df_figure_8A_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMMd', 'xMMr'],
-    #     label = ['Frequency OC', 'Frequency OB', 'Frequency MMd', 'Frequency MMr'])
-    # plt.xlabel('Generations')
-    # plt.ylabel('Frequency')
-    # plt.title('Dynamics for a scenario where c2<c1<c3 (figure 8A)')
-    # plt.legend()
-    # plt.show()
-
-    df_figure_8A_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMMd', 'xMMr'],
-        label = ['Frequency OC', 'Frequency OB', 'Frequency MMd', 'Frequency MMr'])
-    plt.xlabel('Generations')
-    plt.ylabel('Frequency')
-    plt.title('Dynamics for a scenario where c2<c1<c3 (figure 8A)')
-    plt.legend()
-    plt.show()
-
-    # # Make a ternary plot
-    # fig1 = px.line_ternary(df_figure_8A_first_line, a='xOC', b='xOB', c='xMM')
-    # fig2 = px.line_ternary(df_figure_8A_second_line, a='xOC', b='xOB', c='xMM')
-    # fig1.update_layout(
-    #     ternary=dict(
-    #         aaxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
-    #         baxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
-    #         caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
-    #
-    # # Add both lines to one ternary plot
-    # for trace in fig2.data:
-    #     fig1.add_trace(trace)
-    # fig1.data[0].update(line=dict(color='red'))
-    # fig1.data[1].update(line=dict(color='blue'))
-    # fig1.update_layout(title_text= 'Dynamics for a scenario where c2<c1<c3 (figure 8A)')
-    # # save_ternary(fig1, 'Ternary_plot_figure_8A',
-    # #                     r'..\visualisation\reproduced_results_Sartakhti_linear')
-    # fig1.show()
-# Set start values
-N = 10
-cOC = 1
-cOB = 1.2
-cMMr = 1.4
-cMMd = 0
-xOC = 0.2
-xOB = 0.5
-xMMd = 0.3
-xMMr = 0.0
-
-# Payoff matrix
-matrix = np.array([
-    [0, 1, 1.1, 0],
-    [1, 0, -0.3, 0],
-    [1.1, 0, 0, 0],
-    [0, 0, 0, 0]])
-
-WOC = fitness_WOC(xOC, xOB, xMMr, xMMd, N, cOC, cOB, cMMr, cMMd, matrix)
-WOB = fitness_WOB(xOC, xOB, xMMr, xMMd, N, cOC, cOB, cMMr, cMMd, matrix)
-WMMd = fitness_WMMd(xOC, xOB, xMMr, xMMd, N, cOC, cOB, cMMr, cMMd, matrix)
-WMMr = fitness_WMMr(xOC, xOB, xMMr, xMMd, N, cOC, cOB, cMMr, cMMd, matrix)
-
-# Determine the average fitness
-W_average = xOC * WOC + xOB * WOB + xMMr * WMMr + xMMd * WMMd
-
-# Determine the new frequencies based on replicator dynamics
-xOC_change = xOC * (WOC - W_average)
-xOB_change = xOB * (WOB - W_average)
-xMMd_change = xMMd * (WMMd - W_average)
-xMMr_change = xMMr * (WMMr - W_average)
-
-print(xOC_change, xOB_change, xMMd_change, xMMr_change)
-
-
-figure_8A()
-#
-# """Figure 10A"""
-# def figure_10A():
-#     """Function that makes figure 10A in the paper of Sartakhti et al., 2016."""
-#     # Set start values
-#     N = 10
-#     c3 = 1
-#     c2 = 1.2
-#     c1 = 1.2
-#     xOC = 0.1
-#     xOB = 0.1
-#     xMM = 0.8
-#
-#     # Payoff matrix
-#     matrix = np.array([
-#         [0.3, 1, 2],
-#         [1, 1.4, 1.5],
-#         [-0.5, -0.9, 1.2]])
-#
-#     generations = 50
-#
-#     # Make a dataframe
-#     column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
-#     df_figure_10A_first_line = pd.DataFrame(columns=column_names)
-#
-#     # Determine the frequentie value a number of times
-#     for generation in range(generations):
-#         WOC = fitness_WOC(xOC, xOB, xMM, N, c1, c2, c3, matrix)
-#         WOB = fitness_WOB(xOC, xOB, xMM, N, c1, c2, c3, matrix)
-#         WMM = fitness_WMM(xOC, xOB, xMM, N, c1, c2, c3, matrix)
-#
-#         # Determine the average fittness
-#         W_average = xOC * WOC + xOB * WOB + xMM * WMM
-#
-#         # Determine the new frequencies based of replicator dynamics
-#         xOC_change = xOC * (WOC - W_average) # (15)
-#         xOB_change = xOB * (WOB - W_average) # (16)
-#         xMM_change = xMM * (WMM - W_average) # (17)
-#
-#         # Add row to dataframe (first add row and the update because then also the
-#         # beginning values get added to the dataframe at generation =0)
-#         new_row = pd.DataFrame([{'Generation':generation, 'xOC': xOC, 'xOB': xOB,
-#                                         'xMM': xMM, 'W_average': W_average}])
-#         df_figure_10A_first_line = pd.concat([df_figure_10A_first_line, new_row],
-#                                                                 ignore_index=True)
-#
-#         # Update the xOC, xOB, xMM values
-#         xOC = max(0, xOC + xOC_change)
-#         xOB = max(0, xOB + xOB_change)
-#         xMM = max(0, xMM + xMM_change)
-#
-#     # Set new start values
-#     xOC = 0.2
-#     xOB = 0.2
-#     xMM = 0.6
-#
-#     # Make a datadrame
-#     column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
-#     df_figure_10A_second_line = pd.DataFrame(columns=column_names)
-#
-#     # Determine the frequentie value a number of times
-#     for generation in range(generations):
-#         WOC = fitness_WOC(xOC, xOB, xMM, N, c1, c2, c3, matrix)
-#         WOB = fitness_WOB(xOC, xOB, xMM, N, c1, c2, c3, matrix)
-#         WMM = fitness_WMM(xOC, xOB, xMM, N, c1, c2, c3, matrix)
-#
-#         # Determine the average fittness
-#         W_average = xOC * WOC + xOB * WOB + xMM * WMM
-#
-#         # Determine the new frequencies based of replicator dynamics
-#         xOC_change = xOC * (WOC - W_average) # (15)
-#         xOB_change = xOB * (WOB - W_average) # (16)
-#         xMM_change = xMM * (WMM - W_average) # (17)
-#
-#         # Add row to dataframe (first add row and the update because then also the
-#         # beginning values get added to the dataframe at generation =0)
-#         new_row = pd.DataFrame([{'Generation':generation, 'xOC': xOC, 'xOB': xOB,
-#                                                 'xMM': xMM, 'W_average': W_average}])
-#         df_figure_10A_second_line = pd.concat([df_figure_10A_second_line, new_row],
-#                                                                 ignore_index=True)
-#
-#         # Update the xOC, xOB, xMM values
-#         xOC = max(0, xOC + xOC_change)
-#         xOB = max(0, xOB + xOB_change)
-#         xMM = max(0, xMM + xMM_change)
-#
-#     # Make a plot
-#     df_figure_10A_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
-#     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
-#     plt.xlabel('Generations')
-#     plt.ylabel('Fitness/ Frequency')
-#     plt.title('Dynamics for a scenario where c3<c1<c2 (figure 10A)')
-#     plt.legend()
-#     plt.show()
-#
-#     df_figure_10A_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
-#     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
-#     plt.xlabel('Generations')
-#     plt.ylabel('Fitness/ Frequency')
-#     plt.title('Dynamics for a scenario where c3<c1<c2 (figure 10A)')
-#     plt.legend()
-#     plt.show()
-#
-#     # Make a ternary plot
-#     fig1 = px.line_ternary(df_figure_10A_first_line, a='xOC', b='xOB', c='xMM')
-#     fig2 = px.line_ternary(df_figure_10A_second_line, a='xOC', b='xOB', c='xMM')
-#
-#     fig1.update_layout(
-#         ternary=dict(
-#             aaxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
-#             baxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
-#             caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
-#
-#     # Add both lines to one ternary plot
-#     for trace in fig2.data:
-#         fig1.add_trace(trace)
-#     fig1.data[0].update(line=dict(color='red'))
-#     fig1.data[1].update(line=dict(color='blue'))
-#     fig1.update_layout(title_text= 'Dynamics for a scenario where c3<c1<c2 (figure 10A)')
-#     save_ternary(fig1, 'Ternary_plot_figure_10A',
-#                         r'..\visualisation\reproduced_results_Sartakhti_linear')
-#     fig1.show()
-#
-# # figure_10A()
-#
-# def figure_effect_growth_factor_inhibition():
-#     """Function that simulates the effect of growth inhibitor resistance"""
-#     # Set start values
-#     N = 10
-#     c3 = 1.4
-#     c2 = 1
-#     c1 = 1.2
-#     xOC = 0.3
-#     xOB = 0.25
-#     xMM = 0.45
-#
-#     # Payoff matrix
-#     matrix = np.array([
-#         [0.1, 1, 1.5],
-#         [1.2, 0.1, -0.3],
-#         [1.5, 0.9, 0.1]])
-#
-#     generations = 100
-#
-#     # Make a dataframe
-#     column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
-#     df_figure_11_first_line = pd.DataFrame(columns=column_names)
-#
-#     # Determine the frequentie value a number of times
-#     for generation in range(generations):
-#         generations = generation *1
-#
-#         #Reduce effect of OC GF on MM cells
-#         if generation == 30:
-#             matrix = np.array([
-#                 [0.3, 1, 1.5],
-#                 [1.2, 0.1, -0.3],
-#                 [1.2, 0.9, 0.2]])
-#
-#         WOC = fitness_WOC(xOC, xOB, xMM, N, c1, c2, c3, matrix)
-#         WOB = fitness_WOB(xOC, xOB, xMM, N, c1, c2, c3, matrix)
-#         WMM = fitness_WMM(xOC, xOB, xMM, N, c1, c2, c3, matrix)
-#
-#         # Determine the average fittness
-#         W_average = xOC * WOC + xOB * WOB + xMM * WMM
-#
-#         # Determine the new frequencies based of replicator dynamics
-#         xOC_change = xOC * (WOC - W_average) # (15)
-#         xOB_change = xOB * (WOB - W_average) # (16)
-#         xMM_change = xMM * (WMM - W_average) # (17)
-#
-#
-#         # Add row to dataframe (first add row and the update because then also the
-#         # beginning values get added to the dataframe at generation =0)
-#         new_row = pd.DataFrame([{'Generation':generations, 'xOC': xOC, 'xOB': xOB,
-#                                             'xMM': xMM, 'W_average': W_average}])
-#         df_figure_11_first_line = pd.concat([df_figure_11_first_line, new_row],
-#                                                                 ignore_index=True)
-#
-#         # Update the xOC, xOB, xMM values
-#         xOC = max(0, xOC + xOC_change)
-#         xOB = max(0, xOB + xOB_change)
-#         xMM = max(0, xMM + xMM_change)
-#
-#     # Make a plot
-#     df_figure_11_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'])
-#     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
-#     plt.xlabel('Generations')
-#     plt.ylabel('Frequency')
-#     plt.title('Effect GF inhibition')
-#     plt.legend()
-#     plt.show()
-#
-#     # Make a ternary plot
-#     fig1 = px.line_ternary(df_figure_11_first_line, a='xOC', b='xOB', c='xMM')
-#
-#     fig1.update_layout(
-#         ternary=dict(
-#             aaxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
-#             baxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
-#             caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
-#
-#     # Add both lines to one ternary plot
-#     fig1.update_layout(title_text= 'Effect GF inhibition')
-#
-#     fig1.show()
-#
-# # figure_effect_growth_factor_inhibition()
-#
-# def figure_effect_resistentie():
-#     """Function that simulates the effect of growth inhibitor resistance"""
-#     # Set start values
-#     N = 10
-#     c3 = 1.4
-#     c2 = 1
-#     c1 = 1.2
-#     xOC = 0.3
-#     xOB = 0.25
-#     xMM = 0.45
-#
-#     # Payoff matrix
-#     matrix = np.array([
-#         [0.3, 1, 1.5],
-#         [1.2, 0.1, -0.3],
-#         [1.5, 0.9, 0.2]])
-#
-#     generations = 110
-#
-#     # Make a dataframe
-#     column_names = ['Generation', 'xOC', 'xOB', 'xMM', 'W_average']
-#     df_figure_11_first_line = pd.DataFrame(columns=column_names)
-#
-#     # Determine the frequentie value a number of times
-#     for generation in range(generations):
-#         generations = generation *1
-#
-#         # Reduce effect of OC GF on MM cells
-#         if generation == 15:
-#             matrix = np.array([
-#                 [0.3, 1, 1.5],
-#                 [1.2, 0.1, -0.3],
-#                 [1.2, 0.9, 0.2]])
-#
-#         # Development resistance
-#         if generation == 75:
-#             matrix = np.array([
-#                 [0.3, 1, 1.5],
-#                 [1.2, 0.1, -0.3],
-#                 [1.5, 0.9, 0.2]])
-#
-#         WOC = fitness_WOC(xOC, xOB, xMM, N, c1, c2, c3, matrix)
-#         WOB = fitness_WOB(xOC, xOB, xMM, N, c1, c2, c3, matrix)
-#         WMM = fitness_WMM(xOC, xOB, xMM, N, c1, c2, c3, matrix)
-#
-#         # Determine the average fittness
-#         W_average = xOC * WOC + xOB * WOB + xMM * WMM
-#
-#
-#         # Determine the new frequencies based of replicator dynamics
-#         xOC_change = xOC * (WOC - W_average) # (15)
-#         xOB_change = xOB * (WOB - W_average) # (16)
-#         xMM_change = xMM * (WMM - W_average) # (17)
-#
-#
-#         # Add row to dataframe (first add row and the update because then also the
-#         # beginning values get added to the dataframe at generation =0)
-#         new_row = pd.DataFrame([{'Generation':generations, 'xOC': xOC, 'xOB': xOB,
-#                                             'xMM': xMM, 'W_average': W_average}])
-#         df_figure_11_first_line = pd.concat([df_figure_11_first_line, new_row],
-#                                                                 ignore_index=True)
-#
-#         # Update the xOC, xOB, xMM values
-#         xOC = max(0, xOC + xOC_change)
-#         xOB = max(0, xOB + xOB_change)
-#         xMM = max(0, xMM + xMM_change)
-#
-#     # Make a plot
-#     df_figure_11_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', 'W_average'])
-#     plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM', 'Average fitness'])
-#     plt.xlabel('Generations')
-#     plt.ylabel('Frequency')
-#     plt.title('Effect reducing MM cells (figure 11)')
-#     plt.legend()
-#     plt.show()
-#
-#     # Make a ternary plot
-#     fig1 = px.line_ternary(df_figure_11_first_line, a='xOC', b='xOB', c='xMM')
-#
-#     fig1.update_layout(
-#         ternary=dict(
-#             aaxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
-#             baxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
-#             caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
-#
-#     # Add both lines to one ternary plot
-#     fig1.update_layout(title_text= 'Effect reducing MM cells (figure 11)')
-#
-#     fig1.show()
-#
-# figure_effect_resistentie()

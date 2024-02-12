@@ -145,26 +145,26 @@ def fitness_WOC(xOC, xOB, xMM, N, cOC, cOB, cMM, matrix):
 
     Parameters:
     -----------
-    xOC: float
+    xOC: Float
         Frequency of OCs.
-    xOB: float
+    xOB: Float
         Frequency of OBs.
-    xMM: float
+    xMM: Float
         Frequency of the MM cells.
-    N: int
+    N: Int
         Number of individuals within the interaction range.
-    cOC: float
+    cOC: Float
         Cost parameter OCs.
-    cOB: float
+    cOB: Float
         Cost parameter OBs.
-    cMM: float
+    cMM: Float
         Cost parameter MM cells.
-    matrix : numpy.ndarray
+    matrix : Numpy.ndarray
         3x3 matrix containing interaction factors.
 
     Returns:
     --------
-    WOC : float
+    WOC : Float
         Fitness of an OC.
 
     Example:
@@ -190,26 +190,26 @@ def fitness_WOB(xOC, xOB, xMM, N, cOC, cOB, cMM, matrix):
 
     Parameters:
     -----------
-    xOC: float
+    xOC: Float
         Frequency of OCs.
-    xOB: float
+    xOB: Float
         Frequency of OBs.
-    xMM: float
+    xMM: Float
         Frequency of the MM cells.
-    N: int
+    N: Int
         Number of individuals within the interaction range.
-    cOC: float
+    cOC: Float
         Cost parameter OCs.
-    cOB: float
+    cOB: Float
         Cost parameter OBs.
-    cMM: float
+    cMM: Float
         Cost parameter MM cells.
-    matrix : numpy.ndarray
+    matrix : Numpy.ndarray
         3x3 matrix containing interaction factors.
 
     Returns:
     --------
-    WOB : float
+    WOB : Float
         Fitness of an OB.
 
     Example:
@@ -254,7 +254,7 @@ def fitness_WMM(xOC, xOB, xMM, N, cOC, cOB, cMM, matrix):
 
     Returns:
     --------
-    WOB : float
+    WOB : Float
         Fitness of an MM cell.
 
     Example:
@@ -348,7 +348,6 @@ def freq_to_fitness_values(dataframe_frequencies, N, cOC, cOB, cMM, matrix):
         xOB = row['xOB']
         xMM = row['xMM']
 
-        # Assuming N, c1, c2, c3, and matrix are defined elsewhere
         # Calculate fitness values
         WOC = fitness_WOC(xOC, xOB, xMM, N, cOC, cOB, cMM, matrix)
         WOB = fitness_WOB(xOC, xOB, xMM, N, cOC, cOB, cMM, matrix)
