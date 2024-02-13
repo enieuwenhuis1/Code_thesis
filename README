@@ -1,18 +1,17 @@
-nonlinearAuthor:       Eva Nieuwenhuis
+Author:       Eva Nieuwenhuis
 University:   UvA
 Student id:   13717405
 
 The goal was to make a model that simulates the dynamics of the multiple myeloma
-(MM) microenvironment to determine the effects of several treatments and resistance
-levels. A model is ideally for this because it generates results fast, it is cheap
-and easy reproducible. There is looked at three cell types: MM cells, osteoblasts
-(OBs) and osteoclasts (OCs). The model simulates a public goods game in the framework
-of evolutionary game theory with collective interactions and linear benfits.
-The impact of the following treatments was studied: ....
+(MM) microenvironment to determine the effects of several treatments. There is looked
+at the interactions between four cell types: drug-sensitive MM cells (MMd), resistant
+MM cells (MMr), osteoblasts (OBs) and osteoclasts (OCs). The model simulates a public
+goods game in the framework of evolutionary game theory with collective interactions
+and linear benefits. The impact of the following treatments was studied: ....
 
 PYTHON AND LIBRARY VESIONS
 Python version 3.11.4 is used.
-To run the codes in the code file some libraries need to be installed.
+To run the codes in the code folder some libraries need to be installed.
 
 model_S_nonlinear.py
 * scipy (version 1.11.4)
@@ -44,11 +43,11 @@ model_S_linear.py
 
 
 THE MODEL WITH LINEAR BENFITS: model_S_linear.py
-model_S_linear.py contains code of the mathematical EGT formulas
-as wel as code to reproduce some of the figures in the paper: Evolutionary dynamics
-of Tumor-Stroma interactions in multiple myeloma by Sartakhti et al., 2016. The model
-is maded based on the method in the paper. The benefits are linear and there are
-collective interactions.
+model_S_linear.py contains code of the mathematical EGT formulas and the code to
+reproduce some of the figures in the paper: Evolutionary dynamics of Tumor-Stroma
+interactions in multiple myeloma by Sartakhti et al., 2016. The model is maded based
+on the method in the paper. The benefits are linear and there are collective
+interactions.
 
 TEST THE CODE
 To test the functions in the model, doc tests are added and automatically run when
@@ -59,7 +58,7 @@ THE MODEL WITH NONLINEAR BENEFITS: model_S_nonlinear.py
 Model_S_nonlinear.py contains the code with all the mathematical EGT formulas as
 well as the code to reproduce the figures from the paper: Game Theory of Tumor–Stroma
 Interactions in Multiple Myeloma: Effect of Nonlinear Benefits by Sartakhti et al.,
-2018. The model is maded based on the method in the paper. The benefits are nonlinear
+2018. The model is made based on the method in the paper. The benefits are nonlinear
 and there are collective interactions.
 
 TEST THE CODE
@@ -73,7 +72,7 @@ This folder contains:
                                     based on the paper of Sartakhti et al., 2018
 * reproduced_data_Sartakhti_linear: contains all the data obtained with the model
                                     based on the paper of Sartakhti et al., 2016
-* data_own_model: contains all the data obtained from the made model
+* data_own_model: contains all the data obtained from the own made model
 
 THE FIGURES
 In the folder visualisation all made figures are shown. This folder contains:
@@ -81,7 +80,7 @@ In the folder visualisation all made figures are shown. This folder contains:
                                         the paper of Sartakhti et al., 2018.
 * reproduced_results_Sartakhti_linear: contains all the reproduced figures of the
                                       paper of Sartakhti et al., 2016.
-* results_own_model: contains all the figures obtained from the made model
+* results_own_model: contains all the figures obtained from the own made model
 
 HOW TO RUN
 The non linear model and its visualisation, model_S_nonlinear.py:
@@ -91,10 +90,9 @@ The linear model and its visualisation, model_S_linear.py:
         - python model_S_linear.py
 
 REFERENCES
-Sartakhti, J. S., Manshaei, M. H., & Archetti, M. (2018). Game Theory of Tumor–Stroma
-Interactions in Multiple Myeloma: Effect of nonlinear benefits. Games, 9(2), 32.
-https://doi.org/10.3390/g9020032
-
-Sartakhti, J. S., Manshaei, M. H., Bateni, S., & Archetti, M. (2016). Evolutionary
-dynamics of Tumor-Stroma interactions in multiple myeloma. PLOS ONE, 11(12),
-e0168856. https://doi.org/10.1371/journal.pone.0168856
+* Sartakhti, J. S., Manshaei, M. H., & Archetti, M. (2018). Game Theory of Tumor–Stroma
+  Interactions in Multiple Myeloma: Effect of nonlinear benefits. Games, 9(2), 32.
+  https://doi.org/10.3390/g9020032
+* Sartakhti, J. S., Manshaei, M. H., Bateni, S., & Archetti, M. (2016). Evolutionary
+  dynamics of Tumor-Stroma interactions in multiple myeloma. PLOS ONE, 11(12),
+  e0168856. https://doi.org/10.1371/journal.pone.0168856
