@@ -6,7 +6,7 @@ Description:  Code that attempts to replicate the Figures from the paper by Sart
               et al. (2018). The model simulates linear and nonlinear dynamics in the
               multiple myeloma (MM) microenvironment with three cell types: MM cells,
               osteoblasts (OBs) and osteoclasts (OCs). The plots show the effect of
-              introducing non linear benefits instead of linear benefits.
+              introducing nonlinear benefits instead of linear benefits.
 
               The found results do not align with those presented in the paper. This
               difference may be because of potential misinterpretations or errors in
@@ -32,29 +32,29 @@ def main():
     import doctest
     doctest.testmod()
 
-    # # Make Figure 1 in the paper of Sartakhti et al., 2018.
-    # Figure_1()
-    #
-    # # Make the Figures in Figure 2 in the paper of Sartakhti et al., 2018.
-    # Figure_2()
-    #
-    # # # Make the Figures in Figure 3 in the paper of Sartakhti et al., 2018.
-    # Figure_3()
-    #
-    # # Make the Figures in Figure 4 in the paper of Sartakhti et al., 2018.
-    # Figure_4()
-    #
-    # # Make the Figures in Figure 5 in the paper of Sartakhti et al., 2018.
-    # Figure_5()
-    #
-    # # Make the Figures in Figure 6 in the paper of Sartakhti et al., 2018.
-    # Figure_6()
-    #
-    # # Make the Figures in Figure 7 in the paper of Sartakhti et al., 2018.
-    # Figure_7()
-    #
-    # # Make the Figures in Figure 8 in the paper of Sartakhti et al., 2018.
-    # Figure_8()
+    # Make Figure 1 in the paper of Sartakhti et al., 2018.
+    Figure_1()
+
+    # Make the Figures in Figure 2 in the paper of Sartakhti et al., 2018.
+    Figure_2()
+
+    # # Make the Figures in Figure 3 in the paper of Sartakhti et al., 2018.
+    Figure_3()
+
+    # Make the Figures in Figure 4 in the paper of Sartakhti et al., 2018.
+    Figure_4()
+
+    # Make the Figures in Figure 5 in the paper of Sartakhti et al., 2018.
+    Figure_5()
+
+    # Make the Figures in Figure 6 in the paper of Sartakhti et al., 2018.
+    Figure_6()
+
+    # Make the Figures in Figure 7 in the paper of Sartakhti et al., 2018.
+    Figure_7()
+
+    # Make the Figures in Figure 8 in the paper of Sartakhti et al., 2018.
+    Figure_8()
 
     # Make the Figures in Figure 9 in the paper of Sartakhti et al., 2018.
     Figure_9()
@@ -737,14 +737,15 @@ def Figure_1():
     axes[0].set_title('Fitness linear benfits (Figure 1)')
     axes[0].set_xlabel('Generations')
     axes[0].set_ylabel('Fitness')
-    axes[0].legend(['Fitness OC', 'Fitness OB', 'Fitness MM', 'Average fitness'])
+    axes[0].legend(['Fitness OC', 'Fitness OB', 'Fitness MM', 'Average fitness'],
+                                                            loc = 'upper left')
 
     # Plot the second subplot
     df_Figure_1.plot(x='Generation', y=['xOC', 'xOB', 'xMM'], ax=axes[1])
     axes[1].set_title('Dynamics linear benefits (Figure 1)')
     axes[1].set_xlabel('Generations')
     axes[1].set_ylabel('Fitness/Frequency')
-    axes[1].legend(['Frequency OC', 'Frequency OB', 'Frequency MM'])
+    axes[1].legend(['Frequency OC', 'Frequency OB', 'Frequency MM'], loc = 'upper left')
     plt.tight_layout()
     save_Figure(plt, 'Line_plot_Figure_1',
                     r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
@@ -1008,8 +1009,8 @@ def Figure_3():
                         label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.xlabel('Generations')
     plt.ylabel('Frequency')
-    plt.title('Non linear benefits (Figure 3)')
-    plt.legend()
+    plt.title('Nonlinear benefits (Figure 3)')
+    plt.legend(loc ='upper right')
     save_Figure(plt, 'Line_plot_Figure_3_nonlinear',
                     r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
     plt.show()
@@ -1021,18 +1022,19 @@ def Figure_3():
             aaxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
             baxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
             caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
-    fig.update_layout(title_text=f'Non linear benefits (Figure 3)')
+    fig.update_layout(title_text=f'Nonlinear benefits (Figure 3)')
     save_ternary(fig, 'Ternary_plot_Figure_3_nonlinear',
                     r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
     fig.show()
 
     # Make a line plot of linear data
-    df_Figure_3_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'])
-    plt.legend(['Frequency OC', 'Frequency OB', 'Frequency MM'])
+    df_Figure_3_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+                    label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+    plt.legend(loc ='upper right')
     plt.xlabel('Generations')
     plt.ylabel('Frequency')
     plt.title('Linear benfits (Figure 3)')
-    plt.legend()
+    plt.legend(loc ='upper right')
     save_Figure(plt, 'Line_plot_Figure_3_linear',
                     r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
     plt.show()
@@ -1165,8 +1167,8 @@ def Figure_4():
                     label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.xlabel('Generations')
     plt.ylabel('Frequency')
-    plt.title('Non linear benefits (Figure 4)')
-    plt.legend()
+    plt.title('Nonlinear benefits (Figure 4)')
+    plt.legend(loc ='upper right')
     save_Figure(plt, 'Line_plot_Figure_4_nonlinear',
                     r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
     plt.show()
@@ -1178,7 +1180,7 @@ def Figure_4():
             aaxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
             baxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
             caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
-    fig.update_layout(title_text= 'Non linear benefits (Figure 4)')
+    fig.update_layout(title_text= 'Nonlinear benefits (Figure 4)')
     save_ternary(fig, 'Ternary_plot_Figure_4_nonlinear',
                     r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
     fig.show()
@@ -1189,7 +1191,7 @@ def Figure_4():
     plt.xlabel('Generations')
     plt.ylabel('Frequency')
     plt.title('Linear benefits (Figure 4)')
-    plt.legend()
+    plt.legend(loc ='upper right')
     save_Figure(plt, 'Line_plot_Figure_4_linear',
                     r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
     plt.show()
@@ -1313,8 +1315,8 @@ def Figure_5():
                         label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.xlabel('Generations')
     plt.ylabel('Frequency')
-    plt.title('Non linear benefits (Figure 5)')
-    plt.legend()
+    plt.title('Nonlinear benefits (Figure 5)')
+    plt.legend(loc ='upper right')
     save_Figure(plt, 'Line_plot_Figure_5_nonlinear',
                     r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
     plt.show()
@@ -1326,7 +1328,7 @@ def Figure_5():
             aaxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
             baxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
             caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
-    fig.update_layout(title_text= 'Non linear benefits (Figure 5)')
+    fig.update_layout(title_text= 'Nonlinear benefits (Figure 5)')
     save_ternary(fig, 'Ternary_plot_Figure_5_nonlinear',
                     r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
     fig.show()
@@ -1336,7 +1338,7 @@ def Figure_5():
                     label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.xlabel('Generations')
     plt.ylabel('Frequency')
-    plt.legend()
+    plt.legend(loc ='upper right')
     plt.title('linear benefits (Figure 5)')
     save_Figure(plt, 'Line_plot_Figure_5_linear',
                     r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
@@ -1461,8 +1463,8 @@ def Figure_6():
                         label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.xlabel('Generations')
     plt.ylabel('Frequency')
-    plt.title('Non linear benefits (Figure 6)')
-    plt.legend()
+    plt.title('Nonlinear benefits (Figure 6)')
+    plt.legend(loc ='upper right')
     save_Figure(plt, 'Line_plot_Figure_6_nonlinear',
                     r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
     plt.show()
@@ -1474,7 +1476,7 @@ def Figure_6():
             aaxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
             baxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
             caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
-    fig.update_layout(title_text= 'Non linear benefits (Figure 6)')
+    fig.update_layout(title_text= 'Nonlinear benefits (Figure 6)')
     save_ternary(fig, 'Ternary_plot_Figure_6_nonlinear',
                     r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
     fig.show()
@@ -1485,7 +1487,7 @@ def Figure_6():
     plt.xlabel('Generations')
     plt.ylabel('Frequency')
     plt.title('Linear benefits (Figure 6)')
-    plt.legend()
+    plt.legend(loc ='upper right')
     save_Figure(plt, 'Line_plot_Figure_6_linear',
                     r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
     plt.show()
@@ -1663,14 +1665,14 @@ def Figure_7():
     # Plot the first subplot
     df_fitness_nonlinear.plot(x='Generation', y=['WOC', 'WOB', 'WMM', 'W_average'],
                                                                         ax=axes[0])
-    axes[0].set_title('Fitness non linear benfits (Figure 7)')
+    axes[0].set_title('Fitness nonlinear benfits (Figure 7)')
     axes[0].set_xlabel('Generations')
     axes[0].set_ylabel('Fitness')
     axes[0].legend(['Fitness OC', 'Fitness OB', 'Fitness MM', 'Average fitness'])
 
     # Plot the second subplot
     df_Figure_7_nonlinear.plot(x='Generation', y=['xOC', 'xOB', 'xMM'], ax=axes[1])
-    axes[1].set_title('Dynamics non linear benfits (Figure 7)')
+    axes[1].set_title('Dynamics nonlinear benfits (Figure 7)')
     axes[1].set_xlabel('Generations')
     axes[1].set_ylabel('Fitness/Frequency')
     axes[1].legend(['Frequency OC', 'Frequency OB', 'Frequency MM'])
@@ -1687,7 +1689,7 @@ def Figure_7():
             aaxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
             baxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
             caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
-    fig.update_layout(title_text= 'Non linear benefits (Figure 7)')
+    fig.update_layout(title_text= 'Nonlinear benefits (Figure 7)')
     save_ternary(fig, 'Ternary_plot_Figure_7_nonlinear',
                     r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
     fig.show()
@@ -1698,7 +1700,7 @@ def Figure_7():
     plt.xlabel('Generations')
     plt.ylabel('Frequency')
     plt.title('Linear benefits (Figure 7)')
-    plt.legend()
+    plt.legend(loc ='upper right')
     save_Figure(plt, 'Line_plot_Figure_7_linear',
                     r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
     plt.show()
@@ -1879,14 +1881,14 @@ def Figure_8():
     # Plot the first subplot
     df_fitness_nonlinear.plot(x='Generation', y=['WOC', 'WOB', 'WMM', 'W_average'],
                                                                         ax=axes[0])
-    axes[0].set_title('Fitness non linear benefits (Figure 8)')
+    axes[0].set_title('Fitness nonlinear benefits (Figure 8)')
     axes[0].set_xlabel('Generations')
     axes[0].set_ylabel('Fitness')
     axes[0].legend(['Fitness OC', 'Fitness OB', 'Fitness MM', 'Average fitness'])
 
     # Plot the second subplot
     df_Figure_8_nonlinear.plot(x='Generation', y=['xOC', 'xOB', 'xMM'], ax=axes[1])
-    axes[1].set_title('Dynamics non linear benefits (Figure 8)')
+    axes[1].set_title('Dynamics nonlinear benefits (Figure 8)')
     axes[1].set_xlabel('Generations')
     axes[1].set_ylabel('Fitness/Frequency')
     axes[1].legend(['Frequency OC', 'Frequency OB', 'Frequency MM'])
@@ -1895,14 +1897,14 @@ def Figure_8():
                     r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
     plt.show()
 
-    # Make a ternary plot of non linear data
+    # Make a ternary plot of nonlinear data
     fig = px.line_ternary(df_Figure_8_nonlinear, a='xOB', b='xMM', c='xOC')
     fig.update_layout(
         ternary=dict(
             aaxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
             baxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
             caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
-    fig.update_layout(title_text= 'Non linear benefits (Figure 8)')
+    fig.update_layout(title_text= 'Nonlinear benefits (Figure 8)')
     save_ternary(fig, 'Ternary_plot_Figure_8_nonlinear',
                     r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
     fig.show()
@@ -1913,7 +1915,7 @@ def Figure_8():
     plt.xlabel('Generations')
     plt.ylabel('Frequency')
     plt.title('Linear benefits (Figure 8)')
-    plt.legend()
+    plt.legend(loc ='upper right')
     save_Figure(plt, 'Line_plot_Figure_8_linear',
                     r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
     plt.show()
@@ -2056,7 +2058,7 @@ def Figure_9():
     plt.xlabel('Generations')
     plt.ylabel('Frequency')
     plt.title('No treatment (Figure 9)')
-    plt.legend()
+    plt.legend(loc ='upper right')
     save_Figure(plt, 'Line_plot_Figure_9_reducing_MM',
                     r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
     plt.show()
@@ -2087,7 +2089,7 @@ def Figure_9():
     plt.xlabel('Generations')
     plt.ylabel('Frequency')
     plt.title('Reducing MM cells (Figure 9)')
-    plt.legend()
+    plt.legend(loc ='upper right')
     save_Figure(plt, 'Line_plot_Figure_9_reducing_MM',
                     r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
     plt.show()
@@ -2117,7 +2119,7 @@ def Figure_9():
     plt.xlabel('Generations')
     plt.ylabel('Frequency')
     plt.title('Increase of the inflection point h (Figure 9)')
-    plt.legend()
+    plt.legend(loc ='upper right')
     save_Figure(plt, 'Line_plot_Figure_9_increasing_h',
                     r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
     plt.show()
@@ -2161,7 +2163,7 @@ def Figure_10():
     plt.title('Sigmoide benefits for different inflection points')
     plt.xlabel('Number of cells (ni)')
     plt.ylabel('Benefit')
-    plt.legend()
+    plt.legend(loc ='upper right')
     save_Figure(plt, 'Benefit_function_Figure_10',
                     r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
     plt.show()
