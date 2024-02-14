@@ -179,7 +179,8 @@ def fitness_WMMd(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix):
     WMMd = (i*xOC*cOC + j*xOB*cOB + k*xMMd*cMMd + l* xMMr*cMMr)*(N - 1)/N - cMMd
     return WMMd
 
-def fitness_WMMd(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix, MMd_drug_effect = 0):
+def fitness_WMMd(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix,
+                                                            MMd_drug_effect = 0):
     """
     Function that calculates the fitness of a drug-senstive MM cell in a population.
 
@@ -229,7 +230,8 @@ def fitness_WMMd(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix, MMd_drug
     l = matrix[2, 3]
 
     # Calculate the fitness value
-    WMMd = (i*xOC*cOC + j*xOB*cOB + k*xMMd*cMMd + l* xMMr*cMMr - MMd_drug_effect * cMMd)*(N - 1)/N - cMMd
+    WMMd = (i*xOC*cOC + j*xOB*cOB + k*xMMd*cMMd + l* xMMr*cMMr - MMd_drug_effect \
+                                                        * cMMd)*(N - 1)/N - cMMd
     return WMMd
 
 def fitness_WMMr(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix):
@@ -359,11 +361,12 @@ def model_dynamics(y, t, N, cOC, cOB, cMMd, cMMr, matrix, MMd_drug_effect = 0):
         List containing the changes in frequencies of xOC, xOB, xMMd and xMMr.
     """
     xOC, xOB, xMMd, xMMr = y
-
+    print(MMd_drug_effect)
     # Determine the fitness values
     WOC = fitness_WOC(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix)
     WOB = fitness_WOB(xOC, xOB, xMMd, xMMr,  N, cOC, cOB, cMMd, cMMr, matrix)
-    WMMd = fitness_WMMd(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix, MMd_drug_effect)
+    WMMd = fitness_WMMd(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix,
+                                                                MMd_drug_effect)
     WMMr = fitness_WMMr(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix)
 
     # Determine the average fitness
@@ -427,8 +430,9 @@ def model_dynamics_change_N(y, t, N, cOC, cOB, cMMd, cMMr, matrix):
 
     return [xOC_change, xOB_change, xMMd_change, xMMr_change]
 
-def freq_to_fitness_values_change_N(dataframe_frequencies, N, cOC, cOB, cMMd, cMMr, matrix):
-    """Function that determine the fitness values of the OCs, OBs, MMr and MMr
+def freq_to_fitness_values_change_N(dataframe_frequencies, N, cOC, cOB, cMMd,
+                                                                    cMMr, matrix):
+    """Function that Determine the fitness values of the OCs, OBs, MMr and MMr
     based on there frequencies on every time point. It also calculates the
     average fitness.
 
@@ -485,12 +489,13 @@ def freq_to_fitness_values_change_N(dataframe_frequencies, N, cOC, cOB, cMMd, cM
 
     # Create a new DataFrame with the calculated values
     dataframe_fitness = pd.DataFrame({'Generation': generation_list,
-    'WOC': WOC_list, 'WOB': WOB_list, 'WMMd': WMMd_list, 'WMMr': WMMr_list, 'W_average': W_average_list})
+    'WOC': WOC_list, 'WOB': WOB_list, 'WMMd': WMMd_list, 'WMMr': WMMr_list,
+                                                'W_average': W_average_list})
 
     return(dataframe_fitness)
 
 def freq_to_fitness_values(dataframe_frequencies, N, cOC, cOB, cMMd, cMMr, matrix):
-    """Function that determine the fitness values of the OCs, OBs, MMr and MMr
+    """Function that Determine the fitness values of the OCs, OBs, MMr and MMr
     based on there frequencies on every time point. It also calculates the
     average fitness.
 
@@ -541,10 +546,42 @@ def freq_to_fitness_values(dataframe_frequencies, N, cOC, cOB, cMMd, cMMr, matri
 
     # Create a new DataFrame with the calculated values
     dataframe_fitness = pd.DataFrame({'Generation': generation_list,
-    'WOC': WOC_list, 'WOB': WOB_list, 'WMMd': WMMd_list, 'WMMr': WMMr_list, 'W_average': W_average_list})
+    'WOC': WOC_list, 'WOB': WOB_list, 'WMMd': WMMd_list, 'WMMr': WMMr_list,
+                                                    'W_average': W_average_list})
 
     return(dataframe_fitness)
 
+def save_data(data_frame, file_name, folder_path):
+    """ Function that saves a dataframe as csv file.
+
+    Parameters:
+    -----------
+    data_frame: DataFrame
+        The data frame contain the collected data.
+    file_name: String
+        The name of the csv file.
+    folder_path: String
+        Path to the folder where the data will be saved.
+    """
+    os.makedirs(folder_path, exist_ok=True)
+    file_path = os.path.join(folder_path, file_name)
+    data_frame.to_csv(file_path, index=False)
+
+
+def save_Figure(Figure, file_name, folder_path):
+    """Save the Figure to a specific folder.
+
+    Parameters:
+    -----------
+    Figure: Matplotlib Figure
+        Figure object that needs to be saved.
+    file_name : String
+        The name for the plot.
+    folder_path: String:
+        Path to the folder where the data will be saved.
+    """
+    os.makedirs(folder_path, exist_ok=True)
+    Figure.savefig(os.path.join(folder_path, file_name))
 
 """
 Example payoff matrix:
@@ -590,11 +627,13 @@ def model_dynamics(y, t, N, cOC, cOB, cMMd, cMMr, matrix, MMd_drug_effect = 0):
         List containing the changes in frequencies of xOC, xOB, xMMd and xMMr.
     """
     xOC, xOB, xMMd, xMMr = y
+    print(MMd_drug_effect)
 
     # Determine the fitness values
     WOC = fitness_WOC(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix)
     WOB = fitness_WOB(xOC, xOB, xMMd, xMMr,  N, cOC, cOB, cMMd, cMMr, matrix)
-    WMMd = fitness_WMMd(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix, MMd_drug_effect)
+    WMMd = fitness_WMMd(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix,
+                                                                MMd_drug_effect)
     WMMr = fitness_WMMr(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix)
 
     # Determine the average fitness
@@ -620,8 +659,9 @@ from scipy.optimize import minimize
 
 """Determine the best b_OC_MMd value
 -----------------------------------------------------------------------------"""
-def mimimal_tumor_freq_b_OC_MMd(b_OC_MMd, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix, t, b_OC_MMd_array):
-    """Function that determines the fraction of the population being MM for a
+def mimimal_tumor_freq_b_OC_MMd(b_OC_MMd, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd,
+                                                    cMMr, matrix, t, b_OC_MMd_array):
+    """Function that Determines the fraction of the population being MM for a
     specific b_OC_MMd value.
 
     Parameters:
@@ -711,8 +751,13 @@ def figure_optimal_b_OC_MMd():
         b_OC_MMd = b_OC_MMd/1000
 
         # Determine the total MM frequency
-        freq_tumor = mimimal_tumor_freq_b_OC_MMd(b_OC_MMd, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix, t, False)
+        freq_tumor = mimimal_tumor_freq_b_OC_MMd(b_OC_MMd, xOC, xOB, xMMd, xMMr,
+                                        N, cOC, cOB, cMMd, cMMr, matrix, t, False)
         dict_freq_tumor_GF[b_OC_MMd] = freq_tumor
+
+    # save the data
+    save_data(pd.DataFrame.from_dict(dict_freq_tumor_GF, orient='index'),
+                'dict_cell_freq_change_b_OC_MMd.csv', r'..\data\data_own_model')
 
     # Make a list of the keys and one of the values
     b_OC_MMd_values = list(dict_freq_tumor_GF.keys())
@@ -724,6 +769,8 @@ def figure_optimal_b_OC_MMd():
     plt.ylabel(r'$b_{OC, MMd}$ value')
     plt.title('MM frequency for different strengths of the GF from OC for MMd')
     plt.grid(True)
+    save_Figure(plt, 'line_plot_cell_freq_change_b_OC_MMd',
+                                     r'..\visualisation\results_own_model')
     plt.show()
 
 N = 50
@@ -747,20 +794,23 @@ t = np.linspace(0, 100, 100)
 b_OC_MMd_start = 0.8
 
 # Perform the optimization
-result = minimize(mimimal_tumor_freq_b_OC_MMd, b_OC_MMd_start, args = (xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix, t, True), bounds=[(0, 3)])
+result = minimize(mimimal_tumor_freq_b_OC_MMd, b_OC_MMd_start, args = (xOC, xOB,
+        xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix, t, True), bounds=[(0, 3)])
 
 # Retrieve the optimal value
 optimal_b_OC_MMd= result.x
-print("Optimal value for b_OC_MMd:", optimal_b_OC_MMd, ', gives tumor frequency:', result.fun)
+print("Optimal value for b_OC_MMd:", optimal_b_OC_MMd,
+                                            ',gives tumor frequency:', result.fun)
 
-# Make a figure
-figure_optimal_b_OC_MMd()
+# # Make a figure
+# figure_optimal_b_OC_MMd()
 
 
 """Determine the best drug effect value for high and low cOB and cOC values
-----------------------------------------------------------------------------------"""
-def mimimal_tumor_freq_dev(MMd_drug_effect, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix, t, MMd_drug_effect_array):
-    """Function that determines the fraction of the population being MM for a
+--------------------------------------------------------------------------------"""
+def mimimal_tumor_freq_dev(MMd_drug_effect, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd,
+                                            cMMr, matrix, t, MMd_drug_effect_array):
+    """Function that Determines the fraction of the population being MM for a
     specific drug effect value.
 
     Parameters:
@@ -808,7 +858,7 @@ def mimimal_tumor_freq_dev(MMd_drug_effect, xOC, xOB, xMMd, xMMr, N, cOC, cOB, c
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                        'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
 
     # Determine the total MM frequency
     last_MM_frequency = df['total_MM'].iloc[-1]
@@ -817,7 +867,7 @@ def mimimal_tumor_freq_dev(MMd_drug_effect, xOC, xOB, xMMd, xMMr, N, cOC, cOB, c
 
 def figure_drug_cost():
     """ Function that shows the effect of different OB and OC cost values for
-    different strenght of drugs inhibiting MMd"""
+    different strength of drugs inhibiting MMd"""
 
     # Set start values
     N = 50
@@ -845,8 +895,13 @@ def figure_drug_cost():
     # Loop over the different MMd_drug_effect values
     for MMd_drug_effect in range(3000):
         MMd_drug_effect = MMd_drug_effect/1000
-        freq_tumor = mimimal_tumor_freq_dev(MMd_drug_effect, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix, t, False)
+        freq_tumor = mimimal_tumor_freq_dev(MMd_drug_effect, xOC, xOB, xMMd, xMMr,
+                                        N, cOC, cOB, cMMd, cMMr, matrix, t, False)
         dict_freq_tumor_high_c[MMd_drug_effect] = freq_tumor
+
+    # save the data
+    save_data(pd.DataFrame.from_dict(dict_freq_tumor_high_c, orient='index'),
+            'dict_cell_freq_change_WMMd_high_c.csv', r'..\data\data_own_model')
 
     # Make lists of the keys and the values
     keys_high_c = list(dict_freq_tumor_high_c.keys())
@@ -860,8 +915,13 @@ def figure_drug_cost():
     # Loop over the different MMd_drug_effect values
     for MMd_drug_effect in range(3000):
         MMd_drug_effect = MMd_drug_effect/1000
-        freq_tumor = mimimal_tumor_freq_dev(MMd_drug_effect, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix, t, False)
+        freq_tumor = mimimal_tumor_freq_dev(MMd_drug_effect, xOC, xOB, xMMd, xMMr,
+                                        N, cOC, cOB, cMMd, cMMr, matrix, t, False)
         dict_freq_tumor_low_c[MMd_drug_effect] = freq_tumor
+
+    # save the data
+    save_data(pd.DataFrame.from_dict(dict_freq_tumor_high_c, orient='index'),
+                'dict_cell_freq_change_WMMd_low_c.csv', r'..\data\data_own_model')
 
     # Make lists of the keys and the values
     keys_low_c = list(dict_freq_tumor_low_c.keys())
@@ -873,7 +933,8 @@ def figure_drug_cost():
     # Subplot one
     plt.subplot(1, 2, 1)
     plt.plot(keys_high_c, values_high_c, color='purple')
-    plt.title('MM frequency for different MMd inhibtor \n strengths when cOB is 0.9 and cOC is 1.0')
+    plt.title("""MM frequency for different MMd inhibtor
+    strengths when cOB is 0.9 and cOC is 1.0""")
     plt.xlabel('MMd inhibtor strength')
     plt.ylabel('MM frequency')
     plt.grid(True)
@@ -887,6 +948,8 @@ def figure_drug_cost():
 
     plt.tight_layout()
     plt.grid(True)
+    save_Figure(plt, 'line_plot_cell_freq_change_WMMd_high_low_c',
+                                     r'..\visualisation\results_own_model')
     plt.show()
 
 # Set start values
@@ -911,29 +974,34 @@ t = np.linspace(0, 100, 100)
 dev_start = 0.3
 
 # Perform the optimization
-result_high = minimize(mimimal_tumor_freq_dev, dev_start, args = (xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix, t, True), bounds=[(0, 0.8)], method='Nelder-Mead')
+result_high = minimize(mimimal_tumor_freq_dev, dev_start, args = (xOC, xOB, xMMd, xMMr,
+N, cOC, cOB, cMMd, cMMr, matrix, t, True), bounds=[(0, 0.8)], method='Nelder-Mead')
 
 # Retrieve the optimal value
 optimal_dev_high = result_high.x
-print("Optimal value for drug effect:", optimal_dev_high,', gives tumor frequency:', result_high.fun)
+print("Optimal value for drug effect:", optimal_dev_high,', gives tumor frequency:',
+                                                                    result_high.fun)
 
 # Set new cOB and cOC values
 cOB = 0.8
 cOC = 0.9
 
 # Perform the optimization
-result_low = minimize(mimimal_tumor_freq_dev, dev_start, args = (xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix, t, True), bounds=[(0, 3)])
+result_low = minimize(mimimal_tumor_freq_dev, dev_start, args = (xOC, xOB, xMMd,
+                xMMr, N, cOC, cOB, cMMd, cMMr, matrix, t, True), bounds=[(0, 3)])
 
 # Retrieve the optimal value
 optimal_dev_low= result_low.x
-print("Optimal value for drug effect:", optimal_dev_low,', gives tumor frequency:', result_low.fun)
-
-# Make a figure
-figure_drug_cost()
+print("Optimal value for drug effect:", optimal_dev_low,', gives tumor frequency:',
+                                                                    result_low.fun)
+#
+# # Make a figure
+# figure_drug_cost()
 
 
 """-------------------Effet AT therapy-------------------------------"""
-def switch_dataframe(n_switches, t_steps, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix_no_drugs, matrix_drugs):
+def switch_dataframe(n_switches, t_steps, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd,
+                                            cMMr, matrix_no_drugs, matrix_drugs):
     """ Function that makes a dataframe of the xOC, xOB, xMMd and xMMr values over
     time for a given time of a drug holliday.
 
@@ -984,7 +1052,7 @@ def switch_dataframe(n_switches, t_steps, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMM
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_total_switch = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                        'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
+                    'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
 
     # Increase the time
     time += t_steps
@@ -1008,10 +1076,10 @@ def switch_dataframe(n_switches, t_steps, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMM
             y0 = [xOC, xOB, xMMd, xMMr]
             parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
 
-            # determine the ODE solutions
+            # Determine the ODE solutions
             y = odeint(model_dynamics, y0, t, args=parameters)
             df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe tot total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
@@ -1039,7 +1107,7 @@ def switch_dataframe(n_switches, t_steps, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMM
             # Determine the ODE solutions
             y = odeint(model_dynamics, y0, t, args=parameters)
             df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe tot total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
@@ -1087,18 +1155,22 @@ def figure_switchs_3_senarios(n_switches, t_steps_drug):
         [1.9, 0, -0.785, 0.2]])
 
     # Make dataframe for the different drug hollyday duration values
-    df_total_switch_2 = switch_dataframe(n_switches, t_steps_drug[0], xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix_no_drugs, matrix_drugs)
-    df_total_switch_1 = switch_dataframe(n_switches, t_steps_drug[1], xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix_no_drugs, matrix_drugs)
-    df_total_switch_3 = switch_dataframe(n_switches, t_steps_drug[2], xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix_no_drugs, matrix_drugs)
+    df_total_switch_1 = switch_dataframe(n_switches, t_steps_drug[0], xOC, xOB,
+            xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix_no_drugs, matrix_drugs)
+    df_total_switch_2 = switch_dataframe(n_switches, t_steps_drug[1], xOC, xOB,
+            xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix_no_drugs, matrix_drugs)
+    df_total_switch_3 = switch_dataframe(n_switches, t_steps_drug[2], xOC, xOB,
+            xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix_no_drugs, matrix_drugs)
+
 
     t = np.linspace(0, 20, 20)
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix_no_drugs)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_1 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                        'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
 
     # Determine the current frequencies
     xOC = df_1['xOC'].iloc[-1]
@@ -1110,20 +1182,30 @@ def figure_switchs_3_senarios(n_switches, t_steps_drug):
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix_drugs)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                        'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
 
     # Combine the dataframes
     df_total = pd.concat([df_1, df_2])
+
+    # save the data
+    save_data(df_total_switch_2, 'df_cell_freq_change_G6.csv',
+                                                     r'..\data\data_own_model')
+    save_data(df_total_switch_1, 'dict_cell_freq_change_G8.csv',
+                                                     r'..\data\data_own_model')
+    save_data(df_total_switch_3, 'dict_cell_freq_change_G10.csv',
+                                                     r'..\data\data_own_model')
+    save_data(df_total, 'dict_cell_freq_change_contineously.csv',
+                                                     r'..\data\data_own_model')
 
     # Create a figure
     fig, axs = plt.subplots(2, 2, figsize=(18, 14))
 
     # Plot the data without drug holidays in the first plot
-    df_total.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
-        label=['Frequency OC', 'Frequency OB', 'Frequency MMd','Frequency MMr'], ax=axs[0, 0])
+    df_total.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'], label=[ \
+    'Frequency OC', 'Frequency OB', 'Frequency MMd','Frequency MMr'], ax=axs[0, 0])
     axs[0, 0].set_xlabel(' ')
     axs[0, 0].set_ylabel('MM frequency')
     axs[0, 0].set_title(f'Dynamics when drugs are administered contineously')
@@ -1131,8 +1213,8 @@ def figure_switchs_3_senarios(n_switches, t_steps_drug):
     axs[0, 0].grid(True)
 
     # Plot the data with drug holidays in the second plot
-    df_total_switch_1.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
-        label=['Frequency OC', 'Frequency OB', 'Frequency MMd','Frequency MMr'], ax=axs[0, 1])
+    df_total_switch_1.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'], label=[\
+    'Frequency OC', 'Frequency OB', 'Frequency MMd','Frequency MMr'], ax=axs[0, 1])
     axs[0, 1].set_xlabel(' ')
     axs[0, 1].set_ylabel('MM frequency')
     axs[0, 1].set_title(f'Dynamics when drugs are administered in periods of 8 generations')
@@ -1140,8 +1222,8 @@ def figure_switchs_3_senarios(n_switches, t_steps_drug):
     axs[0, 1].grid(True)
 
     # Plot the data with drug holidays in the third plot
-    df_total_switch_2.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
-        label=['Frequency OC', 'Frequency OB', 'Frequency MMd','Frequency MMr'], ax=axs[1, 0])
+    df_total_switch_2.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'], label=[\
+    'Frequency OC', 'Frequency OB', 'Frequency MMd','Frequency MMr'], ax=axs[1, 0])
     axs[1, 0].set_xlabel('Generations')
     axs[1, 0].set_ylabel('MM frequency')
     axs[1, 0].set_title(f'Dynamics when drugs are administered in periods of 6 generations')
@@ -1150,23 +1232,26 @@ def figure_switchs_3_senarios(n_switches, t_steps_drug):
     plt.grid(True)
 
     # Plot the data with drug holidays in the fourth plot
-    df_total_switch_3.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
-        label=['Frequency OC', 'Frequency OB', 'Frequency MMd','Frequency MMr'], ax=axs[1, 1])
+    df_total_switch_3.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'], label=[\
+    'Frequency OC', 'Frequency OB', 'Frequency MMd','Frequency MMr'], ax=axs[1, 1])
     axs[1, 1].set_xlabel('Generations')
     axs[1, 1].set_ylabel('MM frequency')
     axs[1, 1].set_title(f'Dynamics when drugs are administered in periods of 10 generations')
     axs[1, 1].legend(loc = 'upper right')
     axs[1, 1].grid(True)
+    save_Figure(plt, 'line_plot_cell_freq_drug_add_periods',
+                                     r'..\visualisation\results_own_model')
     plt.show()
 
-# Create a figure that shows the effect of drug hollidays
-list_t_steps_drug = [8, 6, 10]
-figure_switchs_3_senarios(14, list_t_steps_drug)
+# # Create a figure that shows the effect of drug hollidays
+# list_t_steps_drug = [6, 8, 10]
+# figure_switchs_3_senarios(14, list_t_steps_drug)
 
 
 """ ---------------Optimizing time drug holliday-----------------"""
 
-def mimimal_tumor_freq_t_steps(t_steps, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix_no_drugs, matrix_drugs):
+def mimimal_tumor_freq_t_steps(t_steps, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd,
+                                            cMMr, matrix_no_drugs, matrix_drugs):
     """ Function that makes a dataframe of the xOC, xOB, xMMd and xMMr values over
     time for a given time of a drug holliday.
 
@@ -1207,13 +1292,74 @@ def mimimal_tumor_freq_t_steps(t_steps, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd,
     n_switches = 120 // t_steps
 
     # Create a dataframe of the frequencies
-    df = switch_dataframe(n_switches, t_steps, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix_no_drugs, matrix_drugs)
+    df = switch_dataframe(n_switches, t_steps, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
+                                        cMMd, cMMr, matrix_no_drugs, matrix_drugs)
 
     # Determine the average MM frequency
     last_MM_frequencies = df['total_MM'].tail(t_steps *2)
-    average_MM_frequencies = last_MM_frequencies.sum() / (t_steps *2)
+    average_MM_frequencies = last_MM_frequencies.sum() / (t_steps*2)
 
     return float(average_MM_frequencies)
+
+def figure_drug_holliday():
+    """ Figure that shows the average MM frequency for different drug holliday/
+    administration periods."""
+
+    # Set initial parameter values
+    N = 50
+    cMMr = 1.3
+    cMMd = 1.2
+    cOB = 0.8
+    cOC = 1
+    xOC = 0.2
+    xOB = 0.3
+    xMMd = 0.2
+    xMMr = 0.3
+
+    # Payoff matrix when no drugs are pressent
+    matrix_no_drugs = np.array([
+        [0.0, 1.6, 2.2, 1.9],
+        [1.0, 0.0, -0.5, -0.5],
+        [2.2, 0, 0.2, 0.0],
+        [1.9, 0, -0.785, 0.2]])
+
+    # Payoff matrix when drugs are pressent
+    matrix_drugs = np.array([
+        [0.0, 1.6, 2.2, 1.9],
+        [1.0, 0.0, -0.5, -0.5],
+        [0.7, 0, 0.2, 0.0],
+        [1.9, 0, -0.785, 0.2]])
+
+    t = np.linspace(0, 100, 100)
+
+    # Make a dictionary
+    dict_freq_tumor_t_step = {}
+
+    # Loop over al the t_step values
+    for t_steps in range(2, 20):
+        freq_tumor = mimimal_tumor_freq_t_steps(t_steps, xOC, xOB, xMMd, xMMr, N,
+                            cOC, cOB, cMMd, cMMr, matrix_no_drugs, matrix_drugs)
+        dict_freq_tumor_t_step[t_steps] = freq_tumor
+
+    # Save the data
+    save_data(pd.DataFrame.from_dict(dict_freq_tumor_t_step, orient='index'),
+            'df_cell_freq_best_drug_holliday.csv', r'..\data\data_own_model')
+
+    # Convert the keys and values of the dictionary to lists
+    keys_t_step = list(dict_freq_tumor_t_step.keys())
+    values_MM_frequency = list(dict_freq_tumor_t_step.values())
+
+    # Create a plot
+    plt.plot(keys_t_step, values_MM_frequency, color = 'purple', linestyle='--',
+                                                                    marker = 'o')
+    plt.xlabel('Duration adminstartion and holiday periods')
+    plt.ylabel('Average MM frequency')
+    plt.title('The average MM frequency for different durations of the \
+    GF inhibtor drug adminstartion and holiday periods')
+    plt.grid(True)
+    save_Figure(plt, 'line_plot_cell_freq_best_drug_holliday',
+                                            r'..\visualisation\results_own_model')
+    plt.show()
 
 # Set initial parameter values
 N = 50
@@ -1242,39 +1388,28 @@ matrix_drugs = np.array([
 
 t = np.linspace(0, 100, 100)
 
-# Make a dictionary
-dict_freq_tumor_t_step = {}
-
-# Loop over al the t_step values
-for t_steps in range(2, 20):
-    freq_tumor = mimimal_tumor_freq_t_steps(t_steps, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix_no_drugs, matrix_drugs)
-    dict_freq_tumor_t_step[t_steps] = freq_tumor
-
-# Determine the optimized values
-min_key = min(dict_freq_tumor_t_step, key=dict_freq_tumor_t_step.get)
-min_value = min(dict_freq_tumor_t_step.values())
-print(f'The drug holiday time: {min_key},',f'giving a average MM frequency of {min_value}')
-
-# Convert the keys and values of the dictionary to lists
-keys_t_step = list(dict_freq_tumor_t_step.keys())
-values_MM_frequency = list(dict_freq_tumor_t_step.values())
-
-# Create the plot
-plt.plot(keys_t_step, values_MM_frequency, color = 'purple', linestyle='--', marker = 'o')
-
-# Add labels and title
-plt.xlabel('Duration adminstartion and holiday periods')
-plt.ylabel('Average MM frequency')
-plt.title('The average MM frequency for different durations of the \n GF inhibtor drug adminstartion and holiday periods')
-
-# Show the plot
-plt.grid(True)
-plt.show()
+# # Make a dictionary
+# dict_freq_tumor_t_step = {}
+#
+# # Loop over al the t_step values
+# for t_steps in range(2, 20):
+#     freq_tumor = mimimal_tumor_freq_t_steps(t_steps, xOC, xOB, xMMd, xMMr, N,
+#                             cOC, cOB, cMMd, cMMr, matrix_no_drugs, matrix_drugs)
+#     dict_freq_tumor_t_step[t_steps] = freq_tumor
+#
+# # Determine the optimized values
+# min_key = min(dict_freq_tumor_t_step, key=dict_freq_tumor_t_step.get)
+# min_value = min(dict_freq_tumor_t_step.values())
+# print(f'The drug holiday time: {min_key},',f'giving a average MM frequency of {min_value}')
+#
+# # Make a figure
+# figure_drug_holliday()
 
 """ Best point to stop the giving of GF inhibition drugs"""
-def switch_dataframe(t_steps, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix_no_drugs, matrix_drugs):
+def one_time_switch_dataframe(t_steps, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
+                                                matrix_no_drugs, matrix_drugs):
     """ Function that makes a dataframe of the xOC, xOB, xMMd and xMMr values over
-    time for a given time of a drug holliday.
+    time for a given period that drugs are once administerd.
 
     Parameters:
     -----------
@@ -1320,7 +1455,7 @@ def switch_dataframe(t_steps, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, mat
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_total_switch = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                        'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
 
     # Increase the time
     time += 30
@@ -1344,7 +1479,7 @@ def switch_dataframe(t_steps, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, mat
             # Determine the ODE solutions
             y = odeint(model_dynamics, y0, t, args=parameters)
             df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe tot total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
@@ -1376,7 +1511,7 @@ def switch_dataframe(t_steps, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, mat
             # Determine the ODE solutions
             y = odeint(model_dynamics, y0, t, args=parameters)
             df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe tot total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
@@ -1415,7 +1550,8 @@ matrix_drugs = np.array([
 
 # Loop over the different t step values
 for t_steps in range(2, 30):
-    df = switch_dataframe(t_steps, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix_no_drugs, matrix_drugs)
+    df = one_time_switch_dataframe(t_steps, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
+                                                    matrix_no_drugs, matrix_drugs)
 
     # If the xMMr is larger than xMMd the drug administartion has to stop
     if df['xMMd'].iloc[-1] < df['xMMr'].iloc[-1]:
@@ -1423,6 +1559,230 @@ for t_steps in range(2, 30):
         break
 
 print(f'The generation at which giving drugs that inhibts the GF from OC for MMd has to stop:{t_step_final} ')
+
+""" The effect of the two different drugs """
+def figure_effect_two_drugs():
+    """Function that compares the effect of the two types of drugs"""
+    # Set new start parameter value
+    N = 50
+    cMMr = 1.1
+    cMMd = 1.0
+    cOB = 0.6
+    cOC = 0.8
+    xOC = 0.3
+    xOB = 0.3
+    xMMd = 0.2
+    xMMr = 0.2
+
+    # Payoff matrix
+    matrix = np.array([
+        [0.0, 1.6, 2.2, 2.1],
+        [1.0, 0.0, -0.4, -0.4],
+        [2.2, 0, 0.2, 0],
+        [2.1, 0, -0.7, 0.2]])
+
+    # Initial conditions
+    t = np.linspace(0, 100, 100)
+    y0 = [xOC, xOB, xMMd, xMMr]
+    parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
+
+    # Determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_no_drug = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+                            'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
+
+    # Set new start parameter value
+    xOC = 0.3
+    xOB = 0.3
+    xMMd = 0.2
+    xMMr = 0.2
+
+    # Set initial conditions
+    t = np.linspace(0, 40, 40)
+    y0 = [xOC, xOB, xMMd, xMMr]
+    parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
+
+    # Determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_1 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+                            'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
+
+    # Determine the current frequencies
+    xOC = df_1['xOC'].iloc[-1]
+    xOB = df_1['xOB'].iloc[-1]
+    xMMd = df_1['xMMd'].iloc[-1]
+    xMMr = df_1['xMMr'].iloc[-1]
+
+    MMd_drug_effect_1 = 1.2
+
+    # Initial conditions
+    t = np.linspace(40, 100, 60)
+    y0 = [xOC, xOB, xMMd, xMMr]
+    parameters = (N, cOC, cOB, cMMd, cMMr, matrix, MMd_drug_effect_1)
+
+    # Determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+                            'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
+
+    df_WMMd_inhibitor = pd.concat([df_1, df_2])
+
+    # Set new start parameter value
+    xOC = 0.3
+    xOB = 0.3
+    xMMd = 0.2
+    xMMr = 0.2
+
+    # Initial conditions
+    t = np.linspace(0, 40, 40)
+    y0 = [xOC, xOB, xMMd, xMMr]
+    parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
+
+    # Determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_1 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+                            'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
+
+    # Determine the current frequencies
+    xOC = df_1['xOC'].iloc[-1]
+    xOB = df_1['xOB'].iloc[-1]
+    xMMd = df_1['xMMd'].iloc[-1]
+    xMMr = df_1['xMMr'].iloc[-1]
+
+    # payoff matrix 
+    matrix = np.array([
+        [0.0, 1.6, 2.2, 2.1],
+        [1.0, 0.0, -0.4, -0.4],
+        [1.0, 0, 0.2, 0],
+        [2.1, 0, -0.7, 0.2]])
+
+    # Initial conditions
+    t = np.linspace(40, 100, 60)
+    y0 = [xOC, xOB, xMMd, xMMr]
+    parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
+
+    # Determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+                            'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
+
+    df_GF_inhibitor = pd.concat([df_1, df_2])
+
+    # Set new start parameter value
+    xOC = 0.3
+    xOB = 0.3
+    xMMd = 0.2
+    xMMr = 0.2
+
+    # Payoff matrix
+    matrix = np.array([
+        [0.0, 1.6, 2.2, 2.1],
+        [1.0, 0.0, -0.4, -0.4],
+        [2.2, 0, 0.2, 0],
+        [2.1, 0, -0.7, 0.2]])
+
+    # Initial conditions
+    t = np.linspace(0, 40, 40)
+    y0 = [xOC, xOB, xMMd, xMMr]
+    parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
+
+    # Determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_1 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+                                'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
+
+    # Determine the current frequencies
+    xOC = df_1['xOC'].iloc[-1]
+    xOB = df_1['xOB'].iloc[-1]
+    xMMd = df_1['xMMd'].iloc[-1]
+    xMMr = df_1['xMMr'].iloc[-1]
+
+    # Payoff matrix
+    matrix = np.array([
+        [0.0, 1.6, 2.2, 2.1],
+        [1.0, 0.0, -0.4, -0.4],
+        [1.0, 0, 0.2, 0],
+        [2.1, 0, -0.7, 0.2]])
+
+    # Initial conditions
+    t = np.linspace(40, 100, 60)
+    y0 = [xOC, xOB, xMMd, xMMr]
+    parameters = (N, cOC, cOB, cMMd, cMMr, matrix, MMd_drug_effect_1)
+
+    # Determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+                            'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
+    df_GF_and_WMMd_inhibitor = pd.concat([df_1, df_2])
+
+    # Save the data
+    save_data(df_no_drug, 'df_no_drug.csv', r'..\data\data_own_model')
+    save_data(df_WMMd_inhibitor, 'df_WMMd_inhibitor.csv',
+                                                    r'..\data\data_own_model')
+    save_data(df_GF_inhibitor,'df_GF_inhibitor.csv', r'..\data\data_own_model')
+    save_data(df_GF_and_WMMd_inhibitor, 'df_GF_and_WMMd_inhibitor.csv',
+                                                    r'..\data\data_own_model')
+
+    # Create a figure
+    fig, axs = plt.subplots(2, 2, figsize=(14, 10))
+
+    # Plot the no drug data in the first subplot
+    df_no_drug.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+                        label=['Frequency OC', 'Frequency OB', 'Frequency MMd',
+                                                'Frequency MMr'], ax=axs[0, 0])
+    axs[0, 0].set_xlabel('Generations')
+    axs[0, 0].set_ylabel('Frequency')
+    axs[0, 0].set_title(f'Dynamics when no drugs are administerd')
+    axs[0, 0].legend(loc = 'upper right')
+
+    # Plot the WMMd inhibitor data in the second subplot
+    df_WMMd_inhibitor.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+                         label=['Frequency OC', 'Frequency OB', 'Frequency MMd',
+                                                'Frequency MMr'], ax=axs[0, 1])
+    axs[0, 1].set_xlabel('Generations')
+    axs[0, 1].set_ylabel('Frequency')
+    axs[0, 1].set_title(f'Dynamics when MMd fitness inhibitors are administered')
+    axs[0, 1].legend(loc = 'upper right')
+
+    # Plot the MMd GF inhibitor data in the third subplot
+    df_GF_inhibitor.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+                         label=['Frequency OC', 'Frequency OB', 'Frequency MMd',
+                                                'Frequency MMr'], ax=axs[1, 0])
+    axs[1, 0].set_xlabel('Generations')
+    axs[1, 0].set_ylabel('Frequency')
+    axs[1, 0].set_title(f"""Dynamics when MMd GF inhibitors from OCs are administerd
+    (strength {MMd_drug_effect_1})""")
+    axs[1, 0].legend(loc = 'upper right')
+
+    # Plot the MMd GF inhibitor and WMMd inhibitor data in the fourth subplot
+    df_GF_and_WMMd_inhibitor.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+                        label=['Frequency OC', 'Frequency OB', 'Frequency MMd',
+                                                'Frequency MMr'], ax=axs[1, 1])
+    axs[1, 1].set_xlabel('Generations')
+    axs[1, 1].set_ylabel('Frequency')
+    axs[1, 1].set_title(f"""Dynamics when MMd fitness inhibitors and MMd GF inhibitors
+     from OCs are administerd (strength {MMd_drug_effect_1})""")
+    axs[1, 1].legend(loc = 'upper right')
+    plt.tight_layout()
+    save_Figure(plt, 'line_plot_cell_freq_drug_effect',
+                                            r'..\visualisation\results_own_model')
+    plt.show()
+
+figure_effect_two_drugs()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 def figure_freq_fitness_dynamics_change_N():
@@ -1453,7 +1813,7 @@ def figure_freq_fitness_dynamics_change_N():
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_figure_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
@@ -1470,7 +1830,7 @@ def figure_freq_fitness_dynamics_change_N():
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics_change_N, y0, t, args=parameters)
     df_figure_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
@@ -1548,7 +1908,7 @@ def figure_freq_fitness_dynamics():
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_figure_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
@@ -1565,7 +1925,7 @@ def figure_freq_fitness_dynamics():
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_figure_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
@@ -1641,7 +2001,7 @@ def figure_freq_dynamics():
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_figure_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
@@ -1658,7 +2018,7 @@ def figure_freq_dynamics():
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_figure_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
@@ -1716,7 +2076,7 @@ def figure_interaction_dynamics():
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_figure_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
@@ -1735,7 +2095,7 @@ def figure_interaction_dynamics():
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_figure_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
@@ -1793,7 +2153,7 @@ def figure_freq_dynamics_2():
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_figure_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
@@ -1810,7 +2170,7 @@ def figure_freq_dynamics_2():
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_figure_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
@@ -1867,7 +2227,7 @@ def figure_freq_dynamics_drugs():
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_1 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
@@ -1884,7 +2244,7 @@ def figure_freq_dynamics_drugs():
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix, MMd_drug_effect_1)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
@@ -1902,7 +2262,7 @@ def figure_freq_dynamics_drugs():
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_1 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
@@ -1920,7 +2280,7 @@ def figure_freq_dynamics_drugs():
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix, MMd_drug_effect_2)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
@@ -1936,7 +2296,7 @@ def figure_freq_dynamics_drugs():
                                  'Frequency MMr'], ax=axs[0])
     axs[0].set_xlabel('Generations')
     axs[0].set_ylabel('Frequency')
-    axs[0].set_title(f'Dynamics when drugs are added (strenght {MMd_drug_effect_1})')
+    axs[0].set_title(f'Dynamics when drugs are added (strength {MMd_drug_effect_1})')
     axs[0].legend()
 
     # Plot second line data in the second subplot
@@ -1980,7 +2340,7 @@ def figure_freq_dynamics_drug_strength():
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_1 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
@@ -1997,7 +2357,7 @@ def figure_freq_dynamics_drug_strength():
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix, MMd_drug_effect_1)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
@@ -2015,7 +2375,7 @@ def figure_freq_dynamics_drug_strength():
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix, MMd_drug_effect_1)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_3 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
@@ -2042,7 +2402,7 @@ def figure_freq_dynamics_drug_strength():
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_1 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
@@ -2059,7 +2419,7 @@ def figure_freq_dynamics_drug_strength():
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix, MMd_drug_effect_2)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
@@ -2076,7 +2436,7 @@ def figure_freq_dynamics_drug_strength():
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix, MMd_drug_effect_2)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_3 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
@@ -2102,7 +2462,7 @@ def figure_freq_dynamics_drug_strength():
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_1 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
@@ -2119,7 +2479,7 @@ def figure_freq_dynamics_drug_strength():
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix, MMd_drug_effect_3)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
@@ -2135,7 +2495,7 @@ def figure_freq_dynamics_drug_strength():
                                  'Frequency MMr'], ax=axs[0])
     axs[0].set_xlabel('Generations')
     axs[0].set_ylabel('Frequency')
-    axs[0].set_title(f'Dynamics when drugs are added at G 40\n and stoped at G 90 (strenght 1.5)')
+    axs[0].set_title(f'Dynamics when drugs are added at G 40\n and stoped at G 90 (strength 1.5)')
     axs[0].legend()
 
     # Plot second line data in the second subplot
@@ -2187,7 +2547,7 @@ def figure_freq_dynamics_GF_inhibition():
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_1 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
@@ -2208,7 +2568,7 @@ def figure_freq_dynamics_GF_inhibition():
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
@@ -2233,7 +2593,7 @@ def figure_freq_dynamics_GF_inhibition():
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_1 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
@@ -2255,7 +2615,7 @@ def figure_freq_dynamics_GF_inhibition():
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
@@ -2313,7 +2673,7 @@ def figure_freq_dynamics_GF_inhibition_short():
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_1 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
@@ -2335,7 +2695,7 @@ def figure_freq_dynamics_GF_inhibition_short():
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
@@ -2357,7 +2717,7 @@ def figure_freq_dynamics_GF_inhibition_short():
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_3 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
@@ -2382,7 +2742,7 @@ def figure_freq_dynamics_GF_inhibition_short():
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_1 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
@@ -2404,7 +2764,7 @@ def figure_freq_dynamics_GF_inhibition_short():
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
@@ -2426,7 +2786,7 @@ def figure_freq_dynamics_GF_inhibition_short():
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_3 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
@@ -2448,7 +2808,7 @@ def figure_freq_dynamics_GF_inhibition_short():
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_4 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
@@ -2508,7 +2868,7 @@ def figure_freq_dynamics_decrease_MMd():
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_1 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
@@ -2523,7 +2883,7 @@ def figure_freq_dynamics_decrease_MMd():
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
@@ -2541,7 +2901,7 @@ def figure_freq_dynamics_decrease_MMd():
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_1 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
@@ -2556,7 +2916,7 @@ def figure_freq_dynamics_decrease_MMd():
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
@@ -2616,7 +2976,7 @@ def figure_freq_dynamics_resistance():
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_1 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
@@ -2631,7 +2991,7 @@ def figure_freq_dynamics_resistance():
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
@@ -2646,7 +3006,7 @@ def figure_freq_dynamics_resistance():
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_3 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
