@@ -125,7 +125,7 @@ def fitness_WOB(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix):
     return WOB
 
 def fitness_WMMd(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix,
-                                                            MMd_drug_effect = 0):
+                                                            WMMd_inhibitor = 0):
     """
     Function that calculates the fitness of a drug-senstive MM cell in a population.
 
@@ -151,7 +151,7 @@ def fitness_WMMd(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix,
         Cost parameter drug-sensitive MM cells.
     matrix: Numpy.ndarray
         4x4 matrix containing the interaction factors.
-    MMd_drug_effect: Float
+    WMMd_inhibitor: Float
         The effect of a drug on the drug-sensitive MM cells
 
     Returns:
@@ -175,7 +175,7 @@ def fitness_WMMd(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix,
     l = matrix[2, 3]
 
     # Calculate the fitness value
-    WMMd = (i*xOC*cOC + j*xOB*cOB + k*xMMd*cMMd + l* xMMr*cMMr - MMd_drug_effect \
+    WMMd = (i*xOC*cOC + j*xOB*cOB + k*xMMd*cMMd + l* xMMr*cMMr - WMMd_inhibitor \
                                                         * cMMd)*(N - 1)/N - cMMd
     return WMMd
 
@@ -230,7 +230,7 @@ def fitness_WMMr(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix):
     WMMr = (m*xOC*cOC + n*xOB*cOB + o*xMMd*cMMd + p* xMMr*cMMr)*(N - 1)/N - cMMr
     return WMMr
 
-def model_dynamics(y, t, N, cOC, cOB, cMMd, cMMr, matrix, MMd_drug_effect = 0):
+def model_dynamics(y, t, N, cOC, cOB, cMMd, cMMr, matrix, WMMd_inhibitor = 0):
     """Determines the frequenty dynamics in a population over time.
 
     Parameters:
@@ -251,7 +251,7 @@ def model_dynamics(y, t, N, cOC, cOB, cMMd, cMMr, matrix, MMd_drug_effect = 0):
         Cost parameter drug-sensitive MM cells.
     matrix: Numpy.ndarray
         4x4 matrix containing the interaction factors.
-    MMd_drug_effect: Float
+    WMMd_inhibitor: Float
         The effect of a drug on the drug-sensitive MM cells.
 
     Returns:
@@ -265,7 +265,7 @@ def model_dynamics(y, t, N, cOC, cOB, cMMd, cMMr, matrix, MMd_drug_effect = 0):
     WOC = fitness_WOC(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix)
     WOB = fitness_WOB(xOC, xOB, xMMd, xMMr,  N, cOC, cOB, cMMd, cMMr, matrix)
     WMMd = fitness_WMMd(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix,
-                                                                MMd_drug_effect)
+                                                                WMMd_inhibitor)
     WMMr = fitness_WMMr(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix)
 
     # Determine the average fitness
@@ -415,7 +415,7 @@ def freq_to_fitness_values_change_N(dataframe_frequencies, N, cOC, cOB, cMMd,
     return(dataframe_fitness)
 
 def freq_to_fitness_values(dataframe_frequencies, N, cOC, cOB, cMMd, cMMr, matrix,
-                                                            MMd_drug_effect = 0):
+                                                            WMMd_inhibitor = 0):
     """Function that determines the fitness values of the OCs, OBs, MMd and MMr
     based on their frequencies on every time point. It also calculates the
     average fitness.
@@ -437,7 +437,7 @@ def freq_to_fitness_values(dataframe_frequencies, N, cOC, cOB, cMMd, cMMr, matri
         Cost parameter drug-sensitive MM cells.
     matrix: Numpy.ndarray
         4x4 matrix containing the interaction factors.
-    MMd_drug_effect: Float
+    WMMd_inhibitor: Float
         The effect of a drug on the drug-sensitive MM cells
 
     Returns:
@@ -466,7 +466,7 @@ def freq_to_fitness_values(dataframe_frequencies, N, cOC, cOB, cMMd, cMMr, matri
         WOC = fitness_WOC(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix)
         WOB = fitness_WOB(xOC, xOB, xMMd, xMMr,  N, cOC, cOB, cMMd, cMMr, matrix)
         WMMd = fitness_WMMd(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix,
-                                                                MMd_drug_effect)
+                                                                WMMd_inhibitor)
         WMMr = fitness_WMMr(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix)
 
         # Determine the average fitness
@@ -700,19 +700,19 @@ print("Optimal value for b_OC_MMd:", optimal_b_OC_MMd,
                                             ',gives tumor frequency:', result.fun)
 
 # Make a figure
-figure_optimal_b_OC_MMd()
+# figure_optimal_b_OC_MMd()
 
 
 """Determine the best drug effect value for high and low cOB and cOC values
 --------------------------------------------------------------------------------"""
-def mimimal_tumor_freq_dev(MMd_drug_effect, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd,
-                                            cMMr, matrix, t, MMd_drug_effect_array):
+def mimimal_tumor_freq_dev(WMMd_inhibitor, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd,
+                                            cMMr, matrix, t, WMMd_inhibitor_array):
     """Function that determines the fraction of the population being MM for a
     specific wMMd drug inhibitor value.
 
     Parameters:
     -----------
-    MMd_drug_effect: Float
+    WMMd_inhibitor: Float
         Streght of the drugs that inhibits the cMMd.
     xOC: Float
         Frequency of OCs.
@@ -736,21 +736,21 @@ def mimimal_tumor_freq_dev(MMd_drug_effect, xOC, xOB, xMMd, xMMr, N, cOC, cOB, c
         4x4 matrix containing the interaction factors.
     t: Numpy.ndarray
         Array with all the time points.
-    MMd_drug_effect_array: Float
-        If True MMd_drug_effect is an array and if False MMd_drug_effect is a float.
+    WMMd_inhibitor_array: Float
+        If True WMMd_inhibitor is an array and if False WMMd_inhibitor is a float.
 
     Returns:
     --------
     last_MM_frequency: Float
         The total MM frequency.
     """
-    # Determine if MMd_drug_effect is an array
-    if MMd_drug_effect_array == True:
-        MMd_drug_effect = MMd_drug_effect[0]
+    # Determine if WMMd_inhibitor is an array
+    if WMMd_inhibitor_array == True:
+        WMMd_inhibitor = WMMd_inhibitor[0]
 
     # Set initial conditions
     y0 = [xOC, xOB, xMMd, xMMr]
-    parameters = (N, cOC, cOB, cMMd, cMMr, matrix, MMd_drug_effect)
+    parameters = (N, cOC, cOB, cMMd, cMMr, matrix, WMMd_inhibitor)
 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
@@ -789,12 +789,12 @@ def figure_drug_cost():
     # Make a dictionary
     dict_freq_tumor_high_c = {}
 
-    # Loop over the different MMd_drug_effect values
-    for MMd_drug_effect in range(3000):
-        MMd_drug_effect = MMd_drug_effect/1000
-        freq_tumor = mimimal_tumor_freq_dev(MMd_drug_effect, xOC, xOB, xMMd, xMMr,
+    # Loop over the different WMMd_inhibitor values
+    for WMMd_inhibitor in range(3000):
+        WMMd_inhibitor = WMMd_inhibitor/1000
+        freq_tumor = mimimal_tumor_freq_dev(WMMd_inhibitor, xOC, xOB, xMMd, xMMr,
                                         N, cOC, cOB, cMMd, cMMr, matrix, t, False)
-        dict_freq_tumor_high_c[MMd_drug_effect] = freq_tumor
+        dict_freq_tumor_high_c[WMMd_inhibitor] = freq_tumor
 
     # Save the data
     save_dictionary(dict_freq_tumor_high_c,
@@ -809,12 +809,12 @@ def figure_drug_cost():
     cOC = 0.9
     dict_freq_tumor_low_c = {}
 
-    # Loop over the different MMd_drug_effect values
-    for MMd_drug_effect in range(3000):
-        MMd_drug_effect = MMd_drug_effect/1000
-        freq_tumor = mimimal_tumor_freq_dev(MMd_drug_effect, xOC, xOB, xMMd, xMMr,
+    # Loop over the different WMMd_inhibitor values
+    for WMMd_inhibitor in range(3000):
+        WMMd_inhibitor = WMMd_inhibitor/1000
+        freq_tumor = mimimal_tumor_freq_dev(WMMd_inhibitor, xOC, xOB, xMMd, xMMr,
                                         N, cOC, cOB, cMMd, cMMr, matrix, t, False)
-        dict_freq_tumor_low_c[MMd_drug_effect] = freq_tumor
+        dict_freq_tumor_low_c[WMMd_inhibitor] = freq_tumor
 
     # Save the data
     save_dictionary(dict_freq_tumor_low_c,
@@ -872,36 +872,36 @@ t = np.linspace(0, 100, 100)
 dev_start = 0.3
 
 # Perform the optimization
-result_high = minimize(mimimal_tumor_freq_dev, dev_start, args = (xOC, xOB, xMMd, xMMr,
-N, cOC, cOB, cMMd, cMMr, matrix, t, True), bounds=[(0, 0.8)], method='Nelder-Mead')
-
-# Retrieve the optimal value
-optimal_dev_high = result_high.x
-print("Optimal value for drug effect:", optimal_dev_high,', gives tumor frequency:',
-                                                                    result_high.fun)
-
-# Set new cOB and cOC values
-cOB = 0.8
-cOC = 0.9
-
-# Perform the optimization
-result_low = minimize(mimimal_tumor_freq_dev, dev_start, args = (xOC, xOB, xMMd,
-                xMMr, N, cOC, cOB, cMMd, cMMr, matrix, t, True), bounds=[(0, 3)])
-
-# Retrieve the optimal value
-optimal_dev_low= result_low.x
-print("Optimal value for drug effect:", optimal_dev_low,', gives tumor frequency:',
-                                                                    result_low.fun)
-
-# Make a figure
-figure_drug_cost()
+# result_high = minimize(mimimal_tumor_freq_dev, dev_start, args = (xOC, xOB, xMMd, xMMr,
+# N, cOC, cOB, cMMd, cMMr, matrix, t, True), bounds=[(0, 0.8)], method='Nelder-Mead')
+#
+# # Retrieve the optimal value
+# optimal_dev_high = result_high.x
+# print("Optimal value for drug effect:", optimal_dev_high,', gives tumor frequency:',
+#                                                                     result_high.fun)
+#
+# # Set new cOB and cOC values
+# cOB = 0.8
+# cOC = 0.9
+#
+# # Perform the optimization
+# result_low = minimize(mimimal_tumor_freq_dev, dev_start, args = (xOC, xOB, xMMd,
+#                 xMMr, N, cOC, cOB, cMMd, cMMr, matrix, t, True), bounds=[(0, 3)])
+#
+# # Retrieve the optimal value
+# optimal_dev_low= result_low.x
+# print("Optimal value for drug effect:", optimal_dev_low,', gives tumor frequency:',
+#                                                                     result_low.fun)
+#
+# # Make a figure
+# figure_drug_cost()
 
 
 """-------------------Effet AT therapy-------------------------------"""
 def switch_dataframe(n_switches, t_steps, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd,
-                                            cMMr, matrix_no_drugs, matrix_drugs):
+                        cMMr, matrix_no_drugs, matrix_drugs, WMMd_inhibitor = 0):
     """ Function that makes a dataframe of the xOC, xOB, xMMd and xMMr values over
-    time for a given time of drug holliday and administration periods.
+    time for a given time of drug holiday and administration periods.
 
     Parameters:
     -----------
@@ -932,6 +932,8 @@ def switch_dataframe(n_switches, t_steps, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMM
         4x4 matrix containing the interaction factors when no drugs are administrated.
     matrix_drugs: Numpy.ndarray
         4x4 matrix containing the interaction factors when drugs are administrated.
+    WMMd_inhibitor: Float
+        The effect of a drug on the drug-sensitive MM cells.
 
     Returns:
     --------
@@ -972,7 +974,7 @@ def switch_dataframe(n_switches, t_steps, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMM
 
             t = np.linspace(time, time + t_steps , t_steps)
             y0 = [xOC, xOB, xMMd, xMMr]
-            parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
+            parameters = (N, cOC, cOB, cMMd, cMMr, matrix, WMMd_inhibitor)
 
             # Determine the ODE solutions
             y = odeint(model_dynamics, y0, t, args=parameters)
@@ -1017,8 +1019,8 @@ def switch_dataframe(n_switches, t_steps, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMM
 
     return df_total_switch
 
-def figure_switchs_3_senarios(n_switches, t_steps_drug):
-    """ Function that makes a figure that shows the effect of drug hollidays.
+def figure_3_senarios_MMd_GF_IH(n_switches, t_steps_drug):
+    """ Function that makes a figure that shows the effect of drug holidays.
 
     Parameters:
     -----------
@@ -1140,16 +1142,16 @@ def figure_switchs_3_senarios(n_switches, t_steps_drug):
                                      r'..\visualisation\results_own_model')
     plt.show()
 
-# Create a figure that shows the effect of drug hollidays
-list_t_steps_drug = [6, 8, 10]
-figure_switchs_3_senarios(14, list_t_steps_drug)
+# Create a figure that shows the effect of drug holidays
+# list_t_steps_drug = [6, 8, 10]
+# figure_3_senarios_MMd_GF_IH(14, list_t_steps_drug)
 
 
-""" ---------------Optimizing time drug holliday-----------------"""
+""" ---------------Optimizing time drug holiday-----------------"""
 def mimimal_tumor_freq_t_steps(t_steps, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd,
                                             cMMr, matrix_no_drugs, matrix_drugs):
     """ Function that makes a dataframe of the xOC, xOB, xMMd and xMMr values over
-    time for a given time of a drug holliday.
+    time for a given time of a drug holiday.
 
     Parameters:
     -----------
@@ -1197,8 +1199,8 @@ def mimimal_tumor_freq_t_steps(t_steps, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd,
 
     return float(average_MM_frequencies)
 
-def figure_drug_holliday():
-    """ Figure that shows the average MM frequency for different drug holliday and
+def figure_drug_holiday():
+    """ Figure that shows the average MM frequency for different drug holiday and
     administration periods."""
 
     # Set initial parameter values
@@ -1239,7 +1241,7 @@ def figure_drug_holliday():
 
     # Save the data
     save_dictionary(dict_freq_tumor_t_step,
-                r'..\data\data_own_model\dict_cell_freq_best_drug_holliday.csv')
+                r'..\data\data_own_model\dict_cell_freq_best_drug_holiday.csv')
 
     # Convert the keys and values of the dictionary to lists
     keys_t_step = list(dict_freq_tumor_t_step.keys())
@@ -1253,7 +1255,7 @@ def figure_drug_holliday():
     plt.title("""Average MM frequency with varing GF inhibitor
     administration and holiday periods""")
     plt.grid(True)
-    save_Figure(plt, 'line_plot_cell_freq_best_drug_holliday',
+    save_Figure(plt, 'line_plot_cell_freq_best_drug_holiday',
                                             r'..\visualisation\results_own_model')
     plt.show()
 
@@ -1288,18 +1290,18 @@ t = np.linspace(0, 100, 100)
 dict_freq_tumor_t_step = {}
 
 # Loop over al the t_step values
-for t_steps in range(2, 20):
-    freq_tumor = mimimal_tumor_freq_t_steps(t_steps, xOC, xOB, xMMd, xMMr, N,
-                            cOC, cOB, cMMd, cMMr, matrix_no_drugs, matrix_drugs)
-    dict_freq_tumor_t_step[t_steps] = freq_tumor
-
-# Determine the optimized values
-min_key = min(dict_freq_tumor_t_step, key=dict_freq_tumor_t_step.get)
-min_value = min(dict_freq_tumor_t_step.values())
-print(f'The drug holiday time: {min_key},',f'giving a average MM frequency of {min_value}')
-
-# # Make a figure
-figure_drug_holliday()
+# for t_steps in range(2, 20):
+#     freq_tumor = mimimal_tumor_freq_t_steps(t_steps, xOC, xOB, xMMd, xMMr, N,
+#                             cOC, cOB, cMMd, cMMr, matrix_no_drugs, matrix_drugs)
+#     dict_freq_tumor_t_step[t_steps] = freq_tumor
+#
+# # Determine the optimized values
+# min_key = min(dict_freq_tumor_t_step, key=dict_freq_tumor_t_step.get)
+# min_value = min(dict_freq_tumor_t_step.values())
+# print(f'The drug holiday time: {min_key},',f'giving a average MM frequency of {min_value}')
+#
+# # # Make a figure
+# figure_drug_holiday()
 
 """ Best point to stop the giving of GF inhibition drugs"""
 def one_time_switch_dataframe(t_steps, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd,
@@ -1444,18 +1446,18 @@ matrix_drugs = np.array([
     [0.7, 0, 0.2, 0.0],
     [2.0, 0, -0.785, 0.2]])
 
-# Loop over the different t step values
-for t_steps in range(2, 30):
-    df = one_time_switch_dataframe(t_steps, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
-                                    cMMd, cMMr, matrix_no_drugs, matrix_drugs)
-
-    # If the xMMr is larger than xMMd the drug administartion has to stop
-    if df['xMMd'].iloc[-1] < df['xMMr'].iloc[-1]:
-        t_step_final = t_steps -1
-        break
-
-print(f"""The generation at which giving drugs that inhibts the GF from
-OC for MMd has to stop:{t_step_final}""")
+# # Loop over the different t step values
+# for t_steps in range(2, 30):
+#     df = one_time_switch_dataframe(t_steps, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
+#                                     cMMd, cMMr, matrix_no_drugs, matrix_drugs)
+#
+#     # If the xMMr is larger than xMMd the drug administartion has to stop
+#     if df['xMMd'].iloc[-1] < df['xMMr'].iloc[-1]:
+#         t_step_final = t_steps -1
+#         break
+#
+# print(f"""The generation at which giving drugs that inhibts the GF from
+# OC for MMd has to stop:{t_step_final}""")
 
 
 """ The effect of the two different drugs """
@@ -1511,12 +1513,12 @@ def figure_effect_two_drugs():
     xMMd = df_1['xMMd'].iloc[-1]
     xMMr = df_1['xMMr'].iloc[-1]
 
-    MMd_drug_effect_1 = 1.0
+    WMMd_inhibitor_1 = 1.0
 
     # Initial conditions
     t = np.linspace(25, 100, 75)
     y0 = [xOC, xOB, xMMd, xMMr]
-    parameters = (N, cOC, cOB, cMMd, cMMr, matrix, MMd_drug_effect_1)
+    parameters = (N, cOC, cOB, cMMd, cMMr, matrix, WMMd_inhibitor_1)
 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
@@ -1605,7 +1607,7 @@ def figure_effect_two_drugs():
     # Initial conditions
     t = np.linspace(25, 100, 75)
     y0 = [xOC, xOB, xMMd, xMMr]
-    parameters = (N, cOC, cOB, cMMd, cMMr, matrix, MMd_drug_effect_1)
+    parameters = (N, cOC, cOB, cMMd, cMMr, matrix, WMMd_inhibitor_1)
 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
@@ -1668,126 +1670,13 @@ def figure_effect_two_drugs():
     save_Figure(plt, 'line_plot_cell_freq_drug_effect',
                                             r'..\visualisation\results_own_model')
     plt.show()
-
-figure_effect_two_drugs()
+#
+# figure_effect_two_drugs()
 
 """-------------------Effet AT therapy-------------------------------"""
-def switch_dataframe(n_switches, t_steps, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd,
-                                            cMMr, matrix, MMd_drug_effect):
-    """ Function that makes a dataframe of the xOC, xOB, xMMd and xMMr values over
-    time for a given drug holliday and administartion period.
-
-    Parameters:
-    -----------
-    n_switches: Int
-        The number of switches between giving drugs and not giving drugs.
-    t_steps: Int
-        The number of time steps drugs are administared and the breaks are for
-        the different figures.
-    xOC: Float
-        Frequency of OCs.
-    xOB: Float
-        Frequency of OBs.
-    xMMr: Float
-        Frequency of the resistant MM cells.
-    xMMd: Float
-        Frequency of the drug-sensitive MM cells.
-    N: Int
-        Number of cells in the difussion range.
-    cOC: Float
-        Cost parameter OCs.
-    cOB: float
-        Cost parameter OBs.
-    cMMr: Float
-        Cost parameter resistant MM cells.
-    cMMd: Float
-        Cost parameter drug-sensitive MM cells.
-    matrix: Numpy.ndarray
-        4x4 matrix containing the interaction factors.
-    MMd_drug_effect: Float
-        The effect of a drug on the drug-sensitive MM cells.
-
-    Returns:
-    --------
-    df_total_switch: Dataframe
-        Dataframe with the xOC, xOB, xMMd and xMMr values over time.
-    """
-    # Set start values
-    x = 0
-    time = 0
-    df_total_switch = pd.DataFrame()
-
-    t = np.linspace(0, t_steps, t_steps*2)
-    y0 = [xOC, xOB, xMMd, xMMr]
-    parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
-
-    # Determine the ODE solutions
-    y = odeint(model_dynamics, y0, t, args=parameters)
-    df_total_switch = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                    'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
-
-    # Increase the time
-    time += t_steps
-
-    # Perform a numver of switches
-    for i in range(n_switches):
-
-        # If x = 0 make sure the MMd is inhibited
-        if x == 0:
-
-            # Determine the start frequency values
-            xOC = df_total_switch['xOC'].iloc[-1]
-            xOB = df_total_switch['xOB'].iloc[-1]
-            xMMd = df_total_switch['xMMd'].iloc[-1]
-            xMMr = df_total_switch['xMMr'].iloc[-1]
-
-            t = np.linspace(time, time + t_steps , t_steps)
-            y0 = [xOC, xOB, xMMd, xMMr]
-            parameters = (N, cOC, cOB, cMMd, cMMr, matrix, MMd_drug_effect)
-
-            # Determine the ODE solutions
-            y = odeint(model_dynamics, y0, t, args=parameters)
-            df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
-
-            # Add dataframe tot total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
-            df_total_switch.reset_index(drop=True, inplace=True)
-
-            # Change the x and time value
-            x = 1
-            time += t_steps
-
-        # If x = 1 make sure the MMd is not inhibited
-        else:
-            # Determine the start frequency values
-            xOC = df_total_switch['xOC'].iloc[-1]
-            xOB = df_total_switch['xOB'].iloc[-1]
-            xMMd = df_total_switch['xMMd'].iloc[-1]
-            xMMr = df_total_switch['xMMr'].iloc[-1]
-
-            t = np.linspace(time, time + t_steps , t_steps)
-            y0 = [xOC, xOB, xMMd, xMMr]
-            parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
-
-            # Determine the ODE solutions
-            y = odeint(model_dynamics, y0, t, args=parameters)
-            df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
-
-            # Add dataframe tot total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
-            df_total_switch.reset_index(drop=True, inplace=True)
-
-            # Change the x and time value
-            x = 0
-            time += t_steps
-
-    return df_total_switch
-
-def figure_switchs_3_senarios(n_switches, t_steps_drug):
+def figure_3_senarios_WMMd_IH(n_switches, t_steps_drug):
     """ Function that makes a figure that shows the effect of the time of a
-    drug holliday and administration period.
+    drug holiday and administration period.
 
     Parameters:
     -----------
@@ -1815,15 +1704,15 @@ def figure_switchs_3_senarios(n_switches, t_steps_drug):
         [2.4, 0, 0.2, 0.0],
         [1.8, 0, -0.754, 0.2]])
 
-    MMd_drug_effect = 1.33
+    WMMd_inhibitor = 1.33
 
     # Make dataframe for the different drug hollyday duration values
     df_total_switch_1 = switch_dataframe(n_switches, t_steps_drug[0], xOC, xOB,
-            xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix, MMd_drug_effect)
+            xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix, matrix, WMMd_inhibitor)
     df_total_switch_2 = switch_dataframe(n_switches, t_steps_drug[1], xOC, xOB,
-            xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix, MMd_drug_effect)
+            xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix, matrix, WMMd_inhibitor)
     df_total_switch_3 = switch_dataframe(n_switches, t_steps_drug[2], xOC, xOB,
-            xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix, MMd_drug_effect)
+            xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix, matrix, WMMd_inhibitor)
 
 
     t = np.linspace(0, 20, 20)
@@ -1843,7 +1732,7 @@ def figure_switchs_3_senarios(n_switches, t_steps_drug):
 
     t = np.linspace(20, 100, 80)
     y0 = [xOC, xOB, xMMd, xMMr]
-    parameters = (N, cOC, cOB, cMMd, cMMr, matrix, MMd_drug_effect)
+    parameters = (N, cOC, cOB, cMMd, cMMr, matrix, WMMd_inhibitor)
 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
@@ -1906,9 +1795,9 @@ def figure_switchs_3_senarios(n_switches, t_steps_drug):
                                      r'..\visualisation\results_own_model')
     plt.show()
 
-# Create a figure that shows the effect of drug hollidays
-list_t_steps_drug = [8, 10, 12]
-figure_switchs_3_senarios(10, list_t_steps_drug)
+# Create a figure that shows the effect of drug holidays
+# list_t_steps_drug = [8, 10, 12]
+# figure_3_senarios_WMMd_IH(10, list_t_steps_drug)
 
 
 
@@ -1996,9 +1885,9 @@ def figure_freq_fitness_dynamics():
 
     # Initial conditions
     t = np.linspace(25, 100, 75)
-    MMd_drug_effect =  1.2
+    WMMd_inhibitor =  1.2
     y0 = [xOC, xOB, xMMd, xMMr]
-    parameters = (N, cOC, cOB, cMMd, cMMr, matrix_no_drugs, MMd_drug_effect)
+    parameters = (N, cOC, cOB, cMMd, cMMr, matrix_no_drugs, WMMd_inhibitor)
 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
@@ -2012,7 +1901,7 @@ def figure_freq_fitness_dynamics():
     df_fitness_WMMd_inhibition_1 = freq_to_fitness_values(df_1_WMMd_inhibition, N,
                                           cOC, cOB, cMMd, cMMr, matrix_no_drugs)
     df_fitness_WMMd_inhibition_2 = freq_to_fitness_values(df_2_WMMd_inhibition, N,
-                         cOC, cOB, cMMd, cMMr, matrix_no_drugs, MMd_drug_effect)
+                         cOC, cOB, cMMd, cMMr, matrix_no_drugs, WMMd_inhibitor)
     df_fitness_WMMd_inhibition = pd.concat([df_fitness_WMMd_inhibition_1,
                                 df_fitness_WMMd_inhibition_2], ignore_index=True)
 
@@ -2082,14 +1971,392 @@ def figure_freq_fitness_dynamics():
                                      r'..\visualisation\results_own_model')
     plt.show()
 
-figure_freq_fitness_dynamics()
+# figure_freq_fitness_dynamics()
 
 
+""" AT therapy multidrug combinations """
+# def figure_3_senarios_MMd_GF_WMMd_IH(n_switches, t_steps_drug):
+#     """ Function that makes a figure that shows the effect of drug holidays.
+#
+#     Parameters:
+#     -----------
+#     n_switches: Int
+#         The number of switches between giving drugs and not giving drugs.
+#     t_steps_drug: List
+#         List with the number of time steps drugs are administared and the breaks
+#         are for the different figures.
+#     """
+#     # Set start parameter values
+#     N = 50
+#     cMMr = 1.3
+#     cMMd = 1.2
+#     cOB = 0.8
+#     cOC = 1
+#     xOC = 0.3
+#     xOB = 0.2
+#     xMMd = 0.2
+#     xMMr = 0.3
+#
+#     # Payoff matrices
+#     matrix_no_drugs = np.array([
+#         [0.0, 1.6, 2.2, 1.9],
+#         [1.0, 0.0, -0.5, -0.5],
+#         [2.2, 0, 0.2, 0.0],
+#         [1.9, 0, -0.75, 0.2]])
+#
+#     matrix_drugs = np.array([
+#         [0.0, 1.6, 2.2, 1.9],
+#         [1.0, 0.0, -0.5, -0.5],
+#         [0.64, 0, 0.2, 0.0],
+#         [1.9, 0, -0.8, 0.2]])
+#
+#     matrix_no_drugs1 = np.array([
+#         [0.0, 1.6, 2.2, 1.9],
+#         [1.0, 0.0, -0.5, -0.5],
+#         [2.2, 0, 0.2, 0.0],
+#         [1.9, 0, -0.8, 0.2]])
+#
+#     matrix_drugs1 = np.array([
+#         [0.0, 1.6, 2.2, 1.9],
+#         [1.0, 0.0, -0.5, -0.5],
+#         [1.42, 0, 0.2, 0.0],
+#         [1.9, 0, -1.15, 0.2]])
+#
+#     WMMd_inhibitor = 1.08
+#     WMMd_inhibitor1 = 0.54
+#
+#     # Make dataframe for the different drug hollyday duration values
+#     df_total_switch_1 = switch_dataframe(n_switches, t_steps_drug[0], xOC, xOB,
+#             xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix_no_drugs, matrix_drugs)
+#     df_total_switch_2 = switch_dataframe(n_switches, t_steps_drug[1], xOC, xOB,
+#             xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix_no_drugs, matrix_no_drugs, WMMd_inhibitor)
+#     df_total_switch_3 = switch_dataframe(n_switches, t_steps_drug[2], xOC, xOB,
+#             xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix_no_drugs1, matrix_drugs1, WMMd_inhibitor1)
+#
+#     t = np.linspace(0, 20, 20)
+#     y0 = [xOC, xOB, xMMd, xMMr]
+#     parameters = (N, cOC, cOB, cMMd, cMMr, matrix_no_drugs)
+#
+#     # Determine the ODE solutions
+#     y = odeint(model_dynamics, y0, t, args=parameters)
+#     df_1 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
+#                 'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
+#
+#     # Determine the current frequencies
+#     xOC = df_1['xOC'].iloc[-1]
+#     xOB = df_1['xOB'].iloc[-1]
+#     xMMd = df_1['xMMd'].iloc[-1]
+#     xMMr = df_1['xMMr'].iloc[-1]
+#
+#     t = np.linspace(20, 100, 80)
+#     y0 = [xOC, xOB, xMMd, xMMr]
+#     parameters = (N, cOC, cOB, cMMd, cMMr, matrix_drugs)
+#
+#     # Determine the ODE solutions
+#     y = odeint(model_dynamics, y0, t, args=parameters)
+#     df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
+#                 'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
+#
+#     # Combine the dataframes
+#     df_total = pd.concat([df_1, df_2])
+#
+#     # Save the data
+#     save_dataframe(df_total_switch_1, 'df_cell_freq_G6_MMd_GF_inhibit.csv',
+#                                                      r'..\data\data_own_model')
+#     save_dataframe(df_total_switch_2, 'df_cell_freq_G8_MMd_GF_inhibit.csv',
+#                                                      r'..\data\data_own_model')
+#     save_dataframe(df_total_switch_3, 'df_cell_freq_G12_MMd_GF_inhibit.csv',
+#                                                      r'..\data\data_own_model')
+#     save_dataframe(df_total, 'df_cell_freq_MMd_GF_inhibit_contineously.csv',
+#                                                      r'..\data\data_own_model')
+#
+#     # Create a figure
+#     fig, axs = plt.subplots(2, 2, figsize=(16, 10))
+#
+#     # Plot the data without drug holidays in the first plot
+#     df_total.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'], label=[ \
+#     'Frequency OC', 'Frequency OB', 'Frequency MMd','Frequency MMr'], ax=axs[0, 0])
+#     axs[0, 0].set_xlabel(' ')
+#     axs[0, 0].set_ylabel('MM frequency')
+#     axs[0, 0].set_title(f'Dynamics when MMd GF inhibitors are administered contineously')
+#     axs[0, 0].legend(loc = 'upper right')
+#     axs[0, 0].grid(True)
+#
+#     # Plot the data with drug holidays in the second plot
+#     df_total_switch_1.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'], label=[\
+#     'Frequency OC', 'Frequency OB', 'Frequency MMd','Frequency MMr'], ax=axs[0, 1])
+#     axs[0, 1].set_xlabel(' ')
+#     axs[0, 1].set_ylabel('MM frequency')
+#     axs[0, 1].set_title(f'Dynamics when MMd GF inhibitors are administered every 6 generations')
+#     axs[0, 1].legend(loc = 'upper right')
+#     axs[0, 1].grid(True)
+#
+#     # Plot the data with drug holidays in the third plot
+#     df_total_switch_2.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'], label=[\
+#     'Frequency OC', 'Frequency OB', 'Frequency MMd','Frequency MMr'], ax=axs[1, 0])
+#     axs[1, 0].set_xlabel('Generations')
+#     axs[1, 0].set_ylabel('MM frequency')
+#     axs[1, 0].set_title(f'Dynamics when MMd GF inhibitors are administered every 8 generations')
+#     axs[1, 0].legend(loc = 'upper right')
+#     axs[1, 0].grid(True)
+#     plt.grid(True)
+#
+#     # Plot the data with drug holidays in the fourth plot
+#     df_total_switch_3.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'], label=[\
+#     'Frequency OC', 'Frequency OB', 'Frequency MMd','Frequency MMr'], ax=axs[1, 1])
+#     axs[1, 1].set_xlabel('Generations')
+#     axs[1, 1].set_ylabel('MM frequency')
+#     axs[1, 1].set_title(f'Dynamics when MMd GF inhibitors are administered every 10 generations')
+#     axs[1, 1].legend(loc = 'upper right')
+#     axs[1, 1].grid(True)
+#     save_Figure(plt, 'line_plot_cell_freq_MMd_GF_inhibit',
+#                                      r'..\visualisation\results_own_model')
+#     plt.show()
+#
+# # Create a figure that shows the effect of drug holidays
+# list_t_steps_drug = [10, 10, 10]
+# figure_3_senarios_MMd_GF_WMMd_IH(10, list_t_steps_drug)
 
+def figure_3_senarios_MMd_GF_WMMd_IH(n_switches, t_steps_drug):
+    """ Function that makes a figure that shows the effect of drug holidays.
 
+    Parameters:
+    -----------
+    n_switches: Int
+        The number of switches between giving drugs and not giving drugs.
+    t_steps_drug: List
+        List with the number of time steps drugs are administared and the breaks
+        are for the different figures.
+    """
+    # Set start parameter values
+    N = 50
+    cMMr = 1.3
+    cMMd = 1.2
+    cOB = 0.8
+    cOC = 1
+    xOC = 0.3
+    xOB = 0.2
+    xMMd = 0.2
+    xMMr = 0.3
 
+    # Payoff matrices
+    matrix_no_drugs = np.array([
+        [0.0, 1.6, 2.2, 1.9],
+        [1.0, 0.0, -0.5, -0.5],
+        [2.2, 0, 0.2, 0.0],
+        [1.9, 0, -0.8, 0.2]])
 
+    matrix_drugs = np.array([
+        [0.0, 1.6, 2.2, 1.9],
+        [1.0, 0.0, -0.5, -0.5],
+        [0.64, 0, 0.2, 0.0],
+        [1.9, 0, -0.8, 0.2]])
 
+    matrix_drugs_half = np.array([
+        [0.0, 1.6, 2.2, 1.9],
+        [1.0, 0.0, -0.5, -0.5],
+        [1.42, 0, 0.2, 0.0],
+        [1.9, 0, -1.0, 0.2]])
+
+    WMMd_inhibitor = 1.08
+    WMMd_inhibitor_half = 0.54
+
+    # Make dataframe for the different drug hollyday duration values
+    df_total_switch_1 = switch_dataframe(n_switches, t_steps_drug[0], xOC, xOB,
+            xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix_no_drugs, matrix_drugs)
+    df_total_switch_2 = switch_dataframe(n_switches, t_steps_drug[1], xOC, xOB,
+                            xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix_no_drugs,
+                                                matrix_no_drugs, WMMd_inhibitor)
+    df_total_switch_3 = switch_dataframe(n_switches, t_steps_drug[2], xOC, xOB,
+                            xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix_no_drugs,
+                                        matrix_drugs_half, WMMd_inhibitor_half)
+
+    # Save the data
+    save_dataframe(df_total_switch_1, 'df_cell_freq_G15_MMd_GF_IH.csv',
+                                                     r'..\data\data_own_model')
+    save_dataframe(df_total_switch_2, 'df_cell_freq_G15_WMMd_IH.csv',
+                                                     r'..\data\data_own_model')
+    save_dataframe(df_total_switch_3, 'df_cell_freq_G15_MMd_GF_WMMd_IH.csv',
+                                                     r'..\data\data_own_model')
+
+    # Create a figure
+    fig, axs = plt.subplots(3, 1, figsize=(10, 24))
+
+    # Plot the data with MMd GF inhibitor drug holidays in the first plot
+    df_total_switch_1.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'], label=[ \
+    'Frequency OC', 'Frequency OB', 'Frequency MMd','Frequency MMr'], ax=axs[0])
+    axs[0].set_xlabel(' ')
+    axs[0].set_ylabel('MM frequency')
+    axs[0].set_title(f"""Dynamics when MMd GF inhibitors are administered 15 generations""")
+    axs[0].legend(loc = 'upper right')
+    axs[0].set_xticklabels([])
+    axs[0].grid(True)
+
+    # Plot the data with WMMd inhibitor drug holidays in the second plot
+    df_total_switch_2.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'], label=[\
+    'Frequency OC', 'Frequency OB', 'Frequency MMd','Frequency MMr'], ax=axs[1])
+    axs[1].set_xlabel(' ')
+    axs[1].set_ylabel('MM frequency')
+    axs[1].set_title(f"""Dynamics when WMMd inhibitors are administered every 15 generations""")
+    axs[1].legend(loc = 'upper right')
+    axs[1].set_xticklabels([])
+    axs[1].grid(True)
+
+    # Plot the data with MMd GF and WMMd inhibitor drug holidays in the third plot
+    df_total_switch_3.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'], label=[\
+    'Frequency OC', 'Frequency OB', 'Frequency MMd','Frequency MMr'], ax=axs[2])
+    axs[2].set_xlabel('Generations')
+    axs[2].set_ylabel('MM frequency')
+    axs[2].set_title(f"""Dynamics when MMd GF inhibitors and WMMd inhibitors are administered every 15 generations""")
+    axs[2].legend(loc = 'upper right')
+    axs[2].grid(True)
+    plt.grid(True)
+    save_Figure(plt, 'line_plot_cell_freq_G15_MMd_GF_WMMd_IH',
+                                     r'..\visualisation\results_own_model')
+    plt.show()
+
+# # Create a figure that shows the effect of drug holidays
+# list_t_steps_drug = [15, 15, 15]
+# figure_3_senarios_MMd_GF_WMMd_IH(8, list_t_steps_drug)
+
+def figure_3_senarios_MMd_GF_WMMd_IH(n_switches, t_steps_drug):
+    """ Function that makes a figure that shows the effect of drug holidays.
+
+    Parameters:
+    -----------
+    n_switches: Int
+        The number of switches between giving drugs and not giving drugs.
+    t_steps_drug: List
+        List with the number of time steps drugs are administared and the breaks
+        are for the different figures.
+    """
+    # Set start parameter values
+    # Set start parameter values
+    N = 50
+    cMMr = 1.3
+    cMMd = 1.2
+    cOB = 0.8
+    cOC = 1
+    xOC = 0.3
+    xOB = 0.2
+    xMMd = 0.2
+    xMMr = 0.3
+
+    # Payoff matrices
+    matrix_no_drugs = np.array([
+        [0.0, 1.6, 2.2, 1.9],
+        [1.0, 0.0, -0.5, -0.5],
+        [2.2, 0, 0.2, 0.0],
+        [1.9, 0, -0.8, 0.2]])
+
+    matrix_drugs_half = np.array([
+        [0.0, 1.6, 2.2, 1.9],
+        [1.0, 0.0, -0.5, -0.5],
+        [1.4, 0, 0.2, 0.0],
+        [1.9, 0, -1.0, 0.2]])
+
+    WMMd_inhibitor_half = 0.514
+
+    # Make dataframe for the different drug hollyday duration values
+    df_total_switch_1 = switch_dataframe(n_switches, t_steps_drug[0], xOC, xOB,
+                        xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix_no_drugs,
+                                        matrix_drugs_half, WMMd_inhibitor_half)
+    df_total_switch_2 = switch_dataframe(n_switches, t_steps_drug[1], xOC, xOB,
+                            xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix_no_drugs,
+                                        matrix_drugs_half, WMMd_inhibitor_half)
+    df_total_switch_3 = switch_dataframe(n_switches, t_steps_drug[2], xOC, xOB,
+                            xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix_no_drugs,
+                                        matrix_drugs_half, WMMd_inhibitor_half)
+
+    t = np.linspace(0, 20, 20)
+    y0 = [xOC, xOB, xMMd, xMMr]
+    parameters = (N, cOC, cOB, cMMd, cMMr, matrix_no_drugs)
+
+    # Determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_1 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
+
+    # Determine the current frequencies
+    xOC = df_1['xOC'].iloc[-1]
+    xOB = df_1['xOB'].iloc[-1]
+    xMMd = df_1['xMMd'].iloc[-1]
+    xMMr = df_1['xMMr'].iloc[-1]
+
+    t = np.linspace(20, 100, 80)
+    y0 = [xOC, xOB, xMMd, xMMr]
+    parameters = (N, cOC, cOB, cMMd, cMMr, matrix_drugs_half, WMMd_inhibitor_half)
+
+    # Determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
+
+    # Combine the dataframes
+    df_total = pd.concat([df_1, df_2])
+
+    # Save the data
+    save_dataframe(df_total_switch_1, 'df_cell_freq_G10_MMd_GF_WMMd_inhibit.csv',
+                                                     r'..\data\data_own_model')
+    save_dataframe(df_total_switch_2, 'df_cell_freq_G12_MMd_GF_WMMd_inhibit.csv',
+                                                     r'..\data\data_own_model')
+    save_dataframe(df_total_switch_3, 'df_cell_freq_G14_MMd_GF_WMMd_inhibit.csv',
+                                                     r'..\data\data_own_model')
+    save_dataframe(df_total, 'df_cell_freq_MMd_GF_WMMd_inhibit_contineously.csv',
+                                                     r'..\data\data_own_model')
+
+    # Create a figure
+    fig, axs = plt.subplots(2, 2, figsize=(16, 10))
+
+    # Plot the data without drug holidays in the first plot
+    df_total.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'], label=[ \
+    'Frequency OC', 'Frequency OB', 'Frequency MMd','Frequency MMr'], ax=axs[0, 0])
+    axs[0, 0].set_xlabel(' ')
+    axs[0, 0].set_ylabel('MM frequency')
+    axs[0, 0].set_title(f"""Dynamics when MMd GF and WMMd inhibitors
+    are administered contineously""")
+    axs[0, 0].legend(loc = 'upper right')
+    axs[0, 0].set_xticklabels([])
+    axs[0, 0].grid(True)
+
+    # Plot the data with drug holidays in the second plot
+    df_total_switch_1.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'], label=[\
+    'Frequency OC', 'Frequency OB', 'Frequency MMd','Frequency MMr'], ax=axs[0, 1])
+    axs[0, 1].set_xlabel(' ')
+    axs[0, 1].set_ylabel('MM frequency')
+    axs[0, 1].set_title(f"""Dynamics when MMd GF and WMMd inhibitors are
+    administered every 10 generations""")
+    axs[0, 1].legend(loc = 'upper right')
+    axs[0, 1].set_xticklabels([])
+    axs[0, 1].grid(True)
+
+    # Plot the data with drug holidays in the third plot
+    df_total_switch_2.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'], label=[\
+    'Frequency OC', 'Frequency OB', 'Frequency MMd','Frequency MMr'], ax=axs[1, 0])
+    axs[1, 0].set_xlabel('Generations')
+    axs[1, 0].set_ylabel('MM frequency')
+    axs[1, 0].set_title(f"""Dynamics when MMd GF and WMMd inhibitors are
+    administered every 12 generations""")
+    axs[1, 0].legend(loc = 'upper right')
+    axs[1, 0].grid(True)
+    plt.grid(True)
+
+    # Plot the data with drug holidays in the fourth plot
+    df_total_switch_3.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'], label=[\
+    'Frequency OC', 'Frequency OB', 'Frequency MMd','Frequency MMr'], ax=axs[1, 1])
+    axs[1, 1].set_xlabel('Generations')
+    axs[1, 1].set_ylabel('MM frequency')
+    axs[1, 1].set_title(f"""Dynamics when MMd GF and WMMd inhibitors are
+    administered every 14 generations""")
+    axs[1, 1].legend(loc = 'upper right')
+    axs[1, 1].grid(True)
+    save_Figure(plt, 'line_plot_cell_freq_MMd_GF_WMMd_inhibit',
+                                     r'..\visualisation\results_own_model')
+    plt.show()
+
+# Create a figure that shows the effect of drug holidays
+list_t_steps_drug = [10, 12, 14]
+figure_3_senarios_MMd_GF_WMMd_IH(8, list_t_steps_drug)
 
 
 
@@ -2552,12 +2819,12 @@ def figure_freq_dynamics_drugs():
     xMMd = df_1['xMMd'].iloc[-1]
     xMMr = df_1['xMMr'].iloc[-1]
 
-    MMd_drug_effect_1 = 1.5
+    WMMd_inhibitor_1 = 1.5
 
     # Initial conditions
     t = np.linspace(40, 140, 100)
     y0 = [xOC, xOB, xMMd, xMMr]
-    parameters = (N, cOC, cOB, cMMd, cMMr, matrix, MMd_drug_effect_1)
+    parameters = (N, cOC, cOB, cMMd, cMMr, matrix, WMMd_inhibitor_1)
 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
@@ -2588,12 +2855,12 @@ def figure_freq_dynamics_drugs():
     xMMr = df_1['xMMr'].iloc[-1]
 
     # Payoff matrix
-    MMd_drug_effect_2 = 0.8
+    WMMd_inhibitor_2 = 0.8
 
     # Initial conditions
     t = np.linspace(40, 140, 100)
     y0 = [xOC, xOB, xMMd, xMMr]
-    parameters = (N, cOC, cOB, cMMd, cMMr, matrix, MMd_drug_effect_2)
+    parameters = (N, cOC, cOB, cMMd, cMMr, matrix, WMMd_inhibitor_2)
 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
@@ -2611,7 +2878,7 @@ def figure_freq_dynamics_drugs():
                                  'Frequency MMr'], ax=axs[0])
     axs[0].set_xlabel('Generations')
     axs[0].set_ylabel('Frequency')
-    axs[0].set_title(f'Dynamics when drugs are added (strength {MMd_drug_effect_1})')
+    axs[0].set_title(f'Dynamics when drugs are added (strength {WMMd_inhibitor_1})')
     axs[0].legend()
 
     # Plot second line data in the second subplot
@@ -2620,7 +2887,7 @@ def figure_freq_dynamics_drugs():
                                   'Frequency MMr'], ax=axs[1])
     axs[1].set_xlabel('Generations')
     axs[1].set_ylabel('Frequency')
-    axs[1].set_title(f'Dynamics when drugs are added (strength {MMd_drug_effect_2})')
+    axs[1].set_title(f'Dynamics when drugs are added (strength {WMMd_inhibitor_2})')
     axs[1].legend()
     plt.tight_layout()
     plt.show()
@@ -2665,12 +2932,12 @@ def figure_freq_dynamics_drug_strength():
     xMMd = df_1['xMMd'].iloc[-1]
     xMMr = df_1['xMMr'].iloc[-1]
 
-    MMd_drug_effect_1 = 1.5
+    WMMd_inhibitor_1 = 1.5
 
     # Initial conditions
     t = np.linspace(40, 90, 60)
     y0 = [xOC, xOB, xMMd, xMMr]
-    parameters = (N, cOC, cOB, cMMd, cMMr, matrix, MMd_drug_effect_1)
+    parameters = (N, cOC, cOB, cMMd, cMMr, matrix, WMMd_inhibitor_1)
 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
@@ -2683,12 +2950,12 @@ def figure_freq_dynamics_drug_strength():
     xMMd = df_2['xMMd'].iloc[-1]
     xMMr = df_2['xMMr'].iloc[-1]
 
-    MMd_drug_effect_1 = 0.0
+    WMMd_inhibitor_1 = 0.0
 
     # Initial conditions
     t = np.linspace(90, 140, 40)
     y0 = [xOC, xOB, xMMd, xMMr]
-    parameters = (N, cOC, cOB, cMMd, cMMr, matrix, MMd_drug_effect_1)
+    parameters = (N, cOC, cOB, cMMd, cMMr, matrix, WMMd_inhibitor_1)
 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
@@ -2727,12 +2994,12 @@ def figure_freq_dynamics_drug_strength():
     xMMd = df_1['xMMd'].iloc[-1]
     xMMr = df_1['xMMr'].iloc[-1]
 
-    MMd_drug_effect_2 = 0.9
+    WMMd_inhibitor_2 = 0.9
 
     # Initial conditions
     t = np.linspace(40, 90, 50)
     y0 = [xOC, xOB, xMMd, xMMr]
-    parameters = (N, cOC, cOB, cMMd, cMMr, matrix, MMd_drug_effect_2)
+    parameters = (N, cOC, cOB, cMMd, cMMr, matrix, WMMd_inhibitor_2)
 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
@@ -2744,12 +3011,12 @@ def figure_freq_dynamics_drug_strength():
     xMMd = df_2['xMMd'].iloc[-1]
     xMMr = df_2['xMMr'].iloc[-1]
 
-    MMd_drug_effect_2 = 0.0
+    WMMd_inhibitor_2 = 0.0
 
     # Initial conditions
     t = np.linspace(90, 140, 50)
     y0 = [xOC, xOB, xMMd, xMMr]
-    parameters = (N, cOC, cOB, cMMd, cMMr, matrix, MMd_drug_effect_2)
+    parameters = (N, cOC, cOB, cMMd, cMMr, matrix, WMMd_inhibitor_2)
 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
@@ -2787,12 +3054,12 @@ def figure_freq_dynamics_drug_strength():
     xMMd = df_1['xMMd'].iloc[-1]
     xMMr = df_1['xMMr'].iloc[-1]
 
-    MMd_drug_effect_3 = 0.6
+    WMMd_inhibitor_3 = 0.6
 
     # Initial conditions
     t = np.linspace(40, 140, 100)
     y0 = [xOC, xOB, xMMd, xMMr]
-    parameters = (N, cOC, cOB, cMMd, cMMr, matrix, MMd_drug_effect_3)
+    parameters = (N, cOC, cOB, cMMd, cMMr, matrix, WMMd_inhibitor_3)
 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
@@ -2829,7 +3096,7 @@ def figure_freq_dynamics_drug_strength():
                                   'Frequency MMr'], ax=axs[2])
     axs[2].set_xlabel('Generations')
     axs[2].set_ylabel('Frequency')
-    axs[2].set_title(f'Dynamics when drugs are added \n at G 40 (strength {MMd_drug_effect_3})')
+    axs[2].set_title(f'Dynamics when drugs are added \n at G 40 (strength {WMMd_inhibitor_3})')
     axs[2].legend()
     plt.tight_layout()
     plt.show()
