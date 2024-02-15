@@ -42,17 +42,17 @@ def main():
     import doctest
     doctest.testmod()
 
-    # # Make Figure 2 in the paper of Sartakhti et al., 2016.
-    # Figure_2()
-    #
-    # # Make Figure 3 in the paper of Sartakhti et al., 2016.
-    # Figure_3()
-    #
-    # # Make Figure 5 in the paper of Sartakhti et al., 2016.
-    # Figure_5()
-    #
-    # # Make Figure 8A in the paper of Sartakhti et al., 2016.
-    # Figure_8A()
+    # Make Figure 2 in the paper of Sartakhti et al., 2016.
+    Figure_2()
+
+    # Make Figure 3 in the paper of Sartakhti et al., 2016.
+    Figure_3()
+
+    # Make Figure 5 in the paper of Sartakhti et al., 2016.
+    Figure_5()
+
+    # Make Figure 8A in the paper of Sartakhti et al., 2016.
+    Figure_8A()
 
     # Make Figure 8B in the paper of Sartakhti et al., 2016.
     Figure_8B()
