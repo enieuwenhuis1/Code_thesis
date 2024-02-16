@@ -19,7 +19,7 @@ of the linear model were much closer to the paper result and the model was good 
 comprehend, the own model (cancer_model.py) also uses linear benefits.
 
 PYTHON AND LIBRARY VERSIONS
-Python version 3.11.4 is used.
+The models were written in Python code (version 3.11.4) using Atom (version 1.60.0).
 Some libraries need to be installed to run the codes in the code folder.
 
 model_S_nonlinear.py
@@ -66,7 +66,7 @@ cancer_model.py
 
 THE MODEL WITH LINEAR BENEFITS: model_S_linear.py
 model_S_linear.py contains code of the mathematical EGT formulas and the code to
-reproduce some of the figures in the paper: Evolutionary dynamics of Tumor-Stroma
+reproduce some of the figures in the paper: Evolutionary dynamics of tumour-Stroma
 interactions in multiple myeloma by Sartakhti et al. (2016). The model is made based
 on the method in the paper. The benefits are linear and there are collective
 interactions.
@@ -78,7 +78,7 @@ run when the model_S_linear.py code is run.
 
 THE MODEL WITH NONLINEAR BENEFITS: model_S_nonlinear.py
 Model_S_nonlinear.py contains the code with all the mathematical EGT formulas as
-well as the code to reproduce the figures from the paper: Game Theory of Tumor–Stroma
+well as the code to reproduce the figures from the paper: Game Theory of tumour–Stroma
 Interactions in Multiple Myeloma: Effect of Nonlinear Benefits by Sartakhti et al.
 (2018). The model is made based on the method in the paper. The benefits are nonlinear
 and there are collective interactions.
@@ -127,9 +127,9 @@ Own-made model and visualisation, cancer_model.py
         - python cancer_model.py
 
 REFERENCES
-* Sartakhti, J. S., Manshaei, M. H., & Archetti, M. (2018). Game Theory of Tumor–Stroma
+* Sartakhti, J. S., Manshaei, M. H., & Archetti, M. (2018). Game Theory of tumour–Stroma
   Interactions in Multiple Myeloma: Effect of nonlinear benefits. Games, 9(2), 32.
   https://doi.org/10.3390/g9020032
 * Sartakhti, J. S., Manshaei, M. H., Bateni, S., & Archetti, M. (2016). Evolutionary
-  dynamics of Tumor-Stroma interactions in multiple myeloma. PLOS ONE, 11(12),
+  dynamics of tumour-Stroma interactions in multiple myeloma. PLOS ONE, 11(12),
   e0168856. https://doi.org/10.1371/journal.pone.0168856

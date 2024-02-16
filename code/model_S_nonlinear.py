@@ -17,7 +17,7 @@ Description:  Code that attempts to replicate the formulas and Figures from the
               formulas in this code.
 
 
-Sartakhti, J. S., Manshaei, M. H., & Archetti, M. (2018). Game Theory of Tumor–Stroma
+Sartakhti, J. S., Manshaei, M. H., & Archetti, M. (2018). Game Theory of tumour–Stroma
 Interactions in Multiple Myeloma: Effect of nonlinear benefits. Games, 9(2), 32.
 https://doi.org/10.3390/g9020032
 """

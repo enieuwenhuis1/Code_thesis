@@ -9,7 +9,7 @@ Description:  Code with the model that simulates linear dynamics in the multiple
               replicate certain figures from the paper by Sartakhti et al. (2016).
 
 Sartakhti, J. S., Manshaei, M. H., Bateni, S., & Archetti, M. (2016). Evolutionary
-dynamics of Tumor-Stroma interactions in multiple myeloma. PLOS ONE, 11(12),
+dynamics of tumour-Stroma interactions in multiple myeloma. PLOS ONE, 11(12),
 e0168856. https://doi.org/10.1371/journal.pone.0168856
 
 """
@@ -57,7 +57,7 @@ def main():
     #
     # # Make figure 9B in the paper of Sartakhti et al., 2016.
     # figure_9B()
-    # 
+    #
     # # Make figure 9C in the paper of Sartakhti et al., 2016.
     # figure_9C()
     #

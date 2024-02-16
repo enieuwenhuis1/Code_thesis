@@ -22,7 +22,7 @@ Description:  Code that attempts to replicate the formulas and Figures from the
 
 
 Sartakhti, J. S., Manshaei, M. H., Bateni, S., & Archetti, M. (2016). Evolutionary
-dynamics of Tumor-Stroma interactions in multiple myeloma. PLOS ONE, 11(12),
+dynamics of tumour-Stroma interactions in multiple myeloma. PLOS ONE, 11(12),
 e0168856. https://doi.org/10.1371/journal.pone.0168856
 """
 
@@ -525,12 +525,7 @@ def Figure_2():
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
     fig1.show()
 
-"""Figure 3
-The paramter values of this plot are not given so the values of Figure 2 are taken.
-This is a possible reason that the plots differ from the ones in the paper. The
-Fitness is also added. As expected the equilibriums are when the average fitness is
-the highest"""
-
+"""Figure 3"""
 def Figure_3():
     """Function that makes Figure 3 in the paper of Sartakhti et al., 2016."""
     # Set start parameter values
