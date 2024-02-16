@@ -2,18 +2,24 @@
 Author:       Eva Nieuwenhuis
 University:   UvA
 Student id':  13717405
-Description:  Code that attempts to replicate the Figures from the paper by Sartakhti
-              et al. (2018). The model simulates linear and nonlinear dynamics in the
-              multiple myeloma (MM) microenvironment with three cell types: MM cells,
-              osteoblasts (OBs) and osteoclasts (OCs). The plots show the effect of
-              introducing nonlinear benefits instead of linear benefits.
+Description:  Code that attempts to replicate the formulas and Figures from the
+              paper by Sartakhti et al. (2018) to get a better understanding of
+              cancer modeling. The model simulates linear and nonlinear dynamics
+              and collective interactions in the multiple myeloma (MM) micro-
+              environment with three cell types: MM cells, osteoblasts (OBs) and
+              osteoclasts (OCs).
 
               The found results do not align with those presented in the paper. This
               difference may be because of potential misinterpretations or errors in
               the formulas utilized. However, as the paper has not disclosed its code,
               direct comparisons cannot be made to determine the exact differences.
-              Because the results are different I wrote my interpetation of some formulas
-              in this code.
+              Because the results are different I wrote my interpretation of some
+              formulas in this code.
+
+
+Sartakhti, J. S., Manshaei, M. H., & Archetti, M. (2018). Game Theory of Tumor–Stroma
+Interactions in Multiple Myeloma: Effect of nonlinear benefits. Games, 9(2), 32.
+https://doi.org/10.3390/g9020032
 """
 
 import math
@@ -68,7 +74,7 @@ x_OB = frequency osteoblasen
 x_MM = frequency multiplemyeloma cells
 x_OC + x_OB + x_MM = 1
 
-N = Number of cells within the difuusie range of the growth factors
+N = Number of cells within the difuusie range of the diffusible factors
 """
 
 def probability_number_cells(nOC, nOB, N, xOC, xOB, xMM):
@@ -116,12 +122,12 @@ def probability_number_cells(nOC, nOB, N, xOC, xOB, xMM):
 """
 Payoff is the benefit that a cell receives through their actions. For osteoclasts
 (OC), osteoblasts (OB), and multiple myeloma cells (MM), the payoffs are calculated
-based on the number of cells of each type in a group, the effects of beneficial
-growth factors produced by each cell type, and the associated costs.
+based on the number of cells of each type in a group, the effects of the diffusible
+factors produced and the factor production costs.
 
 VOC= bOC,OC(nOC+1)+ bOB,OC(nOB)+ bMM,OC(N−1−nOC−nOB)−cOC
-- Positive terms: the effects of growth factors
-- Negative term: the cost of producing growth factors
+- Positive terms: the effects of diffusible factors
+- Negative term: the cost of producing diffusible factors
 ​"""
 
 def payoff_OC(nOC, nOB, N, bOC_OC, bOB_OC, bMM_OC, cOC):
@@ -136,13 +142,13 @@ def payoff_OC(nOC, nOB, N, bOC_OC, bOB_OC, bMM_OC, cOC):
     N: Int
         The total number of cells in the group excluding the focal cell itself.
     bOC_OC: Float
-        The benefit on a OC of the growth factors produced by an OC.
+        The benefit on a OC of the diffusible factors produced by an OC.
     bOB_OC: Float
-        The benefit on a OC of the growth factors produced by an OB.
+        The benefit on a OC of the diffusible factors produced by an OB.
     bMM_OC: Float
-        The benefit on a OC of the growth factors produced by an MM cell.
+        The benefit on a OC of the diffusible factors produced by an MM cell.
     cOC: Float
-        The cost of producing growth factors by OC.
+        The cost of producing diffusible factors by OC.
 
     Returns:
     -----------
@@ -171,13 +177,13 @@ def payoff_OB(nOC, nOB, N, bOC_OB, bOB_OB, bMM_OB, cOB):
     N: Int
         The total number of cells in the group excluding the focal cell itself.
     bOC_OB: Float
-        The benefit on a OB of the growth factors produced by an OC.
+        The benefit on a OB of the diffusible factors produced by an OC.
     bOB_OB: Float
-        The benefit on a OB of the growth factors produced by an OB.
+        The benefit on a OB of the diffusible factors produced by an OB.
     bMM_OB: Float
-        The benefit on a OB of the growth factors produced by an MM cell.
+        The benefit on a OB of the diffusible factors produced by an MM cell.
     cOB: Float
-        The cost of producing growth factors by OB.
+        The cost of producing diffusible factors by OB.
 
     Returns:
     -----------
@@ -206,13 +212,13 @@ def payoff_MM(nOC, nOB, N, bOC_MM, bOB_MM, bMM_MM, cMM):
     N: Int
         The total number of cells in the group excluding the focal cell itself.
     bOC_MM: Float
-        The benefit on a MM cell of the growth factors produced by an OC.
+        The benefit on a MM cell of the diffusible factors produced by an OC.
     bOB_MM: Float
-        The benefit on a MM cell of the growth factors produced by an OB.
+        The benefit on a MM cell of the diffusible factors produced by an OB.
     bMM_MM: Float
-        The benefit on a MM cell of the growth factors produced by an MM cell.
+        The benefit on a MM cell of the diffusible factors produced by an MM cell.
     cMM: Float
-        The cost of producing growth factors by multiple myeloma cells
+        The cost of producing diffusible factors by multiple myeloma cells
 
     Returns:
     -----------
@@ -228,10 +234,10 @@ def payoff_MM(nOC, nOB, N, bOC_MM, bOB_MM, bMM_MM, cMM):
     return VMM
 
 """
-Fitness (Wi) is calculated by considering the payoffs obtained in the randomly formed
-groups weighted by the probability that such groups occur. The outer sum iterates over
-values of nOC and the inner sum iterates over values of nOB. The fitness values are
-normalized using N/(N-1)
+Fitness (Wi) is determined by multiplying the payoffs obtained by each cell type
+in the formed population with the probability that population with those cell type
+frequencies occurs. The outer sum iterates over values of nOC and the inner sum
+iterates over values of nOB. The fitness values are normalized using N/(N-1).
 """
 
 def calculate_fitness(N, xOC, xOB, xMM, bOC_OC, bOB_OC, bMM_OC, cOC, bOC_OB, bOB_OB,
@@ -250,29 +256,29 @@ def calculate_fitness(N, xOC, xOB, xMM, bOC_OC, bOB_OC, bMM_OC, cOC, bOC_OB, bOB
     xMM: Float
        The frequency of multiple myeloma cells in the population.
     bOC_OC: Float
-       The benefit on a OC of the growth factors produced by an OC.
+       The benefit on a OC of the diffusible factors produced by an OC.
     bOB_OC: Float
-       The benefit on a OC of the growth factors produced by an OB.
+       The benefit on a OC of the diffusible factors produced by an OB.
     bMM_OC: Float
-       The benefit on a OC of the growth factors produced by an MM cell.
+       The benefit on a OC of the diffusible factors produced by an MM cell.
     cOC: Float
-       The cost of producing growth factors by OC.
+       The cost of producing diffusible factors by OC.
     bOC_OB: Float
-       The benefit on a OB of the growth factors produced by an OC.
+       The benefit on a OB of the diffusible factors produced by an OC.
     bOB_OB: Float
-       The benefit on a OB of the growth factors produced by an OB.
+       The benefit on a OB of the diffusible factors produced by an OB.
     bMM_OB: Float
-       The benefit on a OB of the growth factors produced by an MM cell.
+       The benefit on a OB of the diffusible factors produced by an MM cell.
     cOB: Float
-       The cost of producing growth factors by OB.
+       The cost of producing diffusible factors by OB.
     bOC_MM: Float
-       The benefit on an MM cell of the growth factors produced by an OC.
+       The benefit on an MM cell of the diffusible factors produced by an OC.
     bOB_MM: Float
-       The benefit on an MM cell of the growth factors produced by an OB.
+       The benefit on an MM cell of the diffusible factors produced by an OB.
     bMM_MM: Float
-       The benefit on an MM cell of the growth factors produced by an MM cell.
+       The benefit on an MM cell of the diffusible factors produced by an MM cell.
     cMM: Float
-       The cost of producing growth factors by MM cells.
+       The cost of producing diffusible factors by MM cells.
 
     Returns:
     -----------
@@ -372,9 +378,9 @@ def calculate_replicator_dynamics(xOC, xOB, xMM, WOC, WOB, WMM):
     return xOC_change, xOB_change, xMM_change, W_average
 
 """
-The benefit function gives the benefit of the growth factors of cell type i on cell
+The benefit function gives the benefit of the diffusible factors of cell type i on cell
 type j. The more cells of type i (higher n) the higher the benefit becaues more
-growth factors (10).
+diffusible factors (10).
 """
 
 def sigmoid(n_i, h, B_max, s, N):
@@ -407,7 +413,7 @@ def sigmoid(n_i, h, B_max, s, N):
     return sigmoid_value
 
 def benefit_function(n_i, h, B_max, s, N):
-    """ Function that calculates the benefit value of the growth factors produced
+    """ Function that calculates the benefit value of the diffusible factors produced
     by cell type i on cell type j (9).
 
     Parameters:
@@ -426,7 +432,7 @@ def benefit_function(n_i, h, B_max, s, N):
     Returns:
     -----------
     benefit_value: Float
-        Value that indicates the effect of the growth factors produced by cell
+        Value that indicates the effect of the diffusible factors produced by cell
         type i on cell type j
 
     Example:
@@ -632,7 +638,7 @@ def Figure_1():
     # Number of cells
     N = 10
 
-    # Cost of producing growth factors
+    # Cost of producing diffusible factors
     cOC_value = 0.1
     cOB_value = 0.2
     cMM_value = 0.3
@@ -771,7 +777,7 @@ def Figure_2():
     # Number of cells
     N = 10
 
-    # Cost of producing growth factors
+    # Cost of producing diffusible factors
     cOC_value = 0.1
     cOB_value = 0.2
     cMM_value = 0.3
@@ -845,7 +851,7 @@ def Figure_2():
         nOB = 3
         nMM = 4
 
-        # Cost of producing growth factors
+        # Cost of producing diffusible factors
         cOC_value = 0.1
         cOB_value = 0.2
         cMM_value = 0.3
@@ -910,7 +916,7 @@ def Figure_3():
     # Number of cells
     N = 25
 
-    # Cost of producing growth factors
+    # Cost of producing diffusible factors
     cOC_value = 0.1
     cOB_value = 0.1
     cMM_value = 0.1
@@ -1058,7 +1064,7 @@ def Figure_4():
     # Number of cells
     N = 20
 
-    # Cost of producing growth factors
+    # Cost of producing diffusible factors
     cOC_value = 1.5
     cOB_value = 0.5
     cMM_value = 2.0
@@ -1215,7 +1221,7 @@ def Figure_5():
     # Number of cells
     N = 20
 
-    # Cost of producing growth factors
+    # Cost of producing diffusible factors
     cOC_value = 0.1
     cOB_value = 0.2
     cMM_value = 0.3
@@ -1363,7 +1369,7 @@ def Figure_6():
     # Number of cells
     N = 20
 
-    # Cost of producing growth factors
+    # Cost of producing diffusible factors
     cOC_value = 0.1
     cOB_value = 0.1
     cMM_value = 0.1
@@ -1511,7 +1517,7 @@ def Figure_7():
     # Number of cells
     N = 10
 
-    # Cost of producing growth factors
+    # Cost of producing diffusible factors
     cOC_value = 0.1
     cOB_value = 0.12
     cMM_value = 0.14
@@ -1724,7 +1730,7 @@ def Figure_8():
     # Number of cells
     N = 20
 
-    # Cost of producing growth factors
+    # Cost of producing diffusible factors
     cOC_value = 1.2
     cOB_value = 1.0
     cMM_value = 1.8
@@ -1952,7 +1958,7 @@ def Figure_9():
     nOB = 4
     nMM = 2
 
-    # Cost of producing growth factors
+    # Cost of producing diffusible factors
     cOC_value = 0.1
     cOB_value = 0.2
     cMM_value = 0.3

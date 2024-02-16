@@ -3,19 +3,26 @@ University:   UvA
 Student id:   13717405
 
 The goal was to make a model that simulates the dynamics of the multiple myeloma
-(MM) microenvironment to determine the effects of several treatments. There is looked
-at the interactions between four cell types: drug-sensitive MM cells (MMd), resistant
-MM cells (MMr), osteoblasts (OBs) and osteoclasts (OCs). The model simulates a public
-goods game in the framework of evolutionary game theory with collective interactions
-and linear benefits. The impact of the following treatments was studied: ....
+(MM) microenvironment to determine the effects of several treatment methods. There
+is looked at the interactions between four cell types: drug-sensitive MM cells (MMd),
+resistant MM cells (MMr), osteoblasts (OBs) and osteoclasts (OCs). The model simulates
+a public goods game in the framework of evolutionary game theory with collective
+interactions and linear benefits. The impact of GF MMd inhibitors and WMMd inhibitors
+is studied.
 
-PYTHON AND LIBRARY VESIONS
+To better understand MM microenvironment modeling, the figures from two articles were
+first attempted to be reproduced. The model results from Sartakhti et al. (2018) were
+tried to reproduce with model_S_nonlinear.py and the results form Sartakhti et al.
+(2016) were tried to reproduce with model_S_linear.py. Both papers did not disclose
+their code so a comparison of the interpretation was not possible. Because the results
+of the linear model were much closer to the paper result and the model was good to
+comprehend, the own model (cancer_model.py) also uses linear benefits.
+
+PYTHON AND LIBRARY VERSIONS
 Python version 3.11.4 is used.
-To run the codes in the code folder some libraries need to be installed.
+Some libraries need to be installed to run the codes in the code folder.
 
 model_S_nonlinear.py
-* scipy (version 1.11.4)
-    - install: pip install scipy==1.11.4
 * numpy (version 1.26.0)
     - install: pip install numpy==1.26.0
 * matplotlib (version 3.8.0)
@@ -26,6 +33,8 @@ model_S_nonlinear.py
     - install: pip install ternary==0.1
 * plotly (version 5.18.0)
     - install: pip install plotly==5.18.0
+* scipy (version 1.11.4)
+    - install: pip install scipy==1.11.4
 
 model_S_linear.py
 * numpy (version 1.26.0)
@@ -38,32 +47,56 @@ model_S_linear.py
     - install: pip install ternary==0.1
 * plotly (version 5.18.0)
     - install: pip install plotly==5.18.0
+* scipy (version 1.11.4)
+    - install: pip install scipy==1.11.4
+
+cancer_model.py
 * numpy (version 1.26.0)
     - install: pip install numpy==1.26.0
+* matplotlib (version 3.8.0)
+    - install: pip install matplotlib==3.8.0
+* pandas (version 2.1.3)
+    - install: pip install pandas==2.1.3
+* ternary (version 0.1)
+    - install: pip install ternary==0.1
+* plotly (version 5.18.0)
+    - install: pip install plotly==5.18.0
+* scipy (version 1.11.4)
+    - install: pip install scipy==1.11.4
 
-
-THE MODEL WITH LINEAR BENFITS: model_S_linear.py
+THE MODEL WITH LINEAR BENEFITS: model_S_linear.py
 model_S_linear.py contains code of the mathematical EGT formulas and the code to
 reproduce some of the figures in the paper: Evolutionary dynamics of Tumor-Stroma
-interactions in multiple myeloma by Sartakhti et al., 2016. The model is maded based
+interactions in multiple myeloma by Sartakhti et al. (2016). The model is made based
 on the method in the paper. The benefits are linear and there are collective
 interactions.
 
 TEST THE CODE
-To test the functions in the model, doc tests are added and automatically run when
-the model_S_linear.py code is run.
+To test some of the functions in the model, doc tests are added and automatically
+run when the model_S_linear.py code is run.
 
 
 THE MODEL WITH NONLINEAR BENEFITS: model_S_nonlinear.py
 Model_S_nonlinear.py contains the code with all the mathematical EGT formulas as
 well as the code to reproduce the figures from the paper: Game Theory of Tumor–Stroma
-Interactions in Multiple Myeloma: Effect of Nonlinear Benefits by Sartakhti et al.,
-2018. The model is made based on the method in the paper. The benefits are nonlinear
+Interactions in Multiple Myeloma: Effect of Nonlinear Benefits by Sartakhti et al.
+(2018). The model is made based on the method in the paper. The benefits are nonlinear
 and there are collective interactions.
 
 TEST THE CODE
-To test the functions in the model, doc tests are added and automatically run when
-the cancer_model.py code is run.
+To test some of the functions in the model, doc tests are added and automatically
+run when the model_S_nonlinear.py code is run.
+
+
+THE OWN MADE MODEL: cancer_model.py
+Cancer_model.py contains the code with the mathematical EGT formulas simulating
+the dynamics of the four cell types MMd, MMr, OCs and OBs. It also contains code to
+optimize the best parameter values for the best drug administration values and period.
+
+TEST THE CODE
+To test some of the functions in the model, doc tests are added and automatically
+run when the cancer_model.py code is run.
+
 
 THE DATA
 The folder data contains all the generated data that is used to make the figures.
@@ -72,22 +105,26 @@ This folder contains:
                                     based on the paper of Sartakhti et al., 2018
 * reproduced_data_Sartakhti_linear: contains all the data obtained with the model
                                     based on the paper of Sartakhti et al., 2016
-* data_own_model: contains all the data obtained from the own made model
+* data_own_model: contains all the data obtained from the own-made model
 
 THE FIGURES
-In the folder visualisation all made figures are shown. This folder contains:
+In the folder visualisation, all made figures are shown. This folder contains:
 * reproduced_results_Sartakhti_nonlinear: contains all the reproduced figures of
                                         the paper of Sartakhti et al., 2018.
 * reproduced_results_Sartakhti_linear: contains all the reproduced figures of the
                                       paper of Sartakhti et al., 2016.
-* results_own_model: contains all the figures obtained from the own made model
+* results_own_model: contains all the figures obtained from the own-made model
+
 
 HOW TO RUN
-The non linear model and its visualisation, model_S_nonlinear.py:
-         - python model_S_nonlinear.py
+The nonlinear model and its visualisation, model_S_nonlinear.py:
+        - python model_S_nonlinear.py
 
 The linear model and its visualisation, model_S_linear.py:
         - python model_S_linear.py
+
+Own-made model and visualisation, cancer_model.py
+        - python cancer_model.py
 
 REFERENCES
 * Sartakhti, J. S., Manshaei, M. H., & Archetti, M. (2018). Game Theory of Tumor–Stroma

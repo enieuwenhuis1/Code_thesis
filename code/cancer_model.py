@@ -42,10 +42,10 @@ def fitness_WOC(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix):
         Cost parameter OCs.
     cOB: Float
         Cost parameter OBs.
-    cMMr: Float
-        Cost parameter resistant MM cells.
     cMMd: Float
         Cost parameter drug-sensitive MM cells.
+    cMMr: Float
+        Cost parameter resistant MM cells.
     matrix: Numpy.ndarray
         4x4 matrix containing the interaction factors.
 
@@ -93,10 +93,10 @@ def fitness_WOB(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix):
         Cost parameter OCs.
     cOB: Float
         Cost parameter OBs.
-    cMMr: Float
-        Cost parameter resistant MM cells.
     cMMd: Float
         Cost parameter drug-sensitive MM cells.
+    cMMr: Float
+        Cost parameter resistant MM cells.
     matrix: Numpy.ndarray
         4x4 matrix containing the interaction factors.
 
@@ -145,14 +145,14 @@ def fitness_WMMd(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix,
         Cost parameter OCs.
     cOB: Float
         Cost parameter OBs.
-    cMMr: Float
-        Cost parameter resistant MM cells.
     cMMd: Float
         Cost parameter drug-sensitive MM cells.
     matrix: Numpy.ndarray
         4x4 matrix containing the interaction factors.
+    cMMr: Float
+        Cost parameter resistant MM cells.
     WMMd_inhibitor: Float
-        The effect of a drug on the drug-sensitive MM cells
+        The effect of a drug on the drug-sensitive MM cells.
 
     Returns:
     --------
@@ -199,10 +199,10 @@ def fitness_WMMr(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix):
         Cost parameter OCs.
     cOB: Float
         Cost parameter OBs.
-    cMMr: Float
-        Cost parameter resistant MM cells.
     cMMd: Float
         Cost parameter drug-sensitive MM cells.
+    cMMr: Float
+        Cost parameter resistant MM cells.
     matrix: Numpy.ndarray
         4x4 matrix containing the interaction factors.
 
@@ -231,7 +231,7 @@ def fitness_WMMr(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix):
     return WMMr
 
 def model_dynamics(y, t, N, cOC, cOB, cMMd, cMMr, matrix, WMMd_inhibitor = 0):
-    """Determines the frequenty dynamics in a population over time.
+    """Function that determines the frequenty dynamics in a population over time.
 
     Parameters:
     -----------
@@ -245,10 +245,10 @@ def model_dynamics(y, t, N, cOC, cOB, cMMd, cMMr, matrix, WMMd_inhibitor = 0):
         Cost parameter OCs.
     cOB: Float
         Cost parameter OBs.
-    cMMr: Float
-        Cost parameter resistant MM cells.
     cMMd: Float
         Cost parameter drug-sensitive MM cells.
+    cMMr: Float
+        Cost parameter resistant MM cells.
     matrix: Numpy.ndarray
         4x4 matrix containing the interaction factors.
     WMMd_inhibitor: Float
@@ -286,7 +286,8 @@ def model_dynamics(y, t, N, cOC, cOB, cMMd, cMMr, matrix, WMMd_inhibitor = 0):
     return [xOC_change, xOB_change, xMMd_change, xMMr_change]
 
 def model_dynamics_change_N(y, t, N, cOC, cOB, cMMd, cMMr, matrix):
-    """Determines the frequenty dynamics in a population over time when N changes.
+    """Function that determines the frequency dynamics in a population over time
+    when N changes.
 
     Parameters:
     -----------
@@ -314,7 +315,7 @@ def model_dynamics_change_N(y, t, N, cOC, cOB, cMMd, cMMr, matrix):
     """
     xOC, xOB, xMMd, xMMr= y
 
-    # Chage N every 2 generations
+    # Change N every 2 generations
     for i in range(2, 100, 2):
         if t > i:
             N += 5
@@ -339,8 +340,8 @@ def model_dynamics_change_N(y, t, N, cOC, cOB, cMMd, cMMr, matrix):
 def freq_to_fitness_values_change_N(dataframe_frequencies, N, cOC, cOB, cMMd,
                                                                     cMMr, matrix):
     """Function that determines the fitness values of the OCs, OBs, MMd and MMr
-    based on their frequencies on every time point. It also calculates the
-    average fitness. The number of cells in the popultaion changes.
+    based on their frequencies on every time point. It also calculates the average
+    fitness. The number of cells in the popultaion changes.
 
     Parameters:
     -----------
@@ -353,10 +354,10 @@ def freq_to_fitness_values_change_N(dataframe_frequencies, N, cOC, cOB, cMMd,
         Cost parameter OCs.
     cOB: Float
         Cost parameter OBs.
-    cMMr: Float
-        Cost parameter resistant MM cells.
     cMMd: Float
         Cost parameter drug-sensitive MM cells.
+    cMMr: Float
+        Cost parameter resistant MM cells.
     matrix: Numpy.ndarray
         4x4 matrix containing the interaction factors.
 
@@ -399,7 +400,7 @@ def freq_to_fitness_values_change_N(dataframe_frequencies, N, cOC, cOB, cMMd,
         # Determine the average fitness
         W_average = xOC * WOC + xOB * WOB + xMMd * WMMd + xMMr * WMMr
 
-        # Append the calculated values to the respective lists
+        # Add the calculated fitness values to the respective lists
         WOC_list.append(WOC)
         WOB_list.append(WOB)
         WMMd_list.append(WMMd)
@@ -407,7 +408,7 @@ def freq_to_fitness_values_change_N(dataframe_frequencies, N, cOC, cOB, cMMd,
         W_average_list.append(W_average)
         generation_list.append(index)
 
-    # Create a new DataFrame with the calculated values
+    # Create a dataframe with the calculated fitness values
     dataframe_fitness = pd.DataFrame({'Generation': generation_list,
                             'WOC': WOC_list, 'WOB': WOB_list, 'WMMd': WMMd_list,
                              'WMMr': WMMr_list, 'W_average': W_average_list})
@@ -417,8 +418,8 @@ def freq_to_fitness_values_change_N(dataframe_frequencies, N, cOC, cOB, cMMd,
 def freq_to_fitness_values(dataframe_frequencies, N, cOC, cOB, cMMd, cMMr, matrix,
                                                             WMMd_inhibitor = 0):
     """Function that determines the fitness values of the OCs, OBs, MMd and MMr
-    based on their frequencies on every time point. It also calculates the
-    average fitness.
+    based on their frequencies on every time point. It also calculates the average
+    fitness.
 
     Parameters:
     -----------
@@ -472,7 +473,7 @@ def freq_to_fitness_values(dataframe_frequencies, N, cOC, cOB, cMMd, cMMr, matri
         # Determine the average fitness
         W_average = xOC * WOC + xOB * WOB + xMMd * WMMd + xMMr * WMMr
 
-        # Append the calculated values to the respective lists
+        # Add the calculated fitness values to the respective lists
         WOC_list.append(WOC)
         WOB_list.append(WOB)
         WMMd_list.append(WMMd)
@@ -480,7 +481,7 @@ def freq_to_fitness_values(dataframe_frequencies, N, cOC, cOB, cMMd, cMMr, matri
         W_average_list.append(W_average)
         generation_list.append(index)
 
-    # Create a new DataFrame with the calculated values
+    # Create a datafrane with the calculated fitness values
     dataframe_fitness = pd.DataFrame({'Generation': generation_list,
                             'WOC': WOC_list, 'WOB': WOB_list, 'WMMd': WMMd_list,
                                 'WMMr': WMMr_list, 'W_average': W_average_list})
@@ -548,14 +549,14 @@ M = np.array([
     MMr [m,  n,  o,  p]])
 """
 
-# Do doc tests
+# Do a doc tests
 import doctest
 doctest.testmod()
 
 
 """Determine the best b_OC_MMd value
 -----------------------------------------------------------------------------"""
-def mimimal_tumor_freq_b_OC_MMd(b_OC_MMd, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd,
+def mimimal_tumour_freq_b_OC_MMd(b_OC_MMd, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd,
                                                     cMMr, matrix, t, b_OC_MMd_array):
     """Function that determines the fraction of the population being MM for a
     specific b_OC_MMd value.
@@ -594,7 +595,7 @@ def mimimal_tumor_freq_b_OC_MMd(b_OC_MMd, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMM
     last_MM_frequency: Float
         The total MM frequency.
     """
-    # Determine if b_OC_MMd is an array
+    # Change b_OC_MMd to a float if it is an array
     if b_OC_MMd_array == True:
         b_OC_MMd = b_OC_MMd[0]
 
@@ -618,7 +619,6 @@ def mimimal_tumor_freq_b_OC_MMd(b_OC_MMd, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMM
 def figure_optimal_b_OC_MMd():
     """ Function that makes a figure that shows the total MM frequency for different
     b_OC_MMd values"""
-
     # Set start values
     N = 50
     cMMr = 1.3
@@ -640,24 +640,24 @@ def figure_optimal_b_OC_MMd():
     t = np.linspace(0, 100, 100)
 
     # Make a dictionary
-    dict_freq_tumor_GF = {}
+    dict_freq_tumour_GF = {}
 
     # Loop over all the b_OC_MMd values
     for b_OC_MMd in range(3000):
         b_OC_MMd = b_OC_MMd/1000
 
         # Determine the total MM frequency
-        freq_tumor = mimimal_tumor_freq_b_OC_MMd(b_OC_MMd, xOC, xOB, xMMd, xMMr,
+        freq_tumour = mimimal_tumour_freq_b_OC_MMd(b_OC_MMd, xOC, xOB, xMMd, xMMr,
                                         N, cOC, cOB, cMMd, cMMr, matrix, t, False)
-        dict_freq_tumor_GF[b_OC_MMd] = freq_tumor
+        dict_freq_tumour_GF[b_OC_MMd] = freq_tumour
 
     # Save the data
-    save_dictionary(dict_freq_tumor_GF,
+    save_dictionary(dict_freq_tumour_GF,
                          r'..\data\data_own_model\dict_cell_freq_b_OC_MMd.csv')
 
     # Make a list of the keys and one of the values
-    b_OC_MMd_values = list(dict_freq_tumor_GF.keys())
-    MM_frequencies = list(dict_freq_tumor_GF.values())
+    b_OC_MMd_values = list(dict_freq_tumour_GF.keys())
+    MM_frequencies = list(dict_freq_tumour_GF.values())
 
     # Create the plot
     plt.plot(b_OC_MMd_values, MM_frequencies, linestyle='-')
@@ -691,21 +691,21 @@ t = np.linspace(0, 100, 100)
 b_OC_MMd_start = 0.8
 
 # Perform the optimization
-result = minimize(mimimal_tumor_freq_b_OC_MMd, b_OC_MMd_start, args = (xOC, xOB,
+result = minimize(mimimal_tumour_freq_b_OC_MMd, b_OC_MMd_start, args = (xOC, xOB,
         xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix, t, True), bounds=[(0, 3)])
 
 # Retrieve the optimal value
 optimal_b_OC_MMd= result.x
-print("Optimal value for b_OC_MMd:", optimal_b_OC_MMd,
-                                            ',gives tumor frequency:', result.fun)
+print("Optimal value for b_OC_MMd:", float(optimal_b_OC_MMd[0]),
+                                            ',gives tumour frequency:', result.fun)
 
 # Make a figure
-# figure_optimal_b_OC_MMd()
+figure_optimal_b_OC_MMd()
 
 
 """Determine the best drug effect value for high and low cOB and cOC values
 --------------------------------------------------------------------------------"""
-def mimimal_tumor_freq_dev(WMMd_inhibitor, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd,
+def mimimal_tumour_freq_dev(WMMd_inhibitor, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd,
                                             cMMr, matrix, t, WMMd_inhibitor_array):
     """Function that determines the fraction of the population being MM for a
     specific wMMd drug inhibitor value.
@@ -787,42 +787,42 @@ def figure_drug_cost():
     t = np.linspace(0, 100, 100)
 
     # Make a dictionary
-    dict_freq_tumor_high_c = {}
+    dict_freq_tumour_high_c = {}
 
     # Loop over the different WMMd_inhibitor values
     for WMMd_inhibitor in range(3000):
         WMMd_inhibitor = WMMd_inhibitor/1000
-        freq_tumor = mimimal_tumor_freq_dev(WMMd_inhibitor, xOC, xOB, xMMd, xMMr,
+        freq_tumour = mimimal_tumour_freq_dev(WMMd_inhibitor, xOC, xOB, xMMd, xMMr,
                                         N, cOC, cOB, cMMd, cMMr, matrix, t, False)
-        dict_freq_tumor_high_c[WMMd_inhibitor] = freq_tumor
+        dict_freq_tumour_high_c[WMMd_inhibitor] = freq_tumour
 
     # Save the data
-    save_dictionary(dict_freq_tumor_high_c,
-                    r'..\data\data_own_model\dict_cell_freq_tumor_high_c.csv')
+    save_dictionary(dict_freq_tumour_high_c,
+                    r'..\data\data_own_model\dict_cell_freq_tumour_high_c.csv')
 
     # Make lists of the keys and the values
-    keys_high_c = list(dict_freq_tumor_high_c.keys())
-    values_high_c = list(dict_freq_tumor_high_c.values())
+    keys_high_c = list(dict_freq_tumour_high_c.keys())
+    values_high_c = list(dict_freq_tumour_high_c.values())
 
     # Set new cOC and cOB values and make a dictionary
     cOB = 0.8
     cOC = 0.9
-    dict_freq_tumor_low_c = {}
+    dict_freq_tumour_low_c = {}
 
     # Loop over the different WMMd_inhibitor values
     for WMMd_inhibitor in range(3000):
         WMMd_inhibitor = WMMd_inhibitor/1000
-        freq_tumor = mimimal_tumor_freq_dev(WMMd_inhibitor, xOC, xOB, xMMd, xMMr,
+        freq_tumour = mimimal_tumour_freq_dev(WMMd_inhibitor, xOC, xOB, xMMd, xMMr,
                                         N, cOC, cOB, cMMd, cMMr, matrix, t, False)
-        dict_freq_tumor_low_c[WMMd_inhibitor] = freq_tumor
+        dict_freq_tumour_low_c[WMMd_inhibitor] = freq_tumour
 
     # Save the data
-    save_dictionary(dict_freq_tumor_low_c,
-                    r'..\data\data_own_model\dict_cell_freq_tumor_low_c.csv')
+    save_dictionary(dict_freq_tumour_low_c,
+                    r'..\data\data_own_model\dict_cell_freq_tumour_low_c.csv')
 
     # Make lists of the keys and the values
-    keys_low_c = list(dict_freq_tumor_low_c.keys())
-    values_low_c = list(dict_freq_tumor_low_c.values())
+    keys_low_c = list(dict_freq_tumour_low_c.keys())
+    values_low_c = list(dict_freq_tumour_low_c.values())
 
     # Create a figure
     plt.figure(figsize=(12, 6))
@@ -872,29 +872,29 @@ t = np.linspace(0, 100, 100)
 dev_start = 0.3
 
 # Perform the optimization
-# result_high = minimize(mimimal_tumor_freq_dev, dev_start, args = (xOC, xOB, xMMd, xMMr,
-# N, cOC, cOB, cMMd, cMMr, matrix, t, True), bounds=[(0, 0.8)], method='Nelder-Mead')
-#
-# # Retrieve the optimal value
-# optimal_dev_high = result_high.x
-# print("Optimal value for drug effect:", optimal_dev_high,', gives tumor frequency:',
-#                                                                     result_high.fun)
-#
-# # Set new cOB and cOC values
-# cOB = 0.8
-# cOC = 0.9
-#
-# # Perform the optimization
-# result_low = minimize(mimimal_tumor_freq_dev, dev_start, args = (xOC, xOB, xMMd,
-#                 xMMr, N, cOC, cOB, cMMd, cMMr, matrix, t, True), bounds=[(0, 3)])
-#
-# # Retrieve the optimal value
-# optimal_dev_low= result_low.x
-# print("Optimal value for drug effect:", optimal_dev_low,', gives tumor frequency:',
-#                                                                     result_low.fun)
-#
-# # Make a figure
-# figure_drug_cost()
+result_high = minimize(mimimal_tumour_freq_dev, dev_start, args = (xOC, xOB, xMMd, xMMr,
+N, cOC, cOB, cMMd, cMMr, matrix, t, True), bounds=[(0, 0.8)], method='Nelder-Mead')
+
+# Retrieve the optimal value
+optimal_dev_high = result_high.x
+print("Optimal value for drug effect:", float(optimal_dev_high[0]),
+                                   ', gives tumour frequency:', result_high.fun)
+
+# Set new cOB and cOC values
+cOB = 0.8
+cOC = 0.9
+
+# Perform the optimization
+result_low = minimize(mimimal_tumour_freq_dev, dev_start, args = (xOC, xOB, xMMd,
+                xMMr, N, cOC, cOB, cMMd, cMMr, matrix, t, True), bounds=[(0, 3)])
+
+# Retrieve the optimal value
+optimal_dev_low= result_low.x
+print("Optimal value for drug effect:", float(optimal_dev_low[0]),
+                                     ', gives tumour frequency:', result_low.fun)
+
+# Make a figure
+figure_drug_cost()
 
 
 """-------------------Effet AT therapy-------------------------------"""
@@ -940,7 +940,7 @@ def switch_dataframe(n_switches, t_steps, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMM
     df_total_switch: Dataframe
         Dataframe with the xOC, xOB, xMMd and xMMr values over time.
     """
-    # set initial values
+    # Set initial values
     x = 0
     time = 0
     df_total_switch = pd.DataFrame()
@@ -1143,12 +1143,12 @@ def figure_3_senarios_MMd_GF_IH(n_switches, t_steps_drug):
     plt.show()
 
 # Create a figure that shows the effect of drug holidays
-# list_t_steps_drug = [6, 8, 10]
-# figure_3_senarios_MMd_GF_IH(14, list_t_steps_drug)
+list_t_steps_drug = [6, 8, 10]
+figure_3_senarios_MMd_GF_IH(14, list_t_steps_drug)
 
 
 """ ---------------Optimizing time drug holiday-----------------"""
-def mimimal_tumor_freq_t_steps(t_steps, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd,
+def mimimal_tumour_freq_t_steps(t_steps, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd,
                                             cMMr, matrix_no_drugs, matrix_drugs):
     """ Function that makes a dataframe of the xOC, xOB, xMMd and xMMr values over
     time for a given time of a drug holiday.
@@ -1202,7 +1202,6 @@ def mimimal_tumor_freq_t_steps(t_steps, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd,
 def figure_drug_holiday():
     """ Figure that shows the average MM frequency for different drug holiday and
     administration periods."""
-
     # Set initial parameter values
     N = 50
     cMMr = 1.3
@@ -1221,7 +1220,7 @@ def figure_drug_holiday():
         [2.2, 0, 0.2, 0.0],
         [1.9, 0, -0.785, 0.2]])
 
-    # Payoff matrix when drugs are pressent
+    # Payoff matrix when GF inhibitor drugs are pressent
     matrix_drugs = np.array([
         [0.0, 1.6, 2.2, 1.9],
         [1.0, 0.0, -0.5, -0.5],
@@ -1231,21 +1230,21 @@ def figure_drug_holiday():
     t = np.linspace(0, 100, 100)
 
     # Make a dictionary
-    dict_freq_tumor_t_step = {}
+    dict_freq_tumour_t_step = {}
 
     # Loop over al the t_step values
     for t_steps in range(2, 20):
-        freq_tumor = mimimal_tumor_freq_t_steps(t_steps, xOC, xOB, xMMd, xMMr, N,
+        freq_tumour = mimimal_tumour_freq_t_steps(t_steps, xOC, xOB, xMMd, xMMr, N,
                             cOC, cOB, cMMd, cMMr, matrix_no_drugs, matrix_drugs)
-        dict_freq_tumor_t_step[t_steps] = freq_tumor
+        dict_freq_tumour_t_step[t_steps] = freq_tumour
 
     # Save the data
-    save_dictionary(dict_freq_tumor_t_step,
+    save_dictionary(dict_freq_tumour_t_step,
                 r'..\data\data_own_model\dict_cell_freq_best_drug_holiday.csv')
 
     # Convert the keys and values of the dictionary to lists
-    keys_t_step = list(dict_freq_tumor_t_step.keys())
-    values_MM_frequency = list(dict_freq_tumor_t_step.values())
+    keys_t_step = list(dict_freq_tumour_t_step.keys())
+    values_MM_frequency = list(dict_freq_tumour_t_step.values())
 
     # Create a plot
     plt.plot(keys_t_step, values_MM_frequency, color = 'purple', linestyle='--',
@@ -1277,7 +1276,7 @@ matrix_no_drugs = np.array([
     [2.2, 0, 0.2, 0.0],
     [1.9, 0, -0.785, 0.2]])
 
-# Payoff matrix when drugs are pressent
+# Payoff matrix when GF inhibitor drugs are pressent
 matrix_drugs = np.array([
     [0.0, 1.6, 2.2, 1.9],
     [1.0, 0.0, -0.5, -0.5],
@@ -1287,21 +1286,21 @@ matrix_drugs = np.array([
 t = np.linspace(0, 100, 100)
 
 # Make a dictionary
-dict_freq_tumor_t_step = {}
+dict_freq_tumour_t_step = {}
 
 # Loop over al the t_step values
-# for t_steps in range(2, 20):
-#     freq_tumor = mimimal_tumor_freq_t_steps(t_steps, xOC, xOB, xMMd, xMMr, N,
-#                             cOC, cOB, cMMd, cMMr, matrix_no_drugs, matrix_drugs)
-#     dict_freq_tumor_t_step[t_steps] = freq_tumor
-#
-# # Determine the optimized values
-# min_key = min(dict_freq_tumor_t_step, key=dict_freq_tumor_t_step.get)
-# min_value = min(dict_freq_tumor_t_step.values())
-# print(f'The drug holiday time: {min_key},',f'giving a average MM frequency of {min_value}')
-#
-# # # Make a figure
-# figure_drug_holiday()
+for t_steps in range(2, 20):
+    freq_tumour = mimimal_tumour_freq_t_steps(t_steps, xOC, xOB, xMMd, xMMr, N,
+                            cOC, cOB, cMMd, cMMr, matrix_no_drugs, matrix_drugs)
+    dict_freq_tumour_t_step[t_steps] = freq_tumour
+
+# Determine the optimized values
+min_key = min(dict_freq_tumour_t_step, key=dict_freq_tumour_t_step.get)
+min_value = min(dict_freq_tumour_t_step.values())
+print(f'The drug holiday time: {min_key},',f'giving a average MM frequency of {min_value}')
+
+# Make a figure
+figure_drug_holiday()
 
 """ Best point to stop the giving of GF inhibition drugs"""
 def one_time_switch_dataframe(t_steps, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd,
@@ -1328,10 +1327,10 @@ def one_time_switch_dataframe(t_steps, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd,
         Cost parameter OCs.
     cOB: float
         Cost parameter OBs.
-    cMMr: Float
-        Cost parameter resistant MM cells.
     cMMd: Float
         Cost parameter drug-sensitive MM cells.
+    cMMr: Float
+        Cost parameter resistant MM cells.
     matrix_no_drugs: Numpy.ndarray
         4x4 matrix containing the interaction factors when no drugs are administrated.
     matrix_drugs: Numpy.ndarray
@@ -1395,13 +1394,6 @@ def one_time_switch_dataframe(t_steps, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd,
             xMMd = df_total_switch['xMMd'].iloc[-1]
             xMMr = df_total_switch['xMMr'].iloc[-1]
 
-            # Payoff matrix
-            matrix = np.array([
-                [0.0, 1.6, 2.2, 2.0],
-                [1.0, 0.0, -0.5, -0.5],
-                [1.9, 0, 0.2, 0.0],
-                [2.0, 0, -0.72, 0.2]])
-
             t = np.linspace(time, 100, 100- time)
             y0 = [xOC, xOB, xMMd, xMMr]
             parameters = (N, cOC, cOB, cMMd, cMMr, matrix_no_drugs)
@@ -1439,25 +1431,25 @@ matrix_no_drugs = np.array([
     [1.8, 0, 0.2, 0.0],
     [2.0, 0, -0.785, 0.2]])
 
-# Payoff matrix when drugs are present
+# Payoff matrix when GF inhibitor drugs are present
 matrix_drugs = np.array([
     [0.0, 1.6, 2.2, 2.0],
     [1.0, 0.0, -0.5, -0.5],
     [0.7, 0, 0.2, 0.0],
     [2.0, 0, -0.785, 0.2]])
 
-# # Loop over the different t step values
-# for t_steps in range(2, 30):
-#     df = one_time_switch_dataframe(t_steps, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
-#                                     cMMd, cMMr, matrix_no_drugs, matrix_drugs)
-#
-#     # If the xMMr is larger than xMMd the drug administartion has to stop
-#     if df['xMMd'].iloc[-1] < df['xMMr'].iloc[-1]:
-#         t_step_final = t_steps -1
-#         break
-#
-# print(f"""The generation at which giving drugs that inhibts the GF from
-# OC for MMd has to stop:{t_step_final}""")
+# Loop over the different t step values
+for t_steps in range(2, 30):
+    df = one_time_switch_dataframe(t_steps, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
+                                    cMMd, cMMr, matrix_no_drugs, matrix_drugs)
+
+    # If the xMMr is larger than xMMd the drug administartion has to stop
+    if df['xMMd'].iloc[-1] < df['xMMr'].iloc[-1]:
+        t_step_final = t_steps -1
+        break
+
+print(f"""The generation at which giving drugs that inhibts the GF from
+OC for MMd has to stop:{t_step_final}""")
 
 
 """ The effect of the two different drugs """
@@ -1579,7 +1571,7 @@ def figure_effect_two_drugs():
         [0.0, 1.6, 2.2, 2.1],
         [1.0, 0.0, -0.4, -0.4],
         [2.2, 0, 0.2, 0],
-        [2.1, 0, -0.9, 0.2]])
+        [2.1, 0, -0.7, 0.2]])
 
     # Initial conditions
     t = np.linspace(0, 25, 25)
@@ -1670,8 +1662,8 @@ def figure_effect_two_drugs():
     save_Figure(plt, 'line_plot_cell_freq_drug_effect',
                                             r'..\visualisation\results_own_model')
     plt.show()
-#
-# figure_effect_two_drugs()
+
+figure_effect_two_drugs()
 
 """-------------------Effet AT therapy-------------------------------"""
 def figure_3_senarios_WMMd_IH(n_switches, t_steps_drug):
@@ -1713,7 +1705,6 @@ def figure_3_senarios_WMMd_IH(n_switches, t_steps_drug):
             xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix, matrix, WMMd_inhibitor)
     df_total_switch_3 = switch_dataframe(n_switches, t_steps_drug[2], xOC, xOB,
             xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix, matrix, WMMd_inhibitor)
-
 
     t = np.linspace(0, 20, 20)
     y0 = [xOC, xOB, xMMd, xMMr]
@@ -1792,12 +1783,12 @@ def figure_3_senarios_WMMd_IH(n_switches, t_steps_drug):
     axs[1, 1].legend(loc = 'upper right')
     axs[1, 1].grid(True)
     save_Figure(plt, 'line_plot_cell_freq_WMMd_inhibit',
-                                     r'..\visualisation\results_own_model')
+                                          r'..\visualisation\results_own_model')
     plt.show()
 
 # Create a figure that shows the effect of drug holidays
-# list_t_steps_drug = [8, 10, 12]
-# figure_3_senarios_WMMd_IH(10, list_t_steps_drug)
+list_t_steps_drug = [8, 10, 12]
+figure_3_senarios_WMMd_IH(10, list_t_steps_drug)
 
 
 
@@ -1897,7 +1888,7 @@ def figure_freq_fitness_dynamics():
     # Combine the dataframes
     df_WMMd_inhibition = pd.concat([df_1_WMMd_inhibition, df_2_WMMd_inhibition])
 
-    # make a dataframe for the fitness values
+    # Make dataframes for the fitness values
     df_fitness_WMMd_inhibition_1 = freq_to_fitness_values(df_1_WMMd_inhibition, N,
                                           cOC, cOB, cMMd, cMMr, matrix_no_drugs)
     df_fitness_WMMd_inhibition_2 = freq_to_fitness_values(df_2_WMMd_inhibition, N,
@@ -1968,10 +1959,10 @@ def figure_freq_fitness_dynamics():
     axs[1, 1].grid(True)
     plt.tight_layout()
     save_Figure(plt, 'line_plot_cell_freq_fitness_drugs',
-                                     r'..\visualisation\results_own_model')
+                                         r'..\visualisation\results_own_model')
     plt.show()
 
-# figure_freq_fitness_dynamics()
+figure_freq_fitness_dynamics()
 
 
 """ AT therapy multidrug combinations """
@@ -2216,8 +2207,8 @@ def figure_3_senarios_MMd_GF_WMMd_IH(n_switches, t_steps_drug):
     plt.show()
 
 # # Create a figure that shows the effect of drug holidays
-# list_t_steps_drug = [15, 15, 15]
-# figure_3_senarios_MMd_GF_WMMd_IH(8, list_t_steps_drug)
+list_t_steps_drug = [15, 15, 15]
+figure_3_senarios_MMd_GF_WMMd_IH(8, list_t_steps_drug)
 
 def figure_3_senarios_MMd_GF_WMMd_IH(n_switches, t_steps_drug):
     """ Function that makes a figure that shows the effect of drug holidays.
@@ -2230,7 +2221,6 @@ def figure_3_senarios_MMd_GF_WMMd_IH(n_switches, t_steps_drug):
         List with the number of time steps drugs are administared and the breaks
         are for the different figures.
     """
-    # Set start parameter values
     # Set start parameter values
     N = 50
     cMMr = 1.3
@@ -2357,8 +2347,6 @@ def figure_3_senarios_MMd_GF_WMMd_IH(n_switches, t_steps_drug):
 # Create a figure that shows the effect of drug holidays
 list_t_steps_drug = [10, 12, 14]
 figure_3_senarios_MMd_GF_WMMd_IH(8, list_t_steps_drug)
-
-
 
 
 

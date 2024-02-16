@@ -2,22 +2,30 @@
 Author:       Eva Nieuwenhuis
 University:   UvA
 Student id':  13717405
-Description:  Code with the model that simulates linear dynamics in the multiple
-              myeloma (MM) microenvironment with three cell types: MM cells,
-              osteoblasts (OBs) and osteoclasts (OCs). The model is a public goods
-              game in the framework of evolutionary game theory with collective
-              interactions. It attempts to replicate certain Figures from the paper
-              by Sartakhti et al. (2016).
+Description:  Code that attempts to replicate the formulas and Figures from the
+              paper by Sartakhti et al. (2016) to get a better understanding of
+              cancer modeling. The model simulates linear dynamics and collective
+              interactions in the multiple myeloma (MM) microenvironment with three
+              cell types: MM cells, osteoblasts (OBs) and osteoclasts (OCs).
 
-              When running the code it also shows line plots of the frequencies, these
-              are not in the paper but are shown for a better understanding of the
-              dynamics.
+              When running the code it also shows line plots of the frequencies,
+              these are not in the paper but are shown for a better understanding
+              of the dynamics.
+
+              For some plots, it is not fully clear which parameter values are used.
+              This could be an explanation for why the found stable points are not
+              always the same as shown in the paper. However using the formula to
+              calculate the place of the stable points, the reproduced plots show
+              the correct stable points for the used parameter values. Since the
+              paper has not disclosed its code, direct comparisons cannot be made
+              to determine their used parameter values.
+
 
 Sartakhti, J. S., Manshaei, M. H., Bateni, S., & Archetti, M. (2016). Evolutionary
 dynamics of Tumor-Stroma interactions in multiple myeloma. PLOS ONE, 11(12),
 e0168856. https://doi.org/10.1371/journal.pone.0168856
-
 """
+
 import math
 import numpy as np
 import os
@@ -28,14 +36,6 @@ import plotly.graph_objects as go
 import plotly.express as px
 import plotly.io as pio
 from scipy.integrate import odeint
-
-
-"""For some plots it not fully clear which parameter values are used. This could be
-an explenation for why the dound stable points are not alway the exact same points
-as shown in the paper. However the give a formula to calculate the stable points
-and using thhe formula, these plots show the coreect stable points for the used
-parameter values.
-"""
 
 def main():
     # Do doc tests
