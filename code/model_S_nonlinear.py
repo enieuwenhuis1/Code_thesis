@@ -74,7 +74,7 @@ x_OB = frequency osteoblasen
 x_MM = frequency multiplemyeloma cells
 x_OC + x_OB + x_MM = 1
 
-N = Number of cells within the difuusie range of the diffusible factors
+N = Number of cells within the difusie range of the difusible factors
 """
 
 def probability_number_cells(nOC, nOB, N, xOC, xOB, xMM):
@@ -122,8 +122,8 @@ def probability_number_cells(nOC, nOB, N, xOC, xOB, xMM):
 """
 Payoff is the benefit that a cell receives through their actions. For osteoclasts
 (OC), osteoblasts (OB), and multiple myeloma cells (MM), the payoffs are calculated
-based on the number of cells of each type in a group, the effects of the diffusible
-factors produced and the factor production costs.
+based on the number of cells of each type, the effects of the diffusible factors
+and the factor production costs.
 
 VOC= bOC,OC(nOC+1)+ bOB,OC(nOB)+ bMM,OC(N−1−nOC−nOB)−cOC
 - Positive terms: the effects of diffusible factors
@@ -388,15 +388,15 @@ def sigmoid(n_i, h, B_max, s, N):
 
     Parameters:
     -----------
-    n_i : Int
+    n_i: Int
         The number of cells of type i.
-    h : Float
+    h: Float
         The position of the inflection point.
-    B_max : Float
+    B_max: Float
         The maximum benefit.
-    s : Float
+    s: Float
         The  steepness of the function.
-    N : Int
+    N: Int
         The total number of cell in the group.
 
     Returns:
@@ -413,20 +413,20 @@ def sigmoid(n_i, h, B_max, s, N):
     return sigmoid_value
 
 def benefit_function(n_i, h, B_max, s, N):
-    """ Function that calculates the benefit value of the diffusible factors produced
-    by cell type i on cell type j (9).
+    """ Function that calculates the benefit value of the diffusible factors
+    produced by cell type i on cell type j (9).
 
     Parameters:
     -----------
-    n_i : Int
+    n_i: Int
         The number of cells of type i.
-    h : Float
+    h: Float
         The position of the inflection point.
-    B_max : Float
+    B_max: Float
         The maximum benefit.
-    s : Float
+    s: Float
         The steepness of the function.
-    N : Int
+    N: Int
         The total number of cell in the group.
 
     Returns:
@@ -475,7 +475,7 @@ def collect_data(file_name, folder_path):
 
     Parameters:
     -----------
-    file_name : String
+    file_name: String
         The name of the csv file.
     folder_path: String:
         Path to the folder where the data will be saved.
@@ -498,7 +498,7 @@ def save_Figure(Figure, file_name, folder_path):
     -----------
     Figure: Matplotlib Figure
         Figure object that needs to be saved.
-    file_name : String
+    file_name: String
         The name for the plot.
     folder_path: String:
         Path to the folder where the data will be saved.
@@ -513,13 +513,14 @@ def save_ternary(Figure, file_name, folder_path):
     -----------
     Figure: Matplotlib Figure
         Figure object that needs to be saved.
-    file_name : String
+    file_name: String
         The name for the plot.
     folder_path: String:
         Path to the folder where the data will be saved.
     """
     os.makedirs(folder_path, exist_ok=True)
-    pio.write_image(Figure, os.path.join(folder_path, f'{file_name}.png'), format='png')
+    pio.write_image(Figure, os.path.join(folder_path, f'{file_name}.png'),
+                                                                    format='png')
 
 def dynamics_same_h_and_s(y, t, parameters):
     """Determines the frequenty dynamics in a population over time. The h value and
@@ -527,24 +528,25 @@ def dynamics_same_h_and_s(y, t, parameters):
 
     Parameters:
     -----------
-    y : List
+    y: List
         List containing the current frequencies of the OCs, OBs and MM cells
-    t : List
-        List with all the time points
-    parameters : tuple
+    t: Numpy.ndarray
+        Array with the time points.
+    parameters: tuple
         Tuple containing parameters required for computation -> (N, h, s, BOC_OC,
         BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM, cOC_value,
         cOB_value, cMM_value)
 
     Returns:
     -----------
-    [xOC_change, xOB_change, xMM_change] : List
+    [xOC_change, xOB_change, xMM_change]: List
         List with the calculated change in frequencies of xOC, xOB and MM cells
     """
     xOC, xOB, xMM = y
     N, h, s, BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM,\
                                         cOC_value, cOB_value, cMM_value = parameters
 
+    # Determine the absolute cell type numbers  
     nOC = xOC * N
     nOB = xOB * N
     nMM = xMM * N
@@ -580,11 +582,11 @@ def dynamics_different_h_and_s(y, t, parameters):
 
     Parameters:
     -----------
-    y : List
+    y: List
         List containing the current frequencies of the OCs, OBs and MM cells
-    t : List
-        List with all the time points
-    parameters : tuple
+    t: Numpy.ndarray
+        Array with the time points.
+    parameters: tuple
         Tuple containing parameters required for computation -> (NN, hOC_OC, hOC_OB,
         hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC, hMM_OB, hMM_MM, sOC_OC, sOC_OB,
         sOC_MM, sOB_OC, sOB_OB, sOB_MM, sMM_OC, sMM_OB, sMM_MM, BOC_OC, BOB_OC,
@@ -593,7 +595,7 @@ def dynamics_different_h_and_s(y, t, parameters):
 
     Returns:
     -----------
-    [xOC_change, xOB_change, xMM_change] : List
+    [xOC_change, xOB_change, xMM_change]: List
         List with the calculated change in frequencies of xOC, xOB and MM cells
     """
     # Unpack state variables and parameters
@@ -603,7 +605,7 @@ def dynamics_different_h_and_s(y, t, parameters):
     BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM, \
     cOC_value, cOB_value, cMM_value = parameters
 
-    # Calculate the number of individuals following each strategy
+    # Determine the absolute cell type numbers
     nOC = xOC * N
     nOB = xOB * N
     nMM = xMM * N
@@ -840,8 +842,25 @@ def Figure_2():
     df_ternary_Figure_2 = pd.DataFrame(columns=['Generation', 'xOC', 'xOB', 'xMM',
                                                                         'h_value'])
 
+    # Cost of producing diffusible factors
+    cOC_value = 0.1
+    cOB_value = 0.2
+    cMM_value = 0.3
+
+    # Maximal benefit values
+    BOC_OC = 0
+    BOC_OB = 1.0
+    BOC_MM = 1.1
+    BOB_OC = 1
+    BOB_OB = 0
+    BOB_MM = 0
+    BMM_OC = 1.1
+    BMM_OB = -0.3
+    BMM_MM = 0
+
     # Loop over the inflection point values
     for h_value in h_values:
+
         # Reset initial values for each h iteration
         xOC = 0.3
         xOB = 0.3
@@ -851,21 +870,6 @@ def Figure_2():
         nOB = 3
         nMM = 4
 
-        # Cost of producing diffusible factors
-        cOC_value = 0.1
-        cOB_value = 0.2
-        cMM_value = 0.3
-
-        # Maximal benefit values
-        BOC_OC = 0
-        BOC_OB = 1.0
-        BOC_MM = 1.1
-        BOB_OC = 1
-        BOB_OB = 0
-        BOB_MM = 0
-        BMM_OC = 1.1
-        BMM_OB = -0.3
-        BMM_MM = 0
 
         # Steepness of the function at the inflection point
         s_value = 20
@@ -1109,6 +1113,7 @@ def Figure_4():
     nOC = 4
     nOB = 10
     nMM = 6
+
     # Set initial condition and parameters
     y0 = [xOC, xOB, xMM]
     parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC, hMM_OB,\
@@ -1134,6 +1139,7 @@ def Figure_4():
     nMM = 6
 
     s_linear = 10e-10
+
     # Set initial condition and parameters
     y0 = [xOC, xOB, xMM]
     parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC, hMM_OB,\
@@ -1442,6 +1448,7 @@ def Figure_6():
     nMM = 6
 
     s_linear = 10e-10
+
     # Set initial condition and parameters
     y0 = [xOC, xOB, xMM]
     parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC, hMM_OB,
@@ -1643,6 +1650,7 @@ def Figure_7():
     nMM = 3
 
     s_linear = 10e-10
+
     # Set initial condition and parameters
     y0 = [xOC, xOB, xMM]
     parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC, hMM_OB,

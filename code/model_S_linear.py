@@ -93,6 +93,14 @@ def main():
     # Make Figure 12C right in the paper of Sartakhti et al., 2016.
     Figure_12C_right()
 
+"""
+Example interaction matrix:
+M = np.array([
+       Goc Gob Gmm
+    OC [a, b, c],
+    OB [d, e, f],
+    MM [g, h, i]])
+"""
 
 def save_data(data_frame, file_name, folder_path):
     """ Function that saves a dataframe as csv file.
@@ -117,7 +125,7 @@ def save_Figure(Figure, file_name, folder_path):
     -----------
     Figure: Matplotlib Figure
         Figure object that needs to be saved.
-    file_name : String
+    file_name: String
         The name for the plot.
     folder_path: String:
         Path to the folder where the data will be saved.
@@ -132,13 +140,14 @@ def save_ternary(Figure, file_name, folder_path):
     -----------
     Figure: Matplotlib Figure
         Figure object that needs to be saved.
-    file_name : String
+    file_name: String
         The name for the plot.
     folder_path: String:
         Path to the folder where the data will be saved.
     """
     os.makedirs(folder_path, exist_ok=True)
-    pio.write_image(Figure, os.path.join(folder_path, f'{file_name}.png'), format='png')
+    pio.write_image(Figure, os.path.join(folder_path, f'{file_name}.png'),
+                                                                 format='png')
 
 
 def collect_data(file_name, folder_path):
@@ -146,7 +155,7 @@ def collect_data(file_name, folder_path):
 
     Parameters:
     -----------
-    file_name : String
+    file_name: String
         The name of the csv file.
     folder_path: String:
         Path to the folder where the data will be saved.
@@ -183,12 +192,12 @@ def fitness_WOC(xOC, xOB, xMM, N, cOC, cOB, cMM, matrix):
         Cost parameter OBs.
     cMM: Float
         Cost parameter MM cells.
-    matrix : Numpy.ndarray
+    matrix: Numpy.ndarray
         3x3 matrix containing interaction factors.
 
     Returns:
     --------
-    WOC : Float
+    WOC: Float
         Fitness of an OC.
 
     Example:
@@ -228,12 +237,12 @@ def fitness_WOB(xOC, xOB, xMM, N, cOC, cOB, cMM, matrix):
         Cost parameter OBs.
     cMM: Float
         Cost parameter MM cells.
-    matrix : Numpy.ndarray
+    matrix: Numpy.ndarray
         3x3 matrix containing interaction factors.
 
     Returns:
     --------
-    WOB : Float
+    WOB: Float
         Fitness of an OB.
 
     Example:
@@ -259,26 +268,26 @@ def fitness_WMM(xOC, xOB, xMM, N, cOC, cOB, cMM, matrix):
 
     Parameters:
     -----------
-    xOC: float
+    xOC: Float
         Frequency of OCs.
-    xOB: float
+    xOB: Float
         Frequency of OBs.
-    xMM: float
+    xMM: Float
         Frequency of the MM cells.
     N: int
         Number of individuals within the interaction range.
-    cOC: float
+    cOC: Float
         Cost parameter OCs.
-    cOB: float
+    cOB: Float
         Cost parameter OBs.
-    cMM: float
+    cMM: Float
         Cost parameter MM cells.
-    matrix : numpy.ndarray
+    matrix: Numpy.ndarray
         3x3 matrix containing interaction factors.
 
     Returns:
     --------
-    WOB : Float
+    WOB: Float
         Fitness of an MM cell.
 
     Example:
@@ -303,25 +312,34 @@ def model_dynamics(y, t, N, cOC, cOB, cMM, matrix):
 
     Parameters:
     -----------
-    y : List
+    y: List
         List with the values of xOC, xOB, and xMM.
-    t : Float
-        THE time point.
-    N : Int
+    t: Numpy.ndarray
+        Array with the time points.
+    N: Int
         Number of cells in the difussion range.
-    cOC : Float
+    cOC: Float
         Cost value of the OCs.
-    cOB : Float
+    cOB: Float
         Cost value of the OBs.
-    cMM : Float
+    cMM: Float
         Cost value of the MMs.
-    matrix : Numpy array
+    matrix: Numpy.ndarray
         Matrix with the payoff values.
 
     Returns:
     --------
     [xOC_change, xOB_change, xMM_change]: List
         List containing the changes in frequencies of xOC, xOB, and xMM.
+
+    Example:
+    -----------
+    >>> model_dynamics([0.4, 0.2, 0.3], 1, 10, 0.3, 0.2, 0.5, np.array([
+    ...    [0.7, 1.0, 2.5, 2.1],
+    ...    [1.0, 1.4, -0.3, 1.0],
+    ...    [2.5, 0.2, 1.1, -0.2],
+    ...    [2.1, 0.0, -0.2, 1.2]]))
+    [0.05126800000000001, -0.020606000000000013, -0.02856899999999999]
     """
     xOC, xOB, xMM = y
 
@@ -342,7 +360,7 @@ def model_dynamics(y, t, N, cOC, cOB, cMM, matrix):
 
 def freq_to_fitness_values(dataframe_frequencies, N, cOC, cOB, cMM, matrix):
     """Function that determine the fitness values of the OCs, OBs and MM cells
-    based on there frequencies on every time point. It also calculates the
+    based on their frequencies on every time point. It also calculates the
     average fitness.
 
     Parameters:
@@ -388,19 +406,10 @@ def freq_to_fitness_values(dataframe_frequencies, N, cOC, cOB, cMM, matrix):
         generation_list.append(index)
 
     # Create a new DataFrame with the calculated values
-    dataframe_fitness = pd.DataFrame({'Generation': generation_list,
-    'WOC': WOC_list, 'WOB': WOB_list, 'WMM': WMM_list, 'W_average': W_average_list})
+    dataframe_fitness = pd.DataFrame({'Generation': generation_list, 'WOC': \
+     WOC_list, 'WOB': WOB_list, 'WMM': WMM_list, 'W_average': W_average_list})
 
     return(dataframe_fitness)
-
-"""
-Example payoff matrix:
-M = np.array([
-       Goc Gob Gmm
-    OC [a, b, c],
-    OB [d, e, f],
-    MM [g, h, i]])
-"""
 
 """Figure 2"""
 def Figure_2():
@@ -453,9 +462,9 @@ def Figure_2():
 
     # determine the fitness values
     df_fitness_first_line = freq_to_fitness_values(df_Figure_2_first_line, N, c1,
-                                                                c2, c3, matrix)
-    df_fitness_second_line = freq_to_fitness_values(df_Figure_2_second_line, N, c1,
-                                                                c2, c3, matrix)
+                                                            c2, c3, matrix)
+    df_fitness_second_line = freq_to_fitness_values(df_Figure_2_second_line, N,
+                                                            c1, c2, c3, matrix)
 
     # Create a Figure and axes for subplots
     fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(14,6))
@@ -470,17 +479,19 @@ def Figure_2():
                                                                 loc='upper right')
 
     # Plot the second subplot
-    df_Figure_2_first_line.plot(x='Generation', y=['xOC', 'xOB', 'xMM'], ax=axes[1])
+    df_Figure_2_first_line.plot(x='Generation', y=['xOC', 'xOB', 'xMM'],
+                                                                    ax=axes[1])
     axes[1].set_title('Dynamics for a scenario where c2<c1<c3 (Figure 2)')
     axes[1].set_xlabel('Generations')
     axes[1].set_ylabel('Fitness/Frequency')
-    axes[1].legend(['Frequency OC', 'Frequency OB', 'Frequency MM'], loc='upper right')
+    axes[1].legend(['Frequency OC', 'Frequency OB', 'Frequency MM'],
+                                                            loc='upper right')
     plt.tight_layout()
     save_Figure(plt, 'line_plot_Figure_2_first_line_red',
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
     plt.show()
 
-    # Create a Figure and axes for subplots
+    # Create a Figure with subplots
     fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(14,6))
 
     # Plot the first subplot
@@ -497,7 +508,8 @@ def Figure_2():
     axes[1].set_title('Dynamics for a scenario where c2<c1<c3 (Figure 2)')
     axes[1].set_xlabel('Generations')
     axes[1].set_ylabel('Fitness/Frequency')
-    axes[1].legend(['Frequency OC', 'Frequency OB', 'Frequency MM'], loc='upper right')
+    axes[1].legend(['Frequency OC', 'Frequency OB', 'Frequency MM'],
+                                                                loc='upper right')
     plt.tight_layout()
     save_Figure(plt, 'line_plot_Figure_2_second_line_blue',
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
@@ -564,7 +576,7 @@ def Figure_3():
     y0 = [xOC, xOB, xMM]
     parameters = (N, c1, c2, c3, matrix)
 
-    # defsetermine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_Figure_3_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
@@ -579,7 +591,7 @@ def Figure_3():
     y0 = [xOC, xOB, xMM]
     parameters = (N, c1, c2, c3, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_Figure_3_third_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
@@ -597,7 +609,7 @@ def Figure_3():
 
     # Plot each dataframe in one subplot
     df_Figure_3_first_line.plot(ax=axes[0], x='Generation', y=['xOC', 'xOB', 'xMM'],
-                            label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+                          label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     axes[0].set_title('Dynamics for a scenario where c2<c1<c3 (Figure 3)')
     axes[0].set_xlabel('Generations')
     axes[0].set_ylabel('Fitness/Frequency')
@@ -611,7 +623,7 @@ def Figure_3():
     axes[1].legend(loc ='upper right')
 
     df_Figure_3_third_line.plot(ax=axes[2], x='Generation', y=['xOC', 'xOB', 'xMM'],
-                            label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+                          label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     axes[2].set_title('Dynamics for a scenario where c2<c1<c3 (Figure 3)')
     axes[2].set_xlabel('Generations')
     axes[2].set_ylabel('Fitness/Frequency')
@@ -644,7 +656,7 @@ def Figure_5():
     y0 = [xOC, xOB, xMM]
     parameters = (N, c1, c2, c3, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_Figure_5_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
@@ -659,7 +671,7 @@ def Figure_5():
     y0 = [xOC, xOB, xMM]
     parameters = (N, c1, c2, c3, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_Figure_5_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
@@ -670,7 +682,7 @@ def Figure_5():
     save_data(df_Figure_5_second_line, 'df_Figure_5_second_line.csv',
                                     r'..\data\reproduced_data_Sartakhti_linear')
 
-    # determine the fitness values
+    # Determine the fitness values
     df_fitness_first_line = freq_to_fitness_values(df_Figure_5_first_line, N, c1,
                                                                     c2, c3, matrix)
     df_fitness_second_line = freq_to_fitness_values(df_Figure_5_second_line, N, c1,
@@ -693,7 +705,8 @@ def Figure_5():
     axes[1].set_title('Dynamics for a scenario where c2<c1<c3 (Figure 5)')
     axes[1].set_xlabel('Generations')
     axes[1].set_ylabel('Fitness/Frequency')
-    axes[1].legend(['Frequency OC', 'Frequency OB', 'Frequency MM'], loc ='upper right')
+    axes[1].legend(['Frequency OC', 'Frequency OB', 'Frequency MM'],
+                                                            loc ='upper right')
     plt.tight_layout()
     save_Figure(plt, 'line_plot_Figure_5_first_line_red',
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
@@ -716,7 +729,8 @@ def Figure_5():
     axes[1].set_title('Dynamics for a scenario where c2<c1<c3 (Figure 5)')
     axes[1].set_xlabel('Generations')
     axes[1].set_ylabel('Fitness/Frequency')
-    axes[1].legend(['Frequency OC', 'Frequency OB', 'Frequency MM'], loc ='upper right')
+    axes[1].legend(['Frequency OC', 'Frequency OB', 'Frequency MM'],
+                                                            loc ='upper right')
     plt.tight_layout()
     save_Figure(plt, 'line_plot_Figure_5_second_line_blue',
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
@@ -801,6 +815,7 @@ def Figure_8A():
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
     plt.show()
 
+    # Make a plot
     df_Figure_8A_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
                         label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.xlabel('Generations')
@@ -869,7 +884,7 @@ def Figure_8B():
     y0 = [xOC, xOB, xMM]
     parameters = (N, c1, c2, c3, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_Figure_8B_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
@@ -891,6 +906,7 @@ def Figure_8B():
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
     plt.show()
 
+    # Make a plot
     df_Figure_8B_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', ],
                         label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.xlabel('Generations')
@@ -981,6 +997,7 @@ def Figure_9A():
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
     plt.show()
 
+    # Make a plot
     df_Figure_9A_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
                         label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.xlabel('Generations')
@@ -1071,6 +1088,7 @@ def Figure_9B():
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
     plt.show()
 
+    # Make a plot
     df_Figure_9B_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
                         label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.xlabel('Generations')
@@ -1161,6 +1179,7 @@ def Figure_9C():
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
     plt.show()
 
+    # Make a plot
     df_Figure_9C_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
                         label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.xlabel('Generations')
@@ -1251,6 +1270,7 @@ def Figure_10A():
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
     plt.show()
 
+    # Make a plot
     df_Figure_10A_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
                         label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.xlabel('Generations')
@@ -1503,6 +1523,7 @@ def Figure_12A_middel():
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
     plt.show()
 
+    # Make a plot
     df_Figure_12A_middel_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
                         label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.xlabel('Generations')
@@ -1572,7 +1593,7 @@ def Figure_12A_right():
     y0 = [xOC, xOB, xMM]
     parameters = (N, c1, c2, c3, matrix)
 
-    #  the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_Figure_12A_right_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
@@ -1594,6 +1615,7 @@ def Figure_12A_right():
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
     plt.show()
 
+    # Make a plot
     df_Figure_12A_right_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
                         label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.xlabel('Generations')
@@ -1684,6 +1706,7 @@ def Figure_12B_middel():
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
     plt.show()
 
+    # Make a plot
     df_Figure_12B_middel_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
                         label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.xlabel('Generations')
@@ -1775,6 +1798,7 @@ def Figure_12B_right():
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
     plt.show()
 
+    # Make a plot
     df_Figure_12B_right_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
                         label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.xlabel('Generations')
@@ -1866,6 +1890,7 @@ def Figure_12C_middel():
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
     plt.show()
 
+    # Make a plot
     df_Figure_12C_middel_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
                             label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.xlabel('Generations')
@@ -1956,6 +1981,7 @@ def Figure_12C_right():
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
     plt.show()
 
+    # Make a plot
     df_Figure_12C_right_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
                             label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
     plt.xlabel('Generations')
