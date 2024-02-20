@@ -3,11 +3,11 @@ University:   UvA
 Student id:   13717405
 
 The goal was to make a model that simulates the dynamics of the multiple myeloma
-(MM) microenvironment and determine the effects of several treatment methods. In the 
-own model is looked at the interactions between four cell types: drug-sensitive MM 
-cells (MMd), resistant MM cells (MMr), osteoblasts (OBs) and osteoclasts (OCs). The 
-own model simulates a public goods game in the framework of evolutionary game theory 
-with collective interactions and linear benefits. The impact of GF MMd inhibitors and 
+(MM) microenvironment and determine the effects of several treatment methods. In the
+own model is looked at the interactions between four cell types: drug-sensitive MM
+cells (MMd), resistant MM cells (MMr), osteoblasts (OBs) and osteoclasts (OCs). The
+own model simulates a public goods game in the framework of evolutionary game theory
+with collective interactions and linear benefits. The impact of GF MMd inhibitors and
 WMMd inhibitors is studied for different administration periods.
 
 To better understand MM microenvironment modeling, the figures from two articles were
@@ -64,10 +64,10 @@ cancer_model.py
 * scipy (version 1.11.4)
     - install: pip install scipy==1.11.4
 
-cancer_model_visualisation.py 
+cancer_model_visualisation.py
 
 THE MODEL WITH LINEAR BENEFITS: model_S_linear.py
-model_S_linear.py contains code of the mathematical formulas and the code to 
+model_S_linear.py contains code of the mathematical formulas and the code to
 reproduce some of the figures in the paper: Evolutionary dynamics of tumour-Stroma
 interactions in multiple myeloma by Sartakhti et al. (2016). The model is made based
 on the method section of the paper. The benefits are linear and there are collective
@@ -79,9 +79,9 @@ run when the model_S_linear.py code is run.
 
 
 THE MODEL WITH NONLINEAR BENEFITS: model_S_nonlinear.py
-Model_S_nonlinear.py contains the code of all the mathematical formulas as well as 
-the code to reproduce the figures from the paper: Game Theory of tumour–Stroma 
-Interactions in Multiple Myeloma: Effect of Nonlinear Benefits by Sartakhti et al. 
+Model_S_nonlinear.py contains the code of all the mathematical formulas as well as
+the code to reproduce the figures from the paper: Game Theory of tumour–Stroma
+Interactions in Multiple Myeloma: Effect of Nonlinear Benefits by Sartakhti et al.
 (2018). The model is made based on the method section of the paper. The benefits are
 nonlinear and there are collective interactions.
 
@@ -90,23 +90,33 @@ To test some of the functions in the model, doc tests are added and automaticall
 run when the model_S_nonlinear.py code is run.
 
 
-THE OWN MADE MODEL: cancer_model.py
-Cancer_model.py contains the code with the mathematical formulas simulating the dynamics 
-of the four cell types MMd, MMr, OCs and OBs in the MM microenvironment. The model is 
-contineous, has a changing N, uses linear benefits and collective interactions and it 
-assumes that all N studied cells are within the diffusion range of secreted factors. It 
-also contains code to optimize the parameter values for the best drug administration 
-values and period.
+THE OWN MADE MODEL WITH FRACTIONS: MM_model_fractions.py
+MM_model_fractions.py contains the code with the mathematical formulas simulating
+the fraction dynamics of the four cell types MMd, MMr, OCs and OBs in the MM
+microenvironment. The model is contineous and uses linear benefits and collective
+interactions. It contains the code to make the figures showing the effect of WMM
+inhibitors, MMd GF inhibitors and a combination at different administration periods
+on the cell type fractions. In addition, it also contains code to optimize the drug
+administration amounts and periods causing the lowest total MM fraction.
 
 TEST THE CODE
 To test some of the functions in the model, doc tests are added and automatically
-run when the cancer_model.py code is run.
+run when the MM_model_fractions.py code is run.
 
-VISUALISATION OWN MODEL: cancer_model_visualisation.py
-Cancer_model_visualisation.py contains the code to make the figures showing the effect 
-of WMM inhibitors, MMd GF inhibitors and a combination at different administration 
-periods. It also contains code to optimize the parameter values for the best drug 
-administration values and period.
+THE OWN MADE MODEL WITH NUMBERS: MM_model_numbers.py
+MM_model_numbers.py contains the code with the mathematical formulas simulating
+the number dynamics of the four cell types MMd, MMr, OCs and OBs in the MM
+microenvironment. The model is contineous, has a changing N and uses linear benefits
+and collective interactions. It contains the code to make the figures showing the
+effect of WMM inhibitors, MMd GF inhibitors and a combination at different
+administration periods on the cell type numbers. In addition, it also contains code
+to optimize the drug administration amounts and periods causing the lowest total
+MM fraction.
+
+TEST THE CODE
+To test some of the functions in the model, doc tests are added and automatically
+run when the MM_model_numbers.py code is run.
+
 
 THE DATA
 The folder data contains all the generated data that is used to make the figures.
@@ -115,7 +125,10 @@ This folder contains:
                                     based on the paper of Sartakhti et al., 2018
 * reproduced_data_Sartakhti_linear: contains all the data obtained with the model
                                     based on the paper of Sartakhti et al., 2016
-* data_own_model: contains all the data obtained from the own model 
+* data_own_model_fractions: contains all the data obtained from the own model with
+                          simulating cell type fractions
+* data_own_model_numbers: contains all the data obtained from the own model with
+                          simulating cell type numbers
 
 THE FIGURES
 In the folder visualisation, all made figures are shown. This folder contains:
@@ -123,10 +136,10 @@ In the folder visualisation, all made figures are shown. This folder contains:
                                         the paper of Sartakhti et al., 2018.
 * reproduced_results_Sartakhti_linear: contains all the reproduced figures of the
                                       paper of Sartakhti et al., 2016.
-* results_own_model: contains all the figures obtained from the own model when running 
-                     cancer_model_visualisation.py
-
-
+* results_own_model_fractions: contains all the figures obtained from the own model
+                              simulating cell type fractions.
+* results_own_model_numbers: contains all the figures obtained from the own model
+                              simulating cell type numbers.
 
 HOW TO RUN
 The nonlinear model and its visualisation, model_S_nonlinear.py:
@@ -135,11 +148,9 @@ The nonlinear model and its visualisation, model_S_nonlinear.py:
 The linear model and its visualisation, model_S_linear.py:
         - python model_S_linear.py
 
-Own model, cancer_model.py
-        - python cancer_model.py
+Own model with fractions, MM_model_fractions.py
+        - python MM_model_fractions.py
 
-Visualisation own model, cancer_model_visualisation.py
-        - python cancer_model_visualisation.py 
 
 REFERENCES
 * Sartakhti, J. S., Manshaei, M. H., & Archetti, M. (2018). Game Theory of tumour–Stroma

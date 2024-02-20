@@ -8,7 +8,7 @@ Description:  Code that attempts to replicate the formulas and Figures from the
               interactions in the multiple myeloma (MM) microenvironment with three
               cell types: MM cells, osteoblasts (OBs) and osteoclasts (OCs).
 
-              When running the code it also shows line plots of the frequencies,
+              When running the code it also shows line plots of the fractions,
               these are not in the paper but are shown for a better understanding
               of the dynamics.
 
@@ -179,11 +179,11 @@ def fitness_WOC(xOC, xOB, xMM, N, cOC, cOB, cMM, matrix):
     Parameters:
     -----------
     xOC: Float
-        Frequency of OCs.
+        fraction of OCs.
     xOB: Float
-        Frequency of OBs.
+        fraction of OBs.
     xMM: Float
-        Frequency of the MM cells.
+        fraction of the MM cells.
     N: Int
         Number of individuals within the interaction range.
     cOC: Float
@@ -224,11 +224,11 @@ def fitness_WOB(xOC, xOB, xMM, N, cOC, cOB, cMM, matrix):
     Parameters:
     -----------
     xOC: Float
-        Frequency of OCs.
+        fraction of OCs.
     xOB: Float
-        Frequency of OBs.
+        fraction of OBs.
     xMM: Float
-        Frequency of the MM cells.
+        fraction of the MM cells.
     N: Int
         Number of individuals within the interaction range.
     cOC: Float
@@ -269,11 +269,11 @@ def fitness_WMM(xOC, xOB, xMM, N, cOC, cOB, cMM, matrix):
     Parameters:
     -----------
     xOC: Float
-        Frequency of OCs.
+        fraction of OCs.
     xOB: Float
-        Frequency of OBs.
+        fraction of OBs.
     xMM: Float
-        Frequency of the MM cells.
+        fraction of the MM cells.
     N: int
         Number of individuals within the interaction range.
     cOC: Float
@@ -308,7 +308,7 @@ def fitness_WMM(xOC, xOB, xMM, N, cOC, cOB, cMM, matrix):
     return WMM
 
 def model_dynamics(y, t, N, cOC, cOB, cMM, matrix):
-    """Determines the frequenty dynamics in a population over time.
+    """Determines the fracuenty dynamics in a population over time.
 
     Parameters:
     -----------
@@ -330,7 +330,7 @@ def model_dynamics(y, t, N, cOC, cOB, cMM, matrix):
     Returns:
     --------
     [xOC_change, xOB_change, xMM_change]: List
-        List containing the changes in frequencies of xOC, xOB, and xMM.
+        List containing the changes in fractions of xOC, xOB, and xMM.
 
     Example:
     -----------
@@ -351,22 +351,22 @@ def model_dynamics(y, t, N, cOC, cOB, cMM, matrix):
     # Determine the average fitness
     W_average = xOC * WOC + xOB * WOB + xMM * WMM
 
-    # Determine the new frequencies based on replicator dynamics
+    # Determine the new fractions based on replicator dynamics
     xOC_change = xOC * (WOC - W_average)  # (15)
     xOB_change = xOB * (WOB - W_average)  # (16)
     xMM_change = xMM * (WMM - W_average)  # (17)
 
     return [xOC_change, xOB_change, xMM_change]
 
-def freq_to_fitness_values(dataframe_frequencies, N, cOC, cOB, cMM, matrix):
+def frac_to_fitness_values(dataframe_fractions, N, cOC, cOB, cMM, matrix):
     """Function that determine the fitness values of the OCs, OBs and MM cells
-    based on their frequencies on every time point. It also calculates the
+    based on their fractions on every time point. It also calculates the
     average fitness.
 
     Parameters:
     -----------
-    dataframe_frequencies: Dataframe
-        Dataframe with the frequencies of the OBs, OCs and MM cells on every
+    dataframe_fractions: Dataframe
+        Dataframe with the fractions of the OBs, OCs and MM cells on every
         timepoint
 
     Returns:
@@ -384,7 +384,7 @@ def freq_to_fitness_values(dataframe_frequencies, N, cOC, cOB, cMM, matrix):
     generation_list = []
 
     # Iterate over each row
-    for index, row in dataframe_frequencies.iterrows():
+    for index, row in dataframe_fractions.iterrows():
         # Extract values of xOC, xOB, and xMM for the current row
         xOC = row['xOC']
         xOB = row['xOB']
@@ -439,7 +439,7 @@ def Figure_2():
     df_Figure_2_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
-    # Set new start frequencies
+    # Set new start fractions
     xOC = 0.2
     xOB = 0.4
     xMM = 0.4
@@ -461,9 +461,9 @@ def Figure_2():
                                     r'..\data\reproduced_data_Sartakhti_linear')
 
     # determine the fitness values
-    df_fitness_first_line = freq_to_fitness_values(df_Figure_2_first_line, N, c1,
+    df_fitness_first_line = frac_to_fitness_values(df_Figure_2_first_line, N, c1,
                                                             c2, c3, matrix)
-    df_fitness_second_line = freq_to_fitness_values(df_Figure_2_second_line, N,
+    df_fitness_second_line = frac_to_fitness_values(df_Figure_2_second_line, N,
                                                             c1, c2, c3, matrix)
 
     # Create a Figure and axes for subplots
@@ -483,8 +483,8 @@ def Figure_2():
                                                                     ax=axes[1])
     axes[1].set_title('Dynamics for a scenario where c2<c1<c3 (Figure 2)')
     axes[1].set_xlabel('Generations')
-    axes[1].set_ylabel('Fitness/Frequency')
-    axes[1].legend(['Frequency OC', 'Frequency OB', 'Frequency MM'],
+    axes[1].set_ylabel('Fraction')
+    axes[1].legend(['fraction OC', 'fraction OB', 'fraction MM'],
                                                             loc='upper right')
     plt.tight_layout()
     save_Figure(plt, 'line_plot_Figure_2_first_line_red',
@@ -507,8 +507,8 @@ def Figure_2():
     df_Figure_2_second_line.plot(x='Generation', y=['xOC', 'xOB', 'xMM'], ax=axes[1])
     axes[1].set_title('Dynamics for a scenario where c2<c1<c3 (Figure 2)')
     axes[1].set_xlabel('Generations')
-    axes[1].set_ylabel('Fitness/Frequency')
-    axes[1].legend(['Frequency OC', 'Frequency OB', 'Frequency MM'],
+    axes[1].set_ylabel('Fraction')
+    axes[1].legend(['fraction OC', 'fraction OB', 'fraction MM'],
                                                                 loc='upper right')
     plt.tight_layout()
     save_Figure(plt, 'line_plot_Figure_2_second_line_blue',
@@ -566,7 +566,7 @@ def Figure_3():
     df_Figure_3_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
-    # Set new start frequencies
+    # Set new start fractions
     xOC = 0.945
     xOB = 0.05
     xMM = 0.005
@@ -581,7 +581,7 @@ def Figure_3():
     df_Figure_3_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
-    # Set new start frequencies
+    # Set new start fractions
     xOC = 0.01
     xOB = 0.19
     xMM = 0.8
@@ -609,24 +609,24 @@ def Figure_3():
 
     # Plot each dataframe in one subplot
     df_Figure_3_first_line.plot(ax=axes[0], x='Generation', y=['xOC', 'xOB', 'xMM'],
-                          label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+                          label = ['fraction OC', 'fraction OB', 'fraction MM'])
     axes[0].set_title('Dynamics for a scenario where c2<c1<c3 (Figure 3)')
     axes[0].set_xlabel('Generations')
-    axes[0].set_ylabel('Fitness/Frequency')
+    axes[0].set_ylabel('Fraction')
     axes[0].legend(loc = 'upper right')
 
     df_Figure_3_second_line.plot(ax=axes[1], x='Generation', y=['xOC', 'xOB', 'xMM'],
-                            label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+                            label = ['fraction OC', 'fraction OB', 'fraction MM'])
     axes[1].set_title('Dynamics for a scenario where c2<c1<c3 (Figure 3)')
     axes[1].set_xlabel('Generations')
-    axes[1].set_ylabel('Fitness/Frequency')
+    axes[1].set_ylabel('Fraction')
     axes[1].legend(loc ='upper right')
 
     df_Figure_3_third_line.plot(ax=axes[2], x='Generation', y=['xOC', 'xOB', 'xMM'],
-                          label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+                          label = ['fraction OC', 'fraction OB', 'fraction MM'])
     axes[2].set_title('Dynamics for a scenario where c2<c1<c3 (Figure 3)')
     axes[2].set_xlabel('Generations')
-    axes[2].set_ylabel('Fitness/Frequency')
+    axes[2].set_ylabel('Fraction')
     axes[2].legend(loc ='upper right')
     plt.tight_layout()
     save_Figure(fig1, 'Line_plot_Figure_3',
@@ -661,7 +661,7 @@ def Figure_5():
     df_Figure_5_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
-    # Set new start frequencies
+    # Set new start fractions
     xOC = 0.3
     xOB = 0.5
     xMM = 0.2
@@ -683,9 +683,9 @@ def Figure_5():
                                     r'..\data\reproduced_data_Sartakhti_linear')
 
     # Determine the fitness values
-    df_fitness_first_line = freq_to_fitness_values(df_Figure_5_first_line, N, c1,
+    df_fitness_first_line = frac_to_fitness_values(df_Figure_5_first_line, N, c1,
                                                                     c2, c3, matrix)
-    df_fitness_second_line = freq_to_fitness_values(df_Figure_5_second_line, N, c1,
+    df_fitness_second_line = frac_to_fitness_values(df_Figure_5_second_line, N, c1,
                                                                     c2, c3, matrix)
 
     # Create a Figure and axes for subplots
@@ -704,8 +704,8 @@ def Figure_5():
     df_Figure_5_first_line.plot(x='Generation', y=['xOC', 'xOB', 'xMM'], ax=axes[1])
     axes[1].set_title('Dynamics for a scenario where c2<c1<c3 (Figure 5)')
     axes[1].set_xlabel('Generations')
-    axes[1].set_ylabel('Fitness/Frequency')
-    axes[1].legend(['Frequency OC', 'Frequency OB', 'Frequency MM'],
+    axes[1].set_ylabel('Fraction')
+    axes[1].legend(['fraction OC', 'fraction OB', 'fraction MM'],
                                                             loc ='upper right')
     plt.tight_layout()
     save_Figure(plt, 'line_plot_Figure_5_first_line_red',
@@ -728,8 +728,8 @@ def Figure_5():
     df_Figure_5_second_line.plot(x='Generation', y=['xOC', 'xOB', 'xMM'], ax=axes[1])
     axes[1].set_title('Dynamics for a scenario where c2<c1<c3 (Figure 5)')
     axes[1].set_xlabel('Generations')
-    axes[1].set_ylabel('Fitness/Frequency')
-    axes[1].legend(['Frequency OC', 'Frequency OB', 'Frequency MM'],
+    axes[1].set_ylabel('Fraction')
+    axes[1].legend(['fraction OC', 'fraction OB', 'fraction MM'],
                                                             loc ='upper right')
     plt.tight_layout()
     save_Figure(plt, 'line_plot_Figure_5_second_line_blue',
@@ -806,9 +806,9 @@ def Figure_8A():
 
     # Make a plot
     df_Figure_8A_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
-                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+                        label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
-    plt.ylabel('Frequency')
+    plt.ylabel('Fraction')
     plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 8A)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_8A_first_line_red',
@@ -817,9 +817,9 @@ def Figure_8A():
 
     # Make a plot
     df_Figure_8A_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
-                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+                        label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
-    plt.ylabel('Frequency')
+    plt.ylabel('Fraction')
     plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 8A)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_8A_second_line_blue',
@@ -874,7 +874,7 @@ def Figure_8B():
     df_Figure_8B_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
-    # Set new start frequencies
+    # Set new start fractions
     xOC = 0.1
     xOB = 0.7
     xMM = 0.2
@@ -897,9 +897,9 @@ def Figure_8B():
 
     # Make a plot
     df_Figure_8B_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
-                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+                        label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
-    plt.ylabel('Frequency')
+    plt.ylabel('Fraction')
     plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 8B)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_8B_first_line_red',
@@ -908,9 +908,9 @@ def Figure_8B():
 
     # Make a plot
     df_Figure_8B_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM', ],
-                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+                        label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
-    plt.ylabel('Frequency')
+    plt.ylabel('Fraction')
     plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 8B)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_8B_second_line_blue',
@@ -965,7 +965,7 @@ def Figure_9A():
     df_Figure_9A_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
-    # Set new start frequencies
+    # Set new start fractions
     xOC = 0.4
     xOB = 0.3
     xMM = 0.3
@@ -988,9 +988,9 @@ def Figure_9A():
 
     # Make a plot
     df_Figure_9A_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
-                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+                        label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
-    plt.ylabel('Frequency')
+    plt.ylabel('Fraction')
     plt.title('Dynamics for a scenario where c2=c1=c3 (Figure 9A)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_9A_first_line_red',
@@ -999,9 +999,9 @@ def Figure_9A():
 
     # Make a plot
     df_Figure_9A_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
-                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+                        label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
-    plt.ylabel('Frequency')
+    plt.ylabel('Fraction')
     plt.title('Dynamics for a scenario where c2=c1=c3 (Figure 9A)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_9A_second_line_blue',
@@ -1056,7 +1056,7 @@ def Figure_9B():
     df_Figure_9B_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
-    # Set new start frequencies
+    # Set new start fractions
     xOC = 0.4
     xOB = 0.3
     xMM = 0.3
@@ -1079,9 +1079,9 @@ def Figure_9B():
 
     # Make a plot
     df_Figure_9B_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
-                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+                        label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
-    plt.ylabel('Frequency')
+    plt.ylabel('Fraction')
     plt.title('Dynamics for a scenario where c2=c1=c3 (Figure 9B)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_9B_first_line_red',
@@ -1090,9 +1090,9 @@ def Figure_9B():
 
     # Make a plot
     df_Figure_9B_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
-                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+                        label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
-    plt.ylabel('Frequency')
+    plt.ylabel('Fraction')
     plt.title('Dynamics for a scenario where c2=c1=c3 (Figure 9B)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_9B_second_line_blue',
@@ -1147,7 +1147,7 @@ def Figure_9C():
     df_Figure_9C_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
-    # Set new start frequencies
+    # Set new start fractions
     xOC = 0.4
     xOB = 0.3
     xMM = 0.3
@@ -1170,9 +1170,9 @@ def Figure_9C():
 
     # Make a plot
     df_Figure_9C_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
-                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+                        label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
-    plt.ylabel('Frequency')
+    plt.ylabel('Fraction')
     plt.title('Dynamics for a scenario where c2=c1=c3 (Figure 9C)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_9C_first_line_red',
@@ -1181,9 +1181,9 @@ def Figure_9C():
 
     # Make a plot
     df_Figure_9C_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
-                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+                        label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
-    plt.ylabel('Frequency')
+    plt.ylabel('Fraction')
     plt.title('Dynamics for a scenario where c2=c1=c3 (Figure 9C)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_9C_second_line_blue',
@@ -1261,9 +1261,9 @@ def Figure_10A():
 
     # Make a plot
     df_Figure_10A_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
-                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+                        label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
-    plt.ylabel('Frequency')
+    plt.ylabel('Fraction')
     plt.title('Dynamics for a scenario where c3<c1<c2 (Figure 10A)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_10A_first_line_red',
@@ -1272,9 +1272,9 @@ def Figure_10A():
 
     # Make a plot
     df_Figure_10A_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
-                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+                        label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
-    plt.ylabel('Frequency')
+    plt.ylabel('Fraction')
     plt.title('Dynamics for a scenario where c3<c1<c2 (Figure 10A)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_10A_second_line_blue',
@@ -1329,7 +1329,7 @@ def Figure_10B():
     df_Figure_10B_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
-    # Set new start frequenties
+    # Set new start fracuenties
     xOC = 0.4
     xOB = 0.3
     xMM = 0.3
@@ -1351,9 +1351,9 @@ def Figure_10B():
 
     # Make a plot
     df_Figure_10B_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
-                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+                        label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
-    plt.ylabel('Frequency')
+    plt.ylabel('Fraction')
     plt.title('Dynamics for a scenario where c3<c1<c2 (Figure 10B)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_10B_first_line_red',
@@ -1361,9 +1361,9 @@ def Figure_10B():
     plt.show()
 
     df_Figure_10B_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
-                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+                        label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
-    plt.ylabel('Frequency')
+    plt.ylabel('Fraction')
     plt.title('Dynamics for a scenario where c3<c1<c2 (Figure 10B)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_10B_second_line_blue',
@@ -1439,9 +1439,9 @@ def Figure_11():
 
     # Make a plot
     df_Figure_11_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
-                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+                        label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
-    plt.ylabel('Frequency')
+    plt.ylabel('Fraction')
     plt.title('Effect reducing MM cells (Figure 11)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'Line_plot_Figure_11',
@@ -1491,7 +1491,7 @@ def Figure_12A_middel():
     df_Figure_12A_middel_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
-    # Set new start frequenties
+    # Set new start fracuenties
     xOC = 0.2
     xOB = 0.2
     xMM = 0.6
@@ -1514,9 +1514,9 @@ def Figure_12A_middel():
 
     # Make a plot
     df_Figure_12A_middel_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
-                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+                        label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
-    plt.ylabel('Frequency')
+    plt.ylabel('Fraction')
     plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12A middel)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_12A_middel_first_line_red',
@@ -1525,9 +1525,9 @@ def Figure_12A_middel():
 
     # Make a plot
     df_Figure_12A_middel_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
-                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+                        label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
-    plt.ylabel('Frequency')
+    plt.ylabel('Fraction')
     plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12A middel)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_12A_middel_second_line_blue',
@@ -1582,7 +1582,7 @@ def Figure_12A_right():
     df_Figure_12A_right_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
-    # Set new start frequencies
+    # Set new start fractions
     xOC = 0.3
     xOB = 0.3
     xMM = 0.4
@@ -1606,9 +1606,9 @@ def Figure_12A_right():
 
     # Make a plot
     df_Figure_12A_right_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
-                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+                        label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
-    plt.ylabel('Frequency')
+    plt.ylabel('Fraction')
     plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12A right)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_12A_right_first_line_red',
@@ -1617,9 +1617,9 @@ def Figure_12A_right():
 
     # Make a plot
     df_Figure_12A_right_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
-                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+                        label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
-    plt.ylabel('Frequency')
+    plt.ylabel('Fraction')
     plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12A right)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_12A_right_second_line_blue',
@@ -1674,7 +1674,7 @@ def Figure_12B_middel():
     df_Figure_12B_middel_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
-    # Set new start frequenties
+    # Set new start fracuenties
     xOC = 0.1
     xOB = 0.2
     xMM = 0.7
@@ -1697,9 +1697,9 @@ def Figure_12B_middel():
 
     # Make a plot
     df_Figure_12B_middel_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
-                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+                        label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
-    plt.ylabel('Frequency')
+    plt.ylabel('Fraction')
     plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12B middel)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_12B_middel_first_line_red',
@@ -1708,9 +1708,9 @@ def Figure_12B_middel():
 
     # Make a plot
     df_Figure_12B_middel_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
-                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+                        label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
-    plt.ylabel('Frequency')
+    plt.ylabel('Fraction')
     plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12B middel)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_12B_middel_second_line_blue',
@@ -1766,7 +1766,7 @@ def Figure_12B_right():
     df_Figure_12B_right_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
-    # Set new start frequencies
+    # Set new start fractions
     xOC = 0.1
     xOB = 0.2
     xMM = 0.7
@@ -1789,9 +1789,9 @@ def Figure_12B_right():
 
     # Make a plot
     df_Figure_12B_right_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
-                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+                        label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
-    plt.ylabel('Frequency')
+    plt.ylabel('Fraction')
     plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12B right)')
     plt.legend(loc ='upper right')
     save_Figure(plt,'line_plot_Figure_12B_right_first_line_red',
@@ -1800,9 +1800,9 @@ def Figure_12B_right():
 
     # Make a plot
     df_Figure_12B_right_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
-                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+                        label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
-    plt.ylabel('Frequency')
+    plt.ylabel('Fraction')
     plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12B right)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_12B_right_second_line_blue',
@@ -1858,7 +1858,7 @@ def Figure_12C_middel():
     df_Figure_12C_middel_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
-    # Set new start frequencies
+    # Set new start fractions
     xOC = 0.8
     xOB = 0.1
     xMM = 0.1
@@ -1881,9 +1881,9 @@ def Figure_12C_middel():
 
     # Make a plot
     df_Figure_12C_middel_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
-                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+                        label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
-    plt.ylabel('Frequency')
+    plt.ylabel('Fraction')
     plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12C middel)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_12C_middel_first_line_red',
@@ -1892,9 +1892,9 @@ def Figure_12C_middel():
 
     # Make a plot
     df_Figure_12C_middel_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
-                            label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+                            label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
-    plt.ylabel('Frequency')
+    plt.ylabel('Fraction')
     plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12C middel)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_12C_middel_second_line_blue',
@@ -1972,9 +1972,9 @@ def Figure_12C_right():
 
     # Make a plot
     df_Figure_12C_right_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
-                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+                        label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
-    plt.ylabel('Frequency')
+    plt.ylabel('Fraction')
     plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12C right)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_12C_right_first_line_red',
@@ -1983,9 +1983,9 @@ def Figure_12C_right():
 
     # Make a plot
     df_Figure_12C_right_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
-                            label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+                            label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
-    plt.ylabel('Frequency')
+    plt.ylabel('Fraction')
     plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12C right)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_12C_right_second_line_blue',

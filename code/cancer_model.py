@@ -627,8 +627,10 @@ def mimimal_tumour_freq_b_OC_MMd(b_OC_MMd, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cM
     return float(last_MM_frequency)
 
 def Figure_optimal_b_OC_MMd():
-    """ Function that makes a Figure that shows the total MM frequency for different
-    b_OC_MMd values"""
+    """ Function that makes a Figure that shows the total MM fraction for different
+    b_OC_MMd values. It also determines the b_OC_MMd value causing the lowest total
+    MM fraction"""
+
     # Set start values
     N = 50
     cMMr = 1.3
@@ -648,6 +650,16 @@ def Figure_optimal_b_OC_MMd():
         [1.9, 0, -0.63, 0.2]])
 
     t = np.linspace(0, 100, 100)
+    b_OC_MMd_start = 0.8
+
+    # Perform the optimization
+    result = minimize(mimimal_tumour_freq_b_OC_MMd, b_OC_MMd_start, args = (xOC, xOB,
+            xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix, t, True), bounds=[(0, 3)])
+
+    # Retrieve the optimal value
+    optimal_b_OC_MMd= result.x
+    print("Optimal value for b_OC_MMd:", float(optimal_b_OC_MMd[0]),
+                                                ',gives tumour frequency:', result.fun)
 
     # Make a dictionary
     dict_freq_tumour_GF = {}
@@ -774,7 +786,8 @@ def mimimal_tumour_freq_dev(WMMd_inhibitor, xOC, xOB, xMMd, xMMr, N, cOC, cOB, c
 
 def Figure_drug_cost():
     """ Function that shows the effect of different OB and OC cost values for
-    different wMMd drug inhibitor values"""
+    different WMMd drug inhibitor values. It also determines the WMMd IH value
+    causing the lowest total MM fraction."""
 
     # Set start values
     N = 50
@@ -795,6 +808,17 @@ def Figure_drug_cost():
         [1.8, 0, -1.1, 0.2]])
 
     t = np.linspace(0, 100, 100)
+    dev_start = 0.3
+
+    # Perform the optimization
+    result_high = minimize(mimimal_tumour_freq_dev, dev_start, args = (xOC, xOB, xMMd,
+                                xMMr, N, cOC, cOB, cMMd, cMMr, matrix, t, True),
+                                bounds=[(0, 0.8)], method='Nelder-Mead')
+
+    # Retrieve the optimal value
+    optimal_dev_high = result_high.x
+    print("Optimal value for drug effect:", float(optimal_dev_high[0]),
+                                       ', gives tumour frequency:', result_high.fun)
 
     # Make a dictionary
     dict_freq_tumour_high_c = {}
@@ -818,6 +842,15 @@ def Figure_drug_cost():
     cOB = 0.8
     cOC = 0.9
     dict_freq_tumour_low_c = {}
+
+    # Perform the optimization
+    result_low = minimize(mimimal_tumour_freq_dev, dev_start, args = (xOC, xOB, xMMd,
+                    xMMr, N, cOC, cOB, cMMd, cMMr, matrix, t, True), bounds=[(0, 3)])
+
+    # Retrieve the optimal value
+    optimal_dev_low= result_low.x
+    print("Optimal value for drug effect:", float(optimal_dev_low[0]),
+                                         ', gives tumour frequency:', result_low.fun)
 
     # Loop over the different WMMd_inhibitor values
     for WMMd_inhibitor in range(3000):
@@ -1283,6 +1316,549 @@ def Figure_3_senarios_MMd_GF_IH(n_switches, t_steps_drug):
 # list_t_steps_drug = [6, 8, 10]
 # Figure_3_senarios_MMd_GF_IH(10, list_t_steps_drug)
 
+# Define your matrix
+matrix = np.array([
+    [0.0, 1.1, 1.4, 1.2],
+    [0.6, 0.0, -0.3, -0.3],
+    [1.4, 0, 0.1, 0.0],
+    [1.2, 0, -0.4, 0.1]])
+
+# Calculate eigenvalues
+eigenvalues = np.linalg.eigvals(matrix)
+
+print("Eigenvalues:", eigenvalues)
+
+
+
+def Figure_freq_fitness_dynamics():
+    """Function that makes Figure of the OC, OB, MMd and MMr frequency and fitness
+     values over the time"""
+
+    # Set start values
+    # Set initial parameter values
+    N = 50
+    cMMr = 1.3
+    cMMd = 1.2
+    cOB = 0.8
+    cOC = 1
+    xOC = 0.2
+    xOB = 0.3
+    xMMd = 0.2
+    xMMr = 0.3
+
+    # Payoff matrix
+    matrix_no_drugs = np.array([
+        [0.0, 1.2, 1.6, 1.5],
+        [0.4, 0.0, -0.3, -0.3],
+        [1.6, 0.0, 0.1, 0.0],
+        [1.5, 0.0, -0.6, 0.1]])
+
+    t = np.linspace(0, 40, 40)
+
+    # Initial conditions
+    y0 = [xOC, xOB, xMMd, xMMr]
+    parameters = (N, cOC, cOB, cMMd, cMMr, matrix_no_drugs)
+
+    # Determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_1_MMd_GF_inhibition = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+                            'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
+
+    # Determine the current frequencies
+    xOC = df_1_MMd_GF_inhibition['xOC'].iloc[-1]
+    xOB = df_1_MMd_GF_inhibition['xOB'].iloc[-1]
+    xMMd = df_1_MMd_GF_inhibition['xMMd'].iloc[-1]
+    xMMr = df_1_MMd_GF_inhibition['xMMr'].iloc[-1]
+
+    # Payoff matrix
+    matrix_drugs = np.array([
+        [0.0, 1.6, 2.2, 2.1],
+        [0.9, 0.0, -0.4, -0.4],
+        [1.0, 0, 0.2, 0],
+        [2.1, 0, -0.7, 0.2]])
+
+    # Initial conditions
+    t = np.linspace(40, 100, 60)
+    y0 = [xOC, xOB, xMMd, xMMr]
+    parameters = (N, cOC, cOB, cMMd, cMMr, matrix_drugs)
+
+    # Determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_2_MMd_GF_inhibition = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+                            'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
+
+    # Combine the dataframes
+    df_MMd_GF_inhibition = pd.concat([df_1_MMd_GF_inhibition, df_2_MMd_GF_inhibition])
+
+    # Set new start parameter values
+    xOC = 0.15
+    xOB = 0.4
+    xMMd = 0.25
+    xMMr = 0.2
+    t = np.linspace(0, 25, 25)
+
+    # Initial conditions
+    y0 = [xOC, xOB, xMMd, xMMr]
+    parameters = (N, cOC, cOB, cMMd, cMMr, matrix_no_drugs)
+
+    # Determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_1_WMMd_inhibition = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+                            'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
+
+    # Determine the current frequencies
+    xOC = df_1_WMMd_inhibition['xOC'].iloc[-1]
+    xOB = df_1_WMMd_inhibition['xOB'].iloc[-1]
+    xMMd = df_1_WMMd_inhibition['xMMd'].iloc[-1]
+    xMMr = df_1_WMMd_inhibition['xMMr'].iloc[-1]
+
+    # Initial conditions
+    t = np.linspace(25, 100, 75)
+    WMMd_inhibitor =  1.2
+    y0 = [xOC, xOB, xMMd, xMMr]
+    parameters = (N, cOC, cOB, cMMd, cMMr, matrix_no_drugs, WMMd_inhibitor)
+
+    # Determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_2_WMMd_inhibition = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+                            'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
+
+    # Combine the dataframes
+    df_WMMd_inhibition = pd.concat([df_1_WMMd_inhibition, df_2_WMMd_inhibition])
+
+    # Make dataframes for the fitness values
+    df_fitness_WMMd_inhibition_1 = freq_to_fitness_values(df_1_WMMd_inhibition, N,
+                                          cOC, cOB, cMMd, cMMr, matrix_no_drugs)
+    df_fitness_WMMd_inhibition_2 = freq_to_fitness_values(df_2_WMMd_inhibition, N,
+                         cOC, cOB, cMMd, cMMr, matrix_no_drugs, WMMd_inhibitor)
+    df_fitness_WMMd_inhibition = pd.concat([df_fitness_WMMd_inhibition_1,
+                                df_fitness_WMMd_inhibition_2], ignore_index=True)
+
+    df_fitness_MMd_GF_inhibition_1 = freq_to_fitness_values(df_1_MMd_GF_inhibition,
+                                       N, cOC, cOB, cMMd, cMMr, matrix_no_drugs)
+    df_fitness_MMd_GF_inhibition_2 = freq_to_fitness_values(df_2_MMd_GF_inhibition,
+                                          N, cOC, cOB, cMMd, cMMr, matrix_drugs)
+    df_fitness_MMd_GF_inhibition = pd.concat([df_fitness_MMd_GF_inhibition_1,
+                              df_fitness_MMd_GF_inhibition_2], ignore_index=True)
+
+    # Save the data
+    save_dataframe(df_WMMd_inhibition, 'df_cell_freq_cWMMd_inhibit.csv',
+                                                     r'..\data\data_own_model')
+    save_dataframe(df_MMd_GF_inhibition, 'df_cell_freq_MMd_GF_inhibit.csv',
+                                                     r'..\data\data_own_model')
+    save_dataframe(df_fitness_WMMd_inhibition, 'df_fitness_WMMd_inhibit.csv',
+                                                     r'..\data\data_own_model')
+    save_dataframe(df_fitness_MMd_GF_inhibition, 'df_fitness_MMd_GF_inhibit.csv',
+                                                     r'..\data\data_own_model')
+
+    # Create a Figure
+    fig, axs = plt.subplots(2, 2, figsize=(16, 8))
+
+    # Plot first subplot
+    df_WMMd_inhibition.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+                        label=['Frequency OC', 'Frequency OB', 'Frequency MMd',
+                                 'Frequency MMr'], ax=axs[0, 0])
+    axs[0, 0].set_xlabel('Generations')
+    axs[0, 0].set_ylabel('Frequency')
+    axs[0, 0].set_title('Frequency dynamics when a WMMd inhibitor is administerd')
+    axs[0, 0].legend(loc = 'upper right')
+    axs[0, 0].grid(True)
+
+    # Plot the second subplot
+    df_fitness_WMMd_inhibition.plot(y=['WOC', 'WOB', 'WMMd', 'WMMr', 'W_average'],
+                                label = ['Fitness OC', 'Fitness OB', 'Fitness MMd',
+                                  'Fitness MMr', 'Average fitness'],  ax=axs[0, 1])
+    axs[0, 1].set_title('Fitness dynamics when a WMMd inhibitor is administerd')
+    axs[0, 1].set_xlabel('Generations')
+    axs[0, 1].set_ylabel('Fitness')
+    axs[0, 1].legend(['Fitness OC', 'Fitness OB', 'Fitness MMd', 'Fitness MMr',
+                                                            'Average fitness'])
+    axs[0, 1].legend(loc = 'upper right')
+    axs[0, 1].grid(True)
+
+    # Plot the third subplot
+    df_MMd_GF_inhibition.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+                        label=['Frequency OC', 'Frequency OB', 'Frequency MMd',
+                                                'Frequency MMr'], ax=axs[1, 0])
+    axs[1, 0].set_xlabel('Generations')
+    axs[1, 0].set_ylabel('Frequency')
+    axs[1, 0].set_title('Frequency dynamics when a MMd GF inhibitor is administerd')
+    axs[1, 0].legend(loc = 'upper right')
+    axs[1, 0].grid(True)
+
+    # Plot the fourth subplot
+    df_fitness_MMd_GF_inhibition.plot(y=['WOC', 'WOB', 'WMMd', 'WMMr', 'W_average'],
+                              label = ['Fitness OC', 'Fitness OB', 'Fitness MMd',
+                                 'Fitness MMr', 'Average fitness'],  ax=axs[1, 1])
+    axs[1, 1].set_title('Fitness dynamics when a MMd GF inhibitor is administerd')
+    axs[1, 1].set_xlabel('Generations')
+    axs[1, 1].set_ylabel('Fitness')
+    axs[1, 1].legend(loc = 'upper right')
+    axs[1, 1].grid(True)
+    plt.tight_layout()
+    save_Figure(plt, 'line_plot_cell_freq_fitness_drugs',
+                                         r'..\visualisation\results_own_model')
+    plt.show()
+
+# Figure_freq_fitness_dynamics()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+""" ---------------Optimizing time drug holiday-----------------"""
+def mimimal_tumour_freq_t_steps(t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd, xMMr,
+        N, cOC, cOB, cMMd, cMMr, matrix_no_drugs, matrix_drugs, WMMd_inhibitor = 0):
+    """ Function that makes a dataframe of the xOC, xOB, xMMd and xMMr values over
+    time for a given time of a drug holiday.
+
+    Parameters:
+    -----------
+    t_steps_drug: Int
+        The number of generations drugs are administared.
+    t_steps_no_drug: Int
+        The number of generations drugs are not administared.
+    xOC: Float
+        Frequency of OCs.
+    xOB: Float
+        Frequency of OBs.
+    xMMr: Float
+        Frequency of the resistant MM cells.
+    xMMd: Float
+        Frequency of the drug-sensitive MM cells.
+    N: Int
+        Number of cells in the difussion range.
+    cOC: Float
+        Cost parameter OCs.
+    cOB: float
+        Cost parameter OBs.
+    cMMr: Float
+        Cost parameter resistant MM cells.
+    cMMd: Float
+        Cost parameter drug-sensitive MM cells.
+    matrix_no_drugs: Numpy.ndarray
+        4x4 matrix containing the interaction factors when no drugs are administrated.
+    matrix_drugs: Numpy.ndarray
+        4x4 matrix containing the interaction factors when drugs are administrated.
+    WMMd_inhibitor: Float
+        The effect of a drug on the drug-sensitive MM cells.
+
+    Returns:
+    --------
+    average_MM_frequencies: float
+        The average total MM frequency in the last period.
+    """
+    # Deteremine the number of switches
+    time_step = (t_steps_drug + t_steps_no_drug) / 2
+    n_switches = int((110 // time_step) -1)
+
+    # Create a dataframe of the frequencies
+    df = switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, xOC, xOB,
+                                 xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
+                                 matrix_no_drugs, matrix_drugs, WMMd_inhibitor)
+
+    # df.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'])
+    # plt.show()
+    # Determine the average MM frequency
+    last_MM_frequencies = df['total_MM'].tail(int(time_step *2))
+    average_MM_frequencies = last_MM_frequencies.sum() / (int(time_step*2))
+
+    return float(average_MM_frequencies)
+
+def Figure_3d_MM_fraction_best_IH_holiday():
+    """ Figure that makes three 3D plot that shows the average MM frequency for
+    different holiday and administration periods of only MMd GF inhibitor, only
+    WMMd inhibitor or both."""
+
+    # Set initial parameter values
+    N = 50
+    cMMr = 1.3
+    cMMd = 1.2
+    cOB = 0.8
+    cOC = 1
+    xOC = 0.2
+    xOB = 0.3
+    xMMd = 0.2
+    xMMr = 0.3
+
+    # Payoff matrix when no drugs are present
+    matrix_no_drugs = np.array([
+        [0.0, 1.2, 1.6, 1.5],
+        [0.4, 0.0, -0.3, -0.3],
+        [1.6, 0.0, 0.1, 0.0],
+        [1.5, 0.0, -0.6, 0.1]])
+
+    # Payoff matrix when only GF inhibitor drugs are present
+    matrix_drugs = np.array([
+        [0.0, 1.2, 1.6, 1.5],
+        [0.4, 0.0, -0.3, -0.3],
+        [0.6, 0.0, 0.1, 0.0],
+        [1.5, 0.0, -0.6, 0.1]])
+
+    # Payoff matrix when both inhibitor drugs are present
+    matrix_drugs_comb = np.array([
+        [0.0, 1.2, 1.6, 1.5],
+        [0.4, 0.0, -0.3, -0.3],
+        [1.0, 0.0, 0.1, 0.0],
+        [1.5, 0.0, -0.9, 0.1]])
+
+    # WMMd inhibitor effect when both inhibitor drugs are present
+    WMMd_inhibitor_comb = 0.4
+
+    # WMMd inhibitor effect when only WMMd IH is present
+    WMMd_inhibitor = 0.8
+
+    # Make a dataframe
+    column_names = ['Generations no drug', 'Generations drug', 'MM fraction']
+    df_holliday_GF_IH = pd.DataFrame(columns=column_names)
+
+    # Loop over all the t_step values for drug administration and drug holidays
+    for t_steps_no_drug in range(2, 22):
+
+        for t_steps_drug in range(2, 22):
+            freq_tumour = mimimal_tumour_freq_t_steps(t_steps_drug,
+                            t_steps_no_drug, xOC, xOB, xMMd, xMMr, N, cOC,
+                            cOB, cMMd, cMMr, matrix_no_drugs, matrix_drugs)
+
+            # Add results to the dataframe
+            new_row_df = pd.DataFrame([{'Generations no drug': int(t_steps_no_drug),
+                                            'Generations drug': int(t_steps_drug),
+                                             'MM fraction': float(freq_tumour)}])
+            df_holliday_GF_IH = pd.concat([df_holliday_GF_IH, new_row_df],
+                                                            ignore_index=True)
+
+    # Save the data
+    save_dataframe(df_holliday_GF_IH, 'df_cell_freq_best_MMd_GH_IH_holiday.csv',
+                                                     r'..\data\data_own_model')
+
+    # Find the drug administration and holiday period causing the lowest MM fraction
+    min_index_GF_IH = df_holliday_GF_IH['MM fraction'].idxmin()
+    g_no_drug_min_GF_IH = df_holliday_GF_IH.loc[min_index_GF_IH,
+                                                           'Generations no drug']
+    g_drug_min_GF_IH = df_holliday_GF_IH.loc[min_index_GF_IH, 'Generations drug']
+    frac_min_GF_IH = df_holliday_GF_IH.loc[min_index_GF_IH, 'MM fraction']
+
+    print(f"""Lowest MM fraction: {frac_min_GF_IH}-> MMd GF IH holidays are
+            {g_no_drug_min_GF_IH} generations and MMd GF IH administrations
+            are {g_drug_min_GF_IH} generations""")
+
+    # Avoid errors because of the wrong datatype
+    df_holliday_GF_IH['Generations no drug'] = pd.to_numeric(df_holliday_GF_IH[\
+                                        'Generations no drug'], errors='coerce')
+    df_holliday_GF_IH['Generations drug'] = pd.to_numeric(df_holliday_GF_IH[\
+                                        'Generations drug'],errors='coerce')
+    df_holliday_GF_IH['MM fraction'] = pd.to_numeric(df_holliday_GF_IH[\
+                                        'MM fraction'], errors='coerce')
+
+    # Make a meshgrid for the plot
+    X_GF_IH = df_holliday_GF_IH['Generations no drug'].unique()
+    Y_GF_IH = df_holliday_GF_IH['Generations drug'].unique()
+    X_GF_IH, Y_GF_IH = np.meshgrid(X_GF_IH, Y_GF_IH)
+    Z_GF_IH = np.zeros((20, 20))
+
+    # Fill the 2D array with the MM frequency values by looping over each row
+    for index, row in df_holliday_GF_IH.iterrows():
+        i = int(row.iloc[0]) - 2
+        j = int(row.iloc[1]) - 2
+        Z_GF_IH[j, i] = row.iloc[2]
+
+    # Make a dataframe
+    column_names = ['Generations no drug', 'Generations drug', 'MM fraction']
+    df_holliday_W_IH = pd.DataFrame(columns=column_names)
+
+    # Loop over al the t_step values for drug dministration and drug holidays
+    for t_steps_no_drug in range(2, 22):
+
+        for t_steps_drug in range(2, 22):
+            freq_tumour = mimimal_tumour_freq_t_steps(t_steps_drug, t_steps_no_drug,
+                                xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
+                                matrix_no_drugs, matrix_no_drugs, WMMd_inhibitor)
+
+            # Add results to the dataframe
+            new_row_df = pd.DataFrame([{'Generations no drug': int(t_steps_no_drug),
+                                            'Generations drug': int(t_steps_drug),
+                                             'MM fraction': float(freq_tumour)}])
+            df_holliday_W_IH = pd.concat([df_holliday_W_IH, new_row_df],
+                                                                ignore_index=True)
+
+    # Save the data
+    save_dataframe(df_holliday_W_IH, 'df_cell_freq_best_WMMd_IH_holiday.csv',
+                                                     r'..\data\data_own_model')
+
+    # Find the drug administration and holiday period causing the lowest MM fraction
+    min_index_W_IH = df_holliday_W_IH['MM fraction'].idxmin()
+    g_no_drug_min_W_IH = df_holliday_W_IH.loc[min_index_W_IH,'Generations no drug']
+    g_drug_min_W_IH = df_holliday_W_IH.loc[min_index_W_IH, 'Generations drug']
+    frac_min_W_IH = df_holliday_W_IH.loc[min_index_W_IH, 'MM fraction']
+
+    print(f"""Lowest MM fraction: {frac_min_W_IH} -> WMMd IH holidays are
+                                    {g_no_drug_min_W_IH} generations and WMMd IH
+                            administrations are {g_drug_min_W_IH} generations""")
+
+    # Avoid errors because of the wrong datatype
+    df_holliday_W_IH['Generations no drug'] = pd.to_numeric(df_holliday_W_IH[\
+                                    'Generations no drug'], errors='coerce')
+    df_holliday_W_IH['Generations drug'] = pd.to_numeric(df_holliday_W_IH[\
+                                            'Generations drug'], errors='coerce')
+    df_holliday_W_IH['MM fraction'] = pd.to_numeric(df_holliday_W_IH[\
+                                                'MM fraction'], errors='coerce')
+
+    # Make a meshgrid for the plot
+    X_W_IH = df_holliday_W_IH['Generations no drug'].unique()
+    Y_W_IH = df_holliday_W_IH['Generations drug'].unique()
+    X_W_IH, Y_W_IH = np.meshgrid(X_W_IH, Y_W_IH)
+    Z_W_IH = np.zeros((20, 20))
+
+    # Fill the 2D array with the MM frequency values by looping over each row
+    for index, row in df_holliday_W_IH.iterrows():
+        i = int(row.iloc[0]) -2
+        j = int(row.iloc[1]) -2
+        Z_W_IH[j, i] = row.iloc[2]
+
+    # Make a dataframe
+    column_names = ['Generations no drug', 'Generations drug', 'MM fraction']
+    df_holliday_comb = pd.DataFrame(columns=column_names)
+
+    # Loop over al the t_step values for drug dministration and drug holidays
+    for t_steps_no_drug in range(2, 22):
+
+        for t_steps_drug in range(2, 22):
+            freq_tumour = mimimal_tumour_freq_t_steps(t_steps_drug, t_steps_no_drug,
+                            xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
+                            matrix_no_drugs, matrix_drugs_comb, WMMd_inhibitor_comb)
+
+            # Add results to the dataframe
+            new_row_df = pd.DataFrame([{'Generations no drug': int(t_steps_no_drug),
+                                            'Generations drug': int(t_steps_drug),
+                                            'MM fraction': float(freq_tumour)}])
+            df_holliday_comb = pd.concat([df_holliday_comb, new_row_df],
+                                                                ignore_index=True)
+
+    # Save the data
+    save_dataframe(df_holliday_comb, 'df_cell_freq_best_MMd_IH_holiday.csv',
+                                                     r'..\data\data_own_model')
+
+    # Find the drug administration and holiday period causing the lowest MM fraction
+    min_index_comb = df_holliday_comb['MM fraction'].idxmin()
+    g_no_drug_min_comb = df_holliday_comb.loc[min_index_comb, 'Generations no drug']
+    g_drug_min_comb = df_holliday_comb.loc[min_index_comb, 'Generations drug']
+    frac_min_comb = df_holliday_comb.loc[min_index_comb, 'MM fraction']
+
+    print(f"""Lowest MM fraction: {frac_min_comb}-> MMd IH holidays are
+                    {g_no_drug_min_comb} generations and MMd IH administrations
+                    are {g_drug_min_comb} generations""")
+
+    # Avoid errors because of the wrong datatype
+    df_holliday_comb['Generations no drug'] = pd.to_numeric(df_holliday_comb[\
+                                        'Generations no drug'], errors='coerce')
+    df_holliday_comb['Generations drug'] = pd.to_numeric(df_holliday_comb[\
+                                            'Generations drug'], errors='coerce')
+    df_holliday_comb['MM fraction'] = pd.to_numeric(df_holliday_comb[\
+                                            'MM fraction'], errors='coerce')
+
+    # Make a meshgrid for the plot
+    X_comb = df_holliday_comb['Generations no drug'].unique()
+    Y_comb = df_holliday_comb['Generations drug'].unique()
+    X_comb, Y_comb = np.meshgrid(X_comb, Y_comb)
+    Z_comb = np.zeros((20, 20))
+
+    # Fill the 2D array with the MM frequency values by looping over each row
+    for index, row in df_holliday_comb.iterrows():
+        i = int(row.iloc[0]) - 2
+        j = int(row.iloc[1]) - 2
+        Z_comb[j, i] = row.iloc[2]
+
+    # Create a figure and a grid of subplots
+    fig, axes = plt.subplots(2, 2, figsize=(11, 9), subplot_kw={'projection': '3d'},
+                                    gridspec_kw={'hspace': 0.25, 'wspace': 0.25})
+
+    # Plot each subplot
+    for i, ax in enumerate(axes.flat, start=1):
+        if i == 1:
+            surf = ax.plot_surface(X_W_IH, Y_W_IH, Z_W_IH, cmap='coolwarm')
+
+            # Add labels
+            ax.set_xlabel('Generations no IH')
+            ax.set_ylabel('Generations IH')
+            ax.set_zlabel('MM fraction')
+            ax.set_title(r'A) $W_{MMd}$ inhibitor', pad=10)
+
+            # Turn to the right angle
+            ax.view_init(elev = 28, azim = -127)
+
+            # Add a color bar
+            color_bar = fig.colorbar(surf, ax=ax, shrink=0.4, location= 'right')
+            color_bar.set_label('MM fraction')
+
+        elif i == 2:
+            surf = ax.plot_surface(X_GF_IH, Y_GF_IH, Z_GF_IH, cmap = 'coolwarm')
+
+            # Add labels
+            ax.set_xlabel('Generations no IH')
+            ax.set_ylabel('Generations IH')
+            ax.set_zlabel('MM fraction')
+            ax.set_title('B)  MMd GF inhibitor', pad=10)
+
+            # Turn to the right angle
+            ax.view_init(elev = 32, azim = -128)
+
+            # Add a color bar
+            color_bar = fig.colorbar(surf, ax=ax, shrink=0.4, location= 'right')
+
+            color_bar.set_label('MM fraction')
+
+        elif i == 3:
+            surf = ax.plot_surface(X_comb, Y_comb, Z_comb, cmap = 'coolwarm')
+
+            # Add labels
+            ax.set_xlabel('Generations no IHs')
+            ax.set_ylabel('Generations IHs')
+            ax.set_zlabel('MM fraction')
+            ax.set_title('C)  $W_{MMd}$ inhibitor and MMd GF inhibitor', pad=10)
+
+            # Turn to the right angle
+            ax.view_init(elev = 40, azim = -142)
+
+            # Add a color bar
+            color_bar = fig.colorbar(surf, ax=ax, shrink=0.4, location= 'right')
+            color_bar.set_label('MM fraction')
+
+        else:
+            # Hide the emply subplot
+            ax.axis('off')
+
+    # Add a color bar
+    save_Figure(fig, '3d_plot_MM_frac_best_IH_h_a_periods',
+                                            r'..\visualisation\results_own_model')
+    plt.show()
+
+# Figure_3d_MM_fraction_best_IH_holiday()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 """ ---------------Optimizing time drug holiday-----------------"""
 def mimimal_tumour_freq_t_steps(t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd, xMMr,
@@ -1367,18 +1943,18 @@ def Figure_3d_MM_fraction_best_IH_holiday():
         [1.9, 0, -0.77, 0.2]])
 
     # Payoff matrix when only GF inhibitor drugs are present
-    matrix_drugs_comb = np.array([
-        [0.0, 1.6, 2.2, 1.9],
-        [1.0, 0.0, -0.5, -0.5],
-        [1.4, 0, 0.2, 0.0],
-        [1.9, 0, -1.1, 0.2]])
-
-    # Payoff matrix when both inhibitor drugs are present
     matrix_drugs = np.array([
         [0.0, 1.6, 2.2, 1.9],
         [1.0, 0.0, -0.5, -0.5],
         [0.7, 0, 0.2, 0.0],
         [1.9, 0, -0.77, 0.2]])
+
+    # Payoff matrix when both inhibitor drugs are present
+    matrix_drugs_comb = np.array([
+        [0.0, 1.6, 2.2, 1.9],
+        [1.0, 0.0, -0.5, -0.5],
+        [1.4, 0, 0.2, 0.0],
+        [1.9, 0, -1.1, 0.2]])
 
     # WMMd inhibitor effect when both inhibitor drugs are present
     WMMd_inhibitor_comb = 0.7
@@ -1406,7 +1982,6 @@ def Figure_3d_MM_fraction_best_IH_holiday():
                                                             ignore_index=True)
 
     # Save the data
-    print(df_holliday_GF_IH)
     save_dataframe(df_holliday_GF_IH, 'df_cell_freq_best_MMd_GH_IH_holiday.csv',
                                                      r'..\data\data_own_model')
 
@@ -1461,7 +2036,6 @@ def Figure_3d_MM_fraction_best_IH_holiday():
                                                                 ignore_index=True)
 
     # Save the data
-    print(df_holliday_W_IH)
     save_dataframe(df_holliday_W_IH, 'df_cell_freq_best_WMMd_IH_holiday.csv',
                                                      r'..\data\data_own_model')
 
@@ -1515,7 +2089,6 @@ def Figure_3d_MM_fraction_best_IH_holiday():
                                                                 ignore_index=True)
 
     # Save the data
-    print(df_holliday_comb)
     save_dataframe(df_holliday_comb, 'df_cell_freq_best_MMd_IH_holiday.csv',
                                                      r'..\data\data_own_model')
 
@@ -1562,10 +2135,10 @@ def Figure_3d_MM_fraction_best_IH_holiday():
             ax.set_xlabel('Generations no IH')
             ax.set_ylabel('Generations IH')
             ax.set_zlabel('MM fraction')
-            ax.set_title(r'$W_{MMd}$ inhibitor', pad=10)
+            ax.set_title(r'A) $W_{MMd}$ inhibitor', pad=10)
 
             # Turn to the right angle
-            ax.view_init(elev = 26, azim = 24)
+            ax.view_init(elev = 28, azim = -127)
 
             # Add a color bar
             color_bar = fig.colorbar(surf, ax=ax, shrink=0.4, location= 'right')
@@ -1578,10 +2151,10 @@ def Figure_3d_MM_fraction_best_IH_holiday():
             ax.set_xlabel('Generations no IH')
             ax.set_ylabel('Generations IH')
             ax.set_zlabel('MM fraction')
-            ax.set_title(""" MMd GF inhibitor """, pad=10)
+            ax.set_title('B)  MMd GF inhibitor', pad=10)
 
             # Turn to the right angle
-            ax.view_init(elev = 26, azim = 24)
+            ax.view_init(elev = 32, azim = -128)
 
             # Add a color bar
             color_bar = fig.colorbar(surf, ax=ax, shrink=0.4, location= 'right')
@@ -1595,10 +2168,10 @@ def Figure_3d_MM_fraction_best_IH_holiday():
             ax.set_xlabel('Generations no IHs')
             ax.set_ylabel('Generations IHs')
             ax.set_zlabel('MM fraction')
-            ax.set_title('$W_{MMd}$ inhibitor and MMd GF inhibitor', pad=10)
+            ax.set_title('C)  $W_{MMd}$ inhibitor and MMd GF inhibitor', pad=10)
 
             # Turn to the right angle
-            ax.view_init(elev = 26, azim = 24)
+            ax.view_init(elev = 40, azim = -142)
 
             # Add a color bar
             color_bar = fig.colorbar(surf, ax=ax, shrink=0.4, location= 'right')
@@ -1608,14 +2181,134 @@ def Figure_3d_MM_fraction_best_IH_holiday():
             # Hide the emply subplot
             ax.axis('off')
 
-    # # Add a color bar
-    # color_bar = fig.colorbar(surf, ax=axes, shrink=0.4, location= 'left')
-    # color_bar.set_label('The MM fraction')
+    # Add a color bar
     save_Figure(fig, '3d_plot_MM_frac_best_IH_h_a_periods',
                                             r'..\visualisation\results_own_model')
     plt.show()
 
-Figure_3d_MM_fraction_best_IH_holiday()
+# Figure_3d_MM_fraction_best_IH_holiday()
+
+
+def Figure_MMd_IH_strength_3D():
+    """ 3D plot that shows the average MM frequency for different MMd GF inhibitor
+    and WMMd inhibitor strengths."""
+    # Set initial parameter values
+    N = 50
+    cMMr = 1.3
+    cMMd = 1.2
+    cOB = 0.8
+    cOC = 1
+    xOC = 0.2
+    xOB = 0.3
+    xMMd = 0.2
+    xMMr = 0.3
+
+    # Payoff matrix when no drugs are pressent
+    matrix_no_drugs = np.array([
+        [0.0, 1.6, 2.2, 1.9],
+        [1.0, 0.0, -0.5, -0.5],
+        [2.2, 0, 0.2, 0.0],
+        [1.9, 0, -0.8, 0.2]])
+
+    # Payoff matrix when GF inhibitor drugs are pressent
+    matrix_drugs = np.array([
+        [0.0, 1.6, 2.2, 1.9],
+        [1.0, 0.0, -0.5, -0.5],
+        [1.5, 0, 0.2, 0.0],
+        [1.9, 0, -0.8, 0.2]])
+
+    # Administration and holiday periods
+    t_steps_drug = 5
+    t_steps_no_drug = 5
+
+    # Make a dataframe
+    column_names = ['Strength WMMd IH', 'Strength MMd GF IH', 'MM fraction']
+    df_holliday = pd.DataFrame(columns=column_names)
+
+    # Loop over al the t_step values for drug dministration and drug holidays
+    for strength_WMMd_IH in range(0, 21):
+
+        # Drug inhibitor effect
+        WMMd_inhibitor = strength_WMMd_IH / 10
+        for strength_MMd_GF_IH in range(0, 21):
+
+            # Change effect of GF of OC on MMd
+            matrix_drugs[2, 0] = 2.2 - round((strength_MMd_GF_IH / 10), 1)
+
+            # Change how fast the MMr will be stronger than the MMd
+            matrix_drugs[3, 2] = -0.77 - round((WMMd_inhibitor +  round((strength_MMd_GF_IH / 10), 1))/ 20, 3)
+
+            freq_tumour = mimimal_tumour_freq_t_steps(t_steps_drug, t_steps_no_drug,
+                                    xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
+                                    matrix_no_drugs, matrix_drugs, WMMd_inhibitor)
+
+            # Add results to the dataframe
+            new_row_df = pd.DataFrame([{'Strength WMMd IH': round(strength_WMMd_IH/ 10, 1),
+                                    'Strength MMd GF IH': round(strength_MMd_GF_IH/ 10, 1),
+                                            'MM fraction': freq_tumour}])
+
+            df_holliday = pd.concat([df_holliday, new_row_df], ignore_index=True)
+
+    # Save the data
+    save_dataframe(df_holliday, 'df_cell_freq_best_MMd_IH_strength.csv',
+                                                     r'..\data\data_own_model')
+
+
+    # Find the drug administration and holiday period causing the lowest MM fraction
+    min_index = df_holliday['MM fraction'].idxmin()
+    strength_WMMd_min = df_holliday.loc[min_index, 'Strength WMMd IH']
+    strength_MMd_GF_min = df_holliday.loc[min_index, 'Strength MMd GF IH']
+    frac_min = df_holliday.loc[min_index, 'MM fraction']
+
+    print(f"""Lowest MM fraction: {frac_min}-> MMd GF IH strength is
+        {strength_MMd_GF_min} and WMMd IH strenght is {strength_WMMd_min}""")
+
+    # Avoid errors because of the wrong datatype
+    df_holliday['Strength WMMd IH'] = pd.to_numeric(df_holliday[\
+                                        'Strength WMMd IH'], errors='coerce')
+    df_holliday['Strength MMd GF IH'] = pd.to_numeric(df_holliday['Strength MMd GF IH'],
+                                                                errors='coerce')
+    df_holliday['MM fraction'] = pd.to_numeric(df_holliday['MM fraction'],
+                                                                errors='coerce')
+
+    # Make a meshgrid for the plot
+    X = df_holliday['Strength WMMd IH'].unique()
+    Y = df_holliday['Strength MMd GF IH'].unique()
+    X, Y = np.meshgrid(X, Y)
+    Z = np.zeros((21, 21))
+
+    # Fill the 2D array with the MM frequency values by looping over each row
+    for index, row in df_holliday.iterrows():
+        i = int(row.iloc[0]*10)
+        j = int(row.iloc[1]*10)
+        Z[j, i] = row.iloc[2]
+
+    # Make a 3D Figure
+    fig = plt.figure(figsize = (8, 6))
+    ax = fig.add_subplot(111, projection = '3d')
+    surf = ax.plot_surface(X, Y, Z, cmap = 'coolwarm')
+
+    # Add labels
+    ax.set_xlabel('Strength WMMd IH')
+    ax.set_ylabel('Strength MMd GF IH')
+    ax.set_zlabel('MM fraction')
+    ax.set_title("""Average MM fraction with varing WMMd inhibitor and MMd
+    GF inhibitor strengths""")
+
+    # Turn to the right angle
+    ax.view_init(elev = 38, azim = -66)
+
+    # Add a color bar
+    color_bar = fig.colorbar(surf, shrink = 0.6, location= 'left')
+    color_bar.set_label('MM fraction')
+
+    save_Figure(fig, '3d_plot_MM_frac_best_IH_strength',
+                                            r'..\visualisation\results_own_model')
+    plt.show()
+
+# Figure_MMd_IH_strength_3D()
+
+
 
 
 
@@ -1723,8 +2416,177 @@ def Figure_MMd_IH_holiday_3D():
                                             r'..\visualisation\results_own_model')
     plt.show()
 
-Figure_MMd_IH_holiday_3D()
+# Figure_MMd_IH_holiday_3D()
 
+
+
+# def mimimal_tumour_freq_t_steps(t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd, xMMr,
+#         N, cOC, cOB, cMMd, cMMr, matrix_no_drugs, matrix_drugs, WMMd_inhibitor = 0):
+#     """ Function that makes a dataframe of the xOC, xOB, xMMd and xMMr values over
+#     time for a given time of a drug holiday.
+#
+#     Parameters:
+#     -----------
+#     t_steps_drug: Int
+#         The number of generations drugs are administared.
+#     t_steps_no_drug: Int
+#         The number of generations drugs are not administared.
+#     xOC: Float
+#         Frequency of OCs.
+#     xOB: Float
+#         Frequency of OBs.
+#     xMMr: Float
+#         Frequency of the resistant MM cells.
+#     xMMd: Float
+#         Frequency of the drug-sensitive MM cells.
+#     N: Int
+#         Number of cells in the difussion range.
+#     cOC: Float
+#         Cost parameter OCs.
+#     cOB: float
+#         Cost parameter OBs.
+#     cMMr: Float
+#         Cost parameter resistant MM cells.
+#     cMMd: Float
+#         Cost parameter drug-sensitive MM cells.
+#     matrix_no_drugs: Numpy.ndarray
+#         4x4 matrix containing the interaction factors when no drugs are administrated.
+#     matrix_drugs: Numpy.ndarray
+#         4x4 matrix containing the interaction factors when drugs are administrated.
+#     WMMd_inhibitor: Float
+#         The effect of a drug on the drug-sensitive MM cells.
+#
+#     Returns:
+#     --------
+#     average_MM_frequencies: float
+#         The average total MM frequency in the last period.
+#     """
+#     # Deteremine the number of switches
+#     time_step = (t_steps_drug + t_steps_no_drug) / 2
+#     n_switches = int((110 // time_step) -1)
+#
+#     # Create a dataframe of the frequencies
+#     df = switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, xOC, xOB,
+#                                  xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
+#                                  matrix_no_drugs, matrix_drugs, WMMd_inhibitor)
+#
+#     df.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'])
+#     plt.show()
+#     # Determine the average MM frequency
+#     last_MM_frequencies = df['total_MM'].tail(int(time_step *2))
+#     average_MM_frequencies = last_MM_frequencies.sum() / (int(time_step*2))
+#
+#     return float(average_MM_frequencies)
+
+def mimimal_tumour_freq_t_steps(t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd, xMMr,
+        N, cOC, cOB, cMMd, cMMr, matrix_no_drugs, matrix_drugs, WMMd_inhibitor = 0):
+    """ Function that makes a dataframe of the xOC, xOB, xMMd and xMMr values over
+    time for a given time of a drug holiday.
+
+    Parameters:
+    -----------
+    t_steps_drug: Int
+        The number of generations drugs are administared.
+    t_steps_no_drug: Int
+        The number of generations drugs are not administared.
+    xOC: Float
+        Frequency of OCs.
+    xOB: Float
+        Frequency of OBs.
+    xMMr: Float
+        Frequency of the resistant MM cells.
+    xMMd: Float
+        Frequency of the drug-sensitive MM cells.
+    N: Int
+        Number of cells in the difussion range.
+    cOC: Float
+        Cost parameter OCs.
+    cOB: float
+        Cost parameter OBs.
+    cMMr: Float
+        Cost parameter resistant MM cells.
+    cMMd: Float
+        Cost parameter drug-sensitive MM cells.
+    matrix_no_drugs: Numpy.ndarray
+        4x4 matrix containing the interaction factors when no drugs are administrated.
+    matrix_drugs: Numpy.ndarray
+        4x4 matrix containing the interaction factors when drugs are administrated.
+    WMMd_inhibitor: Float
+        The effect of a drug on the drug-sensitive MM cells.
+
+    Returns:
+    --------
+    average_MM_frequencies: float
+        The average total MM frequency in the last period.
+    """
+    # Deteremine the number of switches
+    time_step = (t_steps_drug + t_steps_no_drug) / 2
+    n_switches = int((110 // time_step) -1)
+
+    # Create a dataframe of the frequencies
+    df = switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, xOC, xOB,
+                                 xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
+                                 matrix_no_drugs, matrix_drugs, WMMd_inhibitor)
+
+    # df.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'])
+    # plt.show()
+    # Determine the average MM frequency
+    last_MM_frequencies = df['total_MM'].tail(int(time_step *2))
+    average_MM_frequencies = last_MM_frequencies.sum() / (int(time_step*2))
+
+    return float(average_MM_frequencies)
+
+
+# Define your matrix
+matrix = np.array([
+        [0.0, 1.6, 2.1, 1.9],
+        [1.1, 0.0, -0.5, -0.5],
+        [2.3, 0, 0.2, 0.0],
+        [1.9, 0, -0.7, 0.2]])
+
+# Calculate eigenvalues
+eigenvalues = np.linalg.eigvals(matrix)
+
+print("Eigenvalues matrix are :", eigenvalues)
+
+#
+# import numpy as np
+#
+# # Original matrix
+# original_matrix = np.array([
+#         [0.0, 1.6, 2.2, 1.9],
+#         [1.0, 0.0, -0.5, -0.5],
+#         [2.2, 0, 0.2, 0.0],
+#         [1.9, 0, -0.8, 0.2]])
+#
+# # Calculate the eigenvalues of the original matrix
+# original_eigenvalues = np.linalg.eigvals(original_matrix)
+#
+# # Choose a factor by which to scale the identity matrix
+# scaling_factor = 0.6 # You can adjust this factor as needed
+#
+# # Create the scaled identity matrix
+# identity_matrix = np.identity(original_matrix.shape[0])
+# scaled_identity_matrix = scaling_factor * identity_matrix
+#
+# # Add the scaled identity matrix to the original matrix
+# modified_matrix = original_matrix + scaled_identity_matrix
+# print(modified_matrix)
+# # Calculate the eigenvalues of the modified matrix
+# modified_eigenvalues = np.linalg.eigvals(modified_matrix)
+#
+# print("Original Eigenvalues:", original_eigenvalues)
+# print("Modified Eigenvalues:", modified_eigenvalues)
+
+"""
+higher
+matrix_no_drugs = np.array([
+        [0.0, 1.6, 2.0, 1.9],
+        [1.0, 0.0, -0.5, -0.5],
+        [2.0, 0, 1.0, 0.0],
+        [1.9, 0, -0.4, 1.0]])
+H3 A10
+"""
 def Figure_MMd_GF_IH_holiday_3D():
     """ 3D plot that shows the average MM frequency for different MMd GF inhibitor
     holiday and administration periods."""
@@ -1739,19 +2601,19 @@ def Figure_MMd_GF_IH_holiday_3D():
     xMMd = 0.2
     xMMr = 0.3
 
-    # Payoff matrix when no drugs are pressent
-    matrix_no_drugs = np.array([
-        [0.0, 1.6, 2.2, 1.9],
-        [1.0, 0.0, -0.5, -0.5],
-        [2.2, 0, 0.2, 0.0],
-        [1.9, 0, -0.77, 0.2]])
+    # Payoff matrix when no drugs are present
+    matrix_no_drugs =np.array([
+            [0.0, 1.6, 2.1, 1.9],
+            [1.1, 0.0, -0.5, -0.5],
+            [2.3, 0, 0.2, 0.0],
+            [1.9, 0, -0.7, 0.2]])
 
-    # Payoff matrix when GF inhibitor drugs are pressent
+    # Payoff matrix when only GF inhibitor drugs are present
     matrix_drugs = np.array([
-        [0.0, 1.6, 2.2, 1.9],
-        [1.0, 0.0, -0.5, -0.5],
-        [0.7, 0, 0.2, 0.0],
-        [1.9, 0, -0.77, 0.2]])
+            [0.0, 1.6, 2.1, 1.9],
+            [1.1, 0.0, -0.5, -0.5],
+            [0.7, 0, 0.2, 0.0],
+            [1.9, 0, -0.7, 0.2]])
 
     # Make a dataframe
     column_names = ['Generations no drug', 'Generations drug', 'MM fraction']
@@ -1761,6 +2623,7 @@ def Figure_MMd_GF_IH_holiday_3D():
     for t_steps_no_drug in range(2, 22):
 
         for t_steps_drug in range(2, 22):
+            print(t_steps_no_drug, t_steps_drug)
             freq_tumour = mimimal_tumour_freq_t_steps(t_steps_drug, t_steps_no_drug,
                                         xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd,
                                         cMMr, matrix_no_drugs, matrix_drugs)
