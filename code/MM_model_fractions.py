@@ -3,8 +3,8 @@ Author:       Eva Nieuwenhuis
 University:   UvA
 Student id':  13717405
 Description:  Code with the model that simulates the dynamics in the multiple myeloma
-              (MM) microenvironment with four cell types: drug-sensitive MM cells
-              (MMd), resistant MM cells (MMr), osteoblasts (OBs) and osteoclasts
+              (MM) microenvironment with four cell types: MMd
+              (MMd), MMr (MMr), osteoblasts (OBs) and osteoclasts
               (OCs). The model is a public goods game in the framework of evolutionary
               game theory with collective interactions and linear benefits. In this
               model there is looked at the fractions of the four cell types.
@@ -42,23 +42,23 @@ def main():
     doctest.testmod()
 
 
-    # # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # # by adaptive therapy
-    # list_t_steps_drug = [10, 10, 10]
-    # Figure_conineous_MTD_vs_AT(12, list_t_steps_drug)
-    #
-    # # Make a 3D figure showthing the effect of different drug holiday and
-    # # administration periods
-    # Figure_3D_MM_frac_IH_add_and_holiday_()
-    #
-    # # Make a figure that shows the MM fraction for different bOC,MMd values
-    # Figure_best_b_OC_MMd()
-    #
-    # # Make a figure that shows the MM fraction for different WMMd IH values
-    # Figure_best_WMMD_IH()
-    #
-    # # Make a 3D figure showing the effect of different WMMd and MMd GF IH strengths
-    # Figure_3D_MMd_IH_strength()
+    # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # by adaptive therapy
+    list_t_steps_drug = [10, 10, 10]
+    Figure_conineous_MTD_vs_AT(12, list_t_steps_drug)
+
+    # Make a 3D figure showthing the effect of different drug holiday and
+    # administration periods
+    Figure_3D_MM_frac_IH_add_and_holiday_()
+
+    # Make a figure that shows the MM fraction for different bOC,MMd values
+    Figure_best_b_OC_MMd()
+
+    # Make a figure that shows the MM fraction for different WMMd IH values
+    Figure_best_WMMD_IH()
+
+    # Make a 3D figure showing the effect of different WMMd and MMd GF IH strengths
+    Figure_3D_MMd_IH_strength()
 
     # Make line plots showing different equilibriums when the MMd GF IH holiday and
     # administration durations changes
@@ -96,9 +96,9 @@ def fitness_WOC(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix):
     xOB: Float
         Fraction of OBs.
     xMMd: Float
-        Fraction of the drug-sensitive MM cells.
+        Fraction of the MMd.
     xMMr: Float
-        Fraction of the resistant MM cells.
+        Fraction of the MMr.
     N: Int
         Number of individuals within the interaction range.
     cOC: Float
@@ -106,9 +106,9 @@ def fitness_WOC(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix):
     cOB: Float
         Cost parameter OBs.
     cMMd: Float
-        Cost parameter drug-sensitive MM cells.
+        Cost parameter MMd.
     cMMr: Float
-        Cost parameter resistant MM cells.
+        Cost parameter MMr.
     matrix: Numpy.ndarray
         4x4 matrix containing the interaction factors.
 
@@ -147,9 +147,9 @@ def fitness_WOB(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix):
     xOB: Float
         Fraction of OBs.
     xMMd: Float
-        Fraction of the drug-sensitive MM cells.
+        Fraction of the MMd.
     xMMr: Float
-        Fraction of the resistant MM cells.
+        Fraction of the MMr.
     N: Int
         Number of individuals within the interaction range.
     cOC: Float
@@ -157,9 +157,9 @@ def fitness_WOB(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix):
     cOB: Float
         Cost parameter OBs.
     cMMd: Float
-        Cost parameter drug-sensitive MM cells.
+        Cost parameter MMd.
     cMMr: Float
-        Cost parameter resistant MM cells.
+        Cost parameter MMr.
     matrix: Numpy.ndarray
         4x4 matrix containing the interaction factors.
 
@@ -199,9 +199,9 @@ def fitness_WMMd(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix,
     xOB: Float
         Fraction of OBs.
     xMMd: Float
-        Fraction of the drug-sensitive MM cells.
+        Fraction of the MMd.
     xMMr: Float
-        Fraction of the resistant MM cells.
+        Fraction of the MMr.
     N: Int
         Number of individuals within the interaction range.
     cOC: Float
@@ -209,13 +209,13 @@ def fitness_WMMd(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix,
     cOB: Float
         Cost parameter OBs.
     cMMd: Float
-        Cost parameter drug-sensitive MM cells.
+        Cost parameter MMd.
     matrix: Numpy.ndarray
         4x4 matrix containing the interaction factors.
     cMMr: Float
-        Cost parameter resistant MM cells.
+        Cost parameter MMr.
     WMMd_inhibitor: Float
-        The effect of a drug on the drug-sensitive MM cells.
+        The effect of a drug on the MMd.
 
     Returns:
     --------
@@ -253,9 +253,9 @@ def fitness_WMMr(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix):
     xOB: Float
         Fraction of OBs.
     xMMr: Float
-        Fraction of the resistant MM cells.
+        Fraction of the MMr.
     xMMd: Float
-        Fraction of the drug-sensitive MM cells.
+        Fraction of the MMd.
     N: Int
         Number of individuals within the interaction range.
     cOC: Float
@@ -263,9 +263,9 @@ def fitness_WMMr(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix):
     cOB: Float
         Cost parameter OBs.
     cMMd: Float
-        Cost parameter drug-sensitive MM cells.
+        Cost parameter MMd.
     cMMr: Float
-        Cost parameter resistant MM cells.
+        Cost parameter MMr.
     matrix: Numpy.ndarray
         4x4 matrix containing the interaction factors.
 
@@ -309,18 +309,18 @@ def model_dynamics(y, t, N, cOC, cOB, cMMd, cMMr, matrix, WMMd_inhibitor = 0):
     cOB: Float
         Cost parameter OBs.
     cMMd: Float
-        Cost parameter drug-sensitive MM cells.
+        Cost parameter MMd.
     cMMr: Float
-        Cost parameter resistant MM cells.
+        Cost parameter MMr.
     matrix: Numpy.ndarray
         4x4 matrix containing the interaction factors.
     WMMd_inhibitor: Float
-        The effect of a drug on the drug-sensitive MM cells.
+        The effect of a drug on the MMd.
 
     Returns:
     --------
     [xOC_change, xOB_change, xMMd_change, xMMr_change]: List
-        List containing the changes in fractions of xOC, xOB, xMMd and xMMr.
+        List containing the changes in fractions of OC, OB, MMd and MMr.
 
     Example:
     -----------
@@ -376,13 +376,13 @@ def frac_to_fitness_values(dataframe_fractions, N, cOC, cOB, cMMd, cMMr, matrix,
     cOB: Float
         Cost parameter OBs.
     cMMr: Float
-        Cost parameter resistant MM cells.
+        Cost parameter MMr.
     cMMd: Float
-        Cost parameter drug-sensitive MM cells.
+        Cost parameter MMd.
     matrix: Numpy.ndarray
         4x4 matrix containing the interaction factors.
     WMMd_inhibitor: Float
-        The effect of a drug on the drug-sensitive MM cells
+        The effect of a drug on the MMd
 
     Returns:
     --------
@@ -502,9 +502,9 @@ def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd, 
     xOB: Float
         Fraction of OBs.
     xMMr: Float
-        Fraction of the resistant MM cells.
+        Fraction of the MMr.
     xMMd: Float
-        Fraction of the drug-sensitive MM cells.
+        Fraction of the MMd.
     N: Int
         Number of cells in the difussion range.
     cOC: Float
@@ -512,15 +512,15 @@ def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd, 
     cOB: Float
         Cost parameter OBs.
     cMMr: Float
-        Cost parameter resistant MM cells.
+        Cost parameter MMr.
     cMMd: Float
-        Cost parameter drug-sensitive MM cells.
+        Cost parameter MMd.
     matrix_no_GF_IH: Numpy.ndarray
         4x4 matrix containing the interaction factors when no GF IH are administrated.
     matrix_GF_IH: Numpy.ndarray
         4x4 matrix containing the interaction factors when GF IH are administrated.
     WMMd_inhibitor: Float
-        The effect of a drug on the drug-sensitive MM cells.
+        The effect of a drug on the MMd.
 
     Returns:
     --------
@@ -539,7 +539,7 @@ def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd, 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_total_switch = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                    'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
+                    'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
     # Increase the time
     time += t_steps
@@ -566,7 +566,7 @@ def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd, 
             # Determine the ODE solutions
             y = odeint(model_dynamics, y0, t, args=parameters)
             df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe tot total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
@@ -594,7 +594,7 @@ def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd, 
             # Determine the ODE solutions
             y = odeint(model_dynamics, y0, t, args=parameters)
             df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe tot total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
@@ -626,9 +626,9 @@ def pronto_switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, xOC, xOB,
     xOB: Float
         Fraction of OBs.
     xMMr: Float
-        Fraction of the resistant MM cells.
+        Fraction of the MMr.
     xMMd: Float
-        Fraction of the drug-sensitive MM cells.
+        Fraction of the MMd.
     N: Int
         Number of cells in the difussion range.
     cOC: Float
@@ -636,15 +636,15 @@ def pronto_switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, xOC, xOB,
     cOB: float
         Cost parameter OBs.
     cMMr: Float
-        Cost parameter resistant MM cells.
+        Cost parameter MMr.
     cMMd: Float
-        Cost parameter drug-sensitive MM cells.
+        Cost parameter MMd.
     matrix_no_GF_IH: Numpy.ndarray
         4x4 matrix containing the interaction factors when no GF IH are administrated.
     matrix_GF_IH: Numpy.ndarray
         4x4 matrix containing the interaction factors when GF IH are administrated.
     WMMd_inhibitor: Float
-        The effect of a drug on the drug-sensitive MM cells.
+        The effect of a drug on the MMd.
 
     Returns:
     --------
@@ -661,7 +661,7 @@ def pronto_switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, xOC, xOB,
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_total_switch = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                    'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
+                    'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
     # Increase the time
     time += t_steps_no_drug
@@ -688,7 +688,7 @@ def pronto_switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, xOC, xOB,
             # Determine the ODE solutions
             y = odeint(model_dynamics, y0, t, args=parameters)
             df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe tot total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
@@ -716,7 +716,7 @@ def pronto_switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, xOC, xOB,
             # Determine the ODE solutions
             y = odeint(model_dynamics, y0, t, args=parameters)
             df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe tot total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
@@ -744,9 +744,9 @@ def mimimal_tumour_frac_t_steps(t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd, x
     xOB: Float
         Fraction of OBs.
     xMMr: Float
-        Fraction of the resistant MM cells.
+        Fraction of the MMr.
     xMMd: Float
-        Fraction of the drug-sensitive MM cells.
+        Fraction of the MMd.
     N: Int
         Number of cells in the difussion range.
     cOC: Float
@@ -754,20 +754,34 @@ def mimimal_tumour_frac_t_steps(t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd, x
     cOB: float
         Cost parameter OBs.
     cMMr: Float
-        Cost parameter resistant MM cells.
+        Cost parameter MMr.
     cMMd: Float
-        Cost parameter drug-sensitive MM cells.
+        Cost parameter MMd.
     matrix_no_GF_IH: Numpy.ndarray
         4x4 matrix containing the interaction factors when no GF IH are administrated.
     matrix_GF_IH: Numpy.ndarray
         4x4 matrix containing the interaction factors when GF IH are administrated.
     WMMd_inhibitor: Float
-        The effect of a drug on the drug-sensitive MM cells.
+        The effect of a drug on the MMd.
 
-    Returns:
-    --------
+    Example:
+    -----------
     average_MM_fractions: float
         The average total MM fraction in the last period.
+
+    >>> matrix_no_GF_IH = np.array([
+    ...    [0.7, 1.0, 2.5, 2.1],
+    ...    [1.0, 1.4, -0.3, 1.0],
+    ...    [2.5, 0.2, 1.1, -0.2],
+    ...    [2.1, 0.0, -0.2, 1.2]])
+    >>> matrix_no_GF_IH = np.array([
+    ...    [0.7, 1.0, 2.5, 2.1],
+    ...    [1.0, 1.4, -0.3, 1.0],
+    ...    [0.8, 0.2, 1.1, -0.2],
+    ...    [2.1, 0.0, -0.2, 1.2]])
+    >>> mimimal_tumour_frac_t_steps(5, 5, 0.2, 0.3, 0.2, 0.3, 10, 0.3, 0.2,
+    ...                               0.3, 0.5, matrix_no_GF_IH, matrix_no_GF_IH)
+    -1.5588579521678917e-14
     """
     # Deteremine the number of switches
     time_step = (t_steps_drug + t_steps_no_drug) / 2
@@ -778,8 +792,8 @@ def mimimal_tumour_frac_t_steps(t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd, x
                                  xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
                                  matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor)
 
-    # Determine the average MM fraction
-    last_MM_fractions = df['total_MM'].tail(int(time_step *2))
+    # Determine the average MM fraction in the last period with and without drugs
+    last_MM_fractions = df['total xMM'].tail(int(time_step *2))
     average_MM_fractions = last_MM_fractions.sum() / (int(time_step*2))
 
     return float(average_MM_fractions)
@@ -799,9 +813,9 @@ def mimimal_tumour_frac_b_OC_MMd(b_OC_MMd, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cM
     xOB: Float
         Fraction of OBs.
     xMMd: Float
-        Fraction of the drug-sensitive MM cells.
+        Fraction of the MMd.
     xMMr: Float
-        Fraction of the resistant MM cells.
+        Fraction of the MMr.
     N: Int
         Number of cells in the difussion range.
     cOC: Float
@@ -809,9 +823,9 @@ def mimimal_tumour_frac_b_OC_MMd(b_OC_MMd, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cM
     cOB: float
         Cost parameter OBs.
     cMMd: Float
-        Cost parameter drug-sensitive MM cells.
+        Cost parameter MMd.
     cMMr: Float
-        Cost parameter resistant MM cells.
+        Cost parameter MMr.
     matrix: Numpy.ndarray
         4x4 matrix containing the interaction factors.
     t: Numpy.ndarray
@@ -823,6 +837,20 @@ def mimimal_tumour_frac_b_OC_MMd(b_OC_MMd, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cM
     --------
     last_MM_fraction: Float
         The total MM fraction.
+
+    Example:
+    -----------
+    average_MM_fractions: float
+        The average total MM fraction in the last period.
+
+    >>> matrix = np.array([
+    ...    [0.7, 1.0, 2.5, 2.1],
+    ...    [1.0, 1.4, -0.3, 1.0],
+    ...    [2.5, 0.2, 1.1, -0.2],
+    ...    [2.1, 0.0, -0.2, 1.2]])
+    >>> mimimal_tumour_frac_b_OC_MMd(1, 0.2, 0.3, 0.2, 0.3, 10, 0.3, 0.2, 0.3, 0.5,
+    ...                                      matrix, np.linspace(0, 10, 10), False)
+    0.07254732036078437
     """
     # Change b_OC_MMd to a float if it is an array
     if b_OC_MMd_array == True:
@@ -838,10 +866,10 @@ def mimimal_tumour_frac_b_OC_MMd(b_OC_MMd, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cM
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
     # Determine the total MM fraction
-    last_MM_fraction = df['total_MM'].iloc[-1]
+    last_MM_fraction = df['total xMM'].iloc[-1]
 
     return float(last_MM_fraction)
 
@@ -859,9 +887,9 @@ def mimimal_tumour_frac_dev(WMMd_inhibitor, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
     xOB: Float
         Fraction of OBs.
     xMMd: Float
-        Fraction of the drug-sensitive MM cells.
+        Fraction of the MMd.
     xMMr: Float
-        Fraction of the resistant MM cells.
+        Fraction of the MMr.
     N: Int
         Number of cells in the difussion range.
     cOC: Float
@@ -869,9 +897,9 @@ def mimimal_tumour_frac_dev(WMMd_inhibitor, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
     cOB: Float
         Cost parameter OBs.
     cMMd: Float
-        Cost parameter drug-sensitive MM cells.
+        Cost parameter MMd.
     cMMr: Float
-        Cost parameter resistant MM cells.
+        Cost parameter MMr.
     matrix: Numpy.ndarray
         4x4 matrix containing the interaction factors.
     t: Numpy.ndarray
@@ -883,6 +911,20 @@ def mimimal_tumour_frac_dev(WMMd_inhibitor, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
     --------
     last_MM_fraction: Float
         The total MM fraction.
+
+    Example:
+    -----------
+    average_MM_fractions: float
+        The average total MM fraction in the last period.
+
+    >>> matrix = np.array([
+    ...    [0.7, 1.0, 2.5, 2.1],
+    ...    [1.0, 1.4, -0.3, 1.0],
+    ...    [2.5, 0.2, 1.1, -0.2],
+    ...    [2.1, 0.0, -0.2, 1.2]])
+    >>> mimimal_tumour_frac_dev(1, 0.2, 0.3, 0.2, 0.3, 10, 0.3, 0.2, 0.3, 0.5,
+    ...                                      matrix, np.linspace(0, 10, 10), False)
+    0.038238963035331155
     """
     # Determine if WMMd_inhibitor is an array
     if WMMd_inhibitor_array == True:
@@ -895,10 +937,10 @@ def mimimal_tumour_frac_dev(WMMd_inhibitor, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
     # Determine the total MM fraction
-    last_MM_fraction = df['total_MM'].iloc[-1]
+    last_MM_fraction = df['total xMM'].iloc[-1]
 
     return float(last_MM_fraction)
 
@@ -1149,7 +1191,7 @@ def Figure_conineous_MTD_vs_AT(n_switches, t_steps_drug):
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_1 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
     # Determine the current fractions
     xOC = df_1['xOC'].iloc[-1]
@@ -1164,7 +1206,7 @@ def Figure_conineous_MTD_vs_AT(n_switches, t_steps_drug):
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
     # Combine the dataframes
     df_total_GF = pd.concat([df_1, df_2])
@@ -1181,7 +1223,7 @@ def Figure_conineous_MTD_vs_AT(n_switches, t_steps_drug):
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_1 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
     # Determine the current fractions
     xOC = df_1['xOC'].iloc[-1]
@@ -1196,7 +1238,7 @@ def Figure_conineous_MTD_vs_AT(n_switches, t_steps_drug):
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
     # Combine the dataframes
     df_total_wMMd = pd.concat([df_1, df_2])
@@ -1213,7 +1255,7 @@ def Figure_conineous_MTD_vs_AT(n_switches, t_steps_drug):
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_1 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
     # Determine the current fractions
     xOC = df_1['xOC'].iloc[-1]
@@ -1228,7 +1270,7 @@ def Figure_conineous_MTD_vs_AT(n_switches, t_steps_drug):
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
     # Combine the dataframes
     df_total_comb = pd.concat([df_1, df_2])
@@ -1752,7 +1794,7 @@ def Figure_3_senarios_MMd_GF_IH(n_switches, t_steps_drug):
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_1 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
     # Determine the current fractions
     xOC = df_1['xOC'].iloc[-1]
@@ -1767,7 +1809,7 @@ def Figure_3_senarios_MMd_GF_IH(n_switches, t_steps_drug):
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
     # Combine the dataframes
     df_total = pd.concat([df_1, df_2])
@@ -1878,7 +1920,7 @@ def Figure_3_senarios_WMMd_IH(n_switches, t_steps_drug):
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_1 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
     # Determine the current fractions
     xOC = df_1['xOC'].iloc[-1]
@@ -1893,7 +1935,7 @@ def Figure_3_senarios_WMMd_IH(n_switches, t_steps_drug):
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
     # Combine the dataframes
     df_total = pd.concat([df_1, df_2])
@@ -2009,7 +2051,7 @@ def Figure_3_senarios_MMd_GF_WMMd_IH(n_switches, t_steps_drug):
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_1 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
     # Determine the current fractions
     xOC = df_1['xOC'].iloc[-1]
@@ -2024,7 +2066,7 @@ def Figure_3_senarios_MMd_GF_WMMd_IH(n_switches, t_steps_drug):
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
     # Combine the dataframes
     df_total = pd.concat([df_1, df_2])

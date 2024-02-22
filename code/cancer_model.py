@@ -148,10 +148,10 @@ def fitness_WMMd(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix,
         Cost parameter OBs.
     cMMd: Float
         Cost parameter drug-sensitive MM cells.
-    matrix: Numpy.ndarray
-        4x4 matrix containing the interaction factors.
     cMMr: Float
         Cost parameter resistant MM cells.
+    matrix: Numpy.ndarray
+        4x4 matrix containing the interaction factors.
     WMMd_inhibitor: Float
         The effect of a drug on the drug-sensitive MM cells.
 

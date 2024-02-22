@@ -149,7 +149,6 @@ def save_ternary(Figure, file_name, folder_path):
     pio.write_image(Figure, os.path.join(folder_path, f'{file_name}.png'),
                                                                  format='png')
 
-
 def collect_data(file_name, folder_path):
     """ Function that reads the data from a csv file to a dataframe.
 
@@ -170,7 +169,6 @@ def collect_data(file_name, folder_path):
     data_frame = pd.read_csv(file_path)
 
     return data_frame
-
 
 def fitness_WOC(xOC, xOB, xMM, N, cOC, cOB, cMM, matrix):
     """
