@@ -37,35 +37,35 @@ def main():
     import doctest
     doctest.testmod()
 
-    # # Make figure 2 in the paper of Sartakhti et al., 2016.
-    # figure_2()
-    #
-    # # Make figure 3 in the paper of Sartakhti et al., 2016.
-    # figure_3()
-    #
-    # # Make figure 5 in the paper of Sartakhti et al., 2016.
-    # figure_5()
-    #
-    # # Make figure 8A in the paper of Sartakhti et al., 2016.
-    # figure_8A()
-    #
-    # # Make figure 8B in the paper of Sartakhti et al., 2016.
-    # figure_8B()
-    #
-    # # Make figure 9A in the paper of Sartakhti et al., 2016.
-    # figure_9A()
-    #
-    # # Make figure 9B in the paper of Sartakhti et al., 2016.
-    # figure_9B()
-    #
-    # # Make figure 9C in the paper of Sartakhti et al., 2016.
-    # figure_9C()
-    #
-    # # Make figure 10A in the paper of Sartakhti et al., 2016.
-    # figure_10A()
-    #
-    # # Make figure 10B in the paper of Sartakhti et al., 2016.
-    # figure_10B()
+    # Make figure 2 in the paper of Sartakhti et al., 2016.
+    figure_2()
+
+    # Make figure 3 in the paper of Sartakhti et al., 2016.
+    figure_3()
+
+    # Make figure 5 in the paper of Sartakhti et al., 2016.
+    figure_5()
+
+    # Make figure 8A in the paper of Sartakhti et al., 2016.
+    figure_8A()
+
+    # Make figure 8B in the paper of Sartakhti et al., 2016.
+    figure_8B()
+
+    # Make figure 9A in the paper of Sartakhti et al., 2016.
+    figure_9A()
+
+    # Make figure 9B in the paper of Sartakhti et al., 2016.
+    figure_9B()
+
+    # Make figure 9C in the paper of Sartakhti et al., 2016.
+    figure_9C()
+
+    # Make figure 10A in the paper of Sartakhti et al., 2016.
+    figure_10A()
+
+    # Make figure 10B in the paper of Sartakhti et al., 2016.
+    figure_10B()
 
     # Make figure 11 in the paper of Sartakhti et al., 2016.
     figure_11()

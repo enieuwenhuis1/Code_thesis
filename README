@@ -8,7 +8,8 @@ own model is looked at the interactions between four cell types: drug-sensitive 
 cells (MMd), resistant MM cells (MMr), osteoblasts (OBs) and osteoclasts (OCs). The
 own model simulates a public goods game in the framework of evolutionary game theory
 with collective interactions and linear benefits. The impact of GF MMd inhibitors and
-WMMd inhibitors is studied for different administration periods.
+WMMd inhibitors on the cell type fractions and numbers is studied for different
+administration periods.
 
 To better understand MM microenvironment modeling, the figures from two articles were
 first attempted to be reproduced. The model results from Sartakhti et al. (2018) were
@@ -16,7 +17,7 @@ tried to be reproduced in model_S_nonlinear.py and the results form Sartakhti et
 (2016) were tried to be reproduced in model_S_linear.py. Both papers did not disclose
 their code so a comparison of the interpretation was not possible. Because the results
 of the linear model were much closer to the paper result and the model was better to
-comprehend, the own model (cancer_model.py) also uses linear benefits.
+comprehend, the own model also uses linear benefits.
 
 PYTHON AND LIBRARY VERSIONS
 The models were written in Python code (version 3.11.4) using Atom (version 1.60.0).
@@ -50,7 +51,7 @@ model_S_linear.py
 * scipy (version 1.11.4)
     - install: pip install scipy==1.11.4
 
-cancer_model.py
+MM_model_fractions.py
 * numpy (version 1.26.0)
     - install: pip install numpy==1.26.0
 * matplotlib (version 3.8.0)
@@ -64,7 +65,6 @@ cancer_model.py
 * scipy (version 1.11.4)
     - install: pip install scipy==1.11.4
 
-cancer_model_visualisation.py
 
 THE MODEL WITH LINEAR BENEFITS: model_S_linear.py
 model_S_linear.py contains code of the mathematical formulas and the code to
@@ -93,11 +93,11 @@ run when the model_S_nonlinear.py code is run.
 THE OWN MADE MODEL WITH FRACTIONS: MM_model_fractions.py
 MM_model_fractions.py contains the code with the mathematical formulas simulating
 the fraction dynamics of the four cell types MMd, MMr, OCs and OBs in the MM
-microenvironment. The model is contineous and uses linear benefits and collective
-interactions. It contains the code to make the figures showing the effect of WMM
+microenvironment. It contains the code to make the figures showing the effect of WMM
 inhibitors, MMd GF inhibitors and a combination at different administration periods
-on the cell type fractions. In addition, it also contains code to optimize the drug
-administration amounts and periods causing the lowest total MM fraction.
+on the cell type fractions. In addition, it contains code to optimize the drug
+administration amounts and periods causing the lowest total MM fraction. Lastly, it
+also contains code to make tables showing the eigenvalues of the interaction matrix.
 
 TEST THE CODE
 To test some of the functions in the model, doc tests are added and automatically
@@ -106,8 +106,7 @@ run when the MM_model_fractions.py code is run.
 THE OWN MADE MODEL WITH NUMBERS: MM_model_numbers.py
 MM_model_numbers.py contains the code with the mathematical formulas simulating
 the number dynamics of the four cell types MMd, MMr, OCs and OBs in the MM
-microenvironment. The model is contineous, has a changing N and uses linear benefits
-and collective interactions. It contains the code to make the figures showing the
+microenvironment. It contains the code to make the figures showing the
 effect of WMM inhibitors, MMd GF inhibitors and a combination at different
 administration periods on the cell type numbers. In addition, it also contains code
 to optimize the drug administration amounts and periods causing the lowest total
@@ -120,7 +119,7 @@ run when the MM_model_numbers.py code is run.
 
 THE DATA
 The folder data contains all the generated data that is used to make the figures.
-This folder contains:
+and tables. This folder contains:
 * reproduced_data_Sartakhti_nonlinear: contains all the data obtained with the model
                                     based on the paper of Sartakhti et al., 2018
 * reproduced_data_Sartakhti_linear: contains all the data obtained with the model
