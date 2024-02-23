@@ -3,13 +3,14 @@ Author:       Eva Nieuwenhuis
 University:   UvA
 Student id':  13717405
 Description:  Code with the model that simulates the dynamics in the multiple myeloma
-              (MM) microenvironment with four cell types: MMd
-              (MMd), MMr (MMr), osteoblasts (OBs) and osteoclasts
+              (MM) microenvironment with four cell types: drug-sensitive MM cells
+              (MMd), resistant MM cells (MMr), osteoblasts (OBs) and osteoclasts
               (OCs). The model is a public goods game in the framework of evolutionary
               game theory with collective interactions and linear benefits. In this
               model there is looked at the fractions of the four cell types.
 """
 
+# Import the needed libraries
 import math
 import numpy as np
 import os

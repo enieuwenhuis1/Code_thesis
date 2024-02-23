@@ -26,6 +26,7 @@ dynamics of tumour-Stroma interactions in multiple myeloma. PLOS ONE, 11(12),
 e0168856. https://doi.org/10.1371/journal.pone.0168856
 """
 
+# Import the needed libraries
 import math
 import numpy as np
 import os

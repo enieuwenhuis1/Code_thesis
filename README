@@ -2,22 +2,21 @@ Author:       Eva Nieuwenhuis
 University:   UvA
 Student id:   13717405
 
-The goal was to make a model that simulates the dynamics of the multiple myeloma
-(MM) microenvironment and determine the effects of several treatment methods. In the
+The goal was to make models that simulate the dynamics of the multiple myeloma (MM)
+microenvironment and determine the effects of several treatment methods. In the
 own model is looked at the interactions between four cell types: drug-sensitive MM
 cells (MMd), resistant MM cells (MMr), osteoblasts (OBs) and osteoclasts (OCs). The
 own model simulates a public goods game in the framework of evolutionary game theory
 with collective interactions and linear benefits. The impact of GF MMd inhibitors and
 WMMd inhibitors on the cell type fractions and numbers is studied for different
-administration periods.
+administration and holliday periods.
 
-To better understand MM microenvironment modeling, the figures from two articles were
-first attempted to be reproduced. The model results from Sartakhti et al. (2018) were
-tried to be reproduced in model_S_nonlinear.py and the results form Sartakhti et al.
-(2016) were tried to be reproduced in model_S_linear.py. Both papers did not disclose
-their code so a comparison of the interpretation was not possible. Because the results
-of the linear model were much closer to the paper result and the model was better to
-comprehend, the own model also uses linear benefits.
+To better understand MM microenvironment modeling, the figures from Sartakhti et al.
+(2018) (nonlinear) and Sartakhti et al. (2016) (linear) were first attempted to be
+reproduced. Both papers did not disclose their code hence comparison of the
+interpretation was not possible. Because the results of the linear model were much
+closer to the paper result and the model was better to comprehend, the own model
+with fractions and the own model with numbers also use linear benefits.
 
 PYTHON AND LIBRARY VERSIONS
 The models were written in Python code (version 3.11.4) using Atom (version 1.60.0).

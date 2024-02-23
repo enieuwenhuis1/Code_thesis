@@ -22,6 +22,7 @@ Interactions in Multiple Myeloma: Effect of nonlinear benefits. Games, 9(2), 32.
 https://doi.org/10.3390/g9020032
 """
 
+# Import the needed libraries
 import math
 import numpy as np
 import pandas as pd
@@ -69,9 +70,9 @@ def main():
     Figure_10()
 
 """
-x_OC = frequency osteoclasten
-x_OB = frequency osteoblasen
-x_MM = frequency multiplemyeloma cells
+x_OC = fraction osteoclasten
+x_OB = fraction osteoblasen
+x_MM = fraction multiplemyeloma cells
 x_OC + x_OB + x_MM = 1
 
 N = Number of cells within the difusie range of the difusible factors
@@ -90,11 +91,11 @@ def probability_number_cells(nOC, nOB, N, xOC, xOB, xMM):
     N: Int
         The total number of cells in the group excluding the focal cell itself.
     xOC: Float
-        The frequency of osteoclasts in the population.
+        The fraction of osteoclasts in the population.
     xOB: Float
-        The frequency of osteoblasts in the population.
+        The fraction of osteoblasts in the population.
     xMM: Float
-        The frequency of multiple myeloma cells in the population.
+        The fraction of multiple myeloma cells in the population.
 
     Returns:
     -----------
@@ -236,7 +237,7 @@ def payoff_MM(nOC, nOB, N, bOC_MM, bOB_MM, bMM_MM, cMM):
 """
 Fitness (Wi) is determined by multiplying the payoffs obtained by each cell type
 in the formed population with the probability that population with those cell type
-frequencies occurs. The outer sum iterates over values of nOC and the inner sum
+fractions occurs. The outer sum iterates over values of nOC and the inner sum
 iterates over values of nOB. The fitness values are normalized using N/(N-1).
 """
 
@@ -250,11 +251,11 @@ def calculate_fitness(N, xOC, xOB, xMM, bOC_OC, bOB_OC, bMM_OC, cOC, bOC_OB, bOB
     N: Int
        The total number of cells in the group excluding the focal cell itself.
     xOC: Float
-       The frequency of osteoclasts in the population.
+       The fraction of osteoclasts in the population.
     xOB: Float
-       The frequency of osteoblasts in the population.
+       The fraction of osteoblasts in the population.
     xMM: Float
-       The frequency of multiple myeloma cells in the population.
+       The fraction of multiple myeloma cells in the population.
     bOC_OC: Float
        The benefit on a OC of the diffusible factors produced by an OC.
     bOB_OC: Float
@@ -326,23 +327,23 @@ def calculate_fitness(N, xOC, xOB, xMM, bOC_OC, bOB_OC, bMM_OC, cOC, bOC_OB, bOB
     return normalized_fitness_OC, normalized_fitness_OB, normalized_fitness_MM
 
 """
-Replicator dynamics says that cells with a higher fitness will increase in frequency
+Replicator dynamics says that cells with a higher fitness will increase in fraction
 over time, while those with lower fitness will decrease. W* represents the average
 fitness in the population.
 """
 
 def calculate_replicator_dynamics(xOC, xOB, xMM, WOC, WOB, WMM):
-    """ Function that calculates the frequency of osteoblasts, osteoclasts and
+    """ Function that calculates the fraction of osteoblasts, osteoclasts and
     multiple myeloma cells in the next generation based on replicator dynamics.
 
     Parameters:
     -----------
     xOC: Float
-        The frequency of osteoclasts in the population.
+        The fraction of osteoclasts in the population.
     xOB: Float
-        The frequency of osteoblasts in the population.
+        The fraction of osteoblasts in the population.
     xMM: Float
-        The frequency of multiple myeloma cells in the population.
+        The fraction of multiple myeloma cells in the population.
     WOC: Float
         The fitness of the osteoclasts.
     WOB: Float
@@ -353,11 +354,11 @@ def calculate_replicator_dynamics(xOC, xOB, xMM, WOC, WOB, WMM):
     Returns:
     -----------
     xOC_change: Float
-         The change in frequency of osteoclasts in the population.
+         The change in fraction of osteoclasts in the population.
     xOB_change: Float
-         The change infrequency of osteoblasts in the population.
+         The change infraction of osteoblasts in the population.
     xMM_change: Float
-         The change in frequency of multiple myeloma cells in the population.
+         The change in fraction of multiple myeloma cells in the population.
     W_average: Float
         The average fitness.
 
@@ -370,7 +371,7 @@ def calculate_replicator_dynamics(xOC, xOB, xMM, WOC, WOB, WMM):
     W_average = xOC * WOC + xOB * WOB + xMM * WMM
 
 
-    # Determine the new frequencies based of replicator dynamics
+    # Determine the new fractions based of replicator dynamics
     xOC_change = xOC * (WOC - W_average) # (6)
     xOB_change = xOB * (WOB - W_average) # (7)
     xMM_change = xMM * (WMM - W_average) # (8)
@@ -523,13 +524,13 @@ def save_ternary(Figure, file_name, folder_path):
                                                                     format='png')
 
 def dynamics_same_h_and_s(y, t, parameters):
-    """Determines the frequenty dynamics in a population over time. The h value and
+    """Determines the fracuenty dynamics in a population over time. The h value and
     s value are for all interactions the same.
 
     Parameters:
     -----------
     y: List
-        List containing the current frequencies of the OCs, OBs and MM cells
+        List containing the current fractions of the OCs, OBs and MM cells
     t: Numpy.ndarray
         Array with the time points.
     parameters: tuple
@@ -540,13 +541,13 @@ def dynamics_same_h_and_s(y, t, parameters):
     Returns:
     -----------
     [xOC_change, xOB_change, xMM_change]: List
-        List with the calculated change in frequencies of xOC, xOB and MM cells
+        List with the calculated change in fractions of xOC, xOB and MM cells
     """
     xOC, xOB, xMM = y
     N, h, s, BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM,\
                                         cOC_value, cOB_value, cMM_value = parameters
 
-    # Determine the absolute cell type numbers  
+    # Determine the absolute cell type numbers
     nOC = xOC * N
     nOB = xOB * N
     nMM = xMM * N
@@ -583,7 +584,7 @@ def dynamics_different_h_and_s(y, t, parameters):
     Parameters:
     -----------
     y: List
-        List containing the current frequencies of the OCs, OBs and MM cells
+        List containing the current fractions of the OCs, OBs and MM cells
     t: Numpy.ndarray
         Array with the time points.
     parameters: tuple
@@ -596,7 +597,7 @@ def dynamics_different_h_and_s(y, t, parameters):
     Returns:
     -----------
     [xOC_change, xOB_change, xMM_change]: List
-        List with the calculated change in frequencies of xOC, xOB and MM cells
+        List with the calculated change in fractions of xOC, xOB and MM cells
     """
     # Unpack state variables and parameters
     xOC, xOB, xMM = y
@@ -628,7 +629,7 @@ def dynamics_different_h_and_s(y, t, parameters):
                                 bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
                                  bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
 
-    # Determine changes in strategy frequencies
+    # Determine changes in strategy fractions
     xOC_change, xOB_change, xMM_change, _ = calculate_replicator_dynamics(
                                 xOC, xOB, xMM, fitness_OC, fitness_OB, fitness_MM)
 
@@ -660,7 +661,7 @@ def Figure_1():
     s = 1e-10
     h = 0.7
 
-    # Initial frequencies and values --> are needed to make a plot but are not mentioned
+    # Initial fractions and values --> are needed to make a plot but are not mentioned
     xOC = 0.4
     xOB = 0.3
     xMM = 0.3
@@ -752,8 +753,8 @@ def Figure_1():
     df_Figure_1.plot(x='Generation', y=['xOC', 'xOB', 'xMM'], ax=axes[1])
     axes[1].set_title('Dynamics linear benefits (Figure 1)')
     axes[1].set_xlabel('Generations')
-    axes[1].set_ylabel('Fitness/Frequency')
-    axes[1].legend(['Frequency OC', 'Frequency OB', 'Frequency MM'], loc = 'upper left')
+    axes[1].set_ylabel('Fraction')
+    axes[1].legend(['fraction OC', 'fraction OB', 'fraction MM'], loc = 'upper left')
     plt.tight_layout()
     save_Figure(plt, 'Line_plot_Figure_1',
                     r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
@@ -958,7 +959,7 @@ def Figure_3():
     sMM_OB = 20
     sMM_MM = 50
 
-    # Initial frequencies and values --> are needed to make a plot but are not mentioned
+    # Initial fractions and values --> are needed to make a plot but are not mentioned
     xOC = 0.3
     xOB = 0.2
     xMM = 0.5
@@ -982,7 +983,7 @@ def Figure_3():
     df_Figure_3_nonlinear = pd.DataFrame({'Generation': t, 'xOC': xOC_values,
                                             'xOB': xOB_values, 'xMM': xMM_values})
 
-    # Initial frequencies and values --> are needed to make a plot but are not mentioned
+    # Initial fractions and values --> are needed to make a plot but are not mentioned
     xOC = 0.3
     xOB = 0.2
     xMM = 0.5
@@ -1016,9 +1017,9 @@ def Figure_3():
 
     # Make a line plot of non-linear data
     df_Figure_3_nonlinear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
-                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+                        label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
-    plt.ylabel('Frequency')
+    plt.ylabel('Fraction')
     plt.title('Nonlinear benefits (Figure 3)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'Line_plot_Figure_3_nonlinear',
@@ -1039,10 +1040,10 @@ def Figure_3():
 
     # Make a line plot of linear data
     df_Figure_3_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
-                    label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+                    label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.legend(loc ='upper right')
     plt.xlabel('Generations')
-    plt.ylabel('Frequency')
+    plt.ylabel('Fraction')
     plt.title('Linear benfits (Figure 3)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'Line_plot_Figure_3_linear',
@@ -1106,7 +1107,7 @@ def Figure_4():
     sMM_OB = 10
     sMM_MM = 100
 
-    # Initial frequencies and values --> are needed to make a plot but are not mentioned
+    # Initial fractions and values --> are needed to make a plot but are not mentioned
     xOC = 0.2
     xOB = 0.5
     xMM = 0.3
@@ -1130,7 +1131,7 @@ def Figure_4():
     df_Figure_4_nonlinear = pd.DataFrame({'Generation': t, 'xOC': xOC_values,
                                             'xOB': xOB_values, 'xMM': xMM_values})
 
-    # Initial frequencies and values --> are needed to make a plot but are not mentioned
+    # Initial fractions and values --> are needed to make a plot but are not mentioned
     xOC = 0.2
     xOB = 0.5
     xMM = 0.3
@@ -1176,9 +1177,9 @@ def Figure_4():
 
     # Make a line plot of non-linear data
     df_Figure_4_nonlinear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
-                    label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+                    label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
-    plt.ylabel('Frequency')
+    plt.ylabel('Fraction')
     plt.title('Nonlinear benefits (Figure 4)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'Line_plot_Figure_4_nonlinear',
@@ -1199,9 +1200,9 @@ def Figure_4():
 
     # Make a line plot of linear data
     df_Figure_4_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
-                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+                        label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
-    plt.ylabel('Frequency')
+    plt.ylabel('Fraction')
     plt.title('Linear benefits (Figure 4)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'Line_plot_Figure_4_linear',
@@ -1265,7 +1266,7 @@ def Figure_5():
     sMM_OB = 10
     sMM_MM = 100
 
-    # Initial frequencies and values --> are needed to make a plot but are not mentioned
+    # Initial fractions and values --> are needed to make a plot but are not mentioned
     xOC = 0.2
     xOB = 0.5
     xMM = 0.3
@@ -1290,7 +1291,7 @@ def Figure_5():
     df_Figure_5_nonlinear = pd.DataFrame({'Generation': t, 'xOC': xOC_values,
                                             'xOB': xOB_values, 'xMM': xMM_values})
 
-    # Initial frequencies and values --> are needed to make a plot but are not mentioned
+    # Initial fractions and values --> are needed to make a plot but are not mentioned
     xOC = 0.2
     xOB = 0.5
     xMM = 0.3
@@ -1324,9 +1325,9 @@ def Figure_5():
 
     # Make a line plot of non-linear df
     df_Figure_5_nonlinear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
-                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+                        label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
-    plt.ylabel('Frequency')
+    plt.ylabel('Fraction')
     plt.title('Nonlinear benefits (Figure 5)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'Line_plot_Figure_5_nonlinear',
@@ -1347,9 +1348,9 @@ def Figure_5():
 
     # Make a line plot of linear data
     df_Figure_5_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
-                    label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+                    label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
-    plt.ylabel('Frequency')
+    plt.ylabel('Fraction')
     plt.legend(loc ='upper right')
     plt.title('linear benefits (Figure 5)')
     save_Figure(plt, 'Line_plot_Figure_5_linear',
@@ -1413,7 +1414,7 @@ def Figure_6():
     sMM_OB = 50
     sMM_MM = 50
 
-    # Initial frequencies and values --> are needed to make a plot but are not mentioned
+    # Initial fractions and values --> are needed to make a plot but are not mentioned
     xOC = 0.2
     xOB = 0.5
     xMM = 0.3
@@ -1438,7 +1439,7 @@ def Figure_6():
     df_Figure_6_nonlinear = pd.DataFrame({'Generation': t, 'xOC': xOC_values,
                                             'xOB': xOB_values, 'xMM': xMM_values})
 
-    # Initial frequencies and values --> are needed to make a plot but are not mentioned
+    # Initial fractions and values --> are needed to make a plot but are not mentioned
     xOC = 0.2
     xOB = 0.5
     xMM = 0.3
@@ -1473,9 +1474,9 @@ def Figure_6():
 
     # Make a line plot of non-linear data
     df_Figure_6_nonlinear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
-                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+                        label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
-    plt.ylabel('Frequency')
+    plt.ylabel('Fraction')
     plt.title('Nonlinear benefits (Figure 6)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'Line_plot_Figure_6_nonlinear',
@@ -1496,9 +1497,9 @@ def Figure_6():
 
     # Make a line plot of linear data
     df_Figure_6_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
-                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+                        label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
-    plt.ylabel('Frequency')
+    plt.ylabel('Fraction')
     plt.title('Linear benefits (Figure 6)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'Line_plot_Figure_6_linear',
@@ -1562,7 +1563,7 @@ def Figure_7():
     sMM_OB = 5
     sMM_MM = 5
 
-    # Initial frequencies and values --> are needed to make a plot but are not mentioned
+    # Initial fractions and values --> are needed to make a plot but are not mentioned
     xOC = 0.2
     xOB = 0.5
     xMM = 0.3
@@ -1640,7 +1641,7 @@ def Figure_7():
         WOC_list, 'WOB': WOB_list, 'WMM': WMM_list, 'W_average': W_average_list})
 
 
-    # Initial frequencies and values --> are needed to make a plot but are not mentioned
+    # Initial fractions and values --> are needed to make a plot but are not mentioned
     xOC = 0.2
     xOB = 0.5
     xMM = 0.3
@@ -1688,8 +1689,8 @@ def Figure_7():
     df_Figure_7_nonlinear.plot(x='Generation', y=['xOC', 'xOB', 'xMM'], ax=axes[1])
     axes[1].set_title('Dynamics nonlinear benfits (Figure 7)')
     axes[1].set_xlabel('Generations')
-    axes[1].set_ylabel('Fitness/Frequency')
-    axes[1].legend(['Frequency OC', 'Frequency OB', 'Frequency MM'])
+    axes[1].set_ylabel('Fraction')
+    axes[1].legend(['fraction OC', 'fraction OB', 'fraction MM'])
     plt.tight_layout()
     save_Figure(plt, 'Line_plot_Figure_7_nonlinear',
                     r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
@@ -1710,9 +1711,9 @@ def Figure_7():
 
     # Make a line plot of linear data
     df_Figure_7_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
-                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+                        label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
-    plt.ylabel('Frequency')
+    plt.ylabel('Fraction')
     plt.title('Linear benefits (Figure 7)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'Line_plot_Figure_7_linear',
@@ -1777,7 +1778,7 @@ def Figure_8():
     sMM_MM = 1000
     s_linear = 0.0001
 
-    # Initial frequencies and values --> are needed to make a plot but are not mentioned
+    # Initial fractions and values --> are needed to make a plot but are not mentioned
     xOC = 0.1
     xOB = 0.2
     xMM = 0.7
@@ -1854,7 +1855,7 @@ def Figure_8():
     df_fitness_nonlinear = pd.DataFrame({'Generation': generation_list, 'WOC': \
         WOC_list, 'WOB': WOB_list, 'WMM': WMM_list, 'W_average': W_average_list})
 
-    # Initial frequencies and values --> are needed to make a plot but are not mentioned
+    # Initial fractions and values --> are needed to make a plot but are not mentioned
     xOC = 0.1
     xOB = 0.2
     xMM = 0.7
@@ -1904,8 +1905,8 @@ def Figure_8():
     df_Figure_8_nonlinear.plot(x='Generation', y=['xOC', 'xOB', 'xMM'], ax=axes[1])
     axes[1].set_title('Dynamics nonlinear benefits (Figure 8)')
     axes[1].set_xlabel('Generations')
-    axes[1].set_ylabel('Fitness/Frequency')
-    axes[1].legend(['Frequency OC', 'Frequency OB', 'Frequency MM'])
+    axes[1].set_ylabel('Fraction')
+    axes[1].legend(['fraction OC', 'fraction OB', 'fraction MM'])
     plt.tight_layout()
     save_Figure(plt, 'Line_plot_Figure_8_nonlinear',
                     r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
@@ -1925,9 +1926,9 @@ def Figure_8():
 
     # Make a line plot of linear data
     df_Figure_8_linear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
-                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+                        label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
-    plt.ylabel('Frequency')
+    plt.ylabel('Fraction')
     plt.title('Linear benefits (Figure 8)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'Line_plot_Figure_8_linear',
@@ -2068,9 +2069,9 @@ def Figure_9():
 
     # Make a line plot of no treatment
     df_Figure_9_no_treatment.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
-                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+                        label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
-    plt.ylabel('Frequency')
+    plt.ylabel('Fraction')
     plt.title('No treatment (Figure 9)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'Line_plot_Figure_9_reducing_MM',
@@ -2099,9 +2100,9 @@ def Figure_9():
 
     # Make a line plot of the effect of a decrease in MM cells
     df_Figure_9_reducing_MM.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
-                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+                        label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
-    plt.ylabel('Frequency')
+    plt.ylabel('Fraction')
     plt.title('Reducing MM cells (Figure 9)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'Line_plot_Figure_9_reducing_MM',
@@ -2129,9 +2130,9 @@ def Figure_9():
 
     # Make a line plot of the effect of a increase in the h value
     df_Figure_9_increasing_h.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
-                        label = ['Frequency OC', 'Frequency OB', 'Frequency MM'])
+                        label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
-    plt.ylabel('Frequency')
+    plt.ylabel('Fraction')
     plt.title('Increase of the inflection point h (Figure 9)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'Line_plot_Figure_9_increasing_h',
