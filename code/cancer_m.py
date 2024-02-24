@@ -10,6 +10,7 @@ Description:  Code of the model that simulates the dynamics in the multiple myel
               model there is looked at the numbers of the four cell types.
 """
 
+# Import the needed libraries
 import math
 import numpy as np
 import os
@@ -31,13 +32,13 @@ def dOC_dt(nOC, nOB, nMMd, nMMr, N, cOC, cOB, cMMd, cMMr, gr_OC, dr_OC, matrix):
     Parameters:
     -----------
     nOC: Float
-        Frequency of OCs.
+         of OCs.
     nOB: Float
-        Frequency of OBs.
+         of OBs.
     nMMd: Float
-        Frequency of the MMd.
+         of the MMd.
     nMMr: Float
-        Frequency of the MMr.
+         of the MMr.
     N: Int
         Number of individuals within the interaction range.
     cOC: Float
@@ -76,7 +77,7 @@ def dOC_dt(nOC, nOB, nMMd, nMMr, N, cOC, cOB, cMMd, cMMr, gr_OC, dr_OC, matrix):
     d = matrix[0, 3]
 
     # Calculate the Change on in the number of OCs
-    change_nOC = (a*nOC*cOC + b*nOB*cOB + c*nMMd*cMMd + d* nMMr *cMMr)*(N - 1)/N - cOC
+    change_nOC = (gr_OC * nOC**a * nOB**b * nMMd**c * nMMr**d) - (dr_OC * nOC)
     return change_nOC
 
 def dOB_dt(nOC, nOB, nMMd, nMMr, N, cOC, cOB, cMMd, cMMr, gr_OB, dr_OB, matrix):
@@ -131,7 +132,7 @@ def dOB_dt(nOC, nOB, nMMd, nMMr, N, cOC, cOB, cMMd, cMMr, gr_OB, dr_OB, matrix):
     h = matrix[1, 3]
 
     # Calculate the change in number of OBs
-    change_nOB = (e*nOC*cOC + f*nOB*cOB + g*nMMd*cMMd + h* nMMr*cMMr)*(N - 1)/N - cOB
+    change_nOB = (gr_OB * nOC**e * nOB**f * nMMd**g * nMMr**h) - (dr_OB * nOB)
     return change_nOB
 
 def dMMd_dt(nOC, nOB, nMMd, nMMr, N, cOC, cOB, cMMd, cMMr, gr_MMd, dr_MMd, matrix,
@@ -189,8 +190,8 @@ def dMMd_dt(nOC, nOB, nMMd, nMMr, N, cOC, cOB, cMMd, cMMr, gr_MMd, dr_MMd, matri
     l = matrix[2, 3]
 
     # Calculate the change in the number of MMd
-    change_nMMd = (i*nOC*cOC + j*nOB*cOB + k*nMMd*cMMd + l* nMMr*cMMr - WMMd_inhibitor \
-                                                        * cMMd)*(N - 1)/N - cMMd
+    change_nMMd = (gr_MMd * nOC**i * nOB**j * nMMd**k * nMMr**l - nMMd * WMMd_inhibitor) - (dr_MMd * nMMd)
+
     return change_nMMd
 
 def dMMr_dt(nOC, nOB, nMMd, nMMr, N, cOC, cOB, cMMd, cMMr, gr_MMr, dr_MMr, matrix):
@@ -245,7 +246,7 @@ def dMMr_dt(nOC, nOB, nMMd, nMMr, N, cOC, cOB, cMMd, cMMr, gr_MMr, dr_MMr, matri
     p = matrix[3, 3]
 
     # Calculate the change in the number of MMr
-    change_MMr = (m*nOC*cOC + n*nOB*cOB + o*nMMd*cMMd + p* nMMr*cMMr)*(N - 1)/N - cMMr
+    change_MMr = (gr_MMr * nOC**m * nOB**n * nMMd**o * nMMr**p) - (dr_MMr * nMMr)
     return change_MMr
 
 
@@ -292,6 +293,7 @@ def model_dynamics(y, t, N, cOC, cOB, cMMd, cMMr, growth_rates, decay_rates, mat
     [0.030275999999999983, -0.010762000000000006, 0.0073170000000000145, -0.026830999999999994]
     """
     nOC, nOB, nMMd, nMMr = y
+    print('numbers', t, nOC, nOB, nMMd, nMMr)
 
     # Determine the change values
     nOC_change = dOC_dt(nOC, nOB, nMMd, nMMr, N, cOC, cOB, cMMd, cMMr, growth_rates[0], decay_rates[0], matrix)
@@ -304,6 +306,8 @@ def model_dynamics(y, t, N, cOC, cOB, cMMd, cMMr, growth_rates, decay_rates, mat
     nOB_change = float(nOB_change)
     nMMd_change = float(nMMd_change)
     nMMr_change = float(nMMr_change)
+
+    print('hi',nOC_change, nOB_change, nMMd_change, nMMr_change)
 
     return [nOC_change, nOB_change, nMMd_change, nMMr_change]
 
@@ -692,3 +696,116 @@ def mimimal_tumour_num_t_steps(t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd, nM
     average_MM_number = last_MM_numbers.sum() / (int(time_step*2))
 
     return float(average_MM_number)
+
+
+def Figure_freq_dynamics_decrease_MMd():
+    """Function that makes Figure of the nOC, nOB, nMMd and nMMr values over the time.
+    Where with transplantation big part of the MM cells get removed  """
+    # Set start values
+    N = 50
+    cMMr = 1.2
+    cMMd = 1.0
+    cOB = 0.6
+    cOC = 0.8
+    nOC = 20
+    nOB = 30
+    nMMd = 20
+    nMMr = 10
+    growth_rates = [1.1, 1.1, 0.3, 0.3]
+    decay_rates = [1.0, 0.2, 0.15, 0.1]
+
+    # Payoff matrix
+    matrix = np.array([
+        [0.0, 0.4, 0.6, 0.5],
+        [0.3, 0.0, -0.3, -0.3],
+        [0.6, 0.0, 0.2, 0.0],
+        [0.5, 0.0, -0.6, 0.4]])
+
+
+    # Initial conditions
+    t = np.linspace(0, 100, 100)
+    y0 = [nOC, nOB, nMMd, nMMr]
+    parameters = (N, cOC, cOB, cMMd, cMMr, growth_rates, decay_rates, matrix)
+
+    # Determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_1 = pd.DataFrame({'Generation': t, 'nOC': y[:, 0],
+    'nOB': y[:, 1], 'nMMd': y[:, 2], 'nMMr': y[:, 3]})
+
+    nOC = df_1['nOC'].iloc[-1]
+    nOB = df_1['nOB'].iloc[-1]
+    nMMd = df_1['nMMd'].iloc[-1]
+    nMMr = df_1['nMMr'].iloc[-1]
+    WMMd_inhibitor = 0.0
+
+    # Initial conditions
+    t = np.linspace(100, 200, 100)
+    y0 = [nOC, nOB, nMMd, nMMr]
+    parameters = (N, cOC, cOB, cMMd, cMMr, growth_rates, decay_rates, matrix, WMMd_inhibitor)
+
+    # Determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_2 = pd.DataFrame({'Generation': t, 'nOC': y[:, 0],
+    'nOB': y[:, 1], 'nMMd': y[:, 2], 'nMMr': y[:, 3]})
+
+    df_Figure_first_line = pd.concat([df_1, df_2])
+
+    # Set new start parameter value
+    nOC = 20
+    nOB = 30
+    nMMd = 20
+    nMMr = 10
+
+    # Initial conditions
+    t = np.linspace(0, 100, 100)
+    y0 = [nOC, nOB, nMMd, nMMr]
+    parameters = (N, cOC, cOB, cMMd, cMMr, growth_rates, decay_rates, matrix)
+
+    # Determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_1 = pd.DataFrame({'Generation': t, 'nOC': y[:, 0],
+    'nOB': y[:, 1], 'nMMd': y[:, 2], 'nMMr': y[:, 3]})
+
+    nOC = df_1['nOC'].iloc[-1]
+    nOB = df_1['nOB'].iloc[-1]
+    nMMd = df_1['nMMd'].iloc[-1]
+    nMMr = df_1['nMMr'].iloc[-1]
+
+    # Initial conditions
+    t = np.linspace(100, 200, 100)
+    y0 = [nOC, nOB, nMMd, nMMr]
+    WMMd_inhibitor = 0.5
+    parameters = (N, cOC, cOB, cMMd, cMMr, growth_rates, decay_rates, matrix, WMMd_inhibitor)
+
+    # Determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_2 = pd.DataFrame({'Generation': t, 'nOC': y[:, 0],
+    'nOB': y[:, 1], 'nMMd': y[:, 2], 'nMMr': y[:, 3]})
+
+    df_Figure_second_line = pd.concat([df_1, df_2])
+
+
+    # Create a Figure
+    fig, axs = plt.subplots(1, 2, figsize=(14, 6))
+
+    # Plot first line data in the first subplot
+    df_Figure_first_line.plot(x='Generation', y=['nOC', 'nOB', 'nMMd', 'nMMr'],
+                                 label=['OC number', 'OB number', 'MMd number',
+                                 'MMr number'], ax=axs[0])
+    axs[0].set_xlabel('Time (days)')
+    axs[0].set_ylabel('')
+    axs[0].set_title('Dynamics for a scenario where MMd gets reduced (works)')
+    axs[0].legend()
+
+    # Plot second line data in the second subplot
+    df_Figure_second_line.plot(x='Generation', y=['nOC', 'nOB', 'nMMd', 'nMMr'],
+                                  label=['OC number', 'OB number', 'MMd number',
+                                  'MMr number'], ax=axs[1])
+    axs[1].set_xlabel('Time (days)')
+    axs[1].set_ylabel('')
+    axs[1].set_title('Dynamics for a scenario where MMd gets reduced (works not)')
+    axs[1].legend()
+    plt.tight_layout()
+    plt.show()
+
+Figure_freq_dynamics_decrease_MMd()

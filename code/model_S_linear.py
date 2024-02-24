@@ -76,20 +76,20 @@ def main():
     # Make Figure 11 in the paper of Sartakhti et al., 2016.
     Figure_11()
 
-    # Make Figure 12A middel in the paper of Sartakhti et al., 2016.
-    Figure_12A_middel()
+    # Make Figure 12A middle in the paper of Sartakhti et al., 2016.
+    Figure_12A_middle()
 
     # Make Figure 12A right in the paper of Sartakhti et al., 2016.
     Figure_12A_right()
-
-    # Make Figure 12B middel in the paper of Sartakhti et al., 2016.
-    Figure_12B_middel()
+    
+    # # Make Figure 12B middle in the paper of Sartakhti et al., 2016.
+    Figure_12B_middle()
 
     # Make Figure 12B right in the paper of Sartakhti et al., 2016.
     Figure_12B_right()
 
-    # Make Figure 12C middel in the paper of Sartakhti et al., 2016.
-    Figure_12C_middel()
+    # Make Figure 12C middle in the paper of Sartakhti et al., 2016.
+    Figure_12C_middle()
 
     # Make Figure 12C right in the paper of Sartakhti et al., 2016.
     Figure_12C_right()
@@ -417,10 +417,10 @@ def Figure_2():
     xOC = 0.5
     xOB = 0.45
     xMM = 0.05
-    N = 100
+    N = 10
     c3 = 1.4
-    c2 = 1.2
-    c1 = 1
+    c2 = 1
+    c1 = 1.2
 
     # Payoff matrix
     matrix = np.array([
@@ -542,11 +542,11 @@ def Figure_3():
     # Set start parameter values
     N = 10
     c3 = 1.4
-    c2 = 1.2
-    c1 = 1
-    xOC = 0.499
-    xOB = 0.499
-    xMM = 0.002
+    c2 = 1
+    c1 = 1.2
+    xOC = 0.49
+    xOB = 0.49
+    xMM = 0.02
 
     # Payoff matrix
     matrix = np.array([
@@ -1304,7 +1304,7 @@ def Figure_10A():
 def Figure_10B():
     """Function that makes Figure 10B in the paper of Sartakhti et al., 2016."""
     # Set start values
-    N = 10
+    N = 50
     c3 = 0.8
     c2 = 1.2
     c1 = 1
@@ -1319,7 +1319,7 @@ def Figure_10B():
         [0.5, 0, 0]])
 
     # Initial conditions
-    t = np.linspace(0, 40,100)
+    t = np.linspace(0, 50,100)
     y0 = [xOC, xOB, xMM]
     parameters = (N, c1, c2, c3, matrix)
 
@@ -1334,7 +1334,7 @@ def Figure_10B():
     xMM = 0.3
 
     # Initial conditions
-    t = np.linspace(0, 40,100)
+    t = np.linspace(0, 50,100)
     y0 = [xOC, xOB, xMM]
     parameters = (N, c1, c2, c3, matrix)
 
@@ -1462,9 +1462,9 @@ def Figure_11():
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
     fig1.show()
 
-"""Figure 12 A middel"""
-def Figure_12A_middel():
-    """Function that makes Figure 12A middel in the paper of Sartakhti et al., 2016."""
+"""Figure 12 A middle"""
+def Figure_12A_middle():
+    """Function that makes Figure 12A middle in the paper of Sartakhti et al., 2016."""
     # Set start values
     N = 15
     c3 = 1.8
@@ -1487,7 +1487,7 @@ def Figure_12A_middel():
 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_Figure_12A_middel_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    df_Figure_12A_middle_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start fracuenties
@@ -1502,40 +1502,40 @@ def Figure_12A_middel():
 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_Figure_12A_middel_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    df_Figure_12A_middle_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Save the data as csv file
-    save_data(df_Figure_12A_middel_first_line, 'df_Figure_12A_middel_first_line.csv',
+    save_data(df_Figure_12A_middle_first_line, 'df_Figure_12A_middle_first_line.csv',
                                     r'..\data\reproduced_data_Sartakhti_linear')
-    save_data(df_Figure_12A_middel_second_line, 'df_Figure_12A_middel_second_line.csv',
+    save_data(df_Figure_12A_middle_second_line, 'df_Figure_12A_middle_second_line.csv',
                                     r'..\data\reproduced_data_Sartakhti_linear')
 
     # Make a plot
-    df_Figure_12A_middel_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+    df_Figure_12A_middle_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
                         label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
     plt.ylabel('Fraction')
-    plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12A middel)')
+    plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12A middle)')
     plt.legend(loc ='upper right')
-    save_Figure(plt, 'line_plot_Figure_12A_middel_first_line_red',
+    save_Figure(plt, 'line_plot_Figure_12A_middle_first_line_red',
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
     plt.show()
 
     # Make a plot
-    df_Figure_12A_middel_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+    df_Figure_12A_middle_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
                         label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
     plt.ylabel('Fraction')
-    plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12A middel)')
+    plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12A middle)')
     plt.legend(loc ='upper right')
-    save_Figure(plt, 'line_plot_Figure_12A_middel_second_line_blue',
+    save_Figure(plt, 'line_plot_Figure_12A_middle_second_line_blue',
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
     plt.show()
 
     # Make a ternary plot
-    fig1 = px.line_ternary(df_Figure_12A_middel_first_line, a='xOC', b='xOB', c='xMM')
-    fig2 = px.line_ternary(df_Figure_12A_middel_second_line, a='xOC', b='xOB', c='xMM')
+    fig1 = px.line_ternary(df_Figure_12A_middle_first_line, a='xOC', b='xOB', c='xMM')
+    fig2 = px.line_ternary(df_Figure_12A_middle_second_line, a='xOC', b='xOB', c='xMM')
 
     fig1.update_layout(
         ternary=dict(
@@ -1548,14 +1548,14 @@ def Figure_12A_middel():
         fig1.add_trace(trace)
     fig1.data[0].update(line=dict(color='red'))
     fig1.data[1].update(line=dict(color='blue'))
-    fig1.update_layout(title_text= 'Dynamics for a scenario where c2<c1<c3 (Figure 12A middel)')
-    save_ternary(fig1, 'Ternary_plot_Figure_12A_middel',
+    fig1.update_layout(title_text= 'Dynamics for a scenario where c2<c1<c3 (Figure 12A middle)')
+    save_ternary(fig1, 'Ternary_plot_Figure_12A_middle',
                     r'..\visualisation\reproduced_results_Sartakhti_linear')
     fig1.show()
 
 """Figure 12 A right"""
 def Figure_12A_right():
-    """Function that makes Figure 12A middel in the paper of Sartakhti et al., 2016."""
+    """Function that makes Figure 12A middle in the paper of Sartakhti et al., 2016."""
     # Set start values
     N = 2
     c3 = 1.8
@@ -1645,9 +1645,9 @@ def Figure_12A_right():
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
     fig1.show()
 
-""" Figure 12B middel"""
-def Figure_12B_middel():
-    """Function that makes Figure 12B middel in the paper of Sartakhti et al., 2016."""
+""" Figure 12B middle"""
+def Figure_12B_middle():
+    """Function that makes Figure 12B middle in the paper of Sartakhti et al., 2016."""
     # Set start values
     N = 15
     c3 = 1.4
@@ -1670,7 +1670,7 @@ def Figure_12B_middel():
 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_Figure_12B_middel_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    df_Figure_12B_middle_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start fracuenties
@@ -1685,40 +1685,40 @@ def Figure_12B_middel():
 
     # determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_Figure_12B_middel_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    df_Figure_12B_middle_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Save the data as csv file
-    save_data(df_Figure_12B_middel_first_line, 'df_Figure_12B_middel_first_line.csv',
+    save_data(df_Figure_12B_middle_first_line, 'df_Figure_12B_middle_first_line.csv',
                                     r'..\data\reproduced_data_Sartakhti_linear')
-    save_data(df_Figure_12B_middel_second_line, 'df_Figure_12B_middel_second_line.csv',
+    save_data(df_Figure_12B_middle_second_line, 'df_Figure_12B_middle_second_line.csv',
                                     r'..\data\reproduced_data_Sartakhti_linear')
 
     # Make a plot
-    df_Figure_12B_middel_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+    df_Figure_12B_middle_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
                         label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
     plt.ylabel('Fraction')
-    plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12B middel)')
+    plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12B middle)')
     plt.legend(loc ='upper right')
-    save_Figure(plt, 'line_plot_Figure_12B_middel_first_line_red',
+    save_Figure(plt, 'line_plot_Figure_12B_middle_first_line_red',
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
     plt.show()
 
     # Make a plot
-    df_Figure_12B_middel_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+    df_Figure_12B_middle_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
                         label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
     plt.ylabel('Fraction')
-    plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12B middel)')
+    plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12B middle)')
     plt.legend(loc ='upper right')
-    save_Figure(plt, 'line_plot_Figure_12B_middel_second_line_blue',
+    save_Figure(plt, 'line_plot_Figure_12B_middle_second_line_blue',
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
     plt.show()
 
     # Make a ternary plot
-    fig1 = px.line_ternary(df_Figure_12B_middel_first_line, a='xOC', b='xOB', c='xMM')
-    fig2 = px.line_ternary(df_Figure_12B_middel_second_line, a='xOC', b='xOB', c='xMM')
+    fig1 = px.line_ternary(df_Figure_12B_middle_first_line, a='xOC', b='xOB', c='xMM')
+    fig2 = px.line_ternary(df_Figure_12B_middle_second_line, a='xOC', b='xOB', c='xMM')
 
     fig1.update_layout(
         ternary=dict(
@@ -1731,8 +1731,8 @@ def Figure_12B_middel():
         fig1.add_trace(trace)
     fig1.data[0].update(line=dict(color='red'))
     fig1.data[1].update(line=dict(color='blue'))
-    fig1.update_layout(title_text= 'Dynamics for a scenario where c2<c1<c3 (Figure 12B middel)')
-    save_ternary(fig1, 'Ternary_plot_Figure_12B_middel',
+    fig1.update_layout(title_text= 'Dynamics for a scenario where c2<c1<c3 (Figure 12B middle)')
+    save_ternary(fig1, 'Ternary_plot_Figure_12B_middle',
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
 
     fig1.show()
@@ -1742,12 +1742,12 @@ def Figure_12B_right():
     """Function that makes Figure 12B right in the paper of Sartakhti et al., 2016."""
     # Set start values
     N = 15
-    c3 = 1.4
+    c3 = 1
     c2 = 1
     c1 = 1.2
-    xOC = 0.4
+    xOC = 0.8
     xOB = 0.0
-    xMM = 0.6
+    xMM = 0.2
 
     # Payoff matrix
     matrix = np.array([
@@ -1766,9 +1766,9 @@ def Figure_12B_right():
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start fractions
-    xOC = 0.1
-    xOB = 0.2
-    xMM = 0.7
+    xOC = 0.2
+    xOB = 0.6
+    xMM = 0.2
 
     # Initial conditions
     t = np.linspace(0, 30,100)
@@ -1791,7 +1791,7 @@ def Figure_12B_right():
                         label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
     plt.ylabel('Fraction')
-    plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12B right)')
+    plt.title('Dynamics for a scenario where c3=c2<c1 (Figure 12B right)')
     plt.legend(loc ='upper right')
     save_Figure(plt,'line_plot_Figure_12B_right_first_line_red',
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
@@ -1802,7 +1802,7 @@ def Figure_12B_right():
                         label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
     plt.ylabel('Fraction')
-    plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12B right)')
+    plt.title('Dynamics for a scenario where c3=c2<c1 (Figure 12B right)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_12B_right_second_line_blue',
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
@@ -1823,15 +1823,15 @@ def Figure_12B_right():
         fig1.add_trace(trace)
     fig1.data[0].update(line=dict(color='red'))
     fig1.data[1].update(line=dict(color='blue'))
-    fig1.update_layout(title_text= 'Dynamics for a scenario where c2<c1<c3 (Figure 12B right)')
+    fig1.update_layout(title_text= 'Dynamics for a scenario where c3=c2<c1 (Figure 12B right)')
     save_ternary(fig1, 'Ternary_plot_Figure_12B_right',
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
 
     fig1.show()
 
-""" Figure 12C middel"""
-def Figure_12C_middel():
-    """Function that makes Figure 12C middel in the paper of Sartakhti et al., 2016."""
+""" Figure 12C middle"""
+def Figure_12C_middle():
+    """Function that makes Figure 12C middle in the paper of Sartakhti et al., 2016."""
     # Set start values
     N = 15
     c3 = 1.4
@@ -1854,7 +1854,7 @@ def Figure_12C_middel():
 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_Figure_12C_middel_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    df_Figure_12C_middle_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start fractions
@@ -1869,40 +1869,40 @@ def Figure_12C_middel():
 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_Figure_12C_middel_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    df_Figure_12C_middle_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Save the data as csv file
-    save_data(df_Figure_12C_middel_first_line, 'df_Figure_12C_middel_first_line.csv',
+    save_data(df_Figure_12C_middle_first_line, 'df_Figure_12C_middle_first_line.csv',
                                     r'..\data\reproduced_data_Sartakhti_linear')
-    save_data(df_Figure_12C_middel_second_line, 'df_Figure_12C_middel_second_line.csv',
+    save_data(df_Figure_12C_middle_second_line, 'df_Figure_12C_middle_second_line.csv',
                                     r'..\data\reproduced_data_Sartakhti_linear')
 
     # Make a plot
-    df_Figure_12C_middel_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+    df_Figure_12C_middle_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
                         label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
     plt.ylabel('Fraction')
-    plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12C middel)')
+    plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12C middle)')
     plt.legend(loc ='upper right')
-    save_Figure(plt, 'line_plot_Figure_12C_middel_first_line_red',
+    save_Figure(plt, 'line_plot_Figure_12C_middle_first_line_red',
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
     plt.show()
 
     # Make a plot
-    df_Figure_12C_middel_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
+    df_Figure_12C_middle_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
                             label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
     plt.ylabel('Fraction')
-    plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12C middel)')
+    plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12C middle)')
     plt.legend(loc ='upper right')
-    save_Figure(plt, 'line_plot_Figure_12C_middel_second_line_blue',
+    save_Figure(plt, 'line_plot_Figure_12C_middle_second_line_blue',
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
     plt.show()
 
     # Make a ternary plot
-    fig1 = px.line_ternary(df_Figure_12C_middel_first_line, a='xOC', b='xOB', c='xMM')
-    fig2 = px.line_ternary(df_Figure_12C_middel_second_line, a='xOC', b='xOB', c='xMM')
+    fig1 = px.line_ternary(df_Figure_12C_middle_first_line, a='xOC', b='xOB', c='xMM')
+    fig2 = px.line_ternary(df_Figure_12C_middle_second_line, a='xOC', b='xOB', c='xMM')
 
     fig1.update_layout(
         ternary=dict(
@@ -1915,8 +1915,8 @@ def Figure_12C_middel():
         fig1.add_trace(trace)
     fig1.data[0].update(line=dict(color='red'))
     fig1.data[1].update(line=dict(color='blue'))
-    fig1.update_layout(title_text= 'Dynamics for a scenario where c2<c1<c3 (Figure 12C middel)')
-    save_ternary(fig1, 'Ternary_plot_Figure_12C_middel',
+    fig1.update_layout(title_text= 'Dynamics for a scenario where c2<c1<c3 (Figure 12C middle)')
+    save_ternary(fig1, 'Ternary_plot_Figure_12C_middle',
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
     fig1.show()
 
@@ -1939,7 +1939,7 @@ def Figure_12C_right():
         [0.5, 0, 0]])
 
     # Initial conditions
-    t = np.linspace(0, 30,100)
+    t = np.linspace(0, 40,100)
     y0 = [xOC, xOB, xMM]
     parameters = (N, c1, c2, c3, matrix)
 
@@ -1954,7 +1954,7 @@ def Figure_12C_right():
     xMM = 0.1
 
     # Initial conditions
-    t = np.linspace(0, 30,100)
+    t = np.linspace(0, 40,100)
     y0 = [xOC, xOB, xMM]
     parameters = (N, c1, c2, c3, matrix)
 
@@ -1974,7 +1974,7 @@ def Figure_12C_right():
                         label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
     plt.ylabel('Fraction')
-    plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12C right)')
+    plt.title('Dynamics for a scenario where c3<c2<c1 (Figure 12C right)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_12C_right_first_line_red',
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
@@ -1985,7 +1985,7 @@ def Figure_12C_right():
                             label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
     plt.ylabel('Fraction')
-    plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12C right)')
+    plt.title('Dynamics for a scenario where c3<c2<c1 (Figure 12C right)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_12C_right_second_line_blue',
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
@@ -2006,7 +2006,7 @@ def Figure_12C_right():
         fig1.add_trace(trace)
     fig1.data[0].update(line=dict(color='red'))
     fig1.data[1].update(line=dict(color='blue'))
-    fig1.update_layout(title_text= 'Dynamics for a scenario where c2<c1<c3 (Figure 12C right)')
+    fig1.update_layout(title_text= 'Dynamics for a scenario where c3<c2<c1 (Figure 12C right)')
     save_ternary(fig1, 'Ternary_plot_Figure_12C_right',
                     r'..\visualisation\reproduced_results_Sartakhti_linear')
     fig1.show()

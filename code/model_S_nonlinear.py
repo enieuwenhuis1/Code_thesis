@@ -39,26 +39,26 @@ def main():
     import doctest
     doctest.testmod()
 
-    # Make Figure 1 in the paper of Sartakhti et al., 2018.
-    Figure_1()
-
-    # Make the Figures in Figure 2 in the paper of Sartakhti et al., 2018.
-    Figure_2()
-
-    # # Make the Figures in Figure 3 in the paper of Sartakhti et al., 2018.
-    Figure_3()
-
-    # Make the Figures in Figure 4 in the paper of Sartakhti et al., 2018.
+    # # Make Figure 1 in the paper of Sartakhti et al., 2018.
+    # Figure_1()
+    #
+    # # Make the Figures in Figure 2 in the paper of Sartakhti et al., 2018.
+    # Figure_2()
+    #
+    # # # Make the Figures in Figure 3 in the paper of Sartakhti et al., 2018.
+    # Figure_3()
+    #
+    # # Make the Figures in Figure 4 in the paper of Sartakhti et al., 2018.
     Figure_4()
-
-    # Make the Figures in Figure 5 in the paper of Sartakhti et al., 2018.
-    Figure_5()
-
-    # Make the Figures in Figure 6 in the paper of Sartakhti et al., 2018.
-    Figure_6()
-
-    # Make the Figures in Figure 7 in the paper of Sartakhti et al., 2018.
-    Figure_7()
+    #
+    # # Make the Figures in Figure 5 in the paper of Sartakhti et al., 2018.
+    # Figure_5()
+    #
+    # # Make the Figures in Figure 6 in the paper of Sartakhti et al., 2018.
+    # Figure_6()
+    #
+    # # Make the Figures in Figure 7 in the paper of Sartakhti et al., 2018.
+    # Figure_7()
 
     # Make the Figures in Figure 8 in the paper of Sartakhti et al., 2018.
     Figure_8()
@@ -768,7 +768,7 @@ def Figure_1():
             aaxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
             baxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
             caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
-    fig.update_layout(title_text='Bistability with linear benefits (Figure 1)')
+    fig.update_layout(title_text='Linear benefits (Figure 1)')
     save_ternary(fig, 'Ternary_plot_Figure_1',
                     r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
     fig.show()
@@ -1121,7 +1121,7 @@ def Figure_4():
     hMM_MM, sOC_OC, sOC_OB, sOC_MM, sOB_OC, sOB_OB, sOB_MM, sMM_OC, sMM_OB, sMM_MM, \
     BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM, cOC_value,\
     cOB_value, cMM_value)
-    t = np.linspace(0, 100)
+    t = np.linspace(0, 500, 500)
 
     # Solve ODE
     y = odeint(dynamics_different_h_and_s, y0, t, args=(parameters,))
@@ -1147,18 +1147,7 @@ def Figure_4():
     hMM_MM, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear,\
     s_linear, s_linear, BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, \
     BOB_MM, BMM_MM, cOC_value, cOB_value, cMM_value)
-    t = np.linspace(0, 100)
-
-    # Solve ODE
-    y = odeint(dynamics_different_h_and_s, y0, t, args=(parameters,))
-
-    # Set initial condition and parameters
-    y0 = [xOC, xOB, xMM]
-    parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC,
-    hMM_OB, hMM_MM, sOC_OC, sOC_OB, sOC_MM, sOB_OC, sOB_OB, sOB_MM, sMM_OC,
-    sMM_OB, sMM_MM, BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM,
-    BOB_MM, BMM_MM, cOC_value, cOB_value, cMM_value)
-    t = np.linspace(0, 100)
+    t = np.linspace(0, 2000, 2000)
 
     # Solve ODE
     y = odeint(dynamics_different_h_and_s, y0, t, args=(parameters,))
@@ -1429,7 +1418,7 @@ def Figure_6():
     hMM_MM, sOC_OC, sOC_OB, sOC_MM, sOB_OC, sOB_OB, sOB_MM, sMM_OC, sMM_OB, sMM_MM, \
     BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM, \
     cOC_value, cOB_value, cMM_value)
-    t = np.linspace(0, 100)
+    t = np.linspace(0, 200)
 
     # Solve ODE
     y = odeint(dynamics_different_h_and_s, y0, t, args=(parameters,))
@@ -1456,7 +1445,7 @@ def Figure_6():
     hMM_MM, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear,
     s_linear, BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM, \
     cOC_value, cOB_value, cMM_value)
-    t = np.linspace(0, 100)
+    t = np.linspace(0, 200)
 
     # Solve ODE
     y = odeint(dynamics_different_h_and_s, y0, t, args=(parameters,))
@@ -1578,7 +1567,7 @@ def Figure_7():
     hMM_MM, sOC_OC, sOC_OB, sOC_MM, sOB_OC, sOB_OB, sOB_MM, sMM_OC, sMM_OB, sMM_MM, \
     BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM, \
     cOC_value, cOB_value, cMM_value)
-    t = np.linspace(0, 100)
+    t = np.linspace(0, 1000, 1000)
 
     # Solve ODE
     y = odeint(dynamics_different_h_and_s, y0, t, args=(parameters,))
@@ -1658,7 +1647,7 @@ def Figure_7():
     hMM_MM, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear,
     s_linear, BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM, \
     cOC_value, cOB_value, cMM_value)
-    t = np.linspace(0, 100)
+    t = np.linspace(0, 400, 400)
 
     # Solve ODE
     y = odeint(dynamics_different_h_and_s, y0, t, args=(parameters,))
@@ -1776,16 +1765,16 @@ def Figure_8():
     sMM_OC = 6
     sMM_OB = 6
     sMM_MM = 1000
-    s_linear = 0.0001
+
 
     # Initial fractions and values --> are needed to make a plot but are not mentioned
-    xOC = 0.1
-    xOB = 0.2
-    xMM = 0.7
+    xOC = 0.35
+    xOB = 0.4
+    xMM = 0.25
 
-    nOC = 2
-    nOB = 4
-    nMM = 16
+    nOC = 7
+    nOB = 8
+    nMM = 5
 
     # Set initial condition and parameters
     y0 = [xOC, xOB, xMM]
@@ -1793,7 +1782,7 @@ def Figure_8():
     hMM_MM, sOC_OC, sOC_OB, sOC_MM, sOB_OC, sOB_OB, sOB_MM, sMM_OC, sMM_OB, sMM_MM, \
     BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM, \
     cOC_value, cOB_value, cMM_value)
-    t = np.linspace(0, 100)
+    t = np.linspace(0, 200, 200)
 
     # Solve ODE
     y = odeint(dynamics_different_h_and_s, y0, t, args=(parameters,))
@@ -1856,13 +1845,13 @@ def Figure_8():
         WOC_list, 'WOB': WOB_list, 'WMM': WMM_list, 'W_average': W_average_list})
 
     # Initial fractions and values --> are needed to make a plot but are not mentioned
-    xOC = 0.1
-    xOB = 0.2
-    xMM = 0.7
+    xOC = 0.35
+    xOB = 0.4
+    xMM = 0.25
 
-    nOC = 2
-    nOB = 4
-    nMM = 16
+    nOC = 7
+    nOB = 8
+    nMM = 5
 
     s_linear = 10e-10
 
@@ -1872,7 +1861,7 @@ def Figure_8():
     hMM_MM, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear,
     s_linear, BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM, \
     cOC_value, cOB_value, cMM_value)
-    t = np.linspace(0, 100)
+    t = np.linspace(0, 200, 200)
 
     # Solve ODE
     y = odeint(dynamics_different_h_and_s, y0, t, args=(parameters,))
@@ -2175,7 +2164,7 @@ def Figure_10():
     ax.set_xticklabels(['0', 'N'], fontsize=11)
     ax.set_yticks([0, 1])
     ax.set_yticklabels(['0', r'$B_{ij}$'], fontsize=11)
-    plt.title('Sigmoide benefits for different inflection points')
+    plt.title('Sigmoid benefits for different steepness values')
     plt.xlabel('Number of cells (ni)')
     plt.ylabel('Benefit')
     plt.legend(loc ='upper right')

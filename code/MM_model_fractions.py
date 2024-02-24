@@ -42,23 +42,22 @@ def main():
     import doctest
     doctest.testmod()
 
-
     # Make a figure showing the cell fraction dynamics by traditional therapy and
     # by adaptive therapy
-    list_t_steps_drug = [10, 10, 10]
-    Figure_conineous_MTD_vs_AT(12, list_t_steps_drug)
-
-    # Make a 3D figure showthing the effect of different drug holiday and
-    # administration periods
-    Figure_3D_MM_frac_IH_add_and_holiday_()
-
-    # Make a figure that shows the MM fraction for different bOC,MMd values
-    Figure_best_b_OC_MMd()
+    # list_t_steps_drug = [10, 10, 10]
+    # Figure_conineous_MTD_vs_AT(12, list_t_steps_drug)
+    #
+    # # Make a 3D figure showthing the effect of different drug holiday and
+    # # administration periods
+    # Figure_3D_MM_frac_IH_add_and_holiday_()
+    #
+    # # Make a figure that shows the MM fraction for different bOC,MMd values
+    # Figure_best_b_OC_MMd()
 
     # Make a figure that shows the MM fraction for different WMMd IH values
     Figure_best_WMMD_IH()
-
-    # Make a 3D figure showing the effect of different WMMd and MMd GF IH strengths
+    #
+    # # Make a 3D figure showing the effect of different WMMd and MMd GF IH strengths
     Figure_3D_MMd_IH_strength()
 
     # Make line plots showing different equilibriums when the MMd GF IH holiday and
@@ -979,8 +978,8 @@ def Figure_best_WMMD_IH():
 
     # Retrieve the optimal value
     optimal_dev_high = result_high.x
-    print("Optimal value for drug effect:", float(optimal_dev_high[0]),
-                                   ', gives tumour fraction:', result_high.fun)
+    print("Optimal value for drug effect by high OB and OC cost values:",
+        float(optimal_dev_high[0]), ', gives tumour fraction:', result_high.fun)
 
     # Make a dictionary
     dict_frac_tumour_high_c = {}
@@ -994,7 +993,7 @@ def Figure_best_WMMD_IH():
 
     # Save the data
     save_dictionary(dict_frac_tumour_high_c,
-            r'..\data\data_own_model_fractions\dict_cell_frac_tumour_high_c.csv')
+            r'..\data\data_own_model_fractions\dict_cell_frac_WMMd_IH_high_c.csv')
 
     # Make lists of the keys and the values
     keys_high_c = list(dict_frac_tumour_high_c.keys())
@@ -1011,8 +1010,8 @@ def Figure_best_WMMD_IH():
 
     # Retrieve the optimal value
     optimal_dev_low= result_low.x
-    print("Optimal value for drug effect:", float(optimal_dev_low[0]),
-                                     ', gives tumour fraction:', result_low.fun)
+    print("Optimal value for drug effect by low OB and OC cost value:",
+            float(optimal_dev_low[0]),', gives tumour fraction:', result_low.fun)
 
     # Loop over the different WMMd_inhibitor values
     for WMMd_inhibitor in range(3000):
@@ -1023,7 +1022,7 @@ def Figure_best_WMMD_IH():
 
     # Save the data
     save_dictionary(dict_frac_tumour_low_c,
-            r'..\data\data_own_model_fractions\dict_cell_frac_tumour_low_c.csv')
+            r'..\data\data_own_model_fractions\dict_cell_frac_WMMd_IH_low_c.csv')
 
     # Make lists of the keys and the values
     keys_low_c = list(dict_frac_tumour_low_c.keys())
@@ -1035,23 +1034,23 @@ def Figure_best_WMMD_IH():
     # Subplot one
     plt.subplot(1, 2, 1)
     plt.plot(keys_high_c, values_high_c, color='purple')
-    plt.title("""MM fraction for various MMd inhibitor strengths
+    plt.title(r"""MM fraction for various $W_{MMd}$ IH strengths
      at cOB = 0.9 and cOC = 1.0""")
-    plt.xlabel('MMd inhibtor strength')
+    plt.xlabel(r' $W_{MMd}$ strength')
     plt.ylabel('MM fraction')
     plt.grid(True)
 
     # Subplot two
     plt.subplot(1, 2, 2)
     plt.plot(keys_low_c, values_low_c, color='blue')
-    plt.title("""MM fraction for various MMd inhibitor strengths
+    plt.title(r"""MM fraction for various $W_{MMd}$ IH strengths
     at cOB = 0.8 and cOC = 0.9""")
-    plt.xlabel('MMd inhibtor strength')
+    plt.xlabel(r' $W_{MMd}$ strength')
     plt.ylabel('MM fraction')
 
     plt.tight_layout()
     plt.grid(True)
-    save_Figure(plt, 'line_plot_cell_frac_change_WMMd_high_low_c',
+    save_Figure(plt, 'line_plot_cell_frac_change_WMMd_IH_high_low_c',
                                  r'..\visualisation\results_own_model_fractions')
     plt.show()
 
@@ -1114,8 +1113,8 @@ def Figure_best_b_OC_MMd():
 
     # Create the plot
     plt.plot(b_OC_MMd_values, MM_fractions, linestyle='-')
-    plt.xlabel('Total MM fraction')
-    plt.ylabel(r'$b_{OC, MMd}$ value')
+    plt.xlabel(r'$b_{OC, MMd}$ value ')
+    plt.ylabel(r'Total MM fraction')
     plt.title(r'MM fraction for different $b_{OC, MMd}$ values')
     plt.grid(True)
     save_Figure(plt, 'line_plot_cell_frac_change_b_OC_MMd',
@@ -1642,18 +1641,18 @@ def Figure_3D_MMd_IH_strength():
         [0.0, 1.6, 2.2, 1.9],
         [1.0, 0.0, -0.5, -0.5],
         [2.2, 0, 0.2, 0.0],
-        [1.9, 0, -0.8, 0.2]])
+        [1.9, 0, -0.77, 0.2]])
 
     # Payoff matrix when GF inhibitor drugs are pressent
     matrix_GF_IH = np.array([
         [0.0, 1.6, 2.2, 1.9],
         [1.0, 0.0, -0.5, -0.5],
         [1.5, 0, 0.2, 0.0],
-        [1.9, 0, -0.8, 0.2]])
+        [1.9, 0, -0.77, 0.2]])
 
     # Administration and holiday periods
-    t_steps_drug = 5
-    t_steps_no_drug = 5
+    t_steps_drug = 8
+    t_steps_no_drug = 8
 
     # Make a dataframe
     column_names = ['Strength WMMd IH', 'Strength MMd GF IH', 'MM fraction']
@@ -2149,10 +2148,10 @@ def Figure_frac_fitness_dynamics():
 
     # Payoff matrix
     matrix_no_GF_IH = np.array([
-        [0.0, 1.6, 2.2, 1.8],
+        [0.0, 1.6, 2.2, 1.9],
         [0.9, 0.0, -0.5, -0.5],
         [2.2, 0.0, 0.2, 0.0],
-        [1.8, 0.0, -0.75, 0.2]])
+        [1.9, 0.0, -0.77, 0.2]])
 
     t = np.linspace(0, 25, 25)
 
@@ -2173,10 +2172,10 @@ def Figure_frac_fitness_dynamics():
 
     # Payoff matrix
     matrix_GF_IH = np.array([
-        [0.0, 1.6, 2.2, 2.1],
-        [0.9, 0.0, -0.4, -0.4],
-        [1.0, 0, 0.2, 0],
-        [2.1, 0, -0.7, 0.2]])
+        [0.0, 1.6, 2.2, 1.9],
+        [1.0, 0.0, -0.5, -0.5],
+        [0.6, 0, 0.2, 0],
+        [2.1, 0, -0.77, 0.2]])
 
     # Initial conditions
     t = np.linspace(25, 100, 75)
@@ -2216,7 +2215,7 @@ def Figure_frac_fitness_dynamics():
 
     # Initial conditions
     t = np.linspace(25, 100, 75)
-    WMMd_inhibitor =  1.2
+    WMMd_inhibitor =  1.4
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix_no_GF_IH, WMMd_inhibitor)
 
@@ -2260,33 +2259,33 @@ def Figure_frac_fitness_dynamics():
     df_WMMd_inhibition.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
                         label=['fraction OC', 'fraction OB', 'fraction MMd',
                                  'fraction MMr'], ax=axs[0, 0])
-    axs[0, 0].set_xlabel('Generations')
+    axs[0, 0].set_xlabel(' ')
     axs[0, 0].set_ylabel('Fraction')
-    axs[0, 0].set_title('fraction dynamics when a WMMd inhibitor is administerd')
+    axs[0, 0].set_title(r'Fraction dynamics when a $W_{MMd}$ inhibitor is administerd')
     axs[0, 0].legend(loc = 'upper right')
     axs[0, 0].grid(True)
 
     # Plot the second subplot
     df_fitness_WMMd_inhibition.plot(y=['WOC', 'WOB', 'WMMd', 'WMMr', 'W_average'],
                                 label = ['Fitness OC', 'Fitness OB', 'Fitness MMd',
-                                  'Fitness MMr', 'Average fitness'],  ax=axs[0, 1])
-    axs[0, 1].set_title('Fitness dynamics when a WMMd inhibitor is administerd')
-    axs[0, 1].set_xlabel('Generations')
-    axs[0, 1].set_ylabel('Fitness')
-    axs[0, 1].legend(['Fitness OC', 'Fitness OB', 'Fitness MMd', 'Fitness MMr',
-                                                            'Average fitness'])
-    axs[0, 1].legend(loc = 'upper right')
-    axs[0, 1].grid(True)
+                                  'Fitness MMr', 'Average fitness'],  ax=axs[1, 0])
+    axs[1, 0].set_title(r'Fitness dynamics when a $W_{MMd}$ inhibitor is administerd')
+    axs[1, 0].set_xlabel('Generations')
+    axs[1, 0].set_ylabel('Fitness')
+    axs[1, 0].legend(['Fitness OC', 'Fitness OB', 'Fitness MMd', 'Fitness MMr',
+                                                        'Average fitness'])
+    axs[1, 0].legend(loc = 'upper right')
+    axs[1, 0].grid(True)
 
     # Plot the third subplot
     df_MMd_GF_inhibition.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
                         label=['fraction OC', 'fraction OB', 'fraction MMd',
-                                                'fraction MMr'], ax=axs[1, 0])
-    axs[1, 0].set_xlabel('Generations')
-    axs[1, 0].set_ylabel('Fraction')
-    axs[1, 0].set_title('fraction dynamics when a MMd GF inhibitor is administerd')
-    axs[1, 0].legend(loc = 'upper right')
-    axs[1, 0].grid(True)
+                                                'fraction MMr'], ax=axs[0, 1])
+    axs[0, 1].set_xlabel(' ')
+    axs[0, 1].set_ylabel('Fraction')
+    axs[0, 1].set_title('Fraction dynamics when a MMd GF inhibitor is administerd')
+    axs[0, 1].legend(loc = 'upper right')
+    axs[0, 1].grid(True)
 
     # Plot the fourth subplot
     df_fitness_MMd_GF_inhibition.plot(y=['WOC', 'WOB', 'WMMd', 'WMMr', 'W_average'],
