@@ -22,6 +22,9 @@ from scipy.integrate import odeint
 import csv
 from scipy.optimize import minimize
 from mpl_toolkits.mplot3d import Axes3D
+import doctest
+
+doctest.testmod()
 
 def fitness_WOC(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix):
     """

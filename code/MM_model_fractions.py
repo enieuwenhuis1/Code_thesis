@@ -26,6 +26,7 @@ from scipy.optimize import minimize
 from scipy.stats import spearmanr
 from mpl_toolkits.mplot3d import Axes3D
 from scipy.stats import pearsonr
+import doctest
 
 """
 Example payoff matrix:
@@ -39,7 +40,6 @@ M = np.array([
 
 def main():
     # Do doc tests
-    import doctest
     doctest.testmod()
 
     # Make a figure showing the cell fraction dynamics by traditional therapy and

@@ -33,10 +33,10 @@ import plotly.express as px
 import plotly.io as pio
 from scipy.integrate import odeint
 import os
+import doctest
 
 def main():
     # Do doc tests
-    import doctest
     doctest.testmod()
 
     # # Make Figure 1 in the paper of Sartakhti et al., 2018.

@@ -37,10 +37,10 @@ import plotly.graph_objects as go
 import plotly.express as px
 import plotly.io as pio
 from scipy.integrate import odeint
+import doctest
 
 def main():
     # Do doc tests
-    import doctest
     doctest.testmod()
 
     # Make Figure 2 in the paper of Sartakhti et al., 2016.
@@ -81,7 +81,7 @@ def main():
 
     # Make Figure 12A right in the paper of Sartakhti et al., 2016.
     Figure_12A_right()
-    
+
     # # Make Figure 12B middle in the paper of Sartakhti et al., 2016.
     Figure_12B_middle()
 
