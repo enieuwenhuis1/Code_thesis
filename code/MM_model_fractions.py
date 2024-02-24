@@ -45,7 +45,7 @@ def main():
     # Make a figure showing the cell fraction dynamics by traditional therapy and
     # by adaptive therapy
     # list_t_steps_drug = [10, 10, 10]
-    # Figure_conineous_MTD_vs_AT(12, list_t_steps_drug)
+    # Figure_continuous_MTD_vs_AT(12, list_t_steps_drug)
     #
     # # Make a 3D figure showthing the effect of different drug holiday and
     # # administration periods
@@ -766,9 +766,6 @@ def mimimal_tumour_frac_t_steps(t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd, x
 
     Example:
     -----------
-    average_MM_fractions: float
-        The average total MM fraction in the last period.
-
     >>> matrix_no_GF_IH = np.array([
     ...    [0.7, 1.0, 2.5, 2.1],
     ...    [1.0, 1.4, -0.3, 1.0],
@@ -1123,7 +1120,7 @@ def Figure_best_b_OC_MMd():
 
 
 """ Figure to determine the difference between traditional and adaptive therapy"""
-def Figure_conineous_MTD_vs_AT(n_switches, t_steps_drug):
+def Figure_continuous_MTD_vs_AT(n_switches, t_steps_drug):
     """ Function that makes a figure with 6 subplots showing the cell type fraction
     dynamics by traditional therapy (continuous MTD) and adaptive therapy.
 
