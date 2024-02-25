@@ -1213,7 +1213,7 @@ def Figure_3D_MM_numb_IH_add_and_holiday_():
                                 r'..\visualisation\results_own_model_numbers')
     plt.show()
 
-Figure_3D_MM_numb_IH_add_and_holiday_()
+# Figure_3D_MM_numb_IH_add_and_holiday_()
 
 """ 3D plot showing the best IH strengths """
 def Figure_3D_MM_numb_MMd_IH_strength():
@@ -1233,7 +1233,7 @@ def Figure_3D_MM_numb_MMd_IH_strength():
     matrix_no_GF_IH = np.array([
         [0.0, 0.4, 0.6, 0.5],
         [0.3, 0.0, -0.3, -0.3],
-        [0.58, 0.0, 0.2, 0.0],
+        [0.6, 0.0, 0.2, 0.0],
         [0.55, 0.0, -0.6, 0.4]])
 
     # Payoff matrix when GF inhibitor drugs are present
@@ -1244,8 +1244,8 @@ def Figure_3D_MM_numb_MMd_IH_strength():
         [0.55, 0.0, -0.6, 0.4]])
 
     # Administration and holiday periods
-    t_steps_drug = 8
-    t_steps_no_drug = 8
+    t_steps_drug = 5
+    t_steps_no_drug = 5
 
     # Make a dataframe
     column_names = ['Strength WMMd IH', 'Strength MMd GF IH', 'MM number']
@@ -1255,25 +1255,26 @@ def Figure_3D_MM_numb_MMd_IH_strength():
     for strength_WMMd_IH in range(0, 21):
 
         # Drug inhibitor effect
-        WMMd_inhibitor = strength_WMMd_IH / 10
+        WMMd_inhibitor = strength_WMMd_IH / 50
         for strength_MMd_GF_IH in range(0, 21):
 
             # Change effect of GF of OC on MMd
-            matrix_GF_IH[2, 0] = 2.2 - round((strength_MMd_GF_IH / 10), 1)
+            matrix_GF_IH[2, 0] = 0.6 - round((strength_MMd_GF_IH / 50), 3)
 
             # Change how fast the MMr will be stronger than the MMd
-            matrix_GF_IH[3, 2] = -0.77 - round((WMMd_inhibitor + \
-                                    round((strength_MMd_GF_IH / 10), 1))/ 20, 3)
+            extra_MMr_IH = round(round((WMMd_inhibitor /50) + \
+                                                (strength_MMd_GF_IH/50), 3)/ 4, 3)
+            matrix_GF_IH[3, 2] = -0.6 - extra_MMr_IH
 
-            print(matrix_GF_IH)
+            print(matrix_GF_IH, WMMd_inhibitor)
             numb_tumour = mimimal_tumour_numb_t_steps(t_steps_drug, t_steps_no_drug,
                                     nOC, nOB, nMMd, nMMr, growth_rates, decay_rates,
                                     matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor)
 
             # Add results to the dataframe
             new_row_df = pd.DataFrame([{'Strength WMMd IH':\
-                        round(strength_WMMd_IH/ 10, 1), 'Strength MMd GF IH': \
-                round(strength_MMd_GF_IH/ 10, 1), 'MM number': numb_tumour}])
+                        round(strength_WMMd_IH/ 50, 3), 'Strength MMd GF IH': \
+                round(strength_MMd_GF_IH/ 50, 3), 'MM number': numb_tumour}])
 
             df_holliday = pd.concat([df_holliday, new_row_df], ignore_index=True)
 
@@ -1307,8 +1308,8 @@ def Figure_3D_MM_numb_MMd_IH_strength():
 
     # Fill the 2D array with the MM number values by looping over each row
     for index, row in df_holliday.iterrows():
-        i = int(row.iloc[0]*10)
-        j = int(row.iloc[1]*10)
+        i = int(row.iloc[0]*50)
+        j = int(row.iloc[1]*50)
         Z[j, i] = row.iloc[2]
 
     # Make a 3D Figure
@@ -1320,7 +1321,7 @@ def Figure_3D_MM_numb_MMd_IH_strength():
     ax.set_xlabel('Strength WMMd IH')
     ax.set_ylabel('Strength MMd GF IH')
     ax.set_zlabel('Number of MM')
-    ax.set_title("""Average MM number with varing WMMd inhibitor and MMd
+    ax.set_title("""Average MM number with varying WMMd inhibitor and MMd
     GF inhibitor strengths""")
 
     # Turn to the right angle

@@ -55,10 +55,10 @@ def main():
     # Figure_best_b_OC_MMd()
 
     # Make a figure that shows the MM fraction for different WMMd IH values
-    Figure_best_WMMD_IH()
+    # Figure_best_WMMD_IH()
     #
     # # Make a 3D figure showing the effect of different WMMd and MMd GF IH strengths
-    Figure_3D_MMd_IH_strength()
+    Figure_3D_MM_frac_MMd_IH_strength()
 
     # Make line plots showing different equilibriums when the MMd GF IH holiday and
     # administration durations changes
@@ -1617,7 +1617,7 @@ def Figure_3D_MM_frac_IH_add_and_holiday_():
     plt.show()
 
 """ 3D plot showing the best IH strengths """
-def Figure_3D_MMd_IH_strength():
+def Figure_3D_MM_frac_MMd_IH_strength():
     """ 3D plot that shows the average MM fraction for different MMd GF inhibitor
     and WMMd inhibitor strengths.It prints the IH streghts that caused the lowest
     total MM fraction."""
@@ -1723,7 +1723,7 @@ def Figure_3D_MMd_IH_strength():
     ax.set_xlabel('Strength WMMd IH')
     ax.set_ylabel('Strength MMd GF IH')
     ax.set_zlabel('MM fraction')
-    ax.set_title("""Average MM fraction with varing WMMd inhibitor and MMd
+    ax.set_title("""Average MM fraction with varying WMMd inhibitor and MMd
     GF inhibitor strengths""")
 
     # Turn to the right angle
