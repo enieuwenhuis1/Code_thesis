@@ -607,7 +607,6 @@ def mimimal_tumour_numb_t_steps(t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd, n
     # plt.show()
     return float(average_MM_number)
 
-doctest.testmod()
 
 def Figure_freq_dynamics_decrease_MMd():
     """Function that makes Figure of the nOC, nOB, nMMd and nMMr values over the
@@ -1218,7 +1217,7 @@ def Figure_3D_MM_numb_IH_add_and_holiday_():
 """ 3D plot showing the best IH strengths """
 def Figure_3D_MM_numb_MMd_IH_strength():
     """ 3D plot that shows the average MM number for different MMd GF inhibitor
-    and WMMd inhibitor strengths.It prints the IH streghts that caused the lowest
+    and WMMd inhibitor strengths. It prints the IH streghts that caused the lowest
     total MM number."""
 
     # Set initial parameter values
@@ -1234,18 +1233,18 @@ def Figure_3D_MM_numb_MMd_IH_strength():
         [0.0, 0.4, 0.6, 0.5],
         [0.3, 0.0, -0.3, -0.3],
         [0.6, 0.0, 0.2, 0.0],
-        [0.55, 0.0, -0.6, 0.4]])
+        [0.55, 0.0, -0.55, 0.4]])
 
     # Payoff matrix when GF inhibitor drugs are present
     matrix_GF_IH = np.array([
         [0.0, 0.4, 0.6, 0.5],
         [0.3, 0.0, -0.3, -0.3],
         [0.56, 0.0, 0.2, 0.0],
-        [0.55, 0.0, -0.6, 0.4]])
+        [0.55, 0.0, -0.55, 0.4]])
 
     # Administration and holiday periods
-    t_steps_drug = 5
-    t_steps_no_drug = 5
+    t_steps_drug = 3
+    t_steps_no_drug = 3
 
     # Make a dataframe
     column_names = ['Strength WMMd IH', 'Strength MMd GF IH', 'MM number']
@@ -1262,15 +1261,15 @@ def Figure_3D_MM_numb_MMd_IH_strength():
             matrix_GF_IH[2, 0] = 0.6 - round((strength_MMd_GF_IH / 50), 3)
 
             # Change how fast the MMr will be stronger than the MMd
-            extra_MMr_IH = round(round((WMMd_inhibitor /50) + \
-                                                (strength_MMd_GF_IH/50), 3)/ 4, 3)
+            extra_MMr_IH = round(round((WMMd_inhibitor/ 50) + \
+                                                (strength_MMd_GF_IH/50), 3)/ 8, 3)
             matrix_GF_IH[3, 2] = -0.6 - extra_MMr_IH
 
             print(matrix_GF_IH, WMMd_inhibitor)
             numb_tumour = mimimal_tumour_numb_t_steps(t_steps_drug, t_steps_no_drug,
                                     nOC, nOB, nMMd, nMMr, growth_rates, decay_rates,
                                     matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor)
-
+            print(numb_tumour)
             # Add results to the dataframe
             new_row_df = pd.DataFrame([{'Strength WMMd IH':\
                         round(strength_WMMd_IH/ 50, 3), 'Strength MMd GF IH': \
@@ -1325,7 +1324,7 @@ def Figure_3D_MM_numb_MMd_IH_strength():
     GF inhibitor strengths""")
 
     # Turn to the right angle
-    ax.view_init(elev = 39, azim = -115)
+    ax.view_init(elev = 37, azim = -131)
 
     # Add a color bar
     color_bar = fig.colorbar(surf, shrink = 0.6, location= 'left')
@@ -1335,4 +1334,272 @@ def Figure_3D_MM_numb_MMd_IH_strength():
                                 r'..\visualisation\results_own_model_numbers')
     plt.show()
 
-Figure_3D_MM_numb_MMd_IH_strength()
+# Figure_3D_MM_numb_MMd_IH_strength()
+
+
+def mimimal_tumour_numb_b_OC_MMd(b_OC_MMd, nOC, nOB, nMMd, nMMr, growth_rates,
+                                        decay_rates, matrix, t, b_OC_MMd_array):
+    """Function that determines the number of the population being MM for a
+    specific b_OC_MMd value.
+
+    Parameters:
+    -----------
+    b_OC_MMd: Float
+        Interaction value that gives the effect of the GFs of OCs on MMd.
+    nOC: Float
+        number of OCs.
+    nOB: Float
+        number of OBs.
+    nMMd: Float
+        number of the MMd.
+    nMMr: Float
+        number of the MMr.
+    growth_rates: List
+        List with the growth rate values of the OCs, OBs, MMd and MMr.
+    decay_rates: List
+        List with the decay rate values of OCs, OBs, MMd and MMr.
+    matrix: Numpy.ndarray
+        4x4 matrix containing the interaction factors.
+    t: Numpy.ndarray
+        Array with all the time points.
+    b_OC_MMd_array: Float
+        If True b_OC_MMd is an array and if False b_OC_MMd is a float.
+
+    Returns:
+    --------
+    last_MM_number: Float
+        The total MM number.
+
+    Example:
+    -----------
+    average_MM_numbers: float
+        The average total MM number in the last period.
+
+    >>> matrix = np.array([
+    ...    [0.7, 1.0, 2.5, 2.1],
+    ...    [1.0, 1.4, -0.3, 1.0],
+    ...    [2.5, 0.2, 1.1, -0.2],
+    ...    [2.1, 0.0, -0.2, 1.2]])
+    >>> mimimal_tumour_numb_b_OC_MMd(0.4, 20, 30, 20, 5, [0.8, 0.7, 0.3, 0.3],
+    ...             [0.3, 0.2, 0.3, 0.5], matrix, np.linspace(0, 1, 1), False)
+    25.0
+    """
+    # Change b_OC_MMd to a float if it is an array
+    if b_OC_MMd_array == True:
+        b_OC_MMd = b_OC_MMd[0]
+
+    # Change the b_OC_MM value to the specified value
+    matrix[2, 0]= b_OC_MMd
+
+    # Set the initial conditions
+    y0 = [nOC, nOB, nMMd, nMMr]
+    parameters = (growth_rates, decay_rates, matrix)
+
+    # Determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
+                'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
+
+    # Determine the total MM number
+    last_MM_number = df['total nMM'].iloc[-1]
+
+    return float(last_MM_number)
+
+def mimimal_tumour_numb_WMMd_IH(WMMd_inhibitor, nOC, nOB, nMMd, nMMr, growth_rates,
+                                decay_rates, matrix, t, WMMd_inhibitor_array):
+    """Function that determines the number of the population being MM for a
+    specific wMMd drug inhibitor value.
+
+    Parameters:
+    -----------
+    WMMd_inhibitor: Float
+        Streght of the drugs that inhibits the cMMd.
+    nOC: Float
+        number of OCs.
+    nOB: Float
+        number of OBs.
+    nMMd: Float
+        number of the MMd.
+    nMMr: Float
+        number of the MMr.
+    growth_rates: List
+        List with the growth rate values of the OCs, OBs, MMd and MMr.
+    decay_rates: List
+        List with the decay rate values of OCs, OBs, MMd and MMr.
+    matrix: Numpy.ndarray
+        4x4 matrix containing the interaction factors.
+    t: Numpy.ndarray
+        Array with all the time points.
+    WMMd_inhibitor_array: Float
+        If True WMMd_inhibitor is an array and if False WMMd_inhibitor is a float.
+
+    Returns:
+    --------
+    last_MM_number: Float
+        The total MM number.
+
+    Example:
+    -----------
+    average_MM_numbers: float
+        The average total MM number in the last period.
+
+    >>> matrix = np.array([
+    ...    [0.7, 1.0, 2.5, 2.1],
+    ...    [1.0, 1.4, -0.3, 1.0],
+    ...    [2.5, 0.2, 1.1, -0.2],
+    ...    [2.1, 0.0, -0.2, 1.2]])
+    >>> mimimal_tumour_numb_WMMd_IH(0.3, 20, 30, 20, 5, [0.8, 0.7, 0.3, 0.3],
+    ...             [0.3, 0.2, 0.3, 0.5], matrix, np.linspace(0, 1, 1), False)
+    25.0
+    """
+    # Determine if WMMd_inhibitor is an array
+    if WMMd_inhibitor_array == True:
+        WMMd_inhibitor = WMMd_inhibitor[0]
+
+    # Set initial conditions
+    y0 = [nOC, nOB, nMMd, nMMr]
+    parameters = (growth_rates, decay_rates, matrix, WMMd_inhibitor)
+
+    # Determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
+                'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
+
+    # Determine the total MM number
+    last_MM_number = df['total nMM'].iloc[-1]
+
+    return float(last_MM_number)
+
+""" Figure to determine best WMMD IH value """
+def Figure_best_WMMD_IH():
+    """ Function that shows the effect of different OB and OC cost values for
+    different WMMd drug inhibitor values. It also determines the WMMd IH value
+    causing the lowest total MM number."""
+
+    # Set initial parameter values
+    nOC = 20
+    nOB = 30
+    nMMd = 20
+    nMMr = 5
+    growth_rates = [0.8, 1.2, 0.3, 0.3]
+    decay_rates = [0.9, 0.08, 0.2, 0.1]
+
+    # Payoff matrix
+    matrix = np.array([
+        [0.0, 0.4, 0.6, 0.5],
+        [0.3, 0.0, -0.3, -0.3],
+        [0.6, 0.0, 0.2, 0.0],
+        [0.55, 0.0, -0.6, 0.4]])
+
+    t = np.linspace(0, 100, 100)
+    WMMd_IH_start = 0.2
+
+    # Perform the optimization
+    result = minimize(mimimal_tumour_numb_WMMd_IH, WMMd_IH_start, args = (nOC, nOB,
+                            nMMd, nMMr, growth_rates, decay_rates, matrix, t,
+                            True), bounds=[(0, 0.7)], method='Nelder-Mead')
+
+    # Retrieve the optimal value
+    optimal_WMMd_IH = result.x
+    print("Optimal value for the WMMd IH:", float(optimal_WMMd_IH[0]), 
+                                        ', gives tumour number:', result.fun)
+
+    # Make a dictionary
+    dict_numb_tumour = {}
+
+    # Loop over the different WMMd_inhibitor values
+    for WMMd_inhibitor in range(700):
+        WMMd_inhibitor = WMMd_inhibitor/1000
+        numb_tumour = mimimal_tumour_numb_WMMd_IH(WMMd_inhibitor, nOC, nOB, nMMd, nMMr,
+                                    growth_rates, decay_rates, matrix, t, False)
+        dict_numb_tumour[WMMd_inhibitor] = numb_tumour
+
+    # Save the data
+    save_dictionary(dict_numb_tumour,
+            r'..\data\data_own_model_numbers\dict_cell_numb_WMMd_IH.csv')
+
+    # Make lists of the keys and the values
+    keys = list(dict_numb_tumour.keys())
+    values = list(dict_numb_tumour.values())
+
+    # Create a Figure
+    plt.plot(keys, values, color='purple')
+    plt.title(r"""MM number for various $W_{MMd}$ IH strengths""")
+    plt.xlabel(r' $W_{MMd}$ strength')
+    plt.ylabel('Number of MM')
+    plt.grid(True)
+    plt.tight_layout()
+    save_Figure(plt, 'line_plot_cell_numb_change_WMMd_IH',
+                                 r'..\visualisation\results_own_model_numbers')
+    plt.show()
+
+
+""" Figure to determine best b_OC_MMd value """
+def Figure_best_b_OC_MMd():
+    """ Function that makes a Figure that shows the total MM number for different
+    b_OC_MMd values. It also determines the b_OC_MMd value causing the lowest total
+    MM number"""
+
+    # Set initial parameter values
+    nOC = 20
+    nOB = 30
+    nMMd = 20
+    nMMr = 5
+    growth_rates = [0.8, 1.2, 0.3, 0.3]
+    decay_rates = [0.9, 0.08, 0.2, 0.1]
+
+    # Payoff matrix
+    matrix = np.array([
+        [0.0, 0.4, 0.6, 0.5],
+        [0.3, 0.0, -0.3, -0.3],
+        [0.6, 0.0, 0.2, 0.0],
+        [0.55, 0.0, -0.6, 0.4]])
+
+    t = np.linspace(0, 100, 100)
+    b_OC_MMd_start = 0.2
+
+    # Perform the optimization
+    result = minimize(mimimal_tumour_numb_b_OC_MMd, b_OC_MMd_start, args = (nOC,
+                            nOB, nMMd, nMMr, growth_rates, decay_rates, matrix,
+                            t, True), bounds=[(0, 0.8)])
+
+    # Retrieve the optimal value
+    optimal_b_OC_MMd= result.x
+    print("Optimal value for b_OC_MMd:", float(optimal_b_OC_MMd[0]),
+                                            'gives tumour number:', result.fun)
+
+    # Make a dictionary
+    dict_numb_tumour_GF = {}
+
+    # Loop over all the b_OC_MMd values
+    for b_OC_MMd in range(800):
+        b_OC_MMd = b_OC_MMd/1000
+
+        # Determine the total MM number
+        numb_tumour = mimimal_tumour_numb_b_OC_MMd(b_OC_MMd, nOC, nOB, nMMd, nMMr,
+                                    growth_rates, decay_rates, matrix, t, False)
+        dict_numb_tumour_GF[b_OC_MMd] = numb_tumour
+
+    # Save the data
+    save_dictionary(dict_numb_tumour_GF,
+                 r'..\data\data_own_model_numbers\dict_cell_numb_b_OC_MMd.csv')
+
+    # Make a list of the keys and one of the values
+    b_OC_MMd_values = list(dict_numb_tumour_GF.keys())
+    MM_numbers = list(dict_numb_tumour_GF.values())
+
+    # Create the plot
+    plt.plot(b_OC_MMd_values, MM_numbers, linestyle='-')
+    plt.xlabel(r'$b_{OC, MMd}$ value ')
+    plt.ylabel(r'Number of MM')
+    plt.title(r'MM number for different $b_{OC, MMd}$ values')
+    plt.grid(True)
+    save_Figure(plt, 'line_plot_cell_numb_change_b_OC_MMd',
+                                r'..\visualisation\results_own_model_numbers')
+    plt.show()
+
+
+# Make a figure that shows the MM fraction for different bOC,MMd values
+doctest.testmod()
+Figure_best_b_OC_MMd()
+Figure_best_WMMD_IH()

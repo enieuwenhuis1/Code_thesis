@@ -724,8 +724,6 @@ optimal_b_OC_MMd= result.x
 print("Optimal value for b_OC_MMd:", float(optimal_b_OC_MMd[0]),
                                             ',gives tumour frequency:', result.fun)
 
-# Make a Figure
-# Figure_optimal_b_OC_MMd()
 
 
 """Determine the best drug effect value for high and low cOB and cOC values

@@ -975,7 +975,7 @@ def Figure_best_WMMD_IH():
 
     # Retrieve the optimal value
     optimal_dev_high = result_high.x
-    print("Optimal value for drug effect by high OB and OC cost values:",
+    print("Optimal value for the WMMd IH by high OB and OC cost values:",
         float(optimal_dev_high[0]), ', gives tumour fraction:', result_high.fun)
 
     # Make a dictionary
@@ -1007,7 +1007,7 @@ def Figure_best_WMMD_IH():
 
     # Retrieve the optimal value
     optimal_dev_low= result_low.x
-    print("Optimal value for drug effect by low OB and OC cost value:",
+    print("Optimal value for the WMMd IH by low OB and OC cost value:",
             float(optimal_dev_low[0]),', gives tumour fraction:', result_low.fun)
 
     # Loop over the different WMMd_inhibitor values
