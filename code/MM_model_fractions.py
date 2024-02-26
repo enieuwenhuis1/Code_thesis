@@ -2210,14 +2210,14 @@ def Dataframe_bOCMMd_eigenvalues():
 
             for t_steps_drug in range(2, 22):
 
-                freq_tumour = mimimal_tumour_frac_t_steps(t_steps_drug,
+                frac_tumour = mimimal_tumour_frac_t_steps(t_steps_drug,
                                 t_steps_no_drug, xOC, xOB, xMMd, xMMr, N, cOC,
                                 cOB, cMMd, cMMr, matrix_no_drugs, matrix_drugs)
 
                 # Add results to the dataframe
                 new_row_df = pd.DataFrame([{'Generations no drug': \
                     int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
-                    'MM fraction': float(freq_tumour)}])
+                    'MM fraction': float(frac_tumour)}])
                 df_holliday = pd.concat([df_holliday, new_row_df], ignore_index=True)
 
         # Find the drug administration and holiday period causing the lowest MM
@@ -2356,14 +2356,14 @@ def Dataframe_bMMdMMd_bMMrMMr_eigenvalues():
         for t_steps_no_drug in range(2, 22):
 
             for t_steps_drug in range(2, 22):
-                freq_tumour = mimimal_tumour_frac_t_steps(t_steps_drug,
+                frac_tumour = mimimal_tumour_frac_t_steps(t_steps_drug,
                                 t_steps_no_drug, xOC, xOB, xMMd, xMMr, N, cOC,
                                 cOB, cMMd, cMMr, matrix_no_drugs, matrix_drugs)
 
                 # Add results to the dataframe
                 new_row_df = pd.DataFrame([{'Generations no drug': \
                     int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
-                    'MM fraction': float(freq_tumour)}])
+                    'MM fraction': float(frac_tumour)}])
                 df_holliday = pd.concat([df_holliday, new_row_df], ignore_index=True)
 
         # Find the drug administration and holiday period causing the lowest MM

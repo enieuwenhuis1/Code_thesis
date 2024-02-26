@@ -50,6 +50,7 @@ model_S_linear.py
 * scipy (version 1.11.4)
     - install: pip install scipy==1.11.4
 
+
 MM_model_fractions.py
 * numpy (version 1.26.0)
     - install: pip install numpy==1.26.0
@@ -63,6 +64,20 @@ MM_model_fractions.py
     - install: pip install plotly==5.18.0
 * scipy (version 1.11.4)
     - install: pip install scipy==1.11.4
+
+  MM_model_numbers.py
+  * numpy (version 1.26.0)
+      - install: pip install numpy==1.26.0
+  * matplotlib (version 3.8.0)
+      - install: pip install matplotlib==3.8.0
+  * pandas (version 2.1.3)
+      - install: pip install pandas==2.1.3
+  * ternary (version 0.1)
+      - install: pip install ternary==0.1
+  * plotly (version 5.18.0)
+      - install: pip install plotly==5.18.0
+  * scipy (version 1.11.4)
+      - install: pip install scipy==1.11.4
 
 
 THE MODEL WITH LINEAR BENEFITS: model_S_linear.py
@@ -149,6 +164,8 @@ The linear model and its visualisation, model_S_linear.py:
 Own model with fractions, MM_model_fractions.py
         - python MM_model_fractions.py
 
+Own model with numbers, MM_model_numbers.py
+        - python MM_model_numbers.py
 
 REFERENCES
 * Sartakhti, J. S., Manshaei, M. H., & Archetti, M. (2018). Game Theory of tumour–Stroma

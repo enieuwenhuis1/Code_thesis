@@ -369,10 +369,10 @@ def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd,
         Number of OCs.
     nOB: Float
         Number of OBs.
-    nMMr: Float
-        Number of the MMr.
     nMMd: Float
         Number of the MMd.
+    nMMr: Float
+        Number of the MMr.
     growth_rates: List
         List with the growth rate values of the OCs, OBs, MMd and MMr.
     decay_rates: List
@@ -486,10 +486,10 @@ def mimimal_tumour_numb_t_steps(t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd,
         Number of OCs.
     nOB: Float
         Number of OBs.
-    nMMr: Float
-        Number of the MMr.
     nMMd: Float
         Number of the MMd.
+    nMMr: Float
+        Number of the MMr.
     growth_rates: List
         List with the growth rate values of the OCs, OBs, MMd and MMr.
     decay_rates: List
@@ -521,9 +521,7 @@ def mimimal_tumour_numb_t_steps(t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd,
     # Determine the average MM number in the last period with and without drugs
     last_MM_numbers = df['total nMM'].tail(int(time_step *2))
     average_MM_number = last_MM_numbers.sum() / (int(time_step*2))
-    # print(average_MM_number)
-    # df.plot(x = 'Generation', y =['nOC', 'nOB', 'nMMd', 'nMMr'])
-    # plt.show()
+
     return float(average_MM_number)
 
 def mimimal_tumour_numb_b_OC_MMd(b_OC_MMd, nOC, nOB, nMMd, nMMr, growth_rates,
@@ -981,7 +979,7 @@ def Figure_3D_MM_numb_IH_add_and_holiday_():
 
     # Save the data
     save_dataframe(df_holliday_GF_IH, 'df_cell_numb_best_MMd_GH_IH_holiday.csv',
-                                             r'..\data\data_own_model_ numbers')
+                                             r'..\data\data_own_model_numbers')
 
     # Find the drug administration and holiday period causing the lowest MM number
     min_index_GF_IH = df_holliday_GF_IH['MM number'].idxmin()
@@ -1132,7 +1130,7 @@ def Figure_3D_MM_numb_IH_add_and_holiday_():
             # Add labels
             ax.set_xlabel('Generations no IH')
             ax.set_ylabel('Generations IH')
-            ax.set_zlabel('MM number')
+            ax.set_zlabel('Number of MM')
             ax.set_title(r'A) $W_{MMd}$ inhibitor', pad=10)
 
             # Turn to the right angle
@@ -1140,7 +1138,7 @@ def Figure_3D_MM_numb_IH_add_and_holiday_():
 
             # Add a color bar
             color_bar = fig.colorbar(surf, ax=ax, shrink=0.4, location= 'right')
-            color_bar.set_label('MM number')
+            color_bar.set_label('Number of MM')
 
         elif i == 2:
             surf = ax.plot_surface(X_GF_IH, Y_GF_IH, Z_GF_IH, cmap = 'coolwarm')
@@ -1157,7 +1155,7 @@ def Figure_3D_MM_numb_IH_add_and_holiday_():
             # Add a color bar
             color_bar = fig.colorbar(surf, ax=ax, shrink=0.4, location= 'right')
 
-            color_bar.set_label('MM number')
+            color_bar.set_label('Number of MM')
 
         elif i == 3:
             surf = ax.plot_surface(X_comb, Y_comb, Z_comb, cmap = 'coolwarm')
@@ -1250,7 +1248,7 @@ def Figure_3D_MM_numb_MMd_IH_strength():
 
     # Save the data
     save_dataframe(df_holliday, 'df_cell_numb_best_MMd_IH_strength.csv',
-                                             r'..\data\data_own_model_ numbers')
+                                             r'..\data\data_own_model_numbers')
 
 
     # Find the drug administration and holiday period causing the lowest MM number

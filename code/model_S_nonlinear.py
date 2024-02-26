@@ -39,26 +39,26 @@ def main():
     # Do doc tests
     doctest.testmod()
 
-    # # Make Figure 1 in the paper of Sartakhti et al., 2018.
-    # Figure_1()
-    #
+    # Make Figure 1 in the paper of Sartakhti et al., 2018.
+    Figure_1()
+
     # # Make the Figures in Figure 2 in the paper of Sartakhti et al., 2018.
-    # Figure_2()
-    #
-    # # # Make the Figures in Figure 3 in the paper of Sartakhti et al., 2018.
-    # Figure_3()
-    #
+    Figure_2()
+
+    # # Make the Figures in Figure 3 in the paper of Sartakhti et al., 2018.
+    Figure_3()
+
     # # Make the Figures in Figure 4 in the paper of Sartakhti et al., 2018.
     Figure_4()
-    #
-    # # Make the Figures in Figure 5 in the paper of Sartakhti et al., 2018.
-    # Figure_5()
-    #
-    # # Make the Figures in Figure 6 in the paper of Sartakhti et al., 2018.
-    # Figure_6()
-    #
-    # # Make the Figures in Figure 7 in the paper of Sartakhti et al., 2018.
-    # Figure_7()
+
+    # Make the Figures in Figure 5 in the paper of Sartakhti et al., 2018.
+    Figure_5()
+
+    # Make the Figures in Figure 6 in the paper of Sartakhti et al., 2018.
+    Figure_6()
+
+    # Make the Figures in Figure 7 in the paper of Sartakhti et al., 2018.
+    Figure_7()
 
     # Make the Figures in Figure 8 in the paper of Sartakhti et al., 2018.
     Figure_8()
@@ -743,7 +743,7 @@ def Figure_1():
 
     # Plot the first subplot
     df_fitness.plot(x='Generation', y=['WOC', 'WOB', 'WMM', 'W_average'], ax=axes[0])
-    axes[0].set_title('Fitness linear benfits (Figure 1)')
+    axes[0].set_title('Fitness linear benefits (Figure 1)')
     axes[0].set_xlabel('Generations')
     axes[0].set_ylabel('Fitness')
     axes[0].legend(['Fitness OC', 'Fitness OB', 'Fitness MM', 'Average fitness'],
@@ -804,7 +804,7 @@ def Figure_2():
     B_value = 1
 
     # Create a DataFrame to store the data
-    df_sigmoides_Figure_2 = pd.DataFrame(columns=['n_values', 'benefit_values',
+    df_sigmoids_Figure_2 = pd.DataFrame(columns=['n_values', 'benefit_values',
                                                                         'h_value'])
     # Loop over h values
     for h_value in h_values:
@@ -813,20 +813,20 @@ def Figure_2():
                                                             N) for n in n_values]
 
         # Add the data to the dataframe
-        df_sigmoides_Figure_2 = pd.concat([df_sigmoides_Figure_2, pd.DataFrame({
+        df_sigmoids_Figure_2 = pd.concat([df_sigmoids_Figure_2, pd.DataFrame({
         'n_values': n_values, 'benefit_values': benefit_values, 'h_value': h_value})])
 
     # Save the data as csv file
-    save_data(df_sigmoides_Figure_2, 'data_sigmoides_Figure_2.csv',
+    save_data(df_sigmoids_Figure_2, 'data_sigmoids_Figure_2.csv',
                                 r'..\data\reproduced_data_Sartakhti_nonlinear')
 
     # Make a plot
     fig, axes = plt.subplots(1, len(h_values), figsize=(14, 5))
-    for i, (h_value, group) in enumerate(df_sigmoides_Figure_2.groupby('h_value')):
+    for i, (h_value, group) in enumerate(df_sigmoids_Figure_2.groupby('h_value')):
         axes[i].plot(group['n_values'], group['benefit_values'], label=f'h={h_value}')
 
         # Give titles
-        axes[i].set_title(f'Sigmoide benefit h={h_value}')
+        axes[i].set_title(f'sigmoid benefit h={h_value}')
         axes[i].set_xlabel('Number of producers')
         axes[i].set_ylabel('Benefit')
         axes[i].set_xticks([0, 10])
@@ -906,7 +906,7 @@ def Figure_2():
                 aaxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
                 baxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),
                 caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
-        fig.update_layout(title_text=f"""Sigmoide benefits with an inflection point
+        fig.update_layout(title_text=f"""sigmoid benefits with an inflection point
         h at {h_value} (Figure 2)""")
         name = f'subset_plot_h_{h_value}_Figure_2'
         save_ternary(fig, name,
@@ -1044,7 +1044,7 @@ def Figure_3():
     plt.legend(loc ='upper right')
     plt.xlabel('Generations')
     plt.ylabel('Fraction')
-    plt.title('Linear benfits (Figure 3)')
+    plt.title('Linear benefits (Figure 3)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'Line_plot_Figure_3_linear',
                     r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
@@ -1669,14 +1669,14 @@ def Figure_7():
     # Plot the first subplot
     df_fitness_nonlinear.plot(x='Generation', y=['WOC', 'WOB', 'WMM', 'W_average'],
                                                                         ax=axes[0])
-    axes[0].set_title('Fitness nonlinear benfits (Figure 7)')
+    axes[0].set_title('Fitness nonlinear benefits (Figure 7)')
     axes[0].set_xlabel('Generations')
     axes[0].set_ylabel('Fitness')
     axes[0].legend(['Fitness OC', 'Fitness OB', 'Fitness MM', 'Average fitness'])
 
     # Plot the second subplot
     df_Figure_7_nonlinear.plot(x='Generation', y=['xOC', 'xOB', 'xMM'], ax=axes[1])
-    axes[1].set_title('Dynamics nonlinear benfits (Figure 7)')
+    axes[1].set_title('Dynamics nonlinear benefits (Figure 7)')
     axes[1].set_xlabel('Generations')
     axes[1].set_ylabel('Fraction')
     axes[1].legend(['fraction OC', 'fraction OB', 'fraction MM'])

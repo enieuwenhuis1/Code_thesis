@@ -1441,7 +1441,7 @@ def Figure_11():
                         label = ['fraction OC', 'fraction OB', 'fraction MM'])
     plt.xlabel('Generations')
     plt.ylabel('Fraction')
-    plt.title('Effect reducing MM cells (Figure 11)')
+    plt.title('Effect reducing the MM cell fraction (Figure 11)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'Line_plot_Figure_11',
                         r'..\visualisation\reproduced_results_Sartakhti_linear')
