@@ -2,12 +2,13 @@
 Author:       Eva Nieuwenhuis
 University:   UvA
 Student id':  13717405
-Description:  Code with the model that simulates the dynamics in the multiple myeloma
-              (MM) microenvironment with four cell types: drug-sensitive MM cells
-              (MMd), resistant MM cells (MMr), osteoblasts (OBs) and osteoclasts
-              (OCs). The model is a public goods game in the framework of evolutionary
-              game theory with collective interactions and linear benefits. In this
-              model there is looked at the fractions of the four cell types.
+Description:  Code with the model that simulates the dynamics in the multiple
+              myeloma (MM) microenvironment with four cell types: drug-sensitive
+              MM cells (MMd), resistant MM cells (MMr), osteoblasts (OBs) and
+              osteoclasts (OCs). The model is a public goods game in the framework
+              of evolutionary game theory with collective interactions and linear
+              benefits. In this model there is looked at the fractions of the four
+              cell types.
 """
 
 # Import the needed libraries
@@ -44,19 +45,19 @@ def main():
 
     # Make a figure showing the cell fraction dynamics by traditional therapy and
     # by adaptive therapy
-    # list_t_steps_drug = [10, 10, 10]
-    # Figure_continuous_MTD_vs_AT(12, list_t_steps_drug)
-    #
-    # # Make a 3D figure showthing the effect of different drug holiday and
-    # # administration periods
-    # Figure_3D_MM_frac_IH_add_and_holiday_()
-    #
-    # # Make a figure that shows the MM fraction for different bOC,MMd values
-    # Figure_best_b_OC_MMd()
+    list_t_steps_drug = [10, 10, 10]
+    Figure_continuous_MTD_vs_AT(12, list_t_steps_drug)
+
+    # Make a 3D figure showthing the effect of different drug holiday and
+    # administration periods
+    Figure_3D_MM_frac_IH_add_and_holiday_()
+
+    # Make a figure that shows the MM fraction for different bOC,MMd values
+    Figure_best_b_OC_MMd()
 
     # Make a figure that shows the MM fraction for different WMMd IH values
-    # Figure_best_WMMD_IH()
-    #
+    Figure_best_WMMD_IH()
+
     # # Make a 3D figure showing the effect of different WMMd and MMd GF IH strengths
     Figure_3D_MM_frac_MMd_IH_strength()
 
@@ -795,153 +796,7 @@ def mimimal_tumour_frac_t_steps(t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd, x
 
     return float(average_MM_fractions)
 
-
-def mimimal_tumour_frac_b_OC_MMd(b_OC_MMd, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd,
-                                                    cMMr, matrix, t, b_OC_MMd_array):
-    """Function that determines the fraction of the population being MM for a
-    specific b_OC_MMd value.
-
-    Parameters:
-    -----------
-    b_OC_MMd: Float
-        Interaction value that gives the effect of the GFs of OCs on MMd.
-    xOC: Float
-        Fraction of OCs.
-    xOB: Float
-        Fraction of OBs.
-    xMMd: Float
-        Fraction of the MMd.
-    xMMr: Float
-        Fraction of the MMr.
-    N: Int
-        Number of cells in the difussion range.
-    cOC: Float
-        Cost parameter OCs.
-    cOB: float
-        Cost parameter OBs.
-    cMMd: Float
-        Cost parameter MMd.
-    cMMr: Float
-        Cost parameter MMr.
-    matrix: Numpy.ndarray
-        4x4 matrix containing the interaction factors.
-    t: Numpy.ndarray
-        Array with all the time points.
-    b_OC_MMd_array: Float
-        If True b_OC_MMd is an array and if False b_OC_MMd is a float.
-
-    Returns:
-    --------
-    last_MM_fraction: Float
-        The total MM fraction.
-
-    Example:
-    -----------
-    average_MM_fractions: float
-        The average total MM fraction in the last period.
-
-    >>> matrix = np.array([
-    ...    [0.7, 1.0, 2.5, 2.1],
-    ...    [1.0, 1.4, -0.3, 1.0],
-    ...    [2.5, 0.2, 1.1, -0.2],
-    ...    [2.1, 0.0, -0.2, 1.2]])
-    >>> mimimal_tumour_frac_b_OC_MMd(1, 0.2, 0.3, 0.2, 0.3, 10, 0.3, 0.2, 0.3, 0.5,
-    ...                                      matrix, np.linspace(0, 10, 10), False)
-    0.07254732036078437
-    """
-    # Change b_OC_MMd to a float if it is an array
-    if b_OC_MMd_array == True:
-        b_OC_MMd = b_OC_MMd[0]
-
-    # Change the b_OC_MM value to the specified value
-    matrix[2, 0]= b_OC_MMd
-
-    # Set the initial conditions
-    y0 = [xOC, xOB, xMMd, xMMr]
-    parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
-
-    # Determine the ODE solutions
-    y = odeint(model_dynamics, y0, t, args=parameters)
-    df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
-
-    # Determine the total MM fraction
-    last_MM_fraction = df['total xMM'].iloc[-1]
-
-    return float(last_MM_fraction)
-
-def mimimal_tumour_frac_dev(WMMd_inhibitor, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
-                                    cMMd, cMMr, matrix, t, WMMd_inhibitor_array):
-    """Function that determines the fraction of the population being MM for a
-    specific wMMd drug inhibitor value.
-
-    Parameters:
-    -----------
-    WMMd_inhibitor: Float
-        Streght of the drugs that inhibits the cMMd.
-    xOC: Float
-        Fraction of OCs.
-    xOB: Float
-        Fraction of OBs.
-    xMMd: Float
-        Fraction of the MMd.
-    xMMr: Float
-        Fraction of the MMr.
-    N: Int
-        Number of cells in the difussion range.
-    cOC: Float
-        Cost parameter OCs.
-    cOB: Float
-        Cost parameter OBs.
-    cMMd: Float
-        Cost parameter MMd.
-    cMMr: Float
-        Cost parameter MMr.
-    matrix: Numpy.ndarray
-        4x4 matrix containing the interaction factors.
-    t: Numpy.ndarray
-        Array with all the time points.
-    WMMd_inhibitor_array: Float
-        If True WMMd_inhibitor is an array and if False WMMd_inhibitor is a float.
-
-    Returns:
-    --------
-    last_MM_fraction: Float
-        The total MM fraction.
-
-    Example:
-    -----------
-    average_MM_fractions: float
-        The average total MM fraction in the last period.
-
-    >>> matrix = np.array([
-    ...    [0.7, 1.0, 2.5, 2.1],
-    ...    [1.0, 1.4, -0.3, 1.0],
-    ...    [2.5, 0.2, 1.1, -0.2],
-    ...    [2.1, 0.0, -0.2, 1.2]])
-    >>> mimimal_tumour_frac_dev(1, 0.2, 0.3, 0.2, 0.3, 10, 0.3, 0.2, 0.3, 0.5,
-    ...                                      matrix, np.linspace(0, 10, 10), False)
-    0.038238963035331155
-    """
-    # Determine if WMMd_inhibitor is an array
-    if WMMd_inhibitor_array == True:
-        WMMd_inhibitor = WMMd_inhibitor[0]
-
-    # Set initial conditions
-    y0 = [xOC, xOB, xMMd, xMMr]
-    parameters = (N, cOC, cOB, cMMd, cMMr, matrix, WMMd_inhibitor)
-
-    # Determine the ODE solutions
-    y = odeint(model_dynamics, y0, t, args=parameters)
-    df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
-
-    # Determine the total MM fraction
-    last_MM_fraction = df['total xMM'].iloc[-1]
-
-    return float(last_MM_fraction)
-
-""" Figure to determine best WMMD IH value """
+""" Figure to determine the best WMMD IH value """
 def Figure_best_WMMD_IH():
     """ Function that shows the effect of different OB and OC cost values for
     different WMMd drug inhibitor values. It also determines the WMMd IH value
@@ -966,17 +821,17 @@ def Figure_best_WMMD_IH():
         [1.8, 0, -1.1, 0.2]])
 
     t = np.linspace(0, 100, 100)
-    dev_start = 0.3
+    WMMd_IH_start = 0.3
 
     # Perform the optimization
-    result_high = minimize(mimimal_tumour_frac_dev, dev_start, args = (xOC, xOB,
+    result_high = minimize(mimimal_tumour_frac_WMMd_IH, WMMd_IH_start, args = (xOC, xOB,
                             xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix, t, True),
                                 bounds=[(0, 0.8)], method='Nelder-Mead')
 
     # Retrieve the optimal value
-    optimal_dev_high = result_high.x
+    optimal_WMMd_IH_high = result_high.x
     print("Optimal value for the WMMd IH by high OB and OC cost values:",
-        float(optimal_dev_high[0]), ', gives tumour fraction:', result_high.fun)
+        float(optimal_WMMd_IH_high[0]), ', gives tumour fraction:', result_high.fun)
 
     # Make a dictionary
     dict_frac_tumour_high_c = {}
@@ -984,7 +839,7 @@ def Figure_best_WMMD_IH():
     # Loop over the different WMMd_inhibitor values
     for WMMd_inhibitor in range(3000):
         WMMd_inhibitor = WMMd_inhibitor/1000
-        frac_tumour = mimimal_tumour_frac_dev(WMMd_inhibitor, xOC, xOB, xMMd, xMMr,
+        frac_tumour = mimimal_tumour_frac_WMMd_IH(WMMd_inhibitor, xOC, xOB, xMMd, xMMr,
                                         N, cOC, cOB, cMMd, cMMr, matrix, t, False)
         dict_frac_tumour_high_c[WMMd_inhibitor] = frac_tumour
 
@@ -1002,18 +857,18 @@ def Figure_best_WMMD_IH():
     dict_frac_tumour_low_c = {}
 
     # Perform the optimization
-    result_low = minimize(mimimal_tumour_frac_dev, dev_start, args = (xOC, xOB,
+    result_low = minimize(mimimal_tumour_frac_WMMd_IH, WMMd_IH_start, args = (xOC, xOB,
         xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix, t, True), bounds=[(0, 3)])
 
     # Retrieve the optimal value
-    optimal_dev_low= result_low.x
+    optimal_WMMd_IH_low= result_low.x
     print("Optimal value for the WMMd IH by low OB and OC cost value:",
-            float(optimal_dev_low[0]),', gives tumour fraction:', result_low.fun)
+            float(optimal_WMMd_IH_low[0]),', gives tumour fraction:', result_low.fun)
 
     # Loop over the different WMMd_inhibitor values
     for WMMd_inhibitor in range(3000):
         WMMd_inhibitor = WMMd_inhibitor/1000
-        frac_tumour = mimimal_tumour_frac_dev(WMMd_inhibitor, xOC, xOB, xMMd, xMMr,
+        frac_tumour = mimimal_tumour_frac_WMMd_IH(WMMd_inhibitor, xOC, xOB, xMMd, xMMr,
                                         N, cOC, cOB, cMMd, cMMr, matrix, t, False)
         dict_frac_tumour_low_c[WMMd_inhibitor] = frac_tumour
 
@@ -1052,7 +907,7 @@ def Figure_best_WMMD_IH():
     plt.show()
 
 
-""" Figure to determine best b_OC_MMd value """
+""" Figure to determine the best b_OC_MMd value """
 def Figure_best_b_OC_MMd():
     """ Function that makes a Figure that shows the total MM fraction for different
     b_OC_MMd values. It also determines the b_OC_MMd value causing the lowest total
