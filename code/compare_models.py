@@ -7,7 +7,7 @@ Description:  There are two types of models made that both simulate the dynamics
               osteoblasts (OBs) and osteoclasts (OCs) in the multiple myeloma (MM)
               microenvironment. One model (MM_model_fractions.py) simulates the cell
               fractions and the other model (MM_model_numbers.py) simulates the cell
-              numbers.Here there is attemped to equalize the results of both models
+              numbers. Here there is attemped to equalize the results of both models
               by ............
 """
 

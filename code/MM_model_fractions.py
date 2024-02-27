@@ -57,17 +57,17 @@ def main():
     Figure_3D_MM_frac_MMd_IH_strength()
 
     # Make line plots showing different equilibriums when the MMd GF IH holiday and
-    # administration durations changes
+    # administration durations change
     list_t_steps_drug = [6, 8, 10]
     Figure_3_senarios_MMd_GF_IH(10, list_t_steps_drug)
 
     # Make line plots showing different equilibriums when the WMMd IH holiday and
-    # administration durations changes
+    # administration durations change
     list_t_steps_drug = [8, 10, 12]
     Figure_3_senarios_WMMd_IH(10, list_t_steps_drug)
 
     # Make line plots showing different equilibriums when the MMd GF IH and WMMd IH
-    # holiday and administration durations changes
+    # holiday and administration durations change
     list_t_steps_drug = [10, 12, 14]
     Figure_3_senarios_MMd_GF_WMMd_IH(8, list_t_steps_drug)
 
@@ -1596,8 +1596,8 @@ def Figure_3_senarios_MMd_GF_IH(n_switches, t_steps_drug):
     n_switches: Int
         The number of switches between giving drugs and not giving drugs.
     t_steps_drug: List
-        List with the number of time steps drugs are administared and the breaks
-        are for the different Figures.
+        List with the number of time steps drugs the holliday and administration
+        periods are.
     """
     # Set start parameter values
     N = 50
@@ -1726,8 +1726,8 @@ def Figure_3_senarios_WMMd_IH(n_switches, t_steps_drug):
     n_switches: Int
         The number of switches between giving drugs and not giving drugs.
     t_steps_drug: List
-        List with the number of time steps drugs are administared and the breaks
-        are for the different Figures.
+        List with the number of time steps drugs the holliday and administration
+        periods are.
     """
     # Set start parameter values
     N = 50
@@ -1851,8 +1851,8 @@ def Figure_3_senarios_MMd_GF_WMMd_IH(n_switches, t_steps_drug):
     n_switches: Int
         The number of switches between giving drugs and not giving drugs.
     t_steps_drug: List
-        List with the number of time steps drugs are administared and the breaks
-        are for the different Figures.
+        List with the number of time steps drugs the holliday and administration
+        periods are.
     """
     # Set start parameter values
     N = 50
@@ -2151,7 +2151,6 @@ def Figure_frac_fitness_dynamics():
 
 """Tables showing the effect of chaning interaction matrix on the eigenvalues H
 period, A period and MM fraction"""
-
 def Dataframe_bOCMMd_eigenvalues():
     """ Function that makes a table of the eigenvalues of the interaction matrix,
     MM fraction and the best holiday (H) and administration (A) period for

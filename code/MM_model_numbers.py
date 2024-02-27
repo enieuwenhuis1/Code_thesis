@@ -5,9 +5,9 @@ Student id':  13717405
 Description:  Code of the model that simulates the dynamics in the multiple myeloma
               (MM) microenvironment with four cell types: drug-sensitive MM cells
               (MMd), resistant MM cells (MMr), osteoblasts (OBs) and osteoclasts
-              (OCs). The model is a public goods game in the framework of evolutionary
-              game theory with collective interactions and linear benefits. In this
-              model there is looked at the numbers of the four cell types.
+              (OCs). The model is a public goods game in the framework of
+              evolutionary game theory with collective interactions. In this model
+              there is looked at the numbers of the four cell types.
 """
 
 # Import the needed libraries
@@ -38,21 +38,29 @@ def main():
 
     # Make a figure showing the cell number dynamics by traditional therapy and
     # by adaptive therapy
-    # list_t_steps_drug = [10, 10, 10]
-    # Figure_continuous_MTD_vs_AT(20, list_t_steps_drug)
-    #
-    # # Make a 3D figure showthing the effect of different drug holiday and
-    # # administration periods
-    # Figure_3D_MM_numb_IH_add_and_holiday_()
-    #
-    # # Make a figure that shows the MM number for different bOC,MMd values
-    # Figure_best_b_OC_MMd()
-    #
-    # # Make a figure that shows the MM number for different WMMd IH values
-    # Figure_best_WMMD_IH()
+    list_t_steps_drug = [10, 10, 10]
+    Figure_continuous_MTD_vs_AT(20, list_t_steps_drug)
+
+    # Make a 3D figure showthing the effect of different drug holiday and
+    # administration periods
+    Figure_3D_MM_numb_IH_add_and_holiday_()
+
+    # Make a figure that shows the MM number for different bOC,MMd values
+    Figure_best_b_OC_MMd()
+
+    # Make a figure that shows the MM number for different WMMd IH values
+    Figure_best_WMMD_IH()
 
     # Make a 3D figure showing the effect of different WMMd and MMd GF IH strengths
     Figure_3D_MM_numb_MMd_IH_strength()
+
+    # Make line plots showing the dynamics when the IH administration is longer
+    # than the holiday and one it is the other way around.
+    list_t_steps_drug = [3, 10]
+    list_t_steps_no_drug = [10, 3]
+    list_n_steps = [40, 40]
+    Figure_duration_A_h_MMd_IH(list_n_steps, list_t_steps_drug,
+                                                            list_t_steps_no_drug)
 
 
 
@@ -1425,6 +1433,93 @@ def Figure_best_b_OC_MMd():
     save_Figure(plt, 'line_plot_cell_numb_change_b_OC_MMd',
                                 r'..\visualisation\results_own_model_numbers')
     plt.show()
+
+
+""" Figure with a longer IH administration than holiday and the other way around"""
+def Figure_duration_A_h_MMd_IH(n_switches, t_steps_drug, t_steps_no_drug):
+    """ Function that makes a Figure with two subplots one of the dynamics by a
+    longer IH administration than holiday and one of the dynamics by a longer IH
+    than administration.
+
+    Parameters:
+    -----------
+    n_switches: List
+        List with the number of switches between giving drugs and not giving drugs.
+    t_steps_drug: List
+        List with the number of time steps drugs are administared.
+    t_steps_no_drug: List
+        List with the number of time steps drugs are not administared (holiday).
+    """
+    # Set start values
+    nOC = 20
+    nOB = 30
+    nMMd = 20
+    nMMr = 5
+    growth_rates = [0.8, 1.2, 0.3, 0.3]
+    decay_rates = [0.9, 0.08, 0.2, 0.1]
+
+    # Payoff matrix when no drugs are present
+    matrix_no_GF_IH = np.array([
+        [0.0, 0.4, 0.6, 0.5],
+        [0.3, 0.0, -0.3, -0.3],
+        [0.6, 0.0, 0.2, 0.0],
+        [0.55, 0.0, -0.6, 0.4]])
+
+    # Payoff matrix when both inhibitor drugs are present
+    matrix_GF_IH_half = np.array([
+        [0.0, 0.4, 0.6, 0.5],
+        [0.3, 0.0, -0.3, -0.3],
+        [0.4, 0.0, 0.2, 0.0],
+        [0.55, 0.0, -0.8, 0.4]])
+
+    # WMMd inhibitor effect when both inhibitor drugs are present
+    WMMd_inhibitor_half = 0.25
+
+    # Make dataframe for the different drug hollyday duration values
+    df_total_switch_1 = switch_dataframe(n_switches[0], t_steps_drug[0],
+                t_steps_no_drug[0], nOC, nOB, nMMd, nMMr, growth_rates, decay_rates,
+                matrix_no_GF_IH, matrix_GF_IH_half, WMMd_inhibitor_half)
+    df_total_switch_2 = switch_dataframe(n_switches[1], t_steps_drug[1],
+                t_steps_no_drug[1], nOC, nOB, nMMd, nMMr, growth_rates, decay_rates,
+                matrix_no_GF_IH, matrix_GF_IH_half, WMMd_inhibitor_half)
+
+    # Save the data
+    save_dataframe(df_total_switch_1, 'df_cell_numb_short_a_long_h_MMd_IH.csv',
+                                             r'..\data\data_own_model_numbers')
+    save_dataframe(df_total_switch_2, 'df_cell_numb_long_a_short_h_MMd_IH.csv.csv',
+                                             r'..\data\data_own_model_numbers')
+
+    # Create a Figure
+    fig, axs = plt.subplots(1, 2, figsize=(16, 6))
+    g = 'generations'
+    ta = t_steps_drug
+    th = t_steps_no_drug
+
+    # Plot the data with drug holidays in the second plot
+    df_total_switch_1.plot(x='Generation', y=['nOC', 'nOB', 'nMMd', 'nMMr'], label=[\
+    'Number OC', 'Number OB', 'Number MMd', 'Number MMr'], ax=axs[0])
+    axs[0].set_xlabel('Generations')
+    axs[0].set_ylabel('Number of MM')
+    axs[0].set_title(f"""Dynamics when the IH administrations lasted {ta[0]} {g}
+    and the IH holidays lasted {th[0]} {g}""")
+    axs[0].legend(loc = 'upper right')
+    axs[0].grid(True)
+
+    # Plot the data with drug holidays in the third plot
+    df_total_switch_2.plot(x='Generation', y=['nOC', 'nOB', 'nMMd', 'nMMr'], label=[\
+    'Number OC', 'Number OB', 'Number MMd','Number MMr'], ax=axs[1])
+    axs[1].set_xlabel('Generations')
+    axs[1].set_ylabel('Number of MM')
+    axs[1].set_title(f"""Dynamics when the IH administrations lasted {ta[1]} {g}
+    and the IH holidays lasted {th[1]} {g}""")
+    axs[1].legend(loc = 'upper right')
+    axs[1].grid(True)
+    plt.grid(True)
+    save_Figure(plt, 'line_plot_cell_numb_diff_h_and_a_MMd_IH',
+                                 r'..\visualisation\results_own_model_numbers')
+
+    plt.show()
+
 
 if __name__ == "__main__":
     main()
