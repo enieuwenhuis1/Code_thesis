@@ -17,16 +17,11 @@ import numpy as np
 import os
 import pandas as pd
 import matplotlib.pyplot as plt
-import ternary
-import plotly.graph_objects as go
-import plotly.express as px
-import plotly.io as pio
 from scipy.integrate import odeint
 import csv
 from scipy.optimize import minimize
 from scipy.stats import spearmanr
 from mpl_toolkits.mplot3d import Axes3D
-from scipy.stats import pearsonr
 import doctest
 
 """

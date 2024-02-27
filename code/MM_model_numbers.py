@@ -16,10 +16,6 @@ import numpy as np
 import os
 import pandas as pd
 import matplotlib.pyplot as plt
-import ternary
-import plotly.graph_objects as go
-import plotly.express as px
-import plotly.io as pio
 from scipy.integrate import odeint
 import csv
 from scipy.optimize import minimize
@@ -42,18 +38,18 @@ def main():
 
     # Make a figure showing the cell number dynamics by traditional therapy and
     # by adaptive therapy
-    list_t_steps_drug = [10, 10, 10]
-    Figure_continuous_MTD_vs_AT(20, list_t_steps_drug)
-
-    # Make a 3D figure showthing the effect of different drug holiday and
-    # administration periods
-    Figure_3D_MM_numb_IH_add_and_holiday_()
-
-    # Make a figure that shows the MM number for different bOC,MMd values
-    Figure_best_b_OC_MMd()
-
-    # Make a figure that shows the MM number for different WMMd IH values
-    Figure_best_WMMD_IH()
+    # list_t_steps_drug = [10, 10, 10]
+    # Figure_continuous_MTD_vs_AT(20, list_t_steps_drug)
+    #
+    # # Make a 3D figure showthing the effect of different drug holiday and
+    # # administration periods
+    # Figure_3D_MM_numb_IH_add_and_holiday_()
+    #
+    # # Make a figure that shows the MM number for different bOC,MMd values
+    # Figure_best_b_OC_MMd()
+    #
+    # # Make a figure that shows the MM number for different WMMd IH values
+    # Figure_best_WMMD_IH()
 
     # Make a 3D figure showing the effect of different WMMd and MMd GF IH strengths
     Figure_3D_MM_numb_MMd_IH_strength()
@@ -1199,21 +1195,21 @@ def Figure_3D_MM_numb_MMd_IH_strength():
 
     # Payoff matrix when no drugs are present
     matrix_no_GF_IH = np.array([
-        [0.0, 0.4, 0.6, 0.5],
+        [0.0, 0.4, 0.60, 0.50],
         [0.3, 0.0, -0.3, -0.3],
-        [0.6, 0.0, 0.2, 0.0],
-        [0.55, 0.0, -0.55, 0.4]])
+        [0.65, 0.0, 0.2, 0.0],
+        [0.55, 0.0, -0.6, 0.4]])
 
     # Payoff matrix when GF inhibitor drugs are present
     matrix_GF_IH = np.array([
         [0.0, 0.4, 0.6, 0.5],
         [0.3, 0.0, -0.3, -0.3],
-        [0.56, 0.0, 0.2, 0.0],
-        [0.55, 0.0, -0.55, 0.4]])
+        [0.65, 0.0, 0.2, 0.0],
+        [0.55, 0.0, -0.6, 0.4]])
 
     # Administration and holiday periods
-    t_steps_drug = 3
-    t_steps_no_drug = 3
+    t_steps_drug = 4
+    t_steps_no_drug = 4
 
     # Make a dataframe
     column_names = ['Strength WMMd IH', 'Strength MMd GF IH', 'MM number']
@@ -1227,11 +1223,11 @@ def Figure_3D_MM_numb_MMd_IH_strength():
         for strength_MMd_GF_IH in range(0, 21):
 
             # Change effect of GF of OC on MMd
-            matrix_GF_IH[2, 0] = 0.6 - round((strength_MMd_GF_IH / 50), 3)
+            matrix_GF_IH[2, 0] = 0.65 - round((strength_MMd_GF_IH / 50), 3)
 
             # Change how fast the MMr will be stronger than the MMd
             extra_MMr_IH = round(round((WMMd_inhibitor/ 50) + \
-                                                (strength_MMd_GF_IH/50), 3)/ 8, 3)
+                                                (strength_MMd_GF_IH/ 50), 3)/ 8, 3)
             matrix_GF_IH[3, 2] = -0.6 - extra_MMr_IH
 
             # Determine the minimal tumour size
@@ -1293,7 +1289,7 @@ def Figure_3D_MM_numb_MMd_IH_strength():
     GF inhibitor strengths""")
 
     # Turn to the right angle
-    ax.view_init(elev = 37, azim = -131)
+    ax.view_init(elev = 40, azim = -134)
 
     # Add a color bar
     color_bar = fig.colorbar(surf, shrink = 0.6, location= 'left')
