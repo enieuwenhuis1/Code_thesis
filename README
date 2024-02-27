@@ -2,21 +2,23 @@ Author:       Eva Nieuwenhuis
 University:   UvA
 Student id:   13717405
 
+MATHEMATICAL MULTIPLE MYELOMA MODEL
 The goal was to make models that simulate the dynamics of the multiple myeloma (MM)
-microenvironment and determine the effects of several treatment methods. In the
-own model is looked at the interactions between four cell types: drug-sensitive MM
-cells (MMd), resistant MM cells (MMr), osteoblasts (OBs) and osteoclasts (OCs). The
-own model simulates a public goods game in the framework of evolutionary game theory
-with collective interactions and linear benefits. The impact of GF MMd inhibitors and
-WMMd inhibitors on the cell type fractions and numbers is studied for different
-administration and holliday periods.
+microenvironment and determine the effect of adaptive therapy vs. traditional therapy.
+During adaptive therapy the drugs are administered in short periods with holidays
+in between and during traditional therapy continuously the MTD is administered. In
+the own models is looked at the interactions via diffusible factors between four
+cell types: drug-sensitive MM cells (MMd), resistant MM cells (MMr), osteoblasts
+(OBs) and osteoclasts (OCs). The models simulate a public goods game in the framework
+of evolutionary game theory with collective interactions and linear benefits. The
+impact of GF MMd inhibitors and WMMd inhibitors on the cell type fractions and
+numbers are studied for different administration and holiday periods.
+
 
 To better understand MM microenvironment modeling, the figures from Sartakhti et al.
 (2018) (nonlinear) and Sartakhti et al. (2016) (linear) were first attempted to be
-reproduced. Both papers did not disclose their code hence comparison of the
-interpretation was not possible. Because the results of the linear model were much
-closer to the paper result and the model was better to comprehend, the own model
-with fractions and the own model with numbers also use linear benefits.
+reproduced. Both papers did not disclose their code, hence comparison of the
+interpretation was not possible.
 
 PYTHON AND LIBRARY VERSIONS
 The models were written in Python code (version 3.11.4) using Atom (version 1.60.0).
