@@ -198,8 +198,8 @@ def dMMd_dt(nOC, nOB, nMMd, nMMr, gr_MMd, dr_MMd, matrix, WMMd_inhibitor = 0):
     l = matrix[2, 3]
 
     # Calculate the change in the number of MMd
-    change_nMMd = (gr_MMd * nOC**i * nOB**j * nMMd**k * nMMr**l - nMMd * \
-                                                WMMd_inhibitor) - (dr_MMd * nMMd)
+    change_nMMd = (gr_MMd * nOC**i * nOB**j * nMMd**k * nMMr**l - \
+                                        nMMd**WMMd_inhibitor) - (dr_MMd * nMMd)
 
     return change_nMMd
 
@@ -725,7 +725,7 @@ def Figure_continuous_MTD_vs_AT(n_switches, t_steps_drug):
     matrix_GF_IH = np.array([
         [0.0, 0.4, 0.6, 0.5],
         [0.3, 0.0, -0.3, -0.3],
-        [0.175, 0.0, 0.2, 0.0],
+        [0.35, 0.0, 0.2, 0.0],
         [0.55, 0.0, -0.6, 0.4]])
 
     # Payoff matrix when both inhibitor drugs are present
@@ -736,10 +736,10 @@ def Figure_continuous_MTD_vs_AT(n_switches, t_steps_drug):
         [0.55, 0.0, -0.9, 0.4]])
 
     # WMMd inhibitor effect when both inhibitor drugs are present
-    WMMd_inhibitor_comb = 0.24
+    WMMd_inhibitor_comb = 0.3
 
     # WMMd inhibitor effect when only WMMd IH is present
-    WMMd_inhibitor = 0.55
+    WMMd_inhibitor = 1.7
 
     # Make dataframe for the different drug hollyday duration values
     df_total_switch_GF = switch_dataframe(n_switches, t_steps_drug[0],
@@ -1519,7 +1519,6 @@ def Figure_duration_A_h_MMd_IH(n_switches, t_steps_drug, t_steps_no_drug):
                                  r'..\visualisation\results_own_model_numbers')
 
     plt.show()
-
 
 if __name__ == "__main__":
     main()

@@ -1661,6 +1661,8 @@ def Figure_7():
                                 r'..\data\reproduced_data_Sartakhti_nonlinear')
     save_data(df_Figure_7_linear, 'data_Figure_7_linear.csv',
                                 r'..\data\reproduced_data_Sartakhti_nonlinear')
+    save_data(df_Figure_7_linear, 'data_Figure_7_linear.csv',
+                                r'..\data\reproduced_data_Sartakhti_nonlinear')
 
     # Create a Figure and axes for subplots
     fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(14,6))
