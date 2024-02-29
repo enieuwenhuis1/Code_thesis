@@ -37,9 +37,20 @@ def main():
     doctest.testmod()
 
     # Make a figure showing the cell number dynamics by traditional therapy and
-    # by adaptive therapy
+    # by adaptive therapy (original situation)
     list_t_steps_drug = [10, 10, 10]
     Figure_continuous_MTD_vs_AT(20, list_t_steps_drug)
+
+    # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # by adaptive therapy for shorter holiday and administration periods compared
+    # to the original situation
+    list_t_steps_drug = [4, 4, 4]
+    Figure_continuous_MTD_vs_AT_short_a_h(50, list_t_steps_drug)
+
+    # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # by adaptive therapy for weaker IHs compared to the original situation
+    list_t_steps_drug = [10, 10, 10]
+    Figure_continuous_MTD_vs_AT_weak_a_h(20, list_t_steps_drug)
 
     # Make a 3D figure showthing the effect of different drug holiday and
     # administration periods
@@ -61,8 +72,6 @@ def main():
     list_n_steps = [40, 40]
     Figure_duration_A_h_MMd_IH(list_n_steps, list_t_steps_drug,
                                                             list_t_steps_no_drug)
-
-
 
 def dOC_dt(nOC, nOB, nMMd, nMMr, gr_OC, dr_OC, matrix):
     """
@@ -613,8 +622,8 @@ def mimimal_tumour_numb_b_OC_MMd(b_OC_MMd, nOC, nOB, nMMd, nMMr, growth_rates,
 
     return float(last_MM_number)
 
-def mimimal_tumour_numb_WMMd_IH(WMMd_inhibitor, nOC, nOB, nMMd, nMMr, growth_rates,
-                                decay_rates, matrix, WMMd_inhibitor_array):
+def mimimal_tumour_numb_WMMd_IH(WMMd_inhibitor, nOC, nOB, nMMd, nMMr,
+                    growth_rates, decay_rates, matrix, WMMd_inhibitor_array):
     """Function that determines the number of the population being MM for a
     specific wMMd drug inhibitor value.
 
@@ -693,7 +702,9 @@ def mimimal_tumour_numb_WMMd_IH(WMMd_inhibitor, nOC, nOB, nMMd, nMMr, growth_rat
 
     return float(last_MM_number)
 
-""" Figure to determine the difference between traditional and adaptive therapy"""
+
+""" Figure to determine the difference between traditional and adaptive therapy
+(original situation)"""
 def Figure_continuous_MTD_vs_AT(n_switches, t_steps_drug):
     """ Function that makes a figure with 6 subplots showing the cell number
     dynamics by traditional therapy (continuous MTD) and adaptive therapy.
@@ -919,6 +930,462 @@ def Figure_continuous_MTD_vs_AT(n_switches, t_steps_drug):
 
     plt.show()
 
+""" Figure to determine the difference between traditional and adaptive therapy.
+Shorter holiday and administration periods compared to the original situation"""
+def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
+    """ Function that makes a figure with 6 subplots showing the cell number
+    dynamics by traditional therapy (continuous MTD) and adaptive therapy. The
+    holiday and administration periods are short (4 generations).
+
+    Parameters:
+    -----------
+    n_switches: Int
+        The number of switches between giving drugs and not giving drugs.
+    t_steps_drug: List
+        List with the number of time steps drugs are administared and the breaks
+        are for the different Figures.
+    """
+    # Set start values
+    nOC = 20
+    nOB = 30
+    nMMd = 20
+    nMMr = 5
+    growth_rates = [0.8, 1.2, 0.3, 0.3]
+    decay_rates = [0.9, 0.08, 0.2, 0.1]
+
+    # Payoff matrix when no drugs are present
+    matrix_no_GF_IH = np.array([
+        [0.0, 0.4, 0.6, 0.5],
+        [0.3, 0.0, -0.3, -0.3],
+        [0.58, 0.0, 0.2, 0.0],
+        [0.55, 0.0, -0.6, 0.4]])
+
+    # Payoff matrix when only GF inhibitor drugs are present
+    matrix_GF_IH = np.array([
+        [0.0, 0.4, 0.6, 0.5],
+        [0.3, 0.0, -0.3, -0.3],
+        [0.175, 0.0, 0.2, 0.0],
+        [0.55, 0.0, -0.6, 0.4]])
+
+    # Payoff matrix when both inhibitor drugs are present
+    matrix_GF_IH_comb = np.array([
+        [0.0, 0.4, 0.6, 0.5],
+        [0.3, 0.0, -0.3, -0.3],
+        [0.3, 0.0, 0.2, 0.0],
+        [0.55, 0.0, -0.9, 0.4]])
+
+    # WMMd inhibitor effect when both inhibitor drugs are present
+    WMMd_inhibitor_comb = 0.24
+
+    # WMMd inhibitor effect when only WMMd IH is present
+    WMMd_inhibitor = 0.55
+
+    # Make dataframe for the different drug hollyday duration values
+    df_total_switch_GF = switch_dataframe(n_switches, t_steps_drug[0],
+                        t_steps_drug[0], nOC, nOB, nMMd, nMMr, growth_rates,
+                        decay_rates, matrix_no_GF_IH, matrix_GF_IH)
+    df_total_switch_WMMD = switch_dataframe(n_switches, t_steps_drug[1],
+                t_steps_drug[1], nOC, nOB, nMMd, nMMr, growth_rates, decay_rates,
+                matrix_no_GF_IH, matrix_no_GF_IH, WMMd_inhibitor)
+    df_total_switch_comb = switch_dataframe(n_switches, t_steps_drug[2],
+                t_steps_drug[2], nOC, nOB, nMMd, nMMr, growth_rates, decay_rates,
+                matrix_no_GF_IH, matrix_GF_IH_comb, WMMd_inhibitor_comb)
+
+    t = np.linspace(0, 60, 60)
+    y0 = [nOC, nOB, nMMd, nMMr]
+    parameters = (  growth_rates, decay_rates, matrix_no_GF_IH)
+
+    # Determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_1 = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
+                'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
+
+    # Determine the current numbers
+    nOC = df_1['nOC'].iloc[-1]
+    nOB = df_1['nOB'].iloc[-1]
+    nMMd = df_1['nMMd'].iloc[-1]
+    nMMr = df_1['nMMr'].iloc[-1]
+
+    t = np.linspace(60, 260, 200)
+    y0 = [nOC, nOB, nMMd, nMMr]
+    parameters = (growth_rates, decay_rates, matrix_GF_IH)
+
+    # Determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_2 = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
+                'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
+
+    # Combine the dataframes
+    df_total_GF = pd.concat([df_1, df_2])
+
+    # Set initial parameter values
+    nOC = 20
+    nOB = 30
+    nMMd = 20
+    nMMr = 5
+    t = np.linspace(0, 60, 60)
+    y0 = [nOC, nOB, nMMd, nMMr]
+    parameters = (growth_rates, decay_rates, matrix_no_GF_IH)
+
+    # Determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_1 = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
+                'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
+
+    # Determine the current numbers
+    nOC = df_1['nOC'].iloc[-1]
+    nOB = df_1['nOB'].iloc[-1]
+    nMMd = df_1['nMMd'].iloc[-1]
+    nMMr = df_1['nMMr'].iloc[-1]
+
+    t = np.linspace(60, 260, 200)
+    y0 = [nOC, nOB, nMMd, nMMr]
+    parameters = (growth_rates, decay_rates, matrix_no_GF_IH, WMMd_inhibitor)
+
+    # Determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_2 = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
+                'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
+
+    # Combine the dataframes
+    df_total_wMMd = pd.concat([df_1, df_2])
+
+    # Set initial parameter values
+    nOC = 20
+    nOB = 30
+    nMMd = 20
+    nMMr = 5
+    t = np.linspace(0, 60, 60)
+    y0 = [nOC, nOB, nMMd, nMMr]
+    parameters = (growth_rates, decay_rates, matrix_no_GF_IH)
+
+    # Determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_1 = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
+                'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
+
+    # Determine the current numbers
+    nOC = df_1['nOC'].iloc[-1]
+    nOB = df_1['nOB'].iloc[-1]
+    nMMd = df_1['nMMd'].iloc[-1]
+    nMMr = df_1['nMMr'].iloc[-1]
+
+    t = np.linspace(60, 260, 200)
+    y0 = [nOC, nOB, nMMd, nMMr]
+    parameters = (growth_rates, decay_rates, matrix_GF_IH_comb, WMMd_inhibitor_comb)
+
+    # Determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_2 = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
+                'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
+
+    # Combine the dataframes
+    df_total_comb = pd.concat([df_1, df_2])
+
+
+    # Save the data
+    save_dataframe(df_total_switch_GF, 'df_cell_numb_switch_GF_IH_short_a_h.csv',
+                                            r'..\data\data_own_model_numbers')
+    save_dataframe(df_total_switch_WMMD, 'df_cell_numb_switch_WMMd_IH_short_a_h.csv',
+                                            r'..\data\data_own_model_numbers')
+    save_dataframe(df_total_switch_comb, 'df_cell_numb_switch_comb_IH_short_a_h.csv',
+                                            r'..\data\data_own_model_numbers')
+    save_dataframe(df_total_GF, 'df_cell_numb_continuous_GF_IH_short_a_h.csv',
+                                             r'..\data\data_own_model_numbers')
+    save_dataframe(df_total_wMMd, 'df_cell_numb_continuous_WMMd_IH_short_a_h.csv',
+                                             r'..\data\data_own_model_numbers')
+    save_dataframe(df_total_comb, 'df_cell_numb_continuous_comb_IH_short_a_h.csv',
+                                             r'..\data\data_own_model_numbers')
+
+    # Create a Figure
+    fig, axs = plt.subplots(2, 3, figsize=(20, 9))
+
+    # Plot the data without drug holidays in the first plot
+    df_total_GF.plot(x='Generation', y=['nOC', 'nOB', 'nMMd', 'nMMr'],
+                                                    legend=False, ax=axs[0, 0])
+    axs[0, 0].set_xlabel(' ')
+    axs[0, 0].set_ylabel('Number', fontsize=11)
+    axs[0, 0].set_title(f"Continuous MTD MMd GF IH ")
+    axs[0, 0].grid(True)
+
+    # Plot the data with drug holidays in the second plot
+    df_total_wMMd.plot(x='Generation', y=['nOC', 'nOB', 'nMMd', 'nMMr'],
+                                                    legend=False, ax=axs[0, 1])
+    axs[0, 1].set_xlabel(' ')
+    axs[0, 1].set_ylabel(' ')
+    axs[0, 1].set_title(r"Continuous MTD $W_{MMd}$ IH")
+    axs[0, 1].grid(True)
+
+    # Plot the data with drug holidays in the second plot
+    df_total_comb.plot(x='Generation', y=['nOC', 'nOB', 'nMMd', 'nMMr'],
+                                                    legend=False, ax=axs[0, 2])
+    axs[0, 2].set_xlabel(' ')
+    axs[0, 2].set_ylabel(' ')
+    axs[0, 2].set_title(r"Continuous MTD MMd GF IH and $W_{MMd}$ IH")
+    axs[0, 2].grid(True)
+
+    # Plot the data with drug holidays in the third plot
+    df_total_switch_GF.plot(x='Generation', y=['nOC', 'nOB', 'nMMd', 'nMMr'],
+                                                    legend=False, ax=axs[1, 0])
+    axs[1, 0].set_xlabel('Generations', fontsize=11)
+    axs[1, 0].set_ylabel('Number', fontsize=11)
+    axs[1, 0].set_title(f"Adaptive therapy MMd GF IH")
+    axs[1, 0].grid(True)
+    plt.grid(True)
+
+    # Plot the data with drug holidays in the fourth plot
+    df_total_switch_WMMD.plot(x='Generation', y=['nOC', 'nOB', 'nMMd', 'nMMr'],
+                                                    legend=False, ax=axs[1, 1])
+    axs[1, 1].set_xlabel('Generations', fontsize=11)
+    axs[1, 1].set_ylabel(' ')
+    axs[1, 1].set_title(r"Adaptive therapy $W_{MMd}$ IH")
+    axs[1, 1].grid(True)
+
+    # Plot the data with drug holidays in the fourth plot
+    df_total_switch_comb.plot(x='Generation', y=['nOC', 'nOB', 'nMMd', 'nMMr'],
+                                                    legend=False, ax=axs[1, 2])
+    axs[1, 2].set_xlabel('Generations', fontsize=11)
+    axs[1, 2].set_ylabel(' ')
+    axs[1, 2].set_title(r"Adaptive therapy MMd GF IH and $W_{MMd}$ IH")
+    axs[1, 2].grid(True)
+    save_Figure(plt, 'line_plot_cell_numb_AT_MTD_short_a_h',
+                                 r'..\visualisation\results_own_model_numbers')
+
+    # Create a single legend outside of all plots
+    legend_labels = ['Number of OC', 'Number of OB', 'Number of MMd',
+                                                                'Number of MMr']
+    fig.legend(labels = legend_labels, loc='upper center', ncol=4, fontsize='large')
+
+    plt.show()
+
+""" Figure to determine the difference between traditional and adaptive therapy
+Weaker IHs compared to the original situation"""
+def Figure_continuous_MTD_vs_AT_weak_a_h(n_switches, t_steps_drug):
+    """ Function that makes a figure with 6 subplots showing the cell number
+    dynamics by traditional therapy (continuous MTD) and adaptive therapy.The IHs
+    are realively weak.
+
+    Parameters:
+    -----------
+    n_switches: Int
+        The number of switches between giving drugs and not giving drugs.
+    t_steps_drug: List
+        List with the number of time steps drugs are administared and the breaks
+        are for the different Figures.
+    """
+    # Set start values
+    nOC = 20
+    nOB = 30
+    nMMd = 20
+    nMMr = 5
+    growth_rates = [0.8, 1.2, 0.3, 0.3]
+    decay_rates = [0.9, 0.08, 0.2, 0.1]
+
+    # Payoff matrix when no drugs are present
+    matrix_no_GF_IH = np.array([
+        [0.0, 0.4, 0.6, 0.5],
+        [0.3, 0.0, -0.3, -0.3],
+        [0.58, 0.0, 0.2, 0.0],
+        [0.55, 0.0, -0.6, 0.4]])
+
+    # Payoff matrix when only GF inhibitor drugs are present
+    matrix_GF_IH = np.array([
+        [0.0, 0.4, 0.6, 0.5],
+        [0.3, 0.0, -0.3, -0.3],
+        [0.25, 0.0, 0.2, 0.0],
+        [0.55, 0.0, -0.6, 0.4]])
+
+    # Payoff matrix when both inhibitor drugs are present
+    matrix_GF_IH_comb = np.array([
+        [0.0, 0.4, 0.6, 0.5],
+        [0.3, 0.0, -0.3, -0.3],
+        [0.32, 0.0, 0.2, 0.0],
+        [0.55, 0.0, -0.9, 0.4]])
+
+    # WMMd inhibitor effect when both inhibitor drugs are present
+    WMMd_inhibitor_comb = 0.22
+
+    # WMMd inhibitor effect when only WMMd IH is present
+    WMMd_inhibitor = 0.45
+
+    # Make dataframe for the different drug hollyday duration values
+    df_total_switch_GF = switch_dataframe(n_switches, t_steps_drug[0],
+                        t_steps_drug[0], nOC, nOB, nMMd, nMMr, growth_rates,
+                        decay_rates, matrix_no_GF_IH, matrix_GF_IH)
+    df_total_switch_WMMD = switch_dataframe(n_switches, t_steps_drug[1],
+                t_steps_drug[1], nOC, nOB, nMMd, nMMr, growth_rates, decay_rates,
+                matrix_no_GF_IH, matrix_no_GF_IH, WMMd_inhibitor)
+    df_total_switch_comb = switch_dataframe(n_switches, t_steps_drug[2],
+                t_steps_drug[2], nOC, nOB, nMMd, nMMr, growth_rates, decay_rates,
+                matrix_no_GF_IH, matrix_GF_IH_comb, WMMd_inhibitor_comb)
+
+    t = np.linspace(0, 60, 60)
+    y0 = [nOC, nOB, nMMd, nMMr]
+    parameters = (  growth_rates, decay_rates, matrix_no_GF_IH)
+
+    # Determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_1 = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
+                'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
+
+    # Determine the current numbers
+    nOC = df_1['nOC'].iloc[-1]
+    nOB = df_1['nOB'].iloc[-1]
+    nMMd = df_1['nMMd'].iloc[-1]
+    nMMr = df_1['nMMr'].iloc[-1]
+
+    t = np.linspace(60, 260, 200)
+    y0 = [nOC, nOB, nMMd, nMMr]
+    parameters = (growth_rates, decay_rates, matrix_GF_IH)
+
+    # Determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_2 = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
+                'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
+
+    # Combine the dataframes
+    df_total_GF = pd.concat([df_1, df_2])
+
+    # Set initial parameter values
+    nOC = 20
+    nOB = 30
+    nMMd = 20
+    nMMr = 5
+    t = np.linspace(0, 60, 60)
+    y0 = [nOC, nOB, nMMd, nMMr]
+    parameters = (growth_rates, decay_rates, matrix_no_GF_IH)
+
+    # Determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_1 = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
+                'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
+
+    # Determine the current numbers
+    nOC = df_1['nOC'].iloc[-1]
+    nOB = df_1['nOB'].iloc[-1]
+    nMMd = df_1['nMMd'].iloc[-1]
+    nMMr = df_1['nMMr'].iloc[-1]
+
+    t = np.linspace(60, 260, 200)
+    y0 = [nOC, nOB, nMMd, nMMr]
+    parameters = (growth_rates, decay_rates, matrix_no_GF_IH, WMMd_inhibitor)
+
+    # Determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_2 = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
+                'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
+
+    # Combine the dataframes
+    df_total_wMMd = pd.concat([df_1, df_2])
+
+    # Set initial parameter values
+    nOC = 20
+    nOB = 30
+    nMMd = 20
+    nMMr = 5
+    t = np.linspace(0, 60, 60)
+    y0 = [nOC, nOB, nMMd, nMMr]
+    parameters = (growth_rates, decay_rates, matrix_no_GF_IH)
+
+    # Determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_1 = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
+                'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
+
+    # Determine the current numbers
+    nOC = df_1['nOC'].iloc[-1]
+    nOB = df_1['nOB'].iloc[-1]
+    nMMd = df_1['nMMd'].iloc[-1]
+    nMMr = df_1['nMMr'].iloc[-1]
+
+    t = np.linspace(60, 260, 200)
+    y0 = [nOC, nOB, nMMd, nMMr]
+    parameters = (growth_rates, decay_rates, matrix_GF_IH_comb, WMMd_inhibitor_comb)
+
+    # Determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_2 = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
+                'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
+
+    # Combine the dataframes
+    df_total_comb = pd.concat([df_1, df_2])
+
+
+    # Save the data
+    save_dataframe(df_total_switch_GF, 'df_cell_numb_switch_GF_IH_weak_a_h.csv',
+                                            r'..\data\data_own_model_numbers')
+    save_dataframe(df_total_switch_WMMD, 'df_cell_numb_switch_WMMd_IH_weak_a_h.csv',
+                                            r'..\data\data_own_model_numbers')
+    save_dataframe(df_total_switch_comb, 'df_cell_numb_switch_comb_IH_weak_a_h.csv',
+                                            r'..\data\data_own_model_numbers')
+    save_dataframe(df_total_GF, 'df_cell_numb_continuous_GF_IH_weak_a_h.csv',
+                                             r'..\data\data_own_model_numbers')
+    save_dataframe(df_total_wMMd, 'df_cell_numb_continuous_WMMd_IH_weak_a_h.csv',
+                                             r'..\data\data_own_model_numbers')
+    save_dataframe(df_total_comb, 'df_cell_numb_continuous_comb_IH_weak_a_h.csv',
+                                             r'..\data\data_own_model_numbers')
+
+    # Create a Figure
+    fig, axs = plt.subplots(2, 3, figsize=(20, 9))
+
+    # Plot the data without drug holidays in the first plot
+    df_total_GF.plot(x='Generation', y=['nOC', 'nOB', 'nMMd', 'nMMr'],
+                                                    legend=False, ax=axs[0, 0])
+    axs[0, 0].set_xlabel(' ')
+    axs[0, 0].set_ylabel('Number', fontsize=11)
+    axs[0, 0].set_title(f"Continuous MTD MMd GF IH ")
+    axs[0, 0].grid(True)
+
+    # Plot the data with drug holidays in the second plot
+    df_total_wMMd.plot(x='Generation', y=['nOC', 'nOB', 'nMMd', 'nMMr'],
+                                                    legend=False, ax=axs[0, 1])
+    axs[0, 1].set_xlabel(' ')
+    axs[0, 1].set_ylabel(' ')
+    axs[0, 1].set_title(r"Continuous MTD $W_{MMd}$ IH")
+    axs[0, 1].grid(True)
+
+    # Plot the data with drug holidays in the second plot
+    df_total_comb.plot(x='Generation', y=['nOC', 'nOB', 'nMMd', 'nMMr'],
+                                                    legend=False, ax=axs[0, 2])
+    axs[0, 2].set_xlabel(' ')
+    axs[0, 2].set_ylabel(' ')
+    axs[0, 2].set_title(r"Continuous MTD MMd GF IH and $W_{MMd}$ IH")
+    axs[0, 2].grid(True)
+
+    # Plot the data with drug holidays in the third plot
+    df_total_switch_GF.plot(x='Generation', y=['nOC', 'nOB', 'nMMd', 'nMMr'],
+                                                    legend=False, ax=axs[1, 0])
+    axs[1, 0].set_xlabel('Generations', fontsize=11)
+    axs[1, 0].set_ylabel('Number', fontsize=11)
+    axs[1, 0].set_title(f"Adaptive therapy MMd GF IH")
+    axs[1, 0].grid(True)
+    plt.grid(True)
+
+    # Plot the data with drug holidays in the fourth plot
+    df_total_switch_WMMD.plot(x='Generation', y=['nOC', 'nOB', 'nMMd', 'nMMr'],
+                                                    legend=False, ax=axs[1, 1])
+    axs[1, 1].set_xlabel('Generations', fontsize=11)
+    axs[1, 1].set_ylabel(' ')
+    axs[1, 1].set_title(r"Adaptive therapy $W_{MMd}$ IH")
+    axs[1, 1].grid(True)
+
+    # Plot the data with drug holidays in the fourth plot
+    df_total_switch_comb.plot(x='Generation', y=['nOC', 'nOB', 'nMMd', 'nMMr'],
+                                                    legend=False, ax=axs[1, 2])
+    axs[1, 2].set_xlabel('Generations', fontsize=11)
+    axs[1, 2].set_ylabel(' ')
+    axs[1, 2].set_title(r"Adaptive therapy MMd GF IH and $W_{MMd}$ IH")
+    axs[1, 2].grid(True)
+    save_Figure(plt, 'line_plot_cell_numb_AT_MTD_weak_a_h',
+                                 r'..\visualisation\results_own_model_numbers')
+
+    # Create a single legend outside of all plots
+    legend_labels = ['Number of OC', 'Number of OB', 'Number of MMd',
+                                                                'Number of MMr']
+    fig.legend(labels = legend_labels, loc='upper center', ncol=4, fontsize='large')
+
+    plt.show()
+
 
 """ 3D plot showing the best IH holiday and administration periods"""
 def Figure_3D_MM_numb_IH_add_and_holiday_():
@@ -964,7 +1431,7 @@ def Figure_3D_MM_numb_IH_add_and_holiday_():
 
     # Make a dataframe
     column_names = ['Generations no drug', 'Generations drug', 'MM number']
-    df_holliday_GF_IH = pd.DataFrame(columns=column_names)
+    df_holiday_GF_IH = pd.DataFrame(columns=column_names)
 
     # Loop over all the t_step values for drug administration and drug holidays
     for t_steps_no_drug in range(2, 22):
@@ -975,103 +1442,103 @@ def Figure_3D_MM_numb_IH_add_and_holiday_():
                             decay_rates, matrix_no_GF_IH, matrix_GF_IH)
 
             # Add results to the dataframe
-            new_row_df = pd.DataFrame([{'Generations no drug': int(t_steps_no_drug),
-                                            'Generations drug': int(t_steps_drug),
+            new_row_df = pd.DataFrame([{'Generations no drug':
+                    int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
                                              'MM number': float(numb_tumour)}])
-            df_holliday_GF_IH = pd.concat([df_holliday_GF_IH, new_row_df],
+            df_holiday_GF_IH = pd.concat([df_holiday_GF_IH, new_row_df],
                                                             ignore_index=True)
 
     # Save the data
-    save_dataframe(df_holliday_GF_IH, 'df_cell_numb_best_MMd_GH_IH_holiday.csv',
+    save_dataframe(df_holiday_GF_IH, 'df_cell_numb_best_MMd_GH_IH_holiday.csv',
                                              r'..\data\data_own_model_numbers')
 
     # Find the drug administration and holiday period causing the lowest MM number
-    min_index_GF_IH = df_holliday_GF_IH['MM number'].idxmin()
-    g_no_drug_min_GF_IH = df_holliday_GF_IH.loc[min_index_GF_IH,
+    min_index_GF_IH = df_holiday_GF_IH['MM number'].idxmin()
+    g_no_drug_min_GF_IH = df_holiday_GF_IH.loc[min_index_GF_IH,
                                                            'Generations no drug']
-    g_drug_min_GF_IH = df_holliday_GF_IH.loc[min_index_GF_IH, 'Generations drug']
-    numb_min_GF_IH = df_holliday_GF_IH.loc[min_index_GF_IH, 'MM number']
+    g_drug_min_GF_IH = df_holiday_GF_IH.loc[min_index_GF_IH, 'Generations drug']
+    numb_min_GF_IH = df_holiday_GF_IH.loc[min_index_GF_IH, 'MM number']
 
     print(f"""Lowest MM number: {numb_min_GF_IH}-> MMd GF IH holidays are
             {g_no_drug_min_GF_IH} generations and MMd GF IH administrations
             are {g_drug_min_GF_IH} generations""")
 
     # Avoid errors because of the wrong datatype
-    df_holliday_GF_IH['Generations no drug'] = pd.to_numeric(df_holliday_GF_IH[\
+    df_holiday_GF_IH['Generations no drug'] = pd.to_numeric(df_holiday_GF_IH[\
                                         'Generations no drug'], errors='coerce')
-    df_holliday_GF_IH['Generations drug'] = pd.to_numeric(df_holliday_GF_IH[\
+    df_holiday_GF_IH['Generations drug'] = pd.to_numeric(df_holiday_GF_IH[\
                                         'Generations drug'],errors='coerce')
-    df_holliday_GF_IH['MM number'] = pd.to_numeric(df_holliday_GF_IH[\
+    df_holiday_GF_IH['MM number'] = pd.to_numeric(df_holiday_GF_IH[\
                                         'MM number'], errors='coerce')
 
     # Make a meshgrid for the plot
-    X_GF_IH = df_holliday_GF_IH['Generations no drug'].unique()
-    Y_GF_IH = df_holliday_GF_IH['Generations drug'].unique()
+    X_GF_IH = df_holiday_GF_IH['Generations no drug'].unique()
+    Y_GF_IH = df_holiday_GF_IH['Generations drug'].unique()
     X_GF_IH, Y_GF_IH = np.meshgrid(X_GF_IH, Y_GF_IH)
     Z_GF_IH = np.zeros((20, 20))
 
     # Fill the 2D array with the MM number values by looping over each row
-    for index, row in df_holliday_GF_IH.iterrows():
+    for index, row in df_holiday_GF_IH.iterrows():
         i = int(row.iloc[0]) - 2
         j = int(row.iloc[1]) - 2
         Z_GF_IH[j, i] = row.iloc[2]
 
     # Make a dataframe
     column_names = ['Generations no drug', 'Generations drug', 'MM number']
-    df_holliday_W_IH = pd.DataFrame(columns=column_names)
+    df_holiday_W_IH = pd.DataFrame(columns=column_names)
 
     # Loop over al the t_step values for drug dministration and drug holidays
     for t_steps_no_drug in range(2, 22):
 
         for t_steps_drug in range(2, 22):
-            numb_tumour = mimimal_tumour_numb_t_steps(t_steps_drug, t_steps_no_drug,
-                                nOC, nOB, nMMd, nMMr, growth_rates, decay_rates,
-                                matrix_no_GF_IH, matrix_no_GF_IH, WMMd_inhibitor)
+            numb_tumour = mimimal_tumour_numb_t_steps(t_steps_drug,
+                    t_steps_no_drug, nOC, nOB, nMMd, nMMr, growth_rates,
+                    decay_rates,matrix_no_GF_IH, matrix_no_GF_IH, WMMd_inhibitor)
 
             # Add results to the dataframe
             new_row_df = pd.DataFrame([{'Generations no drug': int(t_steps_no_drug),
                                             'Generations drug': int(t_steps_drug),
                                              'MM number': float(numb_tumour)}])
-            df_holliday_W_IH = pd.concat([df_holliday_W_IH, new_row_df],
+            df_holiday_W_IH = pd.concat([df_holiday_W_IH, new_row_df],
                                                                 ignore_index=True)
 
     # Save the data
-    save_dataframe(df_holliday_W_IH, 'df_cell_numb_best_WMMd_IH_holiday.csv',
+    save_dataframe(df_holiday_W_IH, 'df_cell_numb_best_WMMd_IH_holiday.csv',
                                              r'..\data\data_own_model_numbers')
 
     # Find the drug administration and holiday period causing the lowest MM number
-    min_index_W_IH = df_holliday_W_IH['MM number'].idxmin()
-    g_no_drug_min_W_IH = df_holliday_W_IH.loc[min_index_W_IH,'Generations no drug']
-    g_drug_min_W_IH = df_holliday_W_IH.loc[min_index_W_IH, 'Generations drug']
-    numb_min_W_IH = df_holliday_W_IH.loc[min_index_W_IH, 'MM number']
+    min_index_W_IH = df_holiday_W_IH['MM number'].idxmin()
+    g_no_drug_min_W_IH = df_holiday_W_IH.loc[min_index_W_IH,'Generations no drug']
+    g_drug_min_W_IH = df_holiday_W_IH.loc[min_index_W_IH, 'Generations drug']
+    numb_min_W_IH = df_holiday_W_IH.loc[min_index_W_IH, 'MM number']
 
     print(f"""Lowest MM number: {numb_min_W_IH} -> WMMd IH holidays are
                                     {g_no_drug_min_W_IH} generations and WMMd IH
                             administrations are {g_drug_min_W_IH} generations""")
 
     # Avoid errors because of the wrong datatype
-    df_holliday_W_IH['Generations no drug'] = pd.to_numeric(df_holliday_W_IH[\
+    df_holiday_W_IH['Generations no drug'] = pd.to_numeric(df_holiday_W_IH[\
                                     'Generations no drug'], errors='coerce')
-    df_holliday_W_IH['Generations drug'] = pd.to_numeric(df_holliday_W_IH[\
+    df_holiday_W_IH['Generations drug'] = pd.to_numeric(df_holiday_W_IH[\
                                             'Generations drug'], errors='coerce')
-    df_holliday_W_IH['MM number'] = pd.to_numeric(df_holliday_W_IH[\
+    df_holiday_W_IH['MM number'] = pd.to_numeric(df_holiday_W_IH[\
                                                 'MM number'], errors='coerce')
 
     # Make a meshgrid for the plot
-    X_W_IH = df_holliday_W_IH['Generations no drug'].unique()
-    Y_W_IH = df_holliday_W_IH['Generations drug'].unique()
+    X_W_IH = df_holiday_W_IH['Generations no drug'].unique()
+    Y_W_IH = df_holiday_W_IH['Generations drug'].unique()
     X_W_IH, Y_W_IH = np.meshgrid(X_W_IH, Y_W_IH)
     Z_W_IH = np.zeros((20, 20))
 
     # Fill the 2D array with the MM number values by looping over each row
-    for index, row in df_holliday_W_IH.iterrows():
+    for index, row in df_holiday_W_IH.iterrows():
         i = int(row.iloc[0]) -2
         j = int(row.iloc[1]) -2
         Z_W_IH[j, i] = row.iloc[2]
 
     # Make a dataframe
     column_names = ['Generations no drug', 'Generations drug', 'MM number']
-    df_holliday_comb = pd.DataFrame(columns=column_names)
+    df_holiday_comb = pd.DataFrame(columns=column_names)
 
     # Loop over al the t_step values for drug dministration and drug holidays
     for t_steps_no_drug in range(2, 22):
@@ -1085,39 +1552,39 @@ def Figure_3D_MM_numb_IH_add_and_holiday_():
             new_row_df = pd.DataFrame([{'Generations no drug': int(t_steps_no_drug),
                                             'Generations drug': int(t_steps_drug),
                                             'MM number': float(numb_tumour)}])
-            df_holliday_comb = pd.concat([df_holliday_comb, new_row_df],
+            df_holiday_comb = pd.concat([df_holiday_comb, new_row_df],
                                                                 ignore_index=True)
 
     # Save the data
-    save_dataframe(df_holliday_comb, 'df_cell_numb_best_MMd_IH_holiday.csv',
+    save_dataframe(df_holiday_comb, 'df_cell_numb_best_MMd_IH_holiday.csv',
                                              r'..\data\data_own_model_numbers')
 
     # Find the drug administration and holiday period causing the lowest MM number
-    min_index_comb = df_holliday_comb['MM number'].idxmin()
-    g_no_drug_min_comb = df_holliday_comb.loc[min_index_comb, 'Generations no drug']
-    g_drug_min_comb = df_holliday_comb.loc[min_index_comb, 'Generations drug']
-    numb_min_comb = df_holliday_comb.loc[min_index_comb, 'MM number']
+    min_index_comb = df_holiday_comb['MM number'].idxmin()
+    g_no_drug_min_comb = df_holiday_comb.loc[min_index_comb, 'Generations no drug']
+    g_drug_min_comb = df_holiday_comb.loc[min_index_comb, 'Generations drug']
+    numb_min_comb = df_holiday_comb.loc[min_index_comb, 'MM number']
 
     print(f"""Lowest MM number: {numb_min_comb}-> MMd IH holidays are
                     {g_no_drug_min_comb} generations and MMd IH administrations
                     are {g_drug_min_comb} generations""")
 
     # Avoid errors because of the wrong datatype
-    df_holliday_comb['Generations no drug'] = pd.to_numeric(df_holliday_comb[\
+    df_holiday_comb['Generations no drug'] = pd.to_numeric(df_holiday_comb[\
                                         'Generations no drug'], errors='coerce')
-    df_holliday_comb['Generations drug'] = pd.to_numeric(df_holliday_comb[\
+    df_holiday_comb['Generations drug'] = pd.to_numeric(df_holiday_comb[\
                                             'Generations drug'], errors='coerce')
-    df_holliday_comb['MM number'] = pd.to_numeric(df_holliday_comb[\
+    df_holiday_comb['MM number'] = pd.to_numeric(df_holiday_comb[\
                                             'MM number'], errors='coerce')
 
     # Make a meshgrid for the plot
-    X_comb = df_holliday_comb['Generations no drug'].unique()
-    Y_comb = df_holliday_comb['Generations drug'].unique()
+    X_comb = df_holiday_comb['Generations no drug'].unique()
+    Y_comb = df_holiday_comb['Generations drug'].unique()
     X_comb, Y_comb = np.meshgrid(X_comb, Y_comb)
     Z_comb = np.zeros((20, 20))
 
     # Fill the 2D array with the MM number values by looping over each row
-    for index, row in df_holliday_comb.iterrows():
+    for index, row in df_holiday_comb.iterrows():
         i = int(row.iloc[0]) - 2
         j = int(row.iloc[1]) - 2
         Z_comb[j, i] = row.iloc[2]
@@ -1221,7 +1688,7 @@ def Figure_3D_MM_numb_MMd_IH_strength():
 
     # Make a dataframe
     column_names = ['Strength WMMd IH', 'Strength MMd GF IH', 'MM number']
-    df_holliday = pd.DataFrame(columns=column_names)
+    df_holiday = pd.DataFrame(columns=column_names)
 
     # Loop over al the t_step values for drug dministration and drug holidays
     for strength_WMMd_IH in range(0, 21):
@@ -1248,38 +1715,38 @@ def Figure_3D_MM_numb_MMd_IH_strength():
                         round(strength_WMMd_IH/ 50, 3), 'Strength MMd GF IH': \
                 round(strength_MMd_GF_IH/ 50, 3), 'MM number': numb_tumour}])
 
-            df_holliday = pd.concat([df_holliday, new_row_df], ignore_index=True)
+            df_holiday = pd.concat([df_holiday, new_row_df], ignore_index=True)
 
     # Save the data
-    save_dataframe(df_holliday, 'df_cell_numb_best_MMd_IH_strength.csv',
+    save_dataframe(df_holiday, 'df_cell_numb_best_MMd_IH_strength.csv',
                                              r'..\data\data_own_model_numbers')
 
 
     # Find the drug administration and holiday period causing the lowest MM number
-    min_index = df_holliday['MM number'].idxmin()
-    strength_WMMd_min = df_holliday.loc[min_index, 'Strength WMMd IH']
-    strength_MMd_GF_min = df_holliday.loc[min_index, 'Strength MMd GF IH']
-    numb_min = df_holliday.loc[min_index, 'MM number']
+    min_index = df_holiday['MM number'].idxmin()
+    strength_WMMd_min = df_holiday.loc[min_index, 'Strength WMMd IH']
+    strength_MMd_GF_min = df_holiday.loc[min_index, 'Strength MMd GF IH']
+    numb_min = df_holiday.loc[min_index, 'MM number']
 
     print(f"""Lowest MM number: {numb_min}-> MMd GF IH strength is
         {strength_MMd_GF_min} and WMMd IH strength is {strength_WMMd_min}""")
 
     # Avoid errors because of the wrong datatype
-    df_holliday['Strength WMMd IH'] = pd.to_numeric(df_holliday[\
+    df_holiday['Strength WMMd IH'] = pd.to_numeric(df_holiday[\
                                         'Strength WMMd IH'], errors='coerce')
-    df_holliday['Strength MMd GF IH'] = pd.to_numeric(df_holliday[\
+    df_holiday['Strength MMd GF IH'] = pd.to_numeric(df_holiday[\
                                         'Strength MMd GF IH'], errors='coerce')
-    df_holliday['MM number'] = pd.to_numeric(df_holliday['MM number'],
+    df_holiday['MM number'] = pd.to_numeric(df_holiday['MM number'],
                                                                 errors='coerce')
 
     # Make a meshgrid for the plot
-    X = df_holliday['Strength WMMd IH'].unique()
-    Y = df_holliday['Strength MMd GF IH'].unique()
+    X = df_holiday['Strength WMMd IH'].unique()
+    Y = df_holiday['Strength MMd GF IH'].unique()
     X, Y = np.meshgrid(X, Y)
     Z = np.zeros((21, 21))
 
     # Fill the 2D array with the MM number values by looping over each row
-    for index, row in df_holliday.iterrows():
+    for index, row in df_holiday.iterrows():
         i = int(row.iloc[0]*50)
         j = int(row.iloc[1]*50)
         Z[j, i] = row.iloc[2]
@@ -1496,8 +1963,8 @@ def Figure_duration_A_h_MMd_IH(n_switches, t_steps_drug, t_steps_no_drug):
     th = t_steps_no_drug
 
     # Plot the data with drug holidays in the second plot
-    df_total_switch_1.plot(x='Generation', y=['nOC', 'nOB', 'nMMd', 'nMMr'], label=[\
-    'Number OC', 'Number OB', 'Number MMd', 'Number MMr'], ax=axs[0])
+    df_total_switch_1.plot(x='Generation', y=['nOC', 'nOB', 'nMMd', 'nMMr'],
+        label=['Number OC', 'Number OB', 'Number MMd', 'Number MMr'], ax=axs[0])
     axs[0].set_xlabel('Generations')
     axs[0].set_ylabel('Number of MM')
     axs[0].set_title(f"""Dynamics when the IH administrations lasted {ta[0]} {g}
@@ -1506,8 +1973,8 @@ def Figure_duration_A_h_MMd_IH(n_switches, t_steps_drug, t_steps_no_drug):
     axs[0].grid(True)
 
     # Plot the data with drug holidays in the third plot
-    df_total_switch_2.plot(x='Generation', y=['nOC', 'nOB', 'nMMd', 'nMMr'], label=[\
-    'Number OC', 'Number OB', 'Number MMd','Number MMr'], ax=axs[1])
+    df_total_switch_2.plot(x='Generation', y=['nOC', 'nOB', 'nMMd', 'nMMr'],
+        label=['Number OC', 'Number OB', 'Number MMd','Number MMr'], ax=axs[1])
     axs[1].set_xlabel('Generations')
     axs[1].set_ylabel('Number of MM')
     axs[1].set_title(f"""Dynamics when the IH administrations lasted {ta[1]} {g}

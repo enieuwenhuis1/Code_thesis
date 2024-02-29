@@ -251,8 +251,7 @@ def fitness_WMMd(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix,
     # Calculate the fitness value
     # WMMd = (xOC*cOC**i + xOB*cOB**j + xMMd*cMMd**k + xMMr *cMMr**l - WMMd_inhibitor \
     #                                                     * cMMd) - cMMd * xMMd
-    WMMd = (xOC*i + xOB*j + xMMd*k + xMMr*l - WMMd_inhibitor \
-                                                        * cMMd) - cMMd * xMMd
+    WMMd = (xOC*i + xOB*j + xMMd*k + xMMr*l - WMMd_inhibitor) - cMMd * xMMd
     return WMMd
 
 def fitness_WMMr(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix):
@@ -354,8 +353,6 @@ def model_dynamics(y, t, N, cOC, cOB, cMMd, cMMr, matrix, WMMd_inhibitor = 0):
                                                                 WMMd_inhibitor)
     WMMr = fitness_WMMr(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix)
 
-
-    print(WOC, WOB, WMMd, WMMr)
     # Determine the average fitness
     W_average = xOC * WOC + xOB * WOB + xMMd * WMMd + xMMr * WMMr
 

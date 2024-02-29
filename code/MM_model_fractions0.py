@@ -142,7 +142,7 @@ def fitness_WOC(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix):
     d = matrix[0, 3]
 
     # Calculate the fitness value
-    WOC = (cOC*xOC**a * cOB*xOB**b * cMMd*xMMd**c * cMMr *xMMr**d) - cOC* xOC
+    WOC = (a*xOC*cOC + b*xOB*cOB + c*xMMd*cMMd + d* xMMr *cMMr)*(N - 1)/N - cOC
     return WOC
 
 def fitness_WOB(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix):
@@ -193,7 +193,7 @@ def fitness_WOB(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix):
     h = matrix[1, 3]
 
     # Calculate the fitness value
-    WOB = (cOC*xOC**e * cOB*xOB**f * cMMd*xMMd**g * cMMr *xMMr**h)- cOB* xOB
+    WOB = (e*xOC*cOC + f*xOB*cOB + g*xMMd*cMMd + h* xMMr*cMMr)*(N - 1)/N - cOB
     return WOB
 
 def fitness_WMMd(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix,
@@ -247,8 +247,8 @@ def fitness_WMMd(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix,
     l = matrix[2, 3]
 
     # Calculate the fitness value
-    WMMd = (cOC*xOC**i * cOB*xOB**j * cMMd*xMMd**k * cMMr *xMMr**l - WMMd_inhibitor \
-                                                            ) - cMMd* xMMd
+    WMMd = (i*xOC*cOC + j*xOB*cOB + k*xMMd*cMMd + l* xMMr*cMMr - WMMd_inhibitor \
+                                                            )*(N - 1)/N - cMMd
     return WMMd
 
 def fitness_WMMr(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix):
@@ -299,7 +299,7 @@ def fitness_WMMr(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix):
     p = matrix[3, 3]
 
     # Calculate the fitness value
-    WMMr = (cOC*xOC**m * cOB*xOB**n * cMMd*xMMd**o * cMMr *xMMr**p)- cMMr * xMMr
+    WMMr = (m*xOC*cOC + n*xOB*cOB + o*xMMd*cMMd + p* xMMr*cMMr)*(N - 1)/N - cMMr
     return WMMr
 
 def model_dynamics(y, t, N, cOC, cOB, cMMd, cMMr, matrix, WMMd_inhibitor = 0):
@@ -1375,21 +1375,21 @@ def Figure_continuous_MTD_vs_AT_long_a_h(n_switches, t_steps_drug):
     matrix_GF_IH = np.array([
         [0.0, 1.6, 2.2, 1.9],
         [1.0, 0.0, -0.5, -0.5],
-        [0.49, 0, 0.2, 0.0],
+        [0.85, 0, 0.2, 0.0],
         [1.9, 0, -0.8, 0.2]])
 
     # Payoff matrix when both inhibitor drugs are present
     matrix_GF_IH_comb = np.array([
         [0.0, 1.6, 2.2, 1.9],
         [1.0, 0.0, -0.5, -0.5],
-        [1.23, 0, 0.2, 0.0],
+        [1.3, 0, 0.2, 0.0],
         [1.9, 0, -1.1, 0.2]])
 
     # WMMd inhibitor effect when both inhibitor drugs are present
     WMMd_inhibitor_comb = 0.6
 
     # WMMd inhibitor effect when only WMMd IH is present
-    WMMd_inhibitor = 1.4
+    WMMd_inhibitor = 1.1
 
     # Make dataframe for the different drug hollyday duration values
     df_total_switch_GF = switch_dataframe(n_switches, t_steps_drug[0],

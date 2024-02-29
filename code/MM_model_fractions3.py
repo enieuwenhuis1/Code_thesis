@@ -142,7 +142,7 @@ def fitness_WOC(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix):
     d = matrix[0, 3]
 
     # Calculate the fitness value
-    WOC = (xOC*cOC**a + xOB*cOB**b + xMMd*cMMd**c + xMMr *cMMr**d)- cOC * xOC
+    WOC = (cOC*xOC**a +cOB*xOB**b + cMMd*xMMd**c + cMMr*xMMr**d)- cOC * xOC
     # WOC = (xOC*a + xOB*b + xMMd*c + xMMr*d)- cOC * xOC
     return WOC
 
@@ -194,7 +194,7 @@ def fitness_WOB(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix):
     h = matrix[1, 3]
 
     # Calculate the fitness value
-    WOB = (xOC*cOC**e + xOB*cOB**f + xMMd*cMMd**g + xMMr *cMMr**h)- cOB * xOB
+    WOB = (cOC*xOC**e + cOB*xOB**f + cMMd*xMMd**g + cMMr*xMMr**h)- cOB * xOB
     # WOB = (xOC*e + xOB*f + xMMd*g + xMMr*h)- cOB * xOB
     return WOB
 
@@ -249,8 +249,8 @@ def fitness_WMMd(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix,
     l = matrix[2, 3]
 
     # Calculate the fitness value
-    WMMd = (xOC*cOC**i + xOB*cOB**j + xMMd*cMMd**k + xMMr *cMMr**l - WMMd_inhibitor \
-                                                        * cMMd) - cMMd * xMMd
+    WMMd = (cOC*xOC**i + cOB*xOB**j + cMMd*xMMd**k + cMMr *xMMr**l - WMMd_inhibitor \
+                                                        * xMMd) - cMMd * xMMd
     # WMMd = (xOC*i + xOB*j + xMMd*k + xMMr*l - WMMd_inhibitor * cMMd) - cMMd * xMMd
     return WMMd
 

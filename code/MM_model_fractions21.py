@@ -40,13 +40,13 @@ def main():
 
     # Make a figure showing the cell fraction dynamics by traditional therapy and
     # by adaptive therapy (administationand holiday periods = 10)
-    list_t_steps_drug = [10, 10, 10]
-    Figure_continuous_MTD_vs_AT_long_a_h(12, list_t_steps_drug)
-
-    # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # by adaptive therapy (administationand holiday periods = 6)
-    list_t_steps_drug = [6, 6, 6]
-    Figure_continuous_MTD_vs_AT_short_a_h(20, list_t_steps_drug)
+    # list_t_steps_drug = [10, 10, 10]
+    # Figure_continuous_MTD_vs_AT_long_a_h(12, list_t_steps_drug)
+    #
+    # # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # # by adaptive therapy (administationand holiday periods = 6)
+    # list_t_steps_drug = [6, 6, 6]
+    # Figure_continuous_MTD_vs_AT_short_a_h(15, list_t_steps_drug)
 
     # Make a 3D figure showthing the effect of different drug holiday and
     # administration periods
@@ -142,7 +142,8 @@ def fitness_WOC(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix):
     d = matrix[0, 3]
 
     # Calculate the fitness value
-    WOC = (cOC*xOC**a * cOB*xOB**b * cMMd*xMMd**c * cMMr *xMMr**d) - cOC* xOC
+    # WOC = (xOC*cOC**a + xOB*cOB**b + xMMd*cMMd**c + xMMr *cMMr**d)- cOC * xOC
+    WOC = (xOC*a*cOC + xOB*b*cOB + xMMd*c*cMMd + xMMr*d*cMMr)- cOC * xOC
     return WOC
 
 def fitness_WOB(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix):
@@ -193,7 +194,8 @@ def fitness_WOB(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix):
     h = matrix[1, 3]
 
     # Calculate the fitness value
-    WOB = (cOC*xOC**e * cOB*xOB**f * cMMd*xMMd**g * cMMr *xMMr**h)- cOB* xOB
+    # WOB = (xOC*cOC**e + xOB*cOB**f + xMMd*cMMd**g + xMMr *cMMr**h)- cOB * xOB
+    WOB = (xOC*e*cOC + xOB*f*cOB + xMMd*g*cMMd + xMMr*h*cMMr)- cOB * xOB
     return WOB
 
 def fitness_WMMd(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix,
@@ -247,8 +249,9 @@ def fitness_WMMd(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix,
     l = matrix[2, 3]
 
     # Calculate the fitness value
-    WMMd = (cOC*xOC**i * cOB*xOB**j * cMMd*xMMd**k * cMMr *xMMr**l - WMMd_inhibitor \
-                                                            ) - cMMd* xMMd
+    # WMMd = (xOC*cOC**i + xOB*cOB**j + xMMd*cMMd**k + xMMr *cMMr**l - WMMd_inhibitor \
+    #                                                     * cMMd) - cMMd * xMMd
+    WMMd = (xOC*i*cOC + xOB*j*cOB + xMMd*k*cMMd + xMMr*l*cMMr - WMMd_inhibitor) - cMMd * xMMd
     return WMMd
 
 def fitness_WMMr(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix):
@@ -299,7 +302,8 @@ def fitness_WMMr(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix):
     p = matrix[3, 3]
 
     # Calculate the fitness value
-    WMMr = (cOC*xOC**m * cOB*xOB**n * cMMd*xMMd**o * cMMr *xMMr**p)- cMMr * xMMr
+    # WMMr = (xOC*cOC**m + xOB*cOB**n + xMMd*cMMd**o + xMMr *cMMr**p)- cMMr * xMMr
+    WMMr = (xOC*m*cOC + xOB*n*cOB + xMMd*o*cMMd + xMMr*p*cMMr)- cMMr * xMMr
     return WMMr
 
 def model_dynamics(y, t, N, cOC, cOB, cMMd, cMMr, matrix, WMMd_inhibitor = 0):
@@ -542,7 +546,7 @@ def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd,
     x = 0
     time = 0
     df_total_switch = pd.DataFrame()
-    t_steps = 15
+    t_steps = 40
     t = np.linspace(0, t_steps, t_steps*2)
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix_no_GF_IH)
@@ -1136,6 +1140,33 @@ def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
 
     # Payoff matrix when no drugs are present
     matrix_no_GF_IH = np.array([
+        [0.0, 0.4, 0.6, 0.5],
+        [0.3, 0.0, -0.3, -0.3],
+        [0.58, 0.0, 0.2, 0.0],
+        [0.55, 0.0, -0.6, 0.4]])
+
+    # Payoff matrix when only GF inhibitor drugs are present
+    matrix_GF_IH = np.array([
+        [0.0, 0.4, 0.6, 0.5],
+        [0.3, 0.0, -0.3, -0.3],
+        [0.175, 0.0, 0.2, 0.0],
+        [0.55, 0.0, -0.6, 0.4]])
+
+    # Payoff matrix when both inhibitor drugs are present
+    matrix_GF_IH_comb = np.array([
+        [0.0, 0.4, 0.6, 0.5],
+        [0.3, 0.0, -0.3, -0.3],
+        [0.3, 0.0, 0.2, 0.0],
+        [0.55, 0.0, -0.9, 0.4]])
+
+    # WMMd inhibitor effect when both inhibitor drugs are present
+    WMMd_inhibitor_comb = 0.24
+
+    # WMMd inhibitor effect when only WMMd IH is present
+    WMMd_inhibitor = 0.55
+
+    # Payoff matrix when no drugs are present
+    matrix_no_GF_IH = np.array([
         [0.0, 1.6, 2.2, 1.9],
         [1.0, 0.0, -0.5, -0.5],
         [2.2, 0, 0.2, 0.0],
@@ -1145,21 +1176,21 @@ def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
     matrix_GF_IH = np.array([
         [0.0, 1.6, 2.2, 1.9],
         [1.0, 0.0, -0.5, -0.5],
-        [0.49, 0, 0.2, 0.0],
+        [0.52, 0, 0.2, 0.0],
         [1.9, 0, -0.8, 0.2]])
 
     # Payoff matrix when both inhibitor drugs are present
     matrix_GF_IH_comb = np.array([
         [0.0, 1.6, 2.2, 1.9],
-        [1.0, 0.0, -0.5, -0.5],
+        [1.0, 0.0, -0.6, -0.6],
         [1.23, 0, 0.2, 0.0],
         [1.9, 0, -1.1, 0.2]])
 
     # WMMd inhibitor effect when both inhibitor drugs are present
-    WMMd_inhibitor_comb = 0.6
+    WMMd_inhibitor_comb = 0.5
 
     # WMMd inhibitor effect when only WMMd IH is present
-    WMMd_inhibitor = 1.4
+    WMMd_inhibitor = 1.14
 
     # Make dataframe for the different drug hollyday duration values
     df_total_switch_GF = switch_dataframe(n_switches, t_steps_drug[0],
@@ -1172,7 +1203,7 @@ def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
                 t_steps_drug[2], xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
                 matrix_no_GF_IH, matrix_GF_IH_comb, WMMd_inhibitor_comb)
 
-    t = np.linspace(0, 15, 15)
+    t = np.linspace(0, 40, 40)
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix_no_GF_IH)
 
@@ -1187,7 +1218,7 @@ def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
     xMMd = df_1['xMMd'].iloc[-1]
     xMMr = df_1['xMMr'].iloc[-1]
 
-    t = np.linspace(15, 135, 120)
+    t = np.linspace(40, 80, 120)
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix_GF_IH)
 
@@ -1355,41 +1386,95 @@ def Figure_continuous_MTD_vs_AT_long_a_h(n_switches, t_steps_drug):
     """
     # Set initial parameter values
     N = 100
-    cMMr = 1.3
-    cMMd = 1.2
-    cOB = 0.8
-    cOC = 1
-    xOC = 0.2
-    xOB = 0.3
-    xMMd = 0.2
-    xMMr = 0.3
+    cMMr = 0.95
+    cMMd = 0.85
+    cOB = 0.65
+    cOC = 0.75
+    xOC = 0.3
+    xOB = 0.4
+    xMMd = 0.25
+    xMMr = 0.05
 
     # Payoff matrix when no drugs are present
     matrix_no_GF_IH = np.array([
-        [0.0, 1.6, 2.2, 1.9],
-        [1.0, 0.0, -0.5, -0.5],
-        [2.2, 0, 0.2, 0.0],
-        [1.9, 0, -0.8, 0.2]])
+        [0.0, 0.4, 0.9, 0.7],
+        [0.3, 0.0, -0.4, -0.4],
+        [0.9, 0.0, 0.2, 0.0],
+        [0.7, 0.0, -0.6, 0.3]])
 
     # Payoff matrix when only GF inhibitor drugs are present
     matrix_GF_IH = np.array([
-        [0.0, 1.6, 2.2, 1.9],
-        [1.0, 0.0, -0.5, -0.5],
-        [0.49, 0, 0.2, 0.0],
-        [1.9, 0, -0.8, 0.2]])
+        [0.0, 0.4, 0.9, 0.7],
+        [0.3, 0.0, -0.4, -0.4],
+        [0.1, 0.0, 0.2, 0.0],
+        [0.7, 0.0, -0.6, 0.3]])
 
     # Payoff matrix when both inhibitor drugs are present
     matrix_GF_IH_comb = np.array([
-        [0.0, 1.6, 2.2, 1.9],
-        [1.0, 0.0, -0.5, -0.5],
-        [1.23, 0, 0.2, 0.0],
-        [1.9, 0, -1.1, 0.2]])
+        [0.0, 0.4, 0.6, 0.5],
+        [0.3, 0.0, -0.4, -0.4],
+        [0.25, 0.0, 0.2, 0.0],
+        [0.7, 0.0, -0.8, 0.3]])
 
     # WMMd inhibitor effect when both inhibitor drugs are present
-    WMMd_inhibitor_comb = 0.6
+    WMMd_inhibitor_comb = 0.1
 
     # WMMd inhibitor effect when only WMMd IH is present
-    WMMd_inhibitor = 1.4
+    WMMd_inhibitor = 0.5
+
+    # # Payoff matrix when no drugs are present
+    # matrix_no_GF_IH = np.array([
+    #     [0.0, 1.6, 2.2, 1.9],
+    #     [1.0, 0.0, -0.5, -0.5],
+    #     [2.2, 0, 0.2, 0.0],
+    #     [1.9, 0, -0.8, 0.2]])
+    #
+    # # Payoff matrix when only GF inhibitor drugs are present
+    # matrix_GF_IH = np.array([
+    #     [0.0, 1.6, 2.2, 1.9],
+    #     [1.0, 0.0, -0.5, -0.5],
+    #     [0.52, 0, 0.2, 0.0],
+    #     [1.9, 0, -0.8, 0.2]])
+    #
+    # # Payoff matrix when both inhibitor drugs are present
+    # matrix_GF_IH_comb = np.array([
+    #     [0.0, 1.6, 2.2, 1.9],
+    #     [1.0, 0.0, -0.6, -0.6],
+    #     [1.23, 0, 0.2, 0.0],
+    #     [1.9, 0, -1.1, 0.2]])
+    #
+    # # WMMd inhibitor effect when both inhibitor drugs are present
+    # WMMd_inhibitor_comb = 0.5
+    #
+    # # WMMd inhibitor effect when only WMMd IH is present
+    # WMMd_inhibitor = 1.14
+
+    # # Payoff matrix when no drugs are present
+    # matrix_no_GF_IH = np.array([
+    #     [0.0, 0.7, 1.0, 0.9],
+    #     [0.5, 0.0, -0.3, -0.3],
+    #     [1.0, 0, 0.2, 0.0],
+    #     [0.8, 0, -0.6, 0.3]])
+    #
+    # # Payoff matrix when only GF inhibitor drugs are present
+    # matrix_GF_IH = np.array([
+    #     [0.0, 0.7, 1.0, 0.9],
+    #     [0.5, 0.0, -0.3, -0.3],
+    #     [0.1, 0, 0.2, 0.0],
+    #     [0.8, 0, -0.6, 0.3]])
+    #
+    # # Payoff matrix when both inhibitor drugs are present
+    # matrix_GF_IH_comb = np.array([
+    #     [0.0, 0.7, 1.0, 0.9],
+    #     [0.5, 0.0, -0.3, -0.3],
+    #     [0.65, 0, 0.2, 0.0],
+    #     [0.8, 0, -0.8, 0.3]])
+    #
+    # # WMMd inhibitor effect when both inhibitor drugs are present
+    # WMMd_inhibitor_comb = 0.35
+    #
+    # # WMMd inhibitor effect when only WMMd IH is present
+    # WMMd_inhibitor = 0.6
 
     # Make dataframe for the different drug hollyday duration values
     df_total_switch_GF = switch_dataframe(n_switches, t_steps_drug[0],
@@ -1402,7 +1487,7 @@ def Figure_continuous_MTD_vs_AT_long_a_h(n_switches, t_steps_drug):
                 t_steps_drug[2], xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
                 matrix_no_GF_IH, matrix_GF_IH_comb, WMMd_inhibitor_comb)
 
-    t = np.linspace(0, 15, 15)
+    t = np.linspace(0,40, 40)
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix_no_GF_IH)
 
@@ -1417,7 +1502,7 @@ def Figure_continuous_MTD_vs_AT_long_a_h(n_switches, t_steps_drug):
     xMMd = df_1['xMMd'].iloc[-1]
     xMMr = df_1['xMMr'].iloc[-1]
 
-    t = np.linspace(15, 135, 120)
+    t = np.linspace(40, 150, 150)
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix_GF_IH)
 
@@ -1430,11 +1515,11 @@ def Figure_continuous_MTD_vs_AT_long_a_h(n_switches, t_steps_drug):
     df_total_GF = pd.concat([df_1, df_2])
 
     # Set initial parameter values
-    xOC = 0.2
-    xOB = 0.3
-    xMMd = 0.2
-    xMMr = 0.3
-    t = np.linspace(0, 15, 15)
+    xOC = 0.3
+    xOB = 0.4
+    xMMd = 0.25
+    xMMr = 0.05
+    t = np.linspace(0, 40, 40)
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix_no_GF_IH)
 
@@ -1449,7 +1534,7 @@ def Figure_continuous_MTD_vs_AT_long_a_h(n_switches, t_steps_drug):
     xMMd = df_1['xMMd'].iloc[-1]
     xMMr = df_1['xMMr'].iloc[-1]
 
-    t = np.linspace(15, 135, 120)
+    t = np.linspace(40, 150, 150)
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix_no_GF_IH, WMMd_inhibitor)
 
@@ -1462,11 +1547,11 @@ def Figure_continuous_MTD_vs_AT_long_a_h(n_switches, t_steps_drug):
     df_total_wMMd = pd.concat([df_1, df_2])
 
     # Set initial parameter values
-    xOC = 0.2
-    xOB = 0.3
-    xMMd = 0.2
-    xMMr = 0.3
-    t = np.linspace(0, 15, 15)
+    xOC = 0.3
+    xOB = 0.4
+    xMMd = 0.25
+    xMMr = 0.05
+    t = np.linspace(0, 40, 40)
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix_no_GF_IH)
 
@@ -1481,7 +1566,7 @@ def Figure_continuous_MTD_vs_AT_long_a_h(n_switches, t_steps_drug):
     xMMd = df_1['xMMd'].iloc[-1]
     xMMr = df_1['xMMr'].iloc[-1]
 
-    t = np.linspace(15, 135, 120)
+    t = np.linspace(40, 150, 150)
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix_GF_IH_comb, WMMd_inhibitor_comb)
 
@@ -1512,7 +1597,7 @@ def Figure_continuous_MTD_vs_AT_long_a_h(n_switches, t_steps_drug):
     fig, axs = plt.subplots(2, 3, figsize=(20, 9))
 
     # Plot the data without drug holidays in the first plot
-    df_total_GF.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+    df_total_GF.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr', 'total xMM'],
                                                     legend=False, ax=axs[0, 0])
     axs[0, 0].set_xlabel(' ')
     axs[0, 0].set_ylabel('Fraction', fontsize=11)
@@ -1520,7 +1605,7 @@ def Figure_continuous_MTD_vs_AT_long_a_h(n_switches, t_steps_drug):
     axs[0, 0].grid(True)
 
     # Plot the data with drug holidays in the second plot
-    df_total_wMMd.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+    df_total_wMMd.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr', 'total xMM'],
                                                     legend=False, ax=axs[0, 1])
     axs[0, 1].set_xlabel(' ')
     axs[0, 1].set_ylabel(' ')
@@ -1528,7 +1613,7 @@ def Figure_continuous_MTD_vs_AT_long_a_h(n_switches, t_steps_drug):
     axs[0, 1].grid(True)
 
     # Plot the data with drug holidays in the second plot
-    df_total_comb.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+    df_total_comb.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr', 'total xMM'],
                                                     legend=False, ax=axs[0, 2])
     axs[0, 2].set_xlabel(' ')
     axs[0, 2].set_ylabel(' ')
@@ -1536,7 +1621,7 @@ def Figure_continuous_MTD_vs_AT_long_a_h(n_switches, t_steps_drug):
     axs[0, 2].grid(True)
 
     # Plot the data with drug holidays in the third plot
-    df_total_switch_GF.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+    df_total_switch_GF.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr', 'total xMM'],
                                                     legend=False, ax=axs[1, 0])
     axs[1, 0].set_xlabel('Generations', fontsize=11)
     axs[1, 0].set_ylabel('Fraction', fontsize=11)
@@ -1545,7 +1630,7 @@ def Figure_continuous_MTD_vs_AT_long_a_h(n_switches, t_steps_drug):
     plt.grid(True)
 
     # Plot the data with drug holidays in the fourth plot
-    df_total_switch_WMMD.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+    df_total_switch_WMMD.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr', 'total xMM'],
                                                     legend=False, ax=axs[1, 1])
     axs[1, 1].set_xlabel('Generations', fontsize=11)
     axs[1, 1].set_ylabel(' ')
@@ -1553,7 +1638,7 @@ def Figure_continuous_MTD_vs_AT_long_a_h(n_switches, t_steps_drug):
     axs[1, 1].grid(True)
 
     # Plot the data with drug holidays in the fourth plot
-    df_total_switch_comb.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+    df_total_switch_comb.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr', 'total xMM'],
                                                     legend=False, ax=axs[1, 2])
     axs[1, 2].set_xlabel('Generations', fontsize=11)
     axs[1, 2].set_ylabel(' ')
@@ -1604,14 +1689,17 @@ def Figure_3D_MM_frac_IH_add_and_holiday_():
     matrix_GF_IH_comb = np.array([
         [0.0, 1.6, 2.2, 1.9],
         [1.0, 0.0, -0.5, -0.5],
-        [1.2, 0, 0.2, 0.0],
+        [1.4, 0, 0.2, 0.0],
         [1.9, 0, -1.1, 0.2]])
 
     # WMMd inhibitor effect when both inhibitor drugs are present
-    WMMd_inhibitor_comb = 0.7
+    WMMd_inhibitor_comb = 0.5
 
     # WMMd inhibitor effect when only WMMd IH is present
-    WMMd_inhibitor = 1.1
+    WMMd_inhibitor = 0.8
+
+
+
 
     # Make a dataframe
     column_names = ['Generations no drug', 'Generations drug', 'MM fraction']
@@ -2116,9 +2204,9 @@ def Figure_3_senarios_WMMd_IH(n_switches, t_steps_drug):
         [0.0, 1.6, 2.2, 1.8],
         [1.0, 0.0, -0.5, -0.5],
         [2.4, 0, 0.2, 0.0],
-        [1.8, 0, -0.75, 0.2]])
+        [1.8, 0, -0.754, 0.2]])
 
-    WMMd_inhibitor = 1.595
+    WMMd_inhibitor = 1.33
 
     # Make dataframe for the different drug hollyday duration values
     df_total_switch_1 = pronto_switch_dataframe(n_switches, t_steps_drug[0],
@@ -2249,7 +2337,7 @@ def Figure_3_senarios_MMd_GF_WMMd_IH(n_switches, t_steps_drug):
         [1.4, 0, 0.2, 0.0],
         [1.9, 0, -1.0, 0.2]])
 
-    WMMd_inhibitor_half = 0.617
+    WMMd_inhibitor_half = 0.514
 
     # Make dataframe for the different drug hollyday duration values
     df_total_switch_1 = pronto_switch_dataframe(n_switches, t_steps_drug[0],
@@ -2330,7 +2418,7 @@ def Figure_3_senarios_MMd_GF_WMMd_IH(n_switches, t_steps_drug):
     axs[1, 0].set_xlabel('Generations')
     axs[1, 0].set_ylabel('MM fraction')
     axs[1, 0].set_title(f"""Dynamics when MMd GF and WMMd inhibitors are
-    administered every {t_steps_drug[1]} generations""")
+    administered every {t_steps_drug[0]} generations""")
     axs[1, 0].legend(loc = 'upper right')
     axs[1, 0].grid(True)
     plt.grid(True)
@@ -2341,7 +2429,7 @@ def Figure_3_senarios_MMd_GF_WMMd_IH(n_switches, t_steps_drug):
     axs[1, 1].set_xlabel('Generations')
     axs[1, 1].set_ylabel('MM fraction')
     axs[1, 1].set_title(f"""Dynamics when MMd GF and WMMd inhibitors are
-    administered every {t_steps_drug[2]} generations""")
+    administered every {t_steps_drug[0]} generations""")
     axs[1, 1].legend(loc = 'upper right')
     axs[1, 1].grid(True)
     save_Figure(plt, 'line_plot_cell_frac_MMd_GF_WMMd_inhibit',
@@ -2367,7 +2455,7 @@ def Figure_frac_fitness_dynamics():
     # Payoff matrix
     matrix_no_GF_IH = np.array([
         [0.0, 1.6, 2.2, 1.9],
-        [1.0, 0.0, -0.5, -0.5],
+        [0.9, 0.0, -0.5, -0.5],
         [2.2, 0.0, 0.2, 0.0],
         [1.9, 0.0, -0.77, 0.2]])
 
@@ -2433,7 +2521,7 @@ def Figure_frac_fitness_dynamics():
 
     # Initial conditions
     t = np.linspace(25, 100, 75)
-    WMMd_inhibitor =  1.7
+    WMMd_inhibitor =  1.4
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix_no_GF_IH, WMMd_inhibitor)
 
@@ -2561,7 +2649,7 @@ def Figure_duration_A_h_MMd_IH(n_switches, t_steps_drug, t_steps_no_drug):
         [1.9, 0, -1.0, 0.2]])
 
     # WMMd inhibitor effect when both inhibitor drugs are present
-    WMMd_inhibitor_half = 0.62
+    WMMd_inhibitor_half = 0.52
 
     # Make dataframe for the different drug hollyday duration values
     df_total_switch_1 = switch_dataframe(n_switches[0], t_steps_drug[0],
