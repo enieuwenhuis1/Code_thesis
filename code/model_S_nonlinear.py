@@ -9,17 +9,17 @@ Description:  Code that attempts to replicate the formulas and Figures from the
               environment with three cell types: MM cells, osteoblasts (OBs) and
               osteoclasts (OCs).
 
-              The found results do not align with those presented in the paper. This
-              difference may be because of potential misinterpretations or errors in
-              the formulas utilized. However, as the paper has not disclosed its code,
-              direct comparisons cannot be made to determine the exact differences.
-              Because the results are different I wrote my interpretation of some
-              formulas in this code.
+              The found results do not align with those presented in the paper.
+              This difference may be because of potential misinterpretations or
+              errors in the formulas utilized. However, as the paper has not
+              disclosed its code, direct comparisons cannot be made to determine
+              the exact differences. Because the results are different I wrote my
+              interpretation of some formulas in this code.
 
 
-Sartakhti, J. S., Manshaei, M. H., & Archetti, M. (2018). Game Theory of tumour–Stroma
-Interactions in Multiple Myeloma: Effect of nonlinear benefits. Games, 9(2), 32.
-https://doi.org/10.3390/g9020032
+Sartakhti, J. S., Manshaei, M. H., & Archetti, M. (2018). Game Theory of tumour–
+Stroma Interactions in Multiple Myeloma: Effect of nonlinear benefits. Games, 9(2),
+32. https://doi.org/10.3390/g9020032
 """
 
 # Import the needed libraries
@@ -106,9 +106,10 @@ def probability_number_cells(nOC, nOB, N, xOC, xOB, xMM):
     >>> probability_number_cells(2, 3, 10, 0.3, 0.4, 0.3)
     0.05878656000000001
     """
-    # Number of ways to choose nOC OC cells and nOB OB cells from a total of N−1 cells
-    combination_part = math.factorial(N - 1)/ (math.factorial(nOC) * math.factorial(nOB) \
-                                                    * math.factorial(N - 1 - nOC - nOB))
+    # Number of ways to choose nOC OC cells and nOB OB cells from a total of N−1
+    # cells
+    combination_part = math.factorial(N - 1)/ (math.factorial(nOC) * \
+                        math.factorial(nOB)* math.factorial(N - 1 - nOC - nOB))
 
     # Probability of having nOC osteoclasts, nOB osteoblast and N - nOB - nOC - 1
     # multiple myeloma cells
@@ -378,9 +379,9 @@ def calculate_replicator_dynamics(xOC, xOB, xMM, WOC, WOB, WMM):
     return xOC_change, xOB_change, xMM_change, W_average
 
 """
-The benefit function gives the benefit of the diffusible factors of cell type i on cell
-type j. The more cells of type i (higher n) the higher the benefit becaues more
-diffusible factors (10).
+The benefit function gives the benefit of the diffusible factors of cell type i
+on cell type j. The more cells of type i (higher n) the higher the benefit because
+more diffusible factors (10).
 """
 
 def sigmoid(n_i, h, B_max, s, N):
@@ -444,8 +445,8 @@ def benefit_function(n_i, h, B_max, s, N):
     if B_max == 0:
         benefit_value = 1
     else:
-        benefit_value = (sigmoid(n_i, h, B_max, s, N) - sigmoid(0, h, B_max, s, N)) / \
-                            (sigmoid(N, h, B_max, s, N) - sigmoid(0, h, B_max, s, N))
+        benefit_value = (sigmoid(n_i, h, B_max, s, N) - sigmoid(0, h, B_max, s, N))\
+                        /(sigmoid(N, h, B_max, s, N) - sigmoid(0, h, B_max, s, N))
 
 
     # If the benefit value is nan set it to zero
@@ -523,8 +524,8 @@ def save_ternary(Figure, file_name, folder_path):
                                                                     format='png')
 
 def dynamics_same_h_and_s(y, t, parameters):
-    """Determines the fracuenty dynamics in a population over time. The h value and
-    s value are for all interactions the same.
+    """Determines the fracuenty dynamics in a population over time. The h value
+    and s value are for all interactions the same.
 
     Parameters:
     -----------
@@ -543,8 +544,8 @@ def dynamics_same_h_and_s(y, t, parameters):
         List with the calculated change in fractions of xOC, xOB and MM cells
     """
     xOC, xOB, xMM = y
-    N, h, s, BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM,\
-                                        cOC_value, cOB_value, cMM_value = parameters
+    N, h, s, BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, \
+                            BMM_MM, cOC_value, cOB_value, cMM_value = parameters
 
     # Determine the absolute cell type numbers
     nOC = xOC * N
@@ -577,8 +578,8 @@ def dynamics_same_h_and_s(y, t, parameters):
 
 def dynamics_different_h_and_s(y, t, parameters):
     """
-    Simulate the dynamics of a population with three strategies over time. The s and
-    h value is deppendent on the interaction kind.
+    Simulate the dynamics of a population with three strategies over time. The s
+    and h value is deppendent on the interaction kind.
 
     Parameters:
     -----------
@@ -625,8 +626,8 @@ def dynamics_different_h_and_s(y, t, parameters):
 
     # Determine fitness values for each strategy
     fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM,
-                                bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
-                                 bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
+                            bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
+                             bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
 
     # Determine changes in strategy fractions
     xOC_change, xOB_change, xMM_change, _ = calculate_replicator_dynamics(
@@ -719,9 +720,9 @@ def Figure_1():
         bMM_MM = benefit_function(nMM, h, BMM_MM, s, N)
 
         # Determine the fitness values
-        fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM, bOC_OC,
-                                    bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB, bMM_OB,
-                                        cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
+        fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM,
+                            bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
+                            bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
 
         # Calculate the average fitness
         W_average = xOC * fitness_OC + xOB * fitness_OB + xMM * fitness_MM
@@ -1116,10 +1117,10 @@ def Figure_4():
 
     # Set initial condition and parameters
     y0 = [xOC, xOB, xMM]
-    parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC, hMM_OB,\
-    hMM_MM, sOC_OC, sOC_OB, sOC_MM, sOB_OC, sOB_OB, sOB_MM, sMM_OC, sMM_OB, sMM_MM, \
-    BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM, cOC_value,\
-    cOB_value, cMM_value)
+    parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC,
+    hMM_OB, hMM_MM, sOC_OC, sOC_OB, sOC_MM, sOB_OC, sOB_OB, sOB_MM, sMM_OC,
+    sMM_OB, sMM_MM, BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM,
+    BOB_MM, BMM_MM, cOC_value, cOB_value, cMM_value)
     t = np.linspace(0, 500, 500)
 
     # Solve ODE
@@ -1266,8 +1267,8 @@ def Figure_5():
     # Set initial condition and parameters
     y0 = [xOC, xOB, xMM]
     parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC, hMM_OB,
-    hMM_MM, sOC_OC, sOC_OB, sOC_MM, sOB_OC, sOB_OB, sOB_MM, sMM_OC, sMM_OB, sMM_MM, \
-    BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM, \
+    hMM_MM, sOC_OC, sOC_OB, sOC_MM, sOB_OC, sOB_OB, sOB_MM, sMM_OC, sMM_OB, sMM_MM,
+    BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM,
     cOC_value, cOB_value, cMM_value)
     t = np.linspace(0, 100)
 
@@ -1277,7 +1278,7 @@ def Figure_5():
     # Extract the solution and create dataframe
     xOC_values, xOB_values, xMM_values = y[:, 0], y[:, 1], y[:, 2]
     df_Figure_5_nonlinear = pd.DataFrame({'Generation': t, 'xOC': xOC_values,
-                                            'xOB': xOB_values, 'xMM': xMM_values})
+                                        'xOB': xOB_values, 'xMM': xMM_values})
 
     # Initial fractions and values --> are needed to make a plot but are not mentioned
     xOC = 0.2
@@ -1441,9 +1442,9 @@ def Figure_6():
     # Set initial condition and parameters
     y0 = [xOC, xOB, xMM]
     parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC, hMM_OB,
-    hMM_MM, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear,
-    s_linear, BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM, \
-    cOC_value, cOB_value, cMM_value)
+    hMM_MM, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear,
+    s_linear, s_linear, BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM,
+    BOB_MM, BMM_MM, cOC_value, cOB_value, cMM_value)
     t = np.linspace(0, 200)
 
     # Solve ODE
@@ -1610,8 +1611,8 @@ def Figure_7():
 
         # Determine fitness values for each strategy
         fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM,
-                                    bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
-                                     bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
+                            bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
+                         bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
 
 
         # Calculate the average fitness
@@ -1643,9 +1644,9 @@ def Figure_7():
     # Set initial condition and parameters
     y0 = [xOC, xOB, xMM]
     parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC, hMM_OB,
-    hMM_MM, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear,
-    s_linear, BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM, \
-    cOC_value, cOB_value, cMM_value)
+    hMM_MM, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear,
+    s_linear, s_linear, BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM,
+    BOB_MM, BMM_MM, cOC_value, cOB_value, cMM_value)
     t = np.linspace(0, 400, 400)
 
     # Solve ODE
@@ -1780,8 +1781,8 @@ def Figure_8():
     # Set initial condition and parameters
     y0 = [xOC, xOB, xMM]
     parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC, hMM_OB,
-    hMM_MM, sOC_OC, sOC_OB, sOC_MM, sOB_OC, sOB_OB, sOB_MM, sMM_OC, sMM_OB, sMM_MM, \
-    BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM, \
+    hMM_MM, sOC_OC, sOC_OB, sOC_MM, sOB_OC, sOB_OB, sOB_MM, sMM_OC, sMM_OB, sMM_MM,
+    BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM,
     cOC_value, cOB_value, cMM_value)
     t = np.linspace(0, 200, 200)
 
@@ -1827,8 +1828,8 @@ def Figure_8():
 
         # Determine fitness values for each strategy
         fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM,
-                                bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
-                                bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
+                            bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
+                            bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
 
 
         # Calculate the average fitness
@@ -1859,9 +1860,9 @@ def Figure_8():
     # Set initial condition and parameters
     y0 = [xOC, xOB, xMM]
     parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC, hMM_OB,
-    hMM_MM, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear,
-    s_linear, BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM, \
-    cOC_value, cOB_value, cMM_value)
+    hMM_MM, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear,
+    s_linear, s_linear, BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM,
+    BOB_MM, BMM_MM, cOC_value, cOB_value, cMM_value)
     t = np.linspace(0, 200, 200)
 
     # Solve ODE

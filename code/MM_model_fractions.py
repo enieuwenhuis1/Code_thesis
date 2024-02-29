@@ -778,7 +778,7 @@ def mimimal_tumour_frac_t_steps(t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd,
         Cost parameter MMd.
     matrix_no_GF_IH: Numpy.ndarray
         4x4 matrix containing the interaction factors when no GF IH are
-                                                                    administrated.
+                                                                administrated.
     matrix_GF_IH: Numpy.ndarray
         4x4 matrix containing the interaction factors when GF IH are administrated.
     WMMd_inhibitor: Float
@@ -1863,8 +1863,8 @@ def Figure_3D_MM_frac_IH_add_and_holiday_():
                             cOB, cMMd, cMMr, matrix_no_GF_IH, matrix_GF_IH)
 
             # Add results to the dataframe
-            new_row_df = pd.DataFrame([{'Generations no drug': int(t_steps_no_drug),
-                                            'Generations drug': int(t_steps_drug),
+            new_row_df = pd.DataFrame([{'Generations no drug': \
+                    int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
                                              'MM fraction': float(frac_tumour)}])
             df_holiday_GF_IH = pd.concat([df_holiday_GF_IH, new_row_df],
                                                             ignore_index=True)

@@ -682,9 +682,9 @@ def Figure_5():
 
     # Determine the fitness values
     df_fitness_first_line = frac_to_fitness_values(df_Figure_5_first_line, N, c1,
-                                                                    c2, c3, matrix)
-    df_fitness_second_line = frac_to_fitness_values(df_Figure_5_second_line, N, c1,
-                                                                    c2, c3, matrix)
+                                                                c2, c3, matrix)
+    df_fitness_second_line = frac_to_fitness_values(df_Figure_5_second_line, N,
+                                                            c1, c2, c3, matrix)
 
     # Create a Figure and axes for subplots
     fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(14,6))
@@ -1463,7 +1463,8 @@ def Figure_11():
 
 """Figure 12 A middle"""
 def Figure_12A_middle():
-    """Function that makes Figure 12A middle in the paper of Sartakhti et al., 2016."""
+    """Function that makes Figure 12A middle in the paper of Sartakhti et al.,
+     2016."""
     # Set start values
     N = 15
     c3 = 1.8
@@ -1486,8 +1487,8 @@ def Figure_12A_middle():
 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_Figure_12A_middle_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
-    'xOB': y[:, 1], 'xMM': y[:, 2]})
+    df_Figure_12A_middle_first_line = pd.DataFrame({'Generation': t,
+                                'xOC': y[:, 0], 'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start fracuenties
     xOC = 0.2
@@ -1501,8 +1502,8 @@ def Figure_12A_middle():
 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_Figure_12A_middle_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
-    'xOB': y[:, 1], 'xMM': y[:, 2]})
+    df_Figure_12A_middle_second_line = pd.DataFrame({'Generation': t,
+                                'xOC': y[:, 0], 'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Save the data as csv file
     save_data(df_Figure_12A_middle_first_line, 'df_Figure_12A_middle_first_line.csv',
@@ -1533,8 +1534,10 @@ def Figure_12A_middle():
     plt.show()
 
     # Make a ternary plot
-    fig1 = px.line_ternary(df_Figure_12A_middle_first_line, a='xOC', b='xOB', c='xMM')
-    fig2 = px.line_ternary(df_Figure_12A_middle_second_line, a='xOC', b='xOB', c='xMM')
+    fig1 = px.line_ternary(df_Figure_12A_middle_first_line, a='xOC', b='xOB',
+                                                                        c='xMM')
+    fig2 = px.line_ternary(df_Figure_12A_middle_second_line, a='xOC', b='xOB',
+                                                                        c='xMM')
 
     fig1.update_layout(
         ternary=dict(
@@ -1577,8 +1580,8 @@ def Figure_12A_right():
 
     # determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_Figure_12A_right_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
-    'xOB': y[:, 1], 'xMM': y[:, 2]})
+    df_Figure_12A_right_first_line = pd.DataFrame({'Generation': t,
+                                'xOC': y[:, 0], 'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start fractions
     xOC = 0.3
@@ -1593,8 +1596,8 @@ def Figure_12A_right():
 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_Figure_12A_right_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
-    'xOB': y[:, 1], 'xMM': y[:, 2]})
+    df_Figure_12A_right_second_line = pd.DataFrame({'Generation': t,
+                                'xOC': y[:, 0], 'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Save the data as csv file
     save_data(df_Figure_12A_right_first_line, 'df_Figure_12A_right_first_line.csv',
@@ -1625,8 +1628,10 @@ def Figure_12A_right():
     plt.show()
 
     # Make a ternary plot
-    fig1 = px.line_ternary(df_Figure_12A_right_first_line, a='xOC', b='xOB', c='xMM')
-    fig2 = px.line_ternary(df_Figure_12A_right_second_line, a='xOC', b='xOB', c='xMM')
+    fig1 = px.line_ternary(df_Figure_12A_right_first_line, a='xOC', b='xOB',
+                                                                        c='xMM')
+    fig2 = px.line_ternary(df_Figure_12A_right_second_line, a='xOC', b='xOB',
+                                                                        c='xMM')
 
     fig1.update_layout(
         ternary=dict(
@@ -1669,8 +1674,8 @@ def Figure_12B_middle():
 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_Figure_12B_middle_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
-    'xOB': y[:, 1], 'xMM': y[:, 2]})
+    df_Figure_12B_middle_first_line = pd.DataFrame({'Generation': t,
+                                'xOC': y[:, 0], 'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start fracuenties
     xOC = 0.1
@@ -1684,8 +1689,8 @@ def Figure_12B_middle():
 
     # determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_Figure_12B_middle_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
-    'xOB': y[:, 1], 'xMM': y[:, 2]})
+    df_Figure_12B_middle_second_line = pd.DataFrame({'Generation': t,
+                                'xOC': y[:, 0], 'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Save the data as csv file
     save_data(df_Figure_12B_middle_first_line, 'df_Figure_12B_middle_first_line.csv',
@@ -1716,8 +1721,10 @@ def Figure_12B_middle():
     plt.show()
 
     # Make a ternary plot
-    fig1 = px.line_ternary(df_Figure_12B_middle_first_line, a='xOC', b='xOB', c='xMM')
-    fig2 = px.line_ternary(df_Figure_12B_middle_second_line, a='xOC', b='xOB', c='xMM')
+    fig1 = px.line_ternary(df_Figure_12B_middle_first_line, a='xOC', b='xOB',
+                                                                        c='xMM')
+    fig2 = px.line_ternary(df_Figure_12B_middle_second_line, a='xOC', b='xOB',
+                                                                        c='xMM')
 
     fig1.update_layout(
         ternary=dict(
@@ -1761,8 +1768,8 @@ def Figure_12B_right():
 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_Figure_12B_right_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
-    'xOB': y[:, 1], 'xMM': y[:, 2]})
+    df_Figure_12B_right_first_line = pd.DataFrame({'Generation': t,
+                                'xOC': y[:, 0], 'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start fractions
     xOC = 0.2
@@ -1776,8 +1783,8 @@ def Figure_12B_right():
 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_Figure_12B_right_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
-    'xOB': y[:, 1], 'xMM': y[:, 2]})
+    df_Figure_12B_right_second_line = pd.DataFrame({'Generation': t,
+                                'xOC': y[:, 0], 'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Save the data as csv file
     save_data(df_Figure_12B_right_first_line, 'df_Figure_12B_right_first_line.csv',
@@ -1808,8 +1815,10 @@ def Figure_12B_right():
     plt.show()
 
     # Make a ternary plot
-    fig1 = px.line_ternary(df_Figure_12B_right_first_line, a='xOC', b='xOB', c='xMM')
-    fig2 = px.line_ternary(df_Figure_12B_right_second_line, a='xOC', b='xOB', c='xMM')
+    fig1 = px.line_ternary(df_Figure_12B_right_first_line, a='xOC', b='xOB',
+                                                                        c='xMM')
+    fig2 = px.line_ternary(df_Figure_12B_right_second_line, a='xOC', b='xOB',
+                                                                        c='xMM')
 
     fig1.update_layout(
         ternary=dict(
@@ -1830,7 +1839,8 @@ def Figure_12B_right():
 
 """ Figure 12C middle"""
 def Figure_12C_middle():
-    """Function that makes Figure 12C middle in the paper of Sartakhti et al., 2016."""
+    """Function that makes Figure 12C middle in the paper of Sartakhti et al.,
+     2016."""
     # Set start values
     N = 15
     c3 = 1.4
@@ -1853,8 +1863,8 @@ def Figure_12C_middle():
 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_Figure_12C_middle_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
-    'xOB': y[:, 1], 'xMM': y[:, 2]})
+    df_Figure_12C_middle_first_line = pd.DataFrame({'Generation': t,
+                                'xOC': y[:, 0], 'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start fractions
     xOC = 0.8
@@ -1868,8 +1878,8 @@ def Figure_12C_middle():
 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_Figure_12C_middle_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
-    'xOB': y[:, 1], 'xMM': y[:, 2]})
+    df_Figure_12C_middle_second_line = pd.DataFrame({'Generation': t,
+                                'xOC': y[:, 0], 'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Save the data as csv file
     save_data(df_Figure_12C_middle_first_line, 'df_Figure_12C_middle_first_line.csv',
@@ -1900,8 +1910,10 @@ def Figure_12C_middle():
     plt.show()
 
     # Make a ternary plot
-    fig1 = px.line_ternary(df_Figure_12C_middle_first_line, a='xOC', b='xOB', c='xMM')
-    fig2 = px.line_ternary(df_Figure_12C_middle_second_line, a='xOC', b='xOB', c='xMM')
+    fig1 = px.line_ternary(df_Figure_12C_middle_first_line, a='xOC', b='xOB',
+                                                                        c='xMM')
+    fig2 = px.line_ternary(df_Figure_12C_middle_second_line, a='xOC', b='xOB',
+                                                                        c='xMM')
 
     fig1.update_layout(
         ternary=dict(
@@ -1944,8 +1956,8 @@ def Figure_12C_right():
 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_Figure_12C_right_first_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
-    'xOB': y[:, 1], 'xMM': y[:, 2]})
+    df_Figure_12C_right_first_line = pd.DataFrame({'Generation': t,
+                                'xOC': y[:, 0], 'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start values
     xOC = 0.8
@@ -1959,8 +1971,8 @@ def Figure_12C_right():
 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_Figure_12C_right_second_line = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
-    'xOB': y[:, 1], 'xMM': y[:, 2]})
+    df_Figure_12C_right_second_line = pd.DataFrame({'Generation': t,
+                                'xOC': y[:, 0], 'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Save the data as csv file
     save_data(df_Figure_12C_right_first_line, 'df_Figure_12C_right_first_line.csv',
@@ -1991,8 +2003,10 @@ def Figure_12C_right():
     plt.show()
 
     # Make a ternary plot
-    fig1 = px.line_ternary(df_Figure_12C_right_first_line, a='xOC', b='xOB', c='xMM')
-    fig2 = px.line_ternary(df_Figure_12C_right_second_line, a='xOC', b='xOB', c='xMM')
+    fig1 = px.line_ternary(df_Figure_12C_right_first_line, a='xOC', b='xOB',
+                                                                        c='xMM')
+    fig2 = px.line_ternary(df_Figure_12C_right_second_line, a='xOC', b='xOB',
+                                                                        c='xMM')
 
     fig1.update_layout(
         ternary=dict(
