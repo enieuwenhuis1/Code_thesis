@@ -154,13 +154,16 @@ THE DATA
 The folder data contains all the generated data that is used to make the figures.
 and tables. This folder contains:
 * reproduced_data_Sartakhti_nonlinear: contains all the data obtained with the model
-                                    based on the paper of Sartakhti et al., 2018
+                                    based on the paper of Sartakhti et al., 2018.
 * reproduced_data_Sartakhti_linear: contains all the data obtained with the model
-                                    based on the paper of Sartakhti et al., 2016
-* data_own_model_fractions: contains all the data obtained from the own model with
-                          simulating cell type fractions
-* data_own_model_numbers: contains all the data obtained from the own model with
-                          simulating cell type numbers
+                                    based on the paper of Sartakhti et al., 2016.
+* data_own_model_fractions: contains all the data obtained from the own model 
+                          simulating cell type fractions.
+* data_own_model_numbers: contains all the data obtained from the own model 
+                          simulating cell type numbers.
+* data_own_model_nr_to_frac: contains all the data obtained from the own model
+                          simulating cell type fractions by converting the numbers 
+                          to fractions.
 
 THE FIGURES
 In the folder visualisation, all made figures are shown. This folder contains:
@@ -172,6 +175,10 @@ In the folder visualisation, all made figures are shown. This folder contains:
                               simulating cell type fractions.
 * results_own_model_numbers: contains all the figures obtained from the own model
                               simulating cell type numbers.
+* data_own_model_nr_to_frac: contains all the data obtained from the own model 
+                              simulating cell type fractions by converthing the 
+                              numbers to fractions.
+
 
 HOW TO RUN
 The nonlinear model and its visualisation, model_S_nonlinear.py:
@@ -185,6 +192,9 @@ Own model with fractions, MM_model_fractions.py
 
 Own model with numbers, MM_model_numbers.py
         - python MM_model_numbers.py
+
+Own model wherby numbers are converted to fractions, MM_model_nr_to_frac.py
+        - python MM_model_nr_to_frac.py
 
 REFERENCES
 * Sartakhti, J. S., Manshaei, M. H., & Archetti, M. (2018). Game Theory of tumour–Stroma
