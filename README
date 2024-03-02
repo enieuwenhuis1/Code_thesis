@@ -3,15 +3,15 @@ University:   UvA
 Student id:   13717405
 
 MATHEMATICAL MULTIPLE MYELOMA MODEL
-The goal was to make models that simulate the dynamics of the multiple myeloma (MM)
+The goal was to make a fraction and anumber model that simulate the dynamics of the multiple myeloma (MM)
 microenvironment and determine the effect of adaptive therapy vs. traditional therapy.
 During adaptive therapy the drugs are administered in short periods with holidays
 in between and during traditional therapy continuously the MTD is administered. In
-the own models is looked at the interactions via diffusible factors between four
+the models is looked at the interactions via diffusible factors between four
 cell types: drug-sensitive MM cells (MMd), resistant MM cells (MMr), osteoblasts
 (OBs) and osteoclasts (OCs). The models simulate a public goods game in the framework
 of evolutionary game theory with collective interactions and linear benefits. The
-impact of GF MMd inhibitors and WMMd inhibitors on the cell type fractions and
+impact of MMd GF inhibitors and WMMd inhibitors on the cell type fractions and
 numbers are studied for different administration and holiday periods.
 
 
