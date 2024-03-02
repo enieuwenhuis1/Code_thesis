@@ -60,10 +60,6 @@ MM_model_fractions.py
     - install: pip install matplotlib==3.8.0
 * pandas (version 2.1.3)
     - install: pip install pandas==2.1.3
-* ternary (version 0.1)
-    - install: pip install ternary==0.1
-* plotly (version 5.18.0)
-    - install: pip install plotly==5.18.0
 * scipy (version 1.11.4)
     - install: pip install scipy==1.11.4
 
@@ -74,10 +70,6 @@ MM_model_numbers.py
     - install: pip install matplotlib==3.8.0
 * pandas (version 2.1.3)
     - install: pip install pandas==2.1.3
-* ternary (version 0.1)
-    - install: pip install ternary==0.1
-* plotly (version 5.18.0)
-    - install: pip install plotly==5.18.0
 * scipy (version 1.11.4)
     - install: pip install scipy==1.11.4
 
@@ -88,12 +80,19 @@ MM_model_nr_to_frac.py
     - install: pip install matplotlib==3.8.0
 * pandas (version 2.1.3)
     - install: pip install pandas==2.1.3
-* ternary (version 0.1)
-    - install: pip install ternary==0.1
-* plotly (version 5.18.0)
-    - install: pip install plotly==5.18.0
 * scipy (version 1.11.4)
     - install: pip install scipy==1.11.4
+
+THE MODEL WITH NONLINEAR BENEFITS: model_S_nonlinear.py
+Model_S_nonlinear.py contains the code of all the mathematical formulas as well as
+the code to reproduce the figures from the paper: Game Theory of tumour–Stroma
+Interactions in Multiple Myeloma: Effect of Nonlinear Benefits by Sartakhti et al.
+(2018). The model is made based on the method section of the paper. The benefits are
+nonlinear and there are collective interactions.
+
+TEST THE CODE
+To test some of the functions in the model, doc tests are added and automatically
+run when the model_S_nonlinear.py code is run.
 
 THE MODEL WITH LINEAR BENEFITS: model_S_linear.py
 model_S_linear.py contains code of the mathematical formulas and the code to
@@ -107,43 +106,48 @@ To test some of the functions in the model, doc tests are added and automaticall
 run when the model_S_linear.py code is run.
 
 
-THE MODEL WITH NONLINEAR BENEFITS: model_S_nonlinear.py
-Model_S_nonlinear.py contains the code of all the mathematical formulas as well as
-the code to reproduce the figures from the paper: Game Theory of tumour–Stroma
-Interactions in Multiple Myeloma: Effect of Nonlinear Benefits by Sartakhti et al.
-(2018). The model is made based on the method section of the paper. The benefits are
-nonlinear and there are collective interactions.
-
-TEST THE CODE
-To test some of the functions in the model, doc tests are added and automatically
-run when the model_S_nonlinear.py code is run.
-
-
 THE OWN MADE MODEL WITH FRACTIONS: MM_model_fractions.py
 MM_model_fractions.py contains the code with the mathematical formulas simulating
 the fraction dynamics of the four cell types MMd, MMr, OCs and OBs in the MM
 microenvironment. It contains the code to make the figures showing the effect of WMM
 inhibitors, MMd GF inhibitors and a combination at different administration periods
-on the cell type fractions. In addition, it contains code to optimize the drug
-administration amounts and periods causing the lowest total MM fraction. Lastly, it
-also contains code to make tables showing the eigenvalues of the interaction matrix.
+and strengths on the cell type fractions. In addition, it contains code to optimize 
+the drug administration amounts and periods causing the lowest total MM fraction. 
+Lastly, it also contains code to make tables showing the eigenvalues of the 
+interaction matrix.
 
 TEST THE CODE
 To test some of the functions in the model, doc tests are added and automatically
 run when the MM_model_fractions.py code is run.
+
 
 THE OWN MADE MODEL WITH NUMBERS: MM_model_numbers.py
 MM_model_numbers.py contains the code with the mathematical formulas simulating
 the number dynamics of the four cell types MMd, MMr, OCs and OBs in the MM
 microenvironment. It contains the code to make the figures showing the
 effect of WMM inhibitors, MMd GF inhibitors and a combination at different
-administration periods on the cell type numbers. In addition, it also contains code
-to optimize the drug administration amounts and periods causing the lowest total
-MM fraction.
+administration periods and strengths on the cell type numbers. In addition, it 
+also contains code to optimize the drug administration amounts and periods 
+causing the lowest total MM number.
 
 TEST THE CODE
 To test some of the functions in the model, doc tests are added and automatically
 run when the MM_model_numbers.py code is run.
+
+
+NUMBER MODEL CONVERTED TO A FRACTION MODEL: MM_model_nr_to_frac.py
+MM_model_nr_to_frac.py uses the mathematical formulas from MM_model_numbers.py to 
+simulate the number dynamics and at the end the numbers are converted to fractions.
+Hence the shows the fraction dynamics of the four cell types MMd, MMr, OCs and OBs 
+in the MM microenvironment by a changing N. It contains code to make the figures 
+showing the effect of WMM inhibitors, MMd GF inhibitors and a combination at different 
+administration periods and strengths on the cell type fractions. In addition, it 
+contains code to optimize the drug administration amounts and periods causing the 
+lowest total MM fraction.
+
+TEST THE CODE
+To test some of the functions in the model, doc tests are added and automatically
+run when the MM_model_nr_to_frac.py code is run.
 
 
 THE DATA
