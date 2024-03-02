@@ -3,16 +3,17 @@ University:   UvA
 Student id:   13717405
 
 MATHEMATICAL MULTIPLE MYELOMA MODEL
-The goal was to make a fraction and anumber model that simulate the dynamics of the multiple myeloma (MM)
-microenvironment and determine the effect of adaptive therapy vs. traditional therapy.
-During adaptive therapy the drugs are administered in short periods with holidays
-in between and during traditional therapy continuously the MTD is administered. In
-the models is looked at the interactions via diffusible factors between four
-cell types: drug-sensitive MM cells (MMd), resistant MM cells (MMr), osteoblasts
-(OBs) and osteoclasts (OCs). The models simulate a public goods game in the framework
-of evolutionary game theory with collective interactions and linear benefits. The
-impact of MMd GF inhibitors and WMMd inhibitors on the cell type fractions and
-numbers are studied for different administration and holiday periods.
+The goal was to make a fraction and anumber model that simulate the dynamics of the 
+multiple myeloma (MM) microenvironment and determine the effect of adaptive therapy 
+vs. traditional therapy. During adaptive therapy the drugs are administered in short
+periods with holidays in between and during traditional therapy continuously the MTD
+is administered. In the models is looked at the interactions via diffusible factors 
+between four cell types: drug-sensitive MM cells (MMd), resistant MM cells (MMr),
+osteoblasts (OBs) and osteoclasts (OCs). Both models simulate a public goods game in 
+the framework of evolutionary game theory with collective interactions and linear 
+benefits. The impact of MMd GF inhibitors and WMMd inhibitors on the cell type 
+fractions and numbers are studied for different strengths, administration durations 
+and holiday durations.
 
 
 To better understand MM microenvironment modeling, the figures from Sartakhti et al.
@@ -20,7 +21,7 @@ To better understand MM microenvironment modeling, the figures from Sartakhti et
 reproduced. Both papers did not disclose their code, hence comparison of the
 interpretation was not possible.
 
-PYTHON AND LIBRARY VERSIONS
+PYTHON AND LIBRARY VERSION
 The models were written in Python code (version 3.11.4) using Atom (version 1.60.0).
 Some libraries need to be installed to run the codes in the code folder.
 
@@ -52,7 +53,6 @@ model_S_linear.py
 * scipy (version 1.11.4)
     - install: pip install scipy==1.11.4
 
-
 MM_model_fractions.py
 * numpy (version 1.26.0)
     - install: pip install numpy==1.26.0
@@ -67,20 +67,33 @@ MM_model_fractions.py
 * scipy (version 1.11.4)
     - install: pip install scipy==1.11.4
 
-  MM_model_numbers.py
-  * numpy (version 1.26.0)
-      - install: pip install numpy==1.26.0
-  * matplotlib (version 3.8.0)
-      - install: pip install matplotlib==3.8.0
-  * pandas (version 2.1.3)
-      - install: pip install pandas==2.1.3
-  * ternary (version 0.1)
-      - install: pip install ternary==0.1
-  * plotly (version 5.18.0)
-      - install: pip install plotly==5.18.0
-  * scipy (version 1.11.4)
-      - install: pip install scipy==1.11.4
+MM_model_numbers.py
+* numpy (version 1.26.0)
+    - install: pip install numpy==1.26.0
+* matplotlib (version 3.8.0)
+    - install: pip install matplotlib==3.8.0
+* pandas (version 2.1.3)
+    - install: pip install pandas==2.1.3
+* ternary (version 0.1)
+    - install: pip install ternary==0.1
+* plotly (version 5.18.0)
+    - install: pip install plotly==5.18.0
+* scipy (version 1.11.4)
+    - install: pip install scipy==1.11.4
 
+MM_model_nr_to_frac.py
+* numpy (version 1.26.0)
+    - install: pip install numpy==1.26.0
+* matplotlib (version 3.8.0)
+    - install: pip install matplotlib==3.8.0
+* pandas (version 2.1.3)
+    - install: pip install pandas==2.1.3
+* ternary (version 0.1)
+    - install: pip install ternary==0.1
+* plotly (version 5.18.0)
+    - install: pip install plotly==5.18.0
+* scipy (version 1.11.4)
+    - install: pip install scipy==1.11.4
 
 THE MODEL WITH LINEAR BENEFITS: model_S_linear.py
 model_S_linear.py contains code of the mathematical formulas and the code to
