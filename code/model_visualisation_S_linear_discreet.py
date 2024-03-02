@@ -611,6 +611,44 @@ def figure_8A():
     df_figure_8A_first_line = frequency_dynamics(generations, xOC, xOB, xMM, N,
                                                             c1, c2, c3, matrix)
 
+    # Set initial parameter values
+    N = 100
+    cMMr = 0.95
+    cMMd = 0.85
+    cOB = 0.65
+    cOC = 0.75
+    xOC = 0.3
+    xOB = 0.4
+    xMMd = 0.25
+    xMMr = 0.05
+
+    # Payoff matrix when no drugs are present
+    matrix_no_GF_IH = np.array([
+        [0.0, 0.4, 0.9, 0.7],
+        [0.3, 0.0, -0.4, -0.4],
+        [0.9, 0.0, 0.2, 0.0],
+        [0.7, 0.0, -0.6, 0.3]])
+
+    # Payoff matrix when only GF inhibitor drugs are present
+    matrix_GF_IH = np.array([
+        [0.0, 0.4, 0.9, 0.7],
+        [0.3, 0.0, -0.4, -0.4],
+        [0.1, 0.0, 0.2, 0.0],
+        [0.7, 0.0, -0.6, 0.3]])
+
+    # Payoff matrix when both inhibitor drugs are present
+    matrix_GF_IH_comb = np.array([
+        [0.0, 0.4, 0.6, 0.5],
+        [0.3, 0.0, -0.4, -0.4],
+        [0.25, 0.0, 0.2, 0.0],
+        [0.7, 0.0, -0.8, 0.3]])
+
+    # WMMd inhibitor effect when both inhibitor drugs are present
+    WMMd_inhibitor_comb = 0.12
+
+    # WMMd inhibitor effect when only WMMd IH is present
+    WMMd_inhibitor = 0.5
+
     # Set new start parameter value
     xOC = 0.2
     xOB = 0.5

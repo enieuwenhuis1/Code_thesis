@@ -483,7 +483,7 @@ def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd,
     return df_total_switch
 
 
-def mimimal_tumour_numb_t_steps(t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd,
+def minimal_tumour_numb_t_steps(t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd,
                                 nMMr, growth_rates, decay_rates, matrix_no_GF_IH,
                                 matrix_GF_IH, WMMd_inhibitor = 0):
     """ Function that makes a dataframe of the nOC, nOB, nMMd and nMMr values over
@@ -537,7 +537,7 @@ def mimimal_tumour_numb_t_steps(t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd,
 
     return float(average_MM_number)
 
-def mimimal_tumour_numb_b_OC_MMd(b_OC_MMd, nOC, nOB, nMMd, nMMr, growth_rates,
+def minimal_tumour_numb_b_OC_MMd(b_OC_MMd, nOC, nOB, nMMd, nMMr, growth_rates,
                                         decay_rates, matrix, b_OC_MMd_array):
     """Function that determines the number of the population being MM for a
     specific b_OC_MMd value.
@@ -578,7 +578,7 @@ def mimimal_tumour_numb_b_OC_MMd(b_OC_MMd, nOC, nOB, nMMd, nMMr, growth_rates,
     ...    [0.3, 0.0, -0.3, -0.3],
     ...    [0.6, 0.0, 0.2, 0.0],
     ...    [0.55, 0.0, -0.6, 0.4]])
-    >>> mimimal_tumour_numb_b_OC_MMd(0.4, 20, 30, 20, 5,[0.8, 1.2, 0.3, 0.3],
+    >>> minimal_tumour_numb_b_OC_MMd(0.4, 20, 30, 20, 5,[0.8, 1.2, 0.3, 0.3],
     ...                                     [0.9, 0.08, 0.2, 0.1], matrix, False)
     26.318660931596057
     """
@@ -622,7 +622,7 @@ def mimimal_tumour_numb_b_OC_MMd(b_OC_MMd, nOC, nOB, nMMd, nMMr, growth_rates,
 
     return float(last_MM_number)
 
-def mimimal_tumour_numb_WMMd_IH(WMMd_inhibitor, nOC, nOB, nMMd, nMMr,
+def minimal_tumour_numb_WMMd_IH(WMMd_inhibitor, nOC, nOB, nMMd, nMMr,
                     growth_rates, decay_rates, matrix, WMMd_inhibitor_array):
     """Function that determines the number of the population being MM for a
     specific wMMd drug inhibitor value.
@@ -663,7 +663,7 @@ def mimimal_tumour_numb_WMMd_IH(WMMd_inhibitor, nOC, nOB, nMMd, nMMr,
     ...    [0.3, 0.0, -0.3, -0.3],
     ...    [0.6, 0.0, 0.2, 0.0],
     ...    [0.55, 0.0, -0.6, 0.4]])
-    >>> mimimal_tumour_numb_WMMd_IH(0.3, 20, 30, 20, 5, [0.8, 1.2, 0.3, 0.3],
+    >>> minimal_tumour_numb_WMMd_IH(0.3, 20, 30, 20, 5, [0.8, 1.2, 0.3, 0.3],
     ...                                 [0.9, 0.08, 0.2, 0.1], matrix, False)
     28.440744908435057
     """
@@ -1437,7 +1437,7 @@ def Figure_3D_MM_numb_IH_add_and_holiday_():
     for t_steps_no_drug in range(2, 22):
 
         for t_steps_drug in range(2, 22):
-            numb_tumour = mimimal_tumour_numb_t_steps(t_steps_drug,
+            numb_tumour = minimal_tumour_numb_t_steps(t_steps_drug,
                             t_steps_no_drug, nOC, nOB, nMMd, nMMr, growth_rates,
                             decay_rates, matrix_no_GF_IH, matrix_GF_IH)
 
@@ -1491,7 +1491,7 @@ def Figure_3D_MM_numb_IH_add_and_holiday_():
     for t_steps_no_drug in range(2, 22):
 
         for t_steps_drug in range(2, 22):
-            numb_tumour = mimimal_tumour_numb_t_steps(t_steps_drug,
+            numb_tumour = minimal_tumour_numb_t_steps(t_steps_drug,
                     t_steps_no_drug, nOC, nOB, nMMd, nMMr, growth_rates,
                     decay_rates,matrix_no_GF_IH, matrix_no_GF_IH, WMMd_inhibitor)
 
@@ -1544,7 +1544,7 @@ def Figure_3D_MM_numb_IH_add_and_holiday_():
     for t_steps_no_drug in range(2, 22):
 
         for t_steps_drug in range(2, 22):
-            numb_tumour = mimimal_tumour_numb_t_steps(t_steps_drug,
+            numb_tumour = minimal_tumour_numb_t_steps(t_steps_drug,
                 t_steps_no_drug, nOC, nOB, nMMd, nMMr, growth_rates, decay_rates,
                 matrix_no_GF_IH, matrix_GF_IH_comb, WMMd_inhibitor_comb)
 
@@ -1706,7 +1706,7 @@ def Figure_3D_MM_numb_MMd_IH_strength():
             matrix_GF_IH[3, 2] = -0.6 - extra_MMr_IH
 
             # Determine the minimal tumour size
-            numb_tumour = mimimal_tumour_numb_t_steps(t_steps_drug, t_steps_no_drug,
+            numb_tumour = minimal_tumour_numb_t_steps(t_steps_drug, t_steps_no_drug,
                                 nOC, nOB, nMMd, nMMr, growth_rates, decay_rates,
                                 matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor)
 
@@ -1799,7 +1799,7 @@ def Figure_best_WMMD_IH():
     WMMd_IH_start = 0.2
 
     # Perform the optimization
-    result = minimize(mimimal_tumour_numb_WMMd_IH, WMMd_IH_start, args = (nOC,
+    result = minimize(minimal_tumour_numb_WMMd_IH, WMMd_IH_start, args = (nOC,
                             nOB, nMMd, nMMr, growth_rates, decay_rates, matrix,
                             True), bounds=[(0, 0.8)], method='Nelder-Mead')
 
@@ -1814,7 +1814,7 @@ def Figure_best_WMMD_IH():
     # Loop over the different WMMd_inhibitor values
     for WMMd_inhibitor in range(800):
         WMMd_inhibitor = WMMd_inhibitor/1000
-        numb_tumour = mimimal_tumour_numb_WMMd_IH(WMMd_inhibitor, nOC, nOB, nMMd,
+        numb_tumour = minimal_tumour_numb_WMMd_IH(WMMd_inhibitor, nOC, nOB, nMMd,
                                 nMMr, growth_rates, decay_rates, matrix, False)
         dict_numb_tumour[WMMd_inhibitor] = numb_tumour
 
@@ -1842,7 +1842,7 @@ def Figure_best_WMMD_IH():
 def Figure_best_b_OC_MMd():
     """ Function that makes a Figure that shows the total MM number for different
     b_OC_MMd values. It also determines the b_OC_MMd value causing the lowest
-    total number or MM cells"""
+    total number of MM cells"""
 
     # Set initial parameter values
     nOC = 20
@@ -1862,7 +1862,7 @@ def Figure_best_b_OC_MMd():
     b_OC_MMd_start = 0.45
 
     # Perform the optimization
-    result = minimize(mimimal_tumour_numb_b_OC_MMd, b_OC_MMd_start, args = (nOC,
+    result = minimize(minimal_tumour_numb_b_OC_MMd, b_OC_MMd_start, args = (nOC,
                             nOB, nMMd, nMMr, growth_rates, decay_rates, matrix,
                             True), bounds=[(0, 0.8)],  method='Nelder-Mead')
 
@@ -1879,7 +1879,7 @@ def Figure_best_b_OC_MMd():
         b_OC_MMd = b_OC_MMd/1000
 
         # Determine the total MM number
-        numb_tumour = mimimal_tumour_numb_b_OC_MMd(b_OC_MMd, nOC, nOB, nMMd, nMMr,
+        numb_tumour = minimal_tumour_numb_b_OC_MMd(b_OC_MMd, nOC, nOB, nMMd, nMMr,
                                     growth_rates, decay_rates, matrix, False)
         dict_numb_tumour_GF[b_OC_MMd] = numb_tumour
 

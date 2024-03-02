@@ -40,47 +40,47 @@ def main():
 
     # Make a figure showing the cell fraction dynamics by traditional therapy and
     # by adaptive therapy (original situation)
-    list_t_steps_drug = [10, 10, 10]
-    Figure_continuous_MTD_vs_AT_a_h(12, list_t_steps_drug)
-
-    # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # by adaptive therapy for shorter holiday and administration periods compared
-    # to the original situation
-    list_t_steps_drug = [5, 5, 5]
-    Figure_continuous_MTD_vs_AT_short_a_h(20, list_t_steps_drug)
-
-    # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # by adaptive therapy for weaker IHs compared to the original situation
-    list_t_steps_drug = [10, 10, 10]
-    Figure_continuous_MTD_vs_AT_weak_a_h(12, list_t_steps_drug)
-
-    # Make a 3D figure showthing the effect of different drug holiday and
-    # administration periods
-    Figure_3D_MM_frac_IH_add_and_holiday_()
-
-    # Make a figure that shows the MM fraction for different bOC,MMd values
-    Figure_best_b_OC_MMd()
-
-    # Make a figure that shows the MM fraction for different WMMd IH values
-    Figure_best_WMMD_IH()
-
-    # # Make a 3D figure showing the effect of different WMMd and MMd GF IH strengths
-    Figure_3D_MM_frac_MMd_IH_strength()
-
-    # Make line plots showing different equilibriums when the MMd GF IH holiday
-    # and administration durations change
-    list_t_steps_drug = [6, 8, 10]
-    Figure_3_senarios_MMd_GF_IH(10, list_t_steps_drug)
-
-    # Make line plots showing different equilibriums when the WMMd IH holiday and
-    # administration durations change
-    list_t_steps_drug = [8, 10, 12]
-    Figure_3_senarios_WMMd_IH(10, list_t_steps_drug)
-
-    # Make line plots showing different equilibriums when the MMd GF IH and WMMd
-    # IH holiday and administration durations change
-    list_t_steps_drug = [10, 12, 14]
-    Figure_3_senarios_MMd_GF_WMMd_IH(8, list_t_steps_drug)
+    # list_t_steps_drug = [10, 10, 10]
+    # Figure_continuous_MTD_vs_AT_a_h(12, list_t_steps_drug)
+    #
+    # # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # # by adaptive therapy for shorter holiday and administration periods compared
+    # # to the original situation
+    # list_t_steps_drug = [5, 5, 5]
+    # Figure_continuous_MTD_vs_AT_short_a_h(20, list_t_steps_drug)
+    #
+    # # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # # by adaptive therapy for weaker IHs compared to the original situation
+    # list_t_steps_drug = [10, 10, 10]
+    # Figure_continuous_MTD_vs_AT_weak_a_h(12, list_t_steps_drug)
+    #
+    # # Make a 3D figure showthing the effect of different drug holiday and
+    # # administration periods
+    # Figure_3D_MM_frac_IH_add_and_holiday_()
+    #
+    # # Make a figure that shows the MM fraction for different bOC,MMd values
+    # Figure_best_b_OC_MMd()
+    #
+    # # Make a figure that shows the MM fraction for different WMMd IH values
+    # Figure_best_WMMD_IH()
+    #
+    # # # Make a 3D figure showing the effect of different WMMd and MMd GF IH strengths
+    # Figure_3D_MM_frac_MMd_IH_strength()
+    #
+    # # Make line plots showing different equilibriums when the MMd GF IH holiday
+    # # and administration durations change
+    # list_t_steps_drug = [6, 8, 10]
+    # Figure_3_senarios_MMd_GF_IH(10, list_t_steps_drug)
+    #
+    # # Make line plots showing different equilibriums when the WMMd IH holiday and
+    # # administration durations change
+    # list_t_steps_drug = [8, 10, 12]
+    # Figure_3_senarios_WMMd_IH(10, list_t_steps_drug)
+    #
+    # # Make line plots showing different equilibriums when the MMd GF IH and WMMd
+    # # IH holiday and administration durations change
+    # list_t_steps_drug = [10, 12, 14]
+    # Figure_3_senarios_MMd_GF_WMMd_IH(8, list_t_steps_drug)
 
     # Make a figure that shows the cell fraction dynamics and fitness
     Figure_frac_fitness_dynamics()
@@ -746,7 +746,7 @@ def pronto_switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, xOC, xOB,
 
     return df_total_switch
 
-def mimimal_tumour_frac_t_steps(t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd,
+def minimal_tumour_frac_t_steps(t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd,
                                 xMMr, N, cOC, cOB, cMMd, cMMr, matrix_no_GF_IH,
                                 matrix_GF_IH, WMMd_inhibitor = 0):
     """ Function that makes a dataframe of the xOC, xOB, xMMd and xMMr values
@@ -796,7 +796,7 @@ def mimimal_tumour_frac_t_steps(t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd,
     ...    [1.0, 1.4, -0.3, 1.0],
     ...    [0.8, 0.2, 1.1, -0.2],
     ...    [2.1, 0.0, -0.2, 1.2]])
-    >>> mimimal_tumour_frac_t_steps(5, 5, 0.2, 0.3, 0.2, 0.3, 10, 0.3, 0.2,
+    >>> minimal_tumour_frac_t_steps(5, 5, 0.2, 0.3, 0.2, 0.3, 10, 0.3, 0.2,
     ...                               0.3, 0.5, matrix_no_GF_IH, matrix_no_GF_IH)
     -1.5588579521678917e-14
     """
@@ -815,7 +815,7 @@ def mimimal_tumour_frac_t_steps(t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd,
 
     return float(average_MM_fractions)
 
-def mimimal_tumour_frac_b_OC_MMd(b_OC_MMd, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
+def minimal_tumour_frac_b_OC_MMd(b_OC_MMd, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
                                         cMMd, cMMr, matrix, t, b_OC_MMd_array):
     """Function that determines the fraction of the population being MM for a
     specific b_OC_MMd value.
@@ -876,7 +876,7 @@ def mimimal_tumour_frac_b_OC_MMd(b_OC_MMd, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
     return float(last_MM_frequency)
 
 """Determine the best drug effect value for high and low cOB and cOC values"""
-def mimimal_tumour_frac_WMMd_IH(WMMd_inhibitor, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
+def minimal_tumour_frac_WMMd_IH(WMMd_inhibitor, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
                                     cMMd, cMMr, matrix, t, WMMd_inhibitor_array):
     """Function that determines the fraction of the population being MM for a
     specific wMMd drug inhibitor value.
@@ -961,7 +961,7 @@ def Figure_best_WMMD_IH():
     WMMd_IH_start = 0.3
 
     # Perform the optimization
-    result_high = minimize(mimimal_tumour_frac_WMMd_IH, WMMd_IH_start, args =
+    result_high = minimize(minimal_tumour_frac_WMMd_IH, WMMd_IH_start, args =
                         (xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix,
                         t, True), bounds=[(0, 0.8)], method='Nelder-Mead')
 
@@ -977,7 +977,7 @@ def Figure_best_WMMD_IH():
     # Loop over the different WMMd_inhibitor values
     for WMMd_inhibitor in range(3000):
         WMMd_inhibitor = WMMd_inhibitor/1000
-        frac_tumour = mimimal_tumour_frac_WMMd_IH(WMMd_inhibitor, xOC, xOB, xMMd,
+        frac_tumour = minimal_tumour_frac_WMMd_IH(WMMd_inhibitor, xOC, xOB, xMMd,
                             xMMr, N, cOC, cOB, cMMd, cMMr, matrix, t, False)
         dict_frac_tumour_high_c[WMMd_inhibitor] = frac_tumour
 
@@ -995,7 +995,7 @@ def Figure_best_WMMD_IH():
     dict_frac_tumour_low_c = {}
 
     # Perform the optimization
-    result_low = minimize(mimimal_tumour_frac_WMMd_IH, WMMd_IH_start, args = (xOC,
+    result_low = minimize(minimal_tumour_frac_WMMd_IH, WMMd_IH_start, args = (xOC,
                         xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix, t,
                         True), bounds=[(0, 3)],  method='Nelder-Mead')
 
@@ -1008,7 +1008,7 @@ def Figure_best_WMMD_IH():
     # Loop over the different WMMd_inhibitor values
     for WMMd_inhibitor in range(3000):
         WMMd_inhibitor = WMMd_inhibitor/1000
-        frac_tumour = mimimal_tumour_frac_WMMd_IH(WMMd_inhibitor, xOC, xOB, xMMd,
+        frac_tumour = minimal_tumour_frac_WMMd_IH(WMMd_inhibitor, xOC, xOB, xMMd,
                                 xMMr, N, cOC, cOB, cMMd, cMMr, matrix, t, False)
         dict_frac_tumour_low_c[WMMd_inhibitor] = frac_tumour
 
@@ -1075,7 +1075,7 @@ def Figure_best_b_OC_MMd():
     b_OC_MMd_start = 0.8
 
     # Perform the optimization
-    result = minimize(mimimal_tumour_frac_b_OC_MMd, b_OC_MMd_start, args = (xOC,
+    result = minimize(minimal_tumour_frac_b_OC_MMd, b_OC_MMd_start, args = (xOC,
                                 xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix,
                                 t, True), bounds=[(0, 3)])
 
@@ -1092,7 +1092,7 @@ def Figure_best_b_OC_MMd():
         b_OC_MMd = b_OC_MMd/1000
 
         # Determine the total MM fraction
-        frac_tumour = mimimal_tumour_frac_b_OC_MMd(b_OC_MMd, xOC, xOB, xMMd, xMMr,
+        frac_tumour = minimal_tumour_frac_b_OC_MMd(b_OC_MMd, xOC, xOB, xMMd, xMMr,
                                         N, cOC, cOB, cMMd, cMMr, matrix, t, False)
         dict_frac_tumour_GF[b_OC_MMd] = frac_tumour
 
@@ -1858,7 +1858,7 @@ def Figure_3D_MM_frac_IH_add_and_holiday_():
     for t_steps_no_drug in range(2, 22):
 
         for t_steps_drug in range(2, 22):
-            frac_tumour = mimimal_tumour_frac_t_steps(t_steps_drug,
+            frac_tumour = minimal_tumour_frac_t_steps(t_steps_drug,
                             t_steps_no_drug, xOC, xOB, xMMd, xMMr, N, cOC,
                             cOB, cMMd, cMMr, matrix_no_GF_IH, matrix_GF_IH)
 
@@ -1912,7 +1912,7 @@ def Figure_3D_MM_frac_IH_add_and_holiday_():
     for t_steps_no_drug in range(2, 22):
 
         for t_steps_drug in range(2, 22):
-            frac_tumour = mimimal_tumour_frac_t_steps(t_steps_drug,
+            frac_tumour = minimal_tumour_frac_t_steps(t_steps_drug,
                         t_steps_no_drug, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd,
                         cMMr, matrix_no_GF_IH, matrix_no_GF_IH, WMMd_inhibitor)
 
@@ -1965,7 +1965,7 @@ def Figure_3D_MM_frac_IH_add_and_holiday_():
     for t_steps_no_drug in range(2, 22):
 
         for t_steps_drug in range(2, 22):
-            frac_tumour = mimimal_tumour_frac_t_steps(t_steps_drug,
+            frac_tumour = minimal_tumour_frac_t_steps(t_steps_drug,
                 t_steps_no_drug, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
                 matrix_no_GF_IH, matrix_GF_IH_comb, WMMd_inhibitor_comb)
 
@@ -2127,7 +2127,7 @@ def Figure_3D_MM_frac_MMd_IH_strength():
             matrix_GF_IH[3, 2] = -0.77 - round((WMMd_inhibitor + \
                                     round((strength_MMd_GF_IH / 10), 1))/ 20, 3)
 
-            frac_tumour = mimimal_tumour_frac_t_steps(t_steps_drug,
+            frac_tumour = minimal_tumour_frac_t_steps(t_steps_drug,
                         t_steps_no_drug, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd,
                         cMMr, matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor)
 
@@ -2629,8 +2629,8 @@ def Figure_frac_fitness_dynamics():
     matrix_GF_IH = np.array([
         [0.0, 1.6, 2.2, 1.9],
         [1.0, 0.0, -0.5, -0.5],
-        [0.6, 0, 0.2, 0],
-        [2.1, 0, -0.77, 0.2]])
+        [0.4, 0, 0.2, 0],
+        [1.9, 0, -0.77, 0.2]])
 
     # Initial conditions
     t = np.linspace(25, 100, 75)
@@ -2901,7 +2901,7 @@ def Dataframe_bOCMMd_eigenvalues():
 
             for t_steps_drug in range(2, 22):
 
-                frac_tumour = mimimal_tumour_frac_t_steps(t_steps_drug,
+                frac_tumour = minimal_tumour_frac_t_steps(t_steps_drug,
                                 t_steps_no_drug, xOC, xOB, xMMd, xMMr, N, cOC,
                                 cOB, cMMd, cMMr, matrix_no_drugs, matrix_drugs)
 
@@ -3047,7 +3047,7 @@ def Dataframe_bMMdMMd_bMMrMMr_eigenvalues():
         for t_steps_no_drug in range(2, 22):
 
             for t_steps_drug in range(2, 22):
-                frac_tumour = mimimal_tumour_frac_t_steps(t_steps_drug,
+                frac_tumour = minimal_tumour_frac_t_steps(t_steps_drug,
                                 t_steps_no_drug, xOC, xOB, xMMd, xMMr, N, cOC,
                                 cOB, cMMd, cMMr, matrix_no_drugs, matrix_drugs)
 
