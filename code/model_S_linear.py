@@ -1040,9 +1040,9 @@ def Figure_9B():
 
     # Payoff matrix
     matrix = np.array([
-        [0, 1, 2],
-        [1, 0, 0],
-        [2, 0, 0]])
+        [0, 1, 0.5],
+        [1, 0, -1],
+        [0.5, 0, 0]])
 
     # Initial conditions
     t = np.linspace(0, 40,100)
@@ -1131,9 +1131,9 @@ def Figure_9C():
 
     # Payoff matrix
     matrix = np.array([
-        [0, 1, 0.5],
-        [1, 0, -1],
-        [0.5, 0, 0]])
+        [0, 1, 2],
+        [1, 0, 0],
+        [2, 0, 0]])
 
     # Initial conditions
     t = np.linspace(0, 40,100)
