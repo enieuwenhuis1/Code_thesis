@@ -61,7 +61,7 @@ def main():
 
     # Make a 3D figure showthing the effect of different drug holiday and
     # administration periods
-    Figure_3D_MM_nr_frac_IH_add_and_holiday_()
+    Figure_3D_MM_nr_frac_IH_add_and_holiday()
 
     # Make a 3D figure showing the effect of different WMMd and MMd GF IH strengths
     Figure_3D_MM_nr_frac_MMd_IH_strength()
@@ -1567,7 +1567,7 @@ def Figure_best_b_OC_MMd():
 
 
 """ 3D plot showing the best IH holiday and administration periods"""
-def Figure_3D_MM_nr_frac_IH_add_and_holiday_():
+def Figure_3D_MM_nr_frac_IH_add_and_holiday():
     """ Figure that makes three 3D plot that shows the average fraction of MM for
     different holiday and administration periods of only MMd GF inhibitor, only
     WMMd inhibitor or both. It prints the IH administration periods and holidays

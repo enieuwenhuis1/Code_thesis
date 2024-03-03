@@ -41,48 +41,48 @@ import doctest
 def main():
     # Do doc tests
     doctest.testmod()
-
-    # Make Figure 2 in the paper of Sartakhti et al., 2016.
-    Figure_2()
-
-    # Make Figure 3 in the paper of Sartakhti et al., 2016.
-    Figure_3()
-
-    # Make Figure 5 in the paper of Sartakhti et al., 2016.
-    Figure_5()
-
-    # Make Figure 8A in the paper of Sartakhti et al., 2016.
-    Figure_8A()
-
-    # Make Figure 8B in the paper of Sartakhti et al., 2016.
-    Figure_8B()
-
-    # Make Figure 9A in the paper of Sartakhti et al., 2016.
-    Figure_9A()
-
-    # Make Figure 9B in the paper of Sartakhti et al., 2016.
-    Figure_9B()
-
-    # Make Figure 9C in the paper of Sartakhti et al., 2016.
-    Figure_9C()
-
-    # Make Figure 10A in the paper of Sartakhti et al., 2016.
-    Figure_10A()
-
-    # Make Figure 10B in the paper of Sartakhti et al., 2016.
-    Figure_10B()
-
-    # Make Figure 11 in the paper of Sartakhti et al., 2016.
-    Figure_11()
-
-    # Make Figure 12A middle in the paper of Sartakhti et al., 2016.
-    Figure_12A_middle()
-
-    # Make Figure 12A right in the paper of Sartakhti et al., 2016.
-    Figure_12A_right()
-
-    # # Make Figure 12B middle in the paper of Sartakhti et al., 2016.
-    Figure_12B_middle()
+    #
+    # # Make Figure 2 in the paper of Sartakhti et al., 2016.
+    # Figure_2()
+    #
+    # # Make Figure 3 in the paper of Sartakhti et al., 2016.
+    # Figure_3()
+    #
+    # # Make Figure 5 in the paper of Sartakhti et al., 2016.
+    # Figure_5()
+    #
+    # # Make Figure 8A in the paper of Sartakhti et al., 2016.
+    # Figure_8A()
+    #
+    # # Make Figure 8B in the paper of Sartakhti et al., 2016.
+    # Figure_8B()
+    #
+    # # Make Figure 9A in the paper of Sartakhti et al., 2016.
+    # Figure_9A()
+    #
+    # # Make Figure 9B in the paper of Sartakhti et al., 2016.
+    # Figure_9B()
+    #
+    # # Make Figure 9C in the paper of Sartakhti et al., 2016.
+    # Figure_9C()
+    #
+    # # Make Figure 10A in the paper of Sartakhti et al., 2016.
+    # Figure_10A()
+    #
+    # # Make Figure 10B in the paper of Sartakhti et al., 2016.
+    # Figure_10B()
+    #
+    # # Make Figure 11 in the paper of Sartakhti et al., 2016.
+    # Figure_11()
+    #
+    # # Make Figure 12A middle in the paper of Sartakhti et al., 2016.
+    # Figure_12A_middle()
+    #
+    # # Make Figure 12A right in the paper of Sartakhti et al., 2016.
+    # Figure_12A_right()
+    #
+    # # # Make Figure 12B middle in the paper of Sartakhti et al., 2016.
+    # Figure_12B_middle()
 
     # Make Figure 12B right in the paper of Sartakhti et al., 2016.
     Figure_12B_right()
@@ -943,9 +943,9 @@ def Figure_9A():
     c3 = 1
     c2 = 1
     c1 = 1
-    xOC = 0.8
+    xOC = 0.7
     xOB = 0.2
-    xMM = 0.0
+    xMM = 0.1
 
     # Payoff matrix
     matrix = np.array([
@@ -964,9 +964,9 @@ def Figure_9A():
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start fractions
-    xOC = 0.4
+    xOC = 0.2
     xOB = 0.3
-    xMM = 0.3
+    xMM = 0.5
 
     # Initial conditions
     t = np.linspace(0, 40,100)
@@ -1034,9 +1034,9 @@ def Figure_9B():
     c3 = 1
     c2 = 1
     c1 = 1
-    xOC = 0.8
+    xOC = 0.7
     xOB = 0.2
-    xMM = 0.0
+    xMM = 0.1
 
     # Payoff matrix
     matrix = np.array([
@@ -1055,9 +1055,9 @@ def Figure_9B():
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start fractions
-    xOC = 0.4
+    xOC = 0.2
     xOB = 0.3
-    xMM = 0.3
+    xMM = 0.5
 
     # Initial conditions
     t = np.linspace(0, 40,100)
@@ -1125,9 +1125,9 @@ def Figure_9C():
     c3 = 1
     c2 = 1
     c1 = 1
-    xOC = 0.8
+    xOC = 0.7
     xOB = 0.2
-    xMM = 0.0
+    xMM = 0.1
 
     # Payoff matrix
     matrix = np.array([
@@ -1146,9 +1146,9 @@ def Figure_9C():
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     # Set new start fractions
-    xOC = 0.4
+    xOC = 0.2
     xOB = 0.3
-    xMM = 0.3
+    xMM = 0.5
 
     # Initial conditions
     t = np.linspace(0, 40,100)
