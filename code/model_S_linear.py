@@ -6,7 +6,7 @@ Description:  Code that attempts to replicate the formulas and Figures from the
               paper by Sartakhti et al. (2016) to get a better understanding of
               cancer modeling. The model simulates linear dynamics and collective
               interactions in the multiple myeloma (MM) microenvironment with three
-              cell types: MM cells, osteoblasts (OBs) and osteoclasts (OCs).
+              cell types: MM cells, osteoblasts (OB) and osteoclasts (OC).
 
               When running the code it also shows line plots of the fractions,
               these are not in the paper but are shown for a better understanding
@@ -177,17 +177,17 @@ def fitness_WOC(xOC, xOB, xMM, N, cOC, cOB, cMM, matrix):
     Parameters:
     -----------
     xOC: Float
-        fraction of OCs.
+        fraction of OC.
     xOB: Float
-        fraction of OBs.
+        fraction of OB.
     xMM: Float
         fraction of the MM cells.
     N: Int
         Number of individuals within the interaction range.
     cOC: Float
-        Cost parameter OCs.
+        Cost parameter OC.
     cOB: Float
-        Cost parameter OBs.
+        Cost parameter OB.
     cMM: Float
         Cost parameter MM cells.
     matrix: Numpy.ndarray
@@ -222,17 +222,17 @@ def fitness_WOB(xOC, xOB, xMM, N, cOC, cOB, cMM, matrix):
     Parameters:
     -----------
     xOC: Float
-        fraction of OCs.
+        fraction of OC.
     xOB: Float
-        fraction of OBs.
+        fraction of OB.
     xMM: Float
         fraction of the MM cells.
     N: Int
         Number of individuals within the interaction range.
     cOC: Float
-        Cost parameter OCs.
+        Cost parameter OC.
     cOB: Float
-        Cost parameter OBs.
+        Cost parameter OB.
     cMM: Float
         Cost parameter MM cells.
     matrix: Numpy.ndarray
@@ -267,17 +267,17 @@ def fitness_WMM(xOC, xOB, xMM, N, cOC, cOB, cMM, matrix):
     Parameters:
     -----------
     xOC: Float
-        fraction of OCs.
+        fraction of OC.
     xOB: Float
-        fraction of OBs.
+        fraction of OB.
     xMM: Float
         fraction of the MM cells.
     N: int
         Number of individuals within the interaction range.
     cOC: Float
-        Cost parameter OCs.
+        Cost parameter OC.
     cOB: Float
-        Cost parameter OBs.
+        Cost parameter OB.
     cMM: Float
         Cost parameter MM cells.
     matrix: Numpy.ndarray
@@ -317,9 +317,9 @@ def model_dynamics(y, t, N, cOC, cOB, cMM, matrix):
     N: Int
         Number of cells in the difussion range.
     cOC: Float
-        Cost value of the OCs.
+        Cost value of the OC.
     cOB: Float
-        Cost value of the OBs.
+        Cost value of the OB.
     cMM: Float
         Cost value of the MMs.
     matrix: Numpy.ndarray
@@ -357,20 +357,20 @@ def model_dynamics(y, t, N, cOC, cOB, cMM, matrix):
     return [xOC_change, xOB_change, xMM_change]
 
 def frac_to_fitness_values(dataframe_fractions, N, cOC, cOB, cMM, matrix):
-    """Function that determine the fitness values of the OCs, OBs and MM cells
+    """Function that determine the fitness values of the OC, OB and MM cells
     based on their fractions on every time point. It also calculates the
     average fitness.
 
     Parameters:
     -----------
     dataframe_fractions: Dataframe
-        Dataframe with the fractions of the OBs, OCs and MM cells on every
+        Dataframe with the fractions of the OB, OC and MM cells on every
         timepoint
 
     Returns:
     --------
     dataframe_fitness: Dataframe
-        A dataframe with the fitness values of the OBs, OCs and MM cells and
+        A dataframe with the fitness values of the OB, OC and MM cells and
         the avreage fitness on every time point.
     """
 

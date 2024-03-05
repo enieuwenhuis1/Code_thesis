@@ -6,8 +6,8 @@ Description:  Code that attempts to replicate the formulas and Figures from the
               paper by Sartakhti et al. (2018) to get a better understanding of
               cancer modeling. The model simulates linear and nonlinear dynamics
               and collective interactions in the multiple myeloma (MM) micro-
-              environment with three cell types: MM cells, osteoblasts (OBs) and
-              osteoclasts (OCs).
+              environment with three cell types: MM cells, osteoblasts (OB) and
+              osteoclasts (OC).
 
               The found results do not align with those presented in the paper.
               This difference may be because of potential misinterpretations or
@@ -530,7 +530,7 @@ def dynamics_same_h_and_s(y, t, parameters):
     Parameters:
     -----------
     y: List
-        List containing the current fractions of the OCs, OBs and MM cells
+        List containing the current fractions of the OC, OB and MM cells
     t: Numpy.ndarray
         Array with the time points.
     parameters: tuple
@@ -584,7 +584,7 @@ def dynamics_different_h_and_s(y, t, parameters):
     Parameters:
     -----------
     y: List
-        List containing the current fractions of the OCs, OBs and MM cells
+        List containing the current fractions of the OC, OB and MM cells
     t: Numpy.ndarray
         Array with the time points.
     parameters: tuple

@@ -4,8 +4,8 @@ University:   UvA
 Student id':  13717405
 Description:  Code of the model that simulates the dynamics in the multiple myeloma
               (MM) microenvironment with four cell types: drug-sensitive MM cells
-              (MMd), resistant MM cells (MMr), osteoblasts (OBs) and osteoclasts
-              (OCs). The model is a public goods game in the framework of
+              (MMd), resistant MM cells (MMr), osteoblasts (OB) and osteoclasts
+              (OC). The model is a public goods game in the framework of
               evolutionary game theory with collective interactions. In this model
               there is looked at the numbers of the four cell types.
 """
@@ -80,24 +80,24 @@ def dOC_dt(nOC, nOB, nMMd, nMMr, gr_OC, dr_OC, matrix):
     Parameters:
     -----------
     nOC: Float
-         of OCs.
+         of OC.
     nOB: Float
-         of OBs.
+         of OB.
     nMMd: Float
          of the MMd.
     nMMr: Float
          of the MMr.
     gr_OC: Float
-        Growth rate of the OCs.
+        Growth rate of the OC.
     dr_OC: Float
-        Dacay rate of the OCs.
+        Dacay rate of the OC.
     matrix: Numpy.ndarray
         4x4 matrix containing the interaction factors.
 
     Returns:
     --------
     change_nOC: Float
-        Change in the number of OCs.
+        Change in the number of OC.
 
     Example:
     -----------
@@ -114,7 +114,7 @@ def dOC_dt(nOC, nOB, nMMd, nMMr, gr_OC, dr_OC, matrix):
     c = matrix[0, 2]
     d = matrix[0, 3]
 
-    # Calculate the Change on in the number of OCs
+    # Calculate the Change on in the number of OC
     change_nOC = (gr_OC * nOC**a * nOB**b * nMMd**c * nMMr**d) - (dr_OC * nOC)
     return change_nOC
 
@@ -125,24 +125,24 @@ def dOB_dt(nOC, nOB, nMMd, nMMr, gr_OB, dr_OB, matrix):
     Parameters:
     -----------
     nOC: Float
-        Number of OCs.
+        Number of OC.
     nOB: Float
-        Number of OBs.
+        Number of OB.
     nMMd: Float
         Number of the MMd.
     nMMr: Float
         Number of the MMr.
     gr_OB: Float
-        Growth rate of the OBs.
+        Growth rate of the OB.
     dr_OB: Float
-        Dacay rate of the OBs.
+        Dacay rate of the OB.
     matrix: Numpy.ndarray
         4x4 matrix containing the interaction factors.
 
     Returns:
     --------
     change_nOB: Float
-        Change in the number of OBs.
+        Change in the number of OB.
 
     Example:
     -----------
@@ -159,7 +159,7 @@ def dOB_dt(nOC, nOB, nMMd, nMMr, gr_OB, dr_OB, matrix):
     g = matrix[1, 2]
     h = matrix[1, 3]
 
-    # Calculate the change in number of OBs
+    # Calculate the change in number of OB
     change_nOB = (gr_OB * nOC**e * nOB**f * nMMd**g * nMMr**h) - (dr_OB * nOB)
     return change_nOB
 
@@ -170,9 +170,9 @@ def dMMd_dt(nOC, nOB, nMMd, nMMr, gr_MMd, dr_MMd, matrix, WMMd_inhibitor = 0):
     Parameters:
     -----------
     nOC: Float
-        Number of OCs.
+        Number of OC.
     nOB: Float
-         Number of OBs.
+         Number of OB.
     nMMd: Float
         Number of the MMd.
     nMMr: Float
@@ -219,9 +219,9 @@ def dMMr_dt(nOC, nOB, nMMd, nMMr, gr_MMr, dr_MMr, matrix):
     Parameters:
     -----------
     nOC: Float
-        Number of OCs.
+        Number of OC.
     nOB: Float
-        Number of OBs.
+        Number of OB.
     nMMr: Float
         Number of the MMr.
     nMMd: Float
@@ -235,7 +235,7 @@ def dMMr_dt(nOC, nOB, nMMd, nMMr, gr_MMr, dr_MMr, matrix):
 
     Returns:
     --------
-    change_MMr: Float
+    change_nMMr: Float
         Change in the number of MMr.
 
     Example:
@@ -254,8 +254,8 @@ def dMMr_dt(nOC, nOB, nMMd, nMMr, gr_MMr, dr_MMr, matrix):
     p = matrix[3, 3]
 
     # Calculate the change in the number of MMr
-    change_MMr = (gr_MMr * nOC**m * nOB**n * nMMd**o * nMMr**p) - (dr_MMr * nMMr)
-    return change_MMr
+    change_nMMr = (gr_MMr * nOC**m * nOB**n * nMMd**o * nMMr**p) - (dr_MMr * nMMr)
+    return change_nMMr
 
 
 def model_dynamics(y, t, growth_rates, decay_rates, matrix, WMMd_inhibitor = 0):
@@ -268,9 +268,9 @@ def model_dynamics(y, t, growth_rates, decay_rates, matrix, WMMd_inhibitor = 0):
     t: Numpy.ndarray
         Array with all the time points.
     growth_rates: List
-        List with the growth rate values of the OCs, OBs, MMd and MMr.
+        List with the growth rate values of the OC, OB, MMd and MMr.
     decay_rates: List
-        List with the decay rate values of OCs, OBs, MMd and MMr.
+        List with the decay rate values of OC, OB, MMd and MMr.
     matrix: Numpy.ndarray
         4x4 matrix containing the interaction factors.
     WMMd_inhibitor: Float
@@ -379,17 +379,17 @@ def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd,
     t_steps_no_drug: Int
         The number of generations drugs are not administared.
     nOC: Float
-        Number of OCs.
+        Number of OC.
     nOB: Float
-        Number of OBs.
+        Number of OB.
     nMMd: Float
         Number of the MMd.
     nMMr: Float
         Number of the MMr.
     growth_rates: List
-        List with the growth rate values of the OCs, OBs, MMd and MMr.
+        List with the growth rate values of the OC, OB, MMd and MMr.
     decay_rates: List
-        List with the decay rate values of OCs, OBs, MMd and MMr.
+        List with the decay rate values of OC, OB, MMd and MMr.
     matrix_no_GF_IH: Numpy.ndarray
         4x4 matrix containing the interaction factors when no GF IH are
                                                                     administrated.
@@ -496,17 +496,17 @@ def minimal_tumour_numb_t_steps(t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd,
     t_steps_no_drug: Int
         The number of generations drugs are not administared.
     nOC: Float
-        Number of OCs.
+        Number of OC.
     nOB: Float
-        Number of OBs.
+        Number of OB.
     nMMd: Float
         Number of the MMd.
     nMMr: Float
         Number of the MMr.
     growth_rates: List
-        List with the growth rate values of the OCs, OBs, MMd and MMr.
+        List with the growth rate values of the OC, OB, MMd and MMr.
     decay_rates: List
-        List with the decay rate values of OCs, OBs, MMd and MMr.
+        List with the decay rate values of OC, OB, MMd and MMr.
     matrix_no_GF_IH: Numpy.ndarray
         4x4 matrix containing the interaction factors when no GF IH are
                                                                     administrated.
@@ -545,19 +545,19 @@ def minimal_tumour_numb_b_OC_MMd(b_OC_MMd, nOC, nOB, nMMd, nMMr, growth_rates,
     Parameters:
     -----------
     b_OC_MMd: Float
-        Interaction value that gives the effect of the GFs of OCs on MMd.
+        Interaction value that gives the effect of the GFs of OC on MMd.
     nOC: Float
-        number of OCs.
+        number of OC.
     nOB: Float
-        number of OBs.
+        number of OB.
     nMMd: Float
         number of the MMd.
     nMMr: Float
         number of the MMr.
     growth_rates: List
-        List with the growth rate values of the OCs, OBs, MMd and MMr.
+        List with the growth rate values of the OC, OB, MMd and MMr.
     decay_rates: List
-        List with the decay rate values of OCs, OBs, MMd and MMr.
+        List with the decay rate values of OC, OB, MMd and MMr.
     matrix: Numpy.ndarray
         4x4 matrix containing the interaction factors.
     b_OC_MMd_array: Float
@@ -632,17 +632,17 @@ def minimal_tumour_numb_WMMd_IH(WMMd_inhibitor, nOC, nOB, nMMd, nMMr,
     WMMd_inhibitor: Float
         Streght of the drugs that inhibits the cMMd.
     nOC: Float
-        number of OCs.
+        number of OC.
     nOB: Float
-        number of OBs.
+        number of OB.
     nMMd: Float
         number of the MMd.
     nMMr: Float
         number of the MMr.
     growth_rates: List
-        List with the growth rate values of the OCs, OBs, MMd and MMr.
+        List with the growth rate values of the OC, OB, MMd and MMr.
     decay_rates: List
-        List with the decay rate values of OCs, OBs, MMd and MMr.
+        List with the decay rate values of OC, OB, MMd and MMr.
     matrix: Numpy.ndarray
         4x4 matrix containing the interaction factors.
     WMMd_inhibitor_array: Float
