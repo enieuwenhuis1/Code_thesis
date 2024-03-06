@@ -25,7 +25,7 @@ from mpl_toolkits.mplot3d import Axes3D
 import doctest
 
 """
-Example payoff matrix:
+Example interaction matrix:
 M = np.array([
        Goc Gob Gmmd Gmmr
     OC  [a,  b,  c,  d],
@@ -2712,8 +2712,8 @@ def Figure_frac_fitness_dynamics():
 
     # Plot first subplot
     df_WMMd_inhibition.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
-                        label=['fraction OC', 'fraction OB', 'fraction MMd',
-                                 'fraction MMr'], ax=axs[0, 0])
+                        label=['Fraction OC', 'Fraction OB', 'Fraction MMd',
+                                 'Fraction MMr'], ax=axs[0, 0])
     axs[0, 0].set_xlabel(' ')
     axs[0, 0].set_ylabel('Fraction')
     axs[0, 0].set_title(r'Fraction dynamics when a $W_{MMd}$ inhibitor is administerd')
@@ -2734,8 +2734,8 @@ def Figure_frac_fitness_dynamics():
 
     # Plot the third subplot
     df_MMd_GF_inhibition.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
-                        label=['fraction OC', 'fraction OB', 'fraction MMd',
-                                                'fraction MMr'], ax=axs[0, 1])
+                        label=['Fraction OC', 'Fraction OB', 'Fraction MMd',
+                                                'Fraction MMr'], ax=axs[0, 1])
     axs[0, 1].set_xlabel(' ')
     axs[0, 1].set_ylabel('Fraction')
     axs[0, 1].set_title('Fraction dynamics when a MMd GF inhibitor is administerd')

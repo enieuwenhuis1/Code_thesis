@@ -27,7 +27,7 @@ from mpl_toolkits.mplot3d import Axes3D
 import doctest
 
 """
-Example payoff matrix:
+Example interaction matrix:
 M = np.array([
        Goc Gob Gmmd Gmmr
     OC  [a,  b,  c,  d],
@@ -1448,60 +1448,6 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
 
     # Payoff matrix when no drugs are present
     matrix_no_GF_IH = np.array([
-        [0.0, 0.4, 0.65, 0.6],
-        [0.3, 0.0, -0.3, -0.3],
-        [0.6, 0.0, 0.2, 0.0],
-        [0.55, 0.0, -0.6, 0.4]])
-
-    # Payoff matrix when only GF inhibitor drugs are present
-    matrix_GF_IH = np.array([
-        [0.0, 0.4, 0.65, 0.6],
-        [0.3, 0.0, -0.3, -0.3],
-        [0.3, 0.0, 0.2, 0.0],
-        [0.55, 0.0, -0.6, 0.4]])
-
-    # Payoff matrix when both inhibitor drugs are present
-    matrix_GF_IH_comb = np.array([
-        [0.0, 0.4, 0.65, 0.6],
-        [0.3, 0.0, -0.3, -0.3],
-        [0.4, 0.0, 0.2, 0.0],
-        [0.55, 0.0, -0.8, 0.4]])
-
-    # WMMd inhibitor effect when both inhibitor drugs are present
-    WMMd_inhibitor_comb = 0.3
-
-    # WMMd inhibitor effect when only WMMd IH is present
-    WMMd_inhibitor = 0.4
-
-    # Payoff matrix when no drugs are present
-    matrix_no_GF_IH = np.array([
-        [0.0, 0.4, 0.6, 0.55],
-        [0.3, 0.0, -0.3, -0.3],
-        [0.6, 0.0, 0.2, 0.0],
-        [0.55, 0.0, -0.6, 0.4]])
-
-    # Payoff matrix when only GF inhibitor drugs are present
-    matrix_GF_IH = np.array([
-        [0.0, 0.4, 0.6, 0.55],
-        [0.3, 0.0, -0.3, -0.3],
-        [0.3, 0.0, 0.2, 0.0],
-        [0.55, 0.0, -0.6, 0.4]])
-
-    # Payoff matrix when both inhibitor drugs are present
-    matrix_GF_IH_comb = np.array([
-        [0.0, 0.4, 0.6, 0.55],
-        [0.3, 0.0, -0.3, -0.3],
-        [0.4, 0.0, 0.2, 0.0],
-        [0.55, 0.0, -0.8, 0.4]])
-
-    # WMMd inhibitor effect when both inhibitor drugs are present
-    WMMd_inhibitor_comb = 0.3
-
-    # WMMd inhibitor effect when only WMMd IH is present
-    WMMd_inhibitor = 0.42
-
-    # Payoff matrix when no drugs are present
-    matrix_no_GF_IH = np.array([
         [0.0, 0.4, 0.64, 0.57],
         [0.3, 0.0, -0.3, -0.3],
         [0.6, 0.0, 0.2, 0.0],
@@ -1526,34 +1472,6 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
 
     # WMMd inhibitor effect when only WMMd IH is present
     WMMd_inhibitor = 0.42
-
-    # # Payoff matrix when no drugs are present
-    # matrix_no_GF_IH = np.array([
-    #     [0.0, 0.4, 0.65, 0.55],
-    #     [0.3, 0.0, -0.3, -0.3],
-    #     [0.6, 0.0, 0.2, 0.0],
-    #     [0.55, 0.0, -0.6, 0.4]])
-    #
-    # # Payoff matrix when only GF inhibitor drugs are present
-    # matrix_GF_IH = np.array([
-    #     [0.0, 0.4, 0.65, 0.55],
-    #     [0.3, 0.0, -0.3, -0.3],
-    #     [0.3, 0.0, 0.2, 0.0],
-    #     [0.55, 0.0, -0.6, 0.4]])
-    #
-    # # Payoff matrix when both inhibitor drugs are present
-    # matrix_GF_IH_comb = np.array([
-    #     [0.0, 0.4, 0.65, 0.55],
-    #     [0.3, 0.0, -0.3, -0.3],
-    #     [0.4, 0.0, 0.2, 0.0],
-    #     [0.55, 0.0, -0.8, 0.4]])
-    #
-    # # WMMd inhibitor effect when both inhibitor drugs are present
-    # WMMd_inhibitor_comb = 0.3
-    #
-    # # WMMd inhibitor effect when only WMMd IH is present
-    # WMMd_inhibitor = 0.42
-
 
     # Make a dataframe
     column_names = ['Generations no drug', 'Generations drug', 'MM number']
@@ -1733,7 +1651,7 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
             ax.set_title(r'A) $W_{MMd}$ inhibitor', pad=10)
 
             # Turn to the right angle
-            ax.view_init(elev = 35, azim = -112)
+            ax.view_init(elev = 19, azim = -130)
 
             # Add a color bar
             color_bar = fig.colorbar(surf, ax=ax, shrink=0.4, location= 'right')
@@ -1749,7 +1667,7 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
             ax.set_title('B)  MMd GF inhibitor', pad=10)
 
             # Turn to the right angle
-            ax.view_init(elev = 32, azim = -164)
+            ax.view_init(elev = 22, azim = -155)
 
             # Add a color bar
             color_bar = fig.colorbar(surf, ax=ax, shrink=0.4, location= 'right')
@@ -1766,7 +1684,7 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
             ax.set_title('C)  $W_{MMd}$ inhibitor and MMd GF inhibitor', pad=10)
 
             # Turn to the right angle
-            ax.view_init(elev = 39, azim = -121)
+            ax.view_init(elev = 25, azim = -126)
 
             # Add a color bar
             color_bar = fig.colorbar(surf, ax=ax, shrink=0.4, location= 'right')

@@ -24,7 +24,7 @@ from mpl_toolkits.mplot3d import Axes3D
 import doctest
 
 """
-Example payoff matrix:
+Example interaction matrix:
 M = np.array([
        Goc Gob Gmmd Gmmr
     OC  [a,  b,  c,  d],
