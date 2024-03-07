@@ -12,7 +12,7 @@ Description:  Code with the model that simulates the dynamics in the multiple
 
               The IHs have not only an influence on the MMd but also on the OB and
               OC. This was incorporated by increasing the drOC and grOB value and
-              decreasing the grOC value.
+              decreasing the grOC value when a IH was administered.
 """
 
 # Import the needed libraries
@@ -925,7 +925,7 @@ def Figure_best_b_OC_MMd():
 
     # Save the data
     save_dictionary(dict_frac_tumour_GF,
-                 r'..\data\data_own_model_frac_IH_inf\dict_cell_frac_IH_b_OC_MMd.csv')
+             r'..\data\data_own_model_frac_IH_inf\dict_cell_frac_IH_b_OC_MMd.csv')
 
     # Retrieve the optimal value
     min_value = min(dict_frac_tumour_GF.values())
@@ -1332,7 +1332,8 @@ def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
 
     t = np.linspace(15, 135, 120)
     y0 = [xOC, xOB, xMMd, xMMr]
-    parameters = (N, cOC_IH, cOB_IH, cMMd, cMMr, matrix_GF_IH_comb, WMMd_inhibitor_comb)
+    parameters = (N, cOC_IH, cOB_IH, cMMd, cMMr, matrix_GF_IH_comb,
+                                                            WMMd_inhibitor_comb)
 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
@@ -1409,7 +1410,7 @@ def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
     axs[1, 2].set_title(r"Adaptive therapy MMd GF IH and $W_{MMd}$ IH")
     axs[1, 2].grid(True)
     save_Figure(plt, 'line_plot_cell_frac_IH_AT_MTD_short_a_h',
-                                 r'..\visualisation\results_own_model_frac_IH_inf')
+                             r'..\visualisation\results_own_model_frac_IH_inf')
 
     # Create a single legend outside of all plots
     legend_labels = ['Fraction OC', 'Fraction OB', 'Fraction MMd', 'Fraction MMr']
@@ -1645,7 +1646,7 @@ def Figure_continuous_MTD_vs_AT_weak_a_h(n_switches, t_steps_drug):
     axs[1, 2].set_title(r"Adaptive therapy MMd GF IH and $W_{MMd}$ IH")
     axs[1, 2].grid(True)
     save_Figure(plt, 'line_plot_cell_frac_IH_AT_MTD_weak_a_h',
-                                 r'..\visualisation\results_own_model_frac_IH_inf')
+                             r'..\visualisation\results_own_model_frac_IH_inf')
 
     # Create a single legend outside of all plots
     legend_labels = ['Fraction OC', 'Fraction OB', 'Fraction MMd', 'Fraction MMr']
@@ -1882,7 +1883,7 @@ def Figure_continuous_MTD_vs_AT_OB_a_h(n_switches, t_steps_drug):
     axs[1, 2].set_title(r"Adaptive therapy MMd GF IH and $W_{MMd}$ IH")
     axs[1, 2].grid(True)
     save_Figure(plt, 'line_plot_cell_frac_IH_AT_MTD_OB_a_h',
-                                 r'..\visualisation\results_own_model_frac_IH_inf')
+                             r'..\visualisation\results_own_model_frac_IH_inf')
 
     # Create a single legend outside of all plots
     legend_labels = ['Fraction OC', 'Fraction OB', 'Fraction MMd', 'Fraction MMr']
@@ -1960,7 +1961,7 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
 
     # Save the data
     save_dataframe(df_holiday_GF_IH, 'df_cell_frac_IH_best_MMd_GH_IH_holiday.csv',
-                                             r'..\data\data_own_model_frac_IH_inf')
+                                         r'..\data\data_own_model_frac_IH_inf')
 
     # Find the drug administration and holiday period causing the lowest MM fraction
     min_index_GF_IH = df_holiday_GF_IH['MM fraction'].idxmin()

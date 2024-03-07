@@ -239,7 +239,7 @@ In the folder visualisation, all made figures are shown. This folder contains:
                               influences were added.
 
 
-HOW TO RUN
+HOW TO RUN THE CODES 
 The nonlinear model and its visualisation, model_S_nonlinear.py:
         - python model_S_nonlinear.py
 

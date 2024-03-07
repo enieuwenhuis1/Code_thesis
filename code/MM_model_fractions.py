@@ -64,7 +64,7 @@ def main():
     # Make a figure that shows the MM fraction for different WMMd IH values
     Figure_best_WMMD_IH()
 
-    # # Make a 3D figure showing the effect of different WMMd and MMd GF IH strengths
+    # Make a 3D figure showing the effect of different WMMd and MMd GF IH strengths
     Figure_3D_MM_frac_MMd_IH_strength()
 
     # Make line plots showing different equilibriums when the MMd GF IH holiday
@@ -2551,8 +2551,9 @@ def Figure_3_senarios_MMd_GF_WMMd_IH(n_switches, t_steps_drug):
     axs[0, 0].grid(True)
 
     # Plot the data with drug holidays in the second plot
-    df_total_switch_1.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'], label=[\
-    'fraction OC', 'fraction OB', 'fraction MMd','fraction MMr'], ax=axs[0, 1])
+    df_total_switch_1.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+                            label=['fraction OC', 'fraction OB', 'fraction MMd',
+                            'fraction MMr'], ax=axs[0, 1])
     axs[0, 1].set_xlabel(' ')
     axs[0, 1].set_ylabel('MM fraction')
     axs[0, 1].set_title(f"""Dynamics when MMd GF and WMMd inhibitors are
@@ -2562,8 +2563,9 @@ def Figure_3_senarios_MMd_GF_WMMd_IH(n_switches, t_steps_drug):
     axs[0, 1].grid(True)
 
     # Plot the data with drug holidays in the third plot
-    df_total_switch_2.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'], label=[\
-    'fraction OC', 'fraction OB', 'fraction MMd','fraction MMr'], ax=axs[1, 0])
+    df_total_switch_2.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+                            label=['fraction OC', 'fraction OB', 'fraction MMd',
+                            'fraction MMr'], ax=axs[1, 0])
     axs[1, 0].set_xlabel('Generations')
     axs[1, 0].set_ylabel('MM fraction')
     axs[1, 0].set_title(f"""Dynamics when MMd GF and WMMd inhibitors are
@@ -2573,8 +2575,9 @@ def Figure_3_senarios_MMd_GF_WMMd_IH(n_switches, t_steps_drug):
     plt.grid(True)
 
     # Plot the data with drug holidays in the fourth plot
-    df_total_switch_3.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'], label=[\
-    'fraction OC', 'fraction OB', 'fraction MMd','fraction MMr'], ax=axs[1, 1])
+    df_total_switch_3.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+                            label=[ 'fraction OC', 'fraction OB', 'fraction MMd',
+                            'fraction MMr'], ax=axs[1, 1])
     axs[1, 1].set_xlabel('Generations')
     axs[1, 1].set_ylabel('MM fraction')
     axs[1, 1].set_title(f"""Dynamics when MMd GF and WMMd inhibitors are
@@ -2821,8 +2824,9 @@ def Figure_duration_A_h_MMd_IH(n_switches, t_steps_drug, t_steps_no_drug):
     th = t_steps_no_drug
 
     # Plot the data with drug holidays in the second plot
-    df_total_switch_1.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'], label=[\
-    'Fraction OC', 'Fraction OB', 'Fraction MMd', 'Fraction MMr'], ax=axs[0])
+    df_total_switch_1.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+                            label=[ 'Fraction OC', 'Fraction OB', 'Fraction MMd',
+                            'Fraction MMr'], ax=axs[0])
     axs[0].set_xlabel('Generations')
     axs[0].set_ylabel('MM fraction')
     axs[0].set_title(f"""Dynamics when the IH administrations lasted {ta[0]} {g}
@@ -2831,8 +2835,9 @@ def Figure_duration_A_h_MMd_IH(n_switches, t_steps_drug, t_steps_no_drug):
     axs[0].grid(True)
 
     # Plot the data with drug holidays in the third plot
-    df_total_switch_2.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'], label=[\
-    'Fraction OC', 'Fraction OB', 'Fraction MMd', 'Fraction MMr'], ax=axs[1])
+    df_total_switch_2.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+                            label=[ 'Fraction OC', 'Fraction OB', 'Fraction MMd',
+                            'Fraction MMr'], ax=axs[1])
     axs[1].set_xlabel('Generations')
     axs[1].set_ylabel('MM fraction')
     axs[1].set_title(f"""Dynamics when the IH administrations lasted {ta[1]} {g}
@@ -2920,16 +2925,18 @@ def Dataframe_bOCMMd_eigenvalues():
 
         # Add data to a dataframe
         new_row_df = pd.DataFrame([{'bOC,MMd': round(0.6 + (i/10), 1),
-        'Eigenvalue 1': eigenvalues[0], 'Eigenvalue 2': eigenvalues[1],
-        'Eigenvalue 3': eigenvalues[2], 'Eigenvalue 4': eigenvalues[3],
-        'period H': g_no_drug_min, 'period A': g_drug_min, 'MM fraction': frac_min}])
+                'Eigenvalue 1': eigenvalues[0], 'Eigenvalue 2': eigenvalues[1],
+                'Eigenvalue 3': eigenvalues[2], 'Eigenvalue 4': eigenvalues[3],
+                'period H': g_no_drug_min, 'period A': g_drug_min,
+                'MM fraction': frac_min}])
         df_eigenvalues = pd.concat([df_eigenvalues, new_row_df], ignore_index=True)
 
         # Add data to a dataframe and discard the imaginary part to make it a float
         new_row_df = pd.DataFrame([{'bMMd,MMd & bMMr,MMr': round(0.6 + (i/10), 1),
-        'Eigenvalue 1':float(eigenvalues[0]), 'Eigenvalue 2': float(eigenvalues[1]),
-        'Eigenvalue 3': float(eigenvalues[2]), 'Eigenvalue 4': float(eigenvalues[3]),
-        'period H': g_no_drug_min, 'period A': g_drug_min, 'MM fraction': frac_min}])
+                'Eigenvalue 1':float(eigenvalues[0]), 'Eigenvalue 2': \
+                float(eigenvalues[1]), 'Eigenvalue 3': float(eigenvalues[2]),
+                'Eigenvalue 4': float(eigenvalues[3]), 'period H': g_no_drug_min,
+                'period A': g_drug_min, 'MM fraction': frac_min}])
         df_eigenvalues_float = pd.concat([df_eigenvalues_float, new_row_df],
                                                                 ignore_index=True)
 
@@ -3066,18 +3073,20 @@ def Dataframe_bMMdMMd_bMMrMMr_eigenvalues():
 
         # Add data to a dataframe
         new_row_df = pd.DataFrame([{'bMMd,MMd & bMMr,MMr':  round(0.1 + (i/5), 1),
-        'Eigenvalue 1': eigenvalues[0], 'Eigenvalue 2': eigenvalues[1],
-        'Eigenvalue 3': eigenvalues[2], 'Eigenvalue 4': eigenvalues[3],
-        'period H': g_no_drug_min, 'period A': g_drug_min, 'MM fraction': frac_min}])
+                'Eigenvalue 1': eigenvalues[0], 'Eigenvalue 2': eigenvalues[1],
+                'Eigenvalue 3': eigenvalues[2], 'Eigenvalue 4': eigenvalues[3],
+                'period H': g_no_drug_min, 'period A': g_drug_min,
+                'MM fraction': frac_min}])
         df_eigenvalues = pd.concat([df_eigenvalues, new_row_df], ignore_index=True)
 
         # Add data to a dataframe and discard the imaginary part to make it a float
         new_row_df = pd.DataFrame([{'bMMd,MMd & bMMr,MMr':  round(0.1 + (i/5), 1),
-        'Eigenvalue 1':float(eigenvalues[0]), 'Eigenvalue 2': float(eigenvalues[1]),
-        'Eigenvalue 3': float(eigenvalues[2]), 'Eigenvalue 4': float(eigenvalues[3]),
-        'period H': g_no_drug_min, 'period A': g_drug_min, 'MM fraction': frac_min}])
+                'Eigenvalue 1':float(eigenvalues[0]), 'Eigenvalue 2': \
+                 float(eigenvalues[1]),'Eigenvalue 3': float(eigenvalues[2]),
+                 'Eigenvalue 4': float(eigenvalues[3]), 'period H': g_no_drug_min,
+                 'period A': g_drug_min, 'MM fraction': frac_min}])
         df_eigenvalues_float = pd.concat([df_eigenvalues_float, new_row_df],
-                                                                ignore_index=True)
+                                                              ignore_index=True)
 
     # Calculate Spearman correlation coefficients and p-values with eigenvalue 1
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\

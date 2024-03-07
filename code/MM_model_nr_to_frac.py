@@ -1526,9 +1526,9 @@ def Figure_best_b_OC_MMd():
     b_OC_MMd_start = 0.45
 
     # Perform the optimization
-    result = minimize(minimal_tumour_nr_frac_b_OC_MMd, b_OC_MMd_start, args = (nOC,
-                            nOB, nMMd, nMMr, growth_rates, decay_rates, matrix,
-                            True), bounds=[(0, 0.8)],  method='Nelder-Mead')
+    result = minimize(minimal_tumour_nr_frac_b_OC_MMd, b_OC_MMd_start, args = \
+                        (nOC, nOB, nMMd, nMMr, growth_rates, decay_rates, matrix,
+                        True), bounds=[(0, 0.8)],  method='Nelder-Mead')
 
     # Retrieve the optimal value
     optimal_b_OC_MMd= result.x
@@ -1544,12 +1544,12 @@ def Figure_best_b_OC_MMd():
 
         # Determine the total MM number
         nr_frac_tumour = minimal_tumour_nr_frac_b_OC_MMd(b_OC_MMd, nOC, nOB, nMMd,
-                            nMMr, growth_rates, decay_rates, matrix, False)
+                                nMMr, growth_rates, decay_rates, matrix, False)
         dict_nr_frac_tumour_GF[b_OC_MMd] = nr_frac_tumour
 
     # Save the data
     save_dictionary(dict_nr_frac_tumour_GF,
-                 r'..\data\data_own_model_nr_to_frac\dict_cell_nr_frac_b_OC_MMd.csv')
+             r'..\data\data_own_model_nr_to_frac\dict_cell_nr_frac_b_OC_MMd.csv')
 
     # Make a list of the keys and one of the values
     b_OC_MMd_values = list(dict_nr_frac_tumour_GF.keys())
