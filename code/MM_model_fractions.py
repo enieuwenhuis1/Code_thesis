@@ -95,6 +95,7 @@ def main():
 
     # Make tables showing the effect of chaning interaction matrix on the
     # eigenvalues H period, A period and MM fraction
+    Dataframe_bMMrOC_eigenvalues()
     Dataframe_bOCMMd_eigenvalues()
     Dataframe_bMMdMMd_bMMrMMr_eigenvalues()
 
@@ -2899,7 +2900,6 @@ def Dataframe_bOCMMd_eigenvalues():
         # Make a dataframe
         column_names = ['Generations no drug', 'Generations drug', 'MM fraction']
         df_holiday = pd.DataFrame(columns=column_names)
-        df_holiday = pd.DataFrame(columns=column_names)
 
         # Loop over al the t_step values for drug dministration and drug holidays
         for t_steps_no_drug in range(2, 22):
@@ -2932,7 +2932,7 @@ def Dataframe_bOCMMd_eigenvalues():
         df_eigenvalues = pd.concat([df_eigenvalues, new_row_df], ignore_index=True)
 
         # Add data to a dataframe and discard the imaginary part to make it a float
-        new_row_df = pd.DataFrame([{'bMMd,MMd & bMMr,MMr': round(0.6 + (i/10), 1),
+        new_row_df = pd.DataFrame([{'bOC,MMd': round(0.6 + (i/10), 1),
                 'Eigenvalue 1':float(eigenvalues[0]), 'Eigenvalue 2': \
                 float(eigenvalues[1]), 'Eigenvalue 3': float(eigenvalues[2]),
                 'Eigenvalue 4': float(eigenvalues[3]), 'period H': g_no_drug_min,
@@ -2943,61 +2943,211 @@ def Dataframe_bOCMMd_eigenvalues():
     # Calculate Spearman correlation coefficients and p-values with eigenvalue 1
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 1'], df_eigenvalues_float['period H'])
-    print(f"""Eigenvalue 1 and holiday period: p-value = {p_value}, correlation
-    coefficient = {correlation_coefficient}""")
+    print(f"""Eigenvalue 1 and the best holiday period: p-value = {p_value},
+    correlation coefficient = {correlation_coefficient}""")
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 1'], df_eigenvalues_float['period A'])
-    print(f"""Eigenvalue 1 and administration period: p-value = {p_value},
+    print(f"""Eigenvalue 1 and the best administration period: p-value = {p_value},
     correlation coefficient = {correlation_coefficient}""")
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 1'], df_eigenvalues_float['MM fraction'])
-    print(f"""Eigenvalue 1 and MM fraction: p-value = {p_value}, correlation
-    coefficient = {correlation_coefficient}""")
+    print(f"""Eigenvalue 1 and the lowest MM fraction: p-value = {p_value},
+    correlation coefficient = {correlation_coefficient}""")
 
     # Calculate Spearman correlation coefficients and p-values with eigenvalue 2
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 2'], df_eigenvalues_float['period H'])
-    print(f"""Eigenvalue 2 and holiday period: p-value = {p_value}, correlation
-    coefficient = {correlation_coefficient}""")
+    print(f"""Eigenvalue 2 and the best holiday period: p-value = {p_value},
+    correlation coefficient = {correlation_coefficient}""")
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 2'], df_eigenvalues_float['period A'])
-    print(f"""Eigenvalue 2 and administration period: p-value = {p_value},
+    print(f"""Eigenvalue 2 and the best administration period: p-value = {p_value},
     correlation coefficient = {correlation_coefficient}""")
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 2'], df_eigenvalues_float['MM fraction'])
-    print(f"""Eigenvalue 2 and MM fraction: p-value = {p_value}, correlation
-    coefficient = {correlation_coefficient}""")
+    print(f"""Eigenvalue 2 and the lowest MM fraction: p-value = {p_value},
+    correlation coefficient = {correlation_coefficient}""")
 
     # Calculate Spearman correlation coefficients and p-values with eigenvalue 3
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 3'], df_eigenvalues_float['period H'])
-    print(f"""Eigenvalue 3 and holiday period: p-value = {p_value}, correlation
-    coefficient = {correlation_coefficient}""")
+    print(f"""Eigenvalue 3 and the best holiday period: p-value = {p_value},
+    correlation coefficient = {correlation_coefficient}""")
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 3'], df_eigenvalues_float['period A'])
-    print(f"""Eigenvalue 3 and administration period: p-value = {p_value},
+    print(f"""Eigenvalue 3 and the best administration period: p-value = {p_value},
     correlation coefficient = {correlation_coefficient}""")
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 3'], df_eigenvalues_float['MM fraction'])
-    print(f"""Eigenvalue 3 and MM fraction: p-value = {p_value}, correlation
-    coefficient = {correlation_coefficient}""")
+    print(f"""Eigenvalue 3 and the lowest MM fraction: p-value = {p_value},
+    correlation coefficient = {correlation_coefficient}""")
 
     # Calculate Spearman correlation coefficients and p-values with eigenvalue 4
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 4'], df_eigenvalues_float['period H'])
-    print(f"""Eigenvalue 4 and holiday period: p-value = {p_value}, correlation
-    coefficient = {correlation_coefficient}""")
+    print(f"""Eigenvalue 4 and the best holiday period: p-value = {p_value},
+    correlation coefficient = {correlation_coefficient}""")
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 4'], df_eigenvalues_float['period A'])
-    print(f"""Eigenvalue 4 and administration period: p-value = {p_value},
+    print(f"""Eigenvalue 4 and the best administration period: p-value = {p_value},
     correlation coefficient = {correlation_coefficient}""")
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 4'], df_eigenvalues_float['MM fraction'])
-    print(f"""Eigenvalue 4 and MM fraction: p-value = {p_value}, correlation
-    coefficient = {correlation_coefficient}""")
+    print(f"""Eigenvalue 4 and the lowest MM fraction: p-value = {p_value},
+    correlation coefficient = {correlation_coefficient}""")
 
     # Save the data
     save_dataframe(df_eigenvalues, 'df_eigenvalues_bOCMMd.csv',
+                                             r'..\data\data_own_model_fractions')
+
+
+"""Tables showing the effect of chaning interaction matrix on the eigenvalues H
+period, A period and MM fraction"""
+def Dataframe_bMMrOC_eigenvalues():
+    """ Function that makes a table of the eigenvalues of the interaction matrix,
+    MM fraction and the best holiday (H) and administration (A) period for
+    different bMMr,OC values."""
+
+    # Make a dataframe
+    column_names = ['bMMd,MMr', 'Eigenvalue 1', 'Eigenvalue 2', 'Eigenvalue 3',
+                        'Eigenvalue 4', 'period H', 'period A', 'MM fraction']
+    df_eigenvalues = pd.DataFrame(columns=column_names)
+    df_eigenvalues_float = pd.DataFrame(columns=column_names)
+
+    for i in range(8):
+        # Set initial parameter values
+        N = 50
+        cMMr = 1.3
+        cMMd = 1.2
+        cOB = 0.8
+        cOC = 1
+        xOC = 0.2
+        xOB = 0.3
+        xMMd = 0.2
+        xMMr = 0.3
+
+        # Payoff matrix when no drugs are present
+        matrix_no_drugs = np.array([
+            [0.0, 1.6, 2.2, 1.9],
+            [1.0, 0.0, -0.5, -0.5],
+            [2.2, 0.0, 0.2, 0.0],
+            [1.9, 0.0, -0.8, 0.2]])
+
+        # Payoff matrix when only GF inhibitor drugs are present
+        matrix_drugs = np.array([
+            [0.0, 1.6, 2.2, 1.9],
+            [1.0, 0.0, -0.5, -0.5],
+            [0.7,  0, 0.2, 0],
+            [1.9, 0, -0.8, 0.2]])
+
+        # Change the interaction value
+        matrix_drugs[0, 3] = round(1.5 + (i/10), 1)
+        matrix_no_drugs[0, 3] = round(1.5 + (i/10), 1)
+
+        # Determine the eigenvalues
+        eigenvalues = np.linalg.eigvals(matrix_drugs)
+
+        # Make a dataframe
+        column_names = ['Generations no drug', 'Generations drug', 'MM fraction']
+        df_holiday = pd.DataFrame(columns=column_names)
+
+        # Loop over al the t_step values for drug dministration and drug holidays
+        for t_steps_no_drug in range(2, 22):
+
+            for t_steps_drug in range(2, 22):
+
+                frac_tumour = minimal_tumour_frac_t_steps(t_steps_drug,
+                                t_steps_no_drug, xOC, xOB, xMMd, xMMr, N, cOC,
+                                cOB, cMMd, cMMr, matrix_no_drugs, matrix_drugs)
+
+                # Add results to the dataframe
+                new_row_df = pd.DataFrame([{'Generations no drug': \
+                    int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
+                    'MM fraction': float(frac_tumour)}])
+                df_holiday = pd.concat([df_holiday, new_row_df], ignore_index=True)
+
+        # Find the drug administration and holiday period causing the lowest MM
+        # fraction
+        min_index = df_holiday['MM fraction'].idxmin()
+        g_no_drug_min = df_holiday.loc[min_index, 'Generations no drug']
+        g_drug_min = df_holiday.loc[min_index, 'Generations drug']
+        frac_min = df_holiday.loc[min_index, 'MM fraction']
+
+        # Add data to a dataframe
+        new_row_df = pd.DataFrame([{'bMMd,MMr': round(1.5 + (i/10), 1),
+                'Eigenvalue 1': eigenvalues[0], 'Eigenvalue 2': eigenvalues[1],
+                'Eigenvalue 3': eigenvalues[2], 'Eigenvalue 4': eigenvalues[3],
+                'period H': g_no_drug_min, 'period A': g_drug_min,
+                'MM fraction': frac_min}])
+        df_eigenvalues = pd.concat([df_eigenvalues, new_row_df], ignore_index=True)
+
+        # Add data to a dataframe and discard the imaginary part to make it a float
+        new_row_df = pd.DataFrame([{'bMMd,MMr': round(1.5 + (i/10), 1),
+                'Eigenvalue 1':float(eigenvalues[0]), 'Eigenvalue 2': \
+                float(eigenvalues[1]), 'Eigenvalue 3': float(eigenvalues[2]),
+                'Eigenvalue 4': float(eigenvalues[3]), 'period H': g_no_drug_min,
+                'period A': g_drug_min, 'MM fraction': frac_min}])
+        df_eigenvalues_float = pd.concat([df_eigenvalues_float, new_row_df],
+                                                                ignore_index=True)
+
+    # Calculate Spearman correlation coefficients and p-values with eigenvalue 1
+    correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
+                            'Eigenvalue 1'], df_eigenvalues_float['period H'])
+    print(f"""Eigenvalue 1 and the best holiday period: p-value = {p_value},
+    correlation coefficient = {correlation_coefficient}""")
+    correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
+                            'Eigenvalue 1'], df_eigenvalues_float['period A'])
+    print(f"""Eigenvalue 1 and the best administration period: p-value = {p_value},
+    correlation coefficient = {correlation_coefficient}""")
+    correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
+                            'Eigenvalue 1'], df_eigenvalues_float['MM fraction'])
+    print(f"""Eigenvalue 1 and the lowest MM fraction: p-value = {p_value},
+    correlation coefficient = {correlation_coefficient}""")
+
+    # Calculate Spearman correlation coefficients and p-values with eigenvalue 2
+    correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
+                            'Eigenvalue 2'], df_eigenvalues_float['period H'])
+    print(f"""Eigenvalue 2 and the best holiday period: p-value = {p_value},
+    correlation coefficient = {correlation_coefficient}""")
+    correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
+                            'Eigenvalue 2'], df_eigenvalues_float['period A'])
+    print(f"""Eigenvalue 2 and the best administration period: p-value = {p_value},
+    correlation coefficient = {correlation_coefficient}""")
+    correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
+                            'Eigenvalue 2'], df_eigenvalues_float['MM fraction'])
+    print(f"""Eigenvalue 2 and the lowest MM fraction: p-value = {p_value},
+    correlation coefficient = {correlation_coefficient}""")
+
+    # Calculate Spearman correlation coefficients and p-values with eigenvalue 3
+    correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
+                            'Eigenvalue 3'], df_eigenvalues_float['period H'])
+    print(f"""Eigenvalue 3 and the best holiday period: p-value = {p_value},
+    correlation coefficient = {correlation_coefficient}""")
+    correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
+                            'Eigenvalue 3'], df_eigenvalues_float['period A'])
+    print(f"""Eigenvalue 3 and the best administration period: p-value = {p_value},
+    correlation coefficient = {correlation_coefficient}""")
+    correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
+                            'Eigenvalue 3'], df_eigenvalues_float['MM fraction'])
+    print(f"""Eigenvalue 3 and the lowest MM fraction: p-value = {p_value},
+    correlation coefficient = {correlation_coefficient}""")
+
+    # Calculate Spearman correlation coefficients and p-values with eigenvalue 4
+    correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
+                            'Eigenvalue 4'], df_eigenvalues_float['period H'])
+    print(f"""Eigenvalue 4 and the best holiday period: p-value = {p_value},
+    correlation coefficient = {correlation_coefficient}""")
+    correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
+                            'Eigenvalue 4'], df_eigenvalues_float['period A'])
+    print(f"""Eigenvalue 4 and the best administration period: p-value = {p_value},
+    correlation coefficient = {correlation_coefficient}""")
+    correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
+                            'Eigenvalue 4'], df_eigenvalues_float['MM fraction'])
+    print(f"""Eigenvalue 4 and the lowest MM fraction: p-value = {p_value},
+    correlation coefficient = {correlation_coefficient}""")
+
+    # Save the data
+    save_dataframe(df_eigenvalues, 'df_eigenvalues_bMMrOC.csv',
                                              r'..\data\data_own_model_fractions')
 
 def Dataframe_bMMdMMd_bMMrMMr_eigenvalues():
@@ -3091,58 +3241,58 @@ def Dataframe_bMMdMMd_bMMrMMr_eigenvalues():
     # Calculate Spearman correlation coefficients and p-values with eigenvalue 1
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 1'], df_eigenvalues_float['period H'])
-    print(f"""Eigenvalue 1 and holiday period: p-value = {p_value}, correlation
-    coefficient = {correlation_coefficient}""")
+    print(f"""Eigenvalue 1 and the best holiday period: p-value = {p_value},
+    correlation coefficient = {correlation_coefficient}""")
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 1'], df_eigenvalues_float['period A'])
-    print(f"""Eigenvalue 1 and administration period: p-value = {p_value},
+    print(f"""Eigenvalue 1 and the best administration period: p-value = {p_value},
     correlation coefficient = {correlation_coefficient}""")
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 1'], df_eigenvalues_float['MM fraction'])
-    print(f"""Eigenvalue 1 and MM fraction: p-value = {p_value}, correlation
-    coefficient = {correlation_coefficient}""")
+    print(f"""Eigenvalue 1 and the lowest MM fraction: p-value = {p_value},
+    correlation coefficient = {correlation_coefficient}""")
 
     # Calculate Spearman correlation coefficients and p-values with eigenvalue 2
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 2'], df_eigenvalues_float['period H'])
-    print(f"""Eigenvalue 2 and holiday period: p-value = {p_value}, correlation
-    coefficient = {correlation_coefficient}""")
+    print(f"""Eigenvalue 2 and the best holiday period: p-value = {p_value},
+    correlation coefficient = {correlation_coefficient}""")
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 2'], df_eigenvalues_float['period A'])
-    print(f"""Eigenvalue 2 and administration period: p-value = {p_value},
+    print(f"""Eigenvalue 2 and the best administration period: p-value = {p_value},
     correlation coefficient = {correlation_coefficient}""")
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 2'], df_eigenvalues_float['MM fraction'])
-    print(f"""Eigenvalue 2 and MM fraction: p-value = {p_value}, correlation
-    coefficient = {correlation_coefficient}""")
+    print(f"""Eigenvalue 2 and the lowest MM fraction: p-value = {p_value},
+    correlation coefficient = {correlation_coefficient}""")
 
     # Calculate Spearman correlation coefficients and p-values with eigenvalue 3
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 3'], df_eigenvalues_float['period H'])
-    print(f"""Eigenvalue 3 and holiday period: p-value = {p_value}, correlation
-    coefficient = {correlation_coefficient}""")
+    print(f"""Eigenvalue 3 and the best holiday period: p-value = {p_value},
+    correlation coefficient = {correlation_coefficient}""")
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 3'], df_eigenvalues_float['period A'])
-    print(f"""Eigenvalue 3 and administration period: p-value = {p_value},
+    print(f"""Eigenvalue 3 and the best administration period: p-value = {p_value},
     correlation coefficient = {correlation_coefficient}""")
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 3'], df_eigenvalues_float['MM fraction'])
-    print(f"""Eigenvalue 3 and MM fraction: p-value = {p_value}, correlation
-    coefficient = {correlation_coefficient}""")
+    print(f"""Eigenvalue 3 and the lowest MM fraction: p-value = {p_value},
+    correlation coefficient = {correlation_coefficient}""")
 
     # Calculate Spearman correlation coefficients and p-values with eigenvalue 4
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 4'], df_eigenvalues_float['period H'])
-    print(f"""Eigenvalue 4 and holiday period: p-value = {p_value}, correlation
-    coefficient = {correlation_coefficient}""")
+    print(f"""Eigenvalue 4 and the best holiday period: p-value = {p_value},
+    correlation coefficient = {correlation_coefficient}""")
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 4'], df_eigenvalues_float['period A'])
-    print(f"""Eigenvalue 4 and administration period: p-value = {p_value},
+    print(f"""Eigenvalue 4 and the best administration period: p-value = {p_value},
     correlation coefficient = {correlation_coefficient}""")
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 4'], df_eigenvalues_float['MM fraction'])
-    print(f"""Eigenvalue 4 and MM fraction: p-value = {p_value}, correlation
-    coefficient = {correlation_coefficient}""")
+    print(f"""Eigenvalue 4 and the lowest MM fraction: p-value = {p_value},
+    correlation coefficient = {correlation_coefficient}""")
 
     # Save the data
     save_dataframe(df_eigenvalues, 'df_eigenvalues_bMMdMMd_bMMrMMr.csv',

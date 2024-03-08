@@ -3,17 +3,17 @@ University:   UvA
 Student ID:   13717405
 
 MATHEMATICAL MULTIPLE MYELOMA MODEL
-The goal was to make a fraction and a number model that simulate the dynamics of
-the multiple myeloma (MM) microenvironment and determine the effect of adaptive
+The goal was to make a fraction model and a number model that simulate the dynamics
+of the multiple myeloma (MM) microenvironment and determine the effect of adaptive
 therapy versus traditional therapy. During adaptive therapy the drugs are
-administered  in short periods with holidays in between and during traditional
-therapy continuously the MTD is administered. The models looked at the interactions
-via diffusible factors between  four cell types: drug-sensitive MM cells (MMd),
+administered in short periods with holidays in between and during traditional
+therapy the MTD is continuously administered. The models looked at the interactions
+via diffusible factors between four cell types: drug-sensitive MM cells (MMd),
 resistant MM cells (MMr), osteoblasts (OBs) and osteoclasts (OCs). Both models
 simulate a public goods game in the framework of evolutionary game theory with
-collective interactions and linear benefits. The impact of an MMd GF inhibitor (IH)
-and a WMMd IH on the cell type fractions and numbers are studied for different
-strengths, administration durations and holiday durations.
+collective interactions. The impact of an MMd GF inhibitor (IH) and a WMMd IH on 
+the cell type fractions and numbers are studied for different strengths,
+administration durations and holiday durations.
 
 To better understand MM microenvironment modelling, the figures from Sartakhti et
 al. (2018) (nonlinear) and Sartakhti et al. (2016) (linear) were first attempted
@@ -24,21 +24,7 @@ PYTHON AND LIBRARY VERSION
 The models were written in Python code (version 3.11.4) using Atom (version 1.60.0).
 Some libraries need to be installed to run the codes in the code folder.
 
-model_S_nonlinear.py:
-* numpy (version 1.26.0)
-    - install: pip install numpy==1.26.0
-* matplotlib (version 3.8.0)
-    - install: pip install matplotlib==3.8.0
-* pandas (version 2.1.3)
-    - install: pip install pandas==2.1.3
-* ternary (version 0.1)
-    - install: pip install ternary==0.1
-* plotly (version 5.18.0)
-    - install: pip install plotly==5.18.0
-* scipy (version 1.11.4)
-    - install: pip install scipy==1.11.4
-
-model_S_linear.py:
+Libraries for model_S_nonlinear.py and model_S_linear.py:
 * numpy (version 1.26.0)
     - install: pip install numpy==1.26.0
 * matplotlib (version 3.8.0)
@@ -114,6 +100,7 @@ TEST THE CODE
 To test some of the functions in the model, doc tests are added and automatically
 run when the model_S_nonlinear.py code is run.
 
+
 THE MODEL WITH LINEAR BENEFITS: model_S_linear.py
 model_S_linear.py contains code of the mathematical formulas and the code to
 reproduce some of the figures in the paper: Evolutionary dynamics of tumour-Stroma
@@ -131,10 +118,11 @@ MM_model_fractions.py contains the code with the mathematical formulas simulatin
 the fraction dynamics of the four cell types MMd, MMr, OCs and OBs in the MM
 microenvironment. It contains the code to make the figures showing the effect of
 the WMMd IH, the MMd GF IH and a combination at different administration periods
-and strengths on the cell type fractions. In addition, it contains code to optimize
+and strengths on the cell type fractions. In addition, it contains code to optimise
 the drug administration amounts and periods causing the lowest total MM fraction.
-Lastly, it also contains code to make tables showing the eigenvalues of the
-interaction matrix. The IHs only affect the MMd.
+Lastly, it also contains code to make tables showing the eigenvalues, best
+administration duration, best holiday duration and lowest MM fraction for different
+interaction matrices. The IHs only affect the MMd.
 
 TEST THE CODE
 To test some of the functions in the model, doc tests are added and automatically
@@ -147,7 +135,7 @@ the number dynamics of the four cell types MMd, MMr, OCs and OBs in the MM
 microenvironment. It contains the code to make the figures showing the effect of
 the WMMd IH, the MMd GF IH and a combination of different administration periods
 and strengths on the cell type numbers. In addition, it also contains code to
-optimize the drug administration amounts and periods causing the lowest total MM
+optimise the drug administration amounts and periods causing the lowest total MM
 number. The IHs only affect the MMd.
 
 TEST THE CODE
@@ -162,7 +150,7 @@ Hence the shows the fraction dynamics of the four cell types MMd, MMr, OCs and O
 in the MM microenvironment by a changing N. It contains code to make the figures
 showing the effect of the WMMd IH, the MMd GF IH and a combination at different
 administration periods and strengths on the cell type fractions. In addition, it
-contains code to optimize the drug administration amounts and periods causing the
+contains code to optimise the drug administration amounts and periods causing the
 lowest total MM fraction. The IHs only affect the MMd.
 
 TEST THE CODE
@@ -176,7 +164,7 @@ the number dynamics of the four cell types MMd, MMr, OCs and OBs in the MM
 microenvironment. It contains the code to make the figures showing the effect of
 the WMMd IH, the MMd GF IH and a combination of different administration periods
 and strengths on the cell type numbers. In addition, it also contains code to
-optimize the drug administration amounts and periods causing the lowest total MM
+optimise the drug administration amounts and periods causing the lowest total MM
 number. The IHs not only affect the MMd but also the OC and OB.
 
 TEST THE CODE
@@ -190,7 +178,7 @@ the fraction dynamics of the four cell types MMd, MMr, OCs and OBs in the MM
 microenvironment. It contains the code to make the figures showing the effect of
 the WMMd IH, the MMd GF IH and a combination of different administration periods
 and strengths on the cell type numbers. In addition, it also contains code to
-optimize the drug administration amounts and periods causing the lowest total MM
+optimise the drug administration amounts and periods causing the lowest total MM
 fraction. The IHs not only affect the MMd but also the OC and OB.
 
 TEST THE CODE
@@ -239,7 +227,7 @@ In the folder visualisation, all made figures are shown. This folder contains:
                               influences were added.
 
 
-HOW TO RUN THE CODES 
+HOW TO RUN THE CODES
 The nonlinear model and its visualisation, model_S_nonlinear.py:
         - python model_S_nonlinear.py
 
