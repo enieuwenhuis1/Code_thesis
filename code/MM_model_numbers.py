@@ -38,14 +38,14 @@ def main():
 
     # Make a figure showing the cell number dynamics by traditional therapy and
     # by adaptive therapy (original situation)
-    list_t_steps_drug = [10, 10, 10]
-    Figure_continuous_MTD_vs_AT(20, list_t_steps_drug)
-
-    # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # by adaptive therapy for shorter holiday and administration periods compared
-    # to the original situation
-    list_t_steps_drug = [4, 4, 4]
-    Figure_continuous_MTD_vs_AT_short_a_h(50, list_t_steps_drug)
+    # list_t_steps_drug = [10, 10, 10]
+    # Figure_continuous_MTD_vs_AT(20, list_t_steps_drug)
+    #
+    # # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # # by adaptive therapy for shorter holiday and administration periods compared
+    # # to the original situation
+    # list_t_steps_drug = [4, 4, 4]
+    # Figure_continuous_MTD_vs_AT_short_a_h(50, list_t_steps_drug)
 
     # Make a figure showing the cell fraction dynamics by traditional therapy and
     # by adaptive therapy for weaker IHs compared to the original situation
@@ -599,6 +599,58 @@ def minimal_tumour_numb_t_steps(t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd,
 
     return float(average_MM_number)
 
+def x_y_z_axis_values_3d_plot(dataframe):
+    """ Function that determines the x, y and z axis values from the given
+    dataframe. It also prints the administration and holliday duration leading
+    to the lowest total MM number in the equilibrium
+
+    Parameters:
+    -----------
+    Dataframe: dataFrame
+        The dataframe with the generated data
+
+    Returns:
+    --------
+    X_values: Numpy.ndarray
+        Array with the values for the x-axis
+    Y_values: Numpy.ndarray
+        Array with the values for the y-axis
+    Z_values: Numpy.ndarray
+        Array with the values for the z-axis
+    """
+
+    # Find the drug administration and holiday period causing the lowest MM fraction
+    min_index =  dataframe['MM number'].idxmin()
+    g_no_drug_min = dataframe.loc[min_index, 'Generations no drug']
+    g_drug_min = dataframe.loc[min_index, 'Generations drug']
+    frac_min = dataframe.loc[min_index, 'MM number']
+
+    print(f"""Lowest MM number: {frac_min}-> MMd GF IH holidays are
+            {g_no_drug_min} generations and MMd GF IH administrations
+            are {g_drug_min} generations""")
+
+    # Avoid errors because of the wrong datatype
+    dataframe['Generations no drug'] = pd.to_numeric(dataframe[\
+                                        'Generations no drug'], errors='coerce')
+    dataframe['Generations drug'] = pd.to_numeric(dataframe[\
+                                        'Generations drug'],errors='coerce')
+    dataframe['MM number'] = pd.to_numeric(dataframe['MM number'],
+                                                            errors='coerce')
+
+    # Make a meshgrid for the plot
+    X_values = dataframe['Generations no drug'].unique()
+    Y_values = dataframe['Generations drug'].unique()
+    X_values, Y_values = np.meshgrid(X_values, Y_values)
+    Z_values = np.zeros((20, 20))
+
+    # Fill the 2D array with the MM fraction values by looping over each row
+    for index, row in dataframe.iterrows():
+        i = int(row.iloc[0]) - 2
+        j = int(row.iloc[1]) - 2
+        Z_values[j, i] = row.iloc[2]
+
+    return (X_values, Y_values, Z_values)
+
 def minimal_tumour_numb_b_OC_MMd(b_OC_MMd, nOC, nOB, nMMd, nMMr, growth_rates,
                                         decay_rates, matrix, b_OC_MMd_array):
     """Function that determines the number of the population being MM for a
@@ -1101,7 +1153,7 @@ def Figure_continuous_MTD_vs_AT_weak_a_h(n_switches, t_steps_drug):
     WMMd_inhibitor_comb = 0.22
 
     # WMMd inhibitor effect when only WMMd IH is present
-    WMMd_inhibitor = 0.45
+    WMMd_inhibitor = 0.42
 
     # Make dataframe for the different drug hollyday duration values
     df_total_switch_GF = switch_dataframe(n_switches, t_steps_drug[0],
