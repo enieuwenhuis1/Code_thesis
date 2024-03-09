@@ -70,7 +70,7 @@ def main():
     Figure_best_b_OC_MMd()
 
     # Make a figure that shows the MM fraction for different WMMd IH values
-    Figure_best_WMMD_IH()
+    Figure_best_WMMd_IH()
 
     # # Make a 3D figure showing the effect of different WMMd and MMd GF IH strengths
     Figure_3D_MM_frac_MMd_IH_strength()
@@ -217,7 +217,7 @@ def fitness_WMMd(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix,
     cMMr: Float
         Cost parameter MMr.
     WMMd_inhibitor: Float
-        The effect of a drug on the MMd.
+        The effect of a drug on the MMd fitness.
 
     Returns:
     --------
@@ -317,7 +317,7 @@ def model_dynamics(y, t, N, cOC, cOB, cMMd, cMMr, matrix, WMMd_inhibitor = 0):
     matrix: Numpy.ndarray
         4x4 matrix containing the interaction factors.
     WMMd_inhibitor: Float
-        The effect of a drug on the MMd.
+        The effect of a drug on the MMd fitness.
 
     Returns:
     --------
@@ -384,7 +384,7 @@ def frac_to_fitness_values(dataframe_fractions, N, cOC, cOB, cMMd, cMMr, matrix,
     matrix: Numpy.ndarray
         4x4 matrix containing the interaction factors.
     WMMd_inhibitor: Float
-        The effect of a drug on the MMd
+        The effect of a drug on the MMd fitness.
 
     Returns:
     --------
@@ -528,7 +528,7 @@ def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd,
     matrix_GF_IH: Numpy.ndarray
         4x4 matrix containing the interaction factors when GF IH are administered.
     WMMd_inhibitor: Float
-        The effect of a drug on the MMd.
+        The effect of a drug on the MMd fitness.
 
     Returns:
     --------
@@ -614,6 +614,79 @@ def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd,
 
     return df_total_switch
 
+def continuous_add_IH_df(end_generation, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd,
+        cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor = 0):
+    """ Function that makes a dataframe of the cell type fractions when the IHs
+    are administered continuously.
+
+    Parameters:
+    -----------
+    end_generation: Int
+        The last generation for which the fractions have to be calculated
+    xOC: Float
+        Number of OC.
+    xOB: Float
+        Number of OB.
+    xMMd: Float
+        Number of the MMd.
+    xMMr: Float
+        Number of the MMr.
+    N: Int
+        fraction of cells in the difussion range.
+    cOC: Float
+        Cost parameter OC.
+    cOB: float
+        Cost parameter OB.
+    cMMr: Float
+        Cost parameter MMr.
+    cMMd: Float
+        Cost parameter MMd.
+    cOC_IH: Float
+        Cost parameter OC when a IH is administered.
+    cOB_IH: Float
+        Cost parameter OB when a IH is administered.
+    matrix_no_GF_IH: Numpy.ndarray
+        4x4 matrix containing the interaction factors when no GF IH are
+                                                                    administrated.
+    matrix_GF_IH: Numpy.ndarray
+        4x4 matrix containing the interaction factors when GF IH are administrated.
+    WMMd_inhibitor: Float
+        The effect of a drug on the MMd fitness.
+
+    Returns:
+    --------
+    df_total: DataFrame
+        The dataframe with the cell fractions when IHs are continiously administerd.
+    """
+    t = np.linspace(0, 15, 15)
+    y0 = [xOC, xOB, xMMd, xMMr]
+    parameters = (N, cOC, cOB, cMMd, cMMr, matrix_no_GF_IH)
+
+    # Determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_1 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
+            'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
+
+    # Determine the current fractions
+    xOC = df_1['xOC'].iloc[-1]
+    xOB = df_1['xOB'].iloc[-1]
+    xMMd = df_1['xMMd'].iloc[-1]
+    xMMr = df_1['xMMr'].iloc[-1]
+
+    t = np.linspace(15, end_generation, 120)
+    y0 = [xOC, xOB, xMMd, xMMr]
+    parameters = (N, cOC_IH, cOB_IH, cMMd, cMMr, matrix_GF_IH, WMMd_inhibitor)
+
+    # Determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
+
+    # Combine the dataframes
+    df_total = pd.concat([df_1, df_2])
+
+    return df_total
+
 def minimal_tumour_frac_t_steps(t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd,
                             xMMr, N, cOC, cOB, cMMd, cMMr, cOC_IH, cOB_IH,
                             matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor = 0):
@@ -654,7 +727,7 @@ def minimal_tumour_frac_t_steps(t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd,
     matrix_GF_IH: Numpy.ndarray
         4x4 matrix containing the interaction factors when GF IH are administered.
     WMMd_inhibitor: Float
-        The effect of a drug on the MMd.
+        The effect of a drug on the MMd fitness.
 
     Example:
     -----------
@@ -755,12 +828,12 @@ def minimal_tumour_frac_b_OC_MMd(b_OC_MMd, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
 def minimal_tumour_frac_WMMd_IH(WMMd_inhibitor, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
                     cMMd, cMMr, cOC_IH, cOB_IH, matrix, t, WMMd_inhibitor_array):
     """Function that determines the fraction of the population being MM for a
-    specific wMMd drug inhibitor value.
+    specific WMMd drug inhibitor value.
 
     Parameters:
     -----------
     WMMd_inhibitor: Float
-        Streght of the drugs that inhibits the cMMd.
+        Streght of the drugs that inhibits the MMd fitness.
     xOC: Float
         Frequency of OC.
     xOB: Float
@@ -813,8 +886,8 @@ def minimal_tumour_frac_WMMd_IH(WMMd_inhibitor, xOC, xOB, xMMd, xMMr, N, cOC, cO
 
     return float(last_MM_frequency)
 
-""" Figure to determine the best WMMD IH value """
-def Figure_best_WMMD_IH():
+""" Figure to determine the best WMMd IH value """
+def Figure_best_WMMd_IH():
     """ Function that shows the effect of different OB and OC cost values for
     different WMMd drug inhibitor values. It also determines the WMMd IH value
     causing the lowest total MM fraction."""
@@ -1008,7 +1081,7 @@ def Figure_continuous_MTD_vs_AT_a_h(n_switches, t_steps_drug):
     df_total_switch_GF = switch_dataframe(n_switches, t_steps_drug[0],
                 t_steps_drug[0], xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
                 cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH)
-    df_total_switch_WMMD = switch_dataframe(n_switches, t_steps_drug[1],
+    df_total_switch_WMMd = switch_dataframe(n_switches, t_steps_drug[1],
                 t_steps_drug[1], xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
                 cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_no_GF_IH, WMMd_inhibitor)
     df_total_switch_comb = switch_dataframe(n_switches, t_steps_drug[2],
@@ -1016,109 +1089,26 @@ def Figure_continuous_MTD_vs_AT_a_h(n_switches, t_steps_drug):
                 cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH_comb,
                 WMMd_inhibitor_comb)
 
-    t = np.linspace(0, 15, 15)
-    y0 = [xOC, xOB, xMMd, xMMr]
-    parameters = (N, cOC, cOB, cMMd, cMMr, matrix_no_GF_IH)
-
-    # Determine the ODE solutions
-    y = odeint(model_dynamics, y0, t, args=parameters)
-    df_1 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-            'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
-
-    # Determine the current fractions
-    xOC = df_1['xOC'].iloc[-1]
-    xOB = df_1['xOB'].iloc[-1]
-    xMMd = df_1['xMMd'].iloc[-1]
-    xMMr = df_1['xMMr'].iloc[-1]
-
-    t = np.linspace(15, 135, 120)
-    y0 = [xOC, xOB, xMMd, xMMr]
-    parameters = (N, cOC_IH, cOB_IH, cMMd, cMMr, matrix_GF_IH)
-
-    # Determine the ODE solutions
-    y = odeint(model_dynamics, y0, t, args=parameters)
-    df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
-
-    # Combine the dataframes
-    df_total_GF = pd.concat([df_1, df_2])
-
-    # Set initial parameter values
-    xOC = 0.2
-    xOB = 0.3
-    xMMd = 0.2
-    xMMr = 0.3
-    t = np.linspace(0, 15, 15)
-    y0 = [xOC, xOB, xMMd, xMMr]
-    parameters = (N, cOC, cOB, cMMd, cMMr, matrix_no_GF_IH)
-
-    # Determine the ODE solutions
-    y = odeint(model_dynamics, y0, t, args=parameters)
-    df_1 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
-
-    # Determine the current fractions
-    xOC = df_1['xOC'].iloc[-1]
-    xOB = df_1['xOB'].iloc[-1]
-    xMMd = df_1['xMMd'].iloc[-1]
-    xMMr = df_1['xMMr'].iloc[-1]
-
-    t = np.linspace(15, 135, 120)
-    y0 = [xOC, xOB, xMMd, xMMr]
-    parameters = (N, cOC_IH, cOB_IH, cMMd, cMMr, matrix_no_GF_IH, WMMd_inhibitor)
-
-    # Determine the ODE solutions
-    y = odeint(model_dynamics, y0, t, args=parameters)
-    df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
-
-    # Combine the dataframes
-    df_total_wMMd = pd.concat([df_1, df_2])
-
-    # Set initial parameter values
-    xOC = 0.2
-    xOB = 0.3
-    xMMd = 0.2
-    xMMr = 0.3
-    t = np.linspace(0, 15, 15)
-    y0 = [xOC, xOB, xMMd, xMMr]
-    parameters = (N, cOC, cOB, cMMd, cMMr, matrix_no_GF_IH)
-
-    # Determine the ODE solutions
-    y = odeint(model_dynamics, y0, t, args=parameters)
-    df_1 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
-
-    # Determine the current fractions
-    xOC = df_1['xOC'].iloc[-1]
-    xOB = df_1['xOB'].iloc[-1]
-    xMMd = df_1['xMMd'].iloc[-1]
-    xMMr = df_1['xMMr'].iloc[-1]
-
-    t = np.linspace(15, 135, 120)
-    y0 = [xOC, xOB, xMMd, xMMr]
-    parameters = (N, cOC_IH, cOB_IH, cMMd, cMMr, matrix_GF_IH_comb,
-                                                            WMMd_inhibitor_comb)
-
-    # Determine the ODE solutions
-    y = odeint(model_dynamics, y0, t, args=parameters)
-    df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
-
-    # Combine the dataframes
-    df_total_comb = pd.concat([df_1, df_2])
-
+    # Make dataframes for continiously addministration
+    df_total_GF = continuous_add_IH_df(135, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
+            cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH)
+    df_total_WMMd = continuous_add_IH_df(135, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
+                                    cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH,
+                                    matrix_no_GF_IH, WMMd_inhibitor)
+    df_total_comb = continuous_add_IH_df(135, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
+                                    cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH,
+                                    matrix_GF_IH_comb, WMMd_inhibitor_comb)
 
     # Save the data
     save_dataframe(df_total_switch_GF,'df_cell_frac_IH_switch_GF_IH_a_h.csv',
                                             r'..\data\data_own_model_frac_IH_inf')
-    save_dataframe(df_total_switch_WMMD, 'df_cell_frac_IH_switch_WMMd_IH_a_h.csv',
+    save_dataframe(df_total_switch_WMMd, 'df_cell_frac_IH_switch_WMMd_IH_a_h.csv',
                                             r'..\data\data_own_model_frac_IH_inf')
     save_dataframe(df_total_switch_comb, 'df_cell_frac_IH_switch_comb_IH_a_h.csv',
                                             r'..\data\data_own_model_frac_IH_inf')
     save_dataframe(df_total_GF, 'df_cell_frac_IH_continuous_GF_IH_a_h.csv',
                                              r'..\data\data_own_model_frac_IH_inf')
-    save_dataframe(df_total_wMMd, 'df_cell_frac_IH_continuous_WMMd_IH_a_h.csv',
+    save_dataframe(df_total_WMMd, 'df_cell_frac_IH_continuous_WMMd_IH_a_h.csv',
                                              r'..\data\data_own_model_frac_IH_inf')
     save_dataframe(df_total_comb, 'df_cell_frac_IH_continuous_comb_IH_a_h.csv',
                                              r'..\data\data_own_model_frac_IH_inf')
@@ -1135,7 +1125,7 @@ def Figure_continuous_MTD_vs_AT_a_h(n_switches, t_steps_drug):
     axs[0, 0].grid(True)
 
     # Plot the data with drug holidays in the second plot
-    df_total_wMMd.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+    df_total_WMMd.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
                                                     legend=False, ax=axs[0, 1])
     axs[0, 1].set_xlabel(' ')
     axs[0, 1].set_ylabel(' ')
@@ -1160,7 +1150,7 @@ def Figure_continuous_MTD_vs_AT_a_h(n_switches, t_steps_drug):
     plt.grid(True)
 
     # Plot the data with drug holidays in the fourth plot
-    df_total_switch_WMMD.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+    df_total_switch_WMMd.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
                                                     legend=False, ax=axs[1, 1])
     axs[1, 1].set_xlabel('Generations', fontsize=11)
     axs[1, 1].set_ylabel(' ')
@@ -1243,7 +1233,7 @@ def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
     df_total_switch_GF = switch_dataframe(n_switches, t_steps_drug[0],
                 t_steps_drug[0], xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
                 cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH)
-    df_total_switch_WMMD = switch_dataframe(n_switches, t_steps_drug[1],
+    df_total_switch_WMMd = switch_dataframe(n_switches, t_steps_drug[1],
                 t_steps_drug[1], xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
                 cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_no_GF_IH, WMMd_inhibitor)
     df_total_switch_comb = switch_dataframe(n_switches, t_steps_drug[2],
@@ -1251,109 +1241,26 @@ def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
                                 cOB, cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH,
                                 matrix_GF_IH_comb, WMMd_inhibitor_comb)
 
-    t = np.linspace(0, 15, 15)
-    y0 = [xOC, xOB, xMMd, xMMr]
-    parameters = (N, cOC, cOB, cMMd, cMMr, matrix_no_GF_IH)
-
-    # Determine the ODE solutions
-    y = odeint(model_dynamics, y0, t, args=parameters)
-    df_1 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
-
-    # Determine the current fractions
-    xOC = df_1['xOC'].iloc[-1]
-    xOB = df_1['xOB'].iloc[-1]
-    xMMd = df_1['xMMd'].iloc[-1]
-    xMMr = df_1['xMMr'].iloc[-1]
-
-    t = np.linspace(15, 135, 120)
-    y0 = [xOC, xOB, xMMd, xMMr]
-    parameters = (N, cOC_IH, cOB_IH, cMMd, cMMr, matrix_GF_IH)
-
-    # Determine the ODE solutions
-    y = odeint(model_dynamics, y0, t, args=parameters)
-    df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
-
-    # Combine the dataframes
-    df_total_GF = pd.concat([df_1, df_2])
-
-    # Set initial parameter values
-    xOC = 0.2
-    xOB = 0.3
-    xMMd = 0.2
-    xMMr = 0.3
-    t = np.linspace(0, 15, 15)
-    y0 = [xOC, xOB, xMMd, xMMr]
-    parameters = (N, cOC, cOB, cMMd, cMMr, matrix_no_GF_IH)
-
-    # Determine the ODE solutions
-    y = odeint(model_dynamics, y0, t, args=parameters)
-    df_1 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
-
-    # Determine the current fractions
-    xOC = df_1['xOC'].iloc[-1]
-    xOB = df_1['xOB'].iloc[-1]
-    xMMd = df_1['xMMd'].iloc[-1]
-    xMMr = df_1['xMMr'].iloc[-1]
-
-    t = np.linspace(15, 135, 120)
-    y0 = [xOC, xOB, xMMd, xMMr]
-    parameters = (N, cOC_IH, cOB_IH, cMMd, cMMr, matrix_no_GF_IH, WMMd_inhibitor)
-
-    # Determine the ODE solutions
-    y = odeint(model_dynamics, y0, t, args=parameters)
-    df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
-
-    # Combine the dataframes
-    df_total_wMMd = pd.concat([df_1, df_2])
-
-    # Set initial parameter values
-    xOC = 0.2
-    xOB = 0.3
-    xMMd = 0.2
-    xMMr = 0.3
-    t = np.linspace(0, 15, 15)
-    y0 = [xOC, xOB, xMMd, xMMr]
-    parameters = (N, cOC, cOB, cMMd, cMMr, matrix_no_GF_IH)
-
-    # Determine the ODE solutions
-    y = odeint(model_dynamics, y0, t, args=parameters)
-    df_1 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
-
-    # Determine the current fractions
-    xOC = df_1['xOC'].iloc[-1]
-    xOB = df_1['xOB'].iloc[-1]
-    xMMd = df_1['xMMd'].iloc[-1]
-    xMMr = df_1['xMMr'].iloc[-1]
-
-    t = np.linspace(15, 135, 120)
-    y0 = [xOC, xOB, xMMd, xMMr]
-    parameters = (N, cOC_IH, cOB_IH, cMMd, cMMr, matrix_GF_IH_comb,
-                                                            WMMd_inhibitor_comb)
-
-    # Determine the ODE solutions
-    y = odeint(model_dynamics, y0, t, args=parameters)
-    df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
-
-    # Combine the dataframes
-    df_total_comb = pd.concat([df_1, df_2])
-
+    # Make dataframes for continiously addministration
+    df_total_GF = continuous_add_IH_df(135, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
+            cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH)
+    df_total_WMMd = continuous_add_IH_df(135, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
+                                    cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH,
+                                    matrix_no_GF_IH, WMMd_inhibitor)
+    df_total_comb = continuous_add_IH_df(135, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
+                                    cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH,
+                                    matrix_GF_IH_comb, WMMd_inhibitor_comb)
 
     # Save the data
     save_dataframe(df_total_switch_GF, 'df_cell_frac_IH_switch_GF_IH_short_a_h.csv',
                                             r'..\data\data_own_model_frac_IH_inf')
-    save_dataframe(df_total_switch_WMMD, 'df_cell_frac_IH_switch_WMMd_IH_short_a_h.csv',
+    save_dataframe(df_total_switch_WMMd, 'df_cell_frac_IH_switch_WMMd_IH_short_a_h.csv',
                                             r'..\data\data_own_model_frac_IH_inf')
     save_dataframe(df_total_switch_comb, 'df_cell_frac_IH_switch_comb_IH_short_a_h.csv',
                                             r'..\data\data_own_model_frac_IH_inf')
     save_dataframe(df_total_GF, 'df_cell_frac_IH_continuous_GF_IH_short_a_h.csv',
                                              r'..\data\data_own_model_frac_IH_inf')
-    save_dataframe(df_total_wMMd, 'df_cell_frac_IH_continuous_WMMd_IH_short_a_h.csv',
+    save_dataframe(df_total_WMMd, 'df_cell_frac_IH_continuous_WMMd_IH_short_a_h.csv',
                                              r'..\data\data_own_model_frac_IH_inf')
     save_dataframe(df_total_comb, 'df_cell_frac_IH_continuous_comb_IH_short_a_h.csv',
                                              r'..\data\data_own_model_frac_IH_inf')
@@ -1370,7 +1277,7 @@ def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
     axs[0, 0].grid(True)
 
     # Plot the data with drug holidays in the second plot
-    df_total_wMMd.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+    df_total_WMMd.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
                                                     legend=False, ax=axs[0, 1])
     axs[0, 1].set_xlabel(' ')
     axs[0, 1].set_ylabel(' ')
@@ -1395,7 +1302,7 @@ def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
     plt.grid(True)
 
     # Plot the data with drug holidays in the fourth plot
-    df_total_switch_WMMD.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+    df_total_switch_WMMd.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
                                                     legend=False, ax=axs[1, 1])
     axs[1, 1].set_xlabel('Generations', fontsize=11)
     axs[1, 1].set_ylabel(' ')
@@ -1479,7 +1386,7 @@ def Figure_continuous_MTD_vs_AT_weak_a_h(n_switches, t_steps_drug):
     df_total_switch_GF = switch_dataframe(n_switches, t_steps_drug[0],
                 t_steps_drug[0], xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
                 cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH)
-    df_total_switch_WMMD = switch_dataframe(n_switches, t_steps_drug[1],
+    df_total_switch_WMMd = switch_dataframe(n_switches, t_steps_drug[1],
                 t_steps_drug[1], xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
                 cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_no_GF_IH, WMMd_inhibitor)
     df_total_switch_comb = switch_dataframe(n_switches, t_steps_drug[2],
@@ -1487,109 +1394,26 @@ def Figure_continuous_MTD_vs_AT_weak_a_h(n_switches, t_steps_drug):
                                 cOB, cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH,
                                 matrix_GF_IH_comb, WMMd_inhibitor_comb)
 
-    t = np.linspace(0, 15, 15)
-    y0 = [xOC, xOB, xMMd, xMMr]
-    parameters = (N, cOC, cOB, cMMd, cMMr, matrix_no_GF_IH)
-
-    # Determine the ODE solutions
-    y = odeint(model_dynamics, y0, t, args=parameters)
-    df_1 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
-
-    # Determine the current fractions
-    xOC = df_1['xOC'].iloc[-1]
-    xOB = df_1['xOB'].iloc[-1]
-    xMMd = df_1['xMMd'].iloc[-1]
-    xMMr = df_1['xMMr'].iloc[-1]
-
-    t = np.linspace(15, 135, 120)
-    y0 = [xOC, xOB, xMMd, xMMr]
-    parameters = (N, cOC_IH, cOB_IH, cMMd, cMMr, matrix_GF_IH)
-
-    # Determine the ODE solutions
-    y = odeint(model_dynamics, y0, t, args=parameters)
-    df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
-
-    # Combine the dataframes
-    df_total_GF = pd.concat([df_1, df_2])
-
-    # Set initial parameter values
-    xOC = 0.2
-    xOB = 0.3
-    xMMd = 0.2
-    xMMr = 0.3
-    t = np.linspace(0, 15, 15)
-    y0 = [xOC, xOB, xMMd, xMMr]
-    parameters = (N, cOC, cOB, cMMd, cMMr, matrix_no_GF_IH)
-
-    # Determine the ODE solutions
-    y = odeint(model_dynamics, y0, t, args=parameters)
-    df_1 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
-
-    # Determine the current fractions
-    xOC = df_1['xOC'].iloc[-1]
-    xOB = df_1['xOB'].iloc[-1]
-    xMMd = df_1['xMMd'].iloc[-1]
-    xMMr = df_1['xMMr'].iloc[-1]
-
-    t = np.linspace(15, 135, 120)
-    y0 = [xOC, xOB, xMMd, xMMr]
-    parameters = (N, cOC_IH, cOB_IH, cMMd, cMMr, matrix_no_GF_IH, WMMd_inhibitor)
-
-    # Determine the ODE solutions
-    y = odeint(model_dynamics, y0, t, args=parameters)
-    df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
-
-    # Combine the dataframes
-    df_total_wMMd = pd.concat([df_1, df_2])
-
-    # Set initial parameter values
-    xOC = 0.2
-    xOB = 0.3
-    xMMd = 0.2
-    xMMr = 0.3
-    t = np.linspace(0, 15, 15)
-    y0 = [xOC, xOB, xMMd, xMMr]
-    parameters = (N, cOC, cOB, cMMd, cMMr, matrix_no_GF_IH)
-
-    # Determine the ODE solutions
-    y = odeint(model_dynamics, y0, t, args=parameters)
-    df_1 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
-
-    # Determine the current fractions
-    xOC = df_1['xOC'].iloc[-1]
-    xOB = df_1['xOB'].iloc[-1]
-    xMMd = df_1['xMMd'].iloc[-1]
-    xMMr = df_1['xMMr'].iloc[-1]
-
-    t = np.linspace(15, 135, 120)
-    y0 = [xOC, xOB, xMMd, xMMr]
-    parameters = (N, cOC_IH, cOB_IH, cMMd, cMMr, matrix_GF_IH_comb,
-                                                            WMMd_inhibitor_comb)
-
-    # Determine the ODE solutions
-    y = odeint(model_dynamics, y0, t, args=parameters)
-    df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
-
-    # Combine the dataframes
-    df_total_comb = pd.concat([df_1, df_2])
-
+    # Make dataframes for continiously addministration
+    df_total_GF = continuous_add_IH_df(135, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
+            cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH)
+    df_total_WMMd = continuous_add_IH_df(135, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
+                                    cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH,
+                                    matrix_no_GF_IH, WMMd_inhibitor)
+    df_total_comb = continuous_add_IH_df(135, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
+                                    cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH,
+                                    matrix_GF_IH_comb, WMMd_inhibitor_comb)
 
     # Save the data
     save_dataframe(df_total_switch_GF, 'df_cell_frac_IH_switch_GF_IH_weak_a_h.csv',
                                             r'..\data\data_own_model_frac_IH_inf')
-    save_dataframe(df_total_switch_WMMD, 'df_cell_frac_IH_switch_WMMd_IH_weak_a_h.csv',
+    save_dataframe(df_total_switch_WMMd, 'df_cell_frac_IH_switch_WMMd_IH_weak_a_h.csv',
                                             r'..\data\data_own_model_frac_IH_inf')
     save_dataframe(df_total_switch_comb, 'df_cell_frac_IH_switch_comb_IH_weak_a_h.csv',
                                             r'..\data\data_own_model_frac_IH_inf')
     save_dataframe(df_total_GF, 'df_cell_frac_IH_continuous_GF_IH_weak_a_h.csv',
                                              r'..\data\data_own_model_frac_IH_inf')
-    save_dataframe(df_total_wMMd, 'df_cell_frac_IH_continuous_WMMd_IH_weak_a_h.csv',
+    save_dataframe(df_total_WMMd, 'df_cell_frac_IH_continuous_WMMd_IH_weak_a_h.csv',
                                              r'..\data\data_own_model_frac_IH_inf')
     save_dataframe(df_total_comb, 'df_cell_frac_IH_continuous_comb_IH_weak_a_h.csv',
                                              r'..\data\data_own_model_frac_IH_inf')
@@ -1606,7 +1430,7 @@ def Figure_continuous_MTD_vs_AT_weak_a_h(n_switches, t_steps_drug):
     axs[0, 0].grid(True)
 
     # Plot the data with drug holidays in the second plot
-    df_total_wMMd.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+    df_total_WMMd.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
                                                     legend=False, ax=axs[0, 1])
     axs[0, 1].set_xlabel(' ')
     axs[0, 1].set_ylabel(' ')
@@ -1631,7 +1455,7 @@ def Figure_continuous_MTD_vs_AT_weak_a_h(n_switches, t_steps_drug):
     plt.grid(True)
 
     # Plot the data with drug holidays in the fourth plot
-    df_total_switch_WMMD.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+    df_total_switch_WMMd.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
                                                     legend=False, ax=axs[1, 1])
     axs[1, 1].set_xlabel('Generations', fontsize=11)
     axs[1, 1].set_ylabel(' ')
@@ -1716,7 +1540,7 @@ def Figure_continuous_MTD_vs_AT_OB_a_h(n_switches, t_steps_drug):
     df_total_switch_GF = switch_dataframe(n_switches, t_steps_drug[0],
                 t_steps_drug[0], xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
                 cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH)
-    df_total_switch_WMMD = switch_dataframe(n_switches, t_steps_drug[1],
+    df_total_switch_WMMd = switch_dataframe(n_switches, t_steps_drug[1],
                 t_steps_drug[1], xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
                 cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_no_GF_IH, WMMd_inhibitor)
     df_total_switch_comb = switch_dataframe(n_switches, t_steps_drug[2],
@@ -1724,109 +1548,27 @@ def Figure_continuous_MTD_vs_AT_OB_a_h(n_switches, t_steps_drug):
                 cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH_comb,
                 WMMd_inhibitor_comb)
 
-    t = np.linspace(0, 15, 15)
-    y0 = [xOC, xOB, xMMd, xMMr]
-    parameters = (N, cOC, cOB, cMMd, cMMr, matrix_no_GF_IH)
-
-    # Determine the ODE solutions
-    y = odeint(model_dynamics, y0, t, args=parameters)
-    df_1 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-            'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
-
-    # Determine the current fractions
-    xOC = df_1['xOC'].iloc[-1]
-    xOB = df_1['xOB'].iloc[-1]
-    xMMd = df_1['xMMd'].iloc[-1]
-    xMMr = df_1['xMMr'].iloc[-1]
-
-    t = np.linspace(15, 110, 120)
-    y0 = [xOC, xOB, xMMd, xMMr]
-    parameters = (N, cOC_IH, cOB_IH, cMMd, cMMr, matrix_GF_IH)
-
-    # Determine the ODE solutions
-    y = odeint(model_dynamics, y0, t, args=parameters)
-    df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
-
-    # Combine the dataframes
-    df_total_GF = pd.concat([df_1, df_2])
-
-    # Set initial parameter values
-    xOC = 0.2
-    xOB = 0.3
-    xMMd = 0.2
-    xMMr = 0.3
-    t = np.linspace(0, 15, 15)
-    y0 = [xOC, xOB, xMMd, xMMr]
-    parameters = (N, cOC, cOB, cMMd, cMMr, matrix_no_GF_IH)
-
-    # Determine the ODE solutions
-    y = odeint(model_dynamics, y0, t, args=parameters)
-    df_1 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
-
-    # Determine the current fractions
-    xOC = df_1['xOC'].iloc[-1]
-    xOB = df_1['xOB'].iloc[-1]
-    xMMd = df_1['xMMd'].iloc[-1]
-    xMMr = df_1['xMMr'].iloc[-1]
-
-    t = np.linspace(15, 110, 120)
-    y0 = [xOC, xOB, xMMd, xMMr]
-    parameters = (N, cOC_IH, cOB_IH, cMMd, cMMr, matrix_no_GF_IH, WMMd_inhibitor)
-
-    # Determine the ODE solutions
-    y = odeint(model_dynamics, y0, t, args=parameters)
-    df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
-
-    # Combine the dataframes
-    df_total_wMMd = pd.concat([df_1, df_2])
-
-    # Set initial parameter values
-    xOC = 0.2
-    xOB = 0.3
-    xMMd = 0.2
-    xMMr = 0.3
-    t = np.linspace(0, 15, 15)
-    y0 = [xOC, xOB, xMMd, xMMr]
-    parameters = (N, cOC, cOB, cMMd, cMMr, matrix_no_GF_IH)
-
-    # Determine the ODE solutions
-    y = odeint(model_dynamics, y0, t, args=parameters)
-    df_1 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
-
-    # Determine the current fractions
-    xOC = df_1['xOC'].iloc[-1]
-    xOB = df_1['xOB'].iloc[-1]
-    xMMd = df_1['xMMd'].iloc[-1]
-    xMMr = df_1['xMMr'].iloc[-1]
-
-    t = np.linspace(15, 110, 120)
-    y0 = [xOC, xOB, xMMd, xMMr]
-    parameters = (N, cOC_IH, cOB_IH, cMMd, cMMr, matrix_GF_IH_comb,
-                                                            WMMd_inhibitor_comb)
-
-    # Determine the ODE solutions
-    y = odeint(model_dynamics, y0, t, args=parameters)
-    df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
-
-    # Combine the dataframes
-    df_total_comb = pd.concat([df_1, df_2])
+    # Make dataframes for continiously addministration
+    df_total_GF = continuous_add_IH_df(110, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
+            cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH)
+    df_total_WMMd = continuous_add_IH_df(110, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
+                                    cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH,
+                                    matrix_no_GF_IH, WMMd_inhibitor)
+    df_total_comb = continuous_add_IH_df(110, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
+                                    cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH,
+                                    matrix_GF_IH_comb, WMMd_inhibitor_comb)
 
 
     # Save the data
     save_dataframe(df_total_switch_GF,'df_cell_frac_IH_switch_GF_IH_OB_a_h.csv',
                                             r'..\data\data_own_model_frac_IH_inf')
-    save_dataframe(df_total_switch_WMMD, 'df_cell_frac_IH_switch_WMMd_IH_OB_a_h.csv',
+    save_dataframe(df_total_switch_WMMd, 'df_cell_frac_IH_switch_WMMd_IH_OB_a_h.csv',
                                             r'..\data\data_own_model_frac_IH_inf')
     save_dataframe(df_total_switch_comb, 'df_cell_frac_IH_switch_comb_IH_OB_a_h.csv',
                                             r'..\data\data_own_model_frac_IH_inf')
     save_dataframe(df_total_GF, 'df_cell_frac_IH_continuous_GF_IH_OB_a_h.csv',
                                              r'..\data\data_own_model_frac_IH_inf')
-    save_dataframe(df_total_wMMd, 'df_cell_frac_IH_continuous_WMMd_IH_OB_a_h.csv',
+    save_dataframe(df_total_WMMd, 'df_cell_frac_IH_continuous_WMMd_IH_OB_a_h.csv',
                                              r'..\data\data_own_model_frac_IH_inf')
     save_dataframe(df_total_comb, 'df_cell_frac_IH_continuous_comb_IH_OB_a_h.csv',
                                              r'..\data\data_own_model_frac_IH_inf')
@@ -1843,7 +1585,7 @@ def Figure_continuous_MTD_vs_AT_OB_a_h(n_switches, t_steps_drug):
     axs[0, 0].grid(True)
 
     # Plot the data with drug holidays in the second plot
-    df_total_wMMd.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+    df_total_WMMd.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
                                                     legend=False, ax=axs[0, 1])
     axs[0, 1].set_xlabel(' ')
     axs[0, 1].set_ylabel(' ')
@@ -1868,7 +1610,7 @@ def Figure_continuous_MTD_vs_AT_OB_a_h(n_switches, t_steps_drug):
     plt.grid(True)
 
     # Plot the data with drug holidays in the fourth plot
-    df_total_switch_WMMD.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+    df_total_switch_WMMd.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
                                                     legend=False, ax=axs[1, 1])
     axs[1, 1].set_xlabel('Generations', fontsize=11)
     axs[1, 1].set_ylabel(' ')
