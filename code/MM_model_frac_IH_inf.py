@@ -11,8 +11,8 @@ Description:  Code with the model that simulates the dynamics in the multiple
               cell types.
 
               The IHs have not only an influence on the MMd but also on the OB and
-              OC. This was incorporated by increasing the drOC and grOB value and
-              decreasing the grOC value when a IH was administered.
+              OC. This was incorporated by increasing the cOC value and decreasing
+              the cOB value when a IH was administered.
 """
 
 # Import the needed libraries
