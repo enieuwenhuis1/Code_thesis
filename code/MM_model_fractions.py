@@ -38,31 +38,31 @@ def main():
     # Do doc tests
     doctest.testmod()
 
-    # # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # # by adaptive therapy (original situation)
-    # list_t_steps_drug = [10, 10, 10]
-    # Figure_continuous_MTD_vs_AT_a_h(12, list_t_steps_drug)
-    #
-    # # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # # by adaptive therapy for shorter holiday and administration periods compared
-    # # to the original situation
-    # list_t_steps_drug = [5, 5, 5]
-    # Figure_continuous_MTD_vs_AT_short_a_h(20, list_t_steps_drug)
-    #
-    # # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # # by adaptive therapy for weaker IHs compared to the original situation
-    # list_t_steps_drug = [10, 10, 10]
-    # Figure_continuous_MTD_vs_AT_weak_a_h(12, list_t_steps_drug)
-    #
+    # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # by adaptive therapy (original situation)
+    list_t_steps_drug = [10, 10, 10]
+    Figure_continuous_MTD_vs_AT_a_h(12, list_t_steps_drug)
+
+    # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # by adaptive therapy for shorter holiday and administration periods compared
+    # to the original situation
+    list_t_steps_drug = [5, 5, 5]
+    Figure_continuous_MTD_vs_AT_short_a_h(20, list_t_steps_drug)
+
+    # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # by adaptive therapy for weaker IHs compared to the original situation
+    list_t_steps_drug = [10, 10, 10]
+    Figure_continuous_MTD_vs_AT_weak_a_h(12, list_t_steps_drug)
+
     # Make a 3D figure showthing the effect of different drug holiday and
     # administration periods
     Figure_3D_MM_frac_IH_add_and_holiday()
-    #
-    # # Make a figure that shows the MM fraction for different bOC,MMd values
-    # Figure_best_b_OC_MMd()
-    #
-    # # Make a figure that shows the MM fraction for different WMMd IH values
-    # Figure_best_WMMd_IH()
+
+    # Make a figure that shows the MM fraction for different bOC,MMd values
+    Figure_best_b_OC_MMd()
+
+    # Make a figure that shows the MM fraction for different WMMd IH values
+    Figure_best_WMMd_IH()
 
     # Make a 3D figure showing the effect of different WMMd and MMd GF IH strengths
     Figure_3D_MM_frac_MMd_IH_strength()
@@ -885,7 +885,7 @@ def minimal_tumour_frac_t_steps(t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd,
 
     return float(average_MM_fractions)
 
-def x_y_z_axis_values_3d_plot(dataframe):
+def x_y_z_axis_values_3d_plot(dataframe, name):
     """ Function that determines the x, y and z axis values from the given
     dataframe. It also prints the administration and holliday duration leading
     to the lowest total MM fraction in the equilibrium
@@ -894,6 +894,8 @@ def x_y_z_axis_values_3d_plot(dataframe):
     -----------
     Dataframe: dataFrame
         The dataframe with the generated data
+    name: String
+        The name of the admiisterd IH(s)
 
     Returns:
     --------
@@ -911,8 +913,8 @@ def x_y_z_axis_values_3d_plot(dataframe):
     g_drug_min = dataframe.loc[min_index, 'Generations drug']
     frac_min = dataframe.loc[min_index, 'MM fraction']
 
-    print(f"""Lowest MM fraction: {frac_min}-> MMd GF IH holidays are
-            {g_no_drug_min} generations and MMd GF IH administrations
+    print(f"""Lowest MM fraction: {frac_min}-> MMd {name} holidays are
+            {g_no_drug_min} generations and MMd {name} administrations
             are {g_drug_min} generations""")
 
     # Avoid errors because of the wrong datatype
@@ -1075,7 +1077,7 @@ def Figure_best_WMMd_IH():
     # Payoff matrix
     matrix = np.array([
         [0.0, 1.6, 2.0, 1.8],
-        [1.0, 0.0, -0.5, -0.5],
+        [0.95, 0.0, -0.5, -0.5],
         [2.0, 0, 0.2, 0.0],
         [1.8, 0, -1.1, 0.2]])
 
@@ -1189,17 +1191,17 @@ def Figure_best_b_OC_MMd():
     # Payoff matrix
     matrix = np.array([
         [0.0, 1.6, 2.2, 1.9],
-        [1.0, 0.0, -0.5, -0.5],
+        [0.95,0.0, -0.5, -0.5],
         [2.2, 0, 0.2, 0.0],
-        [1.9, 0, -0.63, 0.2]])
+        [1.9, 0, -0.7, 0.2]])
 
     t = np.linspace(0, 100, 100)
-    b_OC_MMd_start = 0.8
+    b_OC_MMd_start = 1.6
 
     # Perform the optimization
     result = minimize(minimal_tumour_frac_b_OC_MMd, b_OC_MMd_start, args = (xOC,
                                 xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix,
-                                t, True), bounds=[(0, 3)])
+                                t, True), bounds=[(0, 3)], method='Nelder-Mead')
 
     # Retrieve the optimal value
     optimal_b_OC_MMd= result.x
@@ -1264,21 +1266,21 @@ def Figure_continuous_MTD_vs_AT_a_h(n_switches, t_steps_drug):
     # Payoff matrix when no drugs are present
     matrix_no_GF_IH = np.array([
         [0.0, 1.6, 2.2, 1.9],
-        [1.0, 0.0, -0.5, -0.5],
+        [0.95, 0.0, -0.5, -0.5],
         [2.2, 0, 0.2, 0.0],
         [1.9, 0, -0.8, 0.2]])
 
     # Payoff matrix when only GF inhibitor drugs are present
     matrix_GF_IH = np.array([
         [0.0, 1.6, 2.2, 1.9],
-        [1.0, 0.0, -0.5, -0.5],
+        [0.95,0.0, -0.5, -0.5],
         [0.49, 0, 0.2, 0.0],
         [1.9, 0, -0.8, 0.2]])
 
     # Payoff matrix when both inhibitor drugs are present
     matrix_GF_IH_comb = np.array([
         [0.0, 1.6, 2.2, 1.9],
-        [1.0, 0.0, -0.5, -0.5],
+        [0.95,0.0, -0.5, -0.5],
         [1.23, 0, 0.2, 0.0],
         [1.9, 0, -1.1, 0.2]])
 
@@ -1410,21 +1412,21 @@ def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
     # Payoff matrix when no drugs are present
     matrix_no_GF_IH = np.array([
         [0.0, 1.6, 2.2, 1.9],
-        [1.0, 0.0, -0.5, -0.5],
+        [0.95,0.0, -0.5, -0.5],
         [2.2, 0, 0.2, 0.0],
         [1.9, 0, -0.8, 0.2]])
 
     # Payoff matrix when only GF inhibitor drugs are present
     matrix_GF_IH = np.array([
         [0.0, 1.6, 2.2, 1.9],
-        [1.0, 0.0, -0.5, -0.5],
+        [0.95,0.0, -0.5, -0.5],
         [0.49, 0, 0.2, 0.0],
         [1.9, 0, -0.8, 0.2]])
 
     # Payoff matrix when both inhibitor drugs are present
     matrix_GF_IH_comb = np.array([
         [0.0, 1.6, 2.2, 1.9],
-        [1.0, 0.0, -0.5, -0.5],
+        [0.95,0.0, -0.5, -0.5],
         [1.23, 0, 0.2, 0.0],
         [1.9, 0, -1.1, 0.2]])
 
@@ -1557,22 +1559,22 @@ def Figure_continuous_MTD_vs_AT_weak_a_h(n_switches, t_steps_drug):
     # Payoff matrix when no drugs are present
     matrix_no_GF_IH = np.array([
         [0.0, 1.6, 2.2, 1.9],
-        [1.0, 0.0, -0.5, -0.5],
+        [0.95,0.0, -0.5, -0.5],
         [2.2, 0, 0.2, 0.0],
         [1.9, 0, -0.8, 0.2]])
 
     # Payoff matrix when only GF inhibitor drugs are present
     matrix_GF_IH = np.array([
         [0.0, 1.6, 2.2, 1.9],
-        [1.0, 0.0, -0.5, -0.5],
+        [0.95,0.0, -0.5, -0.5],
         [0.77, 0, 0.2, 0.0],
         [1.9, 0, -0.8, 0.2]])
 
     # Payoff matrix when both inhibitor drugs are present
     matrix_GF_IH_comb = np.array([
         [0.0, 1.6, 2.2, 1.9],
-        [1.0, 0.0, -0.5, -0.5],
-        [1.28, 0, 0.2, 0.0],
+        [0.95,0.0, -0.5, -0.5],
+        [1.27, 0, 0.2, 0.0],
         [1.9, 0, -1.1, 0.2]])
 
     # WMMd inhibitor effect when both inhibitor drugs are present
@@ -1696,29 +1698,29 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
     # Payoff matrix when no drugs are present
     matrix_no_GF_IH = np.array([
         [0.0, 1.6, 2.2, 1.9],
-        [1.0, 0.0, -0.5, -0.5],
+        [0.95, 0.0, -0.5, -0.5],
         [2.2, 0, 0.2, 0.0],
         [1.9, 0, -0.77, 0.2]])
 
     # Payoff matrix when only GF inhibitor drugs are present
     matrix_GF_IH = np.array([
         [0.0, 1.6, 2.2, 1.9],
-        [1.0, 0.0, -0.5, -0.5],
+        [0.95, 0.0, -0.5, -0.5],
         [0.7, 0, 0.2, 0.0],
         [1.9, 0, -0.77, 0.2]])
 
     # Payoff matrix when both inhibitor drugs are present
     matrix_GF_IH_comb = np.array([
         [0.0, 1.6, 2.2, 1.9],
-        [1.0, 0.0, -0.5, -0.5],
-        [1.2, 0, 0.2, 0.0],
+        [0.95, 0.0, -0.5, -0.5],
+        [1.1, 0, 0.2, 0.0],
         [1.9, 0, -1.1, 0.2]])
 
     # WMMd inhibitor effect when both inhibitor drugs are present
-    WMMd_inhibitor_comb = 0.7
+    WMMd_inhibitor_comb = 0.75
 
     # WMMd inhibitor effect when only WMMd IH is present
-    WMMd_inhibitor = 1.1
+    WMMd_inhibitor = 1.25
 
     # Make a dataframe
     column_names = ['Generations no drug', 'Generations drug', 'MM fraction']
@@ -1744,7 +1746,8 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
                                              r'..\data\data_own_model_fractions')
 
     # Determine the axis values
-    X_GF_IH, Y_GF_IH, Z_GF_IH = x_y_z_axis_values_3d_plot(df_holiday_GF_IH)
+    X_GF_IH, Y_GF_IH, Z_GF_IH = x_y_z_axis_values_3d_plot(df_holiday_GF_IH,
+                                                                        "GF IH")
 
     # Make a dataframe
     column_names = ['Generations no drug', 'Generations drug', 'MM fraction']
@@ -1770,7 +1773,7 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
                                              r'..\data\data_own_model_fractions')
 
     # Determine the axis values
-    X_W_IH, Y_W_IH, Z_W_IH = x_y_z_axis_values_3d_plot(df_holiday_W_IH)
+    X_W_IH, Y_W_IH, Z_W_IH = x_y_z_axis_values_3d_plot(df_holiday_W_IH, "W IH")
 
     # Make a dataframe
     column_names = ['Generations no drug', 'Generations drug', 'MM fraction']
@@ -1796,7 +1799,8 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
                                              r'..\data\data_own_model_fractions')
 
     # Determine the axis values
-    X_comb, Y_comb, Z_comb = x_y_z_axis_values_3d_plot(df_holiday_comb)
+    X_comb, Y_comb, Z_comb = x_y_z_axis_values_3d_plot(df_holiday_comb,
+                                                                "IH combination")
 
     # Create a figure and a grid of subplots
     fig, axes = plt.subplots(2, 2, figsize=(11, 9), subplot_kw={'projection': '3d'},
@@ -1882,14 +1886,14 @@ def Figure_3D_MM_frac_MMd_IH_strength():
     # Payoff matrix when no drugs are pressent
     matrix_no_GF_IH = np.array([
         [0.0, 1.6, 2.2, 1.9],
-        [1.0, 0.0, -0.5, -0.5],
+        [0.95, 0.0, -0.5, -0.5],
         [2.2, 0, 0.2, 0.0],
         [1.9, 0, -0.77, 0.2]])
 
     # Payoff matrix when GF inhibitor drugs are pressent
     matrix_GF_IH = np.array([
         [0.0, 1.6, 2.2, 1.9],
-        [1.0, 0.0, -0.5, -0.5],
+        [0.95, 0.0, -0.5, -0.5],
         [1.5, 0, 0.2, 0.0],
         [1.9, 0, -0.77, 0.2]])
 
@@ -2009,15 +2013,15 @@ def Figure_3_senarios_MMd_GF_IH(n_switches, t_steps_drug):
     # Payoff matrices
     matrix_no_GF_IH = np.array([
         [0.0, 1.6, 2.2, 1.9],
-        [1.0, 0.0, -0.5, -0.5],
+        [0.95, 0.0, -0.5, -0.5],
         [2.2, 0, 0.2, 0.0],
-        [1.9, 0, -0.7605, 0.2]])
+        [1.9, 0, -0.76, 0.2]])
 
     matrix_GF_IH = np.array([
         [0.0, 1.6, 2.2, 1.9],
-        [1.0, 0.0, -0.5, -0.5],
-        [0.7, 0, 0.2, 0.0],
-        [1.9, 0, -0.7605, 0.2]])
+        [0.95, 0.0, -0.5, -0.5],
+        [0.698, 0, 0.2, 0.0],
+        [1.9, 0, -0.76, 0.2]])
 
     # Make dataframe for the different drug hollyday duration values
     df_total_switch_1 = pronto_switch_dataframe(n_switches, t_steps_drug[0],
@@ -2139,11 +2143,11 @@ def Figure_3_senarios_WMMd_IH(n_switches, t_steps_drug):
     # Payoff matrix
     matrix = np.array([
         [0.0, 1.6, 2.2, 1.8],
-        [1.0, 0.0, -0.5, -0.5],
-        [2.4, 0, 0.2, 0.0],
+        [0.95, 0.0, -0.5, -0.5],
+        [2.2, 0, 0.2, 0.0],
         [1.8, 0, -0.75, 0.2]])
 
-    WMMd_inhibitor = 1.595
+    WMMd_inhibitor = 1.306
 
     # Make dataframe for the different drug hollyday duration values
     df_total_switch_1 = pronto_switch_dataframe(n_switches, t_steps_drug[0],
@@ -2264,17 +2268,17 @@ def Figure_3_senarios_MMd_GF_WMMd_IH(n_switches, t_steps_drug):
     # Payoff matrices
     matrix_no_GF_IH = np.array([
         [0.0, 1.6, 2.2, 1.9],
-        [1.0, 0.0, -0.5, -0.5],
+        [0.95, 0.0, -0.5, -0.5],
         [2.2, 0, 0.2, 0.0],
         [1.9, 0, -0.8, 0.2]])
 
     matrix_GF_IH_half = np.array([
         [0.0, 1.6, 2.2, 1.9],
-        [1.0, 0.0, -0.5, -0.5],
+        [0.95,0.0, -0.5, -0.5],
         [1.4, 0, 0.2, 0.0],
         [1.9, 0, -1.0, 0.2]])
 
-    WMMd_inhibitor_half = 0.617
+    WMMd_inhibitor_half = 0.62
 
     # Make dataframe for the different drug hollyday duration values
     df_total_switch_1 = pronto_switch_dataframe(n_switches, t_steps_drug[0],
@@ -2395,7 +2399,7 @@ def Figure_frac_fitness_dynamics():
     # Payoff matrix
     matrix_no_GF_IH = np.array([
         [0.0, 1.6, 2.2, 1.9],
-        [1.0, 0.0, -0.5, -0.5],
+        [0.95,0.0, -0.5, -0.5],
         [2.2, 0.0, 0.2, 0.0],
         [1.9, 0.0, -0.77, 0.2]])
 
@@ -2419,7 +2423,7 @@ def Figure_frac_fitness_dynamics():
     # Payoff matrix
     matrix_GF_IH = np.array([
         [0.0, 1.6, 2.2, 1.9],
-        [1.0, 0.0, -0.5, -0.5],
+        [0.95,0.0, -0.5, -0.5],
         [0.4, 0, 0.2, 0],
         [1.9, 0, -0.77, 0.2]])
 
@@ -2577,14 +2581,14 @@ def Figure_duration_A_h_MMd_IH(n_switches, t_steps_drug, t_steps_no_drug):
     # Payoff matrix when no drugs are present
     matrix_no_GF_IH = np.array([
         [0.0, 1.6, 2.2, 1.9],
-        [1.0, 0.0, -0.5, -0.5],
+        [0.95,0.0, -0.5, -0.5],
         [2.2, 0, 0.2, 0.0],
         [1.9, 0, -0.8, 0.2]])
 
     # Payoff matrix when both inhibitor drugs are present
     matrix_GF_IH_half = np.array([
         [0.0, 1.6, 2.2, 1.9],
-        [1.0, 0.0, -0.5, -0.5],
+        [0.95,0.0, -0.5, -0.5],
         [1.4, 0, 0.2, 0.0],
         [1.9, 0, -1.0, 0.2]])
 

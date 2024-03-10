@@ -760,7 +760,7 @@ def minimal_tumour_frac_t_steps(t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd,
 
     return float(average_MM_fractions)
 
-def x_y_z_axis_values_3d_plot(dataframe):
+def x_y_z_axis_values_3d_plot(dataframe, name):
     """ Function that determines the x, y and z axis values from the given
     dataframe. It also prints the administration and holliday duration leading
     to the lowest total MM fraction in the equilibrium
@@ -769,6 +769,8 @@ def x_y_z_axis_values_3d_plot(dataframe):
     -----------
     Dataframe: dataFrame
         The dataframe with the generated data
+    name: String
+        The name of the admiisterd IH(s)
 
     Returns:
     --------
@@ -786,8 +788,8 @@ def x_y_z_axis_values_3d_plot(dataframe):
     g_drug_min = dataframe.loc[min_index, 'Generations drug']
     frac_min = dataframe.loc[min_index, 'MM fraction']
 
-    print(f"""Lowest MM fraction: {frac_min}-> MMd GF IH holidays are
-            {g_no_drug_min} generations and MMd GF IH administrations
+    print(f"""Lowest MM fraction: {frac_min}-> MMd {name} holidays are
+            {g_no_drug_min} generations and MMd {name} administrations
             are {g_drug_min} generations""")
 
     # Avoid errors because of the wrong datatype
@@ -1758,7 +1760,8 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
                                          r'..\data\data_own_model_frac_IH_inf')
 
     # Determine the axis values
-    X_GF_IH, Y_GF_IH, Z_GF_IH = x_y_z_axis_values_3d_plot(df_holiday_GF_IH)
+    X_GF_IH, Y_GF_IH, Z_GF_IH = x_y_z_axis_values_3d_plot(df_holiday_GF_IH,
+                                                                        'GF IH')
 
     # Make a dataframe
     column_names = ['Generations no drug', 'Generations drug', 'MM fraction']
@@ -1784,7 +1787,7 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
                                              r'..\data\data_own_model_frac_IH_inf')
 
     # Determine the axis values
-    X_W_IH, Y_W_IH, Z_W_IH = x_y_z_axis_values_3d_plot(df_holiday_W_IH)
+    X_W_IH, Y_W_IH, Z_W_IH = x_y_z_axis_values_3d_plot(df_holiday_W_IH, "W IH")
 
     # Make a dataframe
     column_names = ['Generations no drug', 'Generations drug', 'MM fraction']
@@ -1811,7 +1814,8 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
                                              r'..\data\data_own_model_frac_IH_inf')
 
     # Determine the axis values
-    X_comb, Y_comb, Z_comb = x_y_z_axis_values_3d_plot(df_holiday_comb)
+    X_comb, Y_comb, Z_comb = x_y_z_axis_values_3d_plot(df_holiday_comb,
+                                                            'IH combination')
 
     # Create a figure and a grid of subplots
     fig, axes = plt.subplots(2, 2, figsize=(11, 9), subplot_kw={'projection': '3d'},

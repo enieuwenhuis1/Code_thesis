@@ -37,27 +37,27 @@ def main():
     # Do doc tests
     doctest.testmod()
 
-    # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # by adaptive therapy (original situation)
-    list_t_steps_drug = [10, 10, 10]
-    Figure_continuous_MTD_vs_AT(20, list_t_steps_drug)
-
-    # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # by adaptive therapy for shorter holiday and administration periods compared
-    # to the original situation
-    list_t_steps_drug = [4, 4, 4]
-    Figure_continuous_MTD_vs_AT_short_a_h(50, list_t_steps_drug)
-
-    # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # by adaptive therapy for weaker IHs compared to the original situation
-    list_t_steps_drug = [10, 10, 10]
-    Figure_continuous_MTD_vs_AT_weak_a_h(20, list_t_steps_drug)
-
-    # Make a figure that shows the MM fraction for different bOC,MMd values
-    Figure_best_b_OC_MMd()
-
-    # Make a figure that shows the MM fraction for different WMMd IH values
-    Figure_best_WMMd_IH()
+    # # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # # by adaptive therapy (original situation)
+    # list_t_steps_drug = [10, 10, 10]
+    # Figure_continuous_MTD_vs_AT(20, list_t_steps_drug)
+    #
+    # # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # # by adaptive therapy for shorter holiday and administration periods compared
+    # # to the original situation
+    # list_t_steps_drug = [4, 4, 4]
+    # Figure_continuous_MTD_vs_AT_short_a_h(50, list_t_steps_drug)
+    #
+    # # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # # by adaptive therapy for weaker IHs compared to the original situation
+    # list_t_steps_drug = [10, 10, 10]
+    # Figure_continuous_MTD_vs_AT_weak_a_h(20, list_t_steps_drug)
+    #
+    # # Make a figure that shows the MM fraction for different bOC,MMd values
+    # Figure_best_b_OC_MMd()
+    #
+    # # Make a figure that shows the MM fraction for different WMMd IH values
+    # Figure_best_WMMd_IH()
 
     # Make a 3D figure showthing the effect of different drug holiday and
     # administration periods
@@ -631,7 +631,7 @@ def continuous_add_IH_df(end_generation, nOC, nOB, nMMd, nMMr, growth_rates,
 
     return df_total
 
-def x_y_z_axis_values_3d_plot(dataframe):
+def x_y_z_axis_values_3d_plot(dataframe, name):
     """ Function that determines the x, y and z axis values from the given
     dataframe. It also prints the administration and holliday duration leading
     to the lowest total MM fraction in the equilibrium
@@ -640,6 +640,8 @@ def x_y_z_axis_values_3d_plot(dataframe):
     -----------
     Dataframe: dataFrame
         The dataframe with the generated data
+    name: String
+        The name of the admiisterd IH(s)
 
     Returns:
     --------
@@ -652,13 +654,13 @@ def x_y_z_axis_values_3d_plot(dataframe):
     """
 
     # Find the drug administration and holiday period causing the lowest MM fraction
-    min_index =  dataframe['MM fraction'].idxmin()
+    min_index =  dataframe['MM number'].idxmin()
     g_no_drug_min = dataframe.loc[min_index, 'Generations no drug']
     g_drug_min = dataframe.loc[min_index, 'Generations drug']
-    frac_min = dataframe.loc[min_index, 'MM fraction']
+    frac_min = dataframe.loc[min_index, 'MM number']
 
-    print(f"""Lowest MM fraction: {frac_min}-> MMd GF IH holidays are
-            {g_no_drug_min} generations and MMd GF IH administrations
+    print(f"""Lowest MM fraction: {frac_min}-> MMd {name} holidays are
+            {g_no_drug_min} generations and MMd {name}  administrations
             are {g_drug_min} generations""")
 
     # Avoid errors because of the wrong datatype
@@ -666,7 +668,7 @@ def x_y_z_axis_values_3d_plot(dataframe):
                                         'Generations no drug'], errors='coerce')
     dataframe['Generations drug'] = pd.to_numeric(dataframe[\
                                         'Generations drug'],errors='coerce')
-    dataframe['MM fraction'] = pd.to_numeric(dataframe['MM fraction'],
+    dataframe['MM number'] = pd.to_numeric(dataframe['MM number'],
                                                             errors='coerce')
 
     # Make a meshgrid for the plot
@@ -1432,6 +1434,308 @@ def Figure_best_b_OC_MMd():
     plt.show()
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+""" 3D plot showing the best IH holiday and administration periods"""
+def Figure_3D_MM_nr_frac_IH_add_and_holiday1():
+    """ Figure that makes three 3D plot that shows the average fraction of MM for
+    different holiday and administration periods of only MMd GF inhibitor, only
+    WMMd inhibitor or both. It prints the IH administration periods and holidays
+    that caused the lowest total MM fraction."""
+
+    # Set start values
+    nOC = 20
+    nOB = 30
+    nMMd = 20
+    nMMr = 5
+    growth_rates = [0.9, 1.0, 0.3, 0.3]
+    decay_rates = [0.9, 0.08, 0.2, 0.1]
+
+    # Payoff matrix when no drugs are present
+    matrix_no_GF_IH = np.array([
+        [0.0, 0.4, 0.68, 0.6],
+        [0.3, 0.0, -0.3, -0.3],
+        [0.66, 0.0, 0.2, 0.0],
+        [0.6, 0.0, -0.65, 0.4]])
+
+    # Payoff matrix when only GF inhibitor drugs are present
+    matrix_GF_IH = np.array([
+        [0.0, 0.4, 0.68, 0.6],
+        [0.3, 0.0, -0.3, -0.3],
+        [0.28, 0.0, 0.2, 0.0],
+        [0.6, 0.0, -0.65, 0.4]])
+
+    # Payoff matrix when both inhibitor drugs are present
+    matrix_GF_IH_comb = np.array([
+        [0.0, 0.4, 0.68, 0.6],
+        [0.3, 0.0, -0.3, -0.3],
+        [0.4, 0.0, 0.2, 0.0],
+        [0.6, 0.0, -0.75, 0.4]])
+
+    # WMMd inhibitor effect when both inhibitor drugs are present
+    WMMd_inhibitor_comb = 0.25
+
+    # WMMd inhibitor effect when only WMMd IH is present
+    WMMd_inhibitor = 0.5
+
+    # Make a dataframe
+    column_names = ['Generations no drug', 'Generations drug', 'MM number']
+    df_holiday_GF_IH = pd.DataFrame(columns=column_names)
+
+    # Loop over all the t_step values for drug administration and drug holidays
+    for t_steps_no_drug in range(2, 22):
+
+        for t_steps_drug in range(2, 22):
+            nr_frac_tumour = minimal_tumour_nr_frac_t_steps(t_steps_drug,
+                            t_steps_no_drug, nOC, nOB, nMMd, nMMr, growth_rates,
+                            decay_rates, matrix_no_GF_IH, matrix_GF_IH)
+
+            # Add results to the dataframe
+            new_row_df = pd.DataFrame([{'Generations no drug':
+                    int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
+                                             'MM number': float(nr_frac_tumour)}])
+            df_holiday_GF_IH = pd.concat([df_holiday_GF_IH, new_row_df],
+                                                            ignore_index=True)
+
+
+    # Save the data
+    save_dataframe(df_holiday_GF_IH, 'df_cell_nr_frac_best_MMd_GH_IH_holiday.csv',
+                                             r'..\data\data_own_model_nr_to_frac')
+
+    # Find the drug administration and holiday period causing the lowest MM number
+    min_index_GF_IH = df_holiday_GF_IH['MM number'].idxmin()
+    g_no_drug_min_GF_IH = df_holiday_GF_IH.loc[min_index_GF_IH,
+                                                           'Generations no drug']
+    g_drug_min_GF_IH = df_holiday_GF_IH.loc[min_index_GF_IH, 'Generations drug']
+    nr_frac_min_GF_IH = df_holiday_GF_IH.loc[min_index_GF_IH, 'MM number']
+
+    print(f"""Lowest MM fraction: {nr_frac_min_GF_IH}-> MMd GF IH holidays are
+            {g_no_drug_min_GF_IH} generations and MMd GF IH administrations
+            are {g_drug_min_GF_IH} generations""")
+
+    # Avoid errors because of the wrong datatype
+    df_holiday_GF_IH['Generations no drug'] = pd.to_numeric(df_holiday_GF_IH[\
+                                        'Generations no drug'], errors='coerce')
+    df_holiday_GF_IH['Generations drug'] = pd.to_numeric(df_holiday_GF_IH[\
+                                        'Generations drug'],errors='coerce')
+    df_holiday_GF_IH['MM number'] = pd.to_numeric(df_holiday_GF_IH[\
+                                        'MM number'], errors='coerce')
+
+    # Make a meshgrid for the plot
+    X_GF_IH = df_holiday_GF_IH['Generations no drug'].unique()
+    Y_GF_IH = df_holiday_GF_IH['Generations drug'].unique()
+    X_GF_IH, Y_GF_IH = np.meshgrid(X_GF_IH, Y_GF_IH)
+    Z_GF_IH = np.zeros((20, 20))
+
+    # Fill the 2D array with the MM number values by looping over each row
+    for index, row in df_holiday_GF_IH.iterrows():
+        i = int(row.iloc[0]) - 2
+        j = int(row.iloc[1]) - 2
+        Z_GF_IH[j, i] = row.iloc[2]
+
+    # Make a dataframe
+    column_names = ['Generations no drug', 'Generations drug', 'MM number']
+    df_holiday_W_IH = pd.DataFrame(columns=column_names)
+
+    # Loop over al the t_step values for drug dministration and drug holidays
+    for t_steps_no_drug in range(2, 22):
+
+        for t_steps_drug in range(2, 22):
+            nr_frac_tumour = minimal_tumour_nr_frac_t_steps(t_steps_drug,
+                    t_steps_no_drug, nOC, nOB, nMMd, nMMr, growth_rates,
+                    decay_rates,matrix_no_GF_IH, matrix_no_GF_IH, WMMd_inhibitor)
+
+            # Add results to the dataframe
+            new_row_df = pd.DataFrame([{'Generations no drug': int(t_steps_no_drug),
+                                            'Generations drug': int(t_steps_drug),
+                                             'MM number': float(nr_frac_tumour)}])
+            df_holiday_W_IH = pd.concat([df_holiday_W_IH, new_row_df],
+                                                                ignore_index=True)
+
+    # Save the data
+    save_dataframe(df_holiday_W_IH, 'df_cell_nr_frac_best_WMMd_IH_holiday.csv',
+                                             r'..\data\data_own_model_nr_to_frac')
+
+    # Find the drug administration and holiday period causing the lowest MM number
+    min_index_W_IH = df_holiday_W_IH['MM number'].idxmin()
+    g_no_drug_min_W_IH = df_holiday_W_IH.loc[min_index_W_IH,'Generations no drug']
+    g_drug_min_W_IH = df_holiday_W_IH.loc[min_index_W_IH, 'Generations drug']
+    nr_frac_min_W_IH = df_holiday_W_IH.loc[min_index_W_IH, 'MM number']
+
+    print(f"""Lowest MM fraction: {nr_frac_min_W_IH} -> WMMd IH holidays are
+                                    {g_no_drug_min_W_IH} generations and WMMd IH
+                            administrations are {g_drug_min_W_IH} generations""")
+
+    # Avoid errors because of the wrong datatype
+    df_holiday_W_IH['Generations no drug'] = pd.to_numeric(df_holiday_W_IH[\
+                                    'Generations no drug'], errors='coerce')
+    df_holiday_W_IH['Generations drug'] = pd.to_numeric(df_holiday_W_IH[\
+                                            'Generations drug'], errors='coerce')
+    df_holiday_W_IH['MM number'] = pd.to_numeric(df_holiday_W_IH[\
+                                                'MM number'], errors='coerce')
+
+    # Make a meshgrid for the plot
+    X_W_IH = df_holiday_W_IH['Generations no drug'].unique()
+    Y_W_IH = df_holiday_W_IH['Generations drug'].unique()
+    X_W_IH, Y_W_IH = np.meshgrid(X_W_IH, Y_W_IH)
+    Z_W_IH = np.zeros((20, 20))
+
+    # Fill the 2D array with the MM number values by looping over each row
+    for index, row in df_holiday_W_IH.iterrows():
+        i = int(row.iloc[0]) -2
+        j = int(row.iloc[1]) -2
+        Z_W_IH[j, i] = row.iloc[2]
+
+    # Make a dataframe
+    column_names = ['Generations no drug', 'Generations drug', 'MM number']
+    df_holiday_comb = pd.DataFrame(columns=column_names)
+
+    # Loop over al the t_step values for drug dministration and drug holidays
+    for t_steps_no_drug in range(2, 22):
+
+        for t_steps_drug in range(2, 22):
+            nr_frac_tumour = minimal_tumour_nr_frac_t_steps(t_steps_drug,
+                t_steps_no_drug, nOC, nOB, nMMd, nMMr, growth_rates, decay_rates,
+                matrix_no_GF_IH, matrix_GF_IH_comb, WMMd_inhibitor_comb)
+
+            # Add results to the dataframe
+            new_row_df = pd.DataFrame([{'Generations no drug': int(t_steps_no_drug),
+                                            'Generations drug': int(t_steps_drug),
+                                            'MM number': float(nr_frac_tumour)}])
+            df_holiday_comb = pd.concat([df_holiday_comb, new_row_df],
+                                                                ignore_index=True)
+
+    # Save the data
+    save_dataframe(df_holiday_comb, 'df_cell_nr_frac_best_MMd_IH_holiday.csv',
+                                             r'..\data\data_own_model_nr_to_frac')
+
+    # Find the drug administration and holiday period causing the lowest MM number
+    min_index_comb = df_holiday_comb['MM number'].idxmin()
+    g_no_drug_min_comb = df_holiday_comb.loc[min_index_comb, 'Generations no drug']
+    g_drug_min_comb = df_holiday_comb.loc[min_index_comb, 'Generations drug']
+    nr_frac_min_comb = df_holiday_comb.loc[min_index_comb, 'MM number']
+
+    print(f"""Lowest MM fraction: {nr_frac_min_comb}-> MMd IH holidays are
+                    {g_no_drug_min_comb} generations and MMd IH administrations
+                    are {g_drug_min_comb} generations""")
+
+    # Avoid errors because of the wrong datatype
+    df_holiday_comb['Generations no drug'] = pd.to_numeric(df_holiday_comb[\
+                                        'Generations no drug'], errors='coerce')
+    df_holiday_comb['Generations drug'] = pd.to_numeric(df_holiday_comb[\
+                                            'Generations drug'], errors='coerce')
+    df_holiday_comb['MM number'] = pd.to_numeric(df_holiday_comb[\
+                                            'MM number'], errors='coerce')
+
+    # Make a meshgrid for the plot
+    X_comb = df_holiday_comb['Generations no drug'].unique()
+    Y_comb = df_holiday_comb['Generations drug'].unique()
+    X_comb, Y_comb = np.meshgrid(X_comb, Y_comb)
+    Z_comb = np.zeros((20, 20))
+
+    # Fill the 2D array with the MM number values by looping over each row
+    for index, row in df_holiday_comb.iterrows():
+        i = int(row.iloc[0]) - 2
+        j = int(row.iloc[1]) - 2
+        Z_comb[j, i] = row.iloc[2]
+
+    # Create a figure and a grid of subplots
+    fig, axes = plt.subplots(2, 2, figsize=(11, 9), subplot_kw={'projection': '3d'},
+                                    gridspec_kw={'hspace': 0.25, 'wspace': 0.25})
+
+    # Plot each subplot
+    for i, ax in enumerate(axes.flat, start=1):
+        if i == 1:
+            surf = ax.plot_surface(X_W_IH, Y_W_IH, Z_W_IH, cmap='coolwarm')
+
+            # Add labels
+            ax.set_xlabel('Generations no IH')
+            ax.set_ylabel('Generations IH')
+            ax.set_zlabel('MM fraction')
+            ax.set_title(r'A) $W_{MMd}$ inhibitor', pad=10)
+
+            # Turn to the right angle
+            ax.view_init(elev = 25, azim = -167)
+
+            # Add a color bar
+            color_bar = fig.colorbar(surf, ax=ax, shrink=0.4, location= 'right')
+            color_bar.set_label('MM fraction')
+
+        elif i == 2:
+            surf = ax.plot_surface(X_GF_IH, Y_GF_IH, Z_GF_IH, cmap = 'coolwarm')
+
+            # Add labels
+            ax.set_xlabel('Generations no IH')
+            ax.set_ylabel('Generations IH')
+            ax.set_zlabel('MM fraction')
+            ax.set_title('B)  MMd GF inhibitor', pad=10)
+
+            # Turn to the right angle
+            ax.view_init(elev = 32, azim = -164)
+
+            # Add a color bar
+            color_bar = fig.colorbar(surf, ax=ax, shrink=0.4, location= 'right')
+
+            color_bar.set_label('MM fraction')
+
+        elif i == 3:
+            surf = ax.plot_surface(X_comb, Y_comb, Z_comb, cmap = 'coolwarm')
+
+            # Add labels
+            ax.set_xlabel('Generations no IHs')
+            ax.set_ylabel('Generations IHs')
+            ax.set_zlabel('MM fraction')
+            ax.set_title('C)  $W_{MMd}$ inhibitor and MMd GF inhibitor', pad=10)
+
+            # Turn to the right angle
+            ax.view_init(elev = 39, azim = -121)
+
+            # Add a color bar
+            color_bar = fig.colorbar(surf, ax=ax, shrink=0.4, location= 'right')
+            color_bar.set_label('MM fraction')
+
+        else:
+            # Hide the emply subplot
+            ax.axis('off')
+
+    # Add a color bar
+    save_Figure(fig, '3d_plot_MM_nr_frac_best_IH_h_a_periods',
+                                r'..\visualisation\results_own_model_nr_to_frac')
+    plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 """ 3D plot showing the best IH holiday and administration periods"""
 def Figure_3D_MM_nr_frac_IH_add_and_holiday():
     """ Figure that makes three 3D plot that shows the average fraction of MM for
@@ -1499,7 +1803,8 @@ def Figure_3D_MM_nr_frac_IH_add_and_holiday():
                                              r'..\data\data_own_model_nr_to_frac')
 
     # Determine the axis values
-    X_GF_IH, Y_GF_IH, Z_GF_IH = x_y_z_axis_values_3d_plot(df_holiday_GF_IH)
+    X_GF_IH, Y_GF_IH, Z_GF_IH = x_y_z_axis_values_3d_plot(df_holiday_GF_IH,
+                                                                        'GF IH')
 
     # Make a dataframe
     column_names = ['Generations no drug', 'Generations drug', 'MM number']
@@ -1525,7 +1830,7 @@ def Figure_3D_MM_nr_frac_IH_add_and_holiday():
                                              r'..\data\data_own_model_nr_to_frac')
 
     # Determine the axis values
-    X_W_IH, Y_W_IH, Z_W_IH = x_y_z_axis_values_3d_plot(df_holiday_GF_IH)
+    X_W_IH, Y_W_IH, Z_W_IH = x_y_z_axis_values_3d_plot(df_holiday_W_IH, 'W IH')
 
     # Make a dataframe
     column_names = ['Generations no drug', 'Generations drug', 'MM number']
@@ -1550,35 +1855,9 @@ def Figure_3D_MM_nr_frac_IH_add_and_holiday():
     save_dataframe(df_holiday_comb, 'df_cell_nr_frac_best_MMd_IH_holiday.csv',
                                              r'..\data\data_own_model_nr_to_frac')
 
-    # Find the drug administration and holiday period causing the lowest MM number
-    min_index_comb = df_holiday_comb['MM number'].idxmin()
-    g_no_drug_min_comb = df_holiday_comb.loc[min_index_comb, 'Generations no drug']
-    g_drug_min_comb = df_holiday_comb.loc[min_index_comb, 'Generations drug']
-    nr_frac_min_comb = df_holiday_comb.loc[min_index_comb, 'MM number']
-
-    print(f"""Lowest MM fraction: {nr_frac_min_comb}-> MMd IH holidays are
-                    {g_no_drug_min_comb} generations and MMd IH administrations
-                    are {g_drug_min_comb} generations""")
-
-    # Avoid errors because of the wrong datatype
-    df_holiday_comb['Generations no drug'] = pd.to_numeric(df_holiday_comb[\
-                                        'Generations no drug'], errors='coerce')
-    df_holiday_comb['Generations drug'] = pd.to_numeric(df_holiday_comb[\
-                                            'Generations drug'], errors='coerce')
-    df_holiday_comb['MM number'] = pd.to_numeric(df_holiday_comb[\
-                                            'MM number'], errors='coerce')
-
-    # Make a meshgrid for the plot
-    X_comb = df_holiday_comb['Generations no drug'].unique()
-    Y_comb = df_holiday_comb['Generations drug'].unique()
-    X_comb, Y_comb = np.meshgrid(X_comb, Y_comb)
-    Z_comb = np.zeros((20, 20))
-
-    # Fill the 2D array with the MM number values by looping over each row
-    for index, row in df_holiday_comb.iterrows():
-        i = int(row.iloc[0]) - 2
-        j = int(row.iloc[1]) - 2
-        Z_comb[j, i] = row.iloc[2]
+    # Determine the axis values
+    X_comb, Y_comb, Z_comb = x_y_z_axis_values_3d_plot(df_holiday_comb,
+                                                            'IH comnbination')
 
     # Create a figure and a grid of subplots
     fig, axes = plt.subplots(2, 2, figsize=(11, 9), subplot_kw={'projection': '3d'},

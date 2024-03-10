@@ -46,11 +46,11 @@ def main():
     # # to the original situation
     # list_t_steps_drug = [4, 4, 4]
     # Figure_continuous_MTD_vs_AT_short_a_h(50, list_t_steps_drug)
-
-    # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # by adaptive therapy for weaker IHs compared to the original situation
-    list_t_steps_drug = [10, 10, 10]
-    Figure_continuous_MTD_vs_AT_weak_a_h(20, list_t_steps_drug)
+    #
+    # # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # # by adaptive therapy for weaker IHs compared to the original situation
+    # list_t_steps_drug = [10, 10, 10]
+    # Figure_continuous_MTD_vs_AT_weak_a_h(20, list_t_steps_drug)
 
     # Make a 3D figure showthing the effect of different drug holiday and
     # administration periods
@@ -599,7 +599,7 @@ def minimal_tumour_numb_t_steps(t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd,
 
     return float(average_MM_number)
 
-def x_y_z_axis_values_3d_plot(dataframe):
+def x_y_z_axis_values_3d_plot(dataframe, name):
     """ Function that determines the x, y and z axis values from the given
     dataframe. It also prints the administration and holliday duration leading
     to the lowest total MM number in the equilibrium
@@ -608,6 +608,8 @@ def x_y_z_axis_values_3d_plot(dataframe):
     -----------
     Dataframe: dataFrame
         The dataframe with the generated data
+    name: String
+        The name of the admiisterd IH(s)
 
     Returns:
     --------
@@ -625,8 +627,8 @@ def x_y_z_axis_values_3d_plot(dataframe):
     g_drug_min = dataframe.loc[min_index, 'Generations drug']
     frac_min = dataframe.loc[min_index, 'MM number']
 
-    print(f"""Lowest MM number: {frac_min}-> MMd GF IH holidays are
-            {g_no_drug_min} generations and MMd GF IH administrations
+    print(f"""Lowest MM number: {frac_min}-> MMd {name} holidays are
+            {g_no_drug_min} generations and MMd {name} administrations
             are {g_drug_min} generations""")
 
     # Avoid errors because of the wrong datatype
@@ -1315,36 +1317,9 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
     save_dataframe(df_holiday_GF_IH, 'df_cell_numb_best_MMd_GH_IH_holiday.csv',
                                              r'..\data\data_own_model_numbers')
 
-    # Find the drug administration and holiday period causing the lowest MM number
-    min_index_GF_IH = df_holiday_GF_IH['MM number'].idxmin()
-    g_no_drug_min_GF_IH = df_holiday_GF_IH.loc[min_index_GF_IH,
-                                                           'Generations no drug']
-    g_drug_min_GF_IH = df_holiday_GF_IH.loc[min_index_GF_IH, 'Generations drug']
-    numb_min_GF_IH = df_holiday_GF_IH.loc[min_index_GF_IH, 'MM number']
-
-    print(f"""Lowest MM number: {numb_min_GF_IH}-> MMd GF IH holidays are
-            {g_no_drug_min_GF_IH} generations and MMd GF IH administrations
-            are {g_drug_min_GF_IH} generations""")
-
-    # Avoid errors because of the wrong datatype
-    df_holiday_GF_IH['Generations no drug'] = pd.to_numeric(df_holiday_GF_IH[\
-                                        'Generations no drug'], errors='coerce')
-    df_holiday_GF_IH['Generations drug'] = pd.to_numeric(df_holiday_GF_IH[\
-                                        'Generations drug'],errors='coerce')
-    df_holiday_GF_IH['MM number'] = pd.to_numeric(df_holiday_GF_IH[\
-                                        'MM number'], errors='coerce')
-
-    # Make a meshgrid for the plot
-    X_GF_IH = df_holiday_GF_IH['Generations no drug'].unique()
-    Y_GF_IH = df_holiday_GF_IH['Generations drug'].unique()
-    X_GF_IH, Y_GF_IH = np.meshgrid(X_GF_IH, Y_GF_IH)
-    Z_GF_IH = np.zeros((20, 20))
-
-    # Fill the 2D array with the MM number values by looping over each row
-    for index, row in df_holiday_GF_IH.iterrows():
-        i = int(row.iloc[0]) - 2
-        j = int(row.iloc[1]) - 2
-        Z_GF_IH[j, i] = row.iloc[2]
+    # Determine the axis values
+    X_GF_IH, Y_GF_IH, Z_GF_IH = x_y_z_axis_values_3d_plot(df_holiday_GF_IH,
+                                                                        'GF IH')
 
     # Make a dataframe
     column_names = ['Generations no drug', 'Generations drug', 'MM number']
@@ -1369,35 +1344,8 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
     save_dataframe(df_holiday_W_IH, 'df_cell_numb_best_WMMd_IH_holiday.csv',
                                              r'..\data\data_own_model_numbers')
 
-    # Find the drug administration and holiday period causing the lowest MM number
-    min_index_W_IH = df_holiday_W_IH['MM number'].idxmin()
-    g_no_drug_min_W_IH = df_holiday_W_IH.loc[min_index_W_IH,'Generations no drug']
-    g_drug_min_W_IH = df_holiday_W_IH.loc[min_index_W_IH, 'Generations drug']
-    numb_min_W_IH = df_holiday_W_IH.loc[min_index_W_IH, 'MM number']
-
-    print(f"""Lowest MM number: {numb_min_W_IH} -> WMMd IH holidays are
-                                    {g_no_drug_min_W_IH} generations and WMMd IH
-                            administrations are {g_drug_min_W_IH} generations""")
-
-    # Avoid errors because of the wrong datatype
-    df_holiday_W_IH['Generations no drug'] = pd.to_numeric(df_holiday_W_IH[\
-                                    'Generations no drug'], errors='coerce')
-    df_holiday_W_IH['Generations drug'] = pd.to_numeric(df_holiday_W_IH[\
-                                            'Generations drug'], errors='coerce')
-    df_holiday_W_IH['MM number'] = pd.to_numeric(df_holiday_W_IH[\
-                                                'MM number'], errors='coerce')
-
-    # Make a meshgrid for the plot
-    X_W_IH = df_holiday_W_IH['Generations no drug'].unique()
-    Y_W_IH = df_holiday_W_IH['Generations drug'].unique()
-    X_W_IH, Y_W_IH = np.meshgrid(X_W_IH, Y_W_IH)
-    Z_W_IH = np.zeros((20, 20))
-
-    # Fill the 2D array with the MM number values by looping over each row
-    for index, row in df_holiday_W_IH.iterrows():
-        i = int(row.iloc[0]) -2
-        j = int(row.iloc[1]) -2
-        Z_W_IH[j, i] = row.iloc[2]
+    # Determine the axis values
+    X_W_IH, Y_W_IH, Z_W_IH = x_y_z_axis_values_3d_plot(df_holiday_W_IH, 'W IH')
 
     # Make a dataframe
     column_names = ['Generations no drug', 'Generations drug', 'MM number']
@@ -1422,35 +1370,9 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
     save_dataframe(df_holiday_comb, 'df_cell_numb_best_MMd_IH_holiday.csv',
                                              r'..\data\data_own_model_numbers')
 
-    # Find the drug administration and holiday period causing the lowest MM number
-    min_index_comb = df_holiday_comb['MM number'].idxmin()
-    g_no_drug_min_comb = df_holiday_comb.loc[min_index_comb, 'Generations no drug']
-    g_drug_min_comb = df_holiday_comb.loc[min_index_comb, 'Generations drug']
-    numb_min_comb = df_holiday_comb.loc[min_index_comb, 'MM number']
-
-    print(f"""Lowest MM number: {numb_min_comb}-> MMd IH holidays are
-                    {g_no_drug_min_comb} generations and MMd IH administrations
-                    are {g_drug_min_comb} generations""")
-
-    # Avoid errors because of the wrong datatype
-    df_holiday_comb['Generations no drug'] = pd.to_numeric(df_holiday_comb[\
-                                        'Generations no drug'], errors='coerce')
-    df_holiday_comb['Generations drug'] = pd.to_numeric(df_holiday_comb[\
-                                            'Generations drug'], errors='coerce')
-    df_holiday_comb['MM number'] = pd.to_numeric(df_holiday_comb[\
-                                            'MM number'], errors='coerce')
-
-    # Make a meshgrid for the plot
-    X_comb = df_holiday_comb['Generations no drug'].unique()
-    Y_comb = df_holiday_comb['Generations drug'].unique()
-    X_comb, Y_comb = np.meshgrid(X_comb, Y_comb)
-    Z_comb = np.zeros((20, 20))
-
-    # Fill the 2D array with the MM number values by looping over each row
-    for index, row in df_holiday_comb.iterrows():
-        i = int(row.iloc[0]) - 2
-        j = int(row.iloc[1]) - 2
-        Z_comb[j, i] = row.iloc[2]
+    # Determine the axis values
+    X_comb, Y_comb, Z_comb = x_y_z_axis_values_3d_plot(df_holiday_comb,
+                                                            'IH comnbination')
 
     # Create a figure and a grid of subplots
     fig, axes = plt.subplots(2, 2, figsize=(11, 9), subplot_kw={'projection': '3d'},
