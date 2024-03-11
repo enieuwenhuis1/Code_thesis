@@ -44,7 +44,7 @@ def main():
     Figure_continuous_MTD_vs_AT_a_h(12, list_t_steps_drug)
 
     # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # by adaptive therapy for shorter holiday and administration periods compared
+    # by adaptive therapy for shorter holiday and addministration periods compared
     # to the original situation
     list_t_steps_drug = [5, 5, 5]
     Figure_continuous_MTD_vs_AT_short_a_h(20, list_t_steps_drug)
@@ -55,7 +55,7 @@ def main():
     Figure_continuous_MTD_vs_AT_weak_a_h(12, list_t_steps_drug)
 
     # Make a 3D figure showthing the effect of different drug holiday and
-    # administration periods
+    # addministration periods
     Figure_3D_MM_frac_IH_add_and_holiday()
 
     # Make a figure that shows the MM fraction for different bOC,MMd values
@@ -68,24 +68,24 @@ def main():
     Figure_3D_MM_frac_MMd_IH_strength()
 
     # Make line plots showing different equilibriums when the MMd GF IH holiday
-    # and administration durations change
+    # and addministration durations change
     list_t_steps_drug = [6, 8, 10]
     Figure_3_senarios_MMd_GF_IH(10, list_t_steps_drug)
 
     # Make line plots showing different equilibriums when the WMMd IH holiday and
-    # administration durations change
+    # addministration durations change
     list_t_steps_drug = [8, 10, 12]
     Figure_3_senarios_WMMd_IH(10, list_t_steps_drug)
 
     # Make line plots showing different equilibriums when the MMd GF IH and WMMd
-    # IH holiday and administration durations change
+    # IH holiday and addministration durations change
     list_t_steps_drug = [10, 12, 14]
     Figure_3_senarios_MMd_GF_WMMd_IH(8, list_t_steps_drug)
 
     # Make a figure that shows the cell fraction dynamics and fitness
     Figure_frac_fitness_dynamics()
 
-    # Make line plots showing the dynamics when the IH administration is longer
+    # Make line plots showing the dynamics when the IH addministration is longer
     # than the holiday and one it is the other way around.
     list_t_steps_drug = [5, 8]
     list_t_steps_no_drug = [8, 5]
@@ -426,8 +426,8 @@ def frac_to_fitness_values(dataframe_fractions, N, cOC, cOB, cMMd, cMMr, matrix,
         # Determine the fitness values
         WOC = fitness_WOC(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix)
         WOB = fitness_WOB(xOC, xOB, xMMd, xMMr,  N, cOC, cOB, cMMd, cMMr, matrix)
-        WMMd = fitness_WMMd(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix,
-                                                                WMMd_inhibitor)
+        WMMd = fitness_WMMd(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
+                                                        matrix, WMMd_inhibitor)
         WMMr = fitness_WMMr(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix)
 
         # Determine the average fitness
@@ -504,16 +504,16 @@ def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd,
                                 xMMr, N, cOC, cOB, cMMd, cMMr, matrix_no_GF_IH,
                                 matrix_GF_IH, WMMd_inhibitor = 0):
     """ Function that makes a dataframe of the xOC, xOB, xMMd and xMMr values
-    over time for a given time of drug holiday and administration periods.
+    over time for a given time of drug holiday and addministration periods.
 
     Parameters:
     -----------
     n_switches: Int
         The fraction of switches between giving drugs and not giving drugs.
     t_steps_drug: Int
-        The fraction of generations drugs are administared.
+        The fraction of generations drugs are addministared.
     t_steps_no_drug: Int
-        The fraction of generations drugs are not administared.
+        The fraction of generations drugs are not addministared.
     xOC: Float
         Fraction of OC.
     xOB: Float
@@ -534,9 +534,9 @@ def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd,
         Cost parameter MMd.
     matrix_no_GF_IH: Numpy.ndarray
         4x4 matrix containing the interaction factors when no GF IH are
-                                                                administered.
+                                                                addministered.
     matrix_GF_IH: Numpy.ndarray
-        4x4 matrix containing the interaction factors when GF IH are administered.
+        4x4 matrix containing the interaction factors when GF IH are addministered.
     WMMd_inhibitor: Float
         The effect of a drug on the MMd fitness.
 
@@ -628,7 +628,7 @@ def pronto_switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, xOC, xOB,
                             xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix_no_GF_IH,
                             matrix_GF_IH, WMMd_inhibitor = 0):
     """ Function that makes a dataframe of the xOC, xOB, xMMd and xMMr values
-    over time for a given time of drug holiday and administration periods. It
+    over time for a given time of drug holiday and addministration periods. It
     starts immediately with switching.
 
     Parameters:
@@ -636,9 +636,9 @@ def pronto_switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, xOC, xOB,
     n_switches: Int
         The fraction of switches between giving drugs and not giving drugs.
     t_steps_drug: Int
-        The fraction of generations drugs are administared.
+        The fraction of generations drugs are addministared.
     t_steps_no_drug: Int
-        The fraction of generations drugs are not administared.
+        The fraction of generations drugs are not addministared.
     xOC: Float
         Fraction of OC.
     xOB: Float
@@ -659,9 +659,9 @@ def pronto_switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, xOC, xOB,
         Cost parameter MMd.
     matrix_no_GF_IH: Numpy.ndarray
         4x4 matrix containing the interaction factors when no GF IH are
-                                                                    administered.
+                                                                    addministered.
     matrix_GF_IH: Numpy.ndarray
-        4x4 matrix containing the interaction factors when GF IH are administered.
+        4x4 matrix containing the interaction factors when GF IH are addministered.
     WMMd_inhibitor: Float
         The effect of a drug on the MMd fitness.
 
@@ -750,7 +750,7 @@ def pronto_switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, xOC, xOB,
 def continuous_add_IH_df(end_generation, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd,
                         cMMr, matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor = 0):
     """ Function that makes a dataframe of the cell type fractions when the IHs
-    are administered continuously.
+    are addministered continuously.
 
     Parameters:
     -----------
@@ -776,16 +776,17 @@ def continuous_add_IH_df(end_generation, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd
         Cost parameter MMd.
     matrix_no_GF_IH: Numpy.ndarray
         4x4 matrix containing the interaction factors when no GF IH are
-                                                                    administrated.
+                                                                    addministrated.
     matrix_GF_IH: Numpy.ndarray
-        4x4 matrix containing the interaction factors when GF IH are administrated.
+        4x4 matrix containing the interaction factors when GF IH are addministrated.
     WMMd_inhibitor: Float
         The effect of a drug on the MMd fitness.
 
     Returns:
     --------
     df_total: DataFrame
-        The dataframe with the cell fractions when IHs are continiously administerd.
+        The dataframe with the cell fractions when IHs are continiously
+                                                                    addministerd.
     """
     t = np.linspace(0, 15, 15)
     y0 = [xOC, xOB, xMMd, xMMr]
@@ -825,9 +826,9 @@ def minimal_tumour_frac_t_steps(t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd,
     Parameters:
     -----------
     t_steps_drug: Int
-        The fraction of generations drugs are administared.
+        The fraction of generations drugs are addministared.
     t_steps_no_drug: Int
-        The fraction of generations drugs are not administared.
+        The fraction of generations drugs are not addministared.
     xOC: Float
         Fraction of OC.
     xOB: Float
@@ -848,9 +849,9 @@ def minimal_tumour_frac_t_steps(t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd,
         Cost parameter MMd.
     matrix_no_GF_IH: Numpy.ndarray
         4x4 matrix containing the interaction factors when no GF IH are
-                                                                administered.
+                                                                addministered.
     matrix_GF_IH: Numpy.ndarray
-        4x4 matrix containing the interaction factors when GF IH are administered.
+        4x4 matrix containing the interaction factors when GF IH are addministered.
     WMMd_inhibitor: Float
         The effect of a drug on the MMd fitness.
 
@@ -867,7 +868,7 @@ def minimal_tumour_frac_t_steps(t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd,
     ...    [0.8, 0.2, 1.1, -0.2],
     ...    [2.1, 0.0, -0.2, 1.2]])
     >>> minimal_tumour_frac_t_steps(5, 5, 0.2, 0.3, 0.2, 0.3, 10, 0.3, 0.2,
-    ...                               0.3, 0.5, matrix_no_GF_IH, matrix_no_GF_IH)
+    ...                              0.3, 0.5, matrix_no_GF_IH, matrix_no_GF_IH)
     -1.5588579521678917e-14
     """
     # Deteremine the fraction of switches
@@ -887,7 +888,7 @@ def minimal_tumour_frac_t_steps(t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd,
 
 def x_y_z_axis_values_3d_plot(dataframe, name):
     """ Function that determines the x, y and z axis values from the given
-    dataframe. It also prints the administration and holliday duration leading
+    dataframe. It also prints the addministration and holliday duration leading
     to the lowest total MM fraction in the equilibrium
 
     Parameters:
@@ -895,7 +896,7 @@ def x_y_z_axis_values_3d_plot(dataframe, name):
     Dataframe: dataFrame
         The dataframe with the generated data
     name: String
-        The name of the admiisterd IH(s)
+        The name of the addministerd IH(s)
 
     Returns:
     --------
@@ -907,14 +908,15 @@ def x_y_z_axis_values_3d_plot(dataframe, name):
         Array with the values for the z-axis
     """
 
-    # Find the drug administration and holiday period causing the lowest MM fraction
+    # Find the drug addministration and holiday period causing the lowest MM
+    # fraction
     min_index =  dataframe['MM fraction'].idxmin()
     g_no_drug_min = dataframe.loc[min_index, 'Generations no drug']
     g_drug_min = dataframe.loc[min_index, 'Generations drug']
     frac_min = dataframe.loc[min_index, 'MM fraction']
 
     print(f"""Lowest MM fraction: {frac_min}-> MMd {name} holidays are
-            {g_no_drug_min} generations and MMd {name} administrations
+            {g_no_drug_min} generations and MMd {name} addministrations
             are {g_drug_min} generations""")
 
     # Avoid errors because of the wrong datatype
@@ -1000,8 +1002,8 @@ def minimal_tumour_frac_b_OC_MMd(b_OC_MMd, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
     return float(last_MM_frequency)
 
 """Determine the best drug effect value for high and low cOB and cOC values"""
-def minimal_tumour_frac_WMMd_IH(WMMd_inhibitor, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
-                                    cMMd, cMMr, matrix, t, WMMd_inhibitor_array):
+def minimal_tumour_frac_WMMd_IH(WMMd_inhibitor, xOC, xOB, xMMd, xMMr, N, cOC,
+                            cOB, cMMd, cMMr, matrix, t, WMMd_inhibitor_array):
     """Function that determines the fraction of the population being MM for a
     specific WMMd drug inhibitor value.
 
@@ -1107,7 +1109,7 @@ def Figure_best_WMMd_IH():
 
     # Save the data
     save_dictionary(dict_frac_tumour_high_c,
-            r'..\data\data_own_model_fractions\dict_cell_frac_WMMd_IH_high_c.csv')
+           r'..\data\data_own_model_fractions\dict_cell_frac_WMMd_IH_high_c.csv')
 
     # Make lists of the keys and the values
     keys_high_c = list(dict_frac_tumour_high_c.keys())
@@ -1119,9 +1121,9 @@ def Figure_best_WMMd_IH():
     dict_frac_tumour_low_c = {}
 
     # Perform the optimization
-    result_low = minimize(minimal_tumour_frac_WMMd_IH, WMMd_IH_start, args = (xOC,
-                        xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix, t,
-                        True), bounds=[(0, 3)],  method='Nelder-Mead')
+    result_low = minimize(minimal_tumour_frac_WMMd_IH, WMMd_IH_start, args = (
+                        xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix,
+                        t, True), bounds=[(0, 3)],  method='Nelder-Mead')
 
     # Retrieve the optimal value
     optimal_WMMd_IH_low= result_low.x
@@ -1217,7 +1219,7 @@ def Figure_best_b_OC_MMd():
 
         # Determine the total MM fraction
         frac_tumour = minimal_tumour_frac_b_OC_MMd(b_OC_MMd, xOC, xOB, xMMd, xMMr,
-                                        N, cOC, cOB, cMMd, cMMr, matrix, t, False)
+                                    N, cOC, cOB, cMMd, cMMr, matrix, t, False)
         dict_frac_tumour_GF[b_OC_MMd] = frac_tumour
 
     # Save the data
@@ -1242,14 +1244,15 @@ def Figure_best_b_OC_MMd():
 (original situation)"""
 def Figure_continuous_MTD_vs_AT_a_h(n_switches, t_steps_drug):
     """ Function that makes a figure with 6 subplots showing the cell type
-    fraction dynamics by traditional therapy (continuous MTD) and adaptive therapy.
+    fraction dynamics by traditional therapy (continuous MTD) and adaptive
+    therapy.
 
     Parameters:
     -----------
     n_switches: Int
         The fraction of switches between giving drugs and not giving drugs.
     t_steps_drug: List
-        List with the fraction of time steps drugs are administared and the
+        List with the fraction of time steps drugs are addministared and the
         breaks are for the different Figures.
     """
     # Set initial parameter values
@@ -1317,11 +1320,11 @@ def Figure_continuous_MTD_vs_AT_a_h(n_switches, t_steps_drug):
     save_dataframe(df_total_switch_comb, 'df_cell_frac_switch_comb_IH_a_h.csv',
                                             r'..\data\data_own_model_fractions')
     save_dataframe(df_total_GF, 'df_cell_frac_continuous_GF_IH_a_h.csv',
-                                             r'..\data\data_own_model_fractions')
+                                            r'..\data\data_own_model_fractions')
     save_dataframe(df_total_WMMd, 'df_cell_frac_continuous_WMMd_IH_a_h.csv',
-                                             r'..\data\data_own_model_fractions')
+                                            r'..\data\data_own_model_fractions')
     save_dataframe(df_total_comb, 'df_cell_frac_continuous_comb_IH_a_h.csv',
-                                             r'..\data\data_own_model_fractions')
+                                            r'..\data\data_own_model_fractions')
 
     # Create a Figure
     fig, axs = plt.subplots(2, 3, figsize=(20, 9))
@@ -1379,23 +1382,24 @@ def Figure_continuous_MTD_vs_AT_a_h(n_switches, t_steps_drug):
 
     # Create a single legend outside of all plots
     legend_labels = ['Fraction OC', 'Fraction OB', 'Fraction MMd', 'Fraction MMr']
-    fig.legend(labels = legend_labels, loc='upper center', ncol=4, fontsize='large')
+    fig.legend(labels = legend_labels, loc='upper center', ncol=4,
+                                                            fontsize='large')
 
     plt.show()
 
 """ Figure to determine the difference between traditional and adaptive therapy
-Shorter holiday and administration periods compared to the original situation"""
+Shorter holiday and addministration periods compared to the original situation"""
 def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
     """ Function that makes a figure with 6 subplots showing the cell type
     fraction dynamics by traditional therapy (continuous MTD) and adaptive
-    therapy. The holiday and administration periods are short (5 generations).
+    therapy. The holiday and addministration periods are short (5 generations).
 
     Parameters:
     -----------
     n_switches: Int
         The fraction of switches between giving drugs and not giving drugs.
     t_steps_drug: List
-        List with the fraction of time steps drugs are administared and the
+        List with the fraction of time steps drugs are addministared and the
         breaks are for the different Figures.
     """
     # Set initial parameter values
@@ -1463,11 +1467,11 @@ def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
     save_dataframe(df_total_switch_comb, 'df_cell_frac_switch_comb_IH_short_a_h.csv',
                                             r'..\data\data_own_model_fractions')
     save_dataframe(df_total_GF, 'df_cell_frac_continuous_GF_IH_short_a_h.csv',
-                                             r'..\data\data_own_model_fractions')
+                                            r'..\data\data_own_model_fractions')
     save_dataframe(df_total_WMMd, 'df_cell_frac_continuous_WMMd_IH_short_a_h.csv',
-                                             r'..\data\data_own_model_fractions')
+                                            r'..\data\data_own_model_fractions')
     save_dataframe(df_total_comb, 'df_cell_frac_continuous_comb_IH_short_a_h.csv',
-                                             r'..\data\data_own_model_fractions')
+                                            r'..\data\data_own_model_fractions')
 
     # Create a Figure
     fig, axs = plt.subplots(2, 3, figsize=(20, 9))
@@ -1542,7 +1546,7 @@ def Figure_continuous_MTD_vs_AT_weak_a_h(n_switches, t_steps_drug):
     n_switches: Int
         The fraction of switches between giving drugs and not giving drugs.
     t_steps_drug: List
-        List with the fraction of time steps drugs are administared and the
+        List with the fraction of time steps drugs are addministared and the
         breaks are for the different Figures.
     """
     # Set initial parameter values
@@ -1610,11 +1614,11 @@ def Figure_continuous_MTD_vs_AT_weak_a_h(n_switches, t_steps_drug):
     save_dataframe(df_total_switch_comb, 'df_cell_frac_switch_comb_IH_weak_a_h.csv',
                                             r'..\data\data_own_model_fractions')
     save_dataframe(df_total_GF, 'df_cell_frac_continuous_GF_IH_weak_a_h.csv',
-                                             r'..\data\data_own_model_fractions')
+                                            r'..\data\data_own_model_fractions')
     save_dataframe(df_total_WMMd, 'df_cell_frac_continuous_WMMd_IH_weak_a_h.csv',
-                                             r'..\data\data_own_model_fractions')
+                                            r'..\data\data_own_model_fractions')
     save_dataframe(df_total_comb, 'df_cell_frac_continuous_comb_IH_weak_a_h.csv',
-                                             r'..\data\data_own_model_fractions')
+                                            r'..\data\data_own_model_fractions')
 
     # Create a Figure
     fig, axs = plt.subplots(2, 3, figsize=(20, 9))
@@ -1677,11 +1681,11 @@ def Figure_continuous_MTD_vs_AT_weak_a_h(n_switches, t_steps_drug):
 
     plt.show()
 
-""" 3D plot showing the best IH holiday and administration periods"""
+""" 3D plot showing the best IH holiday and addministration periods"""
 def Figure_3D_MM_frac_IH_add_and_holiday():
     """ Figure that makes three 3D plot that shows the average MM fraction for
-    different holiday and administration periods of only MMd GF inhibitor, only
-    WMMd inhibitor or both. It prints the IH administration periods and holidays
+    different holiday and addministration periods of only MMd GF inhibitor, only
+    WMMd inhibitor or both. It prints the IH addministration periods and holidays
     that caused the lowest total MM fraction."""
 
     # Set initial parameter values
@@ -1726,7 +1730,7 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
     column_names = ['Generations no drug', 'Generations drug', 'MM fraction']
     df_holiday_GF_IH = pd.DataFrame(columns=column_names)
 
-    # Loop over all the t_step values for drug administration and drug holidays
+    # Loop over all the t_step values for drug addministration and drug holidays
     for t_steps_no_drug in range(2, 22):
 
         for t_steps_drug in range(2, 22):
@@ -1815,7 +1819,7 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
             ax.set_xlabel('Generations no IH')
             ax.set_ylabel('Generations IH')
             ax.set_zlabel('MM fraction')
-            ax.set_title(r'A) $W_{MMd}$ inhibitor', pad=10)
+            ax.set_title(r'A) $W_{MMd}$ IH', pad=10)
 
             # Turn to the right angle
             ax.view_init(elev = 28, azim = -127)
@@ -1831,7 +1835,7 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
             ax.set_xlabel('Generations no IH')
             ax.set_ylabel('Generations IH')
             ax.set_zlabel('MM fraction')
-            ax.set_title('B)  MMd GF inhibitor', pad=10)
+            ax.set_title('B)  MMd GF IH', pad=10)
 
             # Turn to the right angle
             ax.view_init(elev = 32, azim = -128)
@@ -1848,7 +1852,7 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
             ax.set_xlabel('Generations no IHs')
             ax.set_ylabel('Generations IHs')
             ax.set_zlabel('MM fraction')
-            ax.set_title('C)  $W_{MMd}$ inhibitor and MMd GF inhibitor', pad=10)
+            ax.set_title('C)  $W_{MMd}$ IH and MMd GF IH', pad=10)
 
             # Turn to the right angle
             ax.view_init(elev = 40, azim = -142)
@@ -1897,7 +1901,7 @@ def Figure_3D_MM_frac_MMd_IH_strength():
         [1.5, 0, 0.2, 0.0],
         [1.9, 0, -0.77, 0.2]])
 
-    # Administration and holiday periods
+    # addministration and holiday periods
     t_steps_drug = 8
     t_steps_no_drug = 8
 
@@ -1935,7 +1939,7 @@ def Figure_3D_MM_frac_MMd_IH_strength():
                                              r'..\data\data_own_model_fractions')
 
 
-    # Find the drug administration and holiday period causing the lowest MM fraction
+    # Find the drug addministration and holiday period causing the lowest MM fraction
     min_index = df_holiday['MM fraction'].idxmin()
     strength_WMMd_min = df_holiday.loc[min_index, 'Strength WMMd IH']
     strength_MMd_GF_min = df_holiday.loc[min_index, 'Strength MMd GF IH']
@@ -1946,9 +1950,9 @@ def Figure_3D_MM_frac_MMd_IH_strength():
 
     # Avoid errors because of the wrong datatype
     df_holiday['Strength WMMd IH'] = pd.to_numeric(df_holiday[\
-                                        'Strength WMMd IH'], errors='coerce')
+                                           'Strength WMMd IH'], errors='coerce')
     df_holiday['Strength MMd GF IH'] = pd.to_numeric(df_holiday[\
-                                        'Strength MMd GF IH'], errors='coerce')
+                                         'Strength MMd GF IH'], errors='coerce')
     df_holiday['MM fraction'] = pd.to_numeric(df_holiday['MM fraction'],
                                                                 errors='coerce')
 
@@ -1973,8 +1977,8 @@ def Figure_3D_MM_frac_MMd_IH_strength():
     ax.set_xlabel(r'Strength $W_{MMd}$ IH')
     ax.set_ylabel('Strength MMd GF IH')
     ax.set_zlabel('MM fraction')
-    ax.set_title("""Average MM fraction with varying WMMd inhibitor and MMd
-    GF inhibitor strengths""")
+    ax.set_title(r"""Average MM fraction with varying $W_{MMd}$ IH and
+    MMd GF IH strengths""")
 
     # Turn to the right angle
     ax.view_init(elev = 40, azim = -70)
@@ -1987,7 +1991,7 @@ def Figure_3D_MM_frac_MMd_IH_strength():
                                 r'..\visualisation\results_own_model_fractions')
     plt.show()
 
-""" Figure with different GF IH administration and holiday periods"""
+""" Figure with different GF IH addministration and holiday periods"""
 def Figure_3_senarios_MMd_GF_IH(n_switches, t_steps_drug):
     """ Function that makes a Figure that shows the effect of drug holidays.
 
@@ -1996,8 +2000,8 @@ def Figure_3_senarios_MMd_GF_IH(n_switches, t_steps_drug):
     n_switches: Int
         The fraction of switches between giving drugs and not giving drugs.
     t_steps_drug: List
-        List with the fraction of time steps drugs the holiday and administration
-        periods are.
+        List with the fraction of time steps drugs the holiday and
+        addministration periods are.
     """
     # Set start parameter values
     N = 50
@@ -2063,13 +2067,13 @@ def Figure_3_senarios_MMd_GF_IH(n_switches, t_steps_drug):
 
     # Save the data
     save_dataframe(df_total_switch_1, 'df_cell_frac_G6_MMd_GF_inhibit.csv',
-                                         r'..\data\data_own_model_fractions')
+                                            r'..\data\data_own_model_fractions')
     save_dataframe(df_total_switch_2, 'df_cell_frac_G8_MMd_GF_inhibit.csv',
-                                         r'..\data\data_own_model_fractions')
+                                            r'..\data\data_own_model_fractions')
     save_dataframe(df_total_switch_3, 'df_cell_frac_G12_MMd_GF_inhibit.csv',
-                                         r'..\data\data_own_model_fractions')
+                                            r'..\data\data_own_model_fractions')
     save_dataframe(df_total, 'df_cell_frac_MMd_GF_inhibit_continuously.csv',
-                                         r'..\data\data_own_model_fractions')
+                                            r'..\data\data_own_model_fractions')
 
     # Create a Figure
     fig, axs = plt.subplots(2, 2, figsize=(16, 10))
@@ -2081,53 +2085,56 @@ def Figure_3_senarios_MMd_GF_IH(n_switches, t_steps_drug):
     'fraction OC', 'fraction OB', 'fraction MMd','fraction MMr'], ax=axs[0, 0])
     axs[0, 0].set_xlabel(' ')
     axs[0, 0].set_ylabel('MM fraction')
-    axs[0, 0].set_title(f'Dynamics when MMd GF inhibitors are administered continuously')
+    axs[0, 0].set_title(f'Dynamics when MMd GF inhibitors are addministered continuously')
     axs[0, 0].legend(loc = 'upper right')
     axs[0, 0].grid(True)
 
     # Plot the data with drug holidays in the second plot
-    df_total_switch_1.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'], label=[\
-    'fraction OC', 'fraction OB', 'fraction MMd','fraction MMr'], ax=axs[0, 1])
+    df_total_switch_1.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+                           label=['fraction OC', 'fraction OB', 'fraction MMd',
+                           'fraction MMr'], ax=axs[0, 1])
     axs[0, 1].set_xlabel(' ')
     axs[0, 1].set_ylabel('MM fraction')
-    axs[0, 1].set_title(f'Dynamics when MMd GF inhibitors are administered every {t[0]} {g}')
+    axs[0, 1].set_title(f'Dynamics when MMd GF inhibitors are addministered every {t[0]} {g}')
     axs[0, 1].legend(loc = 'upper right')
     axs[0, 1].grid(True)
 
     # Plot the data with drug holidays in the third plot
-    df_total_switch_2.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'], label=[\
-    'fraction OC', 'fraction OB', 'fraction MMd','fraction MMr'], ax=axs[1, 0])
+    df_total_switch_2.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+                            label=['fraction OC', 'fraction OB', 'fraction MMd',
+                            'fraction MMr'], ax=axs[1, 0])
     axs[1, 0].set_xlabel('Generations')
     axs[1, 0].set_ylabel('MM fraction')
-    axs[1, 0].set_title(f'Dynamics when MMd GF inhibitors are administered every {t[1]} {g}')
+    axs[1, 0].set_title(f'Dynamics when MMd GF inhibitors are addministered every {t[1]} {g}')
     axs[1, 0].legend(loc = 'upper right')
     axs[1, 0].grid(True)
     plt.grid(True)
 
     # Plot the data with drug holidays in the fourth plot
-    df_total_switch_3.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'], label=[\
-    'fraction OC', 'fraction OB', 'fraction MMd','fraction MMr'], ax=axs[1, 1])
+    df_total_switch_3.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+                            label=['fraction OC', 'fraction OB', 'fraction MMd',
+                            'fraction MMr'], ax=axs[1, 1])
     axs[1, 1].set_xlabel('Generations')
     axs[1, 1].set_ylabel('MM fraction')
-    axs[1, 1].set_title(f'Dynamics when MMd GF inhibitors are administered every {t[2]} {g}')
+    axs[1, 1].set_title(f'Dynamics when MMd GF inhibitors are addministered every {t[2]} {g}')
     axs[1, 1].legend(loc = 'upper right')
     axs[1, 1].grid(True)
     save_Figure(plt, 'line_plot_cell_frac_MMd_GF_inhibit',
                                  r'..\visualisation\results_own_model_fractions')
     plt.show()
 
-""" Figure with different WMMd IH administration and holiday periods"""
+""" Figure with different WMMd IH addministration and holiday periods"""
 def Figure_3_senarios_WMMd_IH(n_switches, t_steps_drug):
     """ Function that makes a Figure that shows the effect of the time of a
-    drug holiday and administration period.
+    drug holiday and addministration period.
 
     Parameters:
     -----------
     n_switches: Int
         The fraction of switches between giving drugs and not giving drugs.
     t_steps_drug: List
-        List with the fraction of time steps drugs the holiday and administration
-        periods are.
+        List with the fraction of time steps drugs the holiday and
+        addministration periods are.
     """
     # Set start parameter values
     N = 50
@@ -2189,13 +2196,13 @@ def Figure_3_senarios_WMMd_IH(n_switches, t_steps_drug):
 
     # Save the data
     save_dataframe(df_total_switch_1, 'df_cell_frac_G8_WMMd_inhibit.csv',
-                                            r'..\data\data_own_model_fractions')
+                                        r'..\data\data_own_model_fractions')
     save_dataframe(df_total_switch_2, 'df_cell_frac_G10_WMMd_inhibit.csv',
-                                            r'..\data\data_own_model_fractions')
+                                        r'..\data\data_own_model_fractions')
     save_dataframe(df_total_switch_3, 'df_cell_frac_G12_WMMd_inhibit.csv',
-                                            r'..\data\data_own_model_fractions')
+                                        r'..\data\data_own_model_fractions')
     save_dataframe(df_total, 'df_cell_frac_WMMd_inhibit_continuously.csv',
-                                             r'..\data\data_own_model_fractions')
+                                         r'..\data\data_own_model_fractions')
 
     # Create a Figure
     fig, axs = plt.subplots(2, 2, figsize=(16, 10))
@@ -2207,7 +2214,7 @@ def Figure_3_senarios_WMMd_IH(n_switches, t_steps_drug):
     'fraction OC', 'fraction OB', 'fraction MMd','fraction MMr'], ax=axs[0, 0])
     axs[0, 0].set_xlabel(' ')
     axs[0, 0].set_ylabel('MM fraction')
-    axs[0, 0].set_title(f'Dynamics when drugs are administered continuously')
+    axs[0, 0].set_title(f'Dynamics when drugs are addministered continuously')
     axs[0, 0].legend(loc = 'upper right')
     axs[0, 0].grid(True)
 
@@ -2216,7 +2223,7 @@ def Figure_3_senarios_WMMd_IH(n_switches, t_steps_drug):
     'fraction OC', 'fraction OB', 'fraction MMd','fraction MMr'], ax=axs[0, 1])
     axs[0, 1].set_xlabel(' ')
     axs[0, 1].set_ylabel('MM fraction')
-    axs[0, 1].set_title(f'Dynamics when WMMd inhibitors are administered every {t[0]} {g}')
+    axs[0, 1].set_title(f'Dynamics when WMMd inhibitors are addministered every {t[0]} {g}')
     axs[0, 1].legend(loc = 'upper right')
     axs[0, 1].grid(True)
 
@@ -2225,7 +2232,7 @@ def Figure_3_senarios_WMMd_IH(n_switches, t_steps_drug):
     'fraction OC', 'fraction OB', 'fraction MMd','fraction MMr'], ax=axs[1, 0])
     axs[1, 0].set_xlabel('Generations')
     axs[1, 0].set_ylabel('MM fraction')
-    axs[1, 0].set_title(f'Dynamics when WMMd inhibitors are administered every {t[1]} {g}')
+    axs[1, 0].set_title(f'Dynamics when WMMd inhibitors are addministered every {t[1]} {g}')
     axs[1, 0].legend(loc = 'upper right')
     axs[1, 0].grid(True)
     plt.grid(True)
@@ -2235,14 +2242,14 @@ def Figure_3_senarios_WMMd_IH(n_switches, t_steps_drug):
     'fraction OC', 'fraction OB', 'fraction MMd','fraction MMr'], ax=axs[1, 1])
     axs[1, 1].set_xlabel('Generations')
     axs[1, 1].set_ylabel('MM fraction')
-    axs[1, 1].set_title(f'Dynamics when WMMd inhibitors are administered every {t[2]} {g}')
+    axs[1, 1].set_title(f'Dynamics when WMMd inhibitors are addministered every {t[2]} {g}')
     axs[1, 1].legend(loc = 'upper right')
     axs[1, 1].grid(True)
     save_Figure(plt, 'line_plot_cell_frac_WMMd_inhibit',
                                  r'..\visualisation\results_own_model_fractions')
     plt.show()
 
-""" Figure with different IH administration and holiday periods"""
+""" Figure with different IH addministration and holiday periods"""
 def Figure_3_senarios_MMd_GF_WMMd_IH(n_switches, t_steps_drug):
     """ Function that makes a Figure that shows the effect of drug holidays.
 
@@ -2251,7 +2258,7 @@ def Figure_3_senarios_MMd_GF_WMMd_IH(n_switches, t_steps_drug):
     n_switches: Int
         The fraction of switches between giving drugs and not giving drugs.
     t_steps_drug: List
-        List with the fraction of time steps drugs the holiday and administration
+        List with the fraction of time steps drugs the holiday and addministration
         periods are.
     """
     # Set start parameter values
@@ -2337,7 +2344,7 @@ def Figure_3_senarios_MMd_GF_WMMd_IH(n_switches, t_steps_drug):
     axs[0, 0].set_xlabel(' ')
     axs[0, 0].set_ylabel('MM fraction')
     axs[0, 0].set_title(f"""Dynamics when MMd GF and WMMd inhibitors
-    are administered continuously""")
+    are addministered continuously""")
     axs[0, 0].legend(loc = 'upper right')
     axs[0, 0].set_xticklabels([])
     axs[0, 0].grid(True)
@@ -2349,7 +2356,7 @@ def Figure_3_senarios_MMd_GF_WMMd_IH(n_switches, t_steps_drug):
     axs[0, 1].set_xlabel(' ')
     axs[0, 1].set_ylabel('MM fraction')
     axs[0, 1].set_title(f"""Dynamics when MMd GF and WMMd inhibitors are
-    administered every {t_steps_drug[0]} generations""")
+    addministered every {t_steps_drug[0]} generations""")
     axs[0, 1].legend(loc = 'upper right')
     axs[0, 1].set_xticklabels([])
     axs[0, 1].grid(True)
@@ -2361,7 +2368,7 @@ def Figure_3_senarios_MMd_GF_WMMd_IH(n_switches, t_steps_drug):
     axs[1, 0].set_xlabel('Generations')
     axs[1, 0].set_ylabel('MM fraction')
     axs[1, 0].set_title(f"""Dynamics when MMd GF and WMMd inhibitors are
-    administered every {t_steps_drug[1]} generations""")
+    addministered every {t_steps_drug[1]} generations""")
     axs[1, 0].legend(loc = 'upper right')
     axs[1, 0].grid(True)
     plt.grid(True)
@@ -2373,7 +2380,7 @@ def Figure_3_senarios_MMd_GF_WMMd_IH(n_switches, t_steps_drug):
     axs[1, 1].set_xlabel('Generations')
     axs[1, 1].set_ylabel('MM fraction')
     axs[1, 1].set_title(f"""Dynamics when MMd GF and WMMd inhibitors are
-    administered every {t_steps_drug[2]} generations""")
+    addministered every {t_steps_drug[2]} generations""")
     axs[1, 1].legend(loc = 'upper right')
     axs[1, 1].grid(True)
     save_Figure(plt, 'line_plot_cell_frac_MMd_GF_WMMd_inhibit',
@@ -2478,12 +2485,12 @@ def Figure_frac_fitness_dynamics():
     df_WMMd_inhibition = pd.concat([df_1_WMMd_inhibition, df_2_WMMd_inhibition])
 
     # Make dataframes for the fitness values
-    df_fitness_WMMd_inhibition_1 = frac_to_fitness_values(df_1_WMMd_inhibition, N,
-                                          cOC, cOB, cMMd, cMMr, matrix_no_GF_IH)
-    df_fitness_WMMd_inhibition_2 = frac_to_fitness_values(df_2_WMMd_inhibition, N,
-                         cOC, cOB, cMMd, cMMr, matrix_no_GF_IH, WMMd_inhibitor)
+    df_fitness_WMMd_inhibition_1 = frac_to_fitness_values(df_1_WMMd_inhibition,
+                                    N, cOC, cOB, cMMd, cMMr, matrix_no_GF_IH)
+    df_fitness_WMMd_inhibition_2 = frac_to_fitness_values(df_2_WMMd_inhibition,
+                    N, cOC, cOB, cMMd, cMMr, matrix_no_GF_IH, WMMd_inhibitor)
     df_fitness_WMMd_inhibition = pd.concat([df_fitness_WMMd_inhibition_1,
-                                df_fitness_WMMd_inhibition_2], ignore_index=True)
+                            df_fitness_WMMd_inhibition_2], ignore_index=True)
 
     df_fitness_MMd_GF_inhibition_1 = frac_to_fitness_values(df_1_MMd_GF_inhibition,
                                        N, cOC, cOB, cMMd, cMMr, matrix_no_GF_IH)
@@ -2511,15 +2518,15 @@ def Figure_frac_fitness_dynamics():
                                  'Fraction MMr'], ax=axs[0, 0])
     axs[0, 0].set_xlabel(' ')
     axs[0, 0].set_ylabel('Fraction')
-    axs[0, 0].set_title(r'Fraction dynamics when a $W_{MMd}$ inhibitor is administerd')
+    axs[0, 0].set_title(r'Fraction dynamics when a $W_{MMd}$ IH is addministerd')
     axs[0, 0].legend(loc = 'upper right')
     axs[0, 0].grid(True)
 
     # Plot the second subplot
     df_fitness_WMMd_inhibition.plot(y=['WOC', 'WOB', 'WMMd', 'WMMr', 'W_average'],
-                                label = ['Fitness OC', 'Fitness OB', 'Fitness MMd',
-                                  'Fitness MMr', 'Average fitness'],  ax=axs[1, 0])
-    axs[1, 0].set_title(r'Fitness dynamics when a $W_{MMd}$ inhibitor is administerd')
+                            label = ['Fitness OC', 'Fitness OB', 'Fitness MMd',
+                            'Fitness MMr', 'Average fitness'],  ax=axs[1, 0])
+    axs[1, 0].set_title(r'Fitness dynamics when a $W_{MMd}$ IH is addministerd')
     axs[1, 0].set_xlabel('Generations')
     axs[1, 0].set_ylabel('Fitness')
     axs[1, 0].legend(['Fitness OC', 'Fitness OB', 'Fitness MMd', 'Fitness MMr',
@@ -2533,15 +2540,15 @@ def Figure_frac_fitness_dynamics():
                                                 'Fraction MMr'], ax=axs[0, 1])
     axs[0, 1].set_xlabel(' ')
     axs[0, 1].set_ylabel('Fraction')
-    axs[0, 1].set_title('Fraction dynamics when a MMd GF inhibitor is administerd')
+    axs[0, 1].set_title('Fraction dynamics when a MMd GF IH is addministerd')
     axs[0, 1].legend(loc = 'upper right')
     axs[0, 1].grid(True)
 
     # Plot the fourth subplot
     df_fitness_MMd_GF_inhibition.plot(y=['WOC', 'WOB', 'WMMd', 'WMMr', 'W_average'],
-                              label = ['Fitness OC', 'Fitness OB', 'Fitness MMd',
-                                 'Fitness MMr', 'Average fitness'],  ax=axs[1, 1])
-    axs[1, 1].set_title('Fitness dynamics when a MMd GF inhibitor is administerd')
+                             label = ['Fitness OC', 'Fitness OB', 'Fitness MMd',
+                            'Fitness MMr', 'Average fitness'],  ax=axs[1, 1])
+    axs[1, 1].set_title('Fitness dynamics when a MMd GF IH is addministerd')
     axs[1, 1].set_xlabel('Generations')
     axs[1, 1].set_ylabel('Fitness')
     axs[1, 1].legend(loc = 'upper right')
@@ -2552,20 +2559,20 @@ def Figure_frac_fitness_dynamics():
     plt.show()
 
 
-""" Figure with a longer IH administration than holiday and the other way around"""
+""" Figure with a longer IH addministration than holiday and the other way around"""
 def Figure_duration_A_h_MMd_IH(n_switches, t_steps_drug, t_steps_no_drug):
     """ Function that makes a Figure with two subplots one of the dynamics by a
-    longer IH administration than holiday and one of the dynamics by a longer IH
-    than administration.
+    longer IH addministration than holiday and one of the dynamics by a longer IH
+    than addministration.
 
     Parameters:
     -----------
     n_switches: List
         List with the fraction of switches between giving drugs and not giving drugs.
     t_steps_drug: List
-        List with the fraction of time steps drugs are administared.
+        List with the fraction of time steps drugs are addministared.
     t_steps_no_drug: List
-        List with the fraction of time steps drugs are not administared (holiday).
+        List with the fraction of time steps drugs are not addministared (holiday).
     """
     # Set start values
     N = 50
@@ -2605,9 +2612,9 @@ def Figure_duration_A_h_MMd_IH(n_switches, t_steps_drug, t_steps_no_drug):
 
     # Save the data
     save_dataframe(df_total_switch_1, 'df_cell_frac_short_a_long_h_MMd_IH.csv',
-                                             r'..\data\data_own_model_fractions')
+                                         r'..\data\data_own_model_fractions')
     save_dataframe(df_total_switch_2, 'df_cell_frac_long_a_short_h_MMd_IH.csv.csv',
-                                             r'..\data\data_own_model_fractions')
+                                         r'..\data\data_own_model_fractions')
 
     # Create a Figure
     fig, axs = plt.subplots(1, 2, figsize=(16, 6))
@@ -2621,7 +2628,7 @@ def Figure_duration_A_h_MMd_IH(n_switches, t_steps_drug, t_steps_no_drug):
                             'Fraction MMr'], ax=axs[0])
     axs[0].set_xlabel('Generations')
     axs[0].set_ylabel('MM fraction')
-    axs[0].set_title(f"""Dynamics when the IH administrations lasted {ta[0]} {g}
+    axs[0].set_title(f"""Dynamics when the IH addministrations lasted {ta[0]} {g}
     and the IH holidays lasted {th[0]} {g}""")
     axs[0].legend(loc = 'upper right')
     axs[0].grid(True)
@@ -2632,7 +2639,7 @@ def Figure_duration_A_h_MMd_IH(n_switches, t_steps_drug, t_steps_no_drug):
                             'Fraction MMr'], ax=axs[1])
     axs[1].set_xlabel('Generations')
     axs[1].set_ylabel('MM fraction')
-    axs[1].set_title(f"""Dynamics when the IH administrations lasted {ta[1]} {g}
+    axs[1].set_title(f"""Dynamics when the IH addministrations lasted {ta[1]} {g}
     and the IH holidays lasted {th[1]} {g}""")
     axs[1].legend(loc = 'upper right')
     axs[1].grid(True)
@@ -2647,7 +2654,7 @@ def Figure_duration_A_h_MMd_IH(n_switches, t_steps_drug, t_steps_no_drug):
 period, A period and MM fraction"""
 def Dataframe_bOCMMd_eigenvalues():
     """ Function that makes a table of the eigenvalues of the interaction matrix,
-    MM fraction and the best holiday (H) and administration (A) period for
+    MM fraction and the best holiday (H) and addministration (A) period for
     different bOC,MMd values."""
 
     # Make a dataframe
@@ -2707,7 +2714,7 @@ def Dataframe_bOCMMd_eigenvalues():
                     'MM fraction': float(frac_tumour)}])
                 df_holiday = pd.concat([df_holiday, new_row_df], ignore_index=True)
 
-        # Find the drug administration and holiday period causing the lowest MM
+        # Find the drug addministration and holiday period causing the lowest MM
         # fraction
         min_index = df_holiday['MM fraction'].idxmin()
         g_no_drug_min = df_holiday.loc[min_index, 'Generations no drug']
@@ -2738,7 +2745,7 @@ def Dataframe_bOCMMd_eigenvalues():
     correlation coefficient = {correlation_coefficient}""")
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 1'], df_eigenvalues_float['period A'])
-    print(f"""Eigenvalue 1 and the best administration period: p-value = {p_value},
+    print(f"""Eigenvalue 1 and the best addministration period: p-value = {p_value},
     correlation coefficient = {correlation_coefficient}""")
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 1'], df_eigenvalues_float['MM fraction'])
@@ -2752,7 +2759,7 @@ def Dataframe_bOCMMd_eigenvalues():
     correlation coefficient = {correlation_coefficient}""")
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 2'], df_eigenvalues_float['period A'])
-    print(f"""Eigenvalue 2 and the best administration period: p-value = {p_value},
+    print(f"""Eigenvalue 2 and the best addministration period: p-value = {p_value},
     correlation coefficient = {correlation_coefficient}""")
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 2'], df_eigenvalues_float['MM fraction'])
@@ -2766,7 +2773,7 @@ def Dataframe_bOCMMd_eigenvalues():
     correlation coefficient = {correlation_coefficient}""")
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 3'], df_eigenvalues_float['period A'])
-    print(f"""Eigenvalue 3 and the best administration period: p-value = {p_value},
+    print(f"""Eigenvalue 3 and the best addministration period: p-value = {p_value},
     correlation coefficient = {correlation_coefficient}""")
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 3'], df_eigenvalues_float['MM fraction'])
@@ -2780,7 +2787,7 @@ def Dataframe_bOCMMd_eigenvalues():
     correlation coefficient = {correlation_coefficient}""")
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 4'], df_eigenvalues_float['period A'])
-    print(f"""Eigenvalue 4 and the best administration period: p-value = {p_value},
+    print(f"""Eigenvalue 4 and the best addministration period: p-value = {p_value},
     correlation coefficient = {correlation_coefficient}""")
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 4'], df_eigenvalues_float['MM fraction'])
@@ -2796,7 +2803,7 @@ def Dataframe_bOCMMd_eigenvalues():
 period, A period and MM fraction"""
 def Dataframe_bMMrOC_eigenvalues():
     """ Function that makes a table of the eigenvalues of the interaction matrix,
-    MM fraction and the best holiday (H) and administration (A) period for
+    MM fraction and the best holiday (H) and addministration (A) period for
     different bMMr,OC values."""
 
     # Make a dataframe
@@ -2857,7 +2864,7 @@ def Dataframe_bMMrOC_eigenvalues():
                     'MM fraction': float(frac_tumour)}])
                 df_holiday = pd.concat([df_holiday, new_row_df], ignore_index=True)
 
-        # Find the drug administration and holiday period causing the lowest MM
+        # Find the drug addministration and holiday period causing the lowest MM
         # fraction
         min_index = df_holiday['MM fraction'].idxmin()
         g_no_drug_min = df_holiday.loc[min_index, 'Generations no drug']
@@ -2888,7 +2895,7 @@ def Dataframe_bMMrOC_eigenvalues():
     correlation coefficient = {correlation_coefficient}""")
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 1'], df_eigenvalues_float['period A'])
-    print(f"""Eigenvalue 1 and the best administration period: p-value = {p_value},
+    print(f"""Eigenvalue 1 and the best addministration period: p-value = {p_value},
     correlation coefficient = {correlation_coefficient}""")
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 1'], df_eigenvalues_float['MM fraction'])
@@ -2902,7 +2909,7 @@ def Dataframe_bMMrOC_eigenvalues():
     correlation coefficient = {correlation_coefficient}""")
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 2'], df_eigenvalues_float['period A'])
-    print(f"""Eigenvalue 2 and the best administration period: p-value = {p_value},
+    print(f"""Eigenvalue 2 and the best addministration period: p-value = {p_value},
     correlation coefficient = {correlation_coefficient}""")
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 2'], df_eigenvalues_float['MM fraction'])
@@ -2916,7 +2923,7 @@ def Dataframe_bMMrOC_eigenvalues():
     correlation coefficient = {correlation_coefficient}""")
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 3'], df_eigenvalues_float['period A'])
-    print(f"""Eigenvalue 3 and the best administration period: p-value = {p_value},
+    print(f"""Eigenvalue 3 and the best addministration period: p-value = {p_value},
     correlation coefficient = {correlation_coefficient}""")
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 3'], df_eigenvalues_float['MM fraction'])
@@ -2930,7 +2937,7 @@ def Dataframe_bMMrOC_eigenvalues():
     correlation coefficient = {correlation_coefficient}""")
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 4'], df_eigenvalues_float['period A'])
-    print(f"""Eigenvalue 4 and the best administration period: p-value = {p_value},
+    print(f"""Eigenvalue 4 and the best addministration period: p-value = {p_value},
     correlation coefficient = {correlation_coefficient}""")
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 4'], df_eigenvalues_float['MM fraction'])
@@ -2943,7 +2950,7 @@ def Dataframe_bMMrOC_eigenvalues():
 
 def Dataframe_bMMdMMd_bMMrMMr_eigenvalues():
     """ Function that makes a table of the eigenvalues of the interaction matrix,
-    MM fraction and the best holiday (H) and administration (A) period for
+    MM fraction and the best holiday (H) and addministration (A) period for
     different bMMd,MMd and bMMr,MMr values."""
 
     # Make a dataframe
@@ -3005,7 +3012,7 @@ def Dataframe_bMMdMMd_bMMrMMr_eigenvalues():
                     'MM fraction': float(frac_tumour)}])
                 df_holiday = pd.concat([df_holiday, new_row_df], ignore_index=True)
 
-        # Find the drug administration and holiday period causing the lowest MM
+        # Find the drug addministration and holiday period causing the lowest MM
         # fraction
         min_index = df_holiday['MM fraction'].idxmin()
         g_no_drug_min = df_holiday.loc[min_index, 'Generations no drug']
@@ -3036,7 +3043,7 @@ def Dataframe_bMMdMMd_bMMrMMr_eigenvalues():
     correlation coefficient = {correlation_coefficient}""")
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 1'], df_eigenvalues_float['period A'])
-    print(f"""Eigenvalue 1 and the best administration period: p-value = {p_value},
+    print(f"""Eigenvalue 1 and the best addministration period: p-value = {p_value},
     correlation coefficient = {correlation_coefficient}""")
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 1'], df_eigenvalues_float['MM fraction'])
@@ -3050,7 +3057,7 @@ def Dataframe_bMMdMMd_bMMrMMr_eigenvalues():
     correlation coefficient = {correlation_coefficient}""")
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 2'], df_eigenvalues_float['period A'])
-    print(f"""Eigenvalue 2 and the best administration period: p-value = {p_value},
+    print(f"""Eigenvalue 2 and the best addministration period: p-value = {p_value},
     correlation coefficient = {correlation_coefficient}""")
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 2'], df_eigenvalues_float['MM fraction'])
@@ -3064,7 +3071,7 @@ def Dataframe_bMMdMMd_bMMrMMr_eigenvalues():
     correlation coefficient = {correlation_coefficient}""")
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 3'], df_eigenvalues_float['period A'])
-    print(f"""Eigenvalue 3 and the best administration period: p-value = {p_value},
+    print(f"""Eigenvalue 3 and the best addministration period: p-value = {p_value},
     correlation coefficient = {correlation_coefficient}""")
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 3'], df_eigenvalues_float['MM fraction'])
@@ -3078,7 +3085,7 @@ def Dataframe_bMMdMMd_bMMrMMr_eigenvalues():
     correlation coefficient = {correlation_coefficient}""")
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 4'], df_eigenvalues_float['period A'])
-    print(f"""Eigenvalue 4 and the best administration period: p-value = {p_value},
+    print(f"""Eigenvalue 4 and the best addministration period: p-value = {p_value},
     correlation coefficient = {correlation_coefficient}""")
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
                             'Eigenvalue 4'], df_eigenvalues_float['MM fraction'])
