@@ -36,36 +36,36 @@ def main():
     # Do doc tests
     doctest.testmod()
 
-    # Make a figure showing the cell number dynamics by traditional therapy and
-    # by adaptive therapy (original situation)
-    list_t_steps_drug = [10, 10, 10]
-    Figure_continuous_MTD_vs_AT(20, list_t_steps_drug)
-
-    # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # by adaptive therapy for shorter holiday and addministration periods compared
-    # to the original situation
-    list_t_steps_drug = [4, 4, 4]
-    Figure_continuous_MTD_vs_AT_short_a_h(50, list_t_steps_drug)
-
-    # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # by adaptive therapy for weaker IHs compared to the original situation
-    list_t_steps_drug = [10, 10, 10]
-    Figure_continuous_MTD_vs_AT_weak_a_h(20, list_t_steps_drug)
-
-    # Make a 3D figure showthing the effect of different drug holiday and
-    # addministration periods
-    Figure_3D_MM_numb_IH_add_and_holiday()
-
-    # Make a figure that shows the MM number for different bOC,MMd values
-    Figure_best_b_OC_MMd()
-
-    # Make a figure that shows the MM number for different WMMd IH values
-    Figure_best_WMMd_IH()
+    # # Make a figure showing the cell number dynamics by traditional therapy and
+    # # by adaptive therapy (original situation)
+    # list_t_steps_drug = [10, 10, 10]
+    # Figure_continuous_MTD_vs_AT(20, list_t_steps_drug)
+    #
+    # # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # # by adaptive therapy for shorter holiday and administration periods compared
+    # # to the original situation
+    # list_t_steps_drug = [4, 4, 4]
+    # Figure_continuous_MTD_vs_AT_short_a_h(50, list_t_steps_drug)
+    #
+    # # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # # by adaptive therapy for weaker IHs compared to the original situation
+    # list_t_steps_drug = [10, 10, 10]
+    # Figure_continuous_MTD_vs_AT_weak_a_h(20, list_t_steps_drug)
+    #
+    # # Make a 3D figure showthing the effect of different drug holiday and
+    # # administration periods
+    # Figure_3D_MM_numb_IH_add_and_holiday()
+    #
+    # # Make a figure that shows the MM number for different bOC,MMd values
+    # Figure_best_b_OC_MMd()
+    #
+    # # Make a figure that shows the MM number for different WMMd IH values
+    # Figure_best_WMMd_IH()
 
     # Make a 3D figure showing the effect of different WMMd and MMd GF IH strengths
     Figure_3D_MM_numb_MMd_IH_strength()
 
-    # Make line plots showing the dynamics when the IH addministration is longer
+    # Make line plots showing the dynamics when the IH administration is longer
     # than the holiday and one it is the other way around.
     list_t_steps_drug = [3, 10]
     list_t_steps_no_drug = [10, 3]
@@ -368,16 +368,16 @@ def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd,
                                 nMMr, growth_rates, decay_rates, matrix_no_GF_IH,
                                 matrix_GF_IH, WMMd_inhibitor = 0):
     """ Function that makes a dataframe of the nOC, nOB, nMMd and nMMr values over
-    time for a given time of drug holiday and addministration periods.
+    time for a given time of drug holiday and administration periods.
 
     Parameters:
     -----------
     n_switches: Int
         The number of switches between giving drugs and not giving drugs.
     t_steps_drug: Int
-        The number of generations drugs are addministared.
+        The number of generations drugs are administared.
     t_steps_no_drug: Int
-        The number of generations drugs are not addministared.
+        The number of generations drugs are not administared.
     nOC: Float
         Number of OC.
     nOB: Float
@@ -392,9 +392,9 @@ def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd,
         List with the decay rate values of OC, OB, MMd and MMr.
     matrix_no_GF_IH: Numpy.ndarray
         4x4 matrix containing the interaction factors when no GF IH are
-                                                                    addministrated.
+                                                                    administrated.
     matrix_GF_IH: Numpy.ndarray
-        4x4 matrix containing the interaction factors when GF IH are addministrated.
+        4x4 matrix containing the interaction factors when GF IH are administrated.
     WMMd_inhibitor: Float
         The effect of a drug on the MMd fitness.
 
@@ -485,7 +485,7 @@ def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd,
 def continuous_add_IH_df(end_generation, nOC, nOB, nMMd, nMMr, growth_rates,
                 decay_rates, matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor = 0):
     """ Function that makes a dataframe of the cell type numbers when the IHs
-    are addministered continuously.
+    are administered continuously.
 
     Parameters:
     -----------
@@ -505,16 +505,16 @@ def continuous_add_IH_df(end_generation, nOC, nOB, nMMd, nMMr, growth_rates,
         List with the decay rate values of OC, OB, MMd and MMr.
     matrix_no_GF_IH: Numpy.ndarray
         4x4 matrix containing the interaction factors when no GF IH are
-                                                                    addministrated.
+                                                                    administrated.
     matrix_GF_IH: Numpy.ndarray
-        4x4 matrix containing the interaction factors when GF IH are addministrated.
+        4x4 matrix containing the interaction factors when GF IH are administrated.
     WMMd_inhibitor: Float
         The effect of a drug on the MMd fitness.
 
     Returns:
     --------
     df_total: DataFrame
-        The dataframe with the cell numbers when IHs are continiously addministerd.
+        The dataframe with the cell numbers when IHs are continiously administerd.
     """
     t = np.linspace(0, 60, 60)
     y0 = [nOC, nOB, nMMd, nMMr]
@@ -554,9 +554,9 @@ def minimal_tumour_numb_t_steps(t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd,
     Parameters:
     -----------
     t_steps_drug: Int
-        The number of generations drugs are addministared.
+        The number of generations drugs are administared.
     t_steps_no_drug: Int
-        The number of generations drugs are not addministared.
+        The number of generations drugs are not administared.
     nOC: Float
         Number of OC.
     nOB: Float
@@ -571,9 +571,9 @@ def minimal_tumour_numb_t_steps(t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd,
         List with the decay rate values of OC, OB, MMd and MMr.
     matrix_no_GF_IH: Numpy.ndarray
         4x4 matrix containing the interaction factors when no GF IH are
-                                                                    addministrated.
+                                                                    administrated.
     matrix_GF_IH: Numpy.ndarray
-        4x4 matrix containing the interaction factors when GF IH are addministrated.
+        4x4 matrix containing the interaction factors when GF IH are administrated.
     WMMd_inhibitor: Float
         The effect of a drug on the MMd fitness.
 
@@ -601,7 +601,7 @@ def minimal_tumour_numb_t_steps(t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd,
 
 def x_y_z_axis_values_3d_plot(dataframe, name):
     """ Function that determines the x, y and z axis values from the given
-    dataframe. It also prints the addministration and holliday duration leading
+    dataframe. It also prints the administration and holliday duration leading
     to the lowest total MM number in the equilibrium
 
     Parameters:
@@ -609,7 +609,7 @@ def x_y_z_axis_values_3d_plot(dataframe, name):
     Dataframe: dataFrame
         The dataframe with the generated data
     name: String
-        The name of the addministerd IH(s)
+        The name of the administerd IH(s)
 
     Returns:
     --------
@@ -621,14 +621,14 @@ def x_y_z_axis_values_3d_plot(dataframe, name):
         Array with the values for the z-axis
     """
 
-    # Find the drug addministration and holiday period causing the lowest MM fraction
+    # Find the drug administration and holiday period causing the lowest MM fraction
     min_index =  dataframe['MM number'].idxmin()
     g_no_drug_min = dataframe.loc[min_index, 'Generations no drug']
     g_drug_min = dataframe.loc[min_index, 'Generations drug']
     frac_min = dataframe.loc[min_index, 'MM number']
 
     print(f"""Lowest MM number: {frac_min}-> MMd {name} holidays are
-            {g_no_drug_min} generations and MMd {name} addministrations
+            {g_no_drug_min} generations and MMd {name} administrations
             are {g_drug_min} generations""")
 
     # Avoid errors because of the wrong datatype
@@ -830,7 +830,7 @@ def Figure_continuous_MTD_vs_AT(n_switches, t_steps_drug):
     n_switches: Int
         The number of switches between giving drugs and not giving drugs.
     t_steps_drug: List
-        List with the number of time steps drugs are addministared and the breaks
+        List with the number of time steps drugs are administared and the breaks
         are for the different Figures.
     """
     # Set start values
@@ -879,7 +879,7 @@ def Figure_continuous_MTD_vs_AT(n_switches, t_steps_drug):
                 t_steps_drug[2], nOC, nOB, nMMd, nMMr, growth_rates, decay_rates,
                 matrix_no_GF_IH, matrix_GF_IH_comb, WMMd_inhibitor_comb)
 
-    # Make dataframes for continiously addministration
+    # Make dataframes for continiously administration
     df_total_GF = continuous_add_IH_df(260, nOC, nOB, nMMd, nMMr, growth_rates,
             decay_rates, matrix_no_GF_IH, matrix_GF_IH)
     df_total_WMMd = continuous_add_IH_df(260, nOC, nOB, nMMd, nMMr, growth_rates,
@@ -964,18 +964,18 @@ def Figure_continuous_MTD_vs_AT(n_switches, t_steps_drug):
     plt.show()
 
 """ Figure to determine the difference between traditional and adaptive therapy.
-Shorter holiday and addministration periods compared to the original situation"""
+Shorter holiday and administration periods compared to the original situation"""
 def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
     """ Function that makes a figure with 6 subplots showing the cell number
     dynamics by traditional therapy (continuous MTD) and adaptive therapy. The
-    holiday and addministration periods are short (4 generations).
+    holiday and administration periods are short (4 generations).
 
     Parameters:
     -----------
     n_switches: Int
         The number of switches between giving drugs and not giving drugs.
     t_steps_drug: List
-        List with the number of time steps drugs are addministared and the breaks
+        List with the number of time steps drugs are administared and the breaks
         are for the different Figures.
     """
     # Set start values
@@ -1024,7 +1024,7 @@ def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
                 t_steps_drug[2], nOC, nOB, nMMd, nMMr, growth_rates, decay_rates,
                 matrix_no_GF_IH, matrix_GF_IH_comb, WMMd_inhibitor_comb)
 
-    # Make dataframes for continiously addministration
+    # Make dataframes for continiously administration
     df_total_GF = continuous_add_IH_df(260, nOC, nOB, nMMd, nMMr, growth_rates,
             decay_rates, matrix_no_GF_IH, matrix_GF_IH)
     df_total_WMMd = continuous_add_IH_df(260, nOC, nOB, nMMd, nMMr, growth_rates,
@@ -1119,7 +1119,7 @@ def Figure_continuous_MTD_vs_AT_weak_a_h(n_switches, t_steps_drug):
     n_switches: Int
         The number of switches between giving drugs and not giving drugs.
     t_steps_drug: List
-        List with the number of time steps drugs are addministared and the breaks
+        List with the number of time steps drugs are administared and the breaks
         are for the different Figures.
     """
     # Set start values
@@ -1168,7 +1168,7 @@ def Figure_continuous_MTD_vs_AT_weak_a_h(n_switches, t_steps_drug):
                 t_steps_drug[2], nOC, nOB, nMMd, nMMr, growth_rates, decay_rates,
                 matrix_no_GF_IH, matrix_GF_IH_comb, WMMd_inhibitor_comb)
 
-    # Make dataframes for continiously addministration
+    # Make dataframes for continiously administration
     df_total_GF = continuous_add_IH_df(260, nOC, nOB, nMMd, nMMr, growth_rates,
             decay_rates, matrix_no_GF_IH, matrix_GF_IH)
     df_total_WMMd = continuous_add_IH_df(260, nOC, nOB, nMMd, nMMr, growth_rates,
@@ -1252,11 +1252,11 @@ def Figure_continuous_MTD_vs_AT_weak_a_h(n_switches, t_steps_drug):
     plt.show()
 
 
-""" 3D plot showing the best IH holiday and addministration periods"""
+""" 3D plot showing the best IH holiday and administration periods"""
 def Figure_3D_MM_numb_IH_add_and_holiday():
     """ Figure that makes three 3D plot that shows the average number of MM for
-    different holiday and addministration periods of only MMd GF inhibitor, only
-    WMMd inhibitor or both. It prints the IH addministration periods and holidays
+    different holiday and administration periods of only MMd GF inhibitor, only
+    WMMd inhibitor or both. It prints the IH administration periods and holidays
     that caused the lowest total MM number."""
 
     # Set start values
@@ -1298,7 +1298,7 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
     column_names = ['Generations no drug', 'Generations drug', 'MM number']
     df_holiday_GF_IH = pd.DataFrame(columns=column_names)
 
-    # Loop over all the t_step values for drug addministration and drug holidays
+    # Loop over all the t_step values for drug administration and drug holidays
     for t_steps_no_drug in range(2, 22):
 
         for t_steps_drug in range(2, 22):
@@ -1467,7 +1467,7 @@ def Figure_3D_MM_numb_MMd_IH_strength():
         [0.65, 0.0, 0.2, 0.0],
         [0.55, 0.0, -0.6, 0.4]])
 
-    # addministration and holiday periods
+    # administration and holiday periods
     t_steps_drug = 4
     t_steps_no_drug = 4
 
@@ -1507,7 +1507,7 @@ def Figure_3D_MM_numb_MMd_IH_strength():
                                              r'..\data\data_own_model_numbers')
 
 
-    # Find the drug addministration and holiday period causing the lowest MM number
+    # Find the drug administration and holiday period causing the lowest MM number
     min_index = df_holiday['MM number'].idxmin()
     strength_WMMd_min = df_holiday.loc[min_index, 'Strength WMMd IH']
     strength_MMd_GF_min = df_holiday.loc[min_index, 'Strength MMd GF IH']
@@ -1687,20 +1687,20 @@ def Figure_best_b_OC_MMd():
     plt.show()
 
 
-""" Figure with a longer IH addministration than holiday and the other way around"""
+""" Figure with a longer IH administration than holiday and the other way around"""
 def Figure_duration_A_h_MMd_IH(n_switches, t_steps_drug, t_steps_no_drug):
     """ Function that makes a Figure with two subplots one of the dynamics by a
-    longer IH addministration than holiday and one of the dynamics by a longer IH
-    than addministration.
+    longer IH administration than holiday and one of the dynamics by a longer IH
+    than administration.
 
     Parameters:
     -----------
     n_switches: List
         List with the number of switches between giving drugs and not giving drugs.
     t_steps_drug: List
-        List with the number of time steps drugs are addministared.
+        List with the number of time steps drugs are administared.
     t_steps_no_drug: List
-        List with the number of time steps drugs are not addministared (holiday).
+        List with the number of time steps drugs are not administared (holiday).
     """
     # Set start values
     nOC = 20
@@ -1752,7 +1752,7 @@ def Figure_duration_A_h_MMd_IH(n_switches, t_steps_drug, t_steps_no_drug):
         label=['Number OC', 'Number OB', 'Number MMd', 'Number MMr'], ax=axs[0])
     axs[0].set_xlabel('Generations')
     axs[0].set_ylabel('Number of MM')
-    axs[0].set_title(f"""Dynamics when the IH addministrations lasted {ta[0]} {g}
+    axs[0].set_title(f"""Dynamics when the IH administrations lasted {ta[0]} {g}
     and the IH holidays lasted {th[0]} {g}""")
     axs[0].legend(loc = 'upper right')
     axs[0].grid(True)

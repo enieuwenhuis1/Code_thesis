@@ -12,7 +12,7 @@ Description:  Code with the model that simulates the dynamics in the multiple
 
               The IHs have not only an influence on the MMd but also on the OB and
               OC. This was incorporated by increasing the cOC value and decreasing
-              the cOB value when a IH was addministered.
+              the cOB value when a IH was administered.
 """
 
 # Import the needed libraries
@@ -26,6 +26,7 @@ import csv
 from scipy.optimize import minimize
 from mpl_toolkits.mplot3d import Axes3D
 import doctest
+import pickle
 
 """
 Example interaction matrix:
@@ -41,52 +42,66 @@ def main():
     # Do doc tests
     doctest.testmod()
 
-    # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # by adaptive therapy (original situation)
-    list_t_steps_drug = [10, 10, 10]
-    Figure_continuous_MTD_vs_AT_a_h(13, list_t_steps_drug)
-
-    # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # by adaptive therapy for shorter holiday and addministration periods compared
-    # to the original situation
-    list_t_steps_drug = [5, 5, 5]
-    Figure_continuous_MTD_vs_AT_short_a_h(20, list_t_steps_drug)
-
-    # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # by adaptive therapy for weaker IHs compared to the original situation
-    list_t_steps_drug = [10, 10, 10]
-    Figure_continuous_MTD_vs_AT_weak_a_h(12, list_t_steps_drug)
-
-    # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # by adaptive therapy whereby the OB-OC equilibrium gets restored
-    list_t_steps_drug = [10, 10, 10]
-    Figure_continuous_MTD_vs_AT_OB_a_h(9, list_t_steps_drug)
-
+    # # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # # by adaptive therapy (original situation)
+    # list_t_steps_drug = [10, 10, 10]
+    # Figure_continuous_MTD_vs_AT_a_h(13, list_t_steps_drug)
+    #
+    # # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # # by adaptive therapy for shorter holiday and administration periods compared
+    # # to the original situation
+    # list_t_steps_drug = [5, 5, 5]
+    # Figure_continuous_MTD_vs_AT_short_a_h(20, list_t_steps_drug)
+    #
+    # # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # # by adaptive therapy for weaker IHs compared to the original situation
+    # list_t_steps_drug = [10, 10, 10]
+    # Figure_continuous_MTD_vs_AT_weak_a_h(12, list_t_steps_drug)
+    #
+    # # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # # by adaptive therapy whereby the OB-OC equilibrium gets restored
+    # list_t_steps_drug = [10, 10, 10]
+    # Figure_continuous_MTD_vs_AT_OB_a_h(9, list_t_steps_drug)
+    #
     # Make a 3D figure showthing the effect of different drug holiday and
-    # addministration periods
-    Figure_3D_MM_frac_IH_add_and_holiday()
-
-    # Make a figure that shows the MM fraction for different bOC,MMd values
-    Figure_best_b_OC_MMd()
-
-    # Make a figure that shows the MM fraction for different WMMd IH values
-    Figure_best_WMMd_IH()
+    # administration periods
+    # Figure_3D_MM_frac_IH_add_and_holiday()
+    #
+    # # Make a figure that shows the MM fraction for different bOC,MMd values
+    # Figure_best_b_OC_MMd()
+    #
+    # # Make a figure that shows the MM fraction for different WMMd IH values
+    # Figure_best_WMMd_IH()
 
     # # Make a 3D figure showing the effect of different WMMd and MMd GF IH
     # strengths
-    Figure_3D_MM_frac_MMd_IH_strength()
+    # Figure_3D_MM_frac_MMd_IH_strength()
+    #
+    # # Make a figure that shows the cell fraction dynamics and fitness
+    # Figure_frac_fitness_dynamics()
+    #
+    # # Make line plots showing the dynamics when the IH administration is longer
+    # # than the holiday and one it is the other way around.
+    # list_t_steps_drug = [5, 8]
+    # list_t_steps_no_drug = [8, 5]
+    # list_n_steps = [18, 18]
+    # Figure_duration_A_h_MMd_IH(list_n_steps, list_t_steps_drug,
+                                                            # list_t_steps_no_drug)
+    # Optimise IH administration duration, holliday duration and strength for
+    # MMd GF IH -> WMMd IH -> holiday
+    minimise_MM_GF_W_h()
 
-    # Make a figure that shows the cell fraction dynamics and fitness
-    Figure_frac_fitness_dynamics()
+    # Optimise IH administration duration, holliday duration and strength for
+    # WMMd IH -> MMd GF IH ->  holiday
+    minimise_MM_W_GF_h()
 
-    # Make line plots showing the dynamics when the IH addministration is longer
-    # than the holiday and one it is the other way around.
-    list_t_steps_drug = [5, 8]
-    list_t_steps_no_drug = [8, 5]
-    list_n_steps = [18, 18]
-    Figure_duration_A_h_MMd_IH(list_n_steps, list_t_steps_drug,
-                                                            list_t_steps_no_drug)
+    # Optimise IH administration duration and holliday duration for MMd GF IH
+    # -> IH combination -> WMMd IH -> holiday
+    minimise_MM_GF_comb_W_h()
 
+    # Optimise IH administration duration and holliday duration for WMMd IH ->
+    # IH combination -> MMd GF IH -> holiday
+    minimise_MM_W_comb_GF_h()
 
 def fitness_WOC(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix):
     """
@@ -491,16 +506,16 @@ def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd,
                             xMMr, N, cOC, cOB, cMMd, cMMr, cOC_IH, cOB_IH,
                             matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor = 0):
     """ Function that makes a dataframe of the xOC, xOB, xMMd and xMMr values
-    over time for a given time of drug holiday and addministration periods.
+    over time for a given time of drug holiday and administration periods.
 
     Parameters:
     -----------
     n_switches: Int
         The fraction of switches between giving drugs and not giving drugs.
     t_steps_drug: Int
-        The fraction of generations drugs are addministared.
+        The fraction of generations drugs are administared.
     t_steps_no_drug: Int
-        The fraction of generations drugs are not addministared.
+        The fraction of generations drugs are not administared.
     xOC: Float
         Fraction of OC.
     xOB: Float
@@ -520,14 +535,14 @@ def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd,
     cMMd: Float
         Cost parameter MMd.
     cOC_IH: Float
-        Cost parameter OC when a IH is addministered.
+        Cost parameter OC when a IH is administered.
     cOB_IH: Float
-        Cost parameter OB when a IH is addministered.
+        Cost parameter OB when a IH is administered.
     matrix_no_GF_IH: Numpy.ndarray
         4x4 matrix containing the interaction factors when no GF IH are
-                                                                addministered.
+                                                                administered.
     matrix_GF_IH: Numpy.ndarray
-        4x4 matrix containing the interaction factors when GF IH are addministered.
+        4x4 matrix containing the interaction factors when GF IH are administered.
     WMMd_inhibitor: Float
         The effect of a drug on the MMd fitness.
 
@@ -615,23 +630,882 @@ def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd,
 
     return df_total_switch
 
+def switch_dataframe_GF_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
+            t_steps_no_drug, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
+            cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor = 0):
+    """ Function that makes a dataframe of the xOC, xOB, xMMd and xMMr values over
+    time. First a MMd GF IH is administerd, then a WMMd IH and then there is a
+    drug holliday.
+
+    Parameters:
+    -----------
+    n_rounds: Int
+        The fraction of rounds of giving drugs and not giving drugs.
+    t_steps_GF_IH: Int
+        The fraction of generations MMD GF IH drugs are administared.
+    t_steps_WMMd_IH: Int
+        The fraction of generations WMMd IH drugs are administared.
+    t_steps_no_drug: Int
+        The fraction of generations drugs are not administared.
+    xOC: Float
+        fraction of OC.
+    xOB: Float
+        fraction of OB.
+    xMMd: Float
+        fraction of the MMd.
+    xMMr: Float
+        fraction of the MMr.
+    N: Int
+        fraction of cells in the difussion range.
+    cOC: Float
+        Cost parameter OC.
+    cOB: Float
+        Cost parameter OB.
+    cMMr: Float
+        Cost parameter MMr.
+    cMMd: Float
+        Cost parameter MMd.
+    cOC_IH: Float
+        Cost parameter OC when a IH is administered.
+    cOB_IH: Float
+        Cost parameter OB when a IH is administered.
+    matrix_no_GF_IH: Numpy.ndarray
+        4x4 matrix containing the interaction factors when no GF IH are
+        administered.
+    matrix_GF_IH: Numpy.ndarray
+        4x4 matrix containing the interaction factors when GF IH are administered.
+    WMMd_inhibitor: Float
+        The effect of a drug on the MMd fitness.
+
+    Returns:
+    --------
+    df_total_switch: Dataframe
+        Dataframe with the xOC, xOB, xMMd and xMMr values over time.
+    """
+    # Set initial values
+    x = 0
+    time = 0
+    df_total_switch = pd.DataFrame()
+    t_steps = 60
+    t = np.linspace(0, t_steps, t_steps*2)
+    y0 = [xOC, xOB, xMMd, xMMr]
+    parameters = (N, cOC, cOB, cMMd, cMMr, matrix_no_GF_IH)
+
+    # Determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_total_switch = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
+
+    # Increase the time
+    time += t_steps
+
+    # Perform a fraction of rounds
+    for i in range(n_rounds):
+
+        # If x = 0 make sure the MMd is inhibited
+        if x == 0:
+
+            # Determine the start fractions
+            xOC = df_total_switch['xOC'].iloc[-1]
+            xOB = df_total_switch['xOB'].iloc[-1]
+            xMMd = df_total_switch['xMMd'].iloc[-1]
+            xMMr = df_total_switch['xMMr'].iloc[-1]
+
+            # Payoff matrix
+            matrix = matrix_GF_IH
+
+            t = np.linspace(time, time + t_steps_GF_IH, int(t_steps_GF_IH))
+            y0 = [xOC, xOB, xMMd, xMMr]
+            parameters = (N, cOC_IH, cOB_IH, cMMd, cMMr, matrix)
+
+            # Determine the ODE solutions
+            y = odeint(model_dynamics, y0, t, args=parameters)
+            df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
+
+            # Add dataframe tot total dataframe
+            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch.reset_index(drop=True, inplace=True)
+
+            # Change the x and time value
+            x = 1
+            time += t_steps_GF_IH
+
+        if x == 1:
+
+            # Determine the start fractions
+            xOC = df_total_switch['xOC'].iloc[-1]
+            xOB = df_total_switch['xOB'].iloc[-1]
+            xMMd = df_total_switch['xMMd'].iloc[-1]
+            xMMr = df_total_switch['xMMr'].iloc[-1]
+
+            # Payoff matrix
+            matrix = matrix_no_GF_IH
+
+            t = np.linspace(time, time + t_steps_WMMd_IH, int(t_steps_WMMd_IH))
+            y0 = [xOC, xOB, xMMd, xMMr]
+            parameters = (N, cOC_IH, cOB_IH, cMMd, cMMr, matrix, WMMd_inhibitor)
+
+            # Determine the ODE solutions
+            y = odeint(model_dynamics, y0, t, args=parameters)
+            df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
+
+            # Add dataframe tot total dataframe
+            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch.reset_index(drop=True, inplace=True)
+
+            # Change the x and time value
+            x = 2
+            time += t_steps_WMMd_IH
+
+        # NO drug
+        if x == 2:
+
+            # Determine the start fractions
+            xOC = df_total_switch['xOC'].iloc[-1]
+            xOB = df_total_switch['xOB'].iloc[-1]
+            xMMd = df_total_switch['xMMd'].iloc[-1]
+            xMMr = df_total_switch['xMMr'].iloc[-1]
+
+            # Payoff matrix
+            matrix = matrix_no_GF_IH
+
+            t = np.linspace(time, time + t_steps_no_drug , int(t_steps_no_drug))
+            y0 = [xOC, xOB, xMMd, xMMr]
+            parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
+
+            # Determine the ODE solutions
+            y = odeint(model_dynamics, y0, t, args=parameters)
+            df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
+
+            # Add dataframe tot total dataframe
+            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch.reset_index(drop=True, inplace=True)
+
+            # Change the x and time value
+            x = 0
+            time += t_steps_no_drug
+
+    return df_total_switch
+
+
+def switch_dataframe_W_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
+            t_steps_no_drug, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
+            cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor = 0):
+    """ Function that makes a dataframe of the xOC, xOB, xMMd and xMMr values over
+    time. First a WMMd IH is administerd, then a MMd GF IH and then there is a
+    drug holliday.
+
+    Parameters:
+    -----------
+    n_rounds: Int
+        The fraction of rounds of giving drugs and not giving drugs.
+    t_steps_GF_IH: Int
+        The fraction of generations MMD GF IH drugs are administared.
+    t_steps_WMMd_IH: Int
+        The fraction of generations WMMd IH drugs are administared.
+    t_steps_no_drug: Int
+        The fraction of generations drugs are not administared.
+    xOC: Float
+        fraction of OC.
+    xOB: Float
+        fraction of OB.
+    xMMd: Float
+        fraction of the MMd.
+    xMMr: Float
+        fraction of the MMr.
+    N: Int
+        fraction of cells in the difussion range.
+    cOC: Float
+        Cost parameter OC.
+    cOB: Float
+        Cost parameter OB.
+    cMMr: Float
+        Cost parameter MMr.
+    cMMd: Float
+        Cost parameter MMd.
+    cOC_IH: Float
+        Cost parameter OC when a IH is administered.
+    cOB_IH: Float
+        Cost parameter OB when a IH is administered.
+    matrix_no_GF_IH: Numpy.ndarray
+        4x4 matrix containing the interaction factors when no GF IH are
+        administered.
+    matrix_GF_IH: Numpy.ndarray
+        4x4 matrix containing the interaction factors when GF IH are administered.
+    WMMd_inhibitor: Float
+        The effect of a drug on the MMd fitness.
+
+    Returns:
+    --------
+    df_total_switch: Dataframe
+        Dataframe with the xOC, xOB, xMMd and xMMr values over time.
+    """
+    # Set initial values
+    x = 0
+    time = 0
+    df_total_switch = pd.DataFrame()
+    t_steps = 60
+    t = np.linspace(0, t_steps, t_steps*2)
+    y0 = [xOC, xOB, xMMd, xMMr]
+    parameters = (N, cOC, cOB, cMMd, cMMr, matrix_no_GF_IH)
+
+    # Determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_total_switch = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
+
+    # Increase the time
+    time += t_steps
+
+    # Perform a fraction of rounds
+    for i in range(n_rounds):
+
+        # If x = 0 make sure the MMd is inhibited
+        if x == 0:
+
+            # Determine the start fractions
+            xOC = df_total_switch['xOC'].iloc[-1]
+            xOB = df_total_switch['xOB'].iloc[-1]
+            xMMd = df_total_switch['xMMd'].iloc[-1]
+            xMMr = df_total_switch['xMMr'].iloc[-1]
+
+            # Payoff matrix
+            matrix = matrix_no_GF_IH
+
+            t = np.linspace(time, time + t_steps_WMMd_IH, int(t_steps_WMMd_IH))
+            y0 = [xOC, xOB, xMMd, xMMr]
+            parameters = (N, cOC_IH, cOB_IH, cMMd, cMMr, matrix, WMMd_inhibitor)
+
+            # Determine the ODE solutions
+            y = odeint(model_dynamics, y0, t, args=parameters)
+            df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
+
+            # Add dataframe tot total dataframe
+            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch.reset_index(drop=True, inplace=True)
+
+            # Change the x and time value
+            x = 1
+            time += t_steps_WMMd_IH
+
+        if x == 1:
+
+            # Determine the start fractions
+            xOC = df_total_switch['xOC'].iloc[-1]
+            xOB = df_total_switch['xOB'].iloc[-1]
+            xMMd = df_total_switch['xMMd'].iloc[-1]
+            xMMr = df_total_switch['xMMr'].iloc[-1]
+
+            # Payoff matrix
+            matrix = matrix_GF_IH
+
+            t = np.linspace(time, time + t_steps_GF_IH, int(t_steps_GF_IH))
+            y0 = [xOC, xOB, xMMd, xMMr]
+            parameters = (N, cOC_IH, cOB_IH, cMMd, cMMr, matrix)
+
+            # Determine the ODE solutions
+            y = odeint(model_dynamics, y0, t, args=parameters)
+            df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
+
+            # Add dataframe tot total dataframe
+            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch.reset_index(drop=True, inplace=True)
+
+            # Change the x and time value
+            x = 2
+            time += t_steps_GF_IH
+
+        # NO drug
+        if x == 2:
+
+            # Determine the start fractions
+            xOC = df_total_switch['xOC'].iloc[-1]
+            xOB = df_total_switch['xOB'].iloc[-1]
+            xMMd = df_total_switch['xMMd'].iloc[-1]
+            xMMr = df_total_switch['xMMr'].iloc[-1]
+
+            # Payoff matrix
+            matrix = matrix_no_GF_IH
+
+            t = np.linspace(time, time + t_steps_no_drug , int(t_steps_no_drug))
+            y0 = [xOC, xOB, xMMd, xMMr]
+            parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
+
+            # Determine the ODE solutions
+            y = odeint(model_dynamics, y0, t, args=parameters)
+            df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
+
+            # Add dataframe tot total dataframe
+            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch.reset_index(drop=True, inplace=True)
+
+            # Change the x and time value
+            x = 0
+            time += t_steps_no_drug
+
+    return df_total_switch
+
+
+def switch_dataframe_W_comb_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
+            t_steps_comb, t_steps_no_drug, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
+            cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH,
+            matrix_GF_IH_comb, WMMd_inhibitor, WMMd_inhibitor_comb):
+    """ Function that makes a dataframe of the xOC, xOB, xMMd and xMMr values over
+    time. First a WMMd IH is administerd, then a MMd GF IH and then there is a
+    drug holliday.
+
+    Parameters:
+    -----------
+    n_rounds: Int
+        The fraction of rounds of giving drugs and not giving drugs.
+    t_steps_GF_IH: Int
+        The fraction of generations MMD GF IH drugs are administared.
+    t_steps_WMMd_IH: Int
+        The fraction of generations WMMd IH drugs are administared.
+    t_steps_comb: Int
+        The fraction of generations WMMd IH and GF MMd IH drugs are administared.
+    t_steps_no_drug: Int
+        The fraction of generations drugs are not administared.
+    xOC: Float
+        fraction of OC.
+    xOB: Float
+        fraction of OB.
+    xMMd: Float
+        fraction of the MMd.
+    xMMr: Float
+        fraction of the MMr.
+    N: Int
+        fraction of cells in the difussion range.
+    cOC: Float
+        Cost parameter OC.
+    cOB: Float
+        Cost parameter OB.
+    cMMr: Float
+        Cost parameter MMr.
+    cMMd: Float
+        Cost parameter MMd.
+    cOC_IH: Float
+        Cost parameter OC when a IH is administered.
+    cOB_IH: Float
+        Cost parameter OB when a IH is administered.
+    matrix_no_GF_IH: Numpy.ndarray
+        4x4 matrix containing the interaction factors when no GF IH are
+        administered.
+    matrix_GF_IH: Numpy.ndarray
+        4x4 matrix containing the interaction factors when GF IH are administered.
+    matrix_GF_IH_comb: Numpy.ndarray
+        4x4 matrix containing the interaction factors when MMd GF IH and a WMMd
+        IH are administered.
+    WMMd_inhibitor: Float
+        The effect of a drug on the MMd fitness.
+    WMMd_inhibitor_comb: Float
+        The effect of a drug on the MMd fitness when also a MMd GF IH is given.
+
+    Returns:
+    --------
+    df_total_switch: Dataframe
+        Dataframe with the xOC, xOB, xMMd and xMMr values over time.
+    """
+    # Set initial values
+    x = 0
+    time = 0
+    df_total_switch = pd.DataFrame()
+    t_steps = 60
+    t = np.linspace(0, t_steps, t_steps*2)
+    y0 = [xOC, xOB, xMMd, xMMr]
+    parameters = (N, cOC, cOB, cMMd, cMMr, matrix_no_GF_IH)
+
+    # Determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_total_switch = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
+
+    # Increase the time
+    time += t_steps
+
+    # Perform a fraction of rounds
+    for i in range(n_rounds):
+
+
+        # If x = 0 make sure the MMd is inhibited
+        if x == 0:
+
+            # Determine the start fractions
+            xOC = df_total_switch['xOC'].iloc[-1]
+            xOB = df_total_switch['xOB'].iloc[-1]
+            xMMd = df_total_switch['xMMd'].iloc[-1]
+            xMMr = df_total_switch['xMMr'].iloc[-1]
+
+            # Payoff matrix
+            matrix = matrix_no_GF_IH
+
+            t = np.linspace(time, time + t_steps_WMMd_IH, int(t_steps_WMMd_IH))
+            y0 = [xOC, xOB, xMMd, xMMr]
+            parameters = (N, cOC_IH, cOB_IH, cMMd, cMMr, matrix, WMMd_inhibitor)
+
+            # Determine the ODE solutions
+            y = odeint(model_dynamics, y0, t, args=parameters)
+            df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
+
+            # Add dataframe tot total dataframe
+            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch.reset_index(drop=True, inplace=True)
+
+            # Change the x and time value
+            x = 1
+            time += t_steps_WMMd_IH
+
+        if x == 1:
+
+            # Determine the start fractions
+            xOC = df_total_switch['xOC'].iloc[-1]
+            xOB = df_total_switch['xOB'].iloc[-1]
+            xMMd = df_total_switch['xMMd'].iloc[-1]
+            xMMr = df_total_switch['xMMr'].iloc[-1]
+
+            # Payoff matrix
+            matrix = matrix_GF_IH_comb
+
+            t = np.linspace(time, time + t_steps_comb, int(t_steps_comb))
+            y0 = [xOC, xOB, xMMd, xMMr]
+            parameters = (N, cOC_IH, cOB_IH, cMMd, cMMr, matrix,
+                                                            WMMd_inhibitor_comb)
+
+            # Determine the ODE solutions
+            y = odeint(model_dynamics, y0, t, args=parameters)
+            df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
+
+            # Add dataframe tot total dataframe
+            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch.reset_index(drop=True, inplace=True)
+
+            # Change the x and time value
+            x = 2
+            time += t_steps_comb
+
+        if x == 2:
+            # Determine the start fractions
+            xOC = df_total_switch['xOC'].iloc[-1]
+            xOB = df_total_switch['xOB'].iloc[-1]
+            xMMd = df_total_switch['xMMd'].iloc[-1]
+            xMMr = df_total_switch['xMMr'].iloc[-1]
+
+            # Payoff matrix
+            matrix = matrix_GF_IH
+
+            t = np.linspace(time, time + t_steps_GF_IH, int(t_steps_GF_IH))
+            y0 = [xOC, xOB, xMMd, xMMr]
+            parameters = (N, cOC_IH, cOB_IH, cMMd, cMMr, matrix)
+
+            # Determine the ODE solutions
+            y = odeint(model_dynamics, y0, t, args=parameters)
+            df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
+
+            # Add dataframe tot total dataframe
+            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch.reset_index(drop=True, inplace=True)
+
+            # Change the x and time value
+            x = 3
+            time += t_steps_GF_IH
+
+        # NO drug
+        if x == 3:
+
+            # Determine the start fractions
+            xOC = df_total_switch['xOC'].iloc[-1]
+            xOB = df_total_switch['xOB'].iloc[-1]
+            xMMd = df_total_switch['xMMd'].iloc[-1]
+            xMMr = df_total_switch['xMMr'].iloc[-1]
+
+            # Payoff matrix
+            matrix = matrix_no_GF_IH
+
+            t = np.linspace(time, time + t_steps_no_drug , int(t_steps_no_drug))
+            y0 = [xOC, xOB, xMMd, xMMr]
+            parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
+
+            # Determine the ODE solutions
+            y = odeint(model_dynamics, y0, t, args=parameters)
+            df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
+
+            # Add dataframe tot total dataframe
+            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch.reset_index(drop=True, inplace=True)
+
+            # Change the x and time value
+            x = 0
+            time += t_steps_no_drug
+
+    return df_total_switch
+
+def switch_dataframe_GF_comb_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
+            t_steps_comb, t_steps_no_drug, xOC, xOB, xMMd, xMMr,N, cOC, cOB, cMMd,
+            cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH,
+            matrix_GF_IH_comb, WMMd_inhibitor, WMMd_inhibitor_comb):
+    """ Function that makes a dataframe of the xOC, xOB, xMMd and xMMr values over
+    time. First a WMMd IH is administerd, then a MMd GF IH and then there is a
+    drug holliday.
+
+    Parameters:
+    -----------
+    n_rounds: Int
+        The fraction of rounds of giving drugs and not giving drugs.
+    t_steps_GF_IH: Int
+        The fraction of generations MMD GF IH drugs are administared.
+    t_steps_WMMd_IH: Int
+        The fraction of generations WMMd IH drugs are administared.
+    t_steps_comb: Int
+        The fraction of generations WMMd IH and GF MMd IH drugs are administared.
+    t_steps_no_drug: Int
+        The fraction of generations drugs are not administared.
+    xOC: Float
+        fraction of OC.
+    xOB: Float
+        fraction of OB.
+    xMMd: Float
+        fraction of the MMd.
+    xMMr: Float
+        fraction of the MMr.
+    N: Int
+        fraction of cells in the difussion range.
+    cOC: Float
+        Cost parameter OC.
+    cOB: Float
+        Cost parameter OB.
+    cMMr: Float
+        Cost parameter MMr.
+    cMMd: Float
+        Cost parameter MMd.
+    cOC_IH: Float
+        Cost parameter OC when a IH is administered.
+    cOB_IH: Float
+        Cost parameter OB when a IH is administered.
+    matrix_no_GF_IH: Numpy.ndarray
+        4x4 matrix containing the interaction factors when no GF IH are
+        administered.
+    matrix_GF_IH: Numpy.ndarray
+        4x4 matrix containing the interaction factors when GF IH are administered.
+    matrix_GF_IH_comb: Numpy.ndarray
+        4x4 matrix containing the interaction factors when MMd GF IH and a WMMd
+        IH are administered.
+    WMMd_inhibitor: Float
+        The effect of a drug on the MMd fitness.
+    WMMd_inhibitor_comb: Float
+        The effect of a drug on the MMd fitness when also a MMd GF IH is given.
+
+    Returns:
+    --------
+    df_total_switch: Dataframe
+        Dataframe with the xOC, xOB, xMMd and xMMr values over time.
+    """
+    # Set initial values
+    x = 0
+    time = 0
+    df_total_switch = pd.DataFrame()
+    t_steps = 60
+    t = np.linspace(0, t_steps, t_steps*2)
+    y0 = [xOC, xOB, xMMd, xMMr]
+    parameters = (N, cOC, cOB, cMMd, cMMr, matrix_no_GF_IH)
+
+    # Determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_total_switch = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
+
+    # Increase the time
+    time += t_steps
+
+    # Perform a fraction of rounds
+    for i in range(n_rounds):
+
+
+        # If x = 0 make sure the MMd is inhibited
+        if x == 0:
+
+            # Determine the start fractions
+            xOC = df_total_switch['xOC'].iloc[-1]
+            xOB = df_total_switch['xOB'].iloc[-1]
+            xMMd = df_total_switch['xMMd'].iloc[-1]
+            xMMr = df_total_switch['xMMr'].iloc[-1]
+
+            # Payoff matrix
+            matrix = matrix_GF_IH
+
+            t = np.linspace(time, time + t_steps_GF_IH, int(t_steps_GF_IH))
+            y0 = [xOC, xOB, xMMd, xMMr]
+            parameters = (N, cOC_IH, cOB_IH, cMMd, cMMr, matrix)
+
+            # Determine the ODE solutions
+            y = odeint(model_dynamics, y0, t, args=parameters)
+            df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
+
+            # Add dataframe tot total dataframe
+            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch.reset_index(drop=True, inplace=True)
+
+            # Change the x and time value
+            x = 1
+            time += t_steps_GF_IH
+
+        if x == 1:
+
+            # Determine the start fractions
+            xOC = df_total_switch['xOC'].iloc[-1]
+            xOB = df_total_switch['xOB'].iloc[-1]
+            xMMd = df_total_switch['xMMd'].iloc[-1]
+            xMMr = df_total_switch['xMMr'].iloc[-1]
+
+            # Payoff matrix
+            matrix = matrix_GF_IH_comb
+
+            t = np.linspace(time, time + t_steps_comb, int(t_steps_comb))
+            y0 = [xOC, xOB, xMMd, xMMr]
+            parameters = (N, cOC_IH, cOB_IH, cMMd, cMMr, matrix,
+                                                            WMMd_inhibitor_comb)
+
+            # Determine the ODE solutions
+            y = odeint(model_dynamics, y0, t, args=parameters)
+            df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
+
+            # Add dataframe tot total dataframe
+            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch.reset_index(drop=True, inplace=True)
+
+            # Change the x and time value
+            x = 2
+            time += t_steps_comb
+
+        if x == 2:
+            # Determine the start fractions
+            xOC = df_total_switch['xOC'].iloc[-1]
+            xOB = df_total_switch['xOB'].iloc[-1]
+            xMMd = df_total_switch['xMMd'].iloc[-1]
+            xMMr = df_total_switch['xMMr'].iloc[-1]
+
+            # Payoff matrix
+            matrix = matrix_no_GF_IH
+
+            t = np.linspace(time, time + t_steps_WMMd_IH, int(t_steps_WMMd_IH))
+            y0 = [xOC, xOB, xMMd, xMMr]
+            parameters = (N, cOC_IH, cOB_IH, cMMd, cMMr, matrix, WMMd_inhibitor)
+
+            # Determine the ODE solutions
+            y = odeint(model_dynamics, y0, t, args=parameters)
+            df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
+
+            # Add dataframe tot total dataframe
+            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch.reset_index(drop=True, inplace=True)
+
+            # Change the x and time value
+            x = 3
+            time += t_steps_WMMd_IH
+
+        # NO drug
+        if x == 3:
+
+            # Determine the start fractions
+            xOC = df_total_switch['xOC'].iloc[-1]
+            xOB = df_total_switch['xOB'].iloc[-1]
+            xMMd = df_total_switch['xMMd'].iloc[-1]
+            xMMr = df_total_switch['xMMr'].iloc[-1]
+
+            # Payoff matrix
+            matrix = matrix_no_GF_IH
+
+            t = np.linspace(time, time + t_steps_no_drug , int(t_steps_no_drug))
+            y0 = [xOC, xOB, xMMd, xMMr]
+            parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
+
+            # Determine the ODE solutions
+            y = odeint(model_dynamics, y0, t, args=parameters)
+            df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
+                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
+
+            # Add dataframe tot total dataframe
+            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch.reset_index(drop=True, inplace=True)
+
+            # Change the x and time value
+            x = 0
+            time += t_steps_no_drug
+
+    return df_total_switch
+
+
+def minimal_tumour_nr_t_3_situations(t_steps_IH_strength, function_order, xOC,
+                xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, cOC_IH, cOB_IH,
+                matrix_no_GF_IH, matrix_GF_IH):
+    """ Function that makes a dataframe of the xOC, xOB, xMMd and xMMr values over
+    time for a given MMd GF IH administration, WMMd IH administration and holiday
+    duration.
+
+    Parameters:
+    -----------
+    function_order: Function
+        Function that makes a dataframe of the fraction values for a specific IH
+        administration order.
+    t_steps_IH_strength: List
+        List with the fraction of generations the MMD GF IH, the WMMd IH and no drugs
+        are administared and the MMD GF IH and WMMd IH strength.
+    xOC: Float
+        fraction of OC.
+    xOB: Float
+        fraction of OB.
+    xMMd: Float
+        fraction of the MMd.
+    xMMr: Float
+        fraction of the MMr.
+    N: Int
+        fraction of cells in the difussion range.
+    cOC: Float
+        Cost parameter OC.
+    cOB: Float
+        Cost parameter OB.
+    cMMr: Float
+        Cost parameter MMr.
+    cMMd: Float
+        Cost parameter MMd.
+    cOC_IH: Float
+        Cost parameter OC when a IH is administered.
+    cOB_IH: Float
+        Cost parameter OB when a IH is administered.
+    matrix_no_GF_IH: Numpy.ndarray
+        4x4 matrix containing the interaction factors when no GF IH are
+        administered.
+    matrix_GF_IH: Numpy.ndarray
+        4x4 matrix containing the interaction factors when GF IH are administered.
+    WMMd_inhibitor: Float
+        The effect of a drug on the MMd fitness.
+
+    Returns:
+    --------
+    average_MM_fraction: float
+        The average total MM fraction in the last period.
+
+    """
+    t_steps_GF_IH, t_steps_WMMd_IH, t_steps_no_drug, GF_IH,\
+                                            WMMd_inhibitor = t_steps_IH_strength
+    matrix_GF_IH[2, 0] = 2.2 - GF_IH
+    n_rounds = 6
+    time_round = t_steps_GF_IH + t_steps_no_drug + t_steps_WMMd_IH
+
+    # Create a dataframe of the fractions
+    df = function_order(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
+        t_steps_no_drug, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, cOC_IH,
+        cOB_IH, matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor)
+
+    # Determine the average MM fraction in the last period with and without drugs
+    last_MM_fractions = df['total xMM'].tail(int(time_round))
+    average_MM_fraction = last_MM_fractions.sum() / (int(time_round))
+
+    return float(average_MM_fraction)
+
+def minimal_tumour_nr_t_4_situations(t_steps, function_order, xOC, xOB, xMMd,
+                        xMMr, N, cOC, cOB, cMMd, cMMr, cOC_IH, cOB_IH,
+                        matrix_no_GF_IH, matrix_GF_IH, matrix_GF_IH_comb,
+                        WMMd_inhibitor, WMMd_inhibitor_comb):
+    """ Function that makes a dataframe of the xOC, xOB, xMMd and xMMr values over
+    time for a given MMd GF IH administration, WMMd IH administration, IH
+    combination administration and holiday duration.
+
+    Parameters:
+    -----------
+    t_steps: List
+        List with the fraction of generations the MMD GF IH, the WMMd IH, the IH
+        combination and no drugs are administared.
+    function_order: Function
+        Function that makes a dataframe of the fraction values for a specific IH
+        administration order.
+    xOC: Float
+        fraction of OC.
+    xOB: Float
+        fraction of OB.
+    xMMd: Float
+        fraction of the MMd.
+    xMMr: Float
+        fraction of the MMr.
+    N: Int
+        fraction of cells in the difussion range.
+    cOC: Float
+        Cost parameter OC.
+    cOB: Float
+        Cost parameter OB.
+    cMMr: Float
+        Cost parameter MMr.
+    cMMd: Float
+        Cost parameter MMd.
+    cOC_IH: Float
+        Cost parameter OC when a IH is administered.
+    cOB_IH: Float
+        Cost parameter OB when a IH is administered.
+    matrix_no_GF_IH: Numpy.ndarray
+        4x4 matrix containing the interaction factors when no GF IH are
+        administered.
+    matrix_GF_IH: Numpy.ndarray
+        4x4 matrix containing the interaction factors when GF IH are administered.
+    matrix_GF_IH_comb: Numpy.ndarray
+        4x4 matrix containing the interaction factors when MMd GF IH and a WMMd
+        IH are administered.
+    WMMd_inhibitor: Float
+        The effect of a drug on the MMd fitness.
+    WMMd_inhibitor_comb: Float
+        The effect of a drug on the MMd fitness when also a MMd GF IH is given.
+
+    Returns:
+    --------
+    average_MM_fraction: float
+        The average total MM fraction in the last period.
+
+    """
+    t_steps_GF_IH, t_steps_WMMd_IH, t_steps_comb, t_steps_no_drug = t_steps
+    n_rounds = 3
+    time_round = t_steps_GF_IH + t_steps_no_drug + t_steps_WMMd_IH + t_steps_comb
+
+    # Create a dataframe of the fractions
+    df = function_order(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH, t_steps_comb,
+                t_steps_no_drug, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
+                cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH, matrix_GF_IH_comb,
+                WMMd_inhibitor, WMMd_inhibitor_comb)
+
+    # Determine the average MM fraction in the last period with and without drugs
+    last_MM_fractions = df['total xMM'].tail(int(time_round))
+    average_MM_fraction = last_MM_fractions.sum() / (int(time_round))
+
+    return float(average_MM_fraction)
+
+
 def continuous_add_IH_df(end_generation, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd,
         cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor = 0):
     """ Function that makes a dataframe of the cell type fractions when the IHs
-    are addministered continuously.
+    are administered continuously.
 
     Parameters:
     -----------
     end_generation: Int
         The last generation for which the fractions have to be calculated
     xOC: Float
-        Number of OC.
+        fraction of OC.
     xOB: Float
-        Number of OB.
+        fraction of OB.
     xMMd: Float
-        Number of the MMd.
+        fraction of the MMd.
     xMMr: Float
-        Number of the MMr.
+        fraction of the MMr.
     N: Int
         fraction of cells in the difussion range.
     cOC: Float
@@ -643,21 +1517,21 @@ def continuous_add_IH_df(end_generation, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd
     cMMd: Float
         Cost parameter MMd.
     cOC_IH: Float
-        Cost parameter OC when a IH is addministered.
+        Cost parameter OC when a IH is administered.
     cOB_IH: Float
-        Cost parameter OB when a IH is addministered.
+        Cost parameter OB when a IH is administered.
     matrix_no_GF_IH: Numpy.ndarray
         4x4 matrix containing the interaction factors when no GF IH are
-                                                                    addministrated.
+                                                                    administrated.
     matrix_GF_IH: Numpy.ndarray
-        4x4 matrix containing the interaction factors when GF IH are addministrated.
+        4x4 matrix containing the interaction factors when GF IH are administrated.
     WMMd_inhibitor: Float
         The effect of a drug on the MMd fitness.
 
     Returns:
     --------
     df_total: DataFrame
-        The dataframe with the cell fractions when IHs are continiously addministerd.
+        The dataframe with the cell fractions when IHs are continiously administerd.
     """
     t = np.linspace(0, 15, 15)
     y0 = [xOC, xOB, xMMd, xMMr]
@@ -697,9 +1571,9 @@ def minimal_tumour_frac_t_steps(t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd,
     Parameters:
     -----------
     t_steps_drug: Int
-        The fraction of generations drugs are addministared.
+        The fraction of generations drugs are administared.
     t_steps_no_drug: Int
-        The fraction of generations drugs are not addministared.
+        The fraction of generations drugs are not administared.
     xOC: Float
         Fraction of OC.
     xOB: Float
@@ -719,14 +1593,14 @@ def minimal_tumour_frac_t_steps(t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd,
     cMMd: Float
         Cost parameter MMd.
     cOC_IH: Float
-        Cost parameter OC when a IH is addministered.
+        Cost parameter OC when a IH is administered.
     cOB_IH: Float
-        Cost parameter OB when a IH is addministered.
+        Cost parameter OB when a IH is administered.
     matrix_no_GF_IH: Numpy.ndarray
         4x4 matrix containing the interaction factors when no GF IH are
-                                                                addministered.
+                                                                administered.
     matrix_GF_IH: Numpy.ndarray
-        4x4 matrix containing the interaction factors when GF IH are addministered.
+        4x4 matrix containing the interaction factors when GF IH are administered.
     WMMd_inhibitor: Float
         The effect of a drug on the MMd fitness.
 
@@ -763,7 +1637,7 @@ def minimal_tumour_frac_t_steps(t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd,
 
 def x_y_z_axis_values_3d_plot(dataframe, name):
     """ Function that determines the x, y and z axis values from the given
-    dataframe. It also prints the addministration and holliday duration leading
+    dataframe. It also prints the administration and holliday duration leading
     to the lowest total MM fraction in the equilibrium
 
     Parameters:
@@ -771,7 +1645,7 @@ def x_y_z_axis_values_3d_plot(dataframe, name):
     Dataframe: dataFrame
         The dataframe with the generated data
     name: String
-        The name of the addministerd IH(s)
+        The name of the administerd IH(s)
 
     Returns:
     --------
@@ -783,7 +1657,7 @@ def x_y_z_axis_values_3d_plot(dataframe, name):
         Array with the values for the z-axis
     """
 
-    # Find the drug addministration and holiday period causing the lowest MM
+    # Find the drug administration and holiday period causing the lowest MM
     # fraction
     min_index =  dataframe['MM fraction'].idxmin()
     g_no_drug_min = dataframe.loc[min_index, 'Generations no drug']
@@ -791,7 +1665,7 @@ def x_y_z_axis_values_3d_plot(dataframe, name):
     frac_min = dataframe.loc[min_index, 'MM fraction']
 
     print(f"""Lowest MM fraction: {frac_min}-> MMd {name} holidays are
-            {g_no_drug_min} generations and MMd {name} addministrations
+            {g_no_drug_min} generations and MMd {name} administrations
             are {g_drug_min} generations""")
 
     # Avoid errors because of the wrong datatype
@@ -834,7 +1708,7 @@ def minimal_tumour_frac_b_OC_MMd(b_OC_MMd, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
     xMMr: Float
         Frequency of the resistant MM cells.
     N: Int
-        Number of cells in the difussion range.
+        fraction of cells in the difussion range.
     cOC: Float
         Cost parameter OC.
     cOB: float
@@ -844,9 +1718,9 @@ def minimal_tumour_frac_b_OC_MMd(b_OC_MMd, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
     cMMr: Float
         Cost parameter resistant MM cells.
     cOC_IH: Float
-        Cost parameter OC when a IH is addministered.
+        Cost parameter OC when a IH is administered.
     cOB_IH: Float
-        Cost parameter OB when a IH is addministered.
+        Cost parameter OB when a IH is administered.
     matrix: Numpy.ndarray
         4x4 matrix containing the interaction factors.
     t: Numpy.ndarray
@@ -899,7 +1773,7 @@ def minimal_tumour_frac_WMMd_IH(WMMd_inhibitor, xOC, xOB, xMMd, xMMr, N, cOC, cO
     xMMr: Float
         Frequency of the resistant MM cells.
     N: Int
-        Number of cells in the difussion range.
+        fraction of cells in the difussion range.
     cOC: Float
         Cost parameter OC.
     cOB: float
@@ -909,9 +1783,9 @@ def minimal_tumour_frac_WMMd_IH(WMMd_inhibitor, xOC, xOB, xMMd, xMMr, N, cOC, cO
     cMMr: Float
         Cost parameter resistant MM cells.
     cOC_IH: Float
-        Cost parameter OC when a IH is addministered.
+        Cost parameter OC when a IH is administered.
     cOB_IH: Float
-        Cost parameter OB when a IH is addministered.
+        Cost parameter OB when a IH is administered.
     matrix: Numpy.ndarray
         4x4 matrix containing the interaction factors.
     t: Numpy.ndarray
@@ -1090,7 +1964,7 @@ def Figure_continuous_MTD_vs_AT_a_h(n_switches, t_steps_drug):
     n_switches: Int
         The fraction of switches between giving drugs and not giving drugs.
     t_steps_drug: List
-        List with the fraction of time steps drugs are addministared and the
+        List with the fraction of time steps drugs are administared and the
         breaks are for the different Figures.
     """
     # Set initial parameter values
@@ -1146,7 +2020,7 @@ def Figure_continuous_MTD_vs_AT_a_h(n_switches, t_steps_drug):
                 cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH_comb,
                 WMMd_inhibitor_comb)
 
-    # Make dataframes for continiously addministration
+    # Make dataframes for continiously administration
     df_total_GF = continuous_add_IH_df(135, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
             cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH)
     df_total_WMMd = continuous_add_IH_df(135, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
@@ -1231,18 +2105,18 @@ def Figure_continuous_MTD_vs_AT_a_h(n_switches, t_steps_drug):
     plt.show()
 
 """ Figure to determine the difference between traditional and adaptive therapy
-Shorter holiday and addministration periods compared to the original situation"""
+Shorter holiday and administration periods compared to the original situation"""
 def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
     """ Function that makes a figure with 6 subplots showing the cell type
     fraction dynamics by traditional therapy (continuous MTD) and adaptive
-    therapy. The holiday and addministration periods are short (5 generations).
+    therapy. The holiday and administration periods are short (5 generations).
 
     Parameters:
     -----------
     n_switches: Int
         The fraction of switches between giving drugs and not giving drugs.
     t_steps_drug: List
-        List with the fraction of time steps drugs are addministared and the
+        List with the fraction of time steps drugs are administared and the
         breaks are for the different Figures.
     """
     # Set initial parameter values
@@ -1298,7 +2172,7 @@ def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
                                 cOB, cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH,
                                 matrix_GF_IH_comb, WMMd_inhibitor_comb)
 
-    # Make dataframes for continiously addministration
+    # Make dataframes for continiously administration
     df_total_GF = continuous_add_IH_df(135, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
             cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH)
     df_total_WMMd = continuous_add_IH_df(135, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
@@ -1395,7 +2269,7 @@ def Figure_continuous_MTD_vs_AT_weak_a_h(n_switches, t_steps_drug):
     n_switches: Int
         The fraction of switches between giving drugs and not giving drugs.
     t_steps_drug: List
-        List with the fraction of time steps drugs are addministared and the
+        List with the fraction of time steps drugs are administared and the
         breaks are for the different Figures.
     """
     # Set initial parameter values
@@ -1451,7 +2325,7 @@ def Figure_continuous_MTD_vs_AT_weak_a_h(n_switches, t_steps_drug):
                                 cOB, cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH,
                                 matrix_GF_IH_comb, WMMd_inhibitor_comb)
 
-    # Make dataframes for continiously addministration
+    # Make dataframes for continiously administration
     df_total_GF = continuous_add_IH_df(135, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
             cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH)
     df_total_WMMd = continuous_add_IH_df(135, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
@@ -1549,7 +2423,7 @@ def Figure_continuous_MTD_vs_AT_OB_a_h(n_switches, t_steps_drug):
     n_switches: Int
         The fraction of switches between giving drugs and not giving drugs.
     t_steps_drug: List
-        List with the fraction of time steps drugs are addministared and the
+        List with the fraction of time steps drugs are administared and the
         breaks are for the different Figures.
     """
     # Set initial parameter values
@@ -1605,7 +2479,7 @@ def Figure_continuous_MTD_vs_AT_OB_a_h(n_switches, t_steps_drug):
                 cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH_comb,
                 WMMd_inhibitor_comb)
 
-    # Make dataframes for continiously addministration
+    # Make dataframes for continiously administration
     df_total_GF = continuous_add_IH_df(110, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
             cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH)
     df_total_WMMd = continuous_add_IH_df(110, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
@@ -1691,11 +2565,11 @@ def Figure_continuous_MTD_vs_AT_OB_a_h(n_switches, t_steps_drug):
     plt.show()
 
 
-""" 3D plot showing the best IH holiday and addministration periods"""
+""" 3D plot showing the best IH holiday and administration periods"""
 def Figure_3D_MM_frac_IH_add_and_holiday():
     """ Figure that makes three 3D plot that shows the average MM fraction for
-    different holiday and addministration periods of only MMd GF inhibitor, only
-    WMMd inhibitor or both. It prints the IH addministration periods and holidays
+    different holiday and administration periods of only MMd GF inhibitor, only
+    WMMd inhibitor or both. It prints the IH administration periods and holidays
     that caused the lowest total MM fraction."""
 
     # Set initial parameter values
@@ -1743,7 +2617,7 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
     column_names = ['Generations no drug', 'Generations drug', 'MM fraction']
     df_holiday_GF_IH = pd.DataFrame(columns=column_names)
 
-    # Loop over all the t_step values for drug addministration and drug holidays
+    # Loop over all the t_step values for drug administration and drug holidays
     for t_steps_no_drug in range(2, 22):
 
         for t_steps_drug in range(2, 22):
@@ -1918,7 +2792,36 @@ def Figure_3D_MM_frac_MMd_IH_strength():
         [1.5, 0, 0.2, 0.0],
         [1.9, 0, -0.77, 0.2]])
 
-    # addministration and holiday periods
+
+    # # Set initial parameter values
+    # N = 50
+    # cMMr = 1.3
+    # cMMd = 1.2
+    # cOB = 0.8
+    # cOC = 1
+    # xOC = 0.2
+    # xOB = 0.3
+    # xMMd = 0.2
+    # xMMr = 0.3
+    #
+    # cOC_IH = 2.0
+    # cOB_IH = 0.7
+    #
+    # # Payoff matrix when no drugs are pressent
+    # matrix_no_GF_IH = np.array([
+    #     [0.0, 1.6, 2.2, 1.9],
+    #     [0.95, 0.0, -0.5, -0.5],
+    #     [2.2, 0, 0.2, 0.0],
+    #     [1.9, 0, -0.77, 0.2]])
+    #
+    # # Payoff matrix when GF inhibitor drugs are pressent
+    # matrix_GF_IH = np.array([
+    #     [0.0, 1.6, 2.2, 1.9],
+    #     [0.95, 0.0, -0.5, -0.5],
+    #     [1.5, 0, 0.2, 0.0],
+    #     [1.9, 0, -0.77, 0.2]])
+
+    # administration and holiday periods
     t_steps_drug = 8
     t_steps_no_drug = 8
 
@@ -1957,7 +2860,7 @@ def Figure_3D_MM_frac_MMd_IH_strength():
                                          r'..\data\data_own_model_frac_IH_inf')
 
 
-    # Find the drug addministration and holiday period causing the lowest MM
+    # Find the drug administration and holiday period causing the lowest MM
     # fraction
     min_index = df_holiday['MM fraction'].idxmin()
     strength_WMMd_min = df_holiday.loc[min_index, 'Strength WMMd IH']
@@ -2011,20 +2914,20 @@ def Figure_3D_MM_frac_MMd_IH_strength():
     plt.show()
 
 
-""" Figure with a longer IH addministration than holiday and the other way around"""
+""" Figure with a longer IH administration than holiday and the other way around"""
 def Figure_duration_A_h_MMd_IH(n_switches, t_steps_drug, t_steps_no_drug):
     """ Function that makes a Figure with two subplots one of the dynamics by a
-    longer IH addministration than holiday and one of the dynamics by a longer IH
-    than addministration.
+    longer IH administration than holiday and one of the dynamics by a longer IH
+    than administration.
 
     Parameters:
     -----------
     n_switches: List
         List with the fraction of switches between giving drugs and not giving drugs.
     t_steps_drug: List
-        List with the fraction of time steps drugs are addministared.
+        List with the fraction of time steps drugs are administared.
     t_steps_no_drug: List
-        List with the fraction of time steps drugs are not addministared (holiday).
+        List with the fraction of time steps drugs are not administared (holiday).
     """
     # Set start values
     N = 50
@@ -2085,7 +2988,7 @@ def Figure_duration_A_h_MMd_IH(n_switches, t_steps_drug, t_steps_no_drug):
                             'Fraction MMr'], ax=axs[0])
     axs[0].set_xlabel('Generations')
     axs[0].set_ylabel('MM fraction')
-    axs[0].set_title(f"""Dynamics when the IH addministrations lasted {ta[0]} {g}
+    axs[0].set_title(f"""Dynamics when the IH administrations lasted {ta[0]} {g}
     and the IH holidays lasted {th[0]} {g}""")
     axs[0].legend(loc = 'upper right')
     axs[0].grid(True)
@@ -2096,7 +2999,7 @@ def Figure_duration_A_h_MMd_IH(n_switches, t_steps_drug, t_steps_no_drug):
                         'Fraction MMr'], ax=axs[1])
     axs[1].set_xlabel('Generations')
     axs[1].set_ylabel('MM fraction')
-    axs[1].set_title(f"""Dynamics when the IH addministrations lasted {ta[1]} {g}
+    axs[1].set_title(f"""Dynamics when the IH administrations lasted {ta[1]} {g}
     and the IH holidays lasted {th[1]} {g}""")
     axs[1].legend(loc = 'upper right')
     axs[1].grid(True)
@@ -2207,7 +3110,7 @@ def Figure_frac_fitness_dynamics():
     df_WMMd_inhibition = pd.concat([df_1_WMMd_inhibition, df_2_WMMd_inhibition])
 
     # Make dataframes for the fitness values
-    df_fitness_WMMd_inhibition_1 = frac_to_fitness_values(df_1_WMMd_inhibition, 
+    df_fitness_WMMd_inhibition_1 = frac_to_fitness_values(df_1_WMMd_inhibition,
                                     N, cOC, cOB, cMMd, cMMr, matrix_no_GF_IH)
     df_fitness_WMMd_inhibition_2 = frac_to_fitness_values(df_2_WMMd_inhibition,
                 N, cOC_IH, cOB_IH, cMMd, cMMr, matrix_no_GF_IH, WMMd_inhibitor)
@@ -2240,7 +3143,7 @@ def Figure_frac_fitness_dynamics():
                                  'Fraction MMr'], ax=axs[0, 0])
     axs[0, 0].set_xlabel(' ')
     axs[0, 0].set_ylabel('Fraction')
-    axs[0, 0].set_title(r'Fraction dynamics when a $W_{MMd}$ IH is addministerd')
+    axs[0, 0].set_title(r'Fraction dynamics when a $W_{MMd}$ IH is administerd')
     axs[0, 0].legend(loc = 'upper right')
     axs[0, 0].grid(True)
 
@@ -2248,7 +3151,7 @@ def Figure_frac_fitness_dynamics():
     df_fitness_WMMd_inhibition.plot(y=['WOC', 'WOB', 'WMMd', 'WMMr', 'W_average'],
                                 label = ['Fitness OC', 'Fitness OB', 'Fitness MMd',
                                   'Fitness MMr', 'Average fitness'],  ax=axs[1, 0])
-    axs[1, 0].set_title(r'Fitness dynamics when a $W_{MMd}$ IH is addministerd')
+    axs[1, 0].set_title(r'Fitness dynamics when a $W_{MMd}$ IH is administerd')
     axs[1, 0].set_xlabel('Generations')
     axs[1, 0].set_ylabel('Fitness')
     axs[1, 0].legend(['Fitness OC', 'Fitness OB', 'Fitness MMd', 'Fitness MMr',
@@ -2262,7 +3165,7 @@ def Figure_frac_fitness_dynamics():
                                                 'Fraction MMr'], ax=axs[0, 1])
     axs[0, 1].set_xlabel(' ')
     axs[0, 1].set_ylabel('Fraction')
-    axs[0, 1].set_title('Fraction dynamics when a MMd GF IH is addministerd')
+    axs[0, 1].set_title('Fraction dynamics when a MMd GF IH is administerd')
     axs[0, 1].legend(loc = 'upper right')
     axs[0, 1].grid(True)
 
@@ -2270,7 +3173,7 @@ def Figure_frac_fitness_dynamics():
     df_fitness_MMd_GF_inhibition.plot(y=['WOC', 'WOB', 'WMMd', 'WMMr', 'W_average'],
                               label = ['Fitness OC', 'Fitness OB', 'Fitness MMd',
                                  'Fitness MMr', 'Average fitness'],  ax=axs[1, 1])
-    axs[1, 1].set_title('Fitness dynamics when a MMd GF IH is addministerd')
+    axs[1, 1].set_title('Fitness dynamics when a MMd GF IH is administerd')
     axs[1, 1].set_xlabel('Generations')
     axs[1, 1].set_ylabel('Fitness')
     axs[1, 1].legend(loc = 'upper right')
@@ -2280,6 +3183,261 @@ def Figure_frac_fitness_dynamics():
                                 r'..\visualisation\results_own_model_frac_IH_inf')
     plt.show()
 
+
+"""Optimise IH administration duration, holliday duration and strength for
+MMd GF IH -> WMMd IH -> holiday """
+def minimise_MM_GF_W_h():
+    """Function that determines the best IH administration durations and holliday
+    durations when the order is MMd GF IH -> WMMd IH -> holiday -> MMd GF IH
+    etc. It also determines the best MMd GF IH and WMMd IH strength."""
+
+    # Set initial parameter values
+    N = 50
+    cMMr = 1.3
+    cMMd = 1.2
+    cOB = 0.8
+    cOC = 1
+    xOC = 0.2
+    xOB = 0.3
+    xMMd = 0.2
+    xMMr = 0.3
+
+    cOC_IH = 1.1
+    cOB_IH = 0.7
+
+    # Payoff matrix when no drugs are present
+    matrix_no_GF_IH = np.array([
+        [0.0, 1.6, 2.2, 1.9],
+        [0.95, 0.0, -0.5, -0.5],
+        [2.2, 0, 0.2, 0.0],
+        [1.9, 0, -0.8, 0.2]])
+
+    # Payoff matrix when only GF inhibitor drugs are present
+    matrix_GF_IH = np.array([
+        [0.0, 1.6, 2.2, 1.9],
+        [0.95, 0.0, -0.5, -0.5],
+        [0.75, 0, 0.2, 0.0],
+        [1.9, 0, -0.8, 0.2]])
+
+    # Optimize the administration and holliday durations and the IH stregths
+    # t_step_IH_strength = [GF IH t, W IH t, h t, GF IH s, W IH s]
+    t_step_IH_strength = [3,3,3, 1.5, 1.2]
+    result = minimize(minimal_tumour_nr_t_3_situations, t_step_IH_strength,
+            args=(switch_dataframe_GF_W_h, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
+            cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH), bounds \
+             = [(0, 10), (0, 10), (0, 10), (0, 2.2), (0, 1.8)],
+             method='Nelder-Mead')
+
+    # Print the results
+    print('Order: MMd GF IH -> WMMd IH -> holiday -> MMd GF IH etc.')
+    print(f"""The best MMd GF IH add duration is {result.x[0]} generations
+    Th best WMMd IH add duration is {result.x[1]} generations
+    The best holliday duration is {result.x[2]} generations
+    The best MMd GF IH strength is {result.x[3]}
+    The best WMMd IH strengths is {result.x[4]}
+    --> gives a MM fraction of {result.fun}""")
+
+    # Save the results
+    with open(r'..\data\data_own_model_frac_IH_inf\optimize_GF_W_h.pkl', 'wb')\
+                                                                        as file:
+        pickle.dump(result, file)
+
+"""Optimise IH administration duration, holliday duration and strength for
+WMMd IH -> MMd GF IH -> holiday """
+def minimise_MM_W_GF_h():
+    """Function that determines the best IH administration durations and holliday
+    durations when the order is WMMd IH -> MMd GF IH -> holiday -> WMMd IH etc.
+    It also determines the best MMd GF IH and WMMd IH strength."""
+    # Set initial parameter values
+    N = 50
+    cMMr = 1.3
+    cMMd = 1.2
+    cOB = 0.8
+    cOC = 1
+    xOC = 0.2
+    xOB = 0.3
+    xMMd = 0.2
+    xMMr = 0.3
+
+    cOC_IH = 1.1
+    cOB_IH = 0.7
+
+    # Payoff matrix when no drugs are present
+    matrix_no_GF_IH = np.array([
+        [0.0, 1.6, 2.2, 1.9],
+        [0.95, 0.0, -0.5, -0.5],
+        [2.2, 0, 0.2, 0.0],
+        [1.9, 0, -0.8, 0.2]])
+
+    # Payoff matrix when only GF inhibitor drugs are present
+    matrix_GF_IH = np.array([
+        [0.0, 1.6, 2.2, 1.9],
+        [0.95, 0.0, -0.5, -0.5],
+        [0.75, 0, 0.2, 0.0],
+        [1.9, 0, -0.8, 0.2]])
+
+    # Optimize the administration and holliday durations and the IH stregths
+    # t_step_IH_strength = [GF IH t, W IH t, h t, GF IH s, W IH s]
+    t_step_IH_strength = [3,3,3, 1.5, 1.2]
+    result = minimize(minimal_tumour_nr_t_3_situations, t_step_IH_strength,
+            args=(switch_dataframe_W_GF_h, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
+            cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH),
+            bounds = [(0, None), (0, None), (0, None), (0, 2.2), (0, 1.8)],
+            method='Nelder-Mead')
+
+    # Print the results
+    print('Order: WMMd IH -> MMd GF IH -> holiday -> WMMd IH etc.')
+    print(f"""The best MMd GF IH add duration is {result.x[0]} generations
+    Th best WMMd IH add duration is {result.x[1]} generations
+    The best holliday duration is {result.x[2]} generations
+    The best MMd GF IH strength is {result.x[3]}
+    The best WMMd IH strengths is {result.x[4]}
+    --> gives a MM fraction of {result.fun}""")
+
+    # Save the results
+    with open(r'..\data\data_own_model_frac_IH_inf\optimize_W_GF_h.pkl', 'wb')\
+                                                                        as file:
+        pickle.dump(result, file)
+
+"""Optimise IH administration duration and holliday duration for WMMd IH ->
+IH combination -> MMd GF IH -> holiday"""
+def minimise_MM_W_comb_GF_h():
+    """Function that determines the best IH administration durations and holliday
+    durations when the order is WMMd IH -> IH combination -> MMd GF IH -> holiday
+    -> WMMd IH etc."""
+
+    # Set initial parameter values
+    N = 50
+    cMMr = 1.3
+    cMMd = 1.2
+    cOB = 0.8
+    cOC = 1
+    xOC = 0.2
+    xOB = 0.3
+    xMMd = 0.2
+    xMMr = 0.3
+
+    cOC_IH = 1.1
+    cOB_IH = 0.7
+
+    # Payoff matrix when no drugs are present
+    matrix_no_GF_IH = np.array([
+        [0, 1.6, 2.2, 1.9],
+        [0.95, 0, -0.5, -0.5],
+        [2.2, 0, 0.2, 0.0],
+        [1.9, 0, -0.8, 0.2]])
+
+    # Payoff matrix when only GF inhibitor drugs are present
+    matrix_GF_IH = np.array([
+        [0, 1.6, 2.2, 1.9],
+        [0.95, 0, -0.5, -0.5],
+        [0.75, 0, 0.2, 0.0],
+        [1.9, 0, -0.8, 0.2]])
+
+    # Payoff matrix when both inhibitor drugs are present
+    matrix_GF_IH_comb = np.array([
+        [0, 1.6, 2.2, 1.9],
+        [0.95, 0, -0.5, -0.5],
+        [1.1, 0, 0.2, 0.0],
+        [1.9, 0, -1.1, 0.2]])
+
+    # WMMd inhibitor effect when both inhibitor drugs are present
+    WMMd_inhibitor_comb = 0.55
+
+    # WMMd inhibitor effect when only WMMd IH is present
+    WMMd_inhibitor = 1.2
+
+    # Optimize the administration and holliday durations
+    # t_step_guess = [GF IH t, W IH t, comb t, h t]
+    t_step_guess = [3,3,3,3]
+    result = minimize(minimal_tumour_nr_t_4_situations, t_step_guess, args=(\
+        switch_dataframe_W_comb_GF_h, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd,
+        cMMr, cOC_IH, cOB_IH,matrix_no_GF_IH, matrix_GF_IH, matrix_GF_IH_comb,
+        WMMd_inhibitor, WMMd_inhibitor_comb), bounds = [(0, None), (0, None),
+        (0, None), (0, None)], method='Nelder-Mead')
+
+    # Print the results
+    print('Order: WMMd IH -> IH combination -> MMd GF IH -> holiday -> WMMd IH etc.')
+    print(f"""The best MMd GF IH add duration is {result.x[0]} generations
+    The best WMMd IH add duration is {result.x[1]} generations
+    The best IH combination duration is {result.x[2]} generations
+    The best holliday duration is {result.x[3]} generations
+    --> gives a MM fraction of {result.fun}""")
+
+    # Save the results
+    with open(r'..\data\data_own_model_frac_IH_inf\optimize_W_comb_GF_h.pkl',
+                                                                'wb') as file:
+        pickle.dump(result, file)
+
+"""Optimise IH administration duration and holliday duration for MMd GF IH->
+IH combination -> WMMd IH -> holiday"""
+def minimise_MM_GF_comb_W_h():
+    """Function that determines the best IH administration durations and holliday
+    durations when the order is MMd GF IH-> IH combination -> WMMd IH -> holiday
+    -> MMd GF IH etc."""
+
+    # Set initial parameter values
+    N = 50
+    cMMr = 1.3
+    cMMd = 1.2
+    cOB = 0.8
+    cOC = 1
+    xOC = 0.2
+    xOB = 0.3
+    xMMd = 0.2
+    xMMr = 0.3
+
+    cOC_IH = 1.1
+    cOB_IH = 0.7
+
+    # Payoff matrix when no drugs are present
+    matrix_no_GF_IH = np.array([
+        [0 , 1.6, 2.2, 1.9],
+        [0.95, 0, -0.5, -0.5],
+        [2.2, 0, 0.2, 0.0],
+        [1.9, 0, -0.8, 0.2]])
+
+    # Payoff matrix when only GF inhibitor drugs are present
+    matrix_GF_IH = np.array([
+        [0, 1.6, 2.2, 1.9],
+        [0.95, 0, -0.5, -0.5],
+        [0.75, 0, 0.2, 0.0],
+        [1.9, 0, -0.8, 0.2]])
+
+    # Payoff matrix when both inhibitor drugs are present
+    matrix_GF_IH_comb = np.array([
+        [0, 1.6, 2.2, 1.9],
+        [0.95, 0, -0.5, -0.5],
+        [1.1, 0, 0.2, 0.0],
+        [1.9, 0, -1.1, 0.2]])
+
+    # WMMd inhibitor effect when both inhibitor drugs are present
+    WMMd_inhibitor_comb = 0.55
+
+    # WMMd inhibitor effect when only WMMd IH is present
+    WMMd_inhibitor = 1.2
+
+    # Optimize the administration and holliday durations
+    t_step_guess = [3,3,3,3]
+    result = minimize(minimal_tumour_nr_t_4_situations, t_step_guess, args=(\
+        switch_dataframe_GF_comb_W_h, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd,
+        cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH, matrix_GF_IH_comb,
+        WMMd_inhibitor, WMMd_inhibitor_comb), bounds = [(0, None), (0, None),
+        (0, None), (0, None)], method='Nelder-Mead')
+
+    # Print the results
+    print("""Order: MMd GF IH-> IH combination -> WMMd IH -> holiday -> MMd GF
+    IH etc.""")
+    print(f"""The best MMd GF IH add duration is {result.x[0]} generations
+    The best WMMd IH add duration is {result.x[1]} generations
+    The best IH combination duration is {result.x[2]} generations
+    The best holliday duration is {result.x[3]} generations
+    --> gives a MM fraction of {result.fun}""")
+
+    # Save the results
+    with open(r'..\data\data_own_model_frac_IH_inf\optimize_GF_comb_W_h.pkl',
+                                                                'wb') as file:
+        pickle.dump(result, file)
 
 
 if __name__ == "__main__":
