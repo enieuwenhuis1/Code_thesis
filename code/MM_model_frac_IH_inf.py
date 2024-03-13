@@ -86,14 +86,14 @@ def main():
     # list_t_steps_no_drug = [8, 5]
     # list_n_steps = [18, 18]
     # Figure_duration_A_h_MMd_IH(list_n_steps, list_t_steps_drug,
-                                                            # list_t_steps_no_drug)
-    # Optimise IH administration duration, holliday duration and strength for
-    # MMd GF IH -> WMMd IH -> holiday
-    minimise_MM_GF_W_h()
-
-    # Optimise IH administration duration, holliday duration and strength for
-    # WMMd IH -> MMd GF IH ->  holiday
-    minimise_MM_W_GF_h()
+    #                                                         # list_t_steps_no_drug)
+    # # Optimise IH administration duration, holliday duration and strength for
+    # # MMd GF IH -> WMMd IH -> holiday
+    # minimise_MM_GF_W_h()
+    #
+    # # Optimise IH administration duration, holliday duration and strength for
+    # # WMMd IH -> MMd GF IH ->  holiday
+    # minimise_MM_W_GF_h()
 
     # Optimise IH administration duration and holliday duration for MMd GF IH
     # -> IH combination -> WMMd IH -> holiday
@@ -1401,7 +1401,7 @@ def minimal_tumour_nr_t_3_situations(t_steps_IH_strength, function_order, xOC,
     t_steps_GF_IH, t_steps_WMMd_IH, t_steps_no_drug, GF_IH,\
                                             WMMd_inhibitor = t_steps_IH_strength
     matrix_GF_IH[2, 0] = 2.2 - GF_IH
-    n_rounds = 6
+    n_rounds = 8
     time_round = t_steps_GF_IH + t_steps_no_drug + t_steps_WMMd_IH
 
     # Create a dataframe of the fractions
@@ -1473,7 +1473,7 @@ def minimal_tumour_nr_t_4_situations(t_steps, function_order, xOC, xOB, xMMd,
 
     """
     t_steps_GF_IH, t_steps_WMMd_IH, t_steps_comb, t_steps_no_drug = t_steps
-    n_rounds = 3
+    n_rounds = 10
     time_round = t_steps_GF_IH + t_steps_no_drug + t_steps_WMMd_IH + t_steps_comb
 
     # Create a dataframe of the fractions
@@ -3322,7 +3322,7 @@ def minimise_MM_W_comb_GF_h():
 
     # Payoff matrix when no drugs are present
     matrix_no_GF_IH = np.array([
-        [0, 1.6, 2.2, 1.9],
+        [0 , 1.6, 2.2, 1.9],
         [0.95, 0, -0.5, -0.5],
         [2.2, 0, 0.2, 0.0],
         [1.9, 0, -0.8, 0.2]])
@@ -3331,21 +3331,21 @@ def minimise_MM_W_comb_GF_h():
     matrix_GF_IH = np.array([
         [0, 1.6, 2.2, 1.9],
         [0.95, 0, -0.5, -0.5],
-        [0.75, 0, 0.2, 0.0],
+        [1.0, 0, 0.2, 0.0],
         [1.9, 0, -0.8, 0.2]])
 
     # Payoff matrix when both inhibitor drugs are present
     matrix_GF_IH_comb = np.array([
         [0, 1.6, 2.2, 1.9],
         [0.95, 0, -0.5, -0.5],
-        [1.1, 0, 0.2, 0.0],
+        [1.5, 0, 0.2, 0.0],
         [1.9, 0, -1.1, 0.2]])
 
     # WMMd inhibitor effect when both inhibitor drugs are present
-    WMMd_inhibitor_comb = 0.55
+    WMMd_inhibitor_comb = 0.4
 
     # WMMd inhibitor effect when only WMMd IH is present
-    WMMd_inhibitor = 1.2
+    WMMd_inhibitor = 0.6
 
     # Optimize the administration and holliday durations
     # t_step_guess = [GF IH t, W IH t, comb t, h t]
@@ -3401,21 +3401,21 @@ def minimise_MM_GF_comb_W_h():
     matrix_GF_IH = np.array([
         [0, 1.6, 2.2, 1.9],
         [0.95, 0, -0.5, -0.5],
-        [0.75, 0, 0.2, 0.0],
+        [1.0, 0, 0.2, 0.0],
         [1.9, 0, -0.8, 0.2]])
 
     # Payoff matrix when both inhibitor drugs are present
     matrix_GF_IH_comb = np.array([
         [0, 1.6, 2.2, 1.9],
         [0.95, 0, -0.5, -0.5],
-        [1.1, 0, 0.2, 0.0],
+        [1.5, 0, 0.2, 0.0],
         [1.9, 0, -1.1, 0.2]])
 
     # WMMd inhibitor effect when both inhibitor drugs are present
-    WMMd_inhibitor_comb = 0.55
+    WMMd_inhibitor_comb = 0.4
 
     # WMMd inhibitor effect when only WMMd IH is present
-    WMMd_inhibitor = 1.2
+    WMMd_inhibitor = 0.6
 
     # Optimize the administration and holliday durations
     t_step_guess = [3,3,3,3]
