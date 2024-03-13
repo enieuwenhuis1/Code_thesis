@@ -128,7 +128,7 @@ MM_model_fractions.py contains the code with the mathematical formulas simulatin
 the fraction dynamics of the four cell types MMd, MMr, OCs and OBs in the MM
 microenvironment. It contains the code to make the figures showing the effect of
 the WMMd IH, the MMd GF IH and a combination at different administration periods
-and strengths on the cell type fractions. In addition, it contains code to optimise
+and strengths on the cell type fractions. In addition, it contains code to determine
 the drug administration amounts and periods causing the lowest total MM fraction.
 Lastly, it also contains code to make tables showing the eigenvalues, best
 administration duration, best holiday duration and lowest MM fraction for different
@@ -145,7 +145,7 @@ the number dynamics of the four cell types MMd, MMr, OCs and OBs in the MM
 microenvironment. It contains the code to make the figures showing the effect of
 the WMMd IH, the MMd GF IH and a combination of different administration periods
 and strengths on the cell type numbers. In addition, it also contains code to
-optimise the drug administration amounts and periods causing the lowest total MM
+determine the drug administration amounts and periods causing the lowest total MM
 number. The IHs only affect the MMd.
 
 TEST THE CODE
@@ -160,7 +160,7 @@ Hence the shows the fraction dynamics of the four cell types MMd, MMr, OCs and O
 in the MM microenvironment by a changing N. It contains code to make the figures
 showing the effect of the WMMd IH, the MMd GF IH and a combination at different
 administration periods and strengths on the cell type fractions. In addition, it
-contains code to optimise the drug administration amounts and periods causing the
+contains code to determine the drug administration amounts and periods causing the
 lowest total MM fraction. The IHs only affect the MMd.
 
 TEST THE CODE
@@ -174,8 +174,10 @@ the number dynamics of the four cell types MMd, MMr, OCs and OBs in the MM
 microenvironment. It contains the code to make the figures showing the effect of
 the WMMd IH, the MMd GF IH and a combination of different administration periods
 and strengths on the cell type numbers. In addition, it also contains code to
-optimise the drug administration amounts and periods causing the lowest total MM
-number. The IHs not only affect the MMd but also the OC and OB.
+determine the drug administration amounts and periods causing the lowest total MM
+number. Furthermore contains an optimisation strategy to find the best holiday
+duration, administration duration and IH strength simultaneously. The IHs not only
+affect the MMd but also the OC and OB. 
 
 TEST THE CODE
 To test some of the functions in the model, doc tests are added and automatically
@@ -188,7 +190,7 @@ the fraction dynamics of the four cell types MMd, MMr, OCs and OBs in the MM
 microenvironment. It contains the code to make the figures showing the effect of
 the WMMd IH, the MMd GF IH and a combination of different administration periods
 and strengths on the cell type numbers. In addition, it also contains code to
-optimise the drug administration amounts and periods causing the lowest total MM
+determine the drug administration amounts and periods causing the lowest total MM
 fraction. The IHs not only affect the MMd but also the OC and OB.
 
 TEST THE CODE
@@ -202,7 +204,7 @@ fractions. Hence the shows the fraction dynamics of the four cell types MMd, MMr
 OCs and OBs in the MM microenvironment by a changing N. It contains code to make
 the figures showing the effect of the WMMd IH, the MMd GF IH and a combination at
 different administration periods and strengths on the cell type fractions. In
-addition, it contains code to optimise the drug administration amounts and periods
+addition, it contains code to determine the drug administration amounts and periods
 causing the lowest total MM fraction. The IHs not only affect the MMd but also the
 OC and OB.
 

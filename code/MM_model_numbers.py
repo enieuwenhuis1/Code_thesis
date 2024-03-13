@@ -601,7 +601,7 @@ def minimal_tumour_numb_t_steps(t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd,
 
 def x_y_z_axis_values_3d_plot(dataframe, name):
     """ Function that determines the x, y and z axis values from the given
-    dataframe. It also prints the administration and holliday duration leading
+    dataframe. It also prints the administration and holiday duration leading
     to the lowest total MM number in the equilibrium
 
     Parameters:

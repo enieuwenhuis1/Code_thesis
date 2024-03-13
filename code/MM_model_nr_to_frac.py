@@ -633,7 +633,7 @@ def continuous_add_IH_df(end_generation, nOC, nOB, nMMd, nMMr, growth_rates,
 
 def x_y_z_axis_values_3d_plot(dataframe, name):
     """ Function that determines the x, y and z axis values from the given
-    dataframe. It also prints the administration and holliday duration leading
+    dataframe. It also prints the administration and holiday duration leading
     to the lowest total MM fraction in the equilibrium
 
     Parameters:
