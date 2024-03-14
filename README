@@ -17,8 +17,8 @@ administration durations and holiday durations.
 
 To better understand MM microenvironment modelling, the figures from Sartakhti et
 al. (2018) (nonlinear) and Sartakhti et al. (2016) (linear) were first attempted
-to be reproduced. Both papers did not disclose their code, hence comparison of the
-interpretation was not possible.
+to be reproduced. Both papers did not disclose their code, hence comparison of
+the interpretation was not possible.
 
 PYTHON AND LIBRARY VERSION
 The models were written in Python code (version 3.11.4) using Atom (version 1.60.0).
@@ -99,7 +99,7 @@ MM_model_frac_IH_inf.py:
       - install: pip install scipy==1.11.4
 
 
-THE MODEL WITH NONLINEAR BENEFITS: model_S_nonlinear.py
+MODEL WITH NONLINEAR BENEFITS: model_S_nonlinear.py
 Model_S_nonlinear.py contains the code of all the mathematical formulas as well as
 the code to reproduce the figures from the paper: Game Theory of tumour–Stroma
 Interactions in Multiple Myeloma: Effect of Nonlinear Benefits by Sartakhti et al.
@@ -111,7 +111,7 @@ To test some of the functions in the model, doc tests are added and automaticall
 run when the model_S_nonlinear.py code is run.
 
 
-THE MODEL WITH LINEAR BENEFITS: model_S_linear.py
+MODEL WITH LINEAR BENEFITS: model_S_linear.py
 model_S_linear.py contains code of the mathematical formulas and the code to
 reproduce some of the figures in the paper: Evolutionary dynamics of tumour-Stroma
 interactions in multiple myeloma by Sartakhti et al. (2016). The model is made based
@@ -123,7 +123,7 @@ To test some of the functions in the model, doc tests are added and automaticall
 run when the model_S_linear.py code is run.
 
 
-THE OWN MADE MODEL WITH FRACTIONS: MM_model_fractions.py
+MODEL WITH FRACTIONS: MM_model_fractions.py
 MM_model_fractions.py contains the code with the mathematical formulas simulating
 the fraction dynamics of the four cell types MMd, MMr, OCs and OBs in the MM
 microenvironment. It contains the code to make the figures showing the effect of
@@ -139,7 +139,7 @@ To test some of the functions in the model, doc tests are added and automaticall
 run when the MM_model_fractions.py code is run.
 
 
-THE OWN MADE MODEL WITH NUMBERS: MM_model_numbers.py
+MODEL WITH NUMBERS: MM_model_numbers.py
 MM_model_numbers.py contains the code with the mathematical formulas simulating
 the number dynamics of the four cell types MMd, MMr, OCs and OBs in the MM
 microenvironment. It contains the code to make the figures showing the effect of
@@ -168,7 +168,7 @@ To test some of the functions in the model, doc tests are added and automaticall
 run when the MM_model_nr_to_frac.py code is run.
 
 
-OWN NUMBER MODEL WITH EXTRA IH INFLUENCES: MM_model_nr_IH_inf.py
+NUMBER MODEL WITH EXTRA IH INFLUENCES: MM_model_nr_IH_inf.py
 MM_model_nr_IH_inf.py contains the code with the mathematical formulas simulating
 the number dynamics of the four cell types MMd, MMr, OCs and OBs in the MM
 microenvironment. It contains the code to make the figures showing the effect of
@@ -177,14 +177,14 @@ and strengths on the cell type numbers. In addition, it also contains code to
 determine the drug administration amounts and periods causing the lowest total MM
 number. Furthermore contains an optimisation strategy to find the best holiday
 duration, administration duration and IH strength simultaneously. The IHs not only
-affect the MMd but also the OC and OB. 
+affect the MMd but also the OC and OB.
 
 TEST THE CODE
 To test some of the functions in the model, doc tests are added and automatically
 run when the MM_model_nr_IH_inf.py code is run.
 
 
-OWN FRACTION MODEL WITH EXTRA IH INFLUENCES: MM_model_frac_IH_inf.py
+FRACTION MODEL WITH EXTRA IH INFLUENCES: MM_model_frac_IH_inf.py
 MM_model_frac_IH_inf.py contains the code with the mathematical formulas simulating
 the fraction dynamics of the four cell types MMd, MMr, OCs and OBs in the MM
 microenvironment. It contains the code to make the figures showing the effect of
@@ -205,8 +205,9 @@ OCs and OBs in the MM microenvironment by a changing N. It contains code to make
 the figures showing the effect of the WMMd IH, the MMd GF IH and a combination at
 different administration periods and strengths on the cell type fractions. In
 addition, it contains code to determine the drug administration amounts and periods
-causing the lowest total MM fraction. The IHs not only affect the MMd but also the
-OC and OB.
+causing the lowest total MM fraction. Furthermore contains an optimisation strategy
+to find the best holiday duration, administration duration and IH strength
+simultaneously. The IHs not only affect the MMd but also the OC and OB.
 
 TEST THE CODE
 To test some of the functions in the model, doc tests are added and automatically
@@ -215,52 +216,49 @@ run when the MMMM_model_nr_to_frac_IH_inf.py code is run.
 THE DATA
 The folder data contains all the generated data that is used to make the figures.
 and tables. This folder contains:
-* reproduced_data_Sartakhti_nonlinear: contains all the data obtained with the model
-                                    based on the paper of Sartakhti et al., 2018.
+* reproduced_data_Sartakhti_nonlinear: contains all the data obtained with the
+                          model based on the paper of Sartakhti et al., 2018.
 * reproduced_data_Sartakhti_linear: contains all the data obtained with the model
-                                    based on the paper of Sartakhti et al., 2016.
-* data_own_model_fractions: contains all the data obtained from the own model
-                          simulating cell type fractions.
-* data_own_model_numbers: contains all the data obtained from the own model
-                          simulating cell type numbers.
-* data_own_model_nr_to_frac: contains all the data obtained from the own model
+                          based on the paper of Sartakhti et al., 2016.
+* data_model_fractions: contains all the data obtained from the model simulating
+                          cell type fractions.
+* data_model_numbers: contains all the data obtained from the model simulating
+                          cell type numbers.
+* data_model_nr_to_frac: contains all the data obtained from the model simulating
+                          cell type fractions by converting the numbers to
+                          fractions.
+* data_model_nr_IH_inf.py: contains all the data obtained from the model simulating
+                          cell type numbers whereby extra IH influences were added.
+* data_model_frac_IH_inf.py: contains all the data obtained from the model
+                          simulating cell type fractions whereby extra IH
+                          influences were added.
+* data_model_nr_to_frac_IH_inf: contains all the data obtained from the model
                           simulating cell type fractions by converting the numbers
-                          to fractions.
-* data_own_model_nr_IH_inf.py: contains all the data obtained from the own model
-                          simulating cell type numbers whereby extra IH influences
-                          were added.
-* data_own_model_frac_IH_inf.py: contains all the data obtained from the own model
-                          simulating cell type fractions whereby extra IH influences
-                          were added.
-* data_own_model_nr_to_frac_IH_inf: contains all the data obtained from the own
-                          model simulating cell type fractions by converting the
-                          numbers to fractions whereby also extra IH influences
-                          were added.
+                          to fractions whereby also extra IH influences were added.
 
-THE FIGURES
+THE VISUALISATION
 In the folder visualisation, all made figures are shown. This folder contains:
 * reproduced_results_Sartakhti_nonlinear: contains all the reproduced figures of
-                                        the paper of Sartakhti et al., 2018.
+                            the paper of Sartakhti et al., 2018.
 * reproduced_results_Sartakhti_linear: contains all the reproduced figures of the
-                                      paper of Sartakhti et al., 2016.
-* results_own_model_fractions: contains all the figures obtained from the own model
-                              simulating cell type fractions.
-* results_own_model_numbers: contains all the figures obtained from the own model
-                              simulating cell type numbers.
-* results_own_model_nr_to_frac: contains all the data obtained from the own model
-                              simulating cell type fractions by converting the
-                              numbers to fractions.
-* results_own_model_nr_IH_inf.py: contains all the figures obtained from the own
-                              model simulating cell type numbers whereby extra IH
-                              influences were added.
-* results_own_model_frac_IH_inf.py: contains all the figures obtained from the own
-                              model simulating cell type fractions whereby extra IH
-                              influences were added.
-* results_own_model_nr_to_frac_IH_inf: contains all the data obtained from the own
-                              model simulating cell type fractions by converting
-                              the numbers to fractions whereby also extra IH
-                              influences were added.
-
+                            paper of Sartakhti et al., 2016.
+* results_model_fractions: contains all the figures obtained from the model
+                            simulating cell type fractions.
+* results_model_numbers: contains all the figures obtained from the model
+                            simulating cell type numbers.
+* results_model_nr_to_frac: contains all the data obtained from the model
+                            simulating cell type fractions by converting the
+                            numbers to fractions.
+* results_model_nr_IH_inf.py: contains all the figures obtained from the model
+                            simulating cell type numbers whereby extra IH
+                            influences were added.
+* results_model_frac_IH_inf.py: contains all the figures obtained from the model
+                            simulating cell type fractions whereby extra IH
+                            influences were added.
+* results_model_nr_to_frac_IH_inf: contains all the data obtained from the model
+                            simulating cell type fractions by converting the
+                            numbers to fractions whereby also extra IH influences
+                            were added.
 
 HOW TO RUN THE CODES
 The nonlinear model and its visualisation, model_S_nonlinear.py:

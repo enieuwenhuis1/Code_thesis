@@ -1109,7 +1109,7 @@ def Figure_best_WMMd_IH():
 
     # Save the data
     save_dictionary(dict_frac_tumour_high_c,
-           r'..\data\data_own_model_fractions\dict_cell_frac_WMMd_IH_high_c.csv')
+           r'..\data\data_model_fractions\dict_cell_frac_WMMd_IH_high_c.csv')
 
     # Make lists of the keys and the values
     keys_high_c = list(dict_frac_tumour_high_c.keys())
@@ -1140,7 +1140,7 @@ def Figure_best_WMMd_IH():
 
     # Save the data
     save_dictionary(dict_frac_tumour_low_c,
-            r'..\data\data_own_model_fractions\dict_cell_frac_WMMd_IH_low_c.csv')
+            r'..\data\data_model_fractions\dict_cell_frac_WMMd_IH_low_c.csv')
 
     # Make lists of the keys and the values
     keys_low_c = list(dict_frac_tumour_low_c.keys())
@@ -1169,7 +1169,7 @@ def Figure_best_WMMd_IH():
     plt.tight_layout()
     plt.grid(True)
     save_Figure(plt, 'line_plot_cell_frac_change_WMMd_IH_high_low_c',
-                                 r'..\visualisation\results_own_model_fractions')
+                                 r'..\visualisation\results_model_fractions')
     plt.show()
 
 
@@ -1224,7 +1224,7 @@ def Figure_best_b_OC_MMd():
 
     # Save the data
     save_dictionary(dict_frac_tumour_GF,
-                 r'..\data\data_own_model_fractions\dict_cell_frac_b_OC_MMd.csv')
+                 r'..\data\data_model_fractions\dict_cell_frac_b_OC_MMd.csv')
 
     # Make a list of the keys and one of the values
     b_OC_MMd_values = list(dict_frac_tumour_GF.keys())
@@ -1237,7 +1237,7 @@ def Figure_best_b_OC_MMd():
     plt.title(r'MM fraction for different $b_{OC, MMd}$ values')
     plt.grid(True)
     save_Figure(plt, 'line_plot_cell_frac_change_b_OC_MMd',
-                                r'..\visualisation\results_own_model_fractions')
+                                r'..\visualisation\results_model_fractions')
     plt.show()
 
 """ Figure to determine the difference between traditional and adaptive therapy
@@ -1314,17 +1314,17 @@ def Figure_continuous_MTD_vs_AT_a_h(n_switches, t_steps_drug):
 
     # Save the data
     save_dataframe(df_total_switch_GF, 'df_cell_frac_switch_GF_IH_a_h.csv',
-                                            r'..\data\data_own_model_fractions')
+                                            r'..\data\data_model_fractions')
     save_dataframe(df_total_switch_WMMd, 'df_cell_frac_switch_WMMd_IH_a_h.csv',
-                                            r'..\data\data_own_model_fractions')
+                                            r'..\data\data_model_fractions')
     save_dataframe(df_total_switch_comb, 'df_cell_frac_switch_comb_IH_a_h.csv',
-                                            r'..\data\data_own_model_fractions')
+                                            r'..\data\data_model_fractions')
     save_dataframe(df_total_GF, 'df_cell_frac_continuous_GF_IH_a_h.csv',
-                                            r'..\data\data_own_model_fractions')
+                                            r'..\data\data_model_fractions')
     save_dataframe(df_total_WMMd, 'df_cell_frac_continuous_WMMd_IH_a_h.csv',
-                                            r'..\data\data_own_model_fractions')
+                                            r'..\data\data_model_fractions')
     save_dataframe(df_total_comb, 'df_cell_frac_continuous_comb_IH_a_h.csv',
-                                            r'..\data\data_own_model_fractions')
+                                            r'..\data\data_model_fractions')
 
     # Create a Figure
     fig, axs = plt.subplots(2, 3, figsize=(20, 9))
@@ -1378,7 +1378,7 @@ def Figure_continuous_MTD_vs_AT_a_h(n_switches, t_steps_drug):
     axs[1, 2].set_title(r"Adaptive therapy MMd GF IH and $W_{MMd}$ IH")
     axs[1, 2].grid(True)
     save_Figure(plt, 'line_plot_cell_frac_AT_MTD_a_h',
-                                 r'..\visualisation\results_own_model_fractions')
+                                 r'..\visualisation\results_model_fractions')
 
     # Create a single legend outside of all plots
     legend_labels = ['Fraction OC', 'Fraction OB', 'Fraction MMd', 'Fraction MMr']
@@ -1461,17 +1461,17 @@ def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
 
     # Save the data
     save_dataframe(df_total_switch_GF, 'df_cell_frac_switch_GF_IH_short_a_h.csv',
-                                            r'..\data\data_own_model_fractions')
+                                            r'..\data\data_model_fractions')
     save_dataframe(df_total_switch_WMMd, 'df_cell_frac_switch_WMMd_IH_short_a_h.csv',
-                                            r'..\data\data_own_model_fractions')
+                                            r'..\data\data_model_fractions')
     save_dataframe(df_total_switch_comb, 'df_cell_frac_switch_comb_IH_short_a_h.csv',
-                                            r'..\data\data_own_model_fractions')
+                                            r'..\data\data_model_fractions')
     save_dataframe(df_total_GF, 'df_cell_frac_continuous_GF_IH_short_a_h.csv',
-                                            r'..\data\data_own_model_fractions')
+                                            r'..\data\data_model_fractions')
     save_dataframe(df_total_WMMd, 'df_cell_frac_continuous_WMMd_IH_short_a_h.csv',
-                                            r'..\data\data_own_model_fractions')
+                                            r'..\data\data_model_fractions')
     save_dataframe(df_total_comb, 'df_cell_frac_continuous_comb_IH_short_a_h.csv',
-                                            r'..\data\data_own_model_fractions')
+                                            r'..\data\data_model_fractions')
 
     # Create a Figure
     fig, axs = plt.subplots(2, 3, figsize=(20, 9))
@@ -1525,7 +1525,7 @@ def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
     axs[1, 2].set_title(r"Adaptive therapy MMd GF IH and $W_{MMd}$ IH")
     axs[1, 2].grid(True)
     save_Figure(plt, 'line_plot_cell_frac_AT_MTD_short_a_h',
-                                 r'..\visualisation\results_own_model_fractions')
+                                 r'..\visualisation\results_model_fractions')
 
     # Create a single legend outside of all plots
     legend_labels = ['Fraction OC', 'Fraction OB', 'Fraction MMd', 'Fraction MMr']
@@ -1608,17 +1608,17 @@ def Figure_continuous_MTD_vs_AT_weak_a_h(n_switches, t_steps_drug):
 
     # Save the data
     save_dataframe(df_total_switch_GF, 'df_cell_frac_switch_GF_IH_weak_a_h.csv',
-                                            r'..\data\data_own_model_fractions')
+                                            r'..\data\data_model_fractions')
     save_dataframe(df_total_switch_WMMd, 'df_cell_frac_switch_WMMd_IH_weak_a_h.csv',
-                                            r'..\data\data_own_model_fractions')
+                                            r'..\data\data_model_fractions')
     save_dataframe(df_total_switch_comb, 'df_cell_frac_switch_comb_IH_weak_a_h.csv',
-                                            r'..\data\data_own_model_fractions')
+                                            r'..\data\data_model_fractions')
     save_dataframe(df_total_GF, 'df_cell_frac_continuous_GF_IH_weak_a_h.csv',
-                                            r'..\data\data_own_model_fractions')
+                                            r'..\data\data_model_fractions')
     save_dataframe(df_total_WMMd, 'df_cell_frac_continuous_WMMd_IH_weak_a_h.csv',
-                                            r'..\data\data_own_model_fractions')
+                                            r'..\data\data_model_fractions')
     save_dataframe(df_total_comb, 'df_cell_frac_continuous_comb_IH_weak_a_h.csv',
-                                            r'..\data\data_own_model_fractions')
+                                            r'..\data\data_model_fractions')
 
     # Create a Figure
     fig, axs = plt.subplots(2, 3, figsize=(20, 9))
@@ -1672,7 +1672,7 @@ def Figure_continuous_MTD_vs_AT_weak_a_h(n_switches, t_steps_drug):
     axs[1, 2].set_title(r"Adaptive therapy MMd GF IH and $W_{MMd}$ IH")
     axs[1, 2].grid(True)
     save_Figure(plt, 'line_plot_cell_frac_AT_MTD_weak_a_h',
-                                 r'..\visualisation\results_own_model_fractions')
+                                 r'..\visualisation\results_model_fractions')
 
     # Create a single legend outside of all plots
     legend_labels = ['Fraction OC', 'Fraction OB', 'Fraction MMd', 'Fraction MMr']
@@ -1747,7 +1747,7 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
 
     # Save the data
     save_dataframe(df_holiday_GF_IH, 'df_cell_frac_best_MMd_GH_IH_holiday.csv',
-                                             r'..\data\data_own_model_fractions')
+                                             r'..\data\data_model_fractions')
 
     # Determine the axis values
     X_GF_IH, Y_GF_IH, Z_GF_IH = x_y_z_axis_values_3d_plot(df_holiday_GF_IH,
@@ -1774,7 +1774,7 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
 
     # Save the data
     save_dataframe(df_holiday_W_IH, 'df_cell_frac_best_WMMd_IH_holiday.csv',
-                                             r'..\data\data_own_model_fractions')
+                                             r'..\data\data_model_fractions')
 
     # Determine the axis values
     X_W_IH, Y_W_IH, Z_W_IH = x_y_z_axis_values_3d_plot(df_holiday_W_IH, "W IH")
@@ -1800,7 +1800,7 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
 
     # Save the data
     save_dataframe(df_holiday_comb, 'df_cell_frac_best_MMd_IH_holiday.csv',
-                                             r'..\data\data_own_model_fractions')
+                                             r'..\data\data_model_fractions')
 
     # Determine the axis values
     X_comb, Y_comb, Z_comb = x_y_z_axis_values_3d_plot(df_holiday_comb,
@@ -1867,7 +1867,7 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
 
     # Add a color bar
     save_Figure(fig, '3d_plot_MM_frac_best_IH_h_a_periods',
-                                r'..\visualisation\results_own_model_fractions')
+                                r'..\visualisation\results_model_fractions')
     plt.show()
 
 """ 3D plot showing the best IH strengths """
@@ -1936,7 +1936,7 @@ def Figure_3D_MM_frac_MMd_IH_strength():
 
     # Save the data
     save_dataframe(df_holiday, 'df_cell_frac_best_MMd_IH_strength.csv',
-                                             r'..\data\data_own_model_fractions')
+                                             r'..\data\data_model_fractions')
 
 
     # Find the drug administration and holiday period causing the lowest MM fraction
@@ -1988,7 +1988,7 @@ def Figure_3D_MM_frac_MMd_IH_strength():
     color_bar.set_label('MM fraction')
 
     save_Figure(fig, '3d_plot_MM_frac_best_IH_strength',
-                                r'..\visualisation\results_own_model_fractions')
+                                r'..\visualisation\results_model_fractions')
     plt.show()
 
 """ Figure with different GF IH administration and holiday periods"""
@@ -2067,13 +2067,13 @@ def Figure_3_senarios_MMd_GF_IH(n_switches, t_steps_drug):
 
     # Save the data
     save_dataframe(df_total_switch_1, 'df_cell_frac_G6_MMd_GF_inhibit.csv',
-                                            r'..\data\data_own_model_fractions')
+                                            r'..\data\data_model_fractions')
     save_dataframe(df_total_switch_2, 'df_cell_frac_G8_MMd_GF_inhibit.csv',
-                                            r'..\data\data_own_model_fractions')
+                                            r'..\data\data_model_fractions')
     save_dataframe(df_total_switch_3, 'df_cell_frac_G12_MMd_GF_inhibit.csv',
-                                            r'..\data\data_own_model_fractions')
+                                            r'..\data\data_model_fractions')
     save_dataframe(df_total, 'df_cell_frac_MMd_GF_inhibit_continuously.csv',
-                                            r'..\data\data_own_model_fractions')
+                                            r'..\data\data_model_fractions')
 
     # Create a Figure
     fig, axs = plt.subplots(2, 2, figsize=(16, 10))
@@ -2120,7 +2120,7 @@ def Figure_3_senarios_MMd_GF_IH(n_switches, t_steps_drug):
     axs[1, 1].legend(loc = 'upper right')
     axs[1, 1].grid(True)
     save_Figure(plt, 'line_plot_cell_frac_MMd_GF_inhibit',
-                                 r'..\visualisation\results_own_model_fractions')
+                                 r'..\visualisation\results_model_fractions')
     plt.show()
 
 """ Figure with different WMMd IH administration and holiday periods"""
@@ -2196,13 +2196,13 @@ def Figure_3_senarios_WMMd_IH(n_switches, t_steps_drug):
 
     # Save the data
     save_dataframe(df_total_switch_1, 'df_cell_frac_G8_WMMd_inhibit.csv',
-                                        r'..\data\data_own_model_fractions')
+                                        r'..\data\data_model_fractions')
     save_dataframe(df_total_switch_2, 'df_cell_frac_G10_WMMd_inhibit.csv',
-                                        r'..\data\data_own_model_fractions')
+                                        r'..\data\data_model_fractions')
     save_dataframe(df_total_switch_3, 'df_cell_frac_G12_WMMd_inhibit.csv',
-                                        r'..\data\data_own_model_fractions')
+                                        r'..\data\data_model_fractions')
     save_dataframe(df_total, 'df_cell_frac_WMMd_inhibit_continuously.csv',
-                                         r'..\data\data_own_model_fractions')
+                                         r'..\data\data_model_fractions')
 
     # Create a Figure
     fig, axs = plt.subplots(2, 2, figsize=(16, 10))
@@ -2246,7 +2246,7 @@ def Figure_3_senarios_WMMd_IH(n_switches, t_steps_drug):
     axs[1, 1].legend(loc = 'upper right')
     axs[1, 1].grid(True)
     save_Figure(plt, 'line_plot_cell_frac_WMMd_inhibit',
-                                 r'..\visualisation\results_own_model_fractions')
+                                 r'..\visualisation\results_model_fractions')
     plt.show()
 
 """ Figure with different IH administration and holiday periods"""
@@ -2327,13 +2327,13 @@ def Figure_3_senarios_MMd_GF_WMMd_IH(n_switches, t_steps_drug):
 
     # Save the data
     save_dataframe(df_total_switch_1, 'df_cell_frac_G10_MMd_GF_WMMd_inhibit.csv',
-                                             r'..\data\data_own_model_fractions')
+                                             r'..\data\data_model_fractions')
     save_dataframe(df_total_switch_2, 'df_cell_frac_G12_MMd_GF_WMMd_inhibit.csv',
-                                             r'..\data\data_own_model_fractions')
+                                             r'..\data\data_model_fractions')
     save_dataframe(df_total_switch_3, 'df_cell_frac_G14_MMd_GF_WMMd_inhibit.csv',
-                                             r'..\data\data_own_model_fractions')
+                                             r'..\data\data_model_fractions')
     save_dataframe(df_total, 'df_cell_frac_MMd_GF_WMMd_inhibit_continuously.csv',
-                                             r'..\data\data_own_model_fractions')
+                                             r'..\data\data_model_fractions')
 
     # Create a Figure
     fig, axs = plt.subplots(2, 2, figsize=(16, 10))
@@ -2384,7 +2384,7 @@ def Figure_3_senarios_MMd_GF_WMMd_IH(n_switches, t_steps_drug):
     axs[1, 1].legend(loc = 'upper right')
     axs[1, 1].grid(True)
     save_Figure(plt, 'line_plot_cell_frac_MMd_GF_WMMd_inhibit',
-                                r'..\visualisation\results_own_model_fractions')
+                                r'..\visualisation\results_model_fractions')
     plt.show()
 
 """ Figure showing the fraction and fitness dynamics"""
@@ -2501,13 +2501,13 @@ def Figure_frac_fitness_dynamics():
 
     # Save the data
     save_dataframe(df_WMMd_inhibition, 'df_cell_frac_cWMMd_inhibit.csv',
-                                            r'..\data\data_own_model_fractions')
+                                            r'..\data\data_model_fractions')
     save_dataframe(df_MMd_GF_inhibition, 'df_cell_frac_MMd_GF_inhibit.csv',
-                                             r'..\data\data_own_model_fractions')
+                                             r'..\data\data_model_fractions')
     save_dataframe(df_fitness_WMMd_inhibition, 'df_fitness_WMMd_inhibit.csv',
-                                             r'..\data\data_own_model_fractions')
+                                             r'..\data\data_model_fractions')
     save_dataframe(df_fitness_MMd_GF_inhibition, 'df_fitness_MMd_GF_inhibit.csv',
-                                            r'..\data\data_own_model_fractions')
+                                            r'..\data\data_model_fractions')
 
     # Create a Figure
     fig, axs = plt.subplots(2, 2, figsize=(16, 8))
@@ -2555,7 +2555,7 @@ def Figure_frac_fitness_dynamics():
     axs[1, 1].grid(True)
     plt.tight_layout()
     save_Figure(plt, 'line_plot_cell_frac_fitness_drugs',
-                                r'..\visualisation\results_own_model_fractions')
+                                r'..\visualisation\results_model_fractions')
     plt.show()
 
 
@@ -2612,9 +2612,9 @@ def Figure_duration_A_h_MMd_IH(n_switches, t_steps_drug, t_steps_no_drug):
 
     # Save the data
     save_dataframe(df_total_switch_1, 'df_cell_frac_short_a_long_h_MMd_IH.csv',
-                                         r'..\data\data_own_model_fractions')
+                                         r'..\data\data_model_fractions')
     save_dataframe(df_total_switch_2, 'df_cell_frac_long_a_short_h_MMd_IH.csv.csv',
-                                         r'..\data\data_own_model_fractions')
+                                         r'..\data\data_model_fractions')
 
     # Create a Figure
     fig, axs = plt.subplots(1, 2, figsize=(16, 6))
@@ -2645,7 +2645,7 @@ def Figure_duration_A_h_MMd_IH(n_switches, t_steps_drug, t_steps_no_drug):
     axs[1].grid(True)
     plt.grid(True)
     save_Figure(plt, 'line_plot_cell_frac_diff_h_and_a_MMd_IH',
-                                 r'..\visualisation\results_own_model_fractions')
+                                 r'..\visualisation\results_model_fractions')
 
     plt.show()
 
@@ -2796,7 +2796,7 @@ def Dataframe_bOCMMd_eigenvalues():
 
     # Save the data
     save_dataframe(df_eigenvalues, 'df_eigenvalues_bOCMMd.csv',
-                                             r'..\data\data_own_model_fractions')
+                                             r'..\data\data_model_fractions')
 
 
 """Tables showing the effect of chaning interaction matrix on the eigenvalues H
@@ -2946,7 +2946,7 @@ def Dataframe_bMMrOC_eigenvalues():
 
     # Save the data
     save_dataframe(df_eigenvalues, 'df_eigenvalues_bMMrOC.csv',
-                                             r'..\data\data_own_model_fractions')
+                                             r'..\data\data_model_fractions')
 
 def Dataframe_bMMdMMd_bMMrMMr_eigenvalues():
     """ Function that makes a table of the eigenvalues of the interaction matrix,
@@ -3094,7 +3094,7 @@ def Dataframe_bMMdMMd_bMMrMMr_eigenvalues():
 
     # Save the data
     save_dataframe(df_eigenvalues, 'df_eigenvalues_bMMdMMd_bMMrMMr.csv',
-                                            r'..\data\data_own_model_fractions')
+                                            r'..\data\data_model_fractions')
 
 if __name__ == "__main__":
     main()

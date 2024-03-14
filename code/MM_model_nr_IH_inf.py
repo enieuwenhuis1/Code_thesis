@@ -77,31 +77,31 @@ def main():
     # list_t_steps_no_drug = [10, 3]
     # list_n_steps = [40, 40]
     # Figure_duration_A_h_MMd_IH(list_n_steps, list_t_steps_drug,
-                                                            # list_t_steps_no_drug)
+    #                                                         # list_t_steps_no_drug)
+    #
+    # Optimise IH administration duration, holiday duration and strength for
+    # MMd GF IH -> WMMd IH -> holiday
+    minimise_MM_GF_W_h()
 
-    # # Optimise IH administration duration, holiday duration and strength for
-    # # MMd GF IH -> WMMd IH -> holiday
-    # minimise_MM_GF_W_h()
-    #
-    # # Optimise IH administration duration, holiday duration and strength for
-    # # WMMd IH -> MMd GF IH ->  holiday
-    # minimise_MM_W_GF_h()
-    #
-    # # Optimise IH administration duration, holiday duration and strength for
-    # # MMd GF IH -> holiday -> WMMd IH -> holiday
-    # minimise_MM_GF_h_W_h()
-    #
-    # # Optimise IH administration duration, holiday duration and strength for
-    # # WMMd IH -> holiday -> MMd GF IH ->  holiday
-    # minimise_MM_W_h_GF_h()
-    #
-    # # Optimise IH administration duration and holiday duration for MMd GF IH
-    # # -> IH combination -> WMMd IH -> holiday
-    # minimise_MM_GF_comb_W_h()
-    #
-    # # Optimise IH administration duration and holiday duration for WMMd IH ->
-    # # IH combination -> MMd GF IH -> holiday
-    # minimise_MM_W_comb_GF_h()
+    # Optimise IH administration duration, holiday duration and strength for
+    # WMMd IH -> MMd GF IH ->  holiday
+    minimise_MM_W_GF_h()
+
+    # Optimise IH administration duration, holiday duration and strength for
+    # MMd GF IH -> holiday -> WMMd IH -> holiday
+    minimise_MM_GF_h_W_h()
+
+    # Optimise IH administration duration, holiday duration and strength for
+    # WMMd IH -> holiday -> MMd GF IH ->  holiday
+    minimise_MM_W_h_GF_h()
+
+    # Optimise IH administration duration and holiday duration for MMd GF IH
+    # -> IH combination -> WMMd IH -> holiday
+    minimise_MM_GF_comb_W_h()
+
+    # Optimise IH administration duration and holiday duration for WMMd IH ->
+    # IH combination -> MMd GF IH -> holiday
+    minimise_MM_W_comb_GF_h()
 
     # Optimise IH administration duration, holiday duration and stregths for
     # MMd GF IH -> IH combination -> WMMd IH -> holiday
@@ -386,6 +386,39 @@ def save_dictionary(dictionary, file_path):
         for key, value in dictionary.items():
             writer.writerow([str(key), str(value)])
 
+def save_optimised_results(results, file_path):
+    """ Function that saves the results of the optimised function as csv file.
+
+    Parameters:
+    -----------
+    results: OptimizeResult
+        The results of the scipy.optimize funtion
+    file_path: String
+        The name of the csv file and the path where the results will be saved.
+    """
+    # Extract the results
+    optimised_para = results.x
+    optimal_value = results.fun
+    number_iterations = results.nit
+    number_evaluations = results.nfev
+
+    # Save the results in dictionary form
+    results_to_saved = [ {"Optimised parameters": optimised_para.tolist(),
+            "Optimal MM nr": optimal_value, 'nr iterations': number_iterations,
+            'nr evaluations': number_evaluations}]
+
+    with open(file_path, 'w', newline='') as csvfile:
+
+        # Create header names
+        header_names = ['Optimised parameters', 'Optimal MM nr', 'nr iterations',
+                                                                'nr evaluations']
+        writer = csv.DictWriter(csvfile, fieldnames = header_names)
+
+        # Loop over the results
+        writer.writeheader()
+        for result in results_to_saved:
+            writer.writerow(result)
+
 def save_Figure(Figure, file_name, folder_path):
     """Save the Figure to a specific folder.
 
@@ -655,7 +688,7 @@ def switch_dataframe_GF_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             x = 2
             time += t_steps_WMMd_IH
 
-        # No drug
+        # No IH
         if x == 2:
 
             # Determine the start numbers
@@ -692,7 +725,7 @@ def switch_dataframe_GF_h_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
                     growth_rates_IH, decay_rates, decay_rates_IH,
                     matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor = 0):
     """ Function that makes a dataframe of the nOC, nOB, nMMd and nMMr values over
-    time. First a MMd GF IH is administerd, then a drug holiday, then a WMMd IH
+    time. First a MMd GF IH is administerd, then a IH holiday, then a WMMd IH
     and then a IH holiday again.
 
     Parameters:
@@ -785,7 +818,7 @@ def switch_dataframe_GF_h_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             x = 1
             time += t_steps_GF_IH
 
-        # No drug
+        # No IH
         if x == 1:
 
             # Determine the start numbers
@@ -814,7 +847,7 @@ def switch_dataframe_GF_h_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             x = 2
             time += t_steps_no_drug
 
-        # WMMd GF
+        # WMMd IH
         if x == 2:
 
             # Determine the start numbers
@@ -843,7 +876,7 @@ def switch_dataframe_GF_h_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             x = 3
             time += t_steps_WMMd_IH
 
-        # No drug
+        # No IH
         if x == 3:
 
             # Determine the start numbers
@@ -879,7 +912,7 @@ def switch_dataframe_W_h_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
                     growth_rates_IH, decay_rates, decay_rates_IH,
                     matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor = 0):
     """ Function that makes a dataframe of the nOC, nOB, nMMd and nMMr values
-    over time. First a WMMd IH is administerd, then a drug holiday, then a MMd GF
+    over time. First a WMMd IH is administerd, then a IH holiday, then a MMd GF
     IH and then a IH holiday again.
 
     Parameters:
@@ -972,7 +1005,7 @@ def switch_dataframe_W_h_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             x = 1
             time += t_steps_WMMd_IH
 
-        # No drug
+        # No IH
         if x == 1:
 
             # Determine the start numbers
@@ -1030,7 +1063,7 @@ def switch_dataframe_W_h_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             x = 3
             time += t_steps_GF_IH
 
-        # No drug
+        # No IH
         if x == 3:
 
             # Determine the start numbers
@@ -1189,7 +1222,7 @@ def switch_dataframe_W_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             x = 2
             time += t_steps_GF_IH
 
-        # No drug
+        # No IH
         if x == 2:
 
             # Determine the start numbers
@@ -1385,7 +1418,7 @@ def switch_dataframe_W_comb_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             x = 3
             time += t_steps_GF_IH
 
-        # No drug
+        # No IH
         if x == 3:
 
             # Determine the start numbers
@@ -1580,7 +1613,7 @@ def switch_dataframe_GF_comb_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             x = 3
             time += t_steps_WMMd_IH
 
-        # No drug
+        # No IH
         if x == 3:
 
             # Determine the start numbers
@@ -2265,17 +2298,17 @@ def Figure_continuous_MTD_vs_AT(n_switches, t_steps_drug):
 
     # Save the data
     save_dataframe(df_total_switch_GF, 'df_cell_nr_IH_inf_switch_GF_IH.csv',
-                                            r'..\data\data_own_model_nr_IH_inf')
+                                            r'..\data\data_model_nr_IH_inf')
     save_dataframe(df_total_switch_WMMd, 'df_cell_nr_IH_inf_switch_WMMd_IH.csv',
-                                            r'..\data\data_own_model_nr_IH_inf')
+                                            r'..\data\data_model_nr_IH_inf')
     save_dataframe(df_total_switch_comb, 'df_cell_nr_IH_inf_switch_comb_IH.csv',
-                                            r'..\data\data_own_model_nr_IH_inf')
+                                            r'..\data\data_model_nr_IH_inf')
     save_dataframe(df_total_GF, 'df_cell_nr_IH_inf_continuous_GF_IH.csv',
-                                             r'..\data\data_own_model_nr_IH_inf')
+                                             r'..\data\data_model_nr_IH_inf')
     save_dataframe(df_total_WMMd, 'df_cell_nr_IH_inf_continuous_WMMd_IH.csv',
-                                             r'..\data\data_own_model_nr_IH_inf')
+                                             r'..\data\data_model_nr_IH_inf')
     save_dataframe(df_total_comb, 'df_cell_nr_IH_inf_continuous_comb_IH.csv',
-                                             r'..\data\data_own_model_nr_IH_inf')
+                                             r'..\data\data_model_nr_IH_inf')
 
     # Create a Figure
     fig, axs = plt.subplots(2, 3, figsize=(20, 9))
@@ -2329,7 +2362,7 @@ def Figure_continuous_MTD_vs_AT(n_switches, t_steps_drug):
     axs[1, 2].set_title(r"Adaptive therapy MMd GF IH and $W_{MMd}$ IH")
     axs[1, 2].grid(True)
     save_Figure(plt, 'line_plot_cell_nr_IH_inf_AT_MTD',
-                                 r'..\visualisation\results_own_model_nr_IH_inf')
+                                 r'..\visualisation\results_model_nr_IH_inf')
 
     # Create a single legend outside of all plots
     legend_labels = ['Number of OC', 'Number of OB', 'Number of MMd',
@@ -2417,17 +2450,17 @@ def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
 
     # Save the data
     save_dataframe(df_total_switch_GF, 'df_cell_nr_IH_inf_switch_GF_IH_short_a_h.csv',
-                                            r'..\data\data_own_model_nr_IH_inf')
+                                            r'..\data\data_model_nr_IH_inf')
     save_dataframe(df_total_switch_WMMd, 'df_cell_nr_IH_inf_switch_WMMd_IH_short_a_h.csv',
-                                            r'..\data\data_own_model_nr_IH_inf')
+                                            r'..\data\data_model_nr_IH_inf')
     save_dataframe(df_total_switch_comb, 'df_cell_nr_IH_inf_switch_comb_IH_short_a_h.csv',
-                                            r'..\data\data_own_model_nr_IH_inf')
+                                            r'..\data\data_model_nr_IH_inf')
     save_dataframe(df_total_GF, 'df_cell_nr_IH_inf_continuous_GF_IH_short_a_h.csv',
-                                            r'..\data\data_own_model_nr_IH_inf')
+                                            r'..\data\data_model_nr_IH_inf')
     save_dataframe(df_total_WMMd, 'df_cell_nr_IH_inf_continuous_WMMd_IH_short_a_h.csv',
-                                            r'..\data\data_own_model_nr_IH_inf')
+                                            r'..\data\data_model_nr_IH_inf')
     save_dataframe(df_total_comb, 'df_cell_nr_IH_inf_continuous_comb_IH_short_a_h.csv',
-                                            r'..\data\data_own_model_nr_IH_inf')
+                                            r'..\data\data_model_nr_IH_inf')
 
     # Create a Figure
     fig, axs = plt.subplots(2, 3, figsize=(20, 9))
@@ -2481,7 +2514,7 @@ def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
     axs[1, 2].set_title(r"Adaptive therapy MMd GF IH and $W_{MMd}$ IH")
     axs[1, 2].grid(True)
     save_Figure(plt, 'line_plot_cell_nr_IH_inf_AT_MTD_short_a_h',
-                                 r'..\visualisation\results_own_model_nr_IH_inf')
+                                 r'..\visualisation\results_model_nr_IH_inf')
 
     # Create a single legend outside of all plots
     legend_labels = ['Number of OC', 'Number of OB', 'Number of MMd',
@@ -2568,17 +2601,17 @@ def Figure_continuous_MTD_vs_AT_weak_a_h(n_switches, t_steps_drug):
 
     # Save the data
     save_dataframe(df_total_switch_GF, 'df_cell_nr_IH_inf_switch_GF_IH_weak_a_h.csv',
-                                            r'..\data\data_own_model_nr_IH_inf')
+                                            r'..\data\data_model_nr_IH_inf')
     save_dataframe(df_total_switch_WMMd, 'df_cell_nr_IH_inf_switch_WMMd_IH_weak_a_h.csv',
-                                            r'..\data\data_own_model_nr_IH_inf')
+                                            r'..\data\data_model_nr_IH_inf')
     save_dataframe(df_total_switch_comb, 'df_cell_nr_IH_inf_switch_comb_IH_weak_a_h.csv',
-                                            r'..\data\data_own_model_nr_IH_inf')
+                                            r'..\data\data_model_nr_IH_inf')
     save_dataframe(df_total_GF, 'df_cell_nr_IH_inf_continuous_GF_IH_weak_a_h.csv',
-                                            r'..\data\data_own_model_nr_IH_inf')
+                                            r'..\data\data_model_nr_IH_inf')
     save_dataframe(df_total_WMMd, 'df_cell_nr_IH_inf_continuous_WMMd_IH_weak_a_h.csv',
-                                            r'..\data\data_own_model_nr_IH_inf')
+                                            r'..\data\data_model_nr_IH_inf')
     save_dataframe(df_total_comb, 'df_cell_nr_IH_inf_continuous_comb_IH_weak_a_h.csv',
-                                            r'..\data\data_own_model_nr_IH_inf')
+                                            r'..\data\data_model_nr_IH_inf')
 
     # Create a Figure
     fig, axs = plt.subplots(2, 3, figsize=(20, 9))
@@ -2632,7 +2665,7 @@ def Figure_continuous_MTD_vs_AT_weak_a_h(n_switches, t_steps_drug):
     axs[1, 2].set_title(r"Adaptive therapy MMd GF IH and $W_{MMd}$ IH")
     axs[1, 2].grid(True)
     save_Figure(plt, 'line_plot_cell_nr_IH_inf_AT_MTD_weak_a_h',
-                                 r'..\visualisation\results_own_model_nr_IH_inf')
+                                 r'..\visualisation\results_model_nr_IH_inf')
 
     # Create a single legend outside of all plots
     legend_labels = ['Number of OC', 'Number of OB', 'Number of MMd',
@@ -2707,7 +2740,7 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
 
     # Save the data
     save_dataframe(df_holiday_GF_IH, 'df_cell_nr_IH_inf_best_MMd_GH_IH_holiday.csv',
-                                             r'..\data\data_own_model_nr_IH_inf')
+                                             r'..\data\data_model_nr_IH_inf')
 
     # Determine the axis values
     X_GF_IH, Y_GF_IH, Z_GF_IH = x_y_z_axis_values_3d_plot(df_holiday_GF_IH,
@@ -2735,7 +2768,7 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
 
     # Save the data
     save_dataframe(df_holiday_W_IH, 'df_cell_nr_IH_inf_best_WMMd_IH_holiday.csv',
-                                             r'..\data\data_own_model_nr_IH_inf')
+                                             r'..\data\data_model_nr_IH_inf')
 
     # Determine the axis values
     X_W_IH, Y_W_IH, Z_W_IH = x_y_z_axis_values_3d_plot(df_holiday_W_IH, 'W IH')
@@ -2762,7 +2795,7 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
 
     # Save the data
     save_dataframe(df_holiday_comb, 'df_cell_nr_IH_inf_best_MMd_IH_holiday.csv',
-                                             r'..\data\data_own_model_nr_IH_inf')
+                                             r'..\data\data_model_nr_IH_inf')
 
     # Determine the axis values
     X_comb, Y_comb, Z_comb = x_y_z_axis_values_3d_plot(df_holiday_comb,
@@ -2829,7 +2862,7 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
 
     # Add a color bar
     save_Figure(fig, '3d_plot_MM_nr_IH_inf_best_IH_h_a_periods',
-                                r'..\visualisation\results_own_model_nr_IH_inf')
+                                r'..\visualisation\results_model_nr_IH_inf')
     plt.show()
 
 
@@ -2900,7 +2933,7 @@ def Figure_3D_MM_numb_MMd_IH_strength():
 
     # Save the data
     save_dataframe(df_holiday, 'df_cell_nr_IH_inf_best_MMd_IH_strength.csv',
-                                             r'..\data\data_own_model_nr_IH_inf')
+                                             r'..\data\data_model_nr_IH_inf')
 
 
     # Find the drug administration and holiday period causing the lowest MM number
@@ -2952,7 +2985,7 @@ def Figure_3D_MM_numb_MMd_IH_strength():
     color_bar.set_label('Number of MM')
 
     save_Figure(fig, '3d_plot_MM_nr_IH_inf_best_IH_strength',
-                                r'..\visualisation\results_own_model_nr_IH_inf')
+                                r'..\visualisation\results_model_nr_IH_inf')
     plt.show()
 
 
@@ -3005,7 +3038,7 @@ def Figure_best_WMMd_IH():
 
     # Save the data
     save_dictionary(dict_numb_tumour,
-            r'..\data\data_own_model_nr_IH_inf\dict_cell_nr_IH_inf_WMMd_IH.csv')
+            r'..\data\data_model_nr_IH_inf\dict_cell_nr_IH_inf_WMMd_IH.csv')
 
     # Make lists of the keys and the values
     WMM_IH = list(dict_numb_tumour.keys())
@@ -3019,7 +3052,7 @@ def Figure_best_WMMd_IH():
     plt.grid(True)
     plt.tight_layout()
     save_Figure(plt, 'line_plot_cell_nr_IH_inf_change_WMMd_IH',
-                                 r'..\visualisation\results_own_model_nr_IH_inf')
+                                 r'..\visualisation\results_model_nr_IH_inf')
     plt.show()
 
 
@@ -3074,7 +3107,7 @@ def Figure_best_b_OC_MMd():
 
     # Save the data
     save_dictionary(dict_numb_tumour_GF,
-             r'..\data\data_own_model_nr_IH_inf\dict_cell_nr_IH_inf_b_OC_MMd.csv')
+             r'..\data\data_model_nr_IH_inf\dict_cell_nr_IH_inf_b_OC_MMd.csv')
 
     # Make a list of the keys and one of the values
     b_OC_MMd_values = list(dict_numb_tumour_GF.keys())
@@ -3087,7 +3120,7 @@ def Figure_best_b_OC_MMd():
     plt.title(r'MM number for different $b_{OC, MMd}$ values')
     plt.grid(True)
     save_Figure(plt, 'line_plot_cell_nr_IH_inf_change_b_OC_MMd',
-                                r'..\visualisation\results_own_model_nr_IH_inf')
+                                r'..\visualisation\results_model_nr_IH_inf')
     plt.show()
 
 
@@ -3145,9 +3178,10 @@ def Figure_duration_A_h_MMd_IH(n_switches, t_steps_drug, t_steps_no_drug):
 
     # Save the data
     save_dataframe(df_total_switch_1, 'df_cell_nr_IH_inf_short_a_long_h_MMd_IH.csv',
-                                             r'..\data\data_own_model_nr_IH_inf')
-    save_dataframe(df_total_switch_2, 'df_cell_nr_IH_inf_long_a_short_h_MMd_IH.csv.csv',
-                                             r'..\data\data_own_model_nr_IH_inf')
+                                             r'..\data\data_model_nr_IH_inf')
+    save_dataframe(df_total_switch_2,
+                            'df_cell_nr_IH_inf_long_a_short_h_MMd_IH.csv.csv',
+                                             r'..\data\data_model_nr_IH_inf')
 
     # Create a Figure
     fig, axs = plt.subplots(1, 2, figsize=(16, 6))
@@ -3176,11 +3210,11 @@ def Figure_duration_A_h_MMd_IH(n_switches, t_steps_drug, t_steps_no_drug):
     axs[1].grid(True)
     plt.grid(True)
     save_Figure(plt, 'line_plot_cell_nr_IH_inf_diff_h_and_a_MMd_IH',
-                                 r'..\visualisation\results_own_model_nr_IH_inf')
+                                 r'..\visualisation\results_model_nr_IH_inf')
 
     plt.show()
 
-"""Optimise IH administration duration, holiday duration and strength for
+"""optimise IH administration duration, holiday duration and strength for
 MMd GF IH -> WMMd IH -> holiday """
 def minimise_MM_GF_W_h():
     """Function that determines the best IH administration durations and holiday
@@ -3211,7 +3245,7 @@ def minimise_MM_GF_W_h():
         [0.3, 0.0, 0.2, 0.0],
         [0.55, 0.0, -0.6, 0.4]])
 
-    # Optimize the administration and holiday durations and the IH stregths
+    # optimise the administration and holiday durations and the IH stregths
     # t_step_IH_strength = [GF IH t, W IH t, h t, GF IH s, W IH s]
     t_step_IH_strength = [3, 3, 3, 0.4, 0.4]
     result = minimize(minimal_tumour_nr_t_3_situations, t_step_IH_strength,
@@ -3230,9 +3264,9 @@ def minimise_MM_GF_W_h():
     --> gives a MM number of {result.fun}""")
 
     # Save the results
-    with open(r'..\data\data_own_model_nr_IH_inf\optimize_GF_W_h.pkl', 'wb')\
-                                                                        as file:
-        pickle.dump(result, file)
+    save_optimised_results(result,
+                        r'..\data\data_model_nr_IH_inf\optimise_GF_W_h.csv')
+
 
 """Optimise IH administration duration, holiday duration and strength for
 WMMd IH -> MMd GF IH -> holiday """
@@ -3264,7 +3298,7 @@ def minimise_MM_W_GF_h():
         [0.2, 0.0, 0.2, 0.0],
         [0.55, 0.0, -0.6, 0.4]])
 
-    # Optimize the administration and holiday durations and the IH stregths
+    # optimise the administration and holiday durations and the IH stregths
     # t_step_IH_strength = [GF IH t, W IH t, h t, GF IH s, W IH s]
     t_step_IH_strength = [3, 3, 3, 0.4, 0.4]
     result = minimize(minimal_tumour_nr_t_3_situations, t_step_IH_strength,
@@ -3283,9 +3317,8 @@ def minimise_MM_W_GF_h():
     --> gives a MM number of {result.fun}""")
 
     # Save the results
-    with open(r'..\data\data_own_model_nr_IH_inf\optimize_W_GF_h.pkl', 'wb') \
-                                                                        as file:
-        pickle.dump(result, file)
+    save_optimised_results(result,
+                        r'..\data\data_model_nr_IH_inf\optimise_W_GF_h.csv')
 
 
 """Optimise IH administration duration, holiday duration and strength for
@@ -3319,7 +3352,7 @@ def minimise_MM_GF_h_W_h():
         [0.3, 0.0, 0.2, 0.0],
         [0.55, 0.0, -0.6, 0.4]])
 
-    # Optimize the administration and holiday durations and the IH stregths
+    # optimise the administration and holiday durations and the IH stregths
     # t_step_IH_strength = [GF IH t, W IH t, h t, GF IH s, W IH s]
     t_step_IH_strength = [3, 3, 3, 0.4, 0.4]
     result = minimize(minimal_tumour_nr_t_3_situations, t_step_IH_strength,
@@ -3338,9 +3371,8 @@ def minimise_MM_GF_h_W_h():
     --> gives a MM number of {result.fun}""")
 
     # Save the results
-    with open(r'..\data\data_own_model_nr_IH_inf\optimize_GF_h_W_h.pkl', 'wb')\
-                                                                        as file:
-        pickle.dump(result, file)
+    save_optimised_results(result,
+                    r'..\data\data_model_nr_IH_inf\optimise_GF_h_W_h.csv')
 
 """Optimise IH administration duration, holiday duration and strength for
 WMMd IH -> holiday -> MMd GF IH -> holiday """
@@ -3372,7 +3404,7 @@ def minimise_MM_W_h_GF_h():
         [0.2, 0.0, 0.2, 0.0],
         [0.55, 0.0, -0.6, 0.4]])
 
-    # Optimize the administration and holiday durations and the IH stregths
+    # optimise the administration and holiday durations and the IH stregths
     # t_step_IH_strength = [GF IH t, W IH t, h t, GF IH s, W IH s]
     t_step_IH_strength = [3, 3, 3, 0.4, 0.4]
     result = minimize(minimal_tumour_nr_t_3_situations, t_step_IH_strength,
@@ -3391,9 +3423,8 @@ def minimise_MM_W_h_GF_h():
     --> gives a MM number of {result.fun}""")
 
     # Save the results
-    with open(r'..\data\data_own_model_nr_IH_inf\optimize_W_h_GF_h.pkl', 'wb') \
-                                                                        as file:
-        pickle.dump(result, file)
+    save_optimised_results(result,
+                    r'..\data\data_model_nr_IH_inf\optimise_W_h_GF_h.csv')
 
 """Optimise IH administration duration and holiday duration for WMMd IH ->
 IH combination -> MMd GF IH -> holiday"""
@@ -3439,7 +3470,7 @@ def minimise_MM_W_comb_GF_h():
     # WMMd inhibitor effect when only WMMd IH is present
     WMMd_inhibitor = 0.45
 
-    # Optimize the administration and holiday durations
+    # optimise the administration and holiday durations
     # t_step_guess = [GF IH t, W IH t, comb t, h t]
     t_step_guess = [3, 3, 3, 3]
     result = minimize(minimal_tumour_nr_t_4_situations, t_step_guess, args=(\
@@ -3458,9 +3489,8 @@ def minimise_MM_W_comb_GF_h():
     --> gives a MM number of {result.fun}""")
 
     # Save the results
-    with open(r'..\data\data_own_model_nr_IH_inf\optimize_W_comb_GF_h.pkl',
-                                                                'wb') as file:
-        pickle.dump(result, file)
+    save_optimised_results(result,
+                r'..\data\data_model_nr_IH_inf\optimise_W_comb_GF_h.csv')
 
 """Optimise IH administration duration and holiday duration for MMd GF IH->
 IH combination -> WMMd IH -> holiday"""
@@ -3506,7 +3536,7 @@ def minimise_MM_GF_comb_W_h():
     # WMMd inhibitor effect when only WMMd IH is present
     WMMd_inhibitor = 0.45
 
-    # Optimize the administration and holiday durations
+    # optimise the administration and holiday durations
     t_step_guess = [3, 3, 3, 3]
     result = minimize(minimal_tumour_nr_t_4_situations, t_step_guess, args=(\
         switch_dataframe_GF_comb_W_h, nOC, nOB, nMMd, nMMr, growth_rates,
@@ -3525,9 +3555,8 @@ def minimise_MM_GF_comb_W_h():
     --> gives a MM number of {result.fun}""")
 
     # Save the results
-    with open(r'..\data\data_own_model_nr_IH_inf\optimize_GF_comb_W_h.pkl',
-                                                                'wb') as file:
-        pickle.dump(result, file)
+    save_optimised_results(result,
+                  r'..\data\data_model_nr_IH_inf\optimise_GF_comb_W_h.csv')
 
 """Optimise IH administration duration and holiday duration for WMMd IH->
 IH combination -> MMd GF IH -> holiday"""
@@ -3568,15 +3597,15 @@ def minimise_MM_W_comb_GF_h_IH():
         [0.4, 0.0, 0.2, 0.0],
         [0.55, 0.0, -0.8, 0.4]])
 
-    # Optimize the administration and holiday durations and the IH stregths
+    # optimise the administration and holiday durations and the IH stregths
     # t_step_IH_strength = [GF IH t, W IH t, comb t, h t, GF IH s, comb GF IH s
     # W IH s, comb W IH s]
-    t_step_IH_strength = [3, 3, 3, 3, 0.4, 0.4, 0.3, 0.2]
+    t_step_IH_strength = [3, 3, 3, 3, 0.4, 0.1, 0.4, 0.1]
     result = minimize(minimal_tumour_nr_t_4_situations_IH, t_step_IH_strength,
         args=(switch_dataframe_W_comb_GF_h, nOC, nOB, nMMd, nMMr, growth_rates,
-        growth_rates_IH, decay_rates, decay_rates_IH, matrix_no_GF_IH,
-        matrix_GF_IH, matrix_GF_IH_comb), bounds = [(0, None), (0, None), (0, None),
-        (0, None), (0, 0.6), (0, 0.6), (0, 0.6), (0, 0.6)], method='Nelder-Mead')
+        growth_rates_IH, decay_rates, decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH,
+        matrix_GF_IH_comb), bounds = [(0, None), (0, None), (0, None), (0, None),
+        (0, None), (0, None), (0, None), (0, None)], method='Nelder-Mead')
 
     # Print the results
     print('Order: WMMd IH -> IH combination -> MMd GF IH -> holiday -> WMMd IH etc.')
@@ -3591,9 +3620,8 @@ def minimise_MM_W_comb_GF_h_IH():
     --> gives a MM number of {result.fun}""")
 
     # Save the results
-    with open(r'..\data\data_own_model_nr_IH_inf\optimize_W_comb_GF_h_IH.pkl',
-                                                                'wb') as file:
-        pickle.dump(result, file)
+    save_optimised_results(result,
+                r'..\data\data_model_nr_IH_inf\optimise_W_comb_GF_h_IH.csv')
 
 
 """Optimise IH administration duration and holiday duration for MMd GF IH->
@@ -3635,15 +3663,15 @@ def minimise_MM_GF_comb_W_h_IH():
         [0.4, 0.0, 0.2, 0.0],
         [0.55, 0.0, -0.8, 0.4]])
 
-    # Optimize the administration and holiday durations and the IH stregths
+    # optimise the administration and holiday durations and the IH stregths
     # t_step_IH_strength = [GF IH t, W IH t, comb t, h t, GF IH s, comb GF IH s
     # W IH s, comb W IH s]
-    t_step_IH_strength = [3, 3, 3, 3, 0.4, 0.4, 0.3, 0.2]
+    t_step_IH_strength = [3, 3, 3, 3, 0.4, 0.1, 0.4, 0.1]
     result = minimize(minimal_tumour_nr_t_4_situations_IH, t_step_IH_strength,
         args=(switch_dataframe_GF_comb_W_h, nOC, nOB, nMMd, nMMr, growth_rates,
         growth_rates_IH, decay_rates, decay_rates_IH, matrix_no_GF_IH,
         matrix_GF_IH, matrix_GF_IH_comb), bounds = [(0, None), (0, None), (0, None),
-        (0, None), (0, 0.55), (0, 0.6), (0, 0.6), (0, 0.6)], method='Nelder-Mead')
+        (0, None), (0, None), (0, None), (0, None), (0, None)], method='Nelder-Mead')
 
     # Print the results
     print('Order: WMMd IH -> IH combination -> MMd GF IH -> holiday -> WMMd IH etc.')
@@ -3658,9 +3686,8 @@ def minimise_MM_GF_comb_W_h_IH():
     --> gives a MM number of {result.fun}""")
 
     # Save the results
-    with open(r'..\data\data_own_model_nr_IH_inf\optimize_GF_comb_W_h_IH.pkl',
-                                                                'wb') as file:
-        pickle.dump(result, file)
+    save_optimised_results(result,
+                r'..\data\data_model_nr_IH_inf\optimise_GF_comb_W_h_IH.csv')
 
 if __name__ == "__main__":
     main()
