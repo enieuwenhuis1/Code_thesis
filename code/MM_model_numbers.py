@@ -579,9 +579,8 @@ def minimal_tumour_numb_t_steps(t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd,
 
     Returns:
     --------
-    average_MM_number: float
+    average_MM_number: Float
         The average total MM number in the last period.
-
     """
     # Deteremine the number of switches
     time_step = (t_steps_drug + t_steps_no_drug) / 2
@@ -681,14 +680,11 @@ def minimal_tumour_numb_b_OC_MMd(b_OC_MMd, nOC, nOB, nMMd, nMMr, growth_rates,
 
     Returns:
     --------
-    last_MM_number: Float
-        The total MM number.
+    last_MM_number: float
+        The average total MM number in the last period.
 
     Example:
     -----------
-    average_MM_numbers: float
-        The average total MM number in the last period.
-
     >>> matrix = np.array([
     ...    [0.0, 0.4, 0.6, 0.5],
     ...    [0.3, 0.0, -0.3, -0.3],
@@ -733,8 +729,6 @@ def minimal_tumour_numb_b_OC_MMd(b_OC_MMd, nOC, nOB, nMMd, nMMr, growth_rates,
 
     # Determine the total MM number
     last_MM_number = df_2['total nMM'].iloc[-1]
-
-    plt.show()
 
     return float(last_MM_number)
 
@@ -960,7 +954,6 @@ def Figure_continuous_MTD_vs_AT(n_switches, t_steps_drug):
     legend_labels = ['Number of OC', 'Number of OB', 'Number of MMd',
                                                                 'Number of MMr']
     fig.legend(labels = legend_labels, loc='upper center', ncol=4, fontsize='large')
-
     plt.show()
 
 """ Figure to determine the difference between traditional and adaptive therapy.
@@ -1104,7 +1097,6 @@ def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
     legend_labels = ['Number of OC', 'Number of OB', 'Number of MMd',
                                                                 'Number of MMr']
     fig.legend(labels = legend_labels, loc='upper center', ncol=4, fontsize='large')
-
     plt.show()
 
 """ Figure to determine the difference between traditional and adaptive therapy
@@ -1248,7 +1240,6 @@ def Figure_continuous_MTD_vs_AT_weak_a_h(n_switches, t_steps_drug):
     legend_labels = ['Number of OC', 'Number of OB', 'Number of MMd',
                                                                 'Number of MMr']
     fig.legend(labels = legend_labels, loc='upper center', ncol=4, fontsize='large')
-
     plt.show()
 
 
@@ -1769,7 +1760,6 @@ def Figure_duration_A_h_MMd_IH(n_switches, t_steps_drug, t_steps_no_drug):
     plt.grid(True)
     save_Figure(plt, 'line_plot_cell_numb_diff_h_and_a_MMd_IH',
                                  r'..\visualisation\results_model_numbers')
-
     plt.show()
 
 

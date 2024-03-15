@@ -37,34 +37,34 @@ def main():
     # Do doc tests
     doctest.testmod()
 
-    # # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # # by adaptive therapy (original situation)
-    # list_t_steps_drug = [10, 10, 10]
-    # Figure_continuous_MTD_vs_AT(20, list_t_steps_drug)
-    #
-    # # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # # by adaptive therapy for shorter holiday and administration periods compared
-    # # to the original situation
-    # list_t_steps_drug = [4, 4, 4]
-    # Figure_continuous_MTD_vs_AT_short_a_h(50, list_t_steps_drug)
-    #
-    # # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # # by adaptive therapy for weaker IHs compared to the original situation
-    # list_t_steps_drug = [10, 10, 10]
-    # Figure_continuous_MTD_vs_AT_weak_a_h(20, list_t_steps_drug)
-    #
-    # # Make a figure that shows the MM fraction for different bOC,MMd values
-    # Figure_best_b_OC_MMd()
+    # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # by adaptive therapy (original situation)
+    list_t_steps_drug = [10, 10, 10]
+    Figure_continuous_MTD_vs_AT(20, list_t_steps_drug)
+    
+    # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # by adaptive therapy for shorter holiday and administration periods compared
+    # to the original situation
+    list_t_steps_drug = [4, 4, 4]
+    Figure_continuous_MTD_vs_AT_short_a_h(50, list_t_steps_drug)
+
+    # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # by adaptive therapy for weaker IHs compared to the original situation
+    list_t_steps_drug = [10, 10, 10]
+    Figure_continuous_MTD_vs_AT_weak_a_h(20, list_t_steps_drug)
+
+    # Make a figure that shows the MM fraction for different bOC,MMd values
+    Figure_best_b_OC_MMd()
 
     # Make a figure that shows the MM fraction for different WMMd IH values
     Figure_best_WMMd_IH()
 
     # Make a 3D figure showthing the effect of different drug holiday and
     # administration periods
-    Figure_3D_MM_nr_frac_IH_add_and_holiday()
+    Figure_3D_MM_nr_to_frac_IH_add_and_holiday()
 
     # Make a 3D figure showing the effect of different WMMd and MMd GF IH strengths
-    Figure_3D_MM_nr_frac_MMd_IH_strength()
+    Figure_3D_MM_nr_to_frac_MMd_IH_strength()
 
     # Make line plots showing the dynamics when the IH administration is longer
     # than the holiday and one it is the other way around.
@@ -512,7 +512,7 @@ def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd,
     return df_total_switch
 
 
-def minimal_tumour_nr_frac_t_steps(t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd,
+def minimal_tumour_nr_to_frac_t_steps(t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd,
                                 nMMr, growth_rates, decay_rates, matrix_no_GF_IH,
                                 matrix_GF_IH, WMMd_inhibitor = 0):
     """ Function that makes a dataframe of the nOC, nOB, nMMd and nMMr values over
@@ -546,8 +546,8 @@ def minimal_tumour_nr_frac_t_steps(t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd
 
     Returns:
     --------
-    average_MM_number: float
-        The average total MM number in the last period.
+    average_MM_fraction: float
+        The average total MM fraction in the last period.
     """
     # Deteremine the number of switches
     time_step = (t_steps_drug + t_steps_no_drug) / 2
@@ -654,10 +654,10 @@ def x_y_z_axis_values_3d_plot(dataframe, name):
     """
 
     # Find the drug administration and holiday period causing the lowest MM fraction
-    min_index =  dataframe['MM number'].idxmin()
+    min_index =  dataframe['MM fraction'].idxmin()
     g_no_drug_min = dataframe.loc[min_index, 'Generations no drug']
     g_drug_min = dataframe.loc[min_index, 'Generations drug']
-    frac_min = dataframe.loc[min_index, 'MM number']
+    frac_min = dataframe.loc[min_index, 'MM fraction']
 
     print(f"""Lowest MM fraction: {frac_min}-> MMd {name} holidays are
             {g_no_drug_min} generations and MMd {name}  administrations
@@ -668,7 +668,7 @@ def x_y_z_axis_values_3d_plot(dataframe, name):
                                         'Generations no drug'], errors='coerce')
     dataframe['Generations drug'] = pd.to_numeric(dataframe[\
                                         'Generations drug'],errors='coerce')
-    dataframe['MM number'] = pd.to_numeric(dataframe['MM number'],
+    dataframe['MM fraction'] = pd.to_numeric(dataframe['MM fraction'],
                                                             errors='coerce')
 
     # Make a meshgrid for the plot
@@ -685,7 +685,7 @@ def x_y_z_axis_values_3d_plot(dataframe, name):
 
     return (X_values, Y_values, Z_values)
 
-def minimal_tumour_nr_frac_b_OC_MMd(b_OC_MMd, nOC, nOB, nMMd, nMMr, growth_rates,
+def minimal_tumour_nr_to_frac_b_OC_MMd(b_OC_MMd, nOC, nOB, nMMd, nMMr, growth_rates,
                                         decay_rates, matrix, b_OC_MMd_array):
     """Function that determines the fraction of the population being MM for a
     specific b_OC_MMd value.
@@ -713,20 +713,17 @@ def minimal_tumour_nr_frac_b_OC_MMd(b_OC_MMd, nOC, nOB, nMMd, nMMr, growth_rates
 
     Returns:
     --------
-    last_MM_fraction: Float
-        The total MM fraction.
-
-    Example:
-    -----------
-    average_MM_numbers: float
+    last_MM_numbers: float
         The average total MM number in the last period.
 
+    Example:
+    ----------
     >>> matrix = np.array([
     ...    [0.0, 0.4, 0.6, 0.5],
     ...    [0.3, 0.0, -0.3, -0.3],
     ...    [0.6, 0.0, 0.2, 0.0],
     ...    [0.55, 0.0, -0.6, 0.4]])
-    >>> minimal_tumour_nr_frac_b_OC_MMd(0.4, 20, 30, 20, 5,[0.8, 1.2, 0.3, 0.3],
+    >>> minimal_tumour_nr_to_frac_b_OC_MMd(0.4, 20, 30, 20, 5,[0.8, 1.2, 0.3, 0.3],
     ...                                     [0.9, 0.08, 0.2, 0.1], matrix, False)
     0.37206482448030115
     """
@@ -771,7 +768,7 @@ def minimal_tumour_nr_frac_b_OC_MMd(b_OC_MMd, nOC, nOB, nMMd, nMMr, growth_rates
 
     return float(last_MM_fraction)
 
-def minimal_tumour_nr_frac_WMMd_IH(WMMd_inhibitor, nOC, nOB, nMMd, nMMr,
+def minimal_tumour_nr_to_frac_WMMd_IH(WMMd_inhibitor, nOC, nOB, nMMd, nMMr,
                     growth_rates, decay_rates, matrix, WMMd_inhibitor_array):
     """Function that determines the fraction of the population being MM for a
     specific WMMd drug inhibitor value.
@@ -804,15 +801,12 @@ def minimal_tumour_nr_frac_WMMd_IH(WMMd_inhibitor, nOC, nOB, nMMd, nMMr,
 
     Example:
     -----------
-    average_MM_numbers: float
-        The average total MM number in the last period.
-
     >>> matrix = np.array([
     ...    [0.0, 0.4, 0.6, 0.5],
     ...    [0.3, 0.0, -0.3, -0.3],
     ...    [0.6, 0.0, 0.2, 0.0],
     ...    [0.55, 0.0, -0.6, 0.4]])
-    >>> minimal_tumour_nr_frac_WMMd_IH(0.3, 20, 30, 20, 5, [0.8, 1.2, 0.3, 0.3],
+    >>> minimal_tumour_nr_to_frac_WMMd_IH(0.3, 20, 30, 20, 5, [0.8, 1.2, 0.3, 0.3],
     ...                                 [0.9, 0.08, 0.2, 0.1], matrix, False)
     0.4009138259392089
     """
@@ -932,17 +926,17 @@ def Figure_continuous_MTD_vs_AT(n_switches, t_steps_drug):
     df_total_comb = number_to_fractions(df_total_comb)
 
     # Save the data
-    save_dataframe(df_total_switch_GF, 'df_cell_nr_frac_switch_GF_IH.csv',
+    save_dataframe(df_total_switch_GF, 'df_cell_nr_to_frac_switch_GF_IH.csv',
                                             r'..\data\data_model_nr_to_frac')
-    save_dataframe(df_total_switch_WMMd, 'df_cell_nr_frac_switch_WMMd_IH.csv',
+    save_dataframe(df_total_switch_WMMd, 'df_cell_nr_to_frac_switch_WMMd_IH.csv',
                                             r'..\data\data_model_nr_to_frac')
-    save_dataframe(df_total_switch_comb, 'df_cell_nr_frac_switch_comb_IH.csv',
+    save_dataframe(df_total_switch_comb, 'df_cell_nr_to_frac_switch_comb_IH.csv',
                                             r'..\data\data_model_nr_to_frac')
-    save_dataframe(df_total_GF, 'df_cell_nr_frac_continuous_GF_IH.csv',
+    save_dataframe(df_total_GF, 'df_cell_nr_to_frac_continuous_GF_IH.csv',
                                              r'..\data\data_model_nr_to_frac')
-    save_dataframe(df_total_WMMd, 'df_cell_nr_frac_continuous_WMMd_IH.csv',
+    save_dataframe(df_total_WMMd, 'df_cell_nr_to_frac_continuous_WMMd_IH.csv',
                                              r'..\data\data_model_nr_to_frac')
-    save_dataframe(df_total_comb, 'df_cell_nr_frac_continuous_comb_IH.csv',
+    save_dataframe(df_total_comb, 'df_cell_nr_to_frac_continuous_comb_IH.csv',
                                              r'..\data\data_model_nr_to_frac')
 
     # Create a Figure
@@ -996,13 +990,12 @@ def Figure_continuous_MTD_vs_AT(n_switches, t_steps_drug):
     axs[1, 2].set_ylabel(' ')
     axs[1, 2].set_title(r"Adaptive therapy MMd GF IH and $W_{MMd}$ IH")
     axs[1, 2].grid(True)
-    save_Figure(plt, 'line_plot_cell_nr_frac_AT_MTD',
+    save_Figure(plt, 'line_plot_cell_nr_to_frac_AT_MTD',
                                  r'..\visualisation\results_model_nr_to_frac')
 
     # Create a single legend outside of all plots
     legend_labels = ['OC fraction', 'OB fraction', 'MMd fraction', 'MMr fraction']
     fig.legend(labels = legend_labels, loc='upper center', ncol=4, fontsize='large')
-
     plt.show()
 
 """ Figure to determine the difference between traditional and adaptive therapy.
@@ -1083,17 +1076,17 @@ def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
     df_total_comb = number_to_fractions(df_total_comb)
 
     # Save the data
-    save_dataframe(df_total_switch_GF, 'df_cell_nr_frac_switch_GF_IH_short_a_h.csv',
+    save_dataframe(df_total_switch_GF, 'df_cell_nr_to_frac_switch_GF_IH_short_a_h.csv',
                                             r'..\data\data_model_nr_to_frac')
-    save_dataframe(df_total_switch_WMMd, 'df_cell_nr_frac_switch_WMMd_IH_short_a_h.csv',
+    save_dataframe(df_total_switch_WMMd, 'df_cell_nr_to_frac_switch_WMMd_IH_short_a_h.csv',
                                             r'..\data\data_model_nr_to_frac')
-    save_dataframe(df_total_switch_comb, 'df_cell_nr_frac_switch_comb_IH_short_a_h.csv',
+    save_dataframe(df_total_switch_comb, 'df_cell_nr_to_frac_switch_comb_IH_short_a_h.csv',
                                             r'..\data\data_model_nr_to_frac')
-    save_dataframe(df_total_GF, 'df_cell_nr_frac_continuous_GF_IH_short_a_h.csv',
+    save_dataframe(df_total_GF, 'df_cell_nr_to_frac_continuous_GF_IH_short_a_h.csv',
                                              r'..\data\data_model_nr_to_frac')
-    save_dataframe(df_total_WMMd, 'df_cell_nr_frac_continuous_WMMd_IH_short_a_h.csv',
+    save_dataframe(df_total_WMMd, 'df_cell_nr_to_frac_continuous_WMMd_IH_short_a_h.csv',
                                              r'..\data\data_model_nr_to_frac')
-    save_dataframe(df_total_comb, 'df_cell_nr_frac_continuous_comb_IH_short_a_h.csv',
+    save_dataframe(df_total_comb, 'df_cell_nr_to_frac_continuous_comb_IH_short_a_h.csv',
                                              r'..\data\data_model_nr_to_frac')
 
     # Create a Figure
@@ -1147,13 +1140,12 @@ def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
     axs[1, 2].set_ylabel(' ')
     axs[1, 2].set_title(r"Adaptive therapy MMd GF IH and $W_{MMd}$ IH")
     axs[1, 2].grid(True)
-    save_Figure(plt, 'line_plot_cell_nr_frac_AT_MTD_short_a_h',
+    save_Figure(plt, 'line_plot_cell_nr_to_frac_AT_MTD_short_a_h',
                                  r'..\visualisation\results_model_nr_to_frac')
 
     # Create a single legend outside of all plots
     legend_labels = ['OC fraction', 'OB fraction', 'MMd fraction', 'MMr fraction']
     fig.legend(labels = legend_labels, loc='upper center', ncol=4, fontsize='large')
-
     plt.show()
 
 """ Figure to determine the difference between traditional and adaptive therapy
@@ -1234,17 +1226,17 @@ def Figure_continuous_MTD_vs_AT_weak_a_h(n_switches, t_steps_drug):
     df_total_comb = number_to_fractions(df_total_comb)
 
     # Save the data
-    save_dataframe(df_total_switch_GF, 'df_cell_nr_frac_switch_GF_IH_weak_a_h.csv',
+    save_dataframe(df_total_switch_GF, 'df_cell_nr_to_frac_switch_GF_IH_weak_a_h.csv',
                                             r'..\data\data_model_nr_to_frac')
-    save_dataframe(df_total_switch_WMMd, 'df_cell_nr_frac_switch_WMMd_IH_weak_a_h.csv',
+    save_dataframe(df_total_switch_WMMd, 'df_cell_nr_to_frac_switch_WMMd_IH_weak_a_h.csv',
                                             r'..\data\data_model_nr_to_frac')
-    save_dataframe(df_total_switch_comb, 'df_cell_nr_frac_switch_comb_IH_weak_a_h.csv',
+    save_dataframe(df_total_switch_comb, 'df_cell_nr_to_frac_switch_comb_IH_weak_a_h.csv',
                                             r'..\data\data_model_nr_to_frac')
-    save_dataframe(df_total_GF, 'df_cell_nr_frac_continuous_GF_IH_weak_a_h.csv',
+    save_dataframe(df_total_GF, 'df_cell_nr_to_frac_continuous_GF_IH_weak_a_h.csv',
                                              r'..\data\data_model_nr_to_frac')
-    save_dataframe(df_total_WMMd, 'df_cell_nr_frac_continuous_WMMd_IH_weak_a_h.csv',
+    save_dataframe(df_total_WMMd, 'df_cell_nr_to_frac_continuous_WMMd_IH_weak_a_h.csv',
                                              r'..\data\data_model_nr_to_frac')
-    save_dataframe(df_total_comb, 'df_cell_nr_frac_continuous_comb_IH_weak_a_h.csv',
+    save_dataframe(df_total_comb, 'df_cell_nr_to_frac_continuous_comb_IH_weak_a_h.csv',
                                              r'..\data\data_model_nr_to_frac')
 
     # Create a Figure
@@ -1298,13 +1290,12 @@ def Figure_continuous_MTD_vs_AT_weak_a_h(n_switches, t_steps_drug):
     axs[1, 2].set_ylabel(' ')
     axs[1, 2].set_title(r"Adaptive therapy MMd GF IH and $W_{MMd}$ IH")
     axs[1, 2].grid(True)
-    save_Figure(plt, 'line_plot_cell_nr_frac_AT_MTD_weak_a_h',
+    save_Figure(plt, 'line_plot_cell_nr_to_frac_AT_MTD_weak_a_h',
                                  r'..\visualisation\results_model_nr_to_frac')
 
     # Create a single legend outside of all plots
     legend_labels = ['OC fraction', 'OB fraction', 'MMd fraction', 'MMr fraction']
     fig.legend(labels = legend_labels, loc='upper center', ncol=4, fontsize='large')
-
     plt.show()
 
 """ Figure to determine the best WMMd IH value """
@@ -1331,7 +1322,7 @@ def Figure_best_WMMd_IH():
     WMMd_IH_start = 0.2
 
     # Perform the optimization
-    result = minimize(minimal_tumour_nr_frac_WMMd_IH, WMMd_IH_start, args = (nOC,
+    result = minimize(minimal_tumour_nr_to_frac_WMMd_IH, WMMd_IH_start, args = (nOC,
                             nOB, nMMd, nMMr, growth_rates, decay_rates, matrix,
                             True), bounds=[(0, 0.8)], method='Nelder-Mead')
 
@@ -1341,22 +1332,22 @@ def Figure_best_WMMd_IH():
                                         ', gives tumour number:', result.fun)
 
     # Make a dictionary
-    dict_nr_frac_tumour = {}
+    dict_nr_to_frac_tumour = {}
 
     # Loop over the different WMMd_inhibitor values
     for WMMd_inhibitor in range(800):
         WMMd_inhibitor = WMMd_inhibitor/1000
-        nr_frac_tumour = minimal_tumour_nr_frac_WMMd_IH(WMMd_inhibitor, nOC, nOB,
+        nr_to_frac_tumour = minimal_tumour_nr_to_frac_WMMd_IH(WMMd_inhibitor, nOC, nOB,
                         nMMd, nMMr, growth_rates, decay_rates, matrix, False)
-        dict_nr_frac_tumour[WMMd_inhibitor] = nr_frac_tumour
+        dict_nr_to_frac_tumour[WMMd_inhibitor] = nr_to_frac_tumour
 
     # Save the data
-    save_dictionary(dict_nr_frac_tumour,
-            r'..\data\data_model_nr_to_frac\dict_cell_nr_frac_WMMd_IH.csv')
+    save_dictionary(dict_nr_to_frac_tumour,
+            r'..\data\data_model_nr_to_frac\dict_cell_nr_to_frac_WMMd_IH.csv')
 
     # Make lists of the keys and the values
-    WMM_IH = list(dict_nr_frac_tumour.keys())
-    MM_number = list(dict_nr_frac_tumour.values())
+    WMM_IH = list(dict_nr_to_frac_tumour.keys())
+    MM_number = list(dict_nr_to_frac_tumour.values())
 
     # Create a Figure
     plt.plot(WMM_IH, MM_number, color='purple')
@@ -1365,7 +1356,7 @@ def Figure_best_WMMd_IH():
     plt.ylabel('MM fraction')
     plt.grid(True)
     plt.tight_layout()
-    save_Figure(plt, 'line_plot_cell_nr_frac_change_WMMd_IH',
+    save_Figure(plt, 'line_plot_cell_nr_to_frac_change_WMMd_IH',
                                  r'..\visualisation\results_model_nr_to_frac')
     plt.show()
 
@@ -1394,7 +1385,7 @@ def Figure_best_b_OC_MMd():
     b_OC_MMd_start = 0.45
 
     # Perform the optimization
-    result = minimize(minimal_tumour_nr_frac_b_OC_MMd, b_OC_MMd_start, args = \
+    result = minimize(minimal_tumour_nr_to_frac_b_OC_MMd, b_OC_MMd_start, args = \
                         (nOC, nOB, nMMd, nMMr, growth_rates, decay_rates, matrix,
                         True), bounds=[(0, 0.8)],  method='Nelder-Mead')
 
@@ -1404,24 +1395,24 @@ def Figure_best_b_OC_MMd():
                                             'gives tumour fration:', result.fun)
 
     # Make a dictionary
-    dict_nr_frac_tumour_GF = {}
+    dict_nr_to_frac_tumour_GF = {}
 
     # Loop over all the b_OC_MMd values
     for b_OC_MMd in range(800):
         b_OC_MMd = b_OC_MMd/1000
 
         # Determine the total MM number
-        nr_frac_tumour = minimal_tumour_nr_frac_b_OC_MMd(b_OC_MMd, nOC, nOB, nMMd,
+        nr_to_frac_tumour = minimal_tumour_nr_to_frac_b_OC_MMd(b_OC_MMd, nOC, nOB, nMMd,
                                 nMMr, growth_rates, decay_rates, matrix, False)
-        dict_nr_frac_tumour_GF[b_OC_MMd] = nr_frac_tumour
+        dict_nr_to_frac_tumour_GF[b_OC_MMd] = nr_to_frac_tumour
 
     # Save the data
-    save_dictionary(dict_nr_frac_tumour_GF,
-             r'..\data\data_model_nr_to_frac\dict_cell_nr_frac_b_OC_MMd.csv')
+    save_dictionary(dict_nr_to_frac_tumour_GF,
+             r'..\data\data_model_nr_to_frac\dict_cell_nr_to_frac_b_OC_MMd.csv')
 
     # Make a list of the keys and one of the values
-    b_OC_MMd_values = list(dict_nr_frac_tumour_GF.keys())
-    MM_numbers = list(dict_nr_frac_tumour_GF.values())
+    b_OC_MMd_values = list(dict_nr_to_frac_tumour_GF.keys())
+    MM_numbers = list(dict_nr_to_frac_tumour_GF.values())
 
     # Create the plot
     plt.plot(b_OC_MMd_values, MM_numbers, linestyle='-')
@@ -1429,13 +1420,13 @@ def Figure_best_b_OC_MMd():
     plt.ylabel(r'MM fraction')
     plt.title(r'MM fraction for different $b_{OC, MMd}$ values')
     plt.grid(True)
-    save_Figure(plt, 'line_plot_cell_nr_frac_change_b_OC_MMd',
+    save_Figure(plt, 'line_plot_cell_nr_to_frac_change_b_OC_MMd',
                                 r'..\visualisation\results_model_nr_to_frac')
     plt.show()
 
 
 """ 3D plot showing the best IH holiday and administration periods"""
-def Figure_3D_MM_nr_frac_IH_add_and_holiday():
+def Figure_3D_MM_nr_to_frac_IH_add_and_holiday():
     """ Figure that makes three 3D plot that shows the average fraction of MM for
     different holiday and administration periods of only MMd GF inhibitor, only
     WMMd inhibitor or both. It prints the IH administration periods and holidays
@@ -1477,27 +1468,27 @@ def Figure_3D_MM_nr_frac_IH_add_and_holiday():
     WMMd_inhibitor = 0.5
 
     # Make a dataframe
-    column_names = ['Generations no drug', 'Generations drug', 'MM number']
+    column_names = ['Generations no drug', 'Generations drug', 'MM fraction']
     df_holiday_GF_IH = pd.DataFrame(columns=column_names)
 
     # Loop over all the t_step values for drug administration and drug holidays
     for t_steps_no_drug in range(2, 22):
 
         for t_steps_drug in range(2, 22):
-            nr_frac_tumour = minimal_tumour_nr_frac_t_steps(t_steps_drug,
+            nr_to_frac_tumour = minimal_tumour_nr_to_frac_t_steps(t_steps_drug,
                             t_steps_no_drug, nOC, nOB, nMMd, nMMr, growth_rates,
                             decay_rates, matrix_no_GF_IH, matrix_GF_IH)
 
             # Add results to the dataframe
             new_row_df = pd.DataFrame([{'Generations no drug':
                     int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
-                                             'MM number': float(nr_frac_tumour)}])
+                                             'MM fraction': float(nr_to_frac_tumour)}])
             df_holiday_GF_IH = pd.concat([df_holiday_GF_IH, new_row_df],
                                                             ignore_index=True)
 
 
     # Save the data
-    save_dataframe(df_holiday_GF_IH, 'df_cell_nr_frac_best_MMd_GH_IH_holiday.csv',
+    save_dataframe(df_holiday_GF_IH, 'df_cell_nr_to_frac_best_MMd_GH_IH_holiday.csv',
                                              r'..\data\data_model_nr_to_frac')
 
     # Determine the axis values
@@ -1505,52 +1496,52 @@ def Figure_3D_MM_nr_frac_IH_add_and_holiday():
                                                                         'GF IH')
 
     # Make a dataframe
-    column_names = ['Generations no drug', 'Generations drug', 'MM number']
+    column_names = ['Generations no drug', 'Generations drug', 'MM fraction']
     df_holiday_W_IH = pd.DataFrame(columns=column_names)
 
     # Loop over al the t_step values for drug dministration and drug holidays
     for t_steps_no_drug in range(2, 22):
 
         for t_steps_drug in range(2, 22):
-            nr_frac_tumour = minimal_tumour_nr_frac_t_steps(t_steps_drug,
+            nr_to_frac_tumour = minimal_tumour_nr_to_frac_t_steps(t_steps_drug,
                     t_steps_no_drug, nOC, nOB, nMMd, nMMr, growth_rates,
                     decay_rates,matrix_no_GF_IH, matrix_no_GF_IH, WMMd_inhibitor)
 
             # Add results to the dataframe
             new_row_df = pd.DataFrame([{'Generations no drug': int(t_steps_no_drug),
                                             'Generations drug': int(t_steps_drug),
-                                             'MM number': float(nr_frac_tumour)}])
+                                             'MM fraction': float(nr_to_frac_tumour)}])
             df_holiday_W_IH = pd.concat([df_holiday_W_IH, new_row_df],
                                                                 ignore_index=True)
 
     # Save the data
-    save_dataframe(df_holiday_W_IH, 'df_cell_nr_frac_best_WMMd_IH_holiday.csv',
+    save_dataframe(df_holiday_W_IH, 'df_cell_nr_to_frac_best_WMMd_IH_holiday.csv',
                                              r'..\data\data_model_nr_to_frac')
 
     # Determine the axis values
     X_W_IH, Y_W_IH, Z_W_IH = x_y_z_axis_values_3d_plot(df_holiday_W_IH, 'W IH')
 
     # Make a dataframe
-    column_names = ['Generations no drug', 'Generations drug', 'MM number']
+    column_names = ['Generations no drug', 'Generations drug', 'MM fraction']
     df_holiday_comb = pd.DataFrame(columns=column_names)
 
     # Loop over al the t_step values for drug dministration and drug holidays
     for t_steps_no_drug in range(2, 22):
 
         for t_steps_drug in range(2, 22):
-            nr_frac_tumour = minimal_tumour_nr_frac_t_steps(t_steps_drug,
+            nr_to_frac_tumour = minimal_tumour_nr_to_frac_t_steps(t_steps_drug,
                 t_steps_no_drug, nOC, nOB, nMMd, nMMr, growth_rates, decay_rates,
                 matrix_no_GF_IH, matrix_GF_IH_comb, WMMd_inhibitor_comb)
 
             # Add results to the dataframe
             new_row_df = pd.DataFrame([{'Generations no drug': int(t_steps_no_drug),
                                             'Generations drug': int(t_steps_drug),
-                                            'MM number': float(nr_frac_tumour)}])
+                                            'MM fraction': float(nr_to_frac_tumour)}])
             df_holiday_comb = pd.concat([df_holiday_comb, new_row_df],
                                                                 ignore_index=True)
 
     # Save the data
-    save_dataframe(df_holiday_comb, 'df_cell_nr_frac_best_MMd_IH_holiday.csv',
+    save_dataframe(df_holiday_comb, 'df_cell_nr_to_frac_best_MMd_IH_holiday.csv',
                                              r'..\data\data_model_nr_to_frac')
 
     # Determine the axis values
@@ -1617,13 +1608,13 @@ def Figure_3D_MM_nr_frac_IH_add_and_holiday():
             ax.axis('off')
 
     # Add a color bar
-    save_Figure(fig, '3d_plot_MM_nr_frac_best_IH_h_a_periods',
+    save_Figure(fig, '3d_plot_MM_nr_to_frac_best_IH_h_a_periods',
                                 r'..\visualisation\results_model_nr_to_frac')
     plt.show()
 
 
 """ 3D plot showing the best IH strengths """
-def Figure_3D_MM_nr_frac_MMd_IH_strength():
+def Figure_3D_MM_nr_to_frac_MMd_IH_strength():
     """ 3D plot that shows the average MM fraction for different MMd GF inhibitor
     and WMMd inhibitor strengths. It prints the IH streghts that caused the lowest
     total MM fraction."""
@@ -1674,19 +1665,19 @@ def Figure_3D_MM_nr_frac_MMd_IH_strength():
             matrix_GF_IH[3, 2] = -0.6 - extra_MMr_IH
 
             # Determine the minimal tumour size
-            nr_frac_tumour = minimal_tumour_nr_frac_t_steps(t_steps_drug,
+            nr_to_frac_tumour = minimal_tumour_nr_to_frac_t_steps(t_steps_drug,
                     t_steps_no_drug, nOC, nOB, nMMd, nMMr, growth_rates,
                     decay_rates, matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor)
 
             # Add results to the dataframe
             new_row_df = pd.DataFrame([{'Strength WMMd IH':\
                         round(strength_WMMd_IH/ 50, 3), 'Strength MMd GF IH': \
-                round(strength_MMd_GF_IH/ 50, 3), 'MM number': nr_frac_tumour}])
+                round(strength_MMd_GF_IH/ 50, 3), 'MM number': nr_to_frac_tumour}])
 
             df_holiday = pd.concat([df_holiday, new_row_df], ignore_index=True)
 
     # Save the data
-    save_dataframe(df_holiday, 'df_cell_nr_frac_best_MMd_IH_strength.csv',
+    save_dataframe(df_holiday, 'df_cell_nr_to_frac_best_MMd_IH_strength.csv',
                                              r'..\data\data_model_nr_to_frac')
 
 
@@ -1694,9 +1685,9 @@ def Figure_3D_MM_nr_frac_MMd_IH_strength():
     min_index = df_holiday['MM number'].idxmin()
     strength_WMMd_min = df_holiday.loc[min_index, 'Strength WMMd IH']
     strength_MMd_GF_min = df_holiday.loc[min_index, 'Strength MMd GF IH']
-    nr_frac_min = df_holiday.loc[min_index, 'MM number']
+    nr_to_frac_min = df_holiday.loc[min_index, 'MM number']
 
-    print(f"""Lowest MM fraction: {nr_frac_min}-> MMd GF IH strength is
+    print(f"""Lowest MM fraction: {nr_to_frac_min}-> MMd GF IH strength is
         {strength_MMd_GF_min} and WMMd IH strength is {strength_WMMd_min}""")
 
     # Avoid errors because of the wrong datatype
@@ -1738,7 +1729,7 @@ def Figure_3D_MM_nr_frac_MMd_IH_strength():
     color_bar = fig.colorbar(surf, shrink = 0.6, location= 'left')
     color_bar.set_label('MM fraction')
 
-    save_Figure(fig, '3d_plot_MM_nr_frac_best_IH_strength',
+    save_Figure(fig, '3d_plot_MM_nr_to_frac_best_IH_strength',
                                 r'..\visualisation\results_model_nr_to_frac')
     plt.show()
 
@@ -1796,9 +1787,9 @@ def Figure_duration_A_h_MMd_IH(n_switches, t_steps_drug, t_steps_no_drug):
     df_total_switch_2 = number_to_fractions(df_total_switch_2)
 
     # Save the data
-    save_dataframe(df_total_switch_1, 'df_cell_nr_frac_short_a_long_h_MMd_IH.csv',
+    save_dataframe(df_total_switch_1, 'df_cell_nr_to_frac_short_a_long_h_MMd_IH.csv',
                                              r'..\data\data_model_nr_to_frac')
-    save_dataframe(df_total_switch_2, 'df_cell_nr_frac_long_a_short_h_MMd_IH.csv.csv',
+    save_dataframe(df_total_switch_2, 'df_cell_nr_to_frac_long_a_short_h_MMd_IH.csv.csv',
                                              r'..\data\data_model_nr_to_frac')
 
     # Create a Figure
@@ -1829,9 +1820,8 @@ def Figure_duration_A_h_MMd_IH(n_switches, t_steps_drug, t_steps_no_drug):
     axs[1].legend(loc = 'upper right')
     axs[1].grid(True)
     plt.grid(True)
-    save_Figure(plt, 'line_plot_cell_nr_frac_diff_h_and_a_MMd_IH',
+    save_Figure(plt, 'line_plot_cell_nr_to_frac_diff_h_and_a_MMd_IH',
                                  r'..\visualisation\results_model_nr_to_frac')
-
     plt.show()
 
 if __name__ == "__main__":

@@ -103,7 +103,7 @@ def fitness_WOC(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix):
     xMMr: Float
         Fraction of the MMr.
     N: Int
-        fraction of individuals within the interaction range.
+        Fraction of individuals within the interaction range.
     cOC: Float
         Cost parameter OC.
     cOB: Float
@@ -154,7 +154,7 @@ def fitness_WOB(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix):
     xMMr: Float
         Fraction of the MMr.
     N: Int
-        fraction of individuals within the interaction range.
+        Fraction of individuals within the interaction range.
     cOC: Float
         Cost parameter OC.
     cOB: Float
@@ -206,17 +206,17 @@ def fitness_WMMd(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix,
     xMMr: Float
         Fraction of the MMr.
     N: Int
-        fraction of individuals within the interaction range.
+        Fraction of individuals within the interaction range.
     cOC: Float
         Cost parameter OC.
     cOB: Float
         Cost parameter OB.
     cMMd: Float
         Cost parameter MMd.
-    matrix: Numpy.ndarray
-        4x4 matrix containing the interaction factors.
     cMMr: Float
         Cost parameter MMr.
+    matrix: Numpy.ndarray
+        4x4 matrix containing the interaction factors.
     WMMd_inhibitor: Float
         The effect of a drug on the MMd fitness.
 
@@ -260,7 +260,7 @@ def fitness_WMMr(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix):
     xMMd: Float
         Fraction of the MMd.
     N: Int
-        fraction of individuals within the interaction range.
+        Fraction of individuals within the interaction range.
     cOC: Float
         Cost parameter OC.
     cOB: Float
@@ -306,7 +306,7 @@ def model_dynamics(y, t, N, cOC, cOB, cMMd, cMMr, matrix, WMMd_inhibitor = 0):
     t: Numpy.ndarray
         Array with all the time points.
     N: Int
-        fraction of cells in the difussion range.
+        Fraction of cells in the difussion range.
     cOC: Float
         Cost parameter OC.
     cOB: Float
@@ -373,7 +373,7 @@ def frac_to_fitness_values(dataframe_fractions, N, cOC, cOB, cMMd, cMMr, matrix,
         Dataframe with the fractions of the OB, OC MMd and MMr on every
         timepoint.
     N: Int
-        fraction of cells in the difussion range.
+        Fraction of cells in the difussion range.
     cOC: Float
         Cost parameter OC.
     cOB: Float
@@ -510,7 +510,7 @@ def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd,
     xMMd: Float
         Fraction of the MMd.
     N: Int
-        fraction of cells in the difussion range.
+        Fraction of cells in the difussion range.
     cOC: Float
         Cost parameter OC.
     cOB: Float
@@ -626,15 +626,15 @@ def continuous_add_IH_df(end_generation, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd
     end_generation: Int
         The last generation for which the fractions have to be calculated
     xOC: Float
-        fraction of OC.
+        Fraction of OC.
     xOB: Float
-        fraction of OB.
+        Fraction of OB.
     xMMd: Float
-        fraction of the MMd.
+        Fraction of the MMd.
     xMMr: Float
-        fraction of the MMr.
+        Fraction of the MMr.
     N: Int
-        fraction of cells in the difussion range.
+        Fraction of cells in the difussion range.
     cOC: Float
         Cost parameter OC.
     cOB: float
@@ -731,6 +731,11 @@ def minimal_tumour_frac_t_steps(t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd,
     WMMd_inhibitor: Float
         The effect of a drug on the MMd fitness.
 
+    Returns:
+    --------
+    average_MM_fraction: Float
+        The average MM fraction in the equilibrium.
+
     Example:
     -----------
     >>> matrix_no_GF_IH = np.array([
@@ -758,9 +763,9 @@ def minimal_tumour_frac_t_steps(t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd,
 
     # Determine the average MM fraction in the last period with and without drugs
     last_MM_fractions = df['total xMM'].tail(int(time_step *2))
-    average_MM_fractions = last_MM_fractions.sum() / (int(time_step*2))
+    average_MM_fraction = last_MM_fractions.sum() / (int(time_step*2))
 
-    return float(average_MM_fractions)
+    return float(average_MM_fraction)
 
 def x_y_z_axis_values_3d_plot(dataframe, name):
     """ Function that determines the x, y and z axis values from the given
@@ -827,15 +832,15 @@ def minimal_tumour_frac_b_OC_MMd(b_OC_MMd, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
     b_OC_MMd: Float
         Interaction value that gives the effect of the GFs of OC on MMd.
     xOC: Float
-        Frequency of OC.
+        Fraction of OC.
     xOB: Float
-        Frequency of OB.
+        Fraction of OB.
     xMMd: Float
-        Frequency of the drug-sensitive MM cells.
+        Fraction of the drug-sensitive MM cells.
     xMMr: Float
-        Frequency of the resistant MM cells.
+        Fraction of the resistant MM cells.
     N: Int
-        fraction of cells in the difussion range.
+        Fraction of cells in the difussion range.
     cOC: Float
         Cost parameter OC.
     cOB: float
@@ -857,8 +862,8 @@ def minimal_tumour_frac_b_OC_MMd(b_OC_MMd, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
 
     Returns:
     --------
-    last_MM_frequency: Float
-        The total MM frequency.
+    last_MM_fraction: Float
+        The total MM fraction.
     """
     # Change b_OC_MMd to a float if it is an array
     if b_OC_MMd_array == True:
@@ -876,10 +881,10 @@ def minimal_tumour_frac_b_OC_MMd(b_OC_MMd, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
     df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
                 'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
 
-    # Determine the total MM frequency
-    last_MM_frequency = df['total_MM'].iloc[-1]
+    # Determine the total MM fraction
+    last_MM_fraction = df['total_MM'].iloc[-1]
 
-    return float(last_MM_frequency)
+    return float(last_MM_fraction)
 
 """Determine the best drug effect value for high and low cOB and cOC values"""
 def minimal_tumour_frac_WMMd_IH(WMMd_inhibitor, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
@@ -892,15 +897,15 @@ def minimal_tumour_frac_WMMd_IH(WMMd_inhibitor, xOC, xOB, xMMd, xMMr, N, cOC, cO
     WMMd_inhibitor: Float
         Streght of the drugs that inhibits the MMd fitness.
     xOC: Float
-        Frequency of OC.
+        Fraction of OC.
     xOB: Float
-        Frequency of OB.
+        Fraction of OB.
     xMMd: Float
-        Frequency of the drug-sensitive MM cells.
+        Fraction of the drug-sensitive MM cells.
     xMMr: Float
-        Frequency of the resistant MM cells.
+        Fraction of the resistant MM cells.
     N: Int
-        fraction of cells in the difussion range.
+        Fraction of cells in the difussion range.
     cOC: Float
         Cost parameter OC.
     cOB: float
@@ -922,8 +927,8 @@ def minimal_tumour_frac_WMMd_IH(WMMd_inhibitor, xOC, xOB, xMMd, xMMr, N, cOC, cO
 
     Returns:
     --------
-    last_MM_frequency: Float
-        The total MM frequency.
+    last_MM_fraction: Float
+        The total MM fraction.
     """
     # Determine if WMMd_inhibitor is an array
     if WMMd_inhibitor_array == True:
@@ -938,10 +943,10 @@ def minimal_tumour_frac_WMMd_IH(WMMd_inhibitor, xOC, xOB, xMMd, xMMr, N, cOC, cO
     df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
                 'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total_MM': y[:, 3]+ y[:, 2]})
 
-    # Determine the total MM frequency
-    last_MM_frequency = df['total_MM'].iloc[-1]
+    # Determine the total MM fraction
+    last_MM_fraction = df['total_MM'].iloc[-1]
 
-    return float(last_MM_frequency)
+    return float(last_MM_fraction)
 
 """ Figure to determine the best WMMd IH value """
 def Figure_best_WMMd_IH():
@@ -1381,7 +1386,6 @@ def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
     legend_labels = ['Fraction OC', 'Fraction OB', 'Fraction MMd', 'Fraction MMr']
     fig.legend(labels = legend_labels, loc='upper center', ncol=4,
                                                                 fontsize='large')
-
     plt.show()
 
 """ Figure to determine the difference between traditional and adaptive therapy
@@ -1688,7 +1692,6 @@ def Figure_continuous_MTD_vs_AT_OB_a_h(n_switches, t_steps_drug):
     # Create a single legend outside of all plots
     legend_labels = ['Fraction OC', 'Fraction OB', 'Fraction MMd', 'Fraction MMr']
     fig.legend(labels = legend_labels, loc='upper center', ncol=4, fontsize='large')
-
     plt.show()
 
 
@@ -2133,7 +2136,6 @@ def Figure_duration_A_h_MMd_IH(n_switches, t_steps_drug, t_steps_no_drug):
     plt.grid(True)
     save_Figure(plt, 'line_plot_cell_frac_IH_diff_h_and_a_MMd_IH',
                                  r'..\visualisation\results_model_frac_IH_inf')
-
     plt.show()
 
 """ Figure showing the fraction and fitness dynamics"""
