@@ -1758,7 +1758,7 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
             # Add results to the dataframe
             new_row_df = pd.DataFrame([{'Generations no drug': \
                     int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
-                                             'MM fraction': float(frac_tumour)}])
+                                         'MM fraction': float(frac_tumour)}])
             df_holiday_GF_IH = pd.concat([df_holiday_GF_IH, new_row_df],
                                                             ignore_index=True)
 
@@ -1814,7 +1814,7 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
                     int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
                                             'MM fraction': float(frac_tumour)}])
             df_holiday_comb = pd.concat([df_holiday_comb, new_row_df],
-                                                                ignore_index=True)
+                                                            ignore_index=True)
 
     # Save the data
     save_dataframe(df_holiday_comb, 'df_cell_frac_IH_best_MMd_IH_holiday.csv',
@@ -1922,35 +1922,6 @@ def Figure_3D_MM_frac_MMd_IH_strength():
         [1.5, 0, 0.2, 0.0],
         [1.9, 0, -0.77, 0.2]])
 
-
-    # # Set initial parameter values
-    # N = 50
-    # cMMr = 1.3
-    # cMMd = 1.2
-    # cOB = 0.8
-    # cOC = 1
-    # xOC = 0.2
-    # xOB = 0.3
-    # xMMd = 0.2
-    # xMMr = 0.3
-    #
-    # cOC_IH = 2.0
-    # cOB_IH = 0.7
-    #
-    # # Payoff matrix when no drugs are pressent
-    # matrix_no_GF_IH = np.array([
-    #     [0.0, 1.6, 2.2, 1.9],
-    #     [0.95, 0.0, -0.5, -0.5],
-    #     [2.2, 0, 0.2, 0.0],
-    #     [1.9, 0, -0.77, 0.2]])
-    #
-    # # Payoff matrix when GF inhibitor drugs are pressent
-    # matrix_GF_IH = np.array([
-    #     [0.0, 1.6, 2.2, 1.9],
-    #     [0.95, 0.0, -0.5, -0.5],
-    #     [1.5, 0, 0.2, 0.0],
-    #     [1.9, 0, -0.77, 0.2]])
-
     # administration and holiday periods
     t_steps_drug = 8
     t_steps_no_drug = 8
@@ -2053,7 +2024,8 @@ def Figure_duration_A_h_MMd_IH(n_switches, t_steps_drug, t_steps_no_drug):
     Parameters:
     -----------
     n_switches: List
-        List with the fraction of switches between giving drugs and not giving drugs.
+        List with the fraction of switches between giving drugs and not giving
+        drugs.
     t_steps_drug: List
         List with the fraction of time steps drugs are administared.
     t_steps_no_drug: List

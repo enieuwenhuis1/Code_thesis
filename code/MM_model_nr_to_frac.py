@@ -41,7 +41,7 @@ def main():
     # by adaptive therapy (original situation)
     list_t_steps_drug = [10, 10, 10]
     Figure_continuous_MTD_vs_AT(20, list_t_steps_drug)
-    
+
     # Make a figure showing the cell fraction dynamics by traditional therapy and
     # by adaptive therapy for shorter holiday and administration periods compared
     # to the original situation
@@ -995,7 +995,8 @@ def Figure_continuous_MTD_vs_AT(n_switches, t_steps_drug):
 
     # Create a single legend outside of all plots
     legend_labels = ['OC fraction', 'OB fraction', 'MMd fraction', 'MMr fraction']
-    fig.legend(labels = legend_labels, loc='upper center', ncol=4, fontsize='large')
+    fig.legend(labels = legend_labels, loc='upper center', ncol=4,
+                                                                fontsize='large')
     plt.show()
 
 """ Figure to determine the difference between traditional and adaptive therapy.
@@ -1337,8 +1338,8 @@ def Figure_best_WMMd_IH():
     # Loop over the different WMMd_inhibitor values
     for WMMd_inhibitor in range(800):
         WMMd_inhibitor = WMMd_inhibitor/1000
-        nr_to_frac_tumour = minimal_tumour_nr_to_frac_WMMd_IH(WMMd_inhibitor, nOC, nOB,
-                        nMMd, nMMr, growth_rates, decay_rates, matrix, False)
+        nr_to_frac_tumour = minimal_tumour_nr_to_frac_WMMd_IH(WMMd_inhibitor,
+                nOC, nOB, nMMd, nMMr, growth_rates, decay_rates, matrix, False)
         dict_nr_to_frac_tumour[WMMd_inhibitor] = nr_to_frac_tumour
 
     # Save the data
@@ -1402,8 +1403,8 @@ def Figure_best_b_OC_MMd():
         b_OC_MMd = b_OC_MMd/1000
 
         # Determine the total MM number
-        nr_to_frac_tumour = minimal_tumour_nr_to_frac_b_OC_MMd(b_OC_MMd, nOC, nOB, nMMd,
-                                nMMr, growth_rates, decay_rates, matrix, False)
+        nr_to_frac_tumour = minimal_tumour_nr_to_frac_b_OC_MMd(b_OC_MMd, nOC, nOB,
+                            nMMd, nMMr, growth_rates, decay_rates, matrix, False)
         dict_nr_to_frac_tumour_GF[b_OC_MMd] = nr_to_frac_tumour
 
     # Save the data
@@ -1482,7 +1483,7 @@ def Figure_3D_MM_nr_to_frac_IH_add_and_holiday():
             # Add results to the dataframe
             new_row_df = pd.DataFrame([{'Generations no drug':
                     int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
-                                             'MM fraction': float(nr_to_frac_tumour)}])
+                                    'MM fraction': float(nr_to_frac_tumour)}])
             df_holiday_GF_IH = pd.concat([df_holiday_GF_IH, new_row_df],
                                                             ignore_index=True)
 
@@ -1510,7 +1511,7 @@ def Figure_3D_MM_nr_to_frac_IH_add_and_holiday():
             # Add results to the dataframe
             new_row_df = pd.DataFrame([{'Generations no drug': int(t_steps_no_drug),
                                             'Generations drug': int(t_steps_drug),
-                                             'MM fraction': float(nr_to_frac_tumour)}])
+                                    'MM fraction': float(nr_to_frac_tumour)}])
             df_holiday_W_IH = pd.concat([df_holiday_W_IH, new_row_df],
                                                                 ignore_index=True)
 
@@ -1536,7 +1537,7 @@ def Figure_3D_MM_nr_to_frac_IH_add_and_holiday():
             # Add results to the dataframe
             new_row_df = pd.DataFrame([{'Generations no drug': int(t_steps_no_drug),
                                             'Generations drug': int(t_steps_drug),
-                                            'MM fraction': float(nr_to_frac_tumour)}])
+                                    'MM fraction': float(nr_to_frac_tumour)}])
             df_holiday_comb = pd.concat([df_holiday_comb, new_row_df],
                                                                 ignore_index=True)
 

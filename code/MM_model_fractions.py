@@ -2570,7 +2570,8 @@ def Figure_duration_A_h_MMd_IH(n_switches, t_steps_drug, t_steps_no_drug):
     Parameters:
     -----------
     n_switches: List
-        List with the fraction of switches between giving drugs and not giving drugs.
+        List with the fraction of switches between giving drugs and not giving
+        drugs.
     t_steps_drug: List
         List with the fraction of time steps drugs are administared.
     t_steps_no_drug: List
@@ -2713,7 +2714,8 @@ def Dataframe_bOCMMd_eigenvalues():
                 new_row_df = pd.DataFrame([{'Generations no drug': \
                     int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
                     'MM fraction': float(frac_tumour)}])
-                df_holiday = pd.concat([df_holiday, new_row_df], ignore_index=True)
+                df_holiday = pd.concat([df_holiday, new_row_df],
+                                                            ignore_index=True)
 
         # Find the drug administration and holiday period causing the lowest MM
         # fraction
@@ -2728,7 +2730,8 @@ def Dataframe_bOCMMd_eigenvalues():
                 'Eigenvalue 3': eigenvalues[2], 'Eigenvalue 4': eigenvalues[3],
                 'period H': g_no_drug_min, 'period A': g_drug_min,
                 'MM fraction': frac_min}])
-        df_eigenvalues = pd.concat([df_eigenvalues, new_row_df], ignore_index=True)
+        df_eigenvalues = pd.concat([df_eigenvalues, new_row_df],
+                                                                ignore_index=True)
 
         # Add data to a dataframe and discard the imaginary part to make it a float
         new_row_df = pd.DataFrame([{'bOC,MMd': round(0.6 + (i/10), 1),
@@ -2878,7 +2881,8 @@ def Dataframe_bMMrOC_eigenvalues():
                 'Eigenvalue 3': eigenvalues[2], 'Eigenvalue 4': eigenvalues[3],
                 'period H': g_no_drug_min, 'period A': g_drug_min,
                 'MM fraction': frac_min}])
-        df_eigenvalues = pd.concat([df_eigenvalues, new_row_df], ignore_index=True)
+        df_eigenvalues = pd.concat([df_eigenvalues, new_row_df],
+                                                            ignore_index=True)
 
         # Add data to a dataframe and discard the imaginary part to make it a float
         new_row_df = pd.DataFrame([{'bMMd,MMr': round(1.5 + (i/10), 1),
@@ -2887,7 +2891,7 @@ def Dataframe_bMMrOC_eigenvalues():
                 'Eigenvalue 4': float(eigenvalues[3]), 'period H': g_no_drug_min,
                 'period A': g_drug_min, 'MM fraction': frac_min}])
         df_eigenvalues_float = pd.concat([df_eigenvalues_float, new_row_df],
-                                                                ignore_index=True)
+                                                            ignore_index=True)
 
     # Calculate Spearman correlation coefficients and p-values with eigenvalue 1
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\

@@ -42,8 +42,8 @@ def main():
     doctest.testmod()
     print(int(1))
 
-    minimise_MM_GF_comb_h()
-    minimise_MM_W_comb_h()
+    # minimise_MM_GF_comb_h()
+    # minimise_MM_W_comb_h()
 
 
     # minimise_MM_GF_W_h()
@@ -55,8 +55,8 @@ def main():
     # minimise_MM_GF_comb_W_h_IH()
     # minimise_MM_W_comb_GF_h_IH()
     #
-    # minimise_MM_GF_comb_W_h_IH2_0()
-    # minimise_MM_W_comb_GF_h_IH2_0()
+    minimise_MM_GF_GFandW_W_h_IH()
+    minimise_MM_W_WandGF_GF_h_IH()
 
     # # Make a figure showing the cell number dynamics by traditional therapy and
     # # by adaptive therapy (original situation)
@@ -2869,10 +2869,11 @@ def minimise_MM_GF_comb_W_h_IH():
 
 
 
-def minimise_MM_W_comb_GF_h_IH2_0():
+def minimise_MM_W_WandGF_GF_h_IH():
     """Function that determines the best IH administration durations and holliday
-    durations when the order is WMMd IH -> IH combination -> MMd GF IH -> holiday
-    -> WMMd IH etc.It also determines the best MMd GF IH and WMMd IH strength."""
+    durations when the order is WMMd IH -> WMMd IH + MMd GF IH  -> MMd GF IH ->
+    holiday -> WMMd IH etc.It also determines the best MMd GF IH and WMMd IH
+    strength."""
 
     # Set start values
     nOC = 20
@@ -2916,30 +2917,30 @@ def minimise_MM_W_comb_GF_h_IH2_0():
         [0.55, 0.0, -0.8, 0.4]])
 
     # Optimize the administration and holliday durations and the IH stregths
-    # t_step_IH_strength = [GF IH t, W IH t, comb t, h t, GF IH s, W IH s, comb
-    # GF IH s, comb W IH s]
+    # t_step_IH_strength = [GF IH t, W IH t, both IH t, h t, GF IH s, W IH s]
     t_step_IH_strength = [3, 3, 3, 3, 0.4, 0.4]
     result = minimize(minimal_tumour_nr_t_4_situations_IH_2_0, t_step_IH_strength,
         args=(switch_dataframe_W_comb2_0_GF_h, nOC, nOB, nMMd, nMMr, growth_rates,
         growth_rates_IH, decay_rates, decay_rates_IH, matrix_no_GF_IH,
         matrix_GF_IH, matrix_GF_IH_comb), bounds = [(0, None), (0, None), (0, None),
-        (0, None), (0, 0.55), (0, 0.6)], method='Nelder-Mead')
+        (0, None), (0, None), (0, None)], method='Nelder-Mead')
 
     # Print the results
     print('Order: WMMd IH -> IH combination -> MMd GF IH -> holiday -> WMMd IH etc.')
     print(f"""The best MMd GF IH add duration is {result.x[0]} generations
     The best WMMd IH add duration is {result.x[1]} generations
-    The best IH combination duration is {result.x[2]} generations
+    The best WMMd IH + MMd GF IH add duration is {result.x[2]} generations
     The best holliday duration is {result.x[3]} generations
     The best MMd GF IH strength is {result.x[4]}
     The best WMMd IH strength is {result.x[5]}
     --> gives a MM number of {result.fun}""")
 
 
-def minimise_MM_GF_comb_W_h_IH2_0():
+def minimise_MM_GF_GFandW_W_h_IH():
     """Function that determines the best IH administration durations and holliday
-    durations when the order is MMd GF IH-> IH combination -> WMMd IH -> holiday
-    -> MMd GF IH etc.It also determines the best MMd GF IH and WMMd IH strength."""
+    durations when the order is MMd GF IH-> MMd GF IH + WMMd IH -> WMMd IH ->
+    holiday -> MMd GF IH etc.It also determines the best MMd GF IH and WMMd IH
+    strength."""
 
     # Set start values
     nOC = 20
@@ -2973,24 +2974,25 @@ def minimise_MM_GF_comb_W_h_IH2_0():
         [0.55, 0.0, -0.8, 0.4]])
 
     # Optimize the administration and holliday durations and the IH stregths
-    # t_step_IH_strength = [GF IH t, W IH t, comb t, h t, GF IH s, W IH s, comb
-    # GF IH s, comb W IH s]
+    # t_step_IH_strength = [GF IH t, W IH t, both IH t, h t, GF IH s, W IH s]
     t_step_IH_strength = [3, 3, 3, 3, 0.4, 0.4]
     result = minimize(minimal_tumour_nr_t_4_situations_IH_2_0, t_step_IH_strength,
         args=(switch_dataframe_GF_comb2_0_W_h, nOC, nOB, nMMd, nMMr, growth_rates,
         growth_rates_IH, decay_rates, decay_rates_IH, matrix_no_GF_IH,
         matrix_GF_IH, matrix_GF_IH_comb), bounds = [(0, None), (0, None), (0, None),
-        (0, None), (0, 0.55), (0, 0.6)], method='Nelder-Mead')
+        (0, None), (0, None), (0, None)], method='Nelder-Mead')
 
     # Print the results
     print('Order: WMMd IH -> IH combination -> MMd GF IH -> holiday -> WMMd IH etc.')
     print(f"""The best MMd GF IH add duration is {result.x[0]} generations
     The best WMMd IH add duration is {result.x[1]} generations
-    The best IH combination duration is {result.x[2]} generations
+    The best WMMd IH + MMd GF IH add duration is {result.x[2]} generations
     The best holliday duration is {result.x[3]} generations
     The best MMd GF IH strength is {result.x[4]}
     The best WMMd IH strength is {result.x[5]}
     --> gives a MM number of {result.fun}""")
+
+
 
 def minimal_tumour_nr_t_4_situations_IH_2_0(t_steps_IH_strength, function_order, nOC,
                 nOB, nMMd, nMMr, growth_rates, growth_rates_IH, decay_rates,
