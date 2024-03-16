@@ -88,15 +88,15 @@ MM_model_frac_IH_inf.py:
 * scipy (version 1.11.4)
     - install: pip install scipy==1.11.4
 
-  MM_model_nr_to_frac_IH_inf.py:
-  * numpy (version 1.26.0)
-      - install: pip install numpy==1.26.0
-  * matplotlib (version 3.8.0)
-      - install: pip install matplotlib==3.8.0
-  * pandas (version 2.1.3)
-      - install: pip install pandas==2.1.3
-  * scipy (version 1.11.4)
-      - install: pip install scipy==1.11.4
+MM_model_nr_to_frac_IH_inf.py:
+* numpy (version 1.26.0)
+    - install: pip install numpy==1.26.0
+* matplotlib (version 3.8.0)
+    - install: pip install matplotlib==3.8.0
+* pandas (version 2.1.3)
+    - install: pip install pandas==2.1.3
+* scipy (version 1.11.4)
+    - install: pip install scipy==1.11.4
 
 
 MODEL WITH NONLINEAR BENEFITS: model_S_nonlinear.py
@@ -168,6 +168,20 @@ To test some of the functions in the model, doc tests are added and automaticall
 run when the MM_model_nr_to_frac.py code is run.
 
 
+FRACTION MODEL WITH EXTRA IH INFLUENCES: MM_model_frac_IH_inf.py
+MM_model_frac_IH_inf.py contains the code with the mathematical formulas simulating
+the fraction dynamics of the four cell types MMd, MMr, OCs and OBs in the MM
+microenvironment. It contains the code to make the figures showing the effect of
+the WMMd IH, the MMd GF IH and a combination of different administration periods
+and strengths on the cell type numbers. In addition, it also contains code to
+determine the drug administration amounts and periods causing the lowest total MM
+fraction. The IHs not only affect the MMd but also the OC and OB.
+
+TEST THE CODE
+To test some of the functions in the model, doc tests are added and automatically
+run when the MM_model_frac_IH_inf.py code is run.
+
+
 NUMBER MODEL WITH EXTRA IH INFLUENCES: MM_model_nr_IH_inf.py
 MM_model_nr_IH_inf.py contains the code with the mathematical formulas simulating
 the number dynamics of the four cell types MMd, MMr, OCs and OBs in the MM
@@ -183,19 +197,6 @@ TEST THE CODE
 To test some of the functions in the model, doc tests are added and automatically
 run when the MM_model_nr_IH_inf.py code is run.
 
-
-FRACTION MODEL WITH EXTRA IH INFLUENCES: MM_model_frac_IH_inf.py
-MM_model_frac_IH_inf.py contains the code with the mathematical formulas simulating
-the fraction dynamics of the four cell types MMd, MMr, OCs and OBs in the MM
-microenvironment. It contains the code to make the figures showing the effect of
-the WMMd IH, the MMd GF IH and a combination of different administration periods
-and strengths on the cell type numbers. In addition, it also contains code to
-determine the drug administration amounts and periods causing the lowest total MM
-fraction. The IHs not only affect the MMd but also the OC and OB.
-
-TEST THE CODE
-To test some of the functions in the model, doc tests are added and automatically
-run when the MM_model_frac_IH_inf.py code is run.
 
 NUMBER-TO-FRACTION MODEL WITH EXTRA IH INFLUENCES: MM_model_nr_to_frac_IH_inf.py
 MM_model_nr_to_frac_IH_inf.py uses the mathematical formulas from MM_model_numbers.py
@@ -227,11 +228,11 @@ and tables. This folder contains:
 * data_model_nr_to_frac: contains all the data obtained from the model simulating
                           cell type fractions by converting the numbers to
                           fractions.
-* data_model_nr_IH_inf.py: contains all the data obtained from the model simulating
-                          cell type numbers whereby extra IH influences were added.
 * data_model_frac_IH_inf.py: contains all the data obtained from the model
                           simulating cell type fractions whereby extra IH
                           influences were added.
+* data_model_nr_IH_inf.py: contains all the data obtained from the model simulating
+                          cell type numbers whereby extra IH influences were added.
 * data_model_nr_to_frac_IH_inf: contains all the data obtained from the model
                           simulating cell type fractions by converting the numbers
                           to fractions whereby also extra IH influences were added.
@@ -249,11 +250,11 @@ In the folder visualisation, all made figures are shown. This folder contains:
 * results_model_nr_to_frac: contains all the data obtained from the model
                             simulating cell type fractions by converting the
                             numbers to fractions.
-* results_model_nr_IH_inf.py: contains all the figures obtained from the model
-                            simulating cell type numbers whereby extra IH
-                            influences were added.
 * results_model_frac_IH_inf.py: contains all the figures obtained from the model
                             simulating cell type fractions whereby extra IH
+                            influences were added.
+* results_model_nr_IH_inf.py: contains all the figures obtained from the model
+                            simulating cell type numbers whereby extra IH
                             influences were added.
 * results_model_nr_to_frac_IH_inf: contains all the data obtained from the model
                             simulating cell type fractions by converting the
@@ -276,11 +277,11 @@ Model with numbers, MM_model_numbers.py
 Model where numbers are converted to fractions, MM_model_nr_to_frac.py
         - python MM_model_nr_to_frac.py
 
-Number model with extra IH influences, MM_model_nr_IH_inf.py
-        - python MM_model_nr_IH_inf.py
-
 Fraction model with extra IH influences, MM_model_frac_IH_inf.py
         - python MM_model_frac_IH_inf.py
+
+Number model with extra IH influences, MM_model_nr_IH_inf.py
+        - python MM_model_nr_IH_inf.py
 
 Number-to-fraction model with extra IH influences, MM_model_nr_to_frac_IH_inf.py
         - python MM_model_nr_to_frac_IH_inf.py
