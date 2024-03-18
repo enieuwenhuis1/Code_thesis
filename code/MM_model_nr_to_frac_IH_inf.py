@@ -507,12 +507,12 @@ def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd,
         List with the growth rate values of the OC, OB, MMd and MMr.
     growth_rates_IH: List
         List with the growth rate values of the OC, OB, MMd and MMr when a IH
-        is administerd.
+        is administered.
     decay_rates: List
         List with the decay rate values of OC, OB, MMd and MMr.
     decay_rates_IH: List
         List with the decay rate values of OC, OB, MMd and MMr when a IH is
-        administerd.
+        administered.
     matrix_no_GF_IH: Numpy.ndarray
         4x4 matrix containing the interaction factors when no GF IH are
                                                                 administrated.
@@ -567,7 +567,7 @@ def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd,
             df = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -595,7 +595,7 @@ def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd,
             df = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -610,7 +610,7 @@ def switch_dataframe_GF_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
                             growth_rates_IH, decay_rates, decay_rates_IH,
                             matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor = 0):
     """ Function that makes a dataframe of the nOC, nOB, nMMd and nMMr values
-    over time. First a MMd GF IH is administerd, then a WMMd IH and then there
+    over time. First a MMd GF IH is administered, then a WMMd IH and then there
     is a IH holiday.
 
     Parameters:
@@ -635,12 +635,12 @@ def switch_dataframe_GF_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
         List with the growth rate values of the OC, OB, MMd and MMr.
     growth_rates_IH: List
         List with the growth rate values of the OC, OB, MMd and MMr when a IH
-        is administerd.
+        is administered.
     decay_rates: List
         List with the decay rate values of OC, OB, MMd and MMr.
     decay_rates_IH: List
         List with the decay rate values of OC, OB, MMd and MMr when a IH is
-        administerd.
+        administered.
     matrix_no_GF_IH: Numpy.ndarray
         4x4 matrix containing the interaction factors when no GF IH are
         administered.
@@ -696,7 +696,7 @@ def switch_dataframe_GF_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -725,7 +725,7 @@ def switch_dataframe_GF_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -754,7 +754,7 @@ def switch_dataframe_GF_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -770,7 +770,7 @@ def switch_dataframe_GF_h_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
                     growth_rates_IH, decay_rates, decay_rates_IH,
                     matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor = 0):
     """ Function that makes a dataframe of the nOC, nOB, nMMd and nMMr values
-    over time. First a MMd GF IH is administerd, then a IH holiday, then a WMMd
+    over time. First a MMd GF IH is administered, then a IH holiday, then a WMMd
     IH and then a IH holiday again.
 
     Parameters:
@@ -795,12 +795,12 @@ def switch_dataframe_GF_h_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
         List with the growth rate values of the OC, OB, MMd and MMr.
     growth_rates_IH: List
         List with the growth rate values of the OC, OB, MMd and MMr when a IH
-        is administerd.
+        is administered.
     decay_rates: List
         List with the decay rate values of OC, OB, MMd and MMr.
     decay_rates_IH: List
         List with the decay rate values of OC, OB, MMd and MMr when a IH is
-        administerd.
+        administered.
     matrix_no_GF_IH: Numpy.ndarray
         4x4 matrix containing the interaction factors when no GF IH are
         administered.
@@ -855,7 +855,7 @@ def switch_dataframe_GF_h_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -884,7 +884,7 @@ def switch_dataframe_GF_h_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -913,7 +913,7 @@ def switch_dataframe_GF_h_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -942,7 +942,7 @@ def switch_dataframe_GF_h_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -957,7 +957,7 @@ def switch_dataframe_W_h_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
                     growth_rates_IH, decay_rates, decay_rates_IH,
                     matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor = 0):
     """ Function that makes a dataframe of the nOC, nOB, nMMd and nMMr values
-    over time. First a WMMd IH is administerd, then a IH holiday, then a MMd GF
+    over time. First a WMMd IH is administered, then a IH holiday, then a MMd GF
     IH and then a IH holiday again.
 
     Parameters:
@@ -982,12 +982,12 @@ def switch_dataframe_W_h_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
         List with the growth rate values of the OC, OB, MMd and MMr.
     growth_rates_IH: List
         List with the growth rate values of the OC, OB, MMd and MMr when a IH
-        is administerd.
+        is administered.
     decay_rates: List
         List with the decay rate values of OC, OB, MMd and MMr.
     decay_rates_IH: List
         List with the decay rate values of OC, OB, MMd and MMr when a IH is
-        administerd.
+        administered.
     matrix_no_GF_IH: Numpy.ndarray
         4x4 matrix containing the interaction factors when no GF IH are
         administered.
@@ -1042,7 +1042,7 @@ def switch_dataframe_W_h_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -1071,7 +1071,7 @@ def switch_dataframe_W_h_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -1100,7 +1100,7 @@ def switch_dataframe_W_h_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -1129,7 +1129,7 @@ def switch_dataframe_W_h_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -1145,7 +1145,7 @@ def switch_dataframe_W_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
                     growth_rates_IH, decay_rates, decay_rates_IH,
                     matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor = 0):
     """ Function that makes a dataframe of the nOC, nOB, nMMd and nMMr values over
-    time. First a WMMd IH is administerd, then a MMd GF IH and then there is a
+    time. First a WMMd IH is administered, then a MMd GF IH and then there is a
     IH holiday.
 
     Parameters:
@@ -1170,12 +1170,12 @@ def switch_dataframe_W_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
         List with the growth rate values of the OC, OB, MMd and MMr.
     growth_rates_IH: List
         List with the growth rate values of the OC, OB, MMd and MMr when a IH
-        is administerd.
+        is administered.
     decay_rates: List
         List with the decay rate values of OC, OB, MMd and MMr.
     decay_rates_IH: List
         List with the decay rate values of OC, OB, MMd and MMr when a IH is
-        administerd.
+        administered.
     matrix_no_GF_IH: Numpy.ndarray
         4x4 matrix containing the interaction factors when no GF IH are
         administered.
@@ -1230,7 +1230,7 @@ def switch_dataframe_W_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -1259,7 +1259,7 @@ def switch_dataframe_W_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -1288,7 +1288,7 @@ def switch_dataframe_W_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -1304,7 +1304,7 @@ def switch_dataframe_W_comb_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             growth_rates_IH, decay_rates, decay_rates_IH, matrix_no_GF_IH,
             matrix_GF_IH, matrix_GF_IH_comb, WMMd_inhibitor, WMMd_inhibitor_comb):
     """ Function that makes a dataframe of the nOC, nOB, nMMd and nMMr values over
-    time. First a WMMd IH is administerd, then a IH combination, then a MMd GF IH
+    time. First a WMMd IH is administered, then a IH combination, then a MMd GF IH
     and then a IH holiday.
 
     Parameters:
@@ -1331,12 +1331,12 @@ def switch_dataframe_W_comb_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
         List with the growth rate values of the OC, OB, MMd and MMr.
     growth_rates_IH: List
         List with the growth rate values of the OC, OB, MMd and MMr when a IH
-        is administerd.
+        is administered.
     decay_rates: List
         List with the decay rate values of OC, OB, MMd and MMr.
     decay_rates_IH: List
         List with the decay rate values of OC, OB, MMd and MMr when a IH is
-        administerd.
+        administered.
     matrix_no_GF_IH: Numpy.ndarray
         4x4 matrix containing the interaction factors when no GF IH are
         administered.
@@ -1396,7 +1396,7 @@ def switch_dataframe_W_comb_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -1426,7 +1426,7 @@ def switch_dataframe_W_comb_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -1455,7 +1455,7 @@ def switch_dataframe_W_comb_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -1484,7 +1484,7 @@ def switch_dataframe_W_comb_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -1499,7 +1499,7 @@ def switch_dataframe_GF_comb_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             growth_rates_IH, decay_rates, decay_rates_IH, matrix_no_GF_IH,
             matrix_GF_IH, matrix_GF_IH_comb, WMMd_inhibitor, WMMd_inhibitor_comb):
     """ Function that makes a dataframe of the nOC, nOB, nMMd and nMMr values over
-    time. First a MMd GF IH is administerd, the a IH combination, then a MMd GF
+    time. First a MMd GF IH is administered, the a IH combination, then a MMd GF
     IH and then a IH holiday.
 
     Parameters:
@@ -1526,12 +1526,12 @@ def switch_dataframe_GF_comb_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
         List with the growth rate values of the OC, OB, MMd and MMr.
     growth_rates_IH: List
         List with the growth rate values of the OC, OB, MMd and MMr when a IH
-        is administerd.
+        is administered.
     decay_rates: List
         List with the decay rate values of OC, OB, MMd and MMr.
     decay_rates_IH: List
         List with the decay rate values of OC, OB, MMd and MMr when a IH is
-        administerd.
+        administered.
     matrix_no_GF_IH: Numpy.ndarray
         4x4 matrix containing the interaction factors when no GF IH are
         administered.
@@ -1591,7 +1591,7 @@ def switch_dataframe_GF_comb_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -1621,7 +1621,7 @@ def switch_dataframe_GF_comb_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -1650,7 +1650,7 @@ def switch_dataframe_GF_comb_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -1679,7 +1679,7 @@ def switch_dataframe_GF_comb_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -1695,7 +1695,7 @@ def switch_dataframe_GF_WandGF_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             growth_rates_IH, decay_rates, decay_rates_IH, matrix_no_GF_IH,
             matrix_GF_IH, matrix_GF_IH_comb, WMMd_inhibitor):
     """ Function that makes a dataframe of the nOC, nOB, nMMd and nMMr values over
-    time. First a MMd GF IH is administerd, then the WMMd IH and MMd GF IH, then
+    time. First a MMd GF IH is administered, then the WMMd IH and MMd GF IH, then
     a MMd GF IH and then there is a drug holliday.
 
     Parameters:
@@ -1722,12 +1722,12 @@ def switch_dataframe_GF_WandGF_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
         List with the growth rate values of the OC, OB, MMd and MMr.
     growth_rates_IH: List
         List with the growth rate values of the OC, OB, MMd and MMr when a IH
-        is administerd.
+        is administered.
     decay_rates: List
         List with the decay rate values of OC, OB, MMd and MMr.
     decay_rates_IH: List
         List with the decay rate values of OC, OB, MMd and MMr when a IH is
-        administerd.
+        administered.
     matrix_no_GF_IH: Numpy.ndarray
         4x4 matrix containing the interaction factors when no GF IH are
         administered.
@@ -1785,7 +1785,7 @@ def switch_dataframe_GF_WandGF_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -1813,7 +1813,7 @@ def switch_dataframe_GF_WandGF_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -1841,7 +1841,7 @@ def switch_dataframe_GF_WandGF_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -1870,7 +1870,7 @@ def switch_dataframe_GF_WandGF_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -1887,7 +1887,7 @@ def switch_dataframe_W_WandGF_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             growth_rates_IH, decay_rates, decay_rates_IH, matrix_no_GF_IH,
             matrix_GF_IH, matrix_GF_IH_comb, WMMd_inhibitor):
     """ Function that makes a dataframe of the nOC, nOB, nMMd and nMMr values over
-    time. First a WMMd IH is administerd, then the WMMd IH and MMd GF IH, then a
+    time. First a WMMd IH is administered, then the WMMd IH and MMd GF IH, then a
     MMd GF IH and then there is a drug holliday.
 
     Parameters:
@@ -1914,12 +1914,12 @@ def switch_dataframe_W_WandGF_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
         List with the growth rate values of the OC, OB, MMd and MMr.
     growth_rates_IH: List
         List with the growth rate values of the OC, OB, MMd and MMr when a IH
-        is administerd.
+        is administered.
     decay_rates: List
         List with the decay rate values of OC, OB, MMd and MMr.
     decay_rates_IH: List
         List with the decay rate values of OC, OB, MMd and MMr when a IH is
-        administerd.
+        administered.
     matrix_no_GF_IH: Numpy.ndarray
         4x4 matrix containing the interaction factors when no GF IH are
         administered.
@@ -1977,7 +1977,7 @@ def switch_dataframe_W_WandGF_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -2005,7 +2005,7 @@ def switch_dataframe_W_WandGF_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -2033,7 +2033,7 @@ def switch_dataframe_W_WandGF_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -2062,7 +2062,7 @@ def switch_dataframe_W_WandGF_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -2100,12 +2100,12 @@ def minimal_tumour_nr_to_frac_t_3_situations(t_steps_IH_strength, function_order
         List with the growth rate values of the OC, OB, MMd and MMr.
     growth_rates_IH: List
         List with the growth rate values of the OC, OB, MMd and MMr when a IH
-        is administerd.
+        is administered.
     decay_rates: List
         List with the decay rate values of OC, OB, MMd and MMr.
     decay_rates_IH: List
         List with the decay rate values of OC, OB, MMd and MMr when a IH is
-        administerd.
+        administered.
     matrix_no_GF_IH: Numpy.ndarray
         4x4 matrix containing the interaction factors when no GF IH are
         administered.
@@ -2164,12 +2164,12 @@ def minimal_tumour_nr_to_frac_t_3_situations(t_steps_IH_strength, function_order
         List with the growth rate values of the OC, OB, MMd and MMr.
     growth_rates_IH: List
         List with the growth rate values of the OC, OB, MMd and MMr when a IH
-        is administerd.
+        is administered.
     decay_rates: List
         List with the decay rate values of OC, OB, MMd and MMr.
     decay_rates_IH: List
         List with the decay rate values of OC, OB, MMd and MMr when a IH is
-        administerd.
+        administered.
     matrix_no_GF_IH: Numpy.ndarray
         4x4 matrix containing the interaction factors when no GF IH are
         administered.
@@ -2231,12 +2231,12 @@ def minimal_tumour_nr_to_frac_t_3_situations_IH(t_steps_IH_strength, function_or
         List with the growth rate values of the OC, OB, MMd and MMr.
     growth_rates_IH: List
         List with the growth rate values of the OC, OB, MMd and MMr when a IH
-        is administerd.
+        is administered.
     decay_rates: List
         List with the decay rate values of OC, OB, MMd and MMr.
     decay_rates_IH: List
         List with the decay rate values of OC, OB, MMd and MMr when a IH is
-        administerd.
+        administered.
     matrix_no_GF_IH: Numpy.ndarray
         4x4 matrix containing the interaction factors when no GF IH are
         administered.
@@ -2297,12 +2297,12 @@ def minimal_tumour_nr_to_frac_t_4_situations(t_steps, function_order, nOC, nOB,
         List with the growth rate values of the OC, OB, MMd and MMr.
     growth_rates_IH: List
         List with the growth rate values of the OC, OB, MMd and MMr when a IH
-        is administerd.
+        is administered.
     decay_rates: List
         List with the decay rate values of OC, OB, MMd and MMr.
     decay_rates_IH: List
         List with the decay rate values of OC, OB, MMd and MMr when a IH is
-        administerd.
+        administered.
     matrix_no_GF_IH: Numpy.ndarray
         4x4 matrix containing the interaction factors when no GF IH are
         administered.
@@ -2368,12 +2368,12 @@ def minimal_tumour_nr_to_frac_t_4_sit_equal_IH(t_steps_IH_strength, function_ord
         List with the growth rate values of the OC, OB, MMd and MMr.
     growth_rates_IH: List
         List with the growth rate values of the OC, OB, MMd and MMr when a IH
-        is administerd.
+        is administered.
     decay_rates: List
         List with the decay rate values of OC, OB, MMd and MMr.
     decay_rates_IH: List
         List with the decay rate values of OC, OB, MMd and MMr when a IH is
-        administerd.
+        administered.
     matrix_no_GF_IH: Numpy.ndarray
         4x4 matrix containing the interaction factors when no GF IH are
         administered.
@@ -2445,12 +2445,12 @@ def minimal_tumour_nr_to_frac_t_4_situations_IH(t_steps_IH_strength,
         List with the growth rate values of the OC, OB, MMd and MMr.
     growth_rates_IH: List
         List with the growth rate values of the OC, OB, MMd and MMr when a IH
-        is administerd.
+        is administered.
     decay_rates: List
         List with the decay rate values of OC, OB, MMd and MMr.
     decay_rates_IH: List
         List with the decay rate values of OC, OB, MMd and MMr when a IH is
-        administerd.
+        administered.
     matrix_no_GF_IH: Numpy.ndarray
         4x4 matrix containing the interaction factors when no GF IH are
         administered.
@@ -2516,12 +2516,12 @@ def continuous_add_IH_df(end_generation, nOC, nOB, nMMd, nMMr, growth_rates,
         List with the growth rate values of the OC, OB, MMd and MMr.
     growth_rates_IH: List
         List with the growth rate values of the OC, OB, MMd and MMr when a IH
-        is administerd.
+        is administered.
     decay_rates: List
         List with the decay rate values of OC, OB, MMd and MMr.
     decay_rates_IH: List
         List with the decay rate values of OC, OB, MMd and MMr when a IH is
-        administerd.
+        administered.
     matrix_no_GF_IH: Numpy.ndarray
         4x4 matrix containing the interaction factors when no GF IH are
                                                                     administrated.
@@ -2533,7 +2533,7 @@ def continuous_add_IH_df(end_generation, nOC, nOB, nMMd, nMMr, growth_rates,
     Returns:
     --------
     df_total: DataFrame
-        The dataframe with the cell numbers when IHs are continiously administerd.
+        The dataframe with the cell numbers when IHs are continiously administered.
     """
     t = np.linspace(0, 60, 60)
     y0 = [nOC, nOB, nMMd, nMMr]
@@ -2574,7 +2574,7 @@ def x_y_z_axis_values_3d_plot(dataframe, name):
     Dataframe: dataFrame
         The dataframe with the generated data
     name: String
-        The name of the administerd IH(s)
+        The name of the administered IH(s)
 
     Returns:
     --------
@@ -2644,12 +2644,12 @@ def minimal_tumour_nr_to_frac_to_frac_t_steps(t_steps_drug, t_steps_no_drug, nOC
         List with the growth rate values of the OC, OB, MMd and MMr.
     growth_rates_IH: List
         List with the growth rate values of the OC, OB, MMd and MMr when a IH
-        is administerd.
+        is administered.
     decay_rates: List
         List with the decay rate values of OC, OB, MMd and MMr.
     decay_rates_IH: List
         List with the decay rate values of OC, OB, MMd and MMr when a IH is
-        administerd.
+        administered.
     matrix_no_GF_IH: Numpy.ndarray
         4x4 matrix containing the interaction factors when no GF IH are
                                                                 administrated.
@@ -2704,12 +2704,12 @@ def minimal_tumour_nr_to_frac_to_frac_b_OC_MMd(b_OC_MMd, nOC, nOB, nMMd, nMMr,
         List with the growth rate values of the OC, OB, MMd and MMr.
     growth_rates_IH: List
         List with the growth rate values of the OC, OB, MMd and MMr when a IH
-        is administerd.
+        is administered.
     decay_rates: List
         List with the decay rate values of OC, OB, MMd and MMr.
     decay_rates_IH: List
         List with the decay rate values of OC, OB, MMd and MMr when a IH is
-        administerd.
+        administered.
     matrix: Numpy.ndarray
         4x4 matrix containing the interaction factors.
     b_OC_MMd_array: Float
@@ -2795,12 +2795,12 @@ def minimal_tumour_nr_to_frac_to_frac_WMMd_IH(WMMd_inhibitor, nOC, nOB, nMMd,
         List with the growth rate values of the OC, OB, MMd and MMr.
     growth_rates_IH: List
         List with the growth rate values of the OC, OB, MMd and MMr when a IH
-        is administerd.
+        is administered.
     decay_rates: List
         List with the decay rate values of OC, OB, MMd and MMr.
     decay_rates_IH: List
         List with the decay rate values of OC, OB, MMd and MMr when a IH is
-        administerd.
+        administered.
     matrix: Numpy.ndarray
         4x4 matrix containing the interaction factors.
     WMMd_inhibitor_array: Float

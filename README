@@ -38,57 +38,8 @@ Libraries for model_S_nonlinear.py and model_S_linear.py:
 * scipy (version 1.11.4)
     - install: pip install scipy==1.11.4
 
-MM_model_fractions.py:
-* numpy (version 1.26.0)
-    - install: pip install numpy==1.26.0
-* matplotlib (version 3.8.0)
-    - install: pip install matplotlib==3.8.0
-* pandas (version 2.1.3)
-    - install: pip install pandas==2.1.3
-* scipy (version 1.11.4)
-    - install: pip install scipy==1.11.4
-
-MM_model_numbers.py:
-* numpy (version 1.26.0)
-    - install: pip install numpy==1.26.0
-* matplotlib (version 3.8.0)
-    - install: pip install matplotlib==3.8.0
-* pandas (version 2.1.3)
-    - install: pip install pandas==2.1.3
-* scipy (version 1.11.4)
-    - install: pip install scipy==1.11.4
-
-MM_model_nr_to_frac.py:
-* numpy (version 1.26.0)
-    - install: pip install numpy==1.26.0
-* matplotlib (version 3.8.0)
-    - install: pip install matplotlib==3.8.0
-* pandas (version 2.1.3)
-    - install: pip install pandas==2.1.3
-* scipy (version 1.11.4)
-    - install: pip install scipy==1.11.4
-
-MM_model_frac_IH_inf.py:
-* numpy (version 1.26.0)
-    - install: pip install numpy==1.26.0
-* matplotlib (version 3.8.0)
-    - install: pip install matplotlib==3.8.0
-* pandas (version 2.1.3)
-    - install: pip install pandas==2.1.3
-* scipy (version 1.11.4)
-    - install: pip install scipy==1.11.4
-
-MM_model_nr_IH_inf.py:
-* numpy (version 1.26.0)
-    - install: pip install numpy==1.26.0
-* matplotlib (version 3.8.0)
-    - install: pip install matplotlib==3.8.0
-* pandas (version 2.1.3)
-    - install: pip install pandas==2.1.3
-* scipy (version 1.11.4)
-    - install: pip install scipy==1.11.4
-
-MM_model_nr_to_frac_IH_inf.py:
+Libraries for MM_model_fractions.py, MM_model_numbers.py, MM_model_nr_to_frac.py
+MM_model_frac_IH_inf.py, MM_model_nr_IH_inf.py and MM_model_nr_to_frac_IH_inf.py:
 * numpy (version 1.26.0)
     - install: pip install numpy==1.26.0
 * matplotlib (version 3.8.0)

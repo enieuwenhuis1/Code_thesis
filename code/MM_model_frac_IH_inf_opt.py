@@ -42,10 +42,10 @@ def main():
     # Do doc tests
     doctest.testmod()
 
-    # # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # # by adaptive therapy (original situation)
-    # list_t_steps_drug = [10, 10, 10]
-    # Figure_continuous_MTD_vs_AT_a_h(13, list_t_steps_drug)
+    # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # by adaptive therapy (original situation)
+    list_t_steps_drug = [10, 10, 10]
+    Figure_continuous_MTD_vs_AT_a_h(13, list_t_steps_drug)
     #
     # # Make a figure showing the cell fraction dynamics by traditional therapy and
     # # by adaptive therapy for shorter holiday and administration periods compared
@@ -608,7 +608,7 @@ def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd,
             df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
                 'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -636,7 +636,7 @@ def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd,
             df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
                 'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -739,7 +739,7 @@ def switch_dataframe_GF_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
                 'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -768,7 +768,7 @@ def switch_dataframe_GF_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
                 'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -797,7 +797,7 @@ def switch_dataframe_GF_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
                 'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -901,7 +901,7 @@ def switch_dataframe_W_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
                 'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -929,7 +929,7 @@ def switch_dataframe_W_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
                 'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -958,7 +958,7 @@ def switch_dataframe_W_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
                 'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -1062,7 +1062,7 @@ def switch_dataframe_GF_h_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
                 'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -1091,7 +1091,7 @@ def switch_dataframe_GF_h_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
                 'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -1119,7 +1119,7 @@ def switch_dataframe_GF_h_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
                 'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -1148,7 +1148,7 @@ def switch_dataframe_GF_h_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
                 'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -1252,7 +1252,7 @@ def switch_dataframe_W_h_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
                 'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -1281,7 +1281,7 @@ def switch_dataframe_W_h_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
                 'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -1309,7 +1309,7 @@ def switch_dataframe_W_h_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
                 'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -1338,7 +1338,7 @@ def switch_dataframe_W_h_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
                 'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -1457,7 +1457,7 @@ def switch_dataframe_W_comb_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
                 'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -1486,7 +1486,7 @@ def switch_dataframe_W_comb_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
                 'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -1513,7 +1513,7 @@ def switch_dataframe_W_comb_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
                 'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -1542,7 +1542,7 @@ def switch_dataframe_W_comb_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
                 'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -1654,7 +1654,7 @@ def switch_dataframe_GF_comb_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
                 'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -1683,7 +1683,7 @@ def switch_dataframe_GF_comb_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
                 'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -1710,7 +1710,7 @@ def switch_dataframe_GF_comb_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
                 'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -1739,7 +1739,7 @@ def switch_dataframe_GF_comb_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
                 'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 

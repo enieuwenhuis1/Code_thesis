@@ -444,7 +444,7 @@ def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd,
             df = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -472,7 +472,7 @@ def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd,
             df = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -514,7 +514,7 @@ def continuous_add_IH_df(end_generation, nOC, nOB, nMMd, nMMr, growth_rates,
     Returns:
     --------
     df_total: DataFrame
-        The dataframe with the cell numbers when IHs are continiously administerd.
+        The dataframe with the cell numbers when IHs are continiously administered.
     """
     t = np.linspace(0, 60, 60)
     y0 = [nOC, nOB, nMMd, nMMr]
@@ -608,7 +608,7 @@ def x_y_z_axis_values_3d_plot(dataframe, name):
     Dataframe: dataFrame
         The dataframe with the generated data
     name: String
-        The name of the administerd IH(s)
+        The name of the administered IH(s)
 
     Returns:
     --------

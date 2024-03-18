@@ -586,7 +586,7 @@ def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd,
             df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
                 'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -614,7 +614,7 @@ def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd,
             df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
                 'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -709,7 +709,7 @@ def pronto_switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, xOC, xOB,
             df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
                 'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -737,7 +737,7 @@ def pronto_switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, xOC, xOB,
             df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
                 'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
-            # Add dataframe tot total dataframe
+            # Add dataframe to total dataframe
             df_total_switch = pd.concat([df_total_switch, df])
             df_total_switch.reset_index(drop=True, inplace=True)
 
@@ -786,7 +786,7 @@ def continuous_add_IH_df(end_generation, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd
     --------
     df_total: DataFrame
         The dataframe with the cell fractions when IHs are continiously
-                                                                    administerd.
+                                                                    administered.
     """
     t = np.linspace(0, 15, 15)
     y0 = [xOC, xOB, xMMd, xMMr]
@@ -901,7 +901,7 @@ def x_y_z_axis_values_3d_plot(dataframe, name):
     Dataframe: dataFrame
         The dataframe with the generated data
     name: String
-        The name of the administerd IH(s)
+        The name of the administered IH(s)
 
     Returns:
     --------
@@ -2520,7 +2520,7 @@ def Figure_frac_fitness_dynamics():
                                  'Fraction MMr'], ax=axs[0, 0])
     axs[0, 0].set_xlabel(' ')
     axs[0, 0].set_ylabel('Fraction')
-    axs[0, 0].set_title(r'Fraction dynamics when a $W_{MMd}$ IH is administerd')
+    axs[0, 0].set_title(r'Fraction dynamics when a $W_{MMd}$ IH is administered')
     axs[0, 0].legend(loc = 'upper right')
     axs[0, 0].grid(True)
 
@@ -2528,7 +2528,7 @@ def Figure_frac_fitness_dynamics():
     df_fitness_WMMd_inhibition.plot(y=['WOC', 'WOB', 'WMMd', 'WMMr', 'W_average'],
                             label = ['Fitness OC', 'Fitness OB', 'Fitness MMd',
                             'Fitness MMr', 'Average fitness'],  ax=axs[1, 0])
-    axs[1, 0].set_title(r'Fitness dynamics when a $W_{MMd}$ IH is administerd')
+    axs[1, 0].set_title(r'Fitness dynamics when a $W_{MMd}$ IH is administered')
     axs[1, 0].set_xlabel('Generations')
     axs[1, 0].set_ylabel('Fitness')
     axs[1, 0].legend(['Fitness OC', 'Fitness OB', 'Fitness MMd', 'Fitness MMr',
@@ -2542,7 +2542,7 @@ def Figure_frac_fitness_dynamics():
                                                 'Fraction MMr'], ax=axs[0, 1])
     axs[0, 1].set_xlabel(' ')
     axs[0, 1].set_ylabel('Fraction')
-    axs[0, 1].set_title('Fraction dynamics when a MMd GF IH is administerd')
+    axs[0, 1].set_title('Fraction dynamics when a MMd GF IH is administered')
     axs[0, 1].legend(loc = 'upper right')
     axs[0, 1].grid(True)
 
@@ -2550,7 +2550,7 @@ def Figure_frac_fitness_dynamics():
     df_fitness_MMd_GF_inhibition.plot(y=['WOC', 'WOB', 'WMMd', 'WMMr', 'W_average'],
                              label = ['Fitness OC', 'Fitness OB', 'Fitness MMd',
                             'Fitness MMr', 'Average fitness'],  ax=axs[1, 1])
-    axs[1, 1].set_title('Fitness dynamics when a MMd GF IH is administerd')
+    axs[1, 1].set_title('Fitness dynamics when a MMd GF IH is administered')
     axs[1, 1].set_xlabel('Generations')
     axs[1, 1].set_ylabel('Fitness')
     axs[1, 1].legend(loc = 'upper right')
