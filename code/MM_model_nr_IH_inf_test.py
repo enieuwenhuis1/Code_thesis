@@ -200,9 +200,9 @@ def main():
     # minimise_MM_GF_W_h_IH()
     # minimise_MM_GF_W_h_IH()
     # print(hi)
-
-    # # Optimise IH administration duration, holiday duration and strength for
-    # # WMMd IH -> MMd GF IH ->  holiday
+    #
+    # # # Optimise IH administration duration, holiday duration and strength for
+    # # # WMMd IH -> MMd GF IH ->  holiday
     # minimise_MM_W_GF_h_IH()
     # minimise_MM_W_GF_h_IH()
     # minimise_MM_W_GF_h_IH()
@@ -243,54 +243,64 @@ def main():
     # minimise_MM_W_h_GF_h_IH()
     # minimise_MM_W_h_GF_h_IH()
     # print(hi)
-    #
-    # # # Optimise IH administration duration and holiday duration for MMd GF IH
-    # # # -> IH combination -> WMMd IH -> holiday
-    # # minimise_MM_GF_comb_W_h()
-    # # minimise_MM_GF_comb_W_h()
-    # # minimise_MM_GF_comb_W_h()
-    # # minimise_MM_GF_comb_W_h()
-    # # minimise_MM_GF_comb_W_h()
-    # # print(hi)
-    #
-    # # Optimise IH administration duration and holiday duration for WMMd IH ->
-    # # IH combination -> MMd GF IH -> holiday
-    # # minimise_MM_W_comb_GF_h()
-    # # minimise_MM_W_comb_GF_h()
-    # # minimise_MM_W_comb_GF_h()
-    # # minimise_MM_W_comb_GF_h()
-    # # minimise_MM_W_comb_GF_h()
-    # # print(hi)
-    #
-    # # # Optimise IH administration duration, holiday duration and strengths for
-    # # # MMd GF IH -> IH combination -> WMMd IH -> holiday
-    # minimise_MM_GF_comb_W_h_IH()
-    # minimise_MM_GF_comb_W_h_IH()
-    # minimise_MM_GF_comb_W_h_IH()
-    # minimise_MM_GF_comb_W_h_IH()
-    # minimise_MM_GF_comb_W_h_IH()
-    # print(hi)
-    #
-    # # Optimise IH administration duration, holiday duration and strengths for
-    # # WMMd IH -> IH combination -> MMd GF IH -> holiday
-    # minimise_MM_W_comb_GF_h_IH()
-    # minimise_MM_W_comb_GF_h_IH()
-    # minimise_MM_W_comb_GF_h_IH()
-    # minimise_MM_W_comb_GF_h_IH()
-    # minimise_MM_W_comb_GF_h_IH()
+
+    # Optimise IH administration duration and holiday duration for MMd GF IH
+    # -> IH combination -> WMMd IH -> holiday
+    # minimise_MM_GF_comb_W_h()
+    # minimise_MM_GF_comb_W_h()
+    # minimise_MM_GF_comb_W_h()
+    # minimise_MM_GF_comb_W_h()
+    # minimise_MM_GF_comb_W_h()
     # print(hi)
 
-    # # Optimise IH administration duration, holiday duration and strengths for
-    # # MMd GF IH -> WMMd IH + MMd GF IH -> WMMd IH -> holiday
-    # # minimise_MM_GF_GFandW_W_h_IH()
-    # # minimise_MM_GF_GFandW_W_h_IH()
-    # # minimise_MM_GF_GFandW_W_h_IH()
-    # # minimise_MM_GF_GFandW_W_h_IH()
-    # # minimise_MM_GF_GFandW_W_h_IH()
-    # # print(hi)
-    #
-    # # Optimise IH administration duration, holiday duration and strengths for
-    # # WMMd IH -> WMMd IH + MMd GF IH -> MMd GF IH -> holiday
+    # Optimise IH administration duration and holiday duration for WMMd IH ->
+    # IH combination -> MMd GF IH -> holiday
+    # minimise_MM_W_comb_GF_h()
+    # minimise_MM_W_comb_GF_h()
+    # minimise_MM_W_comb_GF_h()
+    # minimise_MM_W_comb_GF_h()
+    # minimise_MM_W_comb_GF_h()
+    # print(hi)
+
+    # Optimise IH administration duration, holiday duration and strengths for
+    # MMd GF IH -> IH combination -> WMMd IH -> holiday
+    # minimise_MM_GF_comb_W_h_IH()
+    # minimise_MM_GF_comb_W_h_IH()
+    # minimise_MM_GF_comb_W_h_IH()
+    # minimise_MM_GF_comb_W_h_IH()
+    # minimise_MM_GF_comb_W_h_IH()
+    # minimise_MM_GF_comb_W_h_IH()
+    # minimise_MM_GF_comb_W_h_IH()
+    # minimise_MM_GF_comb_W_h_IH()
+    # minimise_MM_GF_comb_W_h_IH()
+    # minimise_MM_GF_comb_W_h_IH()
+    # print(hi)
+
+    # Optimise IH administration duration, holiday duration and strengths for
+    # WMMd IH -> IH combination -> MMd GF IH -> holiday
+    minimise_MM_W_comb_GF_h_IH()
+    minimise_MM_W_comb_GF_h_IH()
+    minimise_MM_W_comb_GF_h_IH()
+    minimise_MM_W_comb_GF_h_IH()
+    minimise_MM_W_comb_GF_h_IH()
+    minimise_MM_W_comb_GF_h_IH()
+    minimise_MM_W_comb_GF_h_IH()
+    minimise_MM_W_comb_GF_h_IH()
+    minimise_MM_W_comb_GF_h_IH()
+    minimise_MM_W_comb_GF_h_IH()
+    print(hi)
+
+    # Optimise IH administration duration, holiday duration and strengths for
+    # MMd GF IH -> WMMd IH + MMd GF IH -> WMMd IH -> holiday
+    minimise_MM_GF_GFandW_W_h_IH()
+    minimise_MM_GF_GFandW_W_h_IH()
+    minimise_MM_GF_GFandW_W_h_IH()
+    minimise_MM_GF_GFandW_W_h_IH()
+    minimise_MM_GF_GFandW_W_h_IH()
+    print(hi)
+
+    # Optimise IH administration duration, holiday duration and strengths for
+    # WMMd IH -> WMMd IH + MMd GF IH -> MMd GF IH -> holiday
     minimise_MM_W_WandGF_GF_h_IH()
     minimise_MM_W_WandGF_GF_h_IH()
     minimise_MM_W_WandGF_GF_h_IH()
@@ -2279,8 +2289,8 @@ def minimal_tumour_nr_t_3_situations(t_steps_IH_strength, function_order, nOC,
         decay_rates, decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor)
 
     # Determine the average MM number in the last period with and without drugs
-    last_MM_numbers = df['total nMM'].tail(int(time_round))
-    average_MM_number = last_MM_numbers.sum() / (int(time_round))
+    last_MM_numbers = df['total nMM'].tail(round(time_round))
+    average_MM_number = last_MM_numbers.sum() / (round(time_round))
 
     return float(average_MM_number)
 
@@ -2343,8 +2353,8 @@ def minimal_tumour_nr_t_3_situations_IH(t_steps_IH_strength, function_order, nOC
         decay_rates, decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor)
 
     # Determine the average MM number in the last period with and without drugs
-    last_MM_numbers = df['total nMM'].tail(int(time_round))
-    average_MM_number = last_MM_numbers.sum() / (int(time_round))
+    last_MM_numbers = df['total nMM'].tail(round(time_round))
+    average_MM_number = last_MM_numbers.sum() / (round(time_round))
 
     return float(average_MM_number)
 
@@ -2413,8 +2423,8 @@ def minimal_tumour_nr_t_4_situations(t_steps, function_order, nOC, nOB, nMMd,
         matrix_GF_IH_comb, WMMd_inhibitor, WMMd_inhibitor_comb)
 
     # Determine the average MM number in the last period with and without drugs
-    last_MM_numbers = df['total nMM'].tail(int(time_round))
-    average_MM_number = last_MM_numbers.sum() / (int(time_round))
+    last_MM_numbers = df['total nMM'].tail(round(time_round))
+    average_MM_number = last_MM_numbers.sum() / (round(time_round))
 
     return float(average_MM_number)
 
@@ -2486,8 +2496,8 @@ def minimal_tumour_nr_t_4_sit_equal_IH(t_steps_IH_strength, function_order,
         matrix_GF_IH_comb, WMMd_inhibitor)
 
     # Determine the average MM number in the last period with and without drugs
-    last_MM_numbers = df['total nMM'].tail(int(time_round))
-    average_MM_number = last_MM_numbers.sum() / (int(time_round))
+    last_MM_numbers = df['total nMM'].tail(round(time_round))
+    average_MM_number = last_MM_numbers.sum() / (round(time_round))
 
     return float(average_MM_number)
 
@@ -2559,8 +2569,8 @@ def minimal_tumour_nr_t_4_situations_IH(t_steps_IH_strength, function_order, nOC
         matrix_GF_IH_comb, WMMd_inhibitor, WMMd_inhibitor_comb)
 
     # Determine the average MM number in the last period with and without drugs
-    last_MM_numbers = df['total nMM'].tail(int(time_round))
-    average_MM_number = last_MM_numbers.sum() / (int(time_round))
+    last_MM_numbers = df['total nMM'].tail(round(time_round))
+    average_MM_number = last_MM_numbers.sum() / (round(time_round))
 
     return float(average_MM_number)
 
@@ -4468,9 +4478,9 @@ def minimise_MM_W_comb_GF_h_IH():
     c = 3 + random.uniform(-1, 1)
     d = 3 + random.uniform(-1, 1)
     e = 0.4 + random.uniform(-0.1, 0.1)
-    f = 0.1 + random.uniform(-0.02, 0.02)
+    f = 0.2 + random.uniform(-0.02, 0.02)
     g = 0.4 + random.uniform(-0.1, 0.1)
-    h = 0.1 + random.uniform(-0.02, 0.02)
+    h = 0.2 + random.uniform(-0.02, 0.02)
 
     print(a, b, c, d, e, f, g, h)
     t_step_IH_strength = [a, b, c, d, e, f, g, h]
@@ -4545,9 +4555,9 @@ def minimise_MM_GF_comb_W_h_IH():
     c = 3 + random.uniform(-1, 1)
     d = 3 + random.uniform(-1, 1)
     e = 0.4 + random.uniform(-0.1, 0.1)
-    f = 0.1 + random.uniform(-0.02, 0.02)
+    f = 0.2 + random.uniform(-0.02, 0.02)
     g = 0.4 + random.uniform(-0.1, 0.1)
-    h = 0.1 + random.uniform(-0.02, 0.02)
+    h = 0.2 + random.uniform(-0.02, 0.02)
 
     print(a, b, c, d, e, f, g, h)
     t_step_IH_strength = [a, b, c, d, e, f, g, h]

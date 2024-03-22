@@ -26,7 +26,7 @@ from scipy.optimize import minimize
 from mpl_toolkits.mplot3d import Axes3D
 import doctest
 import pickle
-
+import random
 """
 Example interaction matrix:
 M = np.array([
@@ -40,12 +40,13 @@ M = np.array([
 def main():
     # Do doc tests
     doctest.testmod()
+    # help(minimize)
 
-    # # Make a figure showing the cell number dynamics by traditional therapy and
-    # # by adaptive therapy (original situation)
+    # Make a figure showing the cell number dynamics by traditional therapy and
+    # by adaptive therapy (original situation)
     # list_t_steps_drug = [10, 10, 10]
     # Figure_continuous_MTD_vs_AT(20, list_t_steps_drug)
-    #
+
     # # Make a figure showing the cell fraction dynamics by traditional therapy and
     # # by adaptive therapy for shorter holiday and administration periods compared
     # # to the original situation
@@ -57,10 +58,10 @@ def main():
     # list_t_steps_drug = [10, 10, 10]
     # Figure_continuous_MTD_vs_AT_weak_a_h(20, list_t_steps_drug)
     #
-    # Make a 3D figure showthing the effect of different drug holiday and
-    #administration periods
+    # # Make a 3D figure showthing the effect of different drug holiday and
+    # #administration periods
     # Figure_3D_MM_numb_IH_add_and_holiday()
-
+    #
     # # Make a figure that shows the MM number for different bOC,MMd values
     # Figure_best_b_OC_MMd()
     #
@@ -77,59 +78,332 @@ def main():
     # list_t_steps_no_drug = [10, 3]
     # list_n_steps = [40, 40]
     # Figure_duration_A_h_MMd_IH(list_n_steps, list_t_steps_drug,
-    #                                                       list_t_steps_no_drug)
+    #                                                         list_t_steps_no_drug)
 
 
     """ The optimisation situations """
-    # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
-    # holiday
-    minimise_MM_GF_W_h()
-
-    # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
-    # holiday
-    minimise_MM_W_GF_h()
-
-    # Optimise IH administration duration, holiday duration and strength for
-    # MMd GF IH -> WMMd IH -> holiday
-    minimise_MM_GF_W_h_IH()
-
-    # Optimise IH administration duration, holiday duration and strength for
-    # WMMd IH -> MMd GF IH ->  holiday
-    minimise_MM_W_GF_h_IH()
+    # # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
+    # # holiday
+    # minimise_MM_GF_W_h()
+    #
+    # # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
+    # # holiday
+    # minimise_MM_W_GF_h()
+    #
+    # # Optimise IH administration duration, holiday duration and strength for
+    # # MMd GF IH -> WMMd IH -> holiday
+    # minimise_MM_GF_W_h_IH()
+    #
+    # # Optimise IH administration duration, holiday duration and strength for
+    # # WMMd IH -> MMd GF IH ->  holiday
+    # minimise_MM_W_GF_h_IH()
+    # minimise_MM_W_GF_h_IH()
+    # minimise_MM_W_GF_h_IH()
+    # minimise_MM_W_GF_h_IH()
+    # minimise_MM_W_GF_h_IH()
+    # minimise_MM_W_GF_h_IH()
+    # minimise_MM_W_GF_h_IH()
+    # minimise_MM_W_GF_h_IH()
+    # minimise_MM_W_GF_h_IH()
+    # minimise_MM_W_GF_h_IH()
+    # minimise_MM_W_GF_h_IH()
 
     # # Optimise IH administration duration, holiday duration and strength for
     # # MMd GF IH -> holiday -> WMMd IH -> holiday
-    minimise_MM_GF_h_W_h_IH()
-
-    # Optimise IH administration duration, holiday duration and strength for
-    # WMMd IH -> holiday -> MMd GF IH ->  holiday
-    minimise_MM_W_h_GF_h_IH()
-
-    # Optimise IH administration duration and holiday duration for MMd GF IH
-    # -> IH combination -> WMMd IH -> holiday
-    minimise_MM_GF_comb_W_h()
-
-    # Optimise IH administration duration and holiday duration for WMMd IH ->
-    # IH combination -> MMd GF IH -> holiday
-    minimise_MM_W_comb_GF_h()
-
-    # Optimise IH administration duration, holiday duration and strengths for
-    # MMd GF IH -> IH combination -> WMMd IH -> holiday
+    # minimise_MM_GF_h_W_h_IH()
+    # minimise_MM_GF_h_W_h_IH()
+    # minimise_MM_GF_h_W_h_IH()
+    # minimise_MM_GF_h_W_h_IH()
+    # minimise_MM_GF_h_W_h_IH()
+    # minimise_MM_GF_h_W_h_IH()
+    # minimise_MM_GF_h_W_h_IH()
+    # minimise_MM_GF_h_W_h_IH()
+    # minimise_MM_GF_h_W_h_IH()
+    # minimise_MM_GF_h_W_h_IH()
+    # minimise_MM_GF_h_W_h_IH()
+    #
+    # # Optimise IH administration duration, holiday duration and strength for
+    # # WMMd IH -> holiday -> MMd GF IH ->  holiday
+    # minimise_MM_W_h_GF_h_IH()
+    # minimise_MM_W_h_GF_h_IH()
+    # minimise_MM_W_h_GF_h_IH()
+    # minimise_MM_W_h_GF_h_IH()
+    # minimise_MM_W_h_GF_h_IH()
+    # minimise_MM_W_h_GF_h_IH()
+    # minimise_MM_W_h_GF_h_IH()
+    # minimise_MM_W_h_GF_h_IH()
+    # minimise_MM_W_h_GF_h_IH()
+    # minimise_MM_W_h_GF_h_IH()
+    # minimise_MM_W_h_GF_h_IH()
+    # minimise_MM_W_h_GF_h_IH()
+    #
+    # # Optimise IH administration duration and holiday duration for MMd GF IH
+    # # -> IH combination -> WMMd IH -> holiday
+    # minimise_MM_GF_comb_W_h()
+    #
+    # # Optimise IH administration duration and holiday duration for WMMd IH ->
+    # # IH combination -> MMd GF IH -> holiday
+    # minimise_MM_W_comb_GF_h()
+    #
+    # # Optimise IH administration duration, holiday duration and strengths for
+    # # MMd GF IH -> IH combination -> WMMd IH -> holiday
     minimise_MM_GF_comb_W_h_IH()
 
-    # Optimise IH administration duration, holiday duration and strengths for
-    # WMMd IH -> IH combination -> MMd GF IH -> holiday
-    minimise_MM_W_comb_GF_h_IH()
+    # # Optimise IH administration duration, holiday duration and strengths for
+    # # WMMd IH -> IH combination -> MMd GF IH -> holiday
+    # minimise_MM_W_comb_GF_h_IH()
+    #
+    # # Optimise IH administration duration, holiday duration and strengths for
+    # # MMd GF IH -> WMMd IH + MMd GF IH -> WMMd IH -> holiday
+    # minimise_MM_GF_GFandW_W_h_IH()
+    #
+    # # Optimise IH administration duration, holiday duration and strengths for
+    # # WMMd IH -> WMMd IH + MMd GF IH -> MMd GF IH -> holiday
+    # minimise_MM_W_WandGF_GF_h_IH()
 
-    # Optimise IH administration duration, holiday duration and strengths for
-    # MMd GF IH -> WMMd IH + MMd GF IH -> WMMd IH -> holiday
-    minimise_MM_GF_GFandW_W_h_IH()
+    # 'GF W H'
+    # # Set start values
+    # nOC = 20
+    # nOB = 30
+    # nMMd = 20
+    # nMMr = 5
+    # growth_rates = [0.8, 1.2, 0.3, 0.3]
+    # decay_rates = [0.9, 0.08, 0.2, 0.1]
+    # growth_rates_IH = [0.7, 1.3, 0.3, 0.3]
+    # decay_rates_IH = [1.0, 0.08, 0.2, 0.1]
+    #
+    # # Payoff matrix when no drugs are present
+    # matrix_no_GF_IH = np.array([
+    #     [0.0, 0.4, 0.65, 0.55],
+    #     [0.3, 0.0, -0.3, -0.3],
+    #     [0.6, 0.0, 0.2, 0.0],
+    #     [0.55, 0.0, -0.6, 0.4]])
+    #
+    # # Payoff matrix when only GF inhibitor drugs are present
+    # matrix_GF_IH = np.array([
+    #     [0.0, 0.4, 0.65, 0.55],
+    #     [0.3, 0.0, -0.3, -0.3],
+    #     [0.6 -0.357, 0.0, 0.2, 0.0],
+    #     [0.55, 0.0, -0.6, 0.4]])
+    #
+    # df = switch_dataframe_GF_W_h(50, 2.996, 2.004,
+    #                             2.000, nOC, nOB, nMMd, nMMr, growth_rates,
+    #                             growth_rates_IH, decay_rates, decay_rates_IH,
+    #                             matrix_no_GF_IH, matrix_GF_IH, 0.210)
+    #
+    # time_round = 2.996 + 2.004 + 2.000
+    # last_MM_numbers = df['total nMM'].tail(int(time_round))
+    # average_MM_number = last_MM_numbers.sum() / (int(time_round))
+    # print(average_MM_number)
+    #
+    # df.plot(x = 'Generation', y = ['nOC', 'nOB', 'nMMd', 'nMMr', 'total nMM'])
+    # plt.show()
 
-    # Optimise IH administration duration, holiday duration and strengths for
-    # WMMd IH -> WMMd IH + MMd GF IH -> MMd GF IH -> holiday
-    minimise_MM_W_WandGF_GF_h_IH()
+    'W GF H'
+    # Set start values
+    nOC = 20
+    nOB = 30
+    nMMd = 20
+    nMMr = 5
+    growth_rates = [0.8, 1.2, 0.3, 0.3]
+    decay_rates = [0.9, 0.08, 0.2, 0.1]
+    growth_rates_IH = [0.7, 1.3, 0.3, 0.3]
+    decay_rates_IH = [1.0, 0.08, 0.2, 0.1]
+
+    # Payoff matrix when no drugs are present
+    matrix_no_GF_IH = np.array([
+        [0.0, 0.4, 0.65, 0.55],
+        [0.3, 0.0, -0.3, -0.3],
+        [0.6, 0.0, 0.2, 0.0],
+        [0.55, 0.0, -0.6, 0.4]])
+
+    # Payoff matrix when only GF inhibitor drugs are present
+    matrix_GF_IH = np.array([
+        [0.0, 0.4, 0.65, 0.55],
+        [0.3, 0.0, -0.3, -0.3],
+        [0.6 -0.38726141131190084, 0.0, 0.2, 0.0],
+        [0.55, 0.0, -0.6, 0.4]])
+
+    df = switch_dataframe_W_GF_h(50, 4.99999787605873, 3.999999416081217, 2.594925652883509,
+                                nOC, nOB, nMMd, nMMr, growth_rates,
+                                growth_rates_IH, decay_rates, decay_rates_IH,
+                                matrix_no_GF_IH, matrix_GF_IH, 0.13408114791336587)
+
+    time_round = 4.99999787605873 + 3.999999416081217 + 2.594925652883509
+    last_MM_numbers = df['total nMM'].tail(int(time_round))
+    average_MM_number = last_MM_numbers.sum() / (int(time_round))
+    print(average_MM_number)
+
+    df.plot(x = 'Generation', y = ['nOC', 'nOB', 'nMMd', 'nMMr', 'total nMM'])
+    plt.show()
 
 
+    "GF H W H"
+    # # Set start values
+    # nOC = 20
+    # nOB = 30
+    # nMMd = 20
+    # nMMr = 5
+    # growth_rates = [0.8, 1.2, 0.3, 0.3]
+    # decay_rates = [0.9, 0.08, 0.2, 0.1]
+    # growth_rates_IH = [0.7, 1.3, 0.3, 0.3]
+    # decay_rates_IH = [1.0, 0.08, 0.2, 0.1]
+    #
+    # # Payoff matrix when no drugs are present
+    # matrix_no_GF_IH = np.array([
+    #     [0.0, 0.4, 0.65, 0.55],
+    #     [0.3, 0.0, -0.3, -0.3],
+    #     [0.6, 0.0, 0.2, 0.0],
+    #     [0.55, 0.0, -0.6, 0.4]])
+    #
+    # # Payoff matrix when only GF inhibitor drugs are present
+    # matrix_GF_IH = np.array([
+    #     [0.0, 0.4, 0.65, 0.55],
+    #     [0.3, 0.0, -0.3, -0.3],
+    #     [0.6 -0.402, 0.0, 0.2, 0.0],
+    #     [0.55, 0.0, -0.6, 0.4]])
+    #
+    # df = switch_dataframe_GF_h_W_h(30, 3.243, 3.757,
+    #                             2.000, nOC, nOB, nMMd, nMMr, growth_rates,
+    #                             growth_rates_IH, decay_rates, decay_rates_IH,
+    #                             matrix_no_GF_IH, matrix_GF_IH, 0.269)
+    #
+    # time_round = 2.996 + 2.004 + 2.000 + 2.000
+    # last_MM_numbers = df['total nMM'].tail(int(time_round))
+    # average_MM_number = last_MM_numbers.sum() / (int(time_round))
+    # print(average_MM_number)
+    #
+    # df.plot(x = 'Generation', y = ['nOC', 'nOB', 'nMMd', 'nMMr', 'total nMM'])
+    # plt.show()
+
+
+    "W H GF H"
+    # Set start values
+    nOC = 20
+    nOB = 30
+    nMMd = 20
+    nMMr = 5
+    growth_rates = [0.8, 1.2, 0.3, 0.3]
+    decay_rates = [0.9, 0.08, 0.2, 0.1]
+    growth_rates_IH = [0.7, 1.3, 0.3, 0.3]
+    decay_rates_IH = [1.0, 0.08, 0.2, 0.1]
+
+    # Payoff matrix when no drugs are present
+    matrix_no_GF_IH = np.array([
+        [0.0, 0.4, 0.65, 0.55],
+        [0.3, 0.0, -0.3, -0.3],
+        [0.6, 0.0, 0.2, 0.0],
+        [0.55, 0.0, -0.6, 0.4]])
+
+    # Payoff matrix when only GF inhibitor drugs are present
+    matrix_GF_IH = np.array([
+        [0.0, 0.4, 0.65, 0.55],
+        [0.3, 0.0, -0.3, -0.3],
+        [0.6 -0.499, 0.0, 0.2, 0.0],
+        [0.55, 0.0, -0.6, 0.4]])
+
+    df = switch_dataframe_W_h_GF_h(30, 5.000, 4.000,
+                                2.000, nOC, nOB, nMMd, nMMr, growth_rates,
+                                growth_rates_IH, decay_rates, decay_rates_IH,
+                                matrix_no_GF_IH, matrix_GF_IH, 0.199)
+
+    time_round = 5.000 + 4.000 + 2.000 + 2.000
+    last_MM_numbers = df['total nMM'].tail(int(time_round))
+    average_MM_number = last_MM_numbers.sum() / (int(time_round))
+    print(average_MM_number)
+
+    df.plot(x = 'Generation', y = ['nOC', 'nOB', 'nMMd', 'nMMr', 'total nMM'])
+    plt.show()
+
+    "GF comb W H"
+    # Set start values
+    nOC = 20
+    nOB = 30
+    nMMd = 20
+    nMMr = 5
+    growth_rates = [0.8, 1.2, 0.3, 0.3]
+    decay_rates = [0.9, 0.08, 0.2, 0.1]
+    growth_rates_IH = [0.7, 1.3, 0.3, 0.3]
+    decay_rates_IH = [1.0, 0.08, 0.2, 0.1]
+
+    # Payoff matrix when no drugs are present
+    matrix_no_GF_IH = np.array([
+        [0.0, 0.4, 0.65, 0.55],
+        [0.3, 0.0, -0.3, -0.3],
+        [0.6, 0.0, 0.2, 0.0],
+        [0.55, 0.0, -0.6, 0.4]])
+
+    # Payoff matrix when only GF inhibitor drugs are present
+    matrix_GF_IH = np.array([
+        [0.0, 0.4, 0.65, 0.55],
+        [0.3, 0.0, -0.3, -0.3],
+        [0.6-0.431, 0.0, 0.2, 0.0],
+        [0.55, 0.0, -0.6, 0.4]])
+
+    # Payoff matrix when both inhibitor drugs are present
+    matrix_GF_IH_comb = np.array([
+        [0.0, 0.4, 0.65, 0.55],
+        [0.3, 0.0, -0.3, -0.3],
+        [0.6-0.105, 0.0, 0.2, 0.0],
+        [0.55, 0.0, -0.8, 0.4]])
+
+    df = switch_dataframe_GF_comb_W_h(50, 0.289, 1.902, 6.982,
+                                1.396, nOC, nOB, nMMd, nMMr, growth_rates,
+                                growth_rates_IH, decay_rates, decay_rates_IH,
+                                matrix_no_GF_IH, matrix_GF_IH, matrix_GF_IH_comb, 0.443, 0.044)
+
+    time_round = 0.289 + 1.902 + 6.982 + 1.396
+    last_MM_numbers = df['total nMM'].tail(int(time_round))
+    average_MM_number = last_MM_numbers.sum() / (int(time_round))
+    print(average_MM_number)
+
+    df.plot(x = 'Generation', y = ['nOC', 'nOB', 'nMMd', 'nMMr', 'total nMM'])
+    plt.show()
+
+    "GF GF+W W H"
+    # Set start values
+    nOC = 20
+    nOB = 30
+    nMMd = 20
+    nMMr = 5
+    growth_rates = [0.8, 1.2, 0.3, 0.3]
+    decay_rates = [0.9, 0.08, 0.2, 0.1]
+    growth_rates_IH = [0.7, 1.3, 0.3, 0.3]
+    decay_rates_IH = [1.0, 0.08, 0.2, 0.1]
+
+    # Payoff matrix when no drugs are present
+    matrix_no_GF_IH = np.array([
+        [0.0, 0.4, 0.65, 0.55],
+        [0.3, 0.0, -0.3, -0.3],
+        [0.6, 0.0, 0.2, 0.0],
+        [0.55, 0.0, -0.6, 0.4]])
+
+    # Payoff matrix when only GF inhibitor drugs are present
+    matrix_GF_IH = np.array([
+        [0.0, 0.4, 0.65, 0.55],
+        [0.3, 0.0, -0.3, -0.3],
+        [0.6-0.338, 0.0, 0.2, 0.0],
+        [0.55, 0.0, -0.6, 0.4]])
+
+    # Payoff matrix when both inhibitor drugs are present
+    matrix_GF_IH_comb = np.array([
+        [0.0, 0.4, 0.65, 0.55],
+        [0.3, 0.0, -0.3, -0.3],
+        [0.6-0.338, 0.0, 0.2, 0.0],
+        [0.55, 0.0, -0.8, 0.4]])
+
+    df = switch_dataframe_GF_WandGF_W_h(50, 3.075, 3.000, 4.925,
+                                3.000, nOC, nOB, nMMd, nMMr, growth_rates,
+                                growth_rates_IH, decay_rates, decay_rates_IH,
+                                matrix_no_GF_IH, matrix_GF_IH, matrix_GF_IH_comb,0.013)
+
+    time_round = 3.075+ 3.000+ 4.925+3.000
+    last_MM_numbers = df['total nMM'].tail(int(time_round))
+    average_MM_number = last_MM_numbers.sum() / (int(time_round))
+    print(average_MM_number)
+
+    df.plot(x = 'Generation', y = ['nOC', 'nOB', 'nMMd', 'nMMr', 'total nMM'])
+    plt.show()
 
 def dOC_dt(nOC, nOB, nMMd, nMMr, gr_OC, dr_OC, matrix):
     """
@@ -458,8 +732,8 @@ def save_Figure(Figure, file_name, folder_path):
 def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd,
                 nMMr, growth_rates, growth_rates_IH, decay_rates, decay_rates_IH,
                 matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor = 0):
-    """ Function that makes a dataframe of the nOC, nOB, nMMd and nMMr values
-    over time for a given time of drug holiday and administration periods.
+    """ Function that makes a dataframe of the nOC, nOB, nMMd and nMMr values over
+    time for a given time of drug holiday and administration periods.
 
     Parameters:
     -----------
@@ -1278,9 +1552,9 @@ def switch_dataframe_W_comb_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             t_steps_comb, t_steps_no_drug, nOC, nOB, nMMd, nMMr, growth_rates,
             growth_rates_IH, decay_rates, decay_rates_IH, matrix_no_GF_IH,
             matrix_GF_IH, matrix_GF_IH_comb, WMMd_inhibitor, WMMd_inhibitor_comb):
-    """ Function that makes a dataframe of the nOC, nOB, nMMd and nMMr values
-    over time. First a WMMd IH is administered, then a IH combination, then a MMd
-    GF IH and then a IH holiday.
+    """ Function that makes a dataframe of the nOC, nOB, nMMd and nMMr values over
+    time. First a WMMd IH is administered, then a IH combination, then a MMd GF IH
+    and then a IH holiday.
 
     Parameters:
     -----------
@@ -2846,30 +3120,30 @@ def Figure_continuous_MTD_vs_AT(n_switches, t_steps_drug):
 
     # Payoff matrix when no drugs are present
     matrix_no_GF_IH = np.array([
-        [0.0, 0.4, 0.6, 0.55],
+        [0.0, 0.4, 0.65, 0.55],
         [0.3, 0.0, -0.3, -0.3],
         [0.6, 0.0, 0.2, 0.0],
         [0.55, 0.0, -0.6, 0.4]])
 
     # Payoff matrix when only GF inhibitor drugs are present
     matrix_GF_IH = np.array([
-        [0.0, 0.4, 0.6, 0.55],
+        [0.0, 0.4, 0.65, 0.55],
         [0.3, 0.0, -0.3, -0.3],
-        [0.13, 0.0, 0.2, 0.0],
+        [0.3, 0.0, 0.2, 0.0],
         [0.55, 0.0, -0.6, 0.4]])
 
     # Payoff matrix when both inhibitor drugs are present
     matrix_GF_IH_comb = np.array([
-        [0.0, 0.4, 0.6, 0.55],
+        [0.0, 0.4, 0.65, 0.55],
         [0.3, 0.0, -0.3, -0.3],
-        [0.24, 0.0, 0.2, 0.0],
+        [0.45, 0.0, 0.2, 0.0],
         [0.55, 0.0, -0.8, 0.4]])
 
     # WMMd inhibitor effect when both inhibitor drugs are present
-    WMMd_inhibitor_comb = 0.18
+    WMMd_inhibitor_comb = 0.2
 
     # WMMd inhibitor effect when only WMMd IH is present
-    WMMd_inhibitor = 0.74
+    WMMd_inhibitor = 0.5
 
     # Make dataframe for the different drug hollyday duration values
     df_total_switch_GF = switch_dataframe(n_switches, t_steps_drug[0],
@@ -3329,7 +3603,7 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
             decay_rates, decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH)
 
             # Add results to the dataframe
-            new_row_df = pd.DataFrame([{'Generations no drug': \
+            new_row_df = pd.DataFrame([{'Generations no drug':
                     int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
                                              'MM number': float(numb_tumour)}])
             df_holiday_GF_IH = pd.concat([df_holiday_GF_IH, new_row_df],
@@ -3357,8 +3631,8 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
                             matrix_no_GF_IH, matrix_no_GF_IH, WMMd_inhibitor)
 
             # Add results to the dataframe
-            new_row_df = pd.DataFrame([{'Generations no drug': \
-                    int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
+            new_row_df = pd.DataFrame([{'Generations no drug': int(t_steps_no_drug),
+                                            'Generations drug': int(t_steps_drug),
                                              'MM number': float(numb_tumour)}])
             df_holiday_W_IH = pd.concat([df_holiday_W_IH, new_row_df],
                                                             ignore_index=True)
@@ -3384,11 +3658,11 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
                         matrix_no_GF_IH, matrix_GF_IH_comb, WMMd_inhibitor_comb)
 
             # Add results to the dataframe
-            new_row_df = pd.DataFrame([{'Generations no drug': \
-                    int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
+            new_row_df = pd.DataFrame([{'Generations no drug': int(t_steps_no_drug),
+                                            'Generations drug': int(t_steps_drug),
                                             'MM number': float(numb_tumour)}])
             df_holiday_comb = pd.concat([df_holiday_comb, new_row_df],
-                                                             ignore_index=True)
+                                                                ignore_index=True)
 
     # Save the data
     save_dataframe(df_holiday_comb, 'df_cell_nr_IH_inf_best_MMd_IH_holiday.csv',
@@ -3851,7 +4125,7 @@ def minimise_MM_GF_W_h():
             args=(switch_dataframe_GF_W_h, nOC, nOB, nMMd, nMMr, growth_rates,
             growth_rates_IH, decay_rates, decay_rates_IH, matrix_no_GF_IH,
             matrix_GF_IH, WMMd_inhibitor), bounds = [(0, None), (0, None),
-            (0, None)], method='Nelder-Mead')
+            (0, None)], method='Powell')
 
     # Print the results
     print('Optimising IH administration duration and holiday duration')
@@ -4061,7 +4335,14 @@ def minimise_MM_GF_h_W_h_IH():
 
     # optimise the administration and holiday durations and the IH strengths
     # t_step_IH_strength = [GF IH t, W IH t, h t, GF IH s, W IH s]
-    t_step_IH_strength = [2.816, 3.305, 3.620, 0.317, 0.321]
+    a = 3 + random.uniform(-1, 1)
+    b = 3 + random.uniform(-1, 1)
+    c = 3 + random.uniform(-1, 1)
+    e = 0.4 + random.uniform(-0.1, 0.1)
+    f = 0.4 + random.uniform(-0.1, 0.1)
+    print(a, b, c, e, f)
+
+    t_step_IH_strength = [a, b, c, e, f]
     result = minimize(minimal_tumour_nr_t_3_4_situations_IH, t_step_IH_strength,
             args=(switch_dataframe_GF_h_W_h, nOC, nOB, nMMd, nMMr, growth_rates,
             growth_rates_IH, decay_rates, decay_rates_IH, matrix_no_GF_IH,
@@ -4114,7 +4395,14 @@ def minimise_MM_W_h_GF_h_IH():
 
     # optimise the administration and holiday durations and the IH strengths
     # t_step_IH_strength = [GF IH t, W IH t, h t, GF IH s, W IH s]
-    t_step_IH_strength = [3.878, 3.202, 3.514, 0.392, 0.344]
+    a = 3 + random.uniform(-1, 1)
+    b = 3 + random.uniform(-1, 1)
+    c = 3 + random.uniform(-1, 1)
+    e = 0.4 + random.uniform(-0.1, 0.1)
+    f = 0.4 + random.uniform(-0.1, 0.1)
+    print(a, b, c, e, f)
+
+    t_step_IH_strength = [a, b, c, e, f]
     result = minimize(minimal_tumour_nr_t_3_4_situations_IH, t_step_IH_strength,
             args=(switch_dataframe_W_h_GF_h, nOC, nOB, nMMd, nMMr, growth_rates,
             growth_rates_IH, decay_rates, decay_rates_IH, matrix_no_GF_IH,
@@ -4384,7 +4672,7 @@ def minimise_MM_GF_comb_W_h_IH():
         growth_rates_IH, decay_rates, decay_rates_IH, matrix_no_GF_IH,
         matrix_GF_IH, matrix_GF_IH_comb), bounds = [(0, None), (0, None),
         (0, None), (0, None), (0, 0.55), (0, 0.55), (0, None), (0, None)],
-        method='Nelder-Mead')
+        method='Powell')
 
     # Print the results
     print('Optimising IH administration duration, holiday duration and strength')

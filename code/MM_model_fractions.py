@@ -1941,7 +1941,8 @@ def Figure_3D_MM_frac_MMd_IH_strength():
                                              r'..\data\data_model_fractions')
 
 
-    # Find the drug administration and holiday period causing the lowest MM fraction
+    # Find the drug administration and holiday period causing the lowest MM
+    # fraction
     min_index = df_holiday['MM fraction'].idxmin()
     strength_WMMd_min = df_holiday.loc[min_index, 'Strength WMMd IH']
     strength_MMd_GF_min = df_holiday.loc[min_index, 'Strength MMd GF IH']

@@ -119,7 +119,7 @@ def main():
     # Optimise IH administration duration, holiday duration and strengths for
     # WMMd IH -> IH combination -> MMd GF IH -> holiday
     minimise_MM_W_comb_GF_h_IH()
-
+    #
     # Optimise IH administration duration, holiday duration and strengths for
     # MMd GF IH -> WMMd IH + MMd GF IH -> WMMd IH -> holiday
     minimise_MM_GF_GFandW_W_h_IH()
@@ -2076,70 +2076,6 @@ def switch_dataframe_W_WandGF_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
 def minimal_tumour_nr_to_frac_t_3_situations(t_steps_IH_strength, function_order,
                 nOC, nOB, nMMd, nMMr, growth_rates, growth_rates_IH, decay_rates,
                 decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor):
-    """ Function that makes a dataframe of the nOC, nOB, nMMd and nMMr values over
-    time for a given MMd GF IH administration, WMMd IH administration and holiday
-    duration and IH strength.
-
-    Parameters:
-    -----------
-    t_steps_IH_strength: List
-        List with the number of generations the MMD GF IH, the WMMd IH and no drugs
-        are administared and the MMD GF IH and WMMd IH strength.
-    function_order: Function
-        Function that makes a dataframe of the number values for a specific IH
-        administration order.
-    nOC: Float
-        Number of OC.
-    nOB: Float
-        Number of OB.
-    nMMd: Float
-        Number of the MMd.
-    nMMr: Float
-        Number of the MMr.
-    growth_rates: List
-        List with the growth rate values of the OC, OB, MMd and MMr.
-    growth_rates_IH: List
-        List with the growth rate values of the OC, OB, MMd and MMr when a IH
-        is administered.
-    decay_rates: List
-        List with the decay rate values of OC, OB, MMd and MMr.
-    decay_rates_IH: List
-        List with the decay rate values of OC, OB, MMd and MMr when a IH is
-        administered.
-    matrix_no_GF_IH: Numpy.ndarray
-        4x4 matrix containing the interaction factors when no GF IH are
-        administered.
-    matrix_GF_IH: Numpy.ndarray
-        4x4 matrix containing the interaction factors when GF IH are administered.
-    WMMd_inhibitor: Float
-        The effect of a drug on the MMd fitness.
-
-    Returns:
-    --------
-    average_MM_number: float
-        The average total MM number in the last period.
-    """
-    t_steps_GF_IH, t_steps_WMMd_IH, t_steps_no_drug, = t_steps_IH_strength
-    n_rounds = 12
-
-    # Determine the round duration and the matrix value
-    time_round = t_steps_GF_IH + t_steps_no_drug + t_steps_WMMd_IH
-
-    # Create a dataframe of the numbers
-    df = function_order(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
-        t_steps_no_drug, nOC, nOB, nMMd, nMMr, growth_rates, growth_rates_IH,
-        decay_rates, decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor)
-
-    # Determine the average MM number in the last period with and without drugs
-    last_MM_numbers = df['total nMM'].tail(int(time_round))
-    average_MM_number = last_MM_numbers.sum() / (int(time_round))
-
-    return float(average_MM_number)
-
-
-def minimal_tumour_nr_to_frac_t_3_situations(t_steps_IH_strength, function_order,
-                nOC, nOB, nMMd, nMMr, growth_rates, growth_rates_IH, decay_rates,
-                decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor):
     """ Function that makes a dataframe of the xOC, xOB, xMMd and xMMr values over
     time for a given MMd GF IH administration, WMMd IH administration and holiday
     duration and IH strength.
@@ -2184,7 +2120,7 @@ def minimal_tumour_nr_to_frac_t_3_situations(t_steps_IH_strength, function_order
         The average total MM fraction in the last period.
     """
     t_steps_GF_IH, t_steps_WMMd_IH, t_steps_no_drug, = t_steps_IH_strength
-    n_rounds = 12
+    n_rounds = 50
 
     # Determine the round duration and the matrix value
     time_round = t_steps_GF_IH + t_steps_no_drug + t_steps_WMMd_IH
@@ -2252,8 +2188,73 @@ def minimal_tumour_nr_to_frac_t_3_situations_IH(t_steps_IH_strength, function_or
     t_steps_GF_IH, t_steps_WMMd_IH, t_steps_no_drug, GF_IH,\
                                             WMMd_inhibitor = t_steps_IH_strength
     matrix_GF_IH[2, 0] = 0.6 - GF_IH
-    n_rounds = 12
+    n_rounds = 50
     time_round = t_steps_GF_IH + t_steps_no_drug + t_steps_WMMd_IH
+
+    # Create a dataframe of the numbers
+    df = function_order(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
+        t_steps_no_drug, nOC, nOB, nMMd, nMMr, growth_rates, growth_rates_IH,
+        decay_rates, decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor)
+
+    # Convert the number data to fraction data
+    df = number_to_fractions(df)
+
+    # Determine the average MM fraction in the last period with and without drugs
+    last_MM_fractions = df['total xMM'].tail(int(time_round))
+    average_MM_fraction = last_MM_fractions.sum() / (int(time_round))
+
+    return float(average_MM_fraction)
+
+def minimal_tumour_nr_to_frac_t_3_4_situations_IH(t_steps_IH_strength,
+            function_order, nOC, nOB, nMMd, nMMr, growth_rates, growth_rates_IH,
+            decay_rates, decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH):
+    """ Function that makes a dataframe of the xOC, xOB, xMMd and xMMr values over
+    time for a given MMd GF IH administration, WMMd IH administration and holiday
+    duration and IH strength.
+
+    Parameters:
+    -----------
+    t_steps_IH_strength: List
+        List with the number of generations the MMD GF IH, the WMMd IH and no drugs
+        are administared and the MMD GF IH and WMMd IH strength.
+    function_order: Function
+        Function that makes a dataframe of the number values for a specific IH
+        administration order.
+    nOC: Float
+        Number of OC.
+    nOB: Float
+        Number of OB.
+    nMMd: Float
+        Number of the MMd.
+    nMMr: Float
+        Number of the MMr.
+    growth_rates: List
+        List with the growth rate values of the OC, OB, MMd and MMr.
+    growth_rates_IH: List
+        List with the growth rate values of the OC, OB, MMd and MMr when a IH
+        is administered.
+    decay_rates: List
+        List with the decay rate values of OC, OB, MMd and MMr.
+    decay_rates_IH: List
+        List with the decay rate values of OC, OB, MMd and MMr when a IH is
+        administered.
+    matrix_no_GF_IH: Numpy.ndarray
+        4x4 matrix containing the interaction factors when no GF IH are
+        administered.
+    matrix_GF_IH: Numpy.ndarray
+        4x4 matrix containing the interaction factors when GF IH are administered.
+
+    Returns:
+    --------
+    average_MM_fraction: float
+        The average total MM fraction in the last period.
+
+    """
+    t_steps_GF_IH, t_steps_WMMd_IH, t_steps_no_drug, GF_IH,\
+                                            WMMd_inhibitor = t_steps_IH_strength
+    matrix_GF_IH[2, 0] = 0.6 - GF_IH
+    n_rounds = 50
+    time_round = t_steps_GF_IH + t_steps_no_drug + t_steps_WMMd_IH + t_steps_no_drug
 
     # Create a dataframe of the numbers
     df = function_order(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
@@ -2323,7 +2324,7 @@ def minimal_tumour_nr_to_frac_t_4_situations(t_steps, function_order, nOC, nOB,
 
     """
     t_steps_GF_IH, t_steps_WMMd_IH, t_steps_comb, t_steps_no_drug = t_steps
-    n_rounds = 15
+    n_rounds = 50
     time_round = t_steps_GF_IH + t_steps_no_drug + t_steps_WMMd_IH + t_steps_comb
 
     # Create a dataframe of the numbers
@@ -2399,7 +2400,7 @@ def minimal_tumour_nr_to_frac_t_4_sit_equal_IH(t_steps_IH_strength, function_ord
     # Determine the round duration and the matrix values
     matrix_GF_IH[2, 0] = 0.6 - GF_IH
     matrix_GF_IH_comb[2, 0] = 0.6 - GF_IH
-    n_rounds = 15
+    n_rounds = 50
     time_round = t_steps_GF_IH + t_steps_no_drug + t_steps_WMMd_IH + t_steps_comb
 
     # Create a dataframe of the numbers
@@ -2472,7 +2473,7 @@ def minimal_tumour_nr_to_frac_t_4_situations_IH(t_steps_IH_strength,
     """
     t_steps_GF_IH, t_steps_WMMd_IH, t_steps_comb, t_steps_no_drug, GF_IH, \
          GF_IH_comb, WMMd_inhibitor, WMMd_inhibitor_comb = t_steps_IH_strength
-    n_rounds = 15
+    n_rounds = 50
 
     # Determine the round duration and the matrix values
     matrix_GF_IH[2, 0] = 0.6 - GF_IH
@@ -3914,7 +3915,7 @@ def minimise_MM_GF_W_h():
 
     # optimise the administration and holiday durations
     # t_step_IH_strength = [GF IH t, W IH t, h t]
-    t_step_IH_strength = [3, 3, 3]
+    t_step_IH_strength = [2.992, 3.009, 3.261]
     result = minimize(minimal_tumour_nr_to_frac_t_3_situations, t_step_IH_strength,
             args=(switch_dataframe_GF_W_h, nOC, nOB, nMMd, nMMr, growth_rates,
             growth_rates_IH, decay_rates, decay_rates_IH, matrix_no_GF_IH,
@@ -3927,7 +3928,7 @@ def minimise_MM_GF_W_h():
     print(f"""The best MMd GF IH add duration is {result.x[0]} generations
     The best WMMd IH add duration is {result.x[1]} generations
     The best holiday duration is {result.x[2]} generations
-    --> gives a MM number of {result.fun}""")
+    --> gives a MM fraction of {result.fun}""")
 
     # Save the results
     save_optimised_results(result,
@@ -3967,7 +3968,7 @@ def minimise_MM_W_GF_h():
 
     # optimise the administration and holiday durations
     # t_step_IH_strength = [GF IH t, W IH t, h t]
-    t_step_IH_strength = [3, 3, 3]
+    t_step_IH_strength = [2.220, 3.093, 2.703]
     result = minimize(minimal_tumour_nr_to_frac_t_3_situations,
             t_step_IH_strength, args=(switch_dataframe_W_GF_h, nOC, nOB, nMMd,
             nMMr, growth_rates, growth_rates_IH, decay_rates, decay_rates_IH,
@@ -3980,7 +3981,7 @@ def minimise_MM_W_GF_h():
     print(f"""The best MMd GF IH add duration is {result.x[0]} generations
     The best WMMd IH add duration is {result.x[1]} generations
     The best holiday duration is {result.x[2]} generations
-    --> gives a MM number of {result.fun}""")
+    --> gives a MM fraction of {result.fun}""")
 
     # Save the results
     save_optimised_results(result,
@@ -4020,12 +4021,12 @@ def minimise_MM_GF_W_h_IH():
 
     # optimise the administration and holiday durations and the IH strengths
     # t_step_IH_strength = [GF IH t, W IH t, h t, GF IH s, W IH s]
-    t_step_IH_strength = [3, 3, 3, 0.4, 0.4]
+    t_step_IH_strength = [2.374, 2.288, 3.672, 0.303, 0.349]
     result = minimize(minimal_tumour_nr_to_frac_t_3_situations_IH,
             t_step_IH_strength, args=(switch_dataframe_GF_W_h, nOC, nOB, nMMd,
             nMMr, growth_rates, growth_rates_IH, decay_rates, decay_rates_IH,
             matrix_no_GF_IH, matrix_GF_IH), bounds = [(0, None), (0, None),
-            (0, None), (0, 0.55), (0, 0.6)], method='Nelder-Mead')
+            (0, None), (0, 0.55), (0, None)], method='Nelder-Mead')
 
     # Print the results
     print('Optimising IH administration duration, holiday duration and strength')
@@ -4073,12 +4074,12 @@ def minimise_MM_W_GF_h_IH():
 
     # optimise the administration and holiday durations and the IH strengths
     # t_step_IH_strength = [GF IH t, W IH t, h t, GF IH s, W IH s]
-    t_step_IH_strength = [3, 3, 3, 0.4, 0.4]
-    result = minimize(minimal_tumour_nr_to_frac_t_3_situations_IH
+    t_step_IH_strength = [3.266, 2.791, 3.406, 0.429, 0.306]
+    result = minimize(minimal_tumour_nr_to_frac_t_3_situations_IH,
             t_step_IH_strength, args=(switch_dataframe_W_GF_h, nOC, nOB, nMMd,
             nMMr, growth_rates, growth_rates_IH, decay_rates, decay_rates_IH,
             matrix_no_GF_IH, matrix_GF_IH), bounds = [(0, None), (0, None),
-            (0, None), (0, 0.55), (0, 0.6)], method='Nelder-Mead')
+            (0, None), (0, 0.55), (0, None)], method='Nelder-Mead')
 
     # Print the results
     print('Optimising IH administration duration, holiday duration and strength')
@@ -4129,12 +4130,12 @@ def minimise_MM_GF_h_W_h_IH():
 
     # optimise the administration and holiday durations and the IH strengths
     # t_step_IH_strength = [GF IH t, W IH t, h t, GF IH s, W IH s]
-    t_step_IH_strength = [3, 3, 3, 0.4, 0.4]
-    result = minimize(minimal_tumour_nr_to_frac_t_3_situations_IH,
+    t_step_IH_strength = [3.968, 2.181, 3.990, 0.473, 0.330]
+    result = minimize(minimal_tumour_nr_to_frac_t_3_4_situations_IH,
             t_step_IH_strength, args=(switch_dataframe_GF_h_W_h, nOC, nOB, nMMd,
             nMMr, growth_rates, growth_rates_IH, decay_rates, decay_rates_IH,
             matrix_no_GF_IH, matrix_GF_IH), bounds = [(0, None), (0, None),
-            (0, None), (0, 0.55), (0, 0.6)], method='Nelder-Mead')
+            (0, None), (0, 0.55), (0, None)], method='Nelder-Mead')
 
     # Print the results
     print('Optimising IH administration duration, holiday duration and strength')
@@ -4182,12 +4183,12 @@ def minimise_MM_W_h_GF_h_IH():
 
     # optimise the administration and holiday durations and the IH strengths
     # t_step_IH_strength = [GF IH t, W IH t, h t, GF IH s, W IH s]
-    t_step_IH_strength = [3, 3, 3, 0.4, 0.4]
-    result = minimize(minimal_tumour_nr_to_frac_t_3_situations_IH,
+    t_step_IH_strength = [2.685, 2.121, 2.426, 0.428, 0.476]
+    result = minimize(minimal_tumour_nr_to_frac_t_3_4_situations_IH,
             t_step_IH_strength, args=(switch_dataframe_W_h_GF_h, nOC, nOB, nMMd,
             nMMr, growth_rates, growth_rates_IH, decay_rates, decay_rates_IH,
             matrix_no_GF_IH, matrix_GF_IH), bounds = [(0, None), (0, None),
-            (0, None), (0, 0.55), (0, 0.6)], method='Nelder-Mead')
+            (0, None), (0, 0.55), (0, None)], method='Nelder-Mead')
 
     # Print the results
     print('Optimising IH administration duration, holiday duration and strength')
@@ -4249,7 +4250,7 @@ def minimise_MM_W_comb_GF_h():
 
     # optimise the administration and holiday durations
     # t_step_guess = [GF IH t, W IH t, comb t, h t]
-    t_step_guess = [3, 3, 3, 3]
+    t_step_guess = [3.410, 3.566, 3.113, 2.963]
     result = minimize(minimal_tumour_nr_to_frac_t_4_situations, t_step_guess,
         args=(switch_dataframe_W_comb_GF_h, nOC, nOB, nMMd, nMMr, growth_rates,
         growth_rates_IH, decay_rates, decay_rates_IH, matrix_no_GF_IH,
@@ -4315,7 +4316,7 @@ def minimise_MM_GF_comb_W_h():
     WMMd_inhibitor = 0.4
 
     # optimise the administration and holiday durations
-    t_step_guess = [3, 3, 3, 3]
+    t_step_guess = [2.336, 2.284, 3.138, 2.551]
     result = minimize(minimal_tumour_nr_to_frac_t_4_situations, t_step_guess,
         args=(switch_dataframe_GF_comb_W_h, nOC, nOB, nMMd, nMMr, growth_rates,
         growth_rates_IH, decay_rates, decay_rates_IH, matrix_no_GF_IH,
@@ -4378,7 +4379,7 @@ def minimise_MM_W_comb_GF_h_IH():
     # optimise the administration and holiday durations and the IH strengths
     # t_step_IH_strength = [GF IH t, W IH t, comb t, h t, GF IH s, comb GF IH s
     # W IH s, comb W IH s]
-    t_step_IH_strength = [3, 3, 3, 3, 0.4, 0.1, 0.4, 0.1]
+    t_step_IH_strength = [2.032, 2.314, 3.480, 2.609, 0.414, 0.120, 0.378, 0.109]
     result = minimize(minimal_tumour_nr_to_frac_t_4_situations_IH,
         t_step_IH_strength, args=(switch_dataframe_W_comb_GF_h, nOC, nOB, nMMd,
         nMMr, growth_rates, growth_rates_IH, decay_rates, decay_rates_IH,
@@ -4445,7 +4446,7 @@ def minimise_MM_GF_comb_W_h_IH():
     # optimise the administration and holiday durations and the IH strengths
     # t_step_IH_strength = [GF IH t, W IH t, comb t, h t, GF IH s, comb GF IH s
     # W IH s, comb W IH s]
-    t_step_IH_strength = [3, 3, 3, 3, 0.4, 0.1, 0.4, 0.1]
+    t_step_IH_strength = [2.161, 3.257, 2.558, 2.263, 0.462, 0.085, 0.353, 0.093]
     result = minimize(minimal_tumour_nr_to_frac_t_4_situations_IH,
         t_step_IH_strength, args=(switch_dataframe_GF_comb_W_h, nOC, nOB, nMMd,
         nMMr, growth_rates, growth_rates_IH, decay_rates, decay_rates_IH,
@@ -4519,12 +4520,12 @@ def minimise_MM_W_WandGF_GF_h_IH():
 
     # Optimize the administration and holliday durations and the IH stregths
     # t_step_IH_strength = [GF IH t, W IH t, both IH t, h t, GF IH s, W IH s]
-    t_step_IH_strength = [3, 3, 3, 3, 0.4, 0.4]
+    t_step_IH_strength = [3.597, 2.855, 2.744, 3.762, 0.446, 0.320]
     result = minimize(minimal_tumour_nr_to_frac_t_4_sit_equal_IH,
         t_step_IH_strength, args=(switch_dataframe_W_WandGF_GF_h, nOC, nOB, nMMd,
         nMMr, growth_rates, growth_rates_IH, decay_rates, decay_rates_IH,
         matrix_no_GF_IH, matrix_GF_IH, matrix_GF_IH_comb), bounds = [(0, None),
-        (0, None), (0, None), (0, None), (0, None), (0, None)],
+        (0, None), (0, None), (0, None), (0, 0.55), (0, None)],
         method='Nelder-Mead')
 
     # Print the results
@@ -4582,7 +4583,8 @@ def minimise_MM_GF_GFandW_W_h_IH():
 
     # Optimize the administration and holliday durations and the IH stregths
     # t_step_IH_strength = [GF IH t, W IH t, both IH t, h t, GF IH s, W IH s]
-    t_step_IH_strength = [3, 3, 3, 3, 0.4, 0.4]
+    t_step_IH_strength = [3.061, 3.726, 3.512, 3.522, 0.456, 0.384]
+
     result = minimize(minimal_tumour_nr_to_frac_t_4_sit_equal_IH,
         t_step_IH_strength, args=(switch_dataframe_GF_WandGF_W_h, nOC, nOB, nMMd,
         nMMr, growth_rates, growth_rates_IH, decay_rates, decay_rates_IH,
