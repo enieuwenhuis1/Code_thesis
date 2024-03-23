@@ -147,9 +147,9 @@ def main():
     #
     # # Optimise IH administration duration, holiday duration and strengths for
     # # MMd GF IH -> IH combination -> WMMd IH -> holiday
-    minimise_MM_GF_comb_W_h_IH()
+    # minimise_MM_GF_comb_W_h_IH()
 
-    # # Optimise IH administration duration, holiday duration and strengths for
+    # Optimise IH administration duration, holiday duration and strengths for
     # # WMMd IH -> IH combination -> MMd GF IH -> holiday
     # minimise_MM_W_comb_GF_h_IH()
     #
@@ -161,43 +161,43 @@ def main():
     # # WMMd IH -> WMMd IH + MMd GF IH -> MMd GF IH -> holiday
     # minimise_MM_W_WandGF_GF_h_IH()
 
-    # 'GF W H'
-    # # Set start values
-    # nOC = 20
-    # nOB = 30
-    # nMMd = 20
-    # nMMr = 5
-    # growth_rates = [0.8, 1.2, 0.3, 0.3]
-    # decay_rates = [0.9, 0.08, 0.2, 0.1]
-    # growth_rates_IH = [0.7, 1.3, 0.3, 0.3]
-    # decay_rates_IH = [1.0, 0.08, 0.2, 0.1]
-    #
-    # # Payoff matrix when no drugs are present
-    # matrix_no_GF_IH = np.array([
-    #     [0.0, 0.4, 0.65, 0.55],
-    #     [0.3, 0.0, -0.3, -0.3],
-    #     [0.6, 0.0, 0.2, 0.0],
-    #     [0.55, 0.0, -0.6, 0.4]])
-    #
-    # # Payoff matrix when only GF inhibitor drugs are present
-    # matrix_GF_IH = np.array([
-    #     [0.0, 0.4, 0.65, 0.55],
-    #     [0.3, 0.0, -0.3, -0.3],
-    #     [0.6 -0.357, 0.0, 0.2, 0.0],
-    #     [0.55, 0.0, -0.6, 0.4]])
-    #
-    # df = switch_dataframe_GF_W_h(50, 2.996, 2.004,
-    #                             2.000, nOC, nOB, nMMd, nMMr, growth_rates,
-    #                             growth_rates_IH, decay_rates, decay_rates_IH,
-    #                             matrix_no_GF_IH, matrix_GF_IH, 0.210)
-    #
-    # time_round = 2.996 + 2.004 + 2.000
-    # last_MM_numbers = df['total nMM'].tail(int(time_round))
-    # average_MM_number = last_MM_numbers.sum() / (int(time_round))
-    # print(average_MM_number)
-    #
-    # df.plot(x = 'Generation', y = ['nOC', 'nOB', 'nMMd', 'nMMr', 'total nMM'])
-    # plt.show()
+    'GF W H'
+    # Set start values
+    nOC = 20
+    nOB = 30
+    nMMd = 20
+    nMMr = 5
+    growth_rates = [0.8, 1.2, 0.3, 0.3]
+    decay_rates = [0.9, 0.08, 0.2, 0.1]
+    growth_rates_IH = [0.7, 1.3, 0.3, 0.3]
+    decay_rates_IH = [1.0, 0.08, 0.2, 0.1]
+
+    # Payoff matrix when no drugs are present
+    matrix_no_GF_IH = np.array([
+        [0.0, 0.4, 0.65, 0.55],
+        [0.3, 0.0, -0.3, -0.3],
+        [0.6, 0.0, 0.2, 0.0],
+        [0.55, 0.0, -0.6, 0.4]])
+
+    # Payoff matrix when only GF inhibitor drugs are present
+    matrix_GF_IH = np.array([
+        [0.0, 0.4, 0.65, 0.55],
+        [0.3, 0.0, -0.3, -0.3],
+        [0.2, 0.0, 0.2, 0.0],
+        [0.55, 0.0, -0.6, 0.4]])
+
+    df = switch_dataframe_GF_W_h(50, 2.999960787194917, 2.0000079322994777, 3.0000007154026394,
+                                nOC, nOB, nMMd, nMMr, growth_rates,
+                                growth_rates_IH, decay_rates, decay_rates_IH,
+                                matrix_no_GF_IH, matrix_GF_IH, 0.3)
+
+    time_round = 2.999960787194917+ 2.0000079322994777+ 3.0000007154026394
+    last_MM_numbers = df['total nMM'].tail(int(time_round))
+    average_MM_number = last_MM_numbers.sum() / (int(time_round))
+    print(average_MM_number)
+
+    df.plot(x = 'Generation', y = ['nOC', 'nOB', 'nMMd', 'nMMr', 'total nMM'])
+    plt.show()
 
     'W GF H'
     # Set start values
@@ -221,15 +221,15 @@ def main():
     matrix_GF_IH = np.array([
         [0.0, 0.4, 0.65, 0.55],
         [0.3, 0.0, -0.3, -0.3],
-        [0.6 -0.38726141131190084, 0.0, 0.2, 0.0],
+        [0.2, 0.0, 0.2, 0.0],
         [0.55, 0.0, -0.6, 0.4]])
 
-    df = switch_dataframe_W_GF_h(50, 4.99999787605873, 3.999999416081217, 2.594925652883509,
+    df = switch_dataframe_W_GF_h(50, 3.000002998954792, 2.001030830876763, 3.0112240717582166,
                                 nOC, nOB, nMMd, nMMr, growth_rates,
                                 growth_rates_IH, decay_rates, decay_rates_IH,
-                                matrix_no_GF_IH, matrix_GF_IH, 0.13408114791336587)
+                                matrix_no_GF_IH, matrix_GF_IH, 0.3)
 
-    time_round = 4.99999787605873 + 3.999999416081217 + 2.594925652883509
+    time_round = 3.000002998954792+ 2.001030830876763+ 3.0112240717582166
     last_MM_numbers = df['total nMM'].tail(int(time_round))
     average_MM_number = last_MM_numbers.sum() / (int(time_round))
     print(average_MM_number)
@@ -237,8 +237,8 @@ def main():
     df.plot(x = 'Generation', y = ['nOC', 'nOB', 'nMMd', 'nMMr', 'total nMM'])
     plt.show()
 
-
-    "GF H W H"
+    #
+    # "GF H W H"
     # # Set start values
     # nOC = 20
     # nOB = 30
@@ -275,9 +275,49 @@ def main():
     #
     # df.plot(x = 'Generation', y = ['nOC', 'nOB', 'nMMd', 'nMMr', 'total nMM'])
     # plt.show()
+    #
+    #
+    # "W H GF H"
+    # # Set start values
+    # nOC = 20
+    # nOB = 30
+    # nMMd = 20
+    # nMMr = 5
+    # growth_rates = [0.8, 1.2, 0.3, 0.3]
+    # decay_rates = [0.9, 0.08, 0.2, 0.1]
+    # growth_rates_IH = [0.7, 1.3, 0.3, 0.3]
+    # decay_rates_IH = [1.0, 0.08, 0.2, 0.1]
+    #
+    # # Payoff matrix when no drugs are present
+    # matrix_no_GF_IH = np.array([
+    #     [0.0, 0.4, 0.65, 0.55],
+    #     [0.3, 0.0, -0.3, -0.3],
+    #     [0.6, 0.0, 0.2, 0.0],
+    #     [0.55, 0.0, -0.6, 0.4]])
+    #
+    # # Payoff matrix when only GF inhibitor drugs are present
+    # matrix_GF_IH = np.array([
+    #     [0.0, 0.4, 0.65, 0.55],
+    #     [0.3, 0.0, -0.3, -0.3],
+    #     [0.6 -0.499, 0.0, 0.2, 0.0],
+    #     [0.55, 0.0, -0.6, 0.4]])
+    #
+    # df = switch_dataframe_W_h_GF_h(30, 5.000, 4.000,
+    #                             2.000, nOC, nOB, nMMd, nMMr, growth_rates,
+    #                             growth_rates_IH, decay_rates, decay_rates_IH,
+    #                             matrix_no_GF_IH, matrix_GF_IH, 0.199)
+    #
+    # time_round = 5.000 + 4.000 + 2.000 + 2.000
+    # last_MM_numbers = df['total nMM'].tail(int(time_round))
+    # average_MM_number = last_MM_numbers.sum() / (int(time_round))
+    # print(average_MM_number)
+    #
+    # df.plot(x = 'Generation', y = ['nOC', 'nOB', 'nMMd', 'nMMr', 'total nMM'])
+    # plt.show()
 
 
-    "W H GF H"
+
+    "GF comb W H"
     # Set start values
     nOC = 20
     nOB = 30
@@ -299,15 +339,84 @@ def main():
     matrix_GF_IH = np.array([
         [0.0, 0.4, 0.65, 0.55],
         [0.3, 0.0, -0.3, -0.3],
-        [0.6 -0.499, 0.0, 0.2, 0.0],
+        [0.2, 0.0, 0.2, 0.0],
         [0.55, 0.0, -0.6, 0.4]])
 
-    df = switch_dataframe_W_h_GF_h(30, 5.000, 4.000,
-                                2.000, nOC, nOB, nMMd, nMMr, growth_rates,
-                                growth_rates_IH, decay_rates, decay_rates_IH,
-                                matrix_no_GF_IH, matrix_GF_IH, 0.199)
+    # Payoff matrix when both inhibitor drugs are present
+    matrix_GF_IH_comb = np.array([
+        [0.0, 0.4, 0.65, 0.55],
+        [0.3, 0.0, -0.3, -0.3],
+        [0.4, 0.0, 0.2, 0.0],
+        [0.55, 0.0, -0.8, 0.4]])
 
-    time_round = 5.000 + 4.000 + 2.000 + 2.000
+    # WMMd inhibitor effect when both inhibitor drugs are present
+    WMMd_inhibitor_comb = 0.2
+
+    # WMMd inhibitor effect when only WMMd IH is present
+    WMMd_inhibitor = 0.15
+
+    df = switch_dataframe_GF_comb_W_h(50, 1.721, 2, 0, 3.406,
+        	                      nOC, nOB, nMMd, nMMr, growth_rates,
+                                growth_rates_IH, decay_rates, decay_rates_IH,
+                                matrix_no_GF_IH, matrix_GF_IH, matrix_GF_IH_comb,
+                                WMMd_inhibitor, WMMd_inhibitor_comb)
+
+    time_round = 1.721+ 2+ 0+ 3.406
+    last_MM_numbers = df['total nMM'].tail(int(time_round))
+    average_MM_number = last_MM_numbers.sum() / (int(time_round))
+    print(average_MM_number)
+
+    df.plot(x = 'Generation', y = ['nOC', 'nOB', 'nMMd', 'nMMr', 'total nMM'])
+    plt.show()
+
+
+
+
+    "w comb GF H"
+    # Set start values
+    nOC = 20
+    nOB = 30
+    nMMd = 20
+    nMMr = 5
+    growth_rates = [0.8, 1.2, 0.3, 0.3]
+    decay_rates = [0.9, 0.08, 0.2, 0.1]
+    growth_rates_IH = [0.7, 1.3, 0.3, 0.3]
+    decay_rates_IH = [1.0, 0.08, 0.2, 0.1]
+
+    # Payoff matrix when no drugs are present
+    matrix_no_GF_IH = np.array([
+        [0.0, 0.4, 0.65, 0.55],
+        [0.3, 0.0, -0.3, -0.3],
+        [0.6, 0.0, 0.2, 0.0],
+        [0.55, 0.0, -0.6, 0.4]])
+
+    # Payoff matrix when only GF inhibitor drugs are present
+    matrix_GF_IH = np.array([
+        [0.0, 0.4, 0.65, 0.55],
+        [0.3, 0.0, -0.3, -0.3],
+        [0.2, 0.0, 0.2, 0.0],
+        [0.55, 0.0, -0.6, 0.4]])
+
+    # Payoff matrix when both inhibitor drugs are present
+    matrix_GF_IH_comb = np.array([
+        [0.0, 0.4, 0.65, 0.55],
+        [0.3, 0.0, -0.3, -0.3],
+        [0.6, 0.0, 0.2, 0.0],
+        [0.55, 0.0, -0.8, 0.4]])
+
+    # WMMd inhibitor effect when both inhibitor drugs are present
+    WMMd_inhibitor_comb = 0.0
+
+    # WMMd inhibitor effect when only WMMd IH is present
+    WMMd_inhibitor = 0.15
+
+    df = switch_dataframe_W_comb_GF_h(50, 2, 2, 0, 3.370,
+                                nOC, nOB, nMMd, nMMr, growth_rates,
+                                growth_rates_IH, decay_rates, decay_rates_IH,
+                                matrix_no_GF_IH, matrix_GF_IH, matrix_GF_IH_comb,
+                                WMMd_inhibitor, WMMd_inhibitor_comb)
+
+    time_round = 2 + 2 +0+ 3.370
     last_MM_numbers = df['total nMM'].tail(int(time_round))
     average_MM_number = last_MM_numbers.sum() / (int(time_round))
     print(average_MM_number)
