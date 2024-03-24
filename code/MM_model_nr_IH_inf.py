@@ -4177,7 +4177,7 @@ def minimise_MM_W_comb_GF_h():
     WMMd_inhibitor_comb = 0.2
 
     # WMMd inhibitor effect when only WMMd IH is present
-    WMMd_inhibitor = 0.45
+    WMMd_inhibitor = 0.4
 
     # optimise the administration and holiday durations
     # t_step_guess = [GF IH t, W IH t, comb t, h t]
@@ -4244,7 +4244,7 @@ def minimise_MM_GF_comb_W_h():
     WMMd_inhibitor_comb = 0.2
 
     # WMMd inhibitor effect when only WMMd IH is present
-    WMMd_inhibitor = 0.45
+    WMMd_inhibitor = 0.4
 
     # optimise the administration and holiday durations
     t_step_guess = [3.795, 3.511, 2.508, 2.098]
