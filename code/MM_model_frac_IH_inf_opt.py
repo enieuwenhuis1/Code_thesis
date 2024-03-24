@@ -2572,13 +2572,12 @@ def Figure_continuous_MTD_vs_AT_a_h(n_switches, t_steps_drug):
     axs[1, 2].set_ylabel(' ')
     axs[1, 2].set_title(r"Adaptive therapy MMd GF IH and $W_{MMd}$ IH")
     axs[1, 2].grid(True)
-    save_Figure(plt, 'line_plot_cell_frac_IH_AT_MTD_a_h',
-                                 r'..\visualisation\results_model_frac_IH_inf')
 
     # Create a single legend outside of all plots
     legend_labels = ['Fraction OC', 'Fraction OB', 'Fraction MMd', 'Fraction MMr']
     fig.legend(labels = legend_labels, loc='upper center', ncol=4, fontsize='large')
-
+    save_Figure(plt, 'line_plot_cell_frac_IH_AT_MTD_a_h',
+                                 r'..\visualisation\results_model_frac_IH_inf')
     plt.show()
 
 """ Figure to determine the difference between traditional and adaptive therapy
@@ -2724,13 +2723,13 @@ def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
     axs[1, 2].set_ylabel(' ')
     axs[1, 2].set_title(r"Adaptive therapy MMd GF IH and $W_{MMd}$ IH")
     axs[1, 2].grid(True)
-    save_Figure(plt, 'line_plot_cell_frac_IH_AT_MTD_short_a_h',
-                             r'..\visualisation\results_model_frac_IH_inf')
 
     # Create a single legend outside of all plots
     legend_labels = ['Fraction OC', 'Fraction OB', 'Fraction MMd', 'Fraction MMr']
     fig.legend(labels = legend_labels, loc='upper center', ncol=4,
                                                                 fontsize='large')
+    save_Figure(plt, 'line_plot_cell_frac_IH_AT_MTD_short_a_h',
+                             r'..\visualisation\results_model_frac_IH_inf')
 
     plt.show()
 
@@ -2877,13 +2876,14 @@ def Figure_continuous_MTD_vs_AT_weak_a_h(n_switches, t_steps_drug):
     axs[1, 2].set_ylabel(' ')
     axs[1, 2].set_title(r"Adaptive therapy MMd GF IH and $W_{MMd}$ IH")
     axs[1, 2].grid(True)
-    save_Figure(plt, 'line_plot_cell_frac_IH_AT_MTD_weak_a_h',
-                             r'..\visualisation\results_model_frac_IH_inf')
 
     # Create a single legend outside of all plots
     legend_labels = ['Fraction OC', 'Fraction OB', 'Fraction MMd', 'Fraction MMr']
     fig.legend(labels = legend_labels, loc='upper center', ncol=4,
                                                                fontsize='large')
+
+    save_Figure(plt, 'line_plot_cell_frac_IH_AT_MTD_weak_a_h',
+                             r'..\visualisation\results_model_frac_IH_inf')
 
     plt.show()
 
@@ -3032,12 +3032,12 @@ def Figure_continuous_MTD_vs_AT_OB_a_h(n_switches, t_steps_drug):
     axs[1, 2].set_ylabel(' ')
     axs[1, 2].set_title(r"Adaptive therapy MMd GF IH and $W_{MMd}$ IH")
     axs[1, 2].grid(True)
-    save_Figure(plt, 'line_plot_cell_frac_IH_AT_MTD_OB_a_h',
-                             r'..\visualisation\results_model_frac_IH_inf')
 
     # Create a single legend outside of all plots
     legend_labels = ['Fraction OC', 'Fraction OB', 'Fraction MMd', 'Fraction MMr']
     fig.legend(labels = legend_labels, loc='upper center', ncol=4, fontsize='large')
+    save_Figure(plt, 'line_plot_cell_frac_IH_AT_MTD_OB_a_h',
+                             r'..\visualisation\results_model_frac_IH_inf')
 
     plt.show()
 
