@@ -1427,7 +1427,7 @@ def Figure_continuous_MTD_vs_AT_weak_a_h(n_switches, t_steps_drug):
     matrix_GF_IH = np.array([
         [0.0, 1.6, 2.2, 1.9],
         [0.95, 0.0, -0.5, -0.5],
-        [0.7, 0, 0.2, 0.0],
+        [0.73, 0, 0.2, 0.0],
         [1.9, 0, -0.8, 0.2]])
 
     # Payoff matrix when both inhibitor drugs are present
@@ -1441,7 +1441,7 @@ def Figure_continuous_MTD_vs_AT_weak_a_h(n_switches, t_steps_drug):
     WMMd_inhibitor_comb = 0.55
 
     # WMMd inhibitor effect when only WMMd IH is present
-    WMMd_inhibitor = 1.27
+    WMMd_inhibitor = 1.2
 
     # Make dataframe for the different drug hollyday duration values
     df_total_switch_GF = switch_dataframe(n_switches, t_steps_drug[0],
