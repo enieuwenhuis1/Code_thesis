@@ -5,15 +5,16 @@ Student ID:   13717405
 MATHEMATICAL MULTIPLE MYELOMA MODEL
 The goal was to make a fraction model and a number model that simulate the dynamics
 of the multiple myeloma (MM) microenvironment and determine the effect of adaptive
-therapy versus traditional therapy. During adaptive therapy the drugs are
-administered in short periods with holidays in between and during traditional
-therapy the MTD is continuously administered. The models looked at the interactions
-via diffusible factors between four cell types: drug-sensitive MM cells (MMd),
-resistant MM cells (MMr), osteoblasts (OBs) and osteoclasts (OCs). Both models
-simulate a public goods game in the framework of evolutionary game theory with
-collective interactions. The impact of an MMd GF inhibitor (IH) and a WMMd IH on
-the cell type fractions and numbers are studied for different strengths,
-administration durations and holiday durations.
+therapy versus traditional therapy. The goal also was to optimise the IH holiday 
+duration, administration duration, and strength for the adaptive therapy. During 
+adaptive therapy the drugs are administered in short periods with holidays in 
+between and during traditional therapy the MTD is continuously administered. The 
+models looked at the interactions via diffusible factors between four cell types: 
+drug-sensitive MM cells (MMd), resistant MM cells (MMr), osteoblasts (OBs) and
+osteoclasts (OCs). Both models simulate a public goods game in the framework of 
+evolutionary game theory with collective interactions. The impact of an MMd GF 
+inhibitor (IH) and a WMMd IH on the cell type fractions and numbers are studied
+for different strengths, administration durations and holiday durations.
 
 To better understand MM microenvironment modelling, the figures from Sartakhti et
 al. (2018) (nonlinear) and Sartakhti et al. (2016) (linear) were first attempted

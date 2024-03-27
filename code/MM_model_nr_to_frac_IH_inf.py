@@ -2383,10 +2383,6 @@ def minimal_tumour_nr_to_frac_t_4_sit_equal_IH(t_steps_IH_strength, function_ord
     matrix_GF_IH_comb: Numpy.ndarray
         4x4 matrix containing the interaction factors when MMd GF IH and a WMMd
         IH are administered.
-    WMMd_inhibitor: Float
-        The effect of a drug on the MMd fitness.
-    WMMd_inhibitor_comb: Float
-        The effect of a drug on the MMd fitness when also a MMd GF IH is given.
 
     Returns:
     --------
@@ -3009,13 +3005,13 @@ def Figure_continuous_MTD_vs_AT(n_switches, t_steps_drug):
     axs[1, 2].set_ylabel(' ')
     axs[1, 2].set_title(r"Adaptive therapy MMd GF IH and $W_{MMd}$ IH")
     axs[1, 2].grid(True)
-    save_Figure(plt, 'line_plot_cell_nr_to_frac_AT_MTD',
-                         r'..\visualisation\results_model_nr_to_frac_IH_inf')
-
+    
     # Create a single legend outside of all plots
     legend_labels = ['OC fraction', 'OB fraction', 'MMd fraction', 'MMr fraction']
     fig.legend(labels = legend_labels, loc='upper center', ncol=4,
                                                                 fontsize='large')
+    save_Figure(plt, 'line_plot_cell_nr_to_frac_AT_MTD',
+                         r'..\visualisation\results_model_nr_to_frac_IH_inf')
     plt.show()
 
 """ Figure to determine the difference between traditional and adaptive therapy.
@@ -3167,12 +3163,12 @@ def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
     axs[1, 2].set_ylabel(' ')
     axs[1, 2].set_title(r"Adaptive therapy MMd GF IH and $W_{MMd}$ IH")
     axs[1, 2].grid(True)
-    save_Figure(plt, 'line_plot_cell_nr_to_frac_AT_MTD_short_a_h',
-                        r'..\visualisation\results_model_nr_to_frac_IH_inf')
 
     # Create a single legend outside of all plots
     legend_labels = ['OC fraction', 'OB fraction', 'MMd fraction', 'MMr fraction']
     fig.legend(labels = legend_labels, loc='upper center', ncol=4, fontsize='large')
+    save_Figure(plt, 'line_plot_cell_nr_to_frac_AT_MTD_short_a_h',
+                        r'..\visualisation\results_model_nr_to_frac_IH_inf')
     plt.show()
 
 """ Figure to determine the difference between traditional and adaptive therapy
@@ -3324,12 +3320,12 @@ def Figure_continuous_MTD_vs_AT_weak_a_h(n_switches, t_steps_drug):
     axs[1, 2].set_ylabel(' ')
     axs[1, 2].set_title(r"Adaptive therapy MMd GF IH and $W_{MMd}$ IH")
     axs[1, 2].grid(True)
-    save_Figure(plt, 'line_plot_cell_nr_to_frac_AT_MTD_weak_a_h',
-                     r'..\visualisation\results_model_nr_to_frac_IH_inf')
-
+    
     # Create a single legend outside of all plots
     legend_labels = ['OC fraction', 'OB fraction', 'MMd fraction', 'MMr fraction']
     fig.legend(labels = legend_labels, loc='upper center', ncol=4, fontsize='large')
+    save_Figure(plt, 'line_plot_cell_nr_to_frac_AT_MTD_weak_a_h',
+                     r'..\visualisation\results_model_nr_to_frac_IH_inf')
     plt.show()
 
 """ Figure to determine the best WMMd IH value """
@@ -4476,16 +4472,6 @@ def minimise_MM_W_WandGF_GF_h_IH():
     durations when the order is WMMd IH -> WMMd IH + MMd GF IH -> MMd GF IH ->
     holiday -> WMMd IH etc.It also determines the best MMd GF IH and WMMd IH
     strength."""
-
-    # Set start values
-    nOC = 20
-    nOB = 30
-    nMMd = 20
-    nMMr = 5
-    growth_rates = [0.8, 1.2, 0.3, 0.3]
-    decay_rates = [0.9, 0.08, 0.2, 0.1]
-    growth_rates_IH = [0.7, 1.3, 0.3, 0.3]
-    decay_rates_IH = [1.0, 0.08, 0.2, 0.1]
 
     # Set start values
     nOC = 20
