@@ -131,19 +131,80 @@ def main():
 
     # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
     # holiday for different WMMd IH strengths and MMd GF IH = 0.4
-    minimise_MM_GF_W_h_changing_W_IH()
-
+    minimise_MM_GF_W_h_changing_W_IH([0.8, 1.2, 0.3, 0.3], [0.7, 1.3, 0.3, 0.3], 
+    [0.9, 0.08, 0.2, 0.1], [1.0, 0.08, 0.2, 0.1], 'df_MM_GF_W_h_changing_W_IH.csv')
+    
+    
     # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
     # holiday for different WMMd IH strengths and MMd GF IH = 0.4
-    minimise_MM_W_GF_h_changing_W_IH()
-
-    # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
-    # holiday for different MMd GF IH strengths and WMMd IH = 0.4
-    minimise_MM_GF_W_h_changing_GF_IH()
-
+    minimise_MM_W_GF_h_changing_W_IH([0.8, 1.2, 0.3, 0.3], [0.7, 1.3, 0.3, 0.3], 
+    [0.9, 0.08, 0.2, 0.1], [1.0, 0.08, 0.2, 0.1], 'df_MM_W_GF_h_changing_W_IH.csv')
+    
+    # # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
+    # # holiday for different MMd GF IH strengths and WMMd IH = 0.4
+    # minimise_MM_GF_W_h_changing_GF_IH([0.8, 1.2, 0.3, 0.3], [0.7, 1.3, 0.3, 0.3], 
+    # [0.9, 0.08, 0.2, 0.1], [1.0, 0.08, 0.2, 0.1], 'df_MM_GF_W_h_changing_GF_IH.csv')
+    
     # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
     # holiday for different MMd GF IH strengths and WMMd IH = 0.4
-    minimise_MM_W_GF_h_changing_GF_IH()
+    minimise_MM_W_GF_h_changing_GF_IH([0.8, 1.2, 0.3, 0.3], [0.7, 1.3, 0.3, 0.3], 
+    [0.9, 0.08, 0.2, 0.1], [1.0, 0.08, 0.2, 0.1], 'df_MM_W_GF_h_changing_GF_IH.csv')
+    
+    # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
+    # holiday for different WMMd IH strengths whereby the growth and decay rate 
+    # are decreased with 10%
+    minimise_MM_GF_W_h_changing_W_IH([0.88, 1.32, 0.33, 0.33], [0.77, 1.43, 0.33,\
+                       0.33], [0.99, 0.088, 0.22, 0.11], [1.1, 0.088, 0.22, 0.11], 
+                                        'df_MM_GF_W_h_changing_W_IH_h_gr_dr.csv')
+    
+    # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
+    # holiday for different WMMd IH strengths whereby the growth and decay rate 
+    # are decreased with 10%
+    minimise_MM_W_GF_h_changing_W_IH([0.88, 1.32, 0.33, 0.33], [0.77,1.43, 0.33,\
+                      0.33], [0.99, 0.088, 0.22, 0.11], [1.1, 0.088, 0.22, 0.11],  
+                                        'df_MM_W_GF_h_changing_W_IH_h_gr_dr.csv')
+    
+    # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
+    # holiday for different MMd GF IH strengths whereby the growth and decay rate 
+    # are decreased with 10%
+    minimise_MM_GF_W_h_changing_GF_IH([0.88, 1.32, 0.33, 0.33], [0.77,1.43, 0.33,\
+                      0.33], [0.99, 0.088, 0.22, 0.11], [1.1, 0.088, 0.22, 0.11], 
+                                        'df_MM_GF_W_h_changing_GF_IH_h_gr_dr.csv')
+    
+    # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
+    # holiday for different MMd GF IH strengths whereby the growth and decay rate 
+    # are decreased with 10%
+    minimise_MM_W_GF_h_changing_GF_IH([0.88, 1.32, 0.33, 0.33], [0.77, 1.43, 0.33,\
+                        0.33], [0.99, 0.088, 0.22, 0.11], [1.1, 0.088, 0.22, 0.11], 
+                                         'df_MM_W_GF_h_changing_GF_IH_h_gr_dr.csv')
+    
+    # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
+    # holiday for different WMMd IH strengths whereby the growth and decay rate are 
+    # decreased with 10%
+    minimise_MM_GF_W_h_changing_W_IH([0.72, 1.08, 0.27, 0.27], [0.63, 1.17, 0.27,\
+                         0.27], [0.81, 0.072, 0.18, 0.09] [0.9, 0.072, 0.18, 0.09], 
+                                         'df_MM_GF_W_h_changing_W_IH_l_gr_dr.csv')
+    
+    # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
+    # holiday for different WMMd IH strengths whereby the growth and decay rate 
+    # are decreased with 10%
+    minimise_MM_W_GF_h_changing_W_IH([0.72, 1.08, 0.27, 0.27], [0.63, 1.17, 0.27,\
+                        0.27], [0.81, 0.072, 0.18, 0.09] [0.9, 0.072, 0.18, 0.09], 
+                                         'df_MM_W_GF_h_changing_W_IH_l_gr_dr.csv')
+    
+    # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
+    # holiday for different MMd GF IH strengths whereby the growth and decay rate 
+    # are decreased with 10%
+    minimise_MM_GF_W_h_changing_GF_IH([0.72, 1.08, 0.27, 0.27], [0.63, 1.17, 0.27,\
+                         0.27], [0.81, 0.072, 0.18, 0.09] [0.9, 0.072, 0.18, 0.09], 
+                                         'df_MM_GF_W_h_changing_GF_IH_l_gr_dr.csv')
+    
+    # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
+    # holiday for different MMd GF IH strengths whereby the growth and decay rate 
+    # are decreased with 10%
+    minimise_MM_W_GF_h_changing_GF_IH([0.72, 1.08, 0.27, 0.27], [0.63, 1.17, 0.27,\ 
+                         0.27], [0.81, 0.072, 0.18, 0.09] [0.9, 0.072, 0.18, 0.09], 
+                                         'df_MM_W_GF_h_changing_GF_IH_l_gr_dr.csv')
 
 def dOC_dt(nOC, nOB, nMMd, nMMr, gr_OC, dr_OC, matrix):
     """
@@ -4557,10 +4618,27 @@ def minimise_MM_GF_GFandW_W_h_IH():
 
 """Optimise IH administration duration and holiday duration for WMMd IH -> MMd GF
 IH -> holiday by different WMMd IH strengths"""
-def minimise_MM_W_GF_h_changing_W_IH():
+def minimise_MM_W_GF_h_changing_W_IH(growth_rates, growth_rates_IH, decay_rates, 
+                                                     decay_rates_IH, filename):
     """Function that determines the best IH administration durations and holiday
     durations for different WMMd IH values when the order is WMMd IH -> MMd GF 
-    IH -> holiday -> WMMd IH etc."""
+    IH -> holiday -> WMMd IH etc.
+
+    Parameters:
+    -----------
+    growth_rates: List
+        List with the growth rate values of the OC, OB, MMd and MMr.
+    growth_rates_IH: List
+        List with the growth rate values of the OC, OB, MMd and MMr when a IH
+        is administered.
+    decay_rates: List
+        List with the decay rate values of OC, OB, MMd and MMr.
+    decay_rates_IH: List
+        List with the decay rate values of OC, OB, MMd and MMr when a IH is
+        administered.
+    filename: String 
+        The name of the file in which the generated data is saved. 
+    """
 
     # Make a datframe 
     column_names = ['W IH strength', 'MMd GF IH duration', 'WMMd IH duration', 
@@ -4568,20 +4646,16 @@ def minimise_MM_W_GF_h_changing_W_IH():
     df_W_GF_h_change_W = pd.DataFrame(columns = column_names)
 
     for i in range(20):
-        print(i)
 
         # Calculate the strength of the MMd GF IH 
         W_IH = 0.2 + (i/100)
+        print(W_IH)
    
         # Set start values
         nOC = 20
         nOB = 30
         nMMd = 20
         nMMr = 5
-        growth_rates = [0.8, 1.2, 0.3, 0.3]
-        decay_rates = [0.9, 0.08, 0.2, 0.1]
-        growth_rates_IH = [0.7, 1.3, 0.3, 0.3]
-        decay_rates_IH = [1.0, 0.08, 0.2, 0.1]
         
         # Payoff matrix when no drugs are present
         matrix_no_GF_IH = np.array([
@@ -4599,8 +4673,7 @@ def minimise_MM_W_GF_h_changing_W_IH():
         
         # optimise the administration and holiday durations
         # t_step_IH_strength = [GF IH t, W IH t, h t]
-        t_step_IH_strength = [3.000002998954792, 2.001030830876763, 
-                                                          3.0112240717582166]
+        t_step_IH_strength = [3.000, 2.001, 3.011]
         result = minimize(minimal_tumour_nr_t_3_situations, t_step_IH_strength,
                 args=(switch_dataframe_W_GF_h, nOC, nOB, nMMd, nMMr, growth_rates,
                 growth_rates_IH, decay_rates, decay_rates_IH, matrix_no_GF_IH,
@@ -4622,38 +4695,50 @@ def minimise_MM_W_GF_h_changing_W_IH():
         df_W_GF_h_change_W = pd.concat([df_W_GF_h_change_W, new_row_df], 
                                                                 ignore_index=True)
 
-    # # Save the data
-    # save_dataframe(df_W_GF_h_change_W, 'df_MM_W_GF_h_changing_GF_IH.csv',
-    #                                              r'..\data\data_model_nr_IH_inf')
-    return(df_W_GF_h_change_W)
+    # Save the data
+    save_dataframe(df_W_GF_h_change_W, filename, r'..\data\data_model_nr_IH_inf')
+
 
 """Optimise IH administration duration and holiday duration for WMMd IH -> MMd GF
 IH -> holiday by different MMd GF IH strengths"""
-def minimise_MM_W_GF_h_changing_GF_IH():
+def minimise_MM_W_GF_h_changing_GF_IH(growth_rates, growth_rates_IH, decay_rates, 
+                                                     decay_rates_IH, filename):
     """Function that determines the best IH administration durations and holiday
     durations for different MMd GF IH values when the order is WMMd IH -> MMd GF 
-    IH -> holiday -> WMMd IH etc."""
-
+    IH -> holiday -> WMMd IH etc.
+    
+    Parameters:
+    -----------
+    growth_rates: List
+        List with the growth rate values of the OC, OB, MMd and MMr.
+    growth_rates_IH: List
+        List with the growth rate values of the OC, OB, MMd and MMr when a IH
+        is administered.
+    decay_rates: List
+        List with the decay rate values of OC, OB, MMd and MMr.
+    decay_rates_IH: List
+        List with the decay rate values of OC, OB, MMd and MMr when a IH is
+        administered.
+    filename: String 
+        The name of the file in which the generated data is saved.
+    """
+    
     # Make a datframe 
     column_names = ['GF IH strength', 'MMd GF IH duration', 'WMMd IH duration', 
                                                 'Holiday duration', 'MM fraction']
     df_W_GF_h_change_GF = pd.DataFrame(columns = column_names)
 
     for i in range(20):
-        print(i)
 
         # Calculate the strength of the MMd GF IH 
-        GF_IH = 0.15 + (i/100)
+        GF_IH = 0.08 + (i/100)
+        print(GF_IH)
    
         # Set start values
         nOC = 20
         nOB = 30
         nMMd = 20
         nMMr = 5
-        growth_rates = [0.8, 1.2, 0.3, 0.3]
-        decay_rates = [0.9, 0.08, 0.2, 0.1]
-        growth_rates_IH = [0.7, 1.3, 0.3, 0.3]
-        decay_rates_IH = [1.0, 0.08, 0.2, 0.1]
         
         # Payoff matrix when no drugs are present
         matrix_no_GF_IH = np.array([
@@ -4673,8 +4758,7 @@ def minimise_MM_W_GF_h_changing_GF_IH():
         
         # optimise the administration and holiday durations
         # t_step_IH_strength = [GF IH t, W IH t, h t]
-        t_step_IH_strength = [3.000002998954792, 2.001030830876763, 
-                                                          3.0112240717582166]
+        t_step_IH_strength = [3.000, 2.001, 3.011]
         result = minimize(minimal_tumour_nr_t_3_situations, t_step_IH_strength,
                 args=(switch_dataframe_W_GF_h, nOC, nOB, nMMd, nMMr, growth_rates,
                 growth_rates_IH, decay_rates, decay_rates_IH, matrix_no_GF_IH,
@@ -4697,17 +4781,31 @@ def minimise_MM_W_GF_h_changing_GF_IH():
                                                                 ignore_index=True)
 
     # Save the data
-    # save_dataframe(df_W_GF_h_change_GF, 'df_MM_W_GF_h_changing_GF_IH.csv',
-    #                                              r'..\data\data_model_nr_IH_inf')
-    return(df_W_GF_h_change_GF)
-
+    save_dataframe(df_W_GF_h_change_GF, filename, r'..\data\data_model_nr_IH_inf')
 
 """optimise IH administration duration and holiday duration for MMd GF IH -> WMMd
 IH -> holiday by different WMMd IH strengths"""
-def minimise_MM_GF_W_h_changing_W_IH():
+def minimise_MM_GF_W_h_changing_W_IH(growth_rates, growth_rates_IH, decay_rates, 
+                                                     decay_rates_IH, filename):
     """Function that determines the best IH administration durations and holiday
     durations for different WMMd IH values when the order is MMd GF IH -> WMMd IH 
-    -> holiday -> MMd GF IH etc."""
+    -> holiday -> MMd GF IH etc.
+    
+    Parameters:
+    -----------
+    growth_rates: List
+        List with the growth rate values of the OC, OB, MMd and MMr.
+    growth_rates_IH: List
+        List with the growth rate values of the OC, OB, MMd and MMr when a IH
+        is administered.
+    decay_rates: List
+        List with the decay rate values of OC, OB, MMd and MMr.
+    decay_rates_IH: List
+        List with the decay rate values of OC, OB, MMd and MMr when a IH is
+        administered.
+    filename: String 
+        The name of the file in which the generated data is saved.
+    """
 
     # Make a datframe 
     column_names = ['W IH strength', 'MMd GF IH duration', 'WMMd IH duration', 
@@ -4719,16 +4817,13 @@ def minimise_MM_GF_W_h_changing_W_IH():
 
         # Calculate the strength of the WMMd IH 
         W_IH = 0.2 + (i/100)
+        print(W_IH)
         
         # Set start values
         nOC = 20
         nOB = 30
         nMMd = 20
         nMMr = 5
-        growth_rates = [0.8, 1.2, 0.3, 0.3]
-        decay_rates = [0.9, 0.08, 0.2, 0.1]
-        growth_rates_IH = [0.7, 1.3, 0.3, 0.3]
-        decay_rates_IH = [1.0, 0.08, 0.2, 0.1]
     
         # Payoff matrix when no drugs are present
         matrix_no_GF_IH = np.array([
@@ -4746,8 +4841,7 @@ def minimise_MM_GF_W_h_changing_W_IH():
     
         # optimise the administration and holiday durations
         # t_step_IH_strength = [GF IH t, W IH t, h t]
-        t_step_IH_strength = [2.999960787194917, 2.0000079322994777, 
-                                                              3.0000007154026394]
+        t_step_IH_strength = [3.000, 2.000, 3.000]
         result = minimize(minimal_tumour_nr_t_3_situations, t_step_IH_strength,
                 args=(switch_dataframe_GF_W_h, nOC, nOB, nMMd, nMMr, growth_rates,
                 growth_rates_IH, decay_rates, decay_rates_IH, matrix_no_GF_IH,
@@ -4768,17 +4862,33 @@ def minimise_MM_GF_W_h_changing_W_IH():
                  result.x[2], 'MM fraction':result.fun}])
         df_GF_W_h_change_W = pd.concat([df_GF_W_h_change_W, new_row_df], 
                                                                 ignore_index=True)
-    # # Save the data
-    # save_dataframe(df_GF_W_h_change_W, 'df_MM_GF_W_h_changing_W_IH.csv',
-    #                                              r'..\data\data_model_nr_IH_inf')
-    return(df_GF_W_h_change_W)
+    # Save the data
+    save_dataframe(df_GF_W_h_change_W, filename, r'..\data\data_model_nr_IH_inf')
+
 
 """optimise IH administration duration and holiday duration for MMd GF IH -> WMMd
 IH -> holiday by different MMd GF IH strengths"""
-def minimise_MM_GF_W_h_changing_GF_IH():
+def minimise_MM_GF_W_h_changing_GF_IH(growth_rates, growth_rates_IH, decay_rates, 
+                                                     decay_rates_IH, filename):
     """Function that determines the best IH administration durations and holiday
     durations for different MMd GF IH values when the order is MMd GF IH -> WMMd 
-    IH -> holiday -> MMd GF IH etc."""
+    IH -> holiday -> MMd GF IH etc.
+    
+    Parameters:
+    -----------
+    growth_rates: List
+        List with the growth rate values of the OC, OB, MMd and MMr.
+    growth_rates_IH: List
+        List with the growth rate values of the OC, OB, MMd and MMr when a IH
+        is administered.
+    decay_rates: List
+        List with the decay rate values of OC, OB, MMd and MMr.
+    decay_rates_IH: List
+        List with the decay rate values of OC, OB, MMd and MMr when a IH is
+        administered.
+    filename: String 
+        The name of the file in which the generated data is saved.
+    """
 
     # Make a datframe 
     column_names = ['GF IH strength', 'MMd GF IH duration', 'WMMd IH duration', 
@@ -4786,20 +4896,16 @@ def minimise_MM_GF_W_h_changing_GF_IH():
     df_GF_W_h_change_GF = pd.DataFrame(columns = column_names)
 
     for i in range(20):
-        print(i)
 
         # Calculate the strength of the MMd GF IH 
-        GF_IH = 0.1 + (i/100)
+        GF_IH = 0.08 + (i/100)
+        print(GF_IH)
         
         # Set start values
         nOC = 20
         nOB = 30
         nMMd = 20
         nMMr = 5
-        growth_rates = [0.8, 1.2, 0.3, 0.3]
-        decay_rates = [0.9, 0.08, 0.2, 0.1]
-        growth_rates_IH = [0.7, 1.3, 0.3, 0.3]
-        decay_rates_IH = [1.0, 0.08, 0.2, 0.1]
     
         # Payoff matrix when no drugs are present
         matrix_no_GF_IH = np.array([
@@ -4819,8 +4925,7 @@ def minimise_MM_GF_W_h_changing_GF_IH():
     
         # optimise the administration and holiday durations
         # t_step_IH_strength = [GF IH t, W IH t, h t]
-        t_step_IH_strength = [2.999960787194917, 2.0000079322994777, 
-                                                              3.0000007154026394]
+        t_step_IH_strength = [3.000, 2.000, 3.000]
         result = minimize(minimal_tumour_nr_t_3_situations, t_step_IH_strength,
                 args=(switch_dataframe_GF_W_h, nOC, nOB, nMMd, nMMr, growth_rates,
                 growth_rates_IH, decay_rates, decay_rates_IH, matrix_no_GF_IH,
@@ -4842,10 +4947,8 @@ def minimise_MM_GF_W_h_changing_GF_IH():
         df_GF_W_h_change_GF = pd.concat([df_GF_W_h_change_GF, new_row_df], 
                                                                 ignore_index=True)
 
-    # # Save the data
-    # save_dataframe(df_GF_W_h_change_GF, 'df_MM_GF_W_h_changing_GF_IH.csv',
-    #                                              r'..\data\data_model_nr_IH_inf')
-    return(df_GF_W_h_change_GF)
+    # Save the data
+    save_dataframe(df_GF_W_h_change_GF, filename, r'..\data\data_model_nr_IH_inf')
 
 if __name__ == "__main__":
     main()
