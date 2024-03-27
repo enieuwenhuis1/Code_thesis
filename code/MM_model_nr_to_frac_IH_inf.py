@@ -2383,10 +2383,6 @@ def minimal_tumour_nr_to_frac_t_4_sit_equal_IH(t_steps_IH_strength, function_ord
     matrix_GF_IH_comb: Numpy.ndarray
         4x4 matrix containing the interaction factors when MMd GF IH and a WMMd
         IH are administered.
-    WMMd_inhibitor: Float
-        The effect of a drug on the MMd fitness.
-    WMMd_inhibitor_comb: Float
-        The effect of a drug on the MMd fitness when also a MMd GF IH is given.
 
     Returns:
     --------
