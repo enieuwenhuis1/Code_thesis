@@ -182,28 +182,28 @@ def main():
     # holiday for different WMMd IH strengths whereby the growth and decay rate are 
     # decreased with 10%
     minimise_MM_GF_W_h_changing_W_IH([0.72, 1.08, 0.27, 0.27], [0.63, 1.17, 0.27,\
-                         0.27], [0.81, 0.072, 0.18, 0.09] [0.9, 0.072, 0.18, 0.09], 
+                        0.27], [0.81, 0.072, 0.18, 0.09], [0.9, 0.072, 0.18, 0.09], 
                                          'df_MM_GF_W_h_changing_W_IH_l_gr_dr.csv')
     
     # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
     # holiday for different WMMd IH strengths whereby the growth and decay rate 
     # are decreased with 10%
     minimise_MM_W_GF_h_changing_W_IH([0.72, 1.08, 0.27, 0.27], [0.63, 1.17, 0.27,\
-                        0.27], [0.81, 0.072, 0.18, 0.09] [0.9, 0.072, 0.18, 0.09], 
+                      0.27], [0.81, 0.072, 0.18, 0.09], [0.9, 0.072, 0.18, 0.09], 
                                          'df_MM_W_GF_h_changing_W_IH_l_gr_dr.csv')
     
     # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
     # holiday for different MMd GF IH strengths whereby the growth and decay rate 
     # are decreased with 10%
     minimise_MM_GF_W_h_changing_GF_IH([0.72, 1.08, 0.27, 0.27], [0.63, 1.17, 0.27,\
-                         0.27], [0.81, 0.072, 0.18, 0.09] [0.9, 0.072, 0.18, 0.09], 
+                        0.27], [0.81, 0.072, 0.18, 0.09], [0.9, 0.072, 0.18, 0.09], 
                                          'df_MM_GF_W_h_changing_GF_IH_l_gr_dr.csv')
     
     # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
     # holiday for different MMd GF IH strengths whereby the growth and decay rate 
     # are decreased with 10%
     minimise_MM_W_GF_h_changing_GF_IH([0.72, 1.08, 0.27, 0.27], [0.63, 1.17, 0.27,\ 
-                         0.27], [0.81, 0.072, 0.18, 0.09] [0.9, 0.072, 0.18, 0.09], 
+                       0.27], [0.81, 0.072, 0.18, 0.09], [0.9, 0.072, 0.18, 0.09], 
                                          'df_MM_W_GF_h_changing_GF_IH_l_gr_dr.csv')
 
 def dOC_dt(nOC, nOB, nMMd, nMMr, gr_OC, dr_OC, matrix):
