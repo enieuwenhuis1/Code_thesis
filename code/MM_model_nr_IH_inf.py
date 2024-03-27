@@ -4488,16 +4488,6 @@ def minimise_MM_W_WandGF_GF_h_IH():
     growth_rates_IH = [0.7, 1.3, 0.3, 0.3]
     decay_rates_IH = [1.0, 0.08, 0.2, 0.1]
 
-    # Set start values
-    nOC = 20
-    nOB = 30
-    nMMd = 20
-    nMMr = 5
-    growth_rates = [0.8, 1.2, 0.3, 0.3]
-    decay_rates = [0.9, 0.08, 0.2, 0.1]
-    growth_rates_IH = [0.7, 1.3, 0.3, 0.3]
-    decay_rates_IH = [1.0, 0.08, 0.2, 0.1]
-
     # Payoff matrix when no drugs are present
     matrix_no_GF_IH = np.array([
         [0.0, 0.4, 0.65, 0.55],
