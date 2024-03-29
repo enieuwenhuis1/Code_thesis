@@ -46,21 +46,21 @@ def main():
     # list_t_steps_drug = [10, 10, 10]
     # Figure_continuous_MTD_vs_AT(20, list_t_steps_drug)
     #
-    # # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # # by adaptive therapy for shorter holiday and administration periods compared
-    # # to the original situation
-    # list_t_steps_drug = [4, 4, 4]
-    # Figure_continuous_MTD_vs_AT_short_a_h(50, list_t_steps_drug)
+    # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # by adaptive therapy for shorter holiday and administration periods compared
+    # to the original situation
+    # list_t_steps_drug = [5, 5, 5]
+    # Figure_continuous_MTD_vs_AT_short_a_h(40, list_t_steps_drug)
     #
     # # Make a figure showing the cell fraction dynamics by traditional therapy and
     # # by adaptive therapy for weaker IHs compared to the original situation
     # list_t_steps_drug = [10, 10, 10]
     # Figure_continuous_MTD_vs_AT_weak_a_h(20, list_t_steps_drug)
-    #
-    # # Make a 3D figure showthing the effect of different drug holiday and
-    # # administration periods
-    # Figure_3D_MM_numb_IH_add_and_holiday()
-    #
+
+    # Make a 3D figure showthing the effect of different drug holiday and
+    # administration periods
+    Figure_3D_MM_numb_IH_add_and_holiday()
+
     # # Make a figure that shows the MM number for different bOC,MMd values
     # Figure_best_b_OC_MMd()
     #
@@ -76,7 +76,7 @@ def main():
     # list_t_steps_drug = [3, 10]
     # list_t_steps_no_drug = [10, 3]
     # list_n_steps = [40, 40]
-    # Figure_duration_A_h_MMd_IH(list_n_steps, list_t_steps_drug,
+    # Figure_duration_a_h_MMd_IH(list_n_steps, list_t_steps_drug,
     #                                                       list_t_steps_no_drug)
     #
     #
@@ -3209,7 +3209,7 @@ def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
                                                     legend=False, ax=axs[0, 0])
     axs[0, 0].set_xlabel(' ')
     axs[0, 0].set_ylabel('Number', fontsize=11)
-    axs[0, 0].set_title(f"Continuous MTD MMd GF IH ")
+    axs[0, 0].set_title(f"Traditional therapy MMd GF IH ")
     axs[0, 0].grid(True)
 
     # Plot the data with drug holidays in the second plot
@@ -3217,7 +3217,7 @@ def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
                                                     legend=False, ax=axs[0, 1])
     axs[0, 1].set_xlabel(' ')
     axs[0, 1].set_ylabel(' ')
-    axs[0, 1].set_title(r"Continuous MTD $W_{MMd}$ IH")
+    axs[0, 1].set_title(r"Traditional therapy $W_{MMd}$ IH")
     axs[0, 1].grid(True)
 
     # Plot the data with drug holidays in the second plot
@@ -3225,7 +3225,7 @@ def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
                                                     legend=False, ax=axs[0, 2])
     axs[0, 2].set_xlabel(' ')
     axs[0, 2].set_ylabel(' ')
-    axs[0, 2].set_title(r"Continuous MTD MMd GF IH and $W_{MMd}$ IH")
+    axs[0, 2].set_title(r"Traditional therapy IH combination")
     axs[0, 2].grid(True)
 
     # Plot the data with drug holidays in the third plot
@@ -3250,7 +3250,7 @@ def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
                                                     legend=False, ax=axs[1, 2])
     axs[1, 2].set_xlabel('Generations', fontsize=11)
     axs[1, 2].set_ylabel(' ')
-    axs[1, 2].set_title(r"Adaptive therapy MMd GF IH and $W_{MMd}$ IH")
+    axs[1, 2].set_title(r"Adaptive therapy IH combination")
     axs[1, 2].grid(True)
 
     # Create a single legend outside of all plots
@@ -3260,6 +3260,7 @@ def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
     save_Figure(plt, 'line_plot_cell_nr_IH_inf_AT_MTD_short_a_h',
                                  r'..\visualisation\results_model_nr_IH_inf')
     plt.show()
+
 
 """ Figure to determine the difference between traditional and adaptive therapy
 Weaker IHs compared to the original situation"""
@@ -3585,7 +3586,7 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
             ax.set_xlabel('Generations no IHs')
             ax.set_ylabel('Generations IHs')
             ax.set_zlabel('Number of MM')
-            ax.set_title('C)  $W_{MMd}$ IH and MMd GF IH', pad=10)
+            ax.set_title('C)  IH combination', pad=10)
 
             # Turn to the right angle
             ax.view_init(elev = 25, azim = -126)
@@ -3864,7 +3865,7 @@ def Figure_best_b_OC_MMd():
 
 
 """ Figure with a longer IH administration than holiday and the other way around"""
-def Figure_duration_A_h_MMd_IH(n_switches, t_steps_drug, t_steps_no_drug):
+def Figure_duration_a_h_MMd_IH(n_switches, t_steps_drug, t_steps_no_drug):
     """ Function that makes a Figure with two subplots one of the dynamics by a
     longer IH administration than holiday and one of the dynamics by a longer IH
     than administration.

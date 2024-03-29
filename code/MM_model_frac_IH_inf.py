@@ -41,26 +41,32 @@ def main():
     # Do doc tests
     doctest.testmod()
 
-    # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # by adaptive therapy (original situation)
-    list_t_steps_drug = [10, 10, 10]
-    Figure_continuous_MTD_vs_AT_a_h(13, list_t_steps_drug)
+    # # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # # by adaptive therapy (original situation)
+    # list_t_steps_drug = [10, 10, 10]
+    # Figure_continuous_MTD_vs_AT_a_h(13, list_t_steps_drug)
+    #
+    # # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # # by adaptive therapy for shorter holiday and administration periods compared
+    # # to the original situation
+    # list_t_steps_drug = [5, 5, 5]
+    # Figure_continuous_MTD_vs_AT_short_a_h(20, list_t_steps_drug)
+
+    # # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # # by adaptive therapy for weaker IHs compared to the original situation
+    # list_t_steps_drug = [10, 10, 10]
+    # Figure_continuous_MTD_vs_AT_weak_a_h(12, list_t_steps_drug)
 
     # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # by adaptive therapy for shorter holiday and administration periods compared
-    # to the original situation
+    # by adaptive therapy for shorter holiday and administration periods and
+    # weaker IHs compared to the original situation
     list_t_steps_drug = [5, 5, 5]
-    Figure_continuous_MTD_vs_AT_short_a_h(20, list_t_steps_drug)
+    Figure_continuous_MTD_vs_AT_s_and_w_a_h(24, list_t_steps_drug)
 
-    # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # by adaptive therapy for weaker IHs compared to the original situation
-    list_t_steps_drug = [10, 10, 10]
-    Figure_continuous_MTD_vs_AT_weak_a_h(12, list_t_steps_drug)
-
-    # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # by adaptive therapy whereby the OB-OC equilibrium gets restored
-    list_t_steps_drug = [10, 10, 10]
-    Figure_continuous_MTD_vs_AT_OB_a_h(9, list_t_steps_drug)
+    # # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # # by adaptive therapy whereby the OB-OC equilibrium gets restored
+    # list_t_steps_drug = [10, 10, 10]
+    # Figure_continuous_MTD_vs_AT_OB_a_h(9, list_t_steps_drug)
 
     # Make a 3D figure showthing the effect of different drug holiday and
     # administration periods
@@ -1236,6 +1242,161 @@ def Figure_continuous_MTD_vs_AT_a_h(n_switches, t_steps_drug):
     plt.show()
 
 """ Figure to determine the difference between traditional and adaptive therapy
+Shorter holiday and administration periods and weaker IHs compared to the original
+situation"""
+def Figure_continuous_MTD_vs_AT_s_and_w_a_h(n_switches, t_steps_drug):
+    """ Function that makes a figure with 6 subplots showing the cell type
+    fraction dynamics by traditional therapy (continuous MTD) and adaptive
+    therapy.The holiday and administration periods are short (5 generations) and
+    the IHs are weaker.
+
+    Parameters:
+    -----------
+    n_switches: Int
+        The fraction of switches between giving drugs and not giving drugs.
+    t_steps_drug: List
+        List with the fraction of time steps drugs are administared and the
+        breaks are for the different Figures.
+    """
+    # Set initial parameter values
+    N = 100
+    cMMr = 1.3
+    cMMd = 1.2
+    cOB = 0.8
+    cOC = 1
+    xOC = 0.2
+    xOB = 0.3
+    xMMd = 0.2
+    xMMr = 0.3
+
+    cOC_IH = 1.1
+    cOB_IH = 0.7
+
+    # Payoff matrix when no drugs are present
+    matrix_no_GF_IH = np.array([
+        [0.0, 1.6, 2.2, 1.9],
+        [0.95, 0.0, -0.5, -0.5],
+        [2.2, 0, 0.2, 0.0],
+        [1.9, 0, -0.8, 0.2]])
+
+    # Payoff matrix when only GF inhibitor drugs are present
+    matrix_GF_IH = np.array([
+        [0.0, 1.6, 2.2, 1.9],
+        [0.95, 0.0, -0.5, -0.5],
+        [0.65, 0, 0.2, 0.0],
+        [1.9, 0, -0.8, 0.2]])
+
+    # Payoff matrix when both inhibitor drugs are present
+    matrix_GF_IH_comb = np.array([
+        [0.0, 1.6, 2.2, 1.9],
+        [0.95, 0.0, -0.5, -0.5],
+        [1.2, 0.0, 0.2, 0.0],
+        [1.9, 0.0, -1.1, 0.2]])
+
+    # WMMd inhibitor effect when both inhibitor drugs are present
+    WMMd_inhibitor_comb = 0.62
+
+    # WMMd inhibitor effect when only WMMd IH is present
+    WMMd_inhibitor = 1.28
+
+    # Make dataframe for the different drug hollyday duration values
+    df_total_switch_GF = switch_dataframe(n_switches, t_steps_drug[0],
+                t_steps_drug[0], xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
+                cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH)
+    df_total_switch_WMMd = switch_dataframe(n_switches, t_steps_drug[1],
+                t_steps_drug[1], xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
+                cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_no_GF_IH, WMMd_inhibitor)
+    df_total_switch_comb = switch_dataframe(n_switches, t_steps_drug[2],
+                t_steps_drug[2], xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
+                cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH_comb,
+                WMMd_inhibitor_comb)
+
+    # Make dataframes for continiously administration
+    df_total_GF = continuous_add_IH_df(135, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
+            cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH)
+    df_total_WMMd = continuous_add_IH_df(135, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
+                                    cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH,
+                                    matrix_no_GF_IH, WMMd_inhibitor)
+    df_total_comb = continuous_add_IH_df(135, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
+                                    cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH,
+                                    matrix_GF_IH_comb, WMMd_inhibitor_comb)
+
+    # Save the data
+    save_dataframe(df_total_switch_GF,'df_cell_frac_IH_switch_GF_IH_s_&_w_a_h.csv',
+                                        r'..\data\data_model_frac_IH_inf')
+    save_dataframe(df_total_switch_WMMd,'df_cell_frac_IH_switch_WMMd_IH_s_&_w_a_h.csv',
+                                        r'..\data\data_model_frac_IH_inf')
+    save_dataframe(df_total_switch_comb,'df_cell_frac_IH_switch_comb_IH_s_&_w_a_h.csv',
+                                        r'..\data\data_model_frac_IH_inf')
+    save_dataframe(df_total_GF, 'df_cell_frac_IH_continuous_GF_IH_s_&_w_a_h.csv',
+                                         r'..\data\data_model_frac_IH_inf')
+    save_dataframe(df_total_WMMd,'df_cell_frac_IH_continuous_WMMd_IH_s_&_w_a_h.csv',
+                                         r'..\data\data_model_frac_IH_inf')
+    save_dataframe(df_total_comb,'df_cell_frac_IH_continuous_comb_IH_s_&_w_a_h.csv',
+                                        r'..\data\data_model_frac_IH_inf')
+
+    # Create a Figure
+    fig, axs = plt.subplots(2, 3, figsize=(20, 9))
+
+    # Plot the data without drug holidays in the first plot
+    df_total_GF.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+                                                    legend=False, ax=axs[0, 0])
+    axs[0, 0].set_xlabel(' ')
+    axs[0, 0].set_ylabel('Fraction', fontsize=11)
+    axs[0, 0].set_title(f"Traditional therapy MMd GF IH ")
+    axs[0, 0].grid(True)
+
+    # Plot the data with drug holidays in the second plot
+    df_total_WMMd.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+                                                    legend=False, ax=axs[0, 1])
+    axs[0, 1].set_xlabel(' ')
+    axs[0, 1].set_ylabel(' ')
+    axs[0, 1].set_title(r"Traditional therapy $W_{MMd}$ IH")
+    axs[0, 1].grid(True)
+
+    # Plot the data with drug holidays in the second plot
+    df_total_comb.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+                                                    legend=False, ax=axs[0, 2])
+    axs[0, 2].set_xlabel(' ')
+    axs[0, 2].set_ylabel(' ')
+    axs[0, 2].set_title(r"Traditional therapy IH combination")
+    axs[0, 2].set_yticks([i/10 for i in range(9)])
+    axs[0, 2].grid(True)
+
+    # Plot the data with drug holidays in the third plot
+    df_total_switch_GF.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+                                                    legend=False, ax=axs[1, 0])
+    axs[1, 0].set_xlabel('Generations', fontsize=11)
+    axs[1, 0].set_ylabel('Fraction', fontsize=11)
+    axs[1, 0].set_title(f"Adaptive therapy MMd GF IH")
+    axs[1, 0].grid(True)
+    plt.grid(True)
+
+    # Plot the data with drug holidays in the fourth plot
+    df_total_switch_WMMd.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+                                                    legend=False, ax=axs[1, 1])
+    axs[1, 1].set_xlabel('Generations', fontsize=11)
+    axs[1, 1].set_ylabel(' ')
+    axs[1, 1].set_title(r"Adaptive therapy $W_{MMd}$ IH")
+    axs[1, 1].grid(True)
+
+    # Plot the data with drug holidays in the fourth plot
+    df_total_switch_comb.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+                                                    legend=False, ax=axs[1, 2])
+    axs[1, 2].set_xlabel('Generations', fontsize=11)
+    axs[1, 2].set_ylabel(' ')
+    axs[1, 2].set_title(r"Adaptive therapy IH combination")
+    axs[1, 2].grid(True)
+    axs[1, 2].set_yticks([i/10 for i in range(9)])
+
+    # Create a single legend outside of all plots
+    legend_labels = ['Fraction OC', 'Fraction OB', 'Fraction MMd', 'Fraction MMr']
+    fig.legend(labels = legend_labels, loc='upper center', ncol=4, fontsize='large')
+    save_Figure(plt, 'line_plot_cell_frac_IH_AT_MTD_s_&_w_a_h',
+                                 r'..\visualisation\results_model_frac_IH_inf')
+    plt.show()
+
+""" Figure to determine the difference between traditional and adaptive therapy.
 Shorter holiday and administration periods compared to the original situation"""
 def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
     """ Function that makes a figure with 6 subplots showing the cell type
@@ -1868,7 +2029,7 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
             ax.set_xlabel('Generations no IHs')
             ax.set_ylabel('Generations IHs')
             ax.set_zlabel('MM fraction')
-            ax.set_title('C)  $W_{MMd}$ IH and MMd GF IH', pad=10)
+            ax.set_title('C)  IH combination', pad=10)
 
             # Turn to the right angle
             ax.view_init(elev = 40, azim = -142)
