@@ -26,6 +26,7 @@ from scipy.optimize import minimize
 from mpl_toolkits.mplot3d import Axes3D
 import doctest
 import pickle
+import random
 
 """
 Example interaction matrix:
@@ -40,23 +41,23 @@ M = np.array([
 def main():
     # Do doc tests
     doctest.testmod()
-    # #
-    # # Make a figure showing the cell number dynamics by traditional therapy and
-    # # by adaptive therapy (original situation)
-    # list_t_steps_drug = [10, 10, 10]
-    # Figure_continuous_MTD_vs_AT(20, list_t_steps_drug)
-    #
-    # # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # # by adaptive therapy for shorter holiday and administration periods compared
-    # # to the original situation
-    # list_t_steps_drug = [4, 4, 4]
-    # Figure_continuous_MTD_vs_AT_short_a_h(50, list_t_steps_drug)
-    #
-    # # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # # by adaptive therapy for weaker IHs compared to the original situation
-    # list_t_steps_drug = [10, 10, 10]
-    # Figure_continuous_MTD_vs_AT_weak_a_h(20, list_t_steps_drug)
-    #
+
+    # Make a figure showing the cell number dynamics by traditional therapy and
+    # by adaptive therapy (original situation)
+    list_t_steps_drug = [10, 10, 10]
+    Figure_continuous_MTD_vs_AT(20, list_t_steps_drug)
+
+    # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # by adaptive therapy for shorter holiday and administration periods compared
+    # to the original situation
+    list_t_steps_drug = [4, 4, 4]
+    Figure_continuous_MTD_vs_AT_short_a_h(50, list_t_steps_drug)
+
+    # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # by adaptive therapy for weaker IHs compared to the original situation
+    list_t_steps_drug = [10, 10, 10]
+    Figure_continuous_MTD_vs_AT_weak_a_h(20, list_t_steps_drug)
+
     # # Make a 3D figure showthing the effect of different drug holiday and
     # # administration periods
     # Figure_3D_MM_numb_IH_add_and_holiday()
@@ -70,7 +71,7 @@ def main():
     # # Make a 3D figure showing the effect of different WMMd and MMd GF IH
     # # strengths
     # Figure_3D_MM_numb_MMd_IH_strength()
-    #
+
     # # Make line plots showing the dynamics when the IH administration is longer
     # # than the holiday and one it is the other way around.
     # list_t_steps_drug = [3, 10]
@@ -79,139 +80,139 @@ def main():
     # Figure_duration_A_h_MMd_IH(list_n_steps, list_t_steps_drug,
     #                                                       list_t_steps_no_drug)
     #
-    #
-    # """ The optimisation situations """
+
+    """ The optimisation situations """
+    # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
+    # holiday
+    minimise_MM_GF_W_h()
+
+    # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
+    # holiday
+    minimise_MM_W_GF_h()
+
+    # Optimise IH administration duration, holiday duration and strength for
+    # MMd GF IH -> WMMd IH -> holiday
+    minimise_MM_GF_W_h_IH()
+
+    # Optimise IH administration duration, holiday duration and strength for
+    # WMMd IH -> MMd GF IH ->  holiday
+    minimise_MM_W_GF_h_IH()
+
+    # # Optimise IH administration duration, holiday duration and strength for
+    # # MMd GF IH -> holiday -> WMMd IH -> holiday
+    minimise_MM_GF_h_W_h_IH()
+
+    # Optimise IH administration duration, holiday duration and strength for
+    # WMMd IH -> holiday -> MMd GF IH ->  holiday
+    minimise_MM_W_h_GF_h_IH()
+
+    # Optimise IH administration duration and holiday duration for MMd GF IH
+    # -> IH combination -> WMMd IH -> holiday
+    minimise_MM_GF_comb_W_h()
+
+    # Optimise IH administration duration and holiday duration for WMMd IH ->
+    # IH combination -> MMd GF IH -> holiday
+    minimise_MM_W_comb_GF_h()
+
+    # Optimise IH administration duration, holiday duration and strengths for
+    # MMd GF IH -> IH combination -> WMMd IH -> holiday
+    minimise_MM_GF_comb_W_h_IH()
+
+    # Optimise IH administration duration, holiday duration and strengths for
+    # WMMd IH -> IH combination -> MMd GF IH -> holiday
+    minimise_MM_W_comb_GF_h_IH()
+
+    # Optimise IH administration duration and holiday duration for MMd GF IH ->
+    # WMMd IH + MMd GF IH -> WMMd IH -> holiday
+    minimise_MM_GF_GFandW_W_h()
+
+    # Optimise IH administration duration and holiday duration for WMMd IH -> WMMd
+    # IH + MMd GF IH -> MMd GF IH -> holiday
+    minimise_MM_W_WandGF_GF_h()
+
+    # Optimise IH administration duration, holiday duration and strengths for
+    # MMd GF IH -> WMMd IH + MMd GF IH -> WMMd IH -> holiday
+    minimise_MM_GF_GFandW_W_h_IH()
+
+    # Optimise IH administration duration, holiday duration and strengths for
+    # WMMd IH -> WMMd IH + MMd GF IH -> MMd GF IH -> holiday
+    minimise_MM_W_WandGF_GF_h_IH()
+
     # # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
-    # # holiday
-    # minimise_MM_GF_W_h()
+    # # holiday for different WMMd IH strengths and MMd GF IH = 0.4
+    # minimise_MM_GF_W_h_changing_W_IH([0.8, 1.2, 0.3, 0.3], [0.7, 1.3, 0.3, 0.3],
+    # [0.9, 0.08, 0.2, 0.1], [1.0, 0.08, 0.2, 0.1], 'df_MM_GF_W_h_changing_W_IH.csv')
     #
     # # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
-    # # holiday
-    # minimise_MM_W_GF_h()
+    # # holiday for different WMMd IH strengths and MMd GF IH = 0.4
+    # minimise_MM_W_GF_h_changing_W_IH([0.8, 1.2, 0.3, 0.3], [0.7, 1.3, 0.3, 0.3],
+    # [0.9, 0.08, 0.2, 0.1], [1.0, 0.08, 0.2, 0.1], 'df_MM_W_GF_h_changing_W_IH.csv')
     #
-    # # Optimise IH administration duration, holiday duration and strength for
-    # # MMd GF IH -> WMMd IH -> holiday
-    # minimise_MM_GF_W_h_IH()
+    # # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
+    # # holiday for different MMd GF IH strengths and WMMd IH = 0.4
+    # minimise_MM_GF_W_h_changing_GF_IH([0.8, 1.2, 0.3, 0.3], [0.7, 1.3, 0.3, 0.3],
+    # [0.9, 0.08, 0.2, 0.1], [1.0, 0.08, 0.2, 0.1], 'df_MM_GF_W_h_changing_GF_IH.csv')
     #
-    # # Optimise IH administration duration, holiday duration and strength for
-    # # WMMd IH -> MMd GF IH ->  holiday
-    # minimise_MM_W_GF_h_IH()
+    # # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
+    # # holiday for different MMd GF IH strengths and WMMd IH = 0.4
+    # minimise_MM_W_GF_h_changing_GF_IH([0.8, 1.2, 0.3, 0.3], [0.7, 1.3, 0.3, 0.3],
+    # [0.9, 0.08, 0.2, 0.1], [1.0, 0.08, 0.2, 0.1], 'df_MM_W_GF_h_changing_GF_IH.csv')
+
+    # # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
+    # # holiday for different WMMd IH strengths whereby the growth and decay rate
+    # # are decreased with 10%
+    # minimise_MM_GF_W_h_changing_W_IH([0.88, 1.32, 0.33, 0.33], [0.77, 1.43, 0.33,
+    #                    0.33], [0.99, 0.088, 0.22, 0.11], [1.1, 0.088, 0.22, 0.11],
+    #                                     'df_MM_GF_W_h_changing_W_IH_h_gr_dr.csv')
     #
-    # # # Optimise IH administration duration, holiday duration and strength for
-    # # # MMd GF IH -> holiday -> WMMd IH -> holiday
-    # minimise_MM_GF_h_W_h_IH()
+    # # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
+    # # holiday for different WMMd IH strengths whereby the growth and decay rate
+    # # are decreased with 10%
+    # minimise_MM_W_GF_h_changing_W_IH([0.88, 1.32, 0.33, 0.33], [0.77,1.43, 0.33,
+    #                   0.33], [0.99, 0.088, 0.22, 0.11], [1.1, 0.088, 0.22, 0.11],
+    #                                     'df_MM_W_GF_h_changing_W_IH_h_gr_dr.csv')
     #
-    # # Optimise IH administration duration, holiday duration and strength for
-    # # WMMd IH -> holiday -> MMd GF IH ->  holiday
-    # minimise_MM_W_h_GF_h_IH()
+    # # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
+    # # holiday for different MMd GF IH strengths whereby the growth and decay rate
+    # # are decreased with 10%
+    # minimise_MM_GF_W_h_changing_GF_IH([0.88, 1.32, 0.33, 0.33], [0.77,1.43, 0.33,
+    #                   0.33], [0.99, 0.088, 0.22, 0.11], [1.1, 0.088, 0.22, 0.11],
+    #                                     'df_MM_GF_W_h_changing_GF_IH_h_gr_dr.csv')
     #
-    # # Optimise IH administration duration and holiday duration for MMd GF IH
-    # # -> IH combination -> WMMd IH -> holiday
-    # minimise_MM_GF_comb_W_h()
+    # # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
+    # # holiday for different MMd GF IH strengths whereby the growth and decay rate
+    # # are decreased with 10%
+    # minimise_MM_W_GF_h_changing_GF_IH([0.88, 1.32, 0.33, 0.33], [0.77, 1.43, 0.33,
+    #                    0.33], [0.99, 0.088, 0.22, 0.11], [1.1, 0.088, 0.22, 0.11],
+    #                                   'df_MM_W_GF_h_changing_GF_IH_h_gr_dr.csv')
+
+    # # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
+    # # holiday for different WMMd IH strengths whereby the growth and decay rate are
+    # # decreased with 10%
+    # minimise_MM_GF_W_h_changing_W_IH([0.72, 1.08, 0.27, 0.27], [0.63, 1.17, 0.27,
+    #                   0.27], [0.81, 0.072, 0.18, 0.09], [0.9, 0.072, 0.18, 0.09],
+    #                                     'df_MM_GF_W_h_changing_W_IH_l_gr_dr.csv')
     #
-    # # Optimise IH administration duration and holiday duration for WMMd IH ->
-    # # IH combination -> MMd GF IH -> holiday
-    # minimise_MM_W_comb_GF_h()
+    # # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
+    # # holiday for different WMMd IH strengths whereby the growth and decay rate
+    # # are decreased with 10%
+    # minimise_MM_W_GF_h_changing_W_IH([0.72, 1.08, 0.27, 0.27], [0.63, 1.17, 0.27,
+    #                   0.27], [0.81, 0.072, 0.18, 0.09], [0.9, 0.072, 0.18, 0.09],
+    #                                     'df_MM_W_GF_h_changing_W_IH_l_gr_dr.csv')
     #
-    # # Optimise IH administration duration, holiday duration and strengths for
-    # # MMd GF IH -> IH combination -> WMMd IH -> holiday
-    # minimise_MM_GF_comb_W_h_IH()
-    #
-    # # Optimise IH administration duration, holiday duration and strengths for
-    # # WMMd IH -> IH combination -> MMd GF IH -> holiday
-    # minimise_MM_W_comb_GF_h_IH()
-    #
-    # # Optimise IH administration duration and holiday duration for MMd GF IH ->
-    # # WMMd IH + MMd GF IH -> WMMd IH -> holiday
-    # minimise_MM_GF_GFandW_W_h()
-    #
-    # # Optimise IH administration duration and holiday duration for WMMd IH -> WMMd
-    # # IH + MMd GF IH -> MMd GF IH -> holiday
-    # minimise_MM_W_WandGF_GF_h()
-    #
-    # # Optimise IH administration duration, holiday duration and strengths for
-    # # MMd GF IH -> WMMd IH + MMd GF IH -> WMMd IH -> holiday
-    # minimise_MM_GF_GFandW_W_h_IH()
-    #
-    # # Optimise IH administration duration, holiday duration and strengths for
-    # # WMMd IH -> WMMd IH + MMd GF IH -> MMd GF IH -> holiday
-    # minimise_MM_W_WandGF_GF_h_IH()
+    # # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
+    # # holiday for different MMd GF IH strengths whereby the growth and decay rate
+    # # are decreased with 10%
+    # minimise_MM_GF_W_h_changing_GF_IH([0.72, 1.08, 0.27, 0.27], [0.63, 1.17, 0.27,
+    #                 0.27], [0.81, 0.072, 0.18, 0.09], [0.9, 0.072, 0.18, 0.09],
+    #                                 'df_MM_GF_W_h_changing_GF_IH_l_gr_dr.csv')
 
-    # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
-    # holiday for different WMMd IH strengths and MMd GF IH = 0.4
-    minimise_MM_GF_W_h_changing_W_IH([0.8, 1.2, 0.3, 0.3], [0.7, 1.3, 0.3, 0.3],
-    [0.9, 0.08, 0.2, 0.1], [1.0, 0.08, 0.2, 0.1], 'df_MM_GF_W_h_changing_W_IH.csv')
-
-    # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
-    # holiday for different WMMd IH strengths and MMd GF IH = 0.4
-    minimise_MM_W_GF_h_changing_W_IH([0.8, 1.2, 0.3, 0.3], [0.7, 1.3, 0.3, 0.3],
-    [0.9, 0.08, 0.2, 0.1], [1.0, 0.08, 0.2, 0.1], 'df_MM_W_GF_h_changing_W_IH.csv')
-
-    # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
-    # holiday for different MMd GF IH strengths and WMMd IH = 0.4
-    minimise_MM_GF_W_h_changing_GF_IH([0.8, 1.2, 0.3, 0.3], [0.7, 1.3, 0.3, 0.3],
-    [0.9, 0.08, 0.2, 0.1], [1.0, 0.08, 0.2, 0.1], 'df_MM_GF_W_h_changing_GF_IH.csv')
-
-    # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
-    # holiday for different MMd GF IH strengths and WMMd IH = 0.4
-    minimise_MM_W_GF_h_changing_GF_IH([0.8, 1.2, 0.3, 0.3], [0.7, 1.3, 0.3, 0.3],
-    [0.9, 0.08, 0.2, 0.1], [1.0, 0.08, 0.2, 0.1], 'df_MM_W_GF_h_changing_GF_IH.csv')
-
-    # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
-    # holiday for different WMMd IH strengths whereby the growth and decay rate
-    # are decreased with 10%
-    minimise_MM_GF_W_h_changing_W_IH([0.88, 1.32, 0.33, 0.33], [0.77, 1.43, 0.33,
-                       0.33], [0.99, 0.088, 0.22, 0.11], [1.1, 0.088, 0.22, 0.11],
-                                        'df_MM_GF_W_h_changing_W_IH_h_gr_dr.csv')
-
-    # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
-    # holiday for different WMMd IH strengths whereby the growth and decay rate
-    # are decreased with 10%
-    minimise_MM_W_GF_h_changing_W_IH([0.88, 1.32, 0.33, 0.33], [0.77,1.43, 0.33,
-                      0.33], [0.99, 0.088, 0.22, 0.11], [1.1, 0.088, 0.22, 0.11],
-                                        'df_MM_W_GF_h_changing_W_IH_h_gr_dr.csv')
-
-    # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
-    # holiday for different MMd GF IH strengths whereby the growth and decay rate
-    # are decreased with 10%
-    minimise_MM_GF_W_h_changing_GF_IH([0.88, 1.32, 0.33, 0.33], [0.77,1.43, 0.33,
-                      0.33], [0.99, 0.088, 0.22, 0.11], [1.1, 0.088, 0.22, 0.11],
-                                        'df_MM_GF_W_h_changing_GF_IH_h_gr_dr.csv')
-
-    # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
-    # holiday for different MMd GF IH strengths whereby the growth and decay rate
-    # are decreased with 10%
-    minimise_MM_W_GF_h_changing_GF_IH([0.88, 1.32, 0.33, 0.33], [0.77, 1.43, 0.33,
-                       0.33], [0.99, 0.088, 0.22, 0.11], [1.1, 0.088, 0.22, 0.11],
-                                      'df_MM_W_GF_h_changing_GF_IH_h_gr_dr.csv')
-
-    # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
-    # holiday for different WMMd IH strengths whereby the growth and decay rate are
-    # decreased with 10%
-    minimise_MM_GF_W_h_changing_W_IH([0.72, 1.08, 0.27, 0.27], [0.63, 1.17, 0.27,
-                      0.27], [0.81, 0.072, 0.18, 0.09], [0.9, 0.072, 0.18, 0.09],
-                                        'df_MM_GF_W_h_changing_W_IH_l_gr_dr.csv')
-
-    # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
-    # holiday for different WMMd IH strengths whereby the growth and decay rate
-    # are decreased with 10%
-    minimise_MM_W_GF_h_changing_W_IH([0.72, 1.08, 0.27, 0.27], [0.63, 1.17, 0.27,
-                      0.27], [0.81, 0.072, 0.18, 0.09], [0.9, 0.072, 0.18, 0.09],
-                                        'df_MM_W_GF_h_changing_W_IH_l_gr_dr.csv')
-
-    # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
-    # holiday for different MMd GF IH strengths whereby the growth and decay rate
-    # are decreased with 10%
-    minimise_MM_GF_W_h_changing_GF_IH([0.72, 1.08, 0.27, 0.27], [0.63, 1.17, 0.27,
-                    0.27], [0.81, 0.072, 0.18, 0.09], [0.9, 0.072, 0.18, 0.09],
-                                    'df_MM_GF_W_h_changing_GF_IH_l_gr_dr.csv')
-
-    # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
-    # holiday for different MMd GF IH strengths whereby the growth and decay rate
-    # are decreased with 10%
-    minimise_MM_W_GF_h_changing_GF_IH([0.72, 1.08, 0.27, 0.27], [0.63, 1.17, 0.27,
-                       0.27], [0.81, 0.072, 0.18, 0.09], [0.9, 0.072, 0.18, 0.09],
-                                    'df_MM_W_GF_h_changing_GF_IH_l_gr_dr.csv')
+    # # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
+    # # holiday for different MMd GF IH strengths whereby the growth and decay rate
+    # # are decreased with 10%
+    # minimise_MM_W_GF_h_changing_GF_IH([0.72, 1.08, 0.27, 0.27], [0.63, 1.17, 0.27,
+    #                    0.27], [0.81, 0.072, 0.18, 0.09], [0.9, 0.072, 0.18, 0.09],
+    #                                 'df_MM_W_GF_h_changing_GF_IH_l_gr_dr.csv')
 
 def dOC_dt(nOC, nOB, nMMd, nMMr, gr_OC, dr_OC, matrix):
     """
@@ -398,7 +399,7 @@ def dMMr_dt(nOC, nOB, nMMd, nMMr, gr_MMr, dr_MMr, matrix):
     return change_nMMr
 
 
-def model_dynamics(y, t, growth_rates, decay_rates, matrix, WMMd_inhibitor = 0):
+def model_dynamics(y, t, growth_rates, decay_rates, matrix, IH_present, WMMd_inhibitor = 0):
     """Function that determines the number dynamics in a population over time.
 
     Parameters:
@@ -413,6 +414,9 @@ def model_dynamics(y, t, growth_rates, decay_rates, matrix, WMMd_inhibitor = 0):
         List with the decay rate values of OC, OB, MMd and MMr.
     matrix: Numpy.ndarray
         4x4 matrix containing the interaction factors.
+    IH_present: Bool
+        Indicates if there is a IH present (True -> IH present, False -> no IH
+        present)
     WMMd_inhibitor: Float
         The effect of a drug on the MMd fitness.
 
@@ -442,6 +446,37 @@ def model_dynamics(y, t, growth_rates, decay_rates, matrix, WMMd_inhibitor = 0):
                                                         matrix, WMMd_inhibitor)
     nMMr_change = dMMr_dt(nOC, nOB, nMMd, nMMr, growth_rates[3], decay_rates[3],
                                                                         matrix)
+
+    mutated_cells = 0
+    # print(nOC_change, nOB_change, nMMd_change, nMMr_change)
+    #
+    # # Determine if a drug is present
+    # if IH_present == True:
+    #
+    #     # Determine how many cells develop a mutation
+    #     for i in range(int(nMMd)):
+    #         if random.random() <= 0.005:
+    #             mutated_cells += 1
+    # else:
+    #     # Determine how many cells develop a mutation
+    #     for i in range(int(nMMd)):
+    #         if random.random() <= 0.01:
+    #             mutated_cells += 1
+    #
+    # # Update the nMMd and nMMr change
+    # nMMd_change -= mutated_cells
+    # nMMr_change += mutated_cells
+
+    # Determine if a drug is present
+    if IH_present == True:
+        chance_mutation = 0.02
+
+    else:
+        chance_mutation=0.001
+
+    # Update the nMMd and nMMr change
+    nMMd_change -= nMMd * chance_mutation
+    nMMr_change += nMMd * chance_mutation
 
     # Make floats of the arrays
     nOC_change = float(nOC_change)
@@ -589,7 +624,7 @@ def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd,
     t_steps = 60
     t = np.linspace(0, t_steps, t_steps*2)
     y0 = [nOC, nOB, nMMd, nMMr]
-    parameters = (growth_rates, decay_rates, matrix_no_GF_IH)
+    parameters = (growth_rates, decay_rates, matrix_no_GF_IH, False)
 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
@@ -617,7 +652,7 @@ def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd,
 
             t = np.linspace(time, time + t_steps_drug, t_steps_drug)
             y0 = [nOC, nOB, nMMd, nMMr]
-            parameters = (growth_rates_IH, decay_rates_IH, matrix, WMMd_inhibitor)
+            parameters = (growth_rates_IH, decay_rates_IH, matrix, True, WMMd_inhibitor)
 
             # Determine the ODE solutions
             y = odeint(model_dynamics, y0, t, args=parameters)
@@ -645,7 +680,7 @@ def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd,
 
             t = np.linspace(time, time + t_steps_no_drug , t_steps_no_drug)
             y0 = [nOC, nOB, nMMd, nMMr]
-            parameters = (growth_rates, decay_rates, matrix)
+            parameters = (growth_rates, decay_rates, matrix, False)
 
             # Determine the ODE solutions
             y = odeint(model_dynamics, y0, t, args=parameters)
@@ -718,7 +753,7 @@ def switch_dataframe_GF_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
     t_steps = 60
     t = np.linspace(0, t_steps, t_steps*2)
     y0 = [nOC, nOB, nMMd, nMMr]
-    parameters = (growth_rates, decay_rates, matrix_no_GF_IH)
+    parameters = (growth_rates, decay_rates, matrix_no_GF_IH, False)
 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
@@ -746,7 +781,7 @@ def switch_dataframe_GF_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
 
             t = np.linspace(time, time + t_steps_GF_IH, int(t_steps_GF_IH))
             y0 = [nOC, nOB, nMMd, nMMr]
-            parameters = (growth_rates_IH, decay_rates_IH, matrix)
+            parameters = (growth_rates_IH, decay_rates_IH, matrix, True)
 
             # Determine the ODE solutions
             y = odeint(model_dynamics, y0, t, args=parameters)
@@ -775,7 +810,7 @@ def switch_dataframe_GF_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
 
             t = np.linspace(time, time + t_steps_WMMd_IH, int(t_steps_WMMd_IH))
             y0 = [nOC, nOB, nMMd, nMMr]
-            parameters = (growth_rates_IH, decay_rates_IH, matrix, WMMd_inhibitor)
+            parameters = (growth_rates_IH, decay_rates_IH, matrix, True, WMMd_inhibitor)
 
             # Determine the ODE solutions
             y = odeint(model_dynamics, y0, t, args=parameters)
@@ -804,7 +839,7 @@ def switch_dataframe_GF_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
 
             t = np.linspace(time, time + t_steps_no_drug , int(t_steps_no_drug))
             y0 = [nOC, nOB, nMMd, nMMr]
-            parameters = (growth_rates, decay_rates, matrix)
+            parameters = (growth_rates, decay_rates, matrix, False)
 
             # Determine the ODE solutions
             y = odeint(model_dynamics, y0, t, args=parameters)
@@ -878,7 +913,7 @@ def switch_dataframe_GF_h_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
     t_steps = 60
     t = np.linspace(0, t_steps, t_steps*2)
     y0 = [nOC, nOB, nMMd, nMMr]
-    parameters = (growth_rates, decay_rates, matrix_no_GF_IH)
+    parameters = (growth_rates, decay_rates, matrix_no_GF_IH, False)
 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
@@ -905,7 +940,7 @@ def switch_dataframe_GF_h_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
 
             t = np.linspace(time, time + t_steps_GF_IH, int(t_steps_GF_IH))
             y0 = [nOC, nOB, nMMd, nMMr]
-            parameters = (growth_rates_IH, decay_rates_IH, matrix)
+            parameters = (growth_rates_IH, decay_rates_IH, matrix, True)
 
             # Determine the ODE solutions
             y = odeint(model_dynamics, y0, t, args=parameters)
@@ -934,7 +969,7 @@ def switch_dataframe_GF_h_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
 
             t = np.linspace(time, time + t_steps_no_drug , int(t_steps_no_drug))
             y0 = [nOC, nOB, nMMd, nMMr]
-            parameters = (growth_rates, decay_rates, matrix)
+            parameters = (growth_rates, decay_rates, matrix, False)
 
             # Determine the ODE solutions
             y = odeint(model_dynamics, y0, t, args=parameters)
@@ -963,7 +998,7 @@ def switch_dataframe_GF_h_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
 
             t = np.linspace(time, time + t_steps_WMMd_IH, int(t_steps_WMMd_IH))
             y0 = [nOC, nOB, nMMd, nMMr]
-            parameters = (growth_rates_IH, decay_rates_IH, matrix, WMMd_inhibitor)
+            parameters = (growth_rates_IH, decay_rates_IH, matrix, True, WMMd_inhibitor)
 
             # Determine the ODE solutions
             y = odeint(model_dynamics, y0, t, args=parameters)
@@ -992,7 +1027,7 @@ def switch_dataframe_GF_h_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
 
             t = np.linspace(time, time + t_steps_no_drug , int(t_steps_no_drug))
             y0 = [nOC, nOB, nMMd, nMMr]
-            parameters = (growth_rates, decay_rates, matrix)
+            parameters = (growth_rates, decay_rates, matrix, False)
 
             # Determine the ODE solutions
             y = odeint(model_dynamics, y0, t, args=parameters)
@@ -1065,7 +1100,7 @@ def switch_dataframe_W_h_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
     t_steps = 60
     t = np.linspace(0, t_steps, t_steps*2)
     y0 = [nOC, nOB, nMMd, nMMr]
-    parameters = (growth_rates, decay_rates, matrix_no_GF_IH)
+    parameters = (growth_rates, decay_rates, matrix_no_GF_IH, False)
 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
@@ -1092,7 +1127,7 @@ def switch_dataframe_W_h_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
 
             t = np.linspace(time, time + t_steps_WMMd_IH, int(t_steps_WMMd_IH))
             y0 = [nOC, nOB, nMMd, nMMr]
-            parameters = (growth_rates_IH, decay_rates_IH, matrix, WMMd_inhibitor)
+            parameters = (growth_rates_IH, decay_rates_IH, matrix, True, WMMd_inhibitor)
 
             # Determine the ODE solutions
             y = odeint(model_dynamics, y0, t, args=parameters)
@@ -1121,7 +1156,7 @@ def switch_dataframe_W_h_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
 
             t = np.linspace(time, time + t_steps_no_drug , int(t_steps_no_drug))
             y0 = [nOC, nOB, nMMd, nMMr]
-            parameters = (growth_rates, decay_rates, matrix)
+            parameters = (growth_rates, decay_rates, matrix, False)
 
             # Determine the ODE solutions
             y = odeint(model_dynamics, y0, t, args=parameters)
@@ -1150,7 +1185,7 @@ def switch_dataframe_W_h_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
 
             t = np.linspace(time, time + t_steps_GF_IH, int(t_steps_GF_IH))
             y0 = [nOC, nOB, nMMd, nMMr]
-            parameters = (growth_rates_IH, decay_rates_IH, matrix)
+            parameters = (growth_rates_IH, decay_rates_IH, matrix, True)
 
             # Determine the ODE solutions
             y = odeint(model_dynamics, y0, t, args=parameters)
@@ -1179,7 +1214,7 @@ def switch_dataframe_W_h_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
 
             t = np.linspace(time, time + t_steps_no_drug , int(t_steps_no_drug))
             y0 = [nOC, nOB, nMMd, nMMr]
-            parameters = (growth_rates, decay_rates, matrix)
+            parameters = (growth_rates, decay_rates, matrix, False)
 
             # Determine the ODE solutions
             y = odeint(model_dynamics, y0, t, args=parameters)
@@ -1253,7 +1288,7 @@ def switch_dataframe_W_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
     t_steps = 60
     t = np.linspace(0, t_steps, t_steps*2)
     y0 = [nOC, nOB, nMMd, nMMr]
-    parameters = (growth_rates, decay_rates, matrix_no_GF_IH)
+    parameters = (growth_rates, decay_rates, matrix_no_GF_IH, False)
 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
@@ -1280,7 +1315,7 @@ def switch_dataframe_W_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
 
             t = np.linspace(time, time + t_steps_WMMd_IH, int(t_steps_WMMd_IH))
             y0 = [nOC, nOB, nMMd, nMMr]
-            parameters = (growth_rates_IH, decay_rates_IH, matrix, WMMd_inhibitor)
+            parameters = (growth_rates_IH, decay_rates_IH, matrix, True, WMMd_inhibitor)
 
             # Determine the ODE solutions
             y = odeint(model_dynamics, y0, t, args=parameters)
@@ -1309,7 +1344,7 @@ def switch_dataframe_W_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
 
             t = np.linspace(time, time + t_steps_GF_IH, int(t_steps_GF_IH))
             y0 = [nOC, nOB, nMMd, nMMr]
-            parameters = (growth_rates_IH, decay_rates_IH, matrix)
+            parameters = (growth_rates_IH, decay_rates_IH, matrix, True)
 
             # Determine the ODE solutions
             y = odeint(model_dynamics, y0, t, args=parameters)
@@ -1338,7 +1373,7 @@ def switch_dataframe_W_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
 
             t = np.linspace(time, time + t_steps_no_drug , int(t_steps_no_drug))
             y0 = [nOC, nOB, nMMd, nMMr]
-            parameters = (growth_rates, decay_rates, matrix)
+            parameters = (growth_rates, decay_rates, matrix, False)
 
             # Determine the ODE solutions
             y = odeint(model_dynamics, y0, t, args=parameters)
@@ -1419,7 +1454,7 @@ def switch_dataframe_W_comb_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
     t_steps = 60
     t = np.linspace(0, t_steps, t_steps*2)
     y0 = [nOC, nOB, nMMd, nMMr]
-    parameters = (growth_rates, decay_rates, matrix_no_GF_IH)
+    parameters = (growth_rates, decay_rates, matrix_no_GF_IH, False)
 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
@@ -1446,7 +1481,7 @@ def switch_dataframe_W_comb_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
 
             t = np.linspace(time, time + t_steps_WMMd_IH, int(t_steps_WMMd_IH))
             y0 = [nOC, nOB, nMMd, nMMr]
-            parameters = (growth_rates_IH, decay_rates_IH, matrix, WMMd_inhibitor)
+            parameters = (growth_rates_IH, decay_rates_IH, matrix, True, WMMd_inhibitor)
 
             # Determine the ODE solutions
             y = odeint(model_dynamics, y0, t, args=parameters)
@@ -1475,7 +1510,7 @@ def switch_dataframe_W_comb_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
 
             t = np.linspace(time, time + t_steps_comb, int(t_steps_comb))
             y0 = [nOC, nOB, nMMd, nMMr]
-            parameters = (growth_rates_IH, decay_rates_IH, matrix,
+            parameters = (growth_rates_IH, decay_rates_IH, matrix, True,
                                                             WMMd_inhibitor_comb)
 
             # Determine the ODE solutions
@@ -1505,7 +1540,7 @@ def switch_dataframe_W_comb_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
 
             t = np.linspace(time, time + t_steps_GF_IH, int(t_steps_GF_IH))
             y0 = [nOC, nOB, nMMd, nMMr]
-            parameters = (growth_rates_IH, decay_rates_IH, matrix)
+            parameters = (growth_rates_IH, decay_rates_IH, matrix, True)
 
             # Determine the ODE solutions
             y = odeint(model_dynamics, y0, t, args=parameters)
@@ -1534,7 +1569,7 @@ def switch_dataframe_W_comb_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
 
             t = np.linspace(time, time + t_steps_no_drug , int(t_steps_no_drug))
             y0 = [nOC, nOB, nMMd, nMMr]
-            parameters = (growth_rates, decay_rates, matrix)
+            parameters = (growth_rates, decay_rates, matrix, False)
 
             # Determine the ODE solutions
             y = odeint(model_dynamics, y0, t, args=parameters)
@@ -1614,7 +1649,7 @@ def switch_dataframe_GF_comb_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
     t_steps = 60
     t = np.linspace(0, t_steps, t_steps*2)
     y0 = [nOC, nOB, nMMd, nMMr]
-    parameters = (growth_rates, decay_rates, matrix_no_GF_IH)
+    parameters = (growth_rates, decay_rates, matrix_no_GF_IH, False)
 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
@@ -1641,7 +1676,7 @@ def switch_dataframe_GF_comb_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
 
             t = np.linspace(time, time + t_steps_GF_IH, int(t_steps_GF_IH))
             y0 = [nOC, nOB, nMMd, nMMr]
-            parameters = (growth_rates_IH, decay_rates_IH, matrix)
+            parameters = (growth_rates_IH, decay_rates_IH, matrix, True)
 
             # Determine the ODE solutions
             y = odeint(model_dynamics, y0, t, args=parameters)
@@ -1670,7 +1705,7 @@ def switch_dataframe_GF_comb_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
 
             t = np.linspace(time, time + t_steps_comb, int(t_steps_comb))
             y0 = [nOC, nOB, nMMd, nMMr]
-            parameters = (growth_rates_IH, decay_rates_IH, matrix,
+            parameters = (growth_rates_IH, decay_rates_IH, matrix, True,
                                                          WMMd_inhibitor_comb)
 
             # Determine the ODE solutions
@@ -1700,7 +1735,7 @@ def switch_dataframe_GF_comb_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
 
             t = np.linspace(time, time + t_steps_WMMd_IH, int(t_steps_WMMd_IH))
             y0 = [nOC, nOB, nMMd, nMMr]
-            parameters = (growth_rates_IH, decay_rates_IH, matrix, WMMd_inhibitor)
+            parameters = (growth_rates_IH, decay_rates_IH, matrix, True, WMMd_inhibitor)
 
             # Determine the ODE solutions
             y = odeint(model_dynamics, y0, t, args=parameters)
@@ -1729,7 +1764,7 @@ def switch_dataframe_GF_comb_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
 
             t = np.linspace(time, time + t_steps_no_drug , int(t_steps_no_drug))
             y0 = [nOC, nOB, nMMd, nMMr]
-            parameters = (growth_rates, decay_rates, matrix)
+            parameters = (growth_rates, decay_rates, matrix, False)
 
             # Determine the ODE solutions
             y = odeint(model_dynamics, y0, t, args=parameters)
@@ -1808,7 +1843,7 @@ def switch_dataframe_GF_WandGF_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
     t_steps = 60
     t = np.linspace(0, t_steps, t_steps*2)
     y0 = [nOC, nOB, nMMd, nMMr]
-    parameters = (growth_rates, decay_rates, matrix_no_GF_IH)
+    parameters = (growth_rates, decay_rates, matrix_no_GF_IH, False)
 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
@@ -1835,7 +1870,7 @@ def switch_dataframe_GF_WandGF_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
 
             t = np.linspace(time, time + t_steps_GF_IH, int(t_steps_GF_IH))
             y0 = [nOC, nOB, nMMd, nMMr]
-            parameters = (growth_rates_IH, decay_rates_IH, matrix)
+            parameters = (growth_rates_IH, decay_rates_IH, matrix, True)
 
             # Determine the ODE solutions
             y = odeint(model_dynamics, y0, t, args=parameters)
@@ -1864,7 +1899,7 @@ def switch_dataframe_GF_WandGF_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
 
             t = np.linspace(time, time + t_steps_comb, int(t_steps_comb))
             y0 = [nOC, nOB, nMMd, nMMr]
-            parameters = (growth_rates_IH, decay_rates_IH, matrix, WMMd_inhibitor)
+            parameters = (growth_rates_IH, decay_rates_IH, matrix, True, WMMd_inhibitor)
 
             # Determine the ODE solutions
             y = odeint(model_dynamics, y0, t, args=parameters)
@@ -1893,7 +1928,7 @@ def switch_dataframe_GF_WandGF_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
 
             t = np.linspace(time, time + t_steps_WMMd_IH, int(t_steps_WMMd_IH))
             y0 = [nOC, nOB, nMMd, nMMr]
-            parameters = (growth_rates_IH, decay_rates_IH, matrix, WMMd_inhibitor)
+            parameters = (growth_rates_IH, decay_rates_IH, matrix, True, WMMd_inhibitor)
 
             # Determine the ODE solutions
             y = odeint(model_dynamics, y0, t, args=parameters)
@@ -1922,7 +1957,7 @@ def switch_dataframe_GF_WandGF_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
 
             t = np.linspace(time, time + t_steps_no_drug , int(t_steps_no_drug))
             y0 = [nOC, nOB, nMMd, nMMr]
-            parameters = (growth_rates, decay_rates, matrix)
+            parameters = (growth_rates, decay_rates, matrix, False)
 
             # Determine the ODE solutions
             y = odeint(model_dynamics, y0, t, args=parameters)
@@ -2002,7 +2037,7 @@ def switch_dataframe_W_WandGF_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
     t_steps = 60
     t = np.linspace(0, t_steps, t_steps*2)
     y0 = [nOC, nOB, nMMd, nMMr]
-    parameters = (growth_rates, decay_rates, matrix_no_GF_IH)
+    parameters = (growth_rates, decay_rates, matrix_no_GF_IH, False)
 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
@@ -2029,7 +2064,7 @@ def switch_dataframe_W_WandGF_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
 
             t = np.linspace(time, time + t_steps_WMMd_IH, int(t_steps_WMMd_IH))
             y0 = [nOC, nOB, nMMd, nMMr]
-            parameters = (growth_rates_IH, decay_rates_IH, matrix, WMMd_inhibitor)
+            parameters = (growth_rates_IH, decay_rates_IH, matrix, True, WMMd_inhibitor)
 
             # Determine the ODE solutions
             y = odeint(model_dynamics, y0, t, args=parameters)
@@ -2058,7 +2093,7 @@ def switch_dataframe_W_WandGF_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
 
             t = np.linspace(time, time + t_steps_comb, int(t_steps_comb))
             y0 = [nOC, nOB, nMMd, nMMr]
-            parameters = (growth_rates_IH, decay_rates_IH, matrix, WMMd_inhibitor)
+            parameters = (growth_rates_IH, decay_rates_IH, matrix, True, WMMd_inhibitor)
 
             # Determine the ODE solutions
             y = odeint(model_dynamics, y0, t, args=parameters)
@@ -2087,7 +2122,7 @@ def switch_dataframe_W_WandGF_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
 
             t = np.linspace(time, time + t_steps_GF_IH, int(t_steps_GF_IH))
             y0 = [nOC, nOB, nMMd, nMMr]
-            parameters = (growth_rates_IH, decay_rates_IH, matrix)
+            parameters = (growth_rates_IH, decay_rates_IH, matrix, True)
 
             # Determine the ODE solutions
             y = odeint(model_dynamics, y0, t, args=parameters)
@@ -2116,7 +2151,7 @@ def switch_dataframe_W_WandGF_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
 
             t = np.linspace(time, time + t_steps_no_drug , int(t_steps_no_drug))
             y0 = [nOC, nOB, nMMd, nMMr]
-            parameters = (growth_rates, decay_rates, matrix)
+            parameters = (growth_rates, decay_rates, matrix, False)
 
             # Determine the ODE solutions
             y = odeint(model_dynamics, y0, t, args=parameters)
@@ -2643,7 +2678,7 @@ def continuous_add_IH_df(end_generation, nOC, nOB, nMMd, nMMr, growth_rates,
     # Set the start values
     t = np.linspace(0, 60, 60)
     y0 = [nOC, nOB, nMMd, nMMr]
-    parameters = (growth_rates, decay_rates, matrix_no_GF_IH)
+    parameters = (growth_rates, decay_rates, matrix_no_GF_IH, False)
 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
@@ -2659,7 +2694,7 @@ def continuous_add_IH_df(end_generation, nOC, nOB, nMMd, nMMr, growth_rates,
     # Set the currect values
     t = np.linspace(60, end_generation, 200)
     y0 = [nOC, nOB, nMMd, nMMr]
-    parameters = (growth_rates_IH, decay_rates_IH, matrix_GF_IH, WMMd_inhibitor)
+    parameters = (growth_rates_IH, decay_rates_IH, matrix_GF_IH, True, WMMd_inhibitor)
 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
@@ -2996,21 +3031,21 @@ def Figure_continuous_MTD_vs_AT(n_switches, t_steps_drug):
     matrix_GF_IH = np.array([
         [0.0, 0.4, 0.6, 0.55],
         [0.3, 0.0, -0.3, -0.3],
-        [0.13, 0.0, 0.2, 0.0],
+        [0.17, 0.0, 0.2, 0.0],
         [0.55, 0.0, -0.6, 0.4]])
 
     # Payoff matrix when both inhibitor drugs are present
     matrix_GF_IH_comb = np.array([
         [0.0, 0.4, 0.6, 0.55],
         [0.3, 0.0, -0.3, -0.3],
-        [0.24, 0.0, 0.2, 0.0],
+        [0.25, 0.0, 0.2, 0.0],
         [0.55, 0.0, -0.8, 0.4]])
 
     # WMMd inhibitor effect when both inhibitor drugs are present
-    WMMd_inhibitor_comb = 0.18
+    WMMd_inhibitor_comb = 0.17
 
     # WMMd inhibitor effect when only WMMd IH is present
-    WMMd_inhibitor = 0.74
+    WMMd_inhibitor = 0.70
 
     # Make dataframe for the different drug hollyday duration values
     df_total_switch_GF = switch_dataframe(n_switches, t_steps_drug[0],

@@ -1227,7 +1227,7 @@ def Figure_continuous_MTD_vs_AT_a_h(n_switches, t_steps_drug):
     axs[1, 2].set_ylabel(' ')
     axs[1, 2].set_title(r"Adaptive therapy MMd GF IH and $W_{MMd}$ IH")
     axs[1, 2].grid(True)
-    
+
     # Create a single legend outside of all plots
     legend_labels = ['Fraction OC', 'Fraction OB', 'Fraction MMd', 'Fraction MMr']
     fig.legend(labels = legend_labels, loc='upper center', ncol=4, fontsize='large')
@@ -1378,7 +1378,7 @@ def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
     axs[1, 2].set_ylabel(' ')
     axs[1, 2].set_title(r"Adaptive therapy MMd GF IH and $W_{MMd}$ IH")
     axs[1, 2].grid(True)
-  
+
     # Create a single legend outside of all plots
     legend_labels = ['Fraction OC', 'Fraction OB', 'Fraction MMd', 'Fraction MMr']
     fig.legend(labels = legend_labels, loc='upper center', ncol=4,
@@ -1530,7 +1530,7 @@ def Figure_continuous_MTD_vs_AT_weak_a_h(n_switches, t_steps_drug):
     axs[1, 2].set_ylabel(' ')
     axs[1, 2].set_title(r"Adaptive therapy MMd GF IH and $W_{MMd}$ IH")
     axs[1, 2].grid(True)
-    
+
     # Create a single legend outside of all plots
     legend_labels = ['Fraction OC', 'Fraction OB', 'Fraction MMd', 'Fraction MMr']
     fig.legend(labels = legend_labels, loc='upper center', ncol=4,

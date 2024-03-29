@@ -42,42 +42,42 @@ def main():
     # Do doc tests
     doctest.testmod()
 
-    # # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # # by adaptive therapy (original situation)
-    # list_t_steps_drug = [10, 10, 10]
-    # Figure_continuous_MTD_vs_AT(20, list_t_steps_drug)
-    #
-    # # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # # by adaptive therapy for shorter holiday and administration periods compared
-    # # to the original situation
-    # list_t_steps_drug = [4, 4, 4]
-    # Figure_continuous_MTD_vs_AT_short_a_h(50, list_t_steps_drug)
-    #
-    # # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # # by adaptive therapy for weaker IHs compared to the original situation
-    # list_t_steps_drug = [10, 10, 10]
-    # Figure_continuous_MTD_vs_AT_weak_a_h(20, list_t_steps_drug)
-    #
-    # # Make a figure that shows the MM fraction for different bOC,MMd values
-    # Figure_best_b_OC_MMd()
-    #
-    # # Make a figure that shows the MM fraction for different WMMd IH values
-    # Figure_best_WMMd_IH()
-    #
-    # # Make a 3D figure showthing the effect of different drug holiday and
-    # # administration periods
-    # Figure_3D_MM_nr_to_frac_IH_add_and_holiday()
-    #
-    # # Make a 3D figure showing the effect of different WMMd and MMd GF IH strengths
-    # Figure_3D_MM_nr_to_frac_MMd_IH_strength()
-    #
-    # # Make line plots showing the dynamics when the IH administration is longer
-    # # than the holiday and one it is the other way around.
-    # list_t_steps_drug = [5, 15]
-    # list_t_steps_no_drug = [15, 5]
-    # list_n_steps = [30, 30]
-    # Figure_duration_A_h_MMd_IH(list_n_steps, list_t_steps_drug,
-    #                                                     list_t_steps_no_drug)
+    # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # by adaptive therapy (original situation)
+    list_t_steps_drug = [10, 10, 10]
+    Figure_continuous_MTD_vs_AT(20, list_t_steps_drug)
+
+    # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # by adaptive therapy for shorter holiday and administration periods compared
+    # to the original situation
+    list_t_steps_drug = [4, 4, 4]
+    Figure_continuous_MTD_vs_AT_short_a_h(50, list_t_steps_drug)
+
+    # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # by adaptive therapy for weaker IHs compared to the original situation
+    list_t_steps_drug = [10, 10, 10]
+    Figure_continuous_MTD_vs_AT_weak_a_h(20, list_t_steps_drug)
+
+    # Make a figure that shows the MM fraction for different bOC,MMd values
+    Figure_best_b_OC_MMd()
+
+    # Make a figure that shows the MM fraction for different WMMd IH values
+    Figure_best_WMMd_IH()
+
+    # Make a 3D figure showthing the effect of different drug holiday and
+    # administration periods
+    Figure_3D_MM_nr_to_frac_IH_add_and_holiday()
+
+    # Make a 3D figure showing the effect of different WMMd and MMd GF IH strengths
+    Figure_3D_MM_nr_to_frac_MMd_IH_strength()
+
+    # Make line plots showing the dynamics when the IH administration is longer
+    # than the holiday and one it is the other way around.
+    list_t_steps_drug = [5, 15]
+    list_t_steps_no_drug = [15, 5]
+    list_n_steps = [30, 30]
+    Figure_duration_A_h_MMd_IH(list_n_steps, list_t_steps_drug,
+                                                        list_t_steps_no_drug)
 
     """ The optimisation situations """
     # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
@@ -3005,7 +3005,7 @@ def Figure_continuous_MTD_vs_AT(n_switches, t_steps_drug):
     axs[1, 2].set_ylabel(' ')
     axs[1, 2].set_title(r"Adaptive therapy MMd GF IH and $W_{MMd}$ IH")
     axs[1, 2].grid(True)
-    
+
     # Create a single legend outside of all plots
     legend_labels = ['OC fraction', 'OB fraction', 'MMd fraction', 'MMr fraction']
     fig.legend(labels = legend_labels, loc='upper center', ncol=4,
@@ -3320,7 +3320,7 @@ def Figure_continuous_MTD_vs_AT_weak_a_h(n_switches, t_steps_drug):
     axs[1, 2].set_ylabel(' ')
     axs[1, 2].set_title(r"Adaptive therapy MMd GF IH and $W_{MMd}$ IH")
     axs[1, 2].grid(True)
-    
+
     # Create a single legend outside of all plots
     legend_labels = ['OC fraction', 'OB fraction', 'MMd fraction', 'MMr fraction']
     fig.legend(labels = legend_labels, loc='upper center', ncol=4, fontsize='large')
