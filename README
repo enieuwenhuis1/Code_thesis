@@ -25,7 +25,7 @@ PYTHON AND LIBRARY VERSION
 The models were written in Python code (version 3.11.4) using Atom (version 1.60.0).
 Some libraries need to be installed to run the codes in the code folder.
 
-Libraries for model_S_nonlinear.py and model_S_linear.py:
+Libraries that need to be installed for model_S_nonlinear.py and model_S_linear.py:
 * numpy (version 1.26.0)
     - install: pip install numpy==1.26.0
 * matplotlib (version 3.8.0)
@@ -39,8 +39,9 @@ Libraries for model_S_nonlinear.py and model_S_linear.py:
 * scipy (version 1.11.4)
     - install: pip install scipy==1.11.4
 
-Libraries for MM_model_fractions.py, MM_model_numbers.py, MM_model_nr_to_frac.py
-MM_model_frac_IH_inf.py, MM_model_nr_IH_inf.py and MM_model_nr_to_frac_IH_inf.py:
+Libraries that need to be installed for MM_model_fractions.py, MM_model_numbers.py, 
+MM_model_nr_to_frac.py, MM_model_frac_IH_inf.py, MM_model_nr_IH_inf.py and 
+MM_model_nr_to_frac_IH_inf.py:
 * numpy (version 1.26.0)
     - install: pip install numpy==1.26.0
 * matplotlib (version 3.8.0)
@@ -50,7 +51,9 @@ MM_model_frac_IH_inf.py, MM_model_nr_IH_inf.py and MM_model_nr_to_frac_IH_inf.py
 * scipy (version 1.11.4)
     - install: pip install scipy==1.11.4
 
-Libraries for MM_model_nr_IH_inf_mutation.py
+Libraries that need to be installed for MM_model_fractions.py, MM_model_numbers.py, 
+MM_model_nr_to_frac.py, MM_model_frac_IH_inf.py, MM_model_nr_IH_inf.py,
+MM_model_nr_to_frac_IH_inf.py and MM_model_nr_IH_inf_mutation.py:
 * numpy (version 1.26.0)
     - install: pip install numpy==1.26.0
 * matplotlib (version 3.8.0)
@@ -89,11 +92,9 @@ MM_model_fractions.py contains the code with the mathematical formulas simulatin
 the fraction dynamics of the four cell types MMd, MMr, OCs and OBs in the MM
 microenvironment. It contains the code to make the figures showing the effect of
 the WMMd IH, the MMd GF IH and a combination at different administration periods
-and strengths on the cell type fractions. In addition, it contains code to determine
-the drug administration amounts and periods causing the lowest total MM fraction.
-Lastly, it also contains code to make tables showing the eigenvalues, best
-administration duration, best holiday duration and lowest MM fraction for different
-interaction matrices. The IHs only affect the MMd.
+and strengths on the cell type fractions. In addition, it contains code to make 
+tables showing the eigenvalues, best administration and holiday duration and the 
+lowest MM fraction for different interaction matrices. The IHs only affect the MMd.
 
 TEST THE CODE
 To test some of the functions in the model, doc tests are added and automatically
@@ -105,9 +106,7 @@ MM_model_numbers.py contains the code with the mathematical formulas simulating
 the number dynamics of the four cell types MMd, MMr, OCs and OBs in the MM
 microenvironment. It contains the code to make the figures showing the effect of
 the WMMd IH, the MMd GF IH and a combination of different administration periods
-and strengths on the cell type numbers. In addition, it also contains code to
-determine the drug administration amounts and periods causing the lowest total MM
-number. The IHs only affect the MMd.
+and strengths on the cell type numbers. The IHs only affect the MMd.
 
 TEST THE CODE
 To test some of the functions in the model, doc tests are added and automatically
@@ -120,9 +119,8 @@ simulate the number dynamics and at the end, the numbers are converted to fracti
 Hence the shows the fraction dynamics of the four cell types MMd, MMr, OCs and OBs
 in the MM microenvironment by a changing N. It contains code to make the figures
 showing the effect of the WMMd IH, the MMd GF IH and a combination at different
-administration periods and strengths on the cell type fractions. In addition, it
-contains code to determine the drug administration amounts and periods causing the
-lowest total MM fraction. The IHs only affect the MMd.
+administration periods and strengths on the cell type fractions. The IHs only affect
+the MMd.
 
 TEST THE CODE
 To test some of the functions in the model, doc tests are added and automatically
@@ -134,9 +132,8 @@ MM_model_frac_IH_inf.py contains the code with the mathematical formulas simulat
 the fraction dynamics of the four cell types MMd, MMr, OCs and OBs in the MM
 microenvironment. It contains the code to make the figures showing the effect of
 the WMMd IH, the MMd GF IH and a combination of different administration periods
-and strengths on the cell type numbers. In addition, it also contains code to
-determine the drug administration amounts and periods causing the lowest total MM
-fraction. The IHs not only affect the MMd but also the OC and OB.
+and strengths on the cell type fractions. The IHs not only affect the MMd but also 
+the OC and OB.
 
 TEST THE CODE
 To test some of the functions in the model, doc tests are added and automatically
@@ -148,11 +145,9 @@ MM_model_nr_IH_inf.py contains the code with the mathematical formulas simulatin
 the number dynamics of the four cell types MMd, MMr, OCs and OBs in the MM
 microenvironment. It contains the code to make the figures showing the effect of
 the WMMd IH, the MMd GF IH and a combination of different administration periods
-and strengths on the cell type numbers. In addition, it also contains code to
-determine the drug administration amounts and periods causing the lowest total MM
-number. Furthermore contains an optimisation strategy to find the best holiday
-duration, administration duration and IH strength simultaneously. The IHs not only
-affect the MMd but also the OC and OB.
+and strengths on the cell type numbers. Furthermore, it contains an optimisation 
+strategy to find the best holiday duration, administration duration and IH strength 
+simultaneously. The IHs not only affect the MMd but also the OC and OB.
 
 TEST THE CODE
 To test some of the functions in the model, doc tests are added and automatically
@@ -165,15 +160,31 @@ to simulate the number dynamics and at the end, the numbers are converted to
 fractions. Hence the shows the fraction dynamics of the four cell types MMd, MMr,
 OCs and OBs in the MM microenvironment by a changing N. It contains code to make
 the figures showing the effect of the WMMd IH, the MMd GF IH and a combination at
-different administration periods and strengths on the cell type fractions. In
-addition, it contains code to determine the drug administration amounts and periods
-causing the lowest total MM fraction. Furthermore contains an optimisation strategy
-to find the best holiday duration, administration duration and IH strength
-simultaneously. The IHs not only affect the MMd but also the OC and OB.
+different administration periods and strengths on the cell type fractions. In 
+addition, it contains an optimisation strategy to find the best holiday duration, 
+administration duration and IH strength simultaneously. The IHs not only affect the
+MMd but also the OC and OB.
 
 TEST THE CODE
 To test some of the functions in the model, doc tests are added and automatically
 run when the MMMM_model_nr_to_frac_IH_inf.py code is run.
+
+NUMBER MODEL WITH A MUTATION CHANCE: MM_model_nr_IH_inf.py
+MM_model_nr_IH_inf.py contains the code with the mathematical formulas simulating
+the number dynamics of the four cell types MMd, MMr, OCs and OBs in the MM
+microenvironment. There is a mution chance implemented indicating the chance that 
+a MMd gets a cancerous mutation turning them into an MMr during a generation (cell 
+division). The chance is higher when IHs are present. It contains the code to make
+figures showing the effect of the WMMd IH, the MMd GF IH and a combination of 
+different administration periods and strengths on the cell type numbers. Furthermore,
+it contains an optimisation strategy to find the best holiday duration, administration 
+duration and IH strength simultaneously. The IHs not only affect the MMd but also the 
+OC and OB.
+
+TEST THE CODE
+To test some of the functions in the model, doc tests are added and automatically
+run when the MM_model_nr_IH_inf_mutataion.py code is run.
+
 
 THE DATA
 The folder data contains all the generated data that is used to make the figures.
@@ -186,18 +197,19 @@ and tables. This folder contains:
                           cell type fractions.
 * data_model_numbers: contains all the data obtained from the model simulating
                           cell type numbers.
-* data_model_nr_to_frac: contains all the data obtained from the model simulating
-                          cell type fractions by converting the numbers to
-                          fractions.
-* data_model_frac_IH_inf.py: contains all the data obtained from the model
-                          simulating cell type fractions whereby extra IH
-                          influences were added.
-* data_model_nr_IH_inf.py: contains all the data obtained from the model simulating
+* data_model_nr_to_frac: contains all the data obtained from the model simulating cell
+                         type fractions by converting the numbers to fractions.                    
+* data_model_frac_IH_inf: contains all the data obtained from the model simulating 
+                          cell type fractions whereby extra IH influences were added.
+* data_model_nr_IH_inf: contains all the data obtained from the model simulating
                           cell type numbers whereby extra IH influences were added.
 * data_model_nr_to_frac_IH_inf: contains all the data obtained from the model
                           simulating cell type fractions by converting the numbers
                           to fractions whereby also extra IH influences were added.
-
+* data_model_nr_IH_inf_mutation: contains all the data obtained from the model 
+                          simulating cell type numbers whereby extra IH influences 
+                          and a cancerous mutation chance were added.
+    
 THE VISUALISATION
 In the folder visualisation, all made figures are shown. This folder contains:
 * reproduced_results_Sartakhti_nonlinear: contains all the reproduced figures of
@@ -211,17 +223,19 @@ In the folder visualisation, all made figures are shown. This folder contains:
 * results_model_nr_to_frac: contains all the data obtained from the model
                             simulating cell type fractions by converting the
                             numbers to fractions.
-* results_model_frac_IH_inf.py: contains all the figures obtained from the model
+* results_model_frac_IH_inf: contains all the figures obtained from the model
                             simulating cell type fractions whereby extra IH
                             influences were added.
-* results_model_nr_IH_inf.py: contains all the figures obtained from the model
+* results_model_nr_IH_inf; contains all the figures obtained from the model
                             simulating cell type numbers whereby extra IH
                             influences were added.
 * results_model_nr_to_frac_IH_inf: contains all the data obtained from the model
                             simulating cell type fractions by converting the
                             numbers to fractions whereby also extra IH influences
                             were added.
-
+* results_model_nr_IH_inf_mutation: contains all the figures obtained from the
+                            model simulating cell type numbers whereby extra IH
+                            influences and a cancerous mutation chance were added.
 HOW TO RUN THE CODES
 The nonlinear model and its visualisation, model_S_nonlinear.py:
         - python model_S_nonlinear.py
@@ -247,7 +261,8 @@ Number model with extra IH influences, MM_model_nr_IH_inf.py
 Number-to-fraction model with extra IH influences, MM_model_nr_to_frac_IH_inf.py
         - python MM_model_nr_to_frac_IH_inf.py
 
-
+Number model with a cancerous mutation chance, MM_model_nr_IH_inf.py
+        - python MM_model_nr_IH_inf.py
 
 REFERENCES
 * Sartakhti, J. S., Manshaei, M. H., & Archetti, M. (2018). Game Theory of tumour–Stroma
