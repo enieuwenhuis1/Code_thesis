@@ -2,13 +2,13 @@ Author:       Eva Nieuwenhuis
 University:   UvA
 Student ID:   13717405
 
-MATHEMATICAL MULTIPLE MYELOMA MODEL
+MATHEMATICAL MODEL MULTIPLE MYELOMA MODEL
 The goal was to make a fraction model and a number model that simulate the dynamics
 of the multiple myeloma (MM) microenvironment and determine the effect of adaptive
-therapy versus traditional therapy. The goal also was to optimise the IH holiday 
-duration, administration duration, and strength for the adaptive therapy. During 
-adaptive therapy the drugs are administered in short periods with holidays in 
-between and during traditional therapy the MTD is continuously administered. The 
+therapy versus traditional therapy. And the goal was also to optimise the IH 
+holiday duration, administration duration and strength for the adaptive therapy. 
+During adaptive therapy the drugs are administered in periods with holidays in 
+between, while pduring traditional therapy the MTD is continuously administered. The 
 models looked at the interactions via diffusible factors between four cell types: 
 drug-sensitive MM cells (MMd), resistant MM cells (MMr), osteoblasts (OBs) and
 osteoclasts (OCs). Both models simulate a public goods game in the framework of 
@@ -50,6 +50,15 @@ MM_model_frac_IH_inf.py, MM_model_nr_IH_inf.py and MM_model_nr_to_frac_IH_inf.py
 * scipy (version 1.11.4)
     - install: pip install scipy==1.11.4
 
+Libraries for MM_model_nr_IH_inf_mutation.py
+* numpy (version 1.26.0)
+    - install: pip install numpy==1.26.0
+* matplotlib (version 3.8.0)
+    - install: pip install matplotlib==3.8.0
+* pandas (version 2.1.3)
+    - install: pip install pandas==2.1.3
+* scipy (version 1.11.4)
+    - install: pip install scipy==1.11.4
 
 MODEL WITH NONLINEAR BENEFITS: model_S_nonlinear.py
 Model_S_nonlinear.py contains the code of all the mathematical formulas as well as
