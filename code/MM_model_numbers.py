@@ -1,13 +1,13 @@
 """
 Author:       Eva Nieuwenhuis
 University:   UvA
-Student id':  13717405
-Description:  Code of the model that simulates the dynamics in the multiple myeloma
-              (MM) microenvironment with four cell types: drug-sensitive MM cells
-              (MMd), resistant MM cells (MMr), osteoblasts (OB) and osteoclasts
-              (OC). The model is a public goods game in the framework of
-              evolutionary game theory with collective interactions. In this model
-              there is looked at the numbers of the four cell types.
+Student id:   13717405
+Description:  Code of the model that simulates the dynamics in the multiple
+              myeloma (MM) microenvironment with four cell types: drug-sensitive
+              MM cells (MMd), resistant MM cells (MMr), osteoblasts (OB) and
+              osteoclasts (OC). The model is a public goods game in the framework
+              of evolutionary game theory with collective interactions. In this
+              model, there is looked at the numbers of the four cell types.
 """
 
 # Import the needed libraries
@@ -947,7 +947,7 @@ def Figure_continuous_MTD_vs_AT(n_switches, t_steps_drug):
     axs[1, 2].set_ylabel(' ')
     axs[1, 2].set_title(r"Adaptive therapy MMd GF IH and $W_{MMd}$ IH")
     axs[1, 2].grid(True)
-    
+
     # Create a single legend outside of all plots
     legend_labels = ['Number of OC', 'Number of OB', 'Number of MMd',
                                                                 'Number of MMr']
@@ -1090,7 +1090,7 @@ def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
     axs[1, 2].set_ylabel(' ')
     axs[1, 2].set_title(r"Adaptive therapy MMd GF IH and $W_{MMd}$ IH")
     axs[1, 2].grid(True)
-    
+
     # Create a single legend outside of all plots
     legend_labels = ['Number of OC', 'Number of OB', 'Number of MMd',
                                                                 'Number of MMr']
@@ -1233,7 +1233,7 @@ def Figure_continuous_MTD_vs_AT_weak_a_h(n_switches, t_steps_drug):
     axs[1, 2].set_ylabel(' ')
     axs[1, 2].set_title(r"Adaptive therapy MMd GF IH and $W_{MMd}$ IH")
     axs[1, 2].grid(True)
-    
+
     # Create a single legend outside of all plots
     legend_labels = ['Number of OC', 'Number of OB', 'Number of MMd',
                                                                 'Number of MMr']

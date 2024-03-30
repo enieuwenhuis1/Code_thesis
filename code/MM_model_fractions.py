@@ -1,13 +1,13 @@
 """
 Author:       Eva Nieuwenhuis
 University:   UvA
-Student id':  13717405
+Student id:  13717405
 Description:  Code with the model that simulates the dynamics in the multiple
               myeloma (MM) microenvironment with four cell types: drug-sensitive
               MM cells (MMd), resistant MM cells (MMr), osteoblasts (OB) and
               osteoclasts (OC). The model is a public goods game in the framework
               of evolutionary game theory with collective interactions and linear
-              benefits. In this model there is looked at the fractions of the four
+              benefits. In this model, there is looked at the fractions of the four
               cell types.
 """
 
@@ -1132,8 +1132,8 @@ def Figure_best_WMMd_IH():
 
     # Retrieve the optimal value
     optimal_WMMd_IH_low= result_low.x
-    print("Optimal value for the WMMd IH by low OB and OC cost value:",
-                    float(optimal_WMMd_IH_low[0]),', gives tumour fraction:',
+    print("Optimal value for the WMMd IH by low OB and OC cost value",
+                    float(optimal_WMMd_IH_low[0]),'gives tumour fraction',
                                                                 result_low.fun)
 
     # Loop over the different WMMd_inhibitor values
@@ -1212,8 +1212,8 @@ def Figure_best_b_OC_MMd():
 
     # Retrieve the optimal value
     optimal_b_OC_MMd= result.x
-    print("Optimal value for b_OC_MMd:", float(optimal_b_OC_MMd[0]),
-                                            'gives tumour fraction:', result.fun)
+    print("Optimal value for b_OC_MMd", float(optimal_b_OC_MMd[0]),
+                                            'gives tumour fraction', result.fun)
 
     # Make a dictionary
     dict_frac_tumour_GF = {}

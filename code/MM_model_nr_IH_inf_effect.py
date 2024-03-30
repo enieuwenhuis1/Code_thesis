@@ -3843,7 +3843,7 @@ def minimise_MM_GF_W_h():
         [0.2, 0.0, 0.2, 0.0],
         [0.55, 0.0, -0.6, 0.4]])
 
-    WMMd_inhibitor =0.2
+    WMMd_inhibitor =0.6
 
     # optimise the administration and holiday durations
     # t_step_IH_strength = [GF IH t, W IH t, h t]
@@ -3896,7 +3896,7 @@ def minimise_MM_W_GF_h():
         [0.2, 0.0, 0.2, 0.0],
         [0.55, 0.0, -0.6, 0.4]])
 
-    WMMd_inhibitor = 0.2
+    WMMd_inhibitor = 0.6
 
     # optimise the administration and holiday durations
     # t_step_IH_strength = [GF IH t, W IH t, h t]

@@ -5,13 +5,13 @@ Student ID:   13717405
 MATHEMATICAL MODEL MULTIPLE MYELOMA MODEL
 The goal was to make a fraction model and a number model that simulate the dynamics
 of the multiple myeloma (MM) microenvironment and determine the effect of adaptive
-therapy versus traditional therapy. And the goal was also to optimise the IH 
-holiday duration, administration duration and strength for the adaptive therapy. 
-During adaptive therapy the drugs are administered in periods with holidays in 
-between, while pduring traditional therapy the MTD is continuously administered. The 
-models looked at the interactions via diffusible factors between four cell types: 
-drug-sensitive MM cells (MMd), resistant MM cells (MMr), osteoblasts (OBs) and
-osteoclasts (OCs). Both models simulate a public goods game in the framework of 
+therapy versus traditional therapy. The goal was also to optimise the IH holiday
+duration, administration duration and strength for the adaptive therapy. During
+adaptive therapy, the drugs are administered in periods with holidays in between,
+while during traditional therapy the MTD is continuously administered. The models
+looked at the interactions via diffusible factors between four cell types: drug-
+sensitive MM cells (MMd), resistant MM cells (MMr), osteoblasts (OBs) and
+osteoclasts (OCs). Both models simulate a public goods game in the framework of
 evolutionary game theory with collective interactions. The impact of an MMd GF 
 inhibitor (IH) and a WMMd IH on the cell type fractions and numbers are studied
 for different strengths, administration durations and holiday durations.
@@ -39,8 +39,8 @@ Libraries that need to be installed for model_S_nonlinear.py and model_S_linear.
 * scipy (version 1.11.4)
     - install: pip install scipy==1.11.4
 
-Libraries that need to be installed for MM_model_fractions.py, MM_model_numbers.py, 
-MM_model_nr_to_frac.py, MM_model_frac_IH_inf.py, MM_model_nr_IH_inf.py and 
+Libraries that need to be installed for MM_model_fractions.py, MM_model_numbers.py,
+MM_model_nr_to_frac.py, MM_model_frac_IH_inf.py, MM_model_nr_IH_inf.py and
 MM_model_nr_to_frac_IH_inf.py:
 * numpy (version 1.26.0)
     - install: pip install numpy==1.26.0
@@ -51,7 +51,7 @@ MM_model_nr_to_frac_IH_inf.py:
 * scipy (version 1.11.4)
     - install: pip install scipy==1.11.4
 
-Libraries that need to be installed for MM_model_fractions.py, MM_model_numbers.py, 
+Libraries that need to be installed for MM_model_fractions.py, MM_model_numbers.py,
 MM_model_nr_to_frac.py, MM_model_frac_IH_inf.py, MM_model_nr_IH_inf.py,
 MM_model_nr_to_frac_IH_inf.py and MM_model_nr_IH_inf_mutation.py:
 * numpy (version 1.26.0)
@@ -64,11 +64,11 @@ MM_model_nr_to_frac_IH_inf.py and MM_model_nr_IH_inf_mutation.py:
     - install: pip install scipy==1.11.4
 
 MODEL WITH NONLINEAR BENEFITS: model_S_nonlinear.py
-Model_S_nonlinear.py contains the code of all the mathematical formulas as well as
-the code to reproduce the figures from the paper: Game Theory of tumour–Stroma
+Model_S_nonlinear.py contains the code of all the mathematical formulas as well
+as the code to reproduce the figures from the paper: Game Theory of tumour–Stroma
 Interactions in Multiple Myeloma: Effect of Nonlinear Benefits by Sartakhti et al.
-(2018). The model is made based on the method section of the paper. The benefits are
-nonlinear and there are collective interactions.
+(2018). The model is made based on the method section of the paper. The benefits
+are nonlinear and there are collective interactions.
 
 TEST THE CODE
 To test some of the functions in the model, doc tests are added and automatically
@@ -78,9 +78,9 @@ run when the model_S_nonlinear.py code is run.
 MODEL WITH LINEAR BENEFITS: model_S_linear.py
 model_S_linear.py contains code of the mathematical formulas and the code to
 reproduce some of the figures in the paper: Evolutionary dynamics of tumour-Stroma
-interactions in multiple myeloma by Sartakhti et al. (2016). The model is made based
-on the method section of the paper. The benefits are linear and there are collective
-interactions.
+interactions in multiple myeloma by Sartakhti et al. (2016). The model is made
+based on the method section of the paper. The benefits are linear and there are
+collective interactions.
 
 TEST THE CODE
 To test some of the functions in the model, doc tests are added and automatically
@@ -92,8 +92,8 @@ MM_model_fractions.py contains the code with the mathematical formulas simulatin
 the fraction dynamics of the four cell types MMd, MMr, OCs and OBs in the MM
 microenvironment. It contains the code to make the figures showing the effect of
 the WMMd IH, the MMd GF IH and a combination at different administration periods
-and strengths on the cell type fractions. In addition, it contains code to make 
-tables showing the eigenvalues, best administration and holiday duration and the 
+and strengths on the cell type fractions. In addition, it contains code to make
+tables showing the eigenvalues, best administration and holiday duration and the
 lowest MM fraction for different interaction matrices. The IHs only affect the MMd.
 
 TEST THE CODE
@@ -114,13 +114,13 @@ run when the MM_model_numbers.py code is run.
 
 
 NUMBER MODEL CONVERTED TO A FRACTION MODEL: MM_model_nr_to_frac.py
-MM_model_nr_to_frac.py uses the mathematical formulas from MM_model_numbers.py to
-simulate the number dynamics and at the end, the numbers are converted to fractions.
-Hence the shows the fraction dynamics of the four cell types MMd, MMr, OCs and OBs
-in the MM microenvironment by a changing N. It contains code to make the figures
-showing the effect of the WMMd IH, the MMd GF IH and a combination at different
-administration periods and strengths on the cell type fractions. The IHs only affect
-the MMd.
+MM_model_nr_to_frac.py uses the mathematical formulas from MM_model_numbers.py
+to simulate the number dynamics and at the end, the numbers are converted to
+fractions. Hence the shows the fraction dynamics of the four cell types MMd, MMr,
+OCs and OBs in the MM microenvironment by a changing N. It contains code to make
+the figures showing the effect of the WMMd IH, the MMd GF IH and a combination at
+different administration periods and strengths on the cell type fractions. The
+IHs only affect the MMd.
 
 TEST THE CODE
 To test some of the functions in the model, doc tests are added and automatically
@@ -132,7 +132,7 @@ MM_model_frac_IH_inf.py contains the code with the mathematical formulas simulat
 the fraction dynamics of the four cell types MMd, MMr, OCs and OBs in the MM
 microenvironment. It contains the code to make the figures showing the effect of
 the WMMd IH, the MMd GF IH and a combination of different administration periods
-and strengths on the cell type fractions. The IHs not only affect the MMd but also 
+and strengths on the cell type fractions. The IHs not only affect the MMd but also
 the OC and OB.
 
 TEST THE CODE
@@ -145,8 +145,8 @@ MM_model_nr_IH_inf.py contains the code with the mathematical formulas simulatin
 the number dynamics of the four cell types MMd, MMr, OCs and OBs in the MM
 microenvironment. It contains the code to make the figures showing the effect of
 the WMMd IH, the MMd GF IH and a combination of different administration periods
-and strengths on the cell type numbers. Furthermore, it contains an optimisation 
-strategy to find the best holiday duration, administration duration and IH strength 
+and strengths on the cell type numbers. Furthermore, it contains an optimisation
+strategy to find the best holiday duration, administration duration and IH strength
 simultaneously. The IHs not only affect the MMd but also the OC and OB.
 
 TEST THE CODE
@@ -160,10 +160,10 @@ to simulate the number dynamics and at the end, the numbers are converted to
 fractions. Hence the shows the fraction dynamics of the four cell types MMd, MMr,
 OCs and OBs in the MM microenvironment by a changing N. It contains code to make
 the figures showing the effect of the WMMd IH, the MMd GF IH and a combination at
-different administration periods and strengths on the cell type fractions. In 
-addition, it contains an optimisation strategy to find the best holiday duration, 
-administration duration and IH strength simultaneously. The IHs not only affect the
-MMd but also the OC and OB.
+different administration periods and strengths on the cell type fractions. In
+addition, it contains an optimisation strategy to find the best holiday duration,
+administration duration and IH strength simultaneously. The IHs not only affect
+the MMd but also the OC and OB.
 
 TEST THE CODE
 To test some of the functions in the model, doc tests are added and automatically
@@ -172,14 +172,14 @@ run when the MMMM_model_nr_to_frac_IH_inf.py code is run.
 NUMBER MODEL WITH A MUTATION CHANCE: MM_model_nr_IH_inf.py
 MM_model_nr_IH_inf.py contains the code with the mathematical formulas simulating
 the number dynamics of the four cell types MMd, MMr, OCs and OBs in the MM
-microenvironment. There is a mution chance implemented indicating the chance that 
-a MMd gets a cancerous mutation turning them into an MMr during a generation (cell 
-division). The chance is higher when IHs are present. It contains the code to make
-figures showing the effect of the WMMd IH, the MMd GF IH and a combination of 
-different administration periods and strengths on the cell type numbers. Furthermore,
-it contains an optimisation strategy to find the best holiday duration, administration 
-duration and IH strength simultaneously. The IHs not only affect the MMd but also the 
-OC and OB.
+microenvironment. There is a mutation chance implemented indicating the chance that
+an MMd gets a cancerous mutation turning them into an MMr during a generation
+(cell division). The chance is higher when IHs are present. It contains the code
+to make figures showing the effect of the WMMd IH, the MMd GF IH and a combination
+of different administration periods and strengths on the cell type numbers.
+Furthermore, it contains an optimisation strategy to find the best holiday duration,
+administration duration and IH strength simultaneously. The IHs not only affect
+the MMd but also the OC and OB.
 
 TEST THE CODE
 To test some of the functions in the model, doc tests are added and automatically
@@ -197,19 +197,22 @@ and tables. This folder contains:
                           cell type fractions.
 * data_model_numbers: contains all the data obtained from the model simulating
                           cell type numbers.
-* data_model_nr_to_frac: contains all the data obtained from the model simulating cell
-                         type fractions by converting the numbers to fractions.                    
-* data_model_frac_IH_inf: contains all the data obtained from the model simulating 
-                          cell type fractions whereby extra IH influences were added.
+* data_model_nr_to_frac: contains all the data obtained from the model simulating
+                         cell type fractions by converting the numbers to
+                         fractions.
+* data_model_frac_IH_inf: contains all the data obtained from the model simulating
+                          cell type fractions whereby extra IH influences were
+                          added.
 * data_model_nr_IH_inf: contains all the data obtained from the model simulating
-                          cell type numbers whereby extra IH influences were added.
+                          cell type numbers whereby extra IH influences were
+                          added.
 * data_model_nr_to_frac_IH_inf: contains all the data obtained from the model
                           simulating cell type fractions by converting the numbers
-                          to fractions whereby also extra IH influences were added.
-* data_model_nr_IH_inf_mutation: contains all the data obtained from the model 
-                          simulating cell type numbers whereby extra IH influences 
+                          to fractions and adding extra IH influences.
+* data_model_nr_IH_inf_mutation: contains all the data obtained from the model
+                          simulating cell type numbers whereby extra IH influences
                           and a cancerous mutation chance were added.
-    
+
 THE VISUALISATION
 In the folder visualisation, all made figures are shown. This folder contains:
 * reproduced_results_Sartakhti_nonlinear: contains all the reproduced figures of
@@ -236,6 +239,8 @@ In the folder visualisation, all made figures are shown. This folder contains:
 * results_model_nr_IH_inf_mutation: contains all the figures obtained from the
                             model simulating cell type numbers whereby extra IH
                             influences and a cancerous mutation chance were added.
+
+
 HOW TO RUN THE CODES
 The nonlinear model and its visualisation, model_S_nonlinear.py:
         - python model_S_nonlinear.py
@@ -264,10 +269,11 @@ Number-to-fraction model with extra IH influences, MM_model_nr_to_frac_IH_inf.py
 Number model with a cancerous mutation chance, MM_model_nr_IH_inf.py
         - python MM_model_nr_IH_inf.py
 
+
 REFERENCES
-* Sartakhti, J. S., Manshaei, M. H., & Archetti, M. (2018). Game Theory of tumour–Stroma
-  Interactions in Multiple Myeloma: Effect of nonlinear benefits. Games, 9(2), 32.
-  https://doi.org/10.3390/g9020032
-* Sartakhti, J. S., Manshaei, M. H., Bateni, S., & Archetti, M. (2016). Evolutionary
-  dynamics of tumour-Stroma interactions in multiple myeloma. PLOS ONE, 11(12),
-  e0168856. https://doi.org/10.1371/journal.pone.0168856
+* Sartakhti, J. S., Manshaei, M. H., & Archetti, M. (2018). Game Theory of
+  tumour–Stroma Interactions in Multiple Myeloma: Effect of nonlinear benefits.
+  Games, 9(2), 32. https://doi.org/10.3390/g9020032
+* Sartakhti, J. S., Manshaei, M. H., Bateni, S., & Archetti, M. (2016).
+  Evolutionary dynamics of tumour-Stroma interactions in multiple myeloma. PLOS
+  ONE, 11(12), e0168856. https://doi.org/10.1371/journal.pone.0168856

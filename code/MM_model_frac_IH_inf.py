@@ -1,18 +1,18 @@
 """
 Author:       Eva Nieuwenhuis
 University:   UvA
-Student id':  13717405
+Student id:   13717405
 Description:  Code with the model that simulates the dynamics in the multiple
               myeloma (MM) microenvironment with four cell types: drug-sensitive
               MM cells (MMd), resistant MM cells (MMr), osteoblasts (OB) and
               osteoclasts (OC). The model is a public goods game in the framework
               of evolutionary game theory with collective interactions and linear
-              benefits. In this model there is looked at the fractions of the four
+              benefits. In this model, there is looked at the fractions of the four
               cell types.
 
               The IHs have not only an influence on the MMd but also on the OB and
               OC. This was incorporated by increasing the cOC value and decreasing
-              the cOB value when a IH was administered.
+              the cOB value when an IH was administered.
 """
 
 # Import the needed libraries
@@ -41,21 +41,21 @@ def main():
     # Do doc tests
     doctest.testmod()
 
-    # # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # # by adaptive therapy (original situation)
-    # list_t_steps_drug = [10, 10, 10]
-    # Figure_continuous_MTD_vs_AT_a_h(13, list_t_steps_drug)
-    #
-    # # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # # by adaptive therapy for shorter holiday and administration periods compared
-    # # to the original situation
-    # list_t_steps_drug = [5, 5, 5]
-    # Figure_continuous_MTD_vs_AT_short_a_h(20, list_t_steps_drug)
+    # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # by adaptive therapy (original situation)
+    list_t_steps_drug = [10, 10, 10]
+    Figure_continuous_MTD_vs_AT_a_h(13, list_t_steps_drug)
 
-    # # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # # by adaptive therapy for weaker IHs compared to the original situation
-    # list_t_steps_drug = [10, 10, 10]
-    # Figure_continuous_MTD_vs_AT_weak_a_h(12, list_t_steps_drug)
+    # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # by adaptive therapy for shorter holiday and administration periods compared
+    # to the original situation
+    list_t_steps_drug = [5, 5, 5]
+    Figure_continuous_MTD_vs_AT_short_a_h(20, list_t_steps_drug)
+
+    # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # by adaptive therapy for weaker IHs compared to the original situation
+    list_t_steps_drug = [10, 10, 10]
+    Figure_continuous_MTD_vs_AT_weak_a_h(12, list_t_steps_drug)
 
     # Make a figure showing the cell fraction dynamics by traditional therapy and
     # by adaptive therapy for shorter holiday and administration periods and
@@ -63,10 +63,10 @@ def main():
     list_t_steps_drug = [5, 5, 5]
     Figure_continuous_MTD_vs_AT_s_and_w_a_h(24, list_t_steps_drug)
 
-    # # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # # by adaptive therapy whereby the OB-OC equilibrium gets restored
-    # list_t_steps_drug = [10, 10, 10]
-    # Figure_continuous_MTD_vs_AT_OB_a_h(9, list_t_steps_drug)
+    # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # by adaptive therapy whereby the OB-OC equilibrium gets restored
+    list_t_steps_drug = [10, 10, 10]
+    Figure_continuous_MTD_vs_AT_OB_a_h(9, list_t_steps_drug)
 
     # Make a 3D figure showthing the effect of different drug holiday and
     # administration periods
@@ -1190,7 +1190,7 @@ def Figure_continuous_MTD_vs_AT_a_h(n_switches, t_steps_drug):
                                                     legend=False, ax=axs[0, 0])
     axs[0, 0].set_xlabel(' ')
     axs[0, 0].set_ylabel('Fraction', fontsize=11)
-    axs[0, 0].set_title(f"Continuous MTD MMd GF IH ")
+    axs[0, 0].set_title(f"Traditional therapy MMd GF IH ")
     axs[0, 0].grid(True)
 
     # Plot the data with drug holidays in the second plot
@@ -1198,7 +1198,7 @@ def Figure_continuous_MTD_vs_AT_a_h(n_switches, t_steps_drug):
                                                     legend=False, ax=axs[0, 1])
     axs[0, 1].set_xlabel(' ')
     axs[0, 1].set_ylabel(' ')
-    axs[0, 1].set_title(r"Continuous MTD $W_{MMd}$ IH")
+    axs[0, 1].set_title(r"Traditional therapy $W_{MMd}$ IH")
     axs[0, 1].grid(True)
 
     # Plot the data with drug holidays in the second plot
@@ -1206,7 +1206,7 @@ def Figure_continuous_MTD_vs_AT_a_h(n_switches, t_steps_drug):
                                                     legend=False, ax=axs[0, 2])
     axs[0, 2].set_xlabel(' ')
     axs[0, 2].set_ylabel(' ')
-    axs[0, 2].set_title(r"Continuous MTD MMd GF IH and $W_{MMd}$ IH")
+    axs[0, 2].set_title(r"Traditional therapy MMd GF IH and $W_{MMd}$ IH")
     axs[0, 2].grid(True)
 
     # Plot the data with drug holidays in the third plot
@@ -1496,7 +1496,7 @@ def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
                                                     legend=False, ax=axs[0, 0])
     axs[0, 0].set_xlabel(' ')
     axs[0, 0].set_ylabel('Fraction', fontsize=11)
-    axs[0, 0].set_title(f"Continuous MTD MMd GF IH ")
+    axs[0, 0].set_title(f"Traditional therapy MMd GF IH ")
     axs[0, 0].grid(True)
 
     # Plot the data with drug holidays in the second plot
@@ -1504,7 +1504,7 @@ def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
                                                     legend=False, ax=axs[0, 1])
     axs[0, 1].set_xlabel(' ')
     axs[0, 1].set_ylabel(' ')
-    axs[0, 1].set_title(r"Continuous MTD $W_{MMd}$ IH")
+    axs[0, 1].set_title(r"Traditional therapy $W_{MMd}$ IH")
     axs[0, 1].grid(True)
 
     # Plot the data with drug holidays in the second plot
@@ -1512,7 +1512,7 @@ def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
                                                     legend=False, ax=axs[0, 2])
     axs[0, 2].set_xlabel(' ')
     axs[0, 2].set_ylabel(' ')
-    axs[0, 2].set_title(r"Continuous MTD MMd GF IH and $W_{MMd}$ IH")
+    axs[0, 2].set_title(r"Traditional therapy MMd GF IH and $W_{MMd}$ IH")
     axs[0, 2].grid(True)
 
     # Plot the data with drug holidays in the third plot
@@ -1648,7 +1648,7 @@ def Figure_continuous_MTD_vs_AT_weak_a_h(n_switches, t_steps_drug):
                                                     legend=False, ax=axs[0, 0])
     axs[0, 0].set_xlabel(' ')
     axs[0, 0].set_ylabel('Fraction', fontsize=11)
-    axs[0, 0].set_title(f"Continuous MTD MMd GF IH ")
+    axs[0, 0].set_title(f"Traditional therapy MMd GF IH ")
     axs[0, 0].grid(True)
 
     # Plot the data with drug holidays in the second plot
@@ -1656,7 +1656,7 @@ def Figure_continuous_MTD_vs_AT_weak_a_h(n_switches, t_steps_drug):
                                                     legend=False, ax=axs[0, 1])
     axs[0, 1].set_xlabel(' ')
     axs[0, 1].set_ylabel(' ')
-    axs[0, 1].set_title(r"Continuous MTD $W_{MMd}$ IH")
+    axs[0, 1].set_title(r"Traditional therapy $W_{MMd}$ IH")
     axs[0, 1].grid(True)
 
     # Plot the data with drug holidays in the second plot
@@ -1664,7 +1664,7 @@ def Figure_continuous_MTD_vs_AT_weak_a_h(n_switches, t_steps_drug):
                                                     legend=False, ax=axs[0, 2])
     axs[0, 2].set_xlabel(' ')
     axs[0, 2].set_ylabel(' ')
-    axs[0, 2].set_title(r"Continuous MTD MMd GF IH and $W_{MMd}$ IH")
+    axs[0, 2].set_title(r"Traditional therapy MMd GF IH and $W_{MMd}$ IH")
     axs[0, 2].grid(True)
 
     # Plot the data with drug holidays in the third plot
@@ -1802,7 +1802,7 @@ def Figure_continuous_MTD_vs_AT_OB_a_h(n_switches, t_steps_drug):
                                                     legend=False, ax=axs[0, 0])
     axs[0, 0].set_xlabel(' ')
     axs[0, 0].set_ylabel('Fraction', fontsize=11)
-    axs[0, 0].set_title(f"Continuous MTD MMd GF IH ")
+    axs[0, 0].set_title(f"Traditional therapy MMd GF IH ")
     axs[0, 0].grid(True)
 
     # Plot the data with drug holidays in the second plot
@@ -1810,7 +1810,7 @@ def Figure_continuous_MTD_vs_AT_OB_a_h(n_switches, t_steps_drug):
                                                     legend=False, ax=axs[0, 1])
     axs[0, 1].set_xlabel(' ')
     axs[0, 1].set_ylabel(' ')
-    axs[0, 1].set_title(r"Continuous MTD $W_{MMd}$ IH")
+    axs[0, 1].set_title(r"Traditional therapy $W_{MMd}$ IH")
     axs[0, 1].grid(True)
 
     # Plot the data with drug holidays in the second plot
@@ -1818,7 +1818,7 @@ def Figure_continuous_MTD_vs_AT_OB_a_h(n_switches, t_steps_drug):
                                                     legend=False, ax=axs[0, 2])
     axs[0, 2].set_xlabel(' ')
     axs[0, 2].set_ylabel(' ')
-    axs[0, 2].set_title(r"Continuous MTD MMd GF IH and $W_{MMd}$ IH")
+    axs[0, 2].set_title(r"Traditional therapy MMd GF IH and $W_{MMd}$ IH")
     axs[0, 2].grid(True)
 
     # Plot the data with drug holidays in the third plot

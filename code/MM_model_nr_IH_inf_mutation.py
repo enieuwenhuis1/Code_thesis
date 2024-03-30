@@ -58,28 +58,28 @@ def main():
     list_t_steps_drug = [10, 10, 10]
     Figure_continuous_MTD_vs_AT_weak_a_h(20, list_t_steps_drug)
 
-    # # Make a 3D figure showthing the effect of different drug holiday and
-    # # administration periods
-    # Figure_3D_MM_numb_IH_add_and_holiday()
-    #
-    # # Make a figure that shows the MM number for different bOC,MMd values
-    # Figure_best_b_OC_MMd()
-    #
-    # # Make a figure that shows the MM number for different WMMd IH values
-    # Figure_best_WMMd_IH()
-    #
-    # # Make a 3D figure showing the effect of different WMMd and MMd GF IH
-    # # strengths
-    # Figure_3D_MM_numb_MMd_IH_strength()
+    # Make a 3D figure showthing the effect of different drug holiday and
+    # administration periods
+    Figure_3D_MM_numb_IH_add_and_holiday()
 
-    # # Make line plots showing the dynamics when the IH administration is longer
-    # # than the holiday and one it is the other way around.
-    # list_t_steps_drug = [3, 10]
-    # list_t_steps_no_drug = [10, 3]
-    # list_n_steps = [40, 40]
-    # Figure_duration_A_h_MMd_IH(list_n_steps, list_t_steps_drug,
-    #                                                       list_t_steps_no_drug)
-    #
+    # Make a figure that shows the MM number for different bOC,MMd values
+    Figure_best_b_OC_MMd()
+
+    # Make a figure that shows the MM number for different WMMd IH values
+    Figure_best_WMMd_IH()
+
+    # Make a 3D figure showing the effect of different WMMd and MMd GF IH
+    # strengths
+    Figure_3D_MM_numb_MMd_IH_strength()
+
+    # Make line plots showing the dynamics when the IH administration is longer
+    # than the holiday and one it is the other way around.
+    list_t_steps_drug = [3, 10]
+    list_t_steps_no_drug = [10, 3]
+    list_n_steps = [40, 40]
+    Figure_duration_A_h_MMd_IH(list_n_steps, list_t_steps_drug,
+                                                          list_t_steps_no_drug)
+
 
     """ The optimisation situations """
     # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
@@ -255,6 +255,16 @@ def dOC_dt(nOC, nOB, nMMd, nMMr, gr_OC, dr_OC, matrix):
     c = matrix[0, 2]
     d = matrix[0, 3]
 
+    # Avoid raising power with base value zero
+    if nOC < 0.00001:
+        nOC = 0.00001
+    if nOB < 0.00001:
+        nOB = 0.00001
+    if nMMd < 0.00001:
+        nMMd = 0.00001
+    if nMMr < 0.00001:
+        nMMr = 0.00001
+
     # Calculate the Change on in the number of OC
     change_nOC = (gr_OC * nOC**a * nOB**b * nMMd**c * nMMr**d) - (dr_OC * nOC)
     return change_nOC
@@ -299,6 +309,16 @@ def dOB_dt(nOC, nOB, nMMd, nMMr, gr_OB, dr_OB, matrix):
     f = matrix[1, 1]
     g = matrix[1, 2]
     h = matrix[1, 3]
+
+    # Avoid raising power with base value zero
+    if nOC < 0.00001:
+        nOC = 0.00001
+    if nOB < 0.00001:
+        nOB = 0.00001
+    if nMMd < 0.00001:
+        nMMd = 0.00001
+    if nMMr < 0.00001:
+        nMMr = 0.00001
 
     # Calculate the change in number of OB
     change_nOB = (gr_OB * nOC**e * nOB**f * nMMd**g * nMMr**h) - (dr_OB * nOB)
@@ -347,6 +367,16 @@ def dMMd_dt(nOC, nOB, nMMd, nMMr, gr_MMd, dr_MMd, matrix, WMMd_inhibitor = 0):
     k = matrix[2, 2]
     l = matrix[2, 3]
 
+    # Avoid raising power with base value zero
+    if nOC < 0.00001:
+        nOC = 0.00001
+    if nOB < 0.00001:
+        nOB = 0.00001
+    if nMMd < 0.00001:
+        nMMd = 0.00001
+    if nMMr < 0.00001:
+        nMMr = 0.00001
+
     # Calculate the change in the number of MMd
     change_nMMd = (gr_MMd * nOC**i * nOB**j * nMMd**k * nMMr**l - nMMd * \
                                             WMMd_inhibitor) - (dr_MMd * nMMd)
@@ -393,6 +423,17 @@ def dMMr_dt(nOC, nOB, nMMd, nMMr, gr_MMr, dr_MMr, matrix):
     n = matrix[3, 1]
     o = matrix[3, 2]
     p = matrix[3, 3]
+
+    # Avoid raising power with base value zero
+    # Avoid raising power with base value zero
+    if nOC < 0.00001:
+        nOC = 0.00001
+    if nOB < 0.00001:
+        nOB = 0.00001
+    if nMMd < 0.00001:
+        nMMd = 0.00001
+    if nMMr < 0.00001:
+        nMMr = 0.00001
 
     # Calculate the change in the number of MMr
     change_nMMr = (gr_MMr * nOC**m * nOB**n * nMMd**o * nMMr**p) - (dr_MMr * nMMr)
@@ -447,36 +488,43 @@ def model_dynamics(y, t, growth_rates, decay_rates, matrix, IH_present, WMMd_inh
     nMMr_change = dMMr_dt(nOC, nOB, nMMd, nMMr, growth_rates[3], decay_rates[3],
                                                                         matrix)
 
-    # mutated_cells = 0
+
     # print(nOC_change, nOB_change, nMMd_change, nMMr_change)
-    #
-    # # Determine if a drug is present
-    # if IH_present == True:
-    #
-    #     # Determine how many cells develop a mutation
-    #     for i in range(int(nMMd)):
-    #         if random.random() <= 0.005:
-    #             mutated_cells += 1
-    # else:
-    #     # Determine how many cells develop a mutation
-    #     for i in range(int(nMMd)):
-    #         if random.random() <= 0.001:
-    #             mutated_cells += 1
-    #
-    # # Update the nMMd and nMMr change
-    # nMMd_change -= mutated_cells
-    # nMMr_change += mutated_cells
+    # print(t)
 
     # Determine if a drug is present
     if IH_present == True:
-        chance_mutation = 0.005
+        mutated_cells = 0
+        print('nMMd', nMMd)
 
+        # Determine how many cells develop a mutation
+        for i in range(int(nMMd)):
+            if random.random() <= 0.008:
+                mutated_cells += 1
+                # print('hi')
     else:
-        chance_mutation=0.001
+        mutated_cells = 0
+
+        # Determine how many cells develop a mutation
+        for i in range(int(nMMd)):
+            if random.random() <= 0.001:
+                mutated_cells += 1
+                # print('hi')
 
     # Update the nMMd and nMMr change
-    nMMd_change -= nMMd * chance_mutation
-    nMMr_change += nMMd * chance_mutation
+    nMMd_change -= mutated_cells
+    nMMr_change += mutated_cells
+
+    # Determine if a drug is present
+    # if IH_present == True:
+    #     chance_mutation = 0.001
+    #
+    # else:
+    #     chance_mutation=0.0008
+
+    # Update the nMMd and nMMr change
+    # nMMd_change -= nMMd * chance_mutation
+    # nMMr_change += nMMd * chance_mutation
 
     # Make floats of the arrays
     nOC_change = float(nOC_change)
@@ -640,7 +688,6 @@ def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd,
 
         # If x = 0 make sure the MMd is inhibited
         if x == 0:
-
             # Determine the start numbers
             nOC = df_total_switch['nOC'].iloc[-1]
             nOB = df_total_switch['nOB'].iloc[-1]
@@ -3014,7 +3061,7 @@ def Figure_continuous_MTD_vs_AT(n_switches, t_steps_drug):
     nOC = 20
     nOB = 30
     nMMd = 20
-    nMMr = 0.00000001
+    nMMr = 5
     growth_rates = [0.8, 1.2, 0.3, 0.3]
     decay_rates = [0.9, 0.08, 0.2, 0.1]
     growth_rates_IH = [0.7, 1.3, 0.3, 0.3]
