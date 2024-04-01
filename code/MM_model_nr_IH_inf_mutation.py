@@ -472,78 +472,17 @@ def mutation_MMd_to_MMr_1(IH_present, nMMd, nMMd_change, nMMr_change):
     """
     # Determine the mutation rate based on how manny IHs are present
     if IH_present == 0:
-        mutation_rate = 0.002
+        mutation_rate = 0.001
 
     if IH_present == 1:
-        mutation_rate = 0.005
+        mutation_rate = 0.004
 
     if IH_present == 2:
-        mutation_rate = 0.0045
+        mutation_rate = 0.002
 
     # Update the nMMd and nMMr change
     nMMd_change -= nMMd * mutation_rate
     nMMr_change += nMMd * mutation_rate
-
-    return nMMd_change, nMMr_change
-
-def mutation_MMd_to_MMr_2(IH_present, nMMd, nMMd_change, nMMr_change):
-    """Function that determines the number of MMd that become a MMr through
-    a mutation
-
-    Parameters:
-    -----------
-    IH_present: Int
-        Indicates if there is a IH present (0-> zero IHs present, 1 -> one IH
-        present, 2 -> two IHs present)
-    nMMd: Float
-        Number of the MMd.
-    nMMd_change: Float
-        The change in the number of MMd.
-    nMMr_change: Float
-        The change in the number of MMr.
-
-    Returns:
-    --------
-    nMMd_change: Float
-        The change in the number of MMd after possible mutations.
-    nMMr_change: Float
-        The change in the number of MMr after possible mutations.
-
-
-    Example:
-    -----------
-    >>> mutation_MMd_to_MMr_2(1, 30, 0.5, 0.4)
-    0.5, 0.4
-    """
-    # Set number of mutated cells to zero
-    mutated_cells = 0
-
-    # Determine the mutation rate based on how manny IHs are present
-    if IH_present == 0:
-
-        # Determine how manny cells develop a mutation
-        for i in range(int(nMMd)):
-            if random.random() <= 0.005:
-                mutated_cells += 1
-
-    if IH_present == 1:
-
-        # Determine how manny cells develop a mutation
-        for i in range(int(nMMd)):
-            if random.random() <= 0.01:
-                mutated_cells += 1
-
-    if IH_present == 2:
-
-        # Determine how manny cells develop a mutation
-        for i in range(int(nMMd)):
-            if random.random() <= 0.008:
-                mutated_cells += 1
-
-
-    # Update the nMMd and nMMr change
-    nMMd_change -= mutated_cells
-    nMMr_change += mutated_cells
 
     return nMMd_change, nMMr_change
 
@@ -597,13 +536,9 @@ def model_dynamics(y, t, growth_rates, decay_rates, matrix, IH_present,
     nMMr_change = dMMr_dt(nOC, nOB, nMMd, nMMr, growth_rates[3], decay_rates[3],
                                                                         matrix)
 
-    # # Determine the change in nMMd and nMMr based on the mutation rate
-    # nMMd_change, nMMr_change = mutation_MMd_to_MMr_1(IH_present, nMMd,
-    #         	                                      nMMd_change, nMMr_change)
-
     # Determine the change in nMMd and nMMr based on the mutation rate
-    nMMd_change, nMMr_change = mutation_MMd_to_MMr_2(IH_present, nMMd,
-                                                     nMMd_change, nMMr_change)
+    nMMd_change, nMMr_change = mutation_MMd_to_MMr_1(IH_present, nMMd,
+            	                                      nMMd_change, nMMr_change)
 
     # Make floats of the arrays
     nOC_change = float(nOC_change)
@@ -1870,7 +1805,8 @@ def switch_dataframe_GF_comb_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
 
             t = np.linspace(time, time + t_steps_WMMd_IH, int(t_steps_WMMd_IH))
             y0 = [nOC, nOB, nMMd, nMMr]
-            parameters = (growth_rates_IH, decay_rates_IH, matrix, int(1), WMMd_inhibitor)
+            parameters = (growth_rates_IH, decay_rates_IH, matrix, int(1),
+                                                                WMMd_inhibitor)
 
             # Determine the ODE solutions
             y = odeint(model_dynamics, y0, t, args=parameters)
@@ -2426,8 +2362,8 @@ def minimal_tumour_nr_t_3_situations_IH(t_steps_IH_strength, function_order, nOC
 
     # Create a dataframe of the numbers
     df = function_order(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
-        t_steps_no_drug, nOC, nOB, nMMd, nMMr, growth_rates, growth_rates_IH,
-        decay_rates, decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor)
+      t_steps_no_drug, nOC, nOB, nMMd, nMMr, growth_rates, growth_rates_IH,
+      decay_rates, decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor)
 
     # Determine the average MM number in the last period with and without drugs
     last_MM_numbers = df['total nMM'].tail(int(time_round))
@@ -2490,8 +2426,8 @@ def minimal_tumour_nr_t_3_4_situations_IH(t_steps_IH_strength, function_order,
 
     # Create a dataframe of the numbers
     df = function_order(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
-        t_steps_no_drug, nOC, nOB, nMMd, nMMr, growth_rates, growth_rates_IH,
-        decay_rates, decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor)
+      t_steps_no_drug, nOC, nOB, nMMd, nMMr, growth_rates, growth_rates_IH,
+      decay_rates, decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor)
 
     # Determine the average MM number in the last period with and without drugs
     last_MM_numbers = df['total nMM'].tail(int(time_round))
@@ -2570,8 +2506,8 @@ def minimal_tumour_nr_t_4_situations(t_steps, function_order, nOC, nOB, nMMd,
     return float(average_MM_number)
 
 def minimal_tumour_nr_t_4_sit_equal(t_steps_IH_strength, function_order, nOC, nOB,
-            nMMd, nMMr, growth_rates, growth_rates_IH, decay_rates, decay_rates_IH,
-            matrix_no_GF_IH, matrix_GF_IH, matrix_GF_IH_comb, WMMd_inhibitor):
+        nMMd, nMMr, growth_rates, growth_rates_IH, decay_rates, decay_rates_IH,
+        matrix_no_GF_IH, matrix_GF_IH, matrix_GF_IH_comb, WMMd_inhibitor):
     """ Function that makes a dataframe of the nOC, nOB, nMMd and nMMr values
     over time for a given MMd GF IH administration, WMMd IH administration, WMMd
     IH + MMd GF IH combination administration and holiday duration.
@@ -3221,17 +3157,17 @@ def Figure_continuous_MTD_vs_AT(n_switches, t_steps_drug):
 
     # Save the data
     save_dataframe(df_total_switch_GF, 'df_cell_nr_IH_inf_switch_GF_IH.csv',
-                                            r'..\data\data_model_nr_IH_inf_mutation')
+                                    r'..\data\data_model_nr_IH_inf_mutation')
     save_dataframe(df_total_switch_WMMd, 'df_cell_nr_IH_inf_switch_WMMd_IH.csv',
-                                            r'..\data\data_model_nr_IH_inf_mutation')
+                                    r'..\data\data_model_nr_IH_inf_mutation')
     save_dataframe(df_total_switch_comb, 'df_cell_nr_IH_inf_switch_comb_IH.csv',
-                                            r'..\data\data_model_nr_IH_inf_mutation')
+                                    r'..\data\data_model_nr_IH_inf_mutation')
     save_dataframe(df_total_GF, 'df_cell_nr_IH_inf_continuous_GF_IH.csv',
-                                             r'..\data\data_model_nr_IH_inf_mutation')
+                                    r'..\data\data_model_nr_IH_inf_mutation')
     save_dataframe(df_total_WMMd, 'df_cell_nr_IH_inf_continuous_WMMd_IH.csv',
-                                             r'..\data\data_model_nr_IH_inf_mutation')
+                                    r'..\data\data_model_nr_IH_inf_mutation')
     save_dataframe(df_total_comb, 'df_cell_nr_IH_inf_continuous_comb_IH.csv',
-                                             r'..\data\data_model_nr_IH_inf_mutation')
+                                    r'..\data\data_model_nr_IH_inf_mutation')
 
     # Create a Figure
     fig, axs = plt.subplots(2, 3, figsize=(20, 9))
@@ -3291,7 +3227,7 @@ def Figure_continuous_MTD_vs_AT(n_switches, t_steps_drug):
     fig.legend(labels = legend_labels, loc='upper center', ncol=4,
                                                                 fontsize='large')
     save_Figure(plt, 'line_plot_cell_nr_IH_inf_AT_MTD',
-                                 r'..\visualisation\results_model_nr_IH_inf_mutation')
+                            r'..\visualisation\results_model_nr_IH_inf_mutation')
     plt.show()
 
 """ Figure to determine the difference between traditional and adaptive therapy.
@@ -3372,17 +3308,17 @@ def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
 
     # Save the data
     save_dataframe(df_total_switch_GF, 'df_cell_nr_IH_inf_switch_GF_IH_short_a_h.csv',
-                                            r'..\data\data_model_nr_IH_inf_mutation')
+                                    r'..\data\data_model_nr_IH_inf_mutation')
     save_dataframe(df_total_switch_WMMd, 'df_cell_nr_IH_inf_switch_WMMd_IH_short_a_h.csv',
-                                            r'..\data\data_model_nr_IH_inf_mutation')
+                                    r'..\data\data_model_nr_IH_inf_mutation')
     save_dataframe(df_total_switch_comb, 'df_cell_nr_IH_inf_switch_comb_IH_short_a_h.csv',
-                                            r'..\data\data_model_nr_IH_inf_mutation')
+                                    r'..\data\data_model_nr_IH_inf_mutation')
     save_dataframe(df_total_GF, 'df_cell_nr_IH_inf_continuous_GF_IH_short_a_h.csv',
-                                            r'..\data\data_model_nr_IH_inf_mutation')
+                                    r'..\data\data_model_nr_IH_inf_mutation')
     save_dataframe(df_total_WMMd, 'df_cell_nr_IH_inf_continuous_WMMd_IH_short_a_h.csv',
-                                            r'..\data\data_model_nr_IH_inf_mutation')
+                                    r'..\data\data_model_nr_IH_inf_mutation')
     save_dataframe(df_total_comb, 'df_cell_nr_IH_inf_continuous_comb_IH_short_a_h.csv',
-                                            r'..\data\data_model_nr_IH_inf_mutation')
+                                    r'..\data\data_model_nr_IH_inf_mutation')
 
     # Create a Figure
     fig, axs = plt.subplots(2, 3, figsize=(20, 9))
@@ -3441,7 +3377,7 @@ def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
                                                                 'Number of MMr']
     fig.legend(labels = legend_labels, loc='upper center', ncol=4, fontsize='large')
     save_Figure(plt, 'line_plot_cell_nr_IH_inf_AT_MTD_short_a_h',
-                                 r'..\visualisation\results_model_nr_IH_inf_mutation')
+                        r'..\visualisation\results_model_nr_IH_inf_mutation')
     plt.show()
 
 """ Figure to determine the difference between traditional and adaptive therapy
@@ -3522,17 +3458,17 @@ def Figure_continuous_MTD_vs_AT_weak_a_h(n_switches, t_steps_drug):
 
     # Save the data
     save_dataframe(df_total_switch_GF, 'df_cell_nr_IH_inf_switch_GF_IH_weak_a_h.csv',
-                                            r'..\data\data_model_nr_IH_inf_mutation')
+                                    r'..\data\data_model_nr_IH_inf_mutation')
     save_dataframe(df_total_switch_WMMd, 'df_cell_nr_IH_inf_switch_WMMd_IH_weak_a_h.csv',
-                                            r'..\data\data_model_nr_IH_inf_mutation')
+                                    r'..\data\data_model_nr_IH_inf_mutation')
     save_dataframe(df_total_switch_comb, 'df_cell_nr_IH_inf_switch_comb_IH_weak_a_h.csv',
-                                            r'..\data\data_model_nr_IH_inf_mutation')
+                                    r'..\data\data_model_nr_IH_inf_mutation')
     save_dataframe(df_total_GF, 'df_cell_nr_IH_inf_continuous_GF_IH_weak_a_h.csv',
-                                            r'..\data\data_model_nr_IH_inf_mutation')
+                                    r'..\data\data_model_nr_IH_inf_mutation')
     save_dataframe(df_total_WMMd, 'df_cell_nr_IH_inf_continuous_WMMd_IH_weak_a_h.csv',
-                                            r'..\data\data_model_nr_IH_inf_mutation')
+                                    r'..\data\data_model_nr_IH_inf_mutation')
     save_dataframe(df_total_comb, 'df_cell_nr_IH_inf_continuous_comb_IH_weak_a_h.csv',
-                                            r'..\data\data_model_nr_IH_inf_mutation')
+                                    r'..\data\data_model_nr_IH_inf_mutation')
 
     # Create a Figure
     fig, axs = plt.subplots(2, 3, figsize=(20, 9))
@@ -3592,7 +3528,7 @@ def Figure_continuous_MTD_vs_AT_weak_a_h(n_switches, t_steps_drug):
     fig.legend(labels = legend_labels, loc='upper center', ncol=4,
                                                                 fontsize='large')
     save_Figure(plt, 'line_plot_cell_nr_IH_inf_AT_MTD_weak_a_h',
-                                 r'..\visualisation\results_model_nr_IH_inf_mutation')
+                        r'..\visualisation\results_model_nr_IH_inf_mutation')
     plt.show()
 
 
@@ -3661,7 +3597,7 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
 
     # Save the data
     save_dataframe(df_holiday_GF_IH, 'df_cell_nr_IH_inf_best_MMd_GH_IH_holiday.csv',
-                                             r'..\data\data_model_nr_IH_inf_mutation')
+                                    r'..\data\data_model_nr_IH_inf_mutation')
 
     # Determine the axis values
     X_GF_IH, Y_GF_IH, Z_GF_IH = x_y_z_axis_values_3d_plot(df_holiday_GF_IH,
@@ -3689,7 +3625,7 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
 
     # Save the data
     save_dataframe(df_holiday_W_IH, 'df_cell_nr_IH_inf_best_WMMd_IH_holiday.csv',
-                                             r'..\data\data_model_nr_IH_inf_mutation')
+                                    r'..\data\data_model_nr_IH_inf_mutation')
 
     # Determine the axis values
     X_W_IH, Y_W_IH, Z_W_IH = x_y_z_axis_values_3d_plot(df_holiday_W_IH, 'W IH')
@@ -3716,7 +3652,7 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
 
     # Save the data
     save_dataframe(df_holiday_comb, 'df_cell_nr_IH_inf_best_MMd_IH_holiday.csv',
-                                             r'..\data\data_model_nr_IH_inf_mutation')
+                                        r'..\data\data_model_nr_IH_inf_mutation')
 
     # Determine the axis values
     X_comb, Y_comb, Z_comb = x_y_z_axis_values_3d_plot(df_holiday_comb,
@@ -3783,7 +3719,7 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
 
     # Add a color bar
     save_Figure(fig, '3d_plot_MM_nr_IH_inf_best_IH_h_a_periods',
-                                r'..\visualisation\results_model_nr_IH_inf_mutation')
+                        r'..\visualisation\results_model_nr_IH_inf_mutation')
     plt.show()
 
 
@@ -3855,7 +3791,7 @@ def Figure_3D_MM_numb_MMd_IH_strength():
 
     # Save the data
     save_dataframe(df_holiday, 'df_cell_nr_IH_inf_best_MMd_IH_strength.csv',
-                                             r'..\data\data_model_nr_IH_inf_mutation')
+                                        r'..\data\data_model_nr_IH_inf_mutation')
 
 
     # Find the drug administration and holiday period causing the lowest MM number
@@ -3907,7 +3843,7 @@ def Figure_3D_MM_numb_MMd_IH_strength():
     color_bar.set_label('Number of MM')
 
     save_Figure(fig, '3d_plot_MM_nr_IH_inf_best_IH_strength',
-                                r'..\visualisation\results_model_nr_IH_inf_mutation')
+                        r'..\visualisation\results_model_nr_IH_inf_mutation')
     plt.show()
 
 
@@ -3960,7 +3896,7 @@ def Figure_best_WMMd_IH():
 
     # Save the data
     save_dictionary(dict_numb_tumour,
-            r'..\data\data_model_nr_IH_inf_mutation\dict_cell_nr_IH_inf_WMMd_IH.csv')
+        r'..\data\data_model_nr_IH_inf_mutation\dict_cell_nr_IH_inf_WMMd_IH.csv')
 
     # Make lists of the keys and the values
     WMM_IH = list(dict_numb_tumour.keys())
@@ -3974,7 +3910,7 @@ def Figure_best_WMMd_IH():
     plt.grid(True)
     plt.tight_layout()
     save_Figure(plt, 'line_plot_cell_nr_IH_inf_change_WMMd_IH',
-                                 r'..\visualisation\results_model_nr_IH_inf_mutation')
+                        r'..\visualisation\results_model_nr_IH_inf_mutation')
     plt.show()
 
 
@@ -4029,7 +3965,7 @@ def Figure_best_b_OC_MMd():
 
     # Save the data
     save_dictionary(dict_numb_tumour_GF,
-             r'..\data\data_model_nr_IH_inf_mutation\dict_cell_nr_IH_inf_b_OC_MMd.csv')
+       r'..\data\data_model_nr_IH_inf_mutation\dict_cell_nr_IH_inf_b_OC_MMd.csv')
 
     # Make a list of the keys and one of the values
     b_OC_MMd_values = list(dict_numb_tumour_GF.keys())
@@ -4042,7 +3978,7 @@ def Figure_best_b_OC_MMd():
     plt.title(r'MM number for different $b_{OC, MMd}$ values')
     plt.grid(True)
     save_Figure(plt, 'line_plot_cell_nr_IH_inf_change_b_OC_MMd',
-                                r'..\visualisation\results_model_nr_IH_inf_mutation')
+                        r'..\visualisation\results_model_nr_IH_inf_mutation')
     plt.show()
 
 
@@ -4100,10 +4036,10 @@ def Figure_duration_A_h_MMd_IH(n_switches, t_steps_drug, t_steps_no_drug):
 
     # Save the data
     save_dataframe(df_total_switch_1, 'df_cell_nr_IH_inf_short_a_long_h_MMd_IH.csv',
-                                             r'..\data\data_model_nr_IH_inf_mutation')
+                                     r'..\data\data_model_nr_IH_inf_mutation')
     save_dataframe(df_total_switch_2,
                             'df_cell_nr_IH_inf_long_a_short_h_MMd_IH.csv.csv',
-                                             r'..\data\data_model_nr_IH_inf_mutation')
+                                     r'..\data\data_model_nr_IH_inf_mutation')
 
     # Create a Figure
     fig, axs = plt.subplots(1, 2, figsize=(16, 6))
@@ -4132,7 +4068,7 @@ def Figure_duration_A_h_MMd_IH(n_switches, t_steps_drug, t_steps_no_drug):
     axs[1].grid(True)
     plt.grid(True)
     save_Figure(plt, 'line_plot_cell_nr_IH_inf_diff_h_and_a_MMd_IH',
-                                 r'..\visualisation\results_model_nr_IH_inf_mutation')
+                         r'..\visualisation\results_model_nr_IH_inf_mutation')
     plt.show()
 
 """optimise IH administration duration and holiday duration for MMd GF IH -> WMMd
@@ -4187,7 +4123,7 @@ def minimise_MM_GF_W_h():
 
     # Save the results
     save_optimised_results(result,
-                        r'..\data\data_model_nr_IH_inf_mutation\optimise_GF_W_h.csv')
+                r'..\data\data_model_nr_IH_inf_mutation\optimise_GF_W_h.csv')
 
 
 """Optimise IH administration duration and holiday duration for WMMd IH -> MMd GF
@@ -4240,7 +4176,7 @@ def minimise_MM_W_GF_h():
 
     # Save the results
     save_optimised_results(result,
-                        r'..\data\data_model_nr_IH_inf_mutation\optimise_W_GF_h.csv')
+                r'..\data\data_model_nr_IH_inf_mutation\optimise_W_GF_h.csv')
 
 
 """optimise IH administration duration, holiday duration and strength for
@@ -4295,7 +4231,7 @@ def minimise_MM_GF_W_h_IH():
 
     # Save the results
     save_optimised_results(result,
-                        r'..\data\data_model_nr_IH_inf_mutation\optimise_GF_W_h_IH.csv')
+                r'..\data\data_model_nr_IH_inf_mutation\optimise_GF_W_h_IH.csv')
 
 
 """Optimise IH administration duration, holiday duration and strength for
@@ -4349,7 +4285,7 @@ def minimise_MM_W_GF_h_IH():
 
     # Save the results
     save_optimised_results(result,
-                        r'..\data\data_model_nr_IH_inf_mutation\optimise_W_GF_h_IH.csv')
+                r'..\data\data_model_nr_IH_inf_mutation\optimise_W_GF_h_IH.csv')
 
 
 """Optimise IH administration duration, holiday duration and strength for
@@ -4404,7 +4340,7 @@ def minimise_MM_GF_h_W_h_IH():
 
     # Save the results
     save_optimised_results(result,
-                    r'..\data\data_model_nr_IH_inf_mutation\optimise_GF_h_W_h_IH.csv')
+            r'..\data\data_model_nr_IH_inf_mutation\optimise_GF_h_W_h_IH.csv')
 
 """Optimise IH administration duration, holiday duration and strength for
 WMMd IH -> holiday -> MMd GF IH -> holiday """
@@ -4457,7 +4393,7 @@ def minimise_MM_W_h_GF_h_IH():
 
     # Save the results
     save_optimised_results(result,
-                    r'..\data\data_model_nr_IH_inf_mutation\optimise_W_h_GF_h_IH.csv')
+            r'..\data\data_model_nr_IH_inf_mutation\optimise_W_h_GF_h_IH.csv')
 
 """Optimise IH administration duration and holiday duration for WMMd IH ->
 IH combination -> MMd GF IH -> holiday"""
@@ -4524,7 +4460,7 @@ def minimise_MM_W_comb_GF_h():
 
     # Save the results
     save_optimised_results(result,
-                r'..\data\data_model_nr_IH_inf_mutation\optimise_W_comb_GF_h.csv')
+        r'..\data\data_model_nr_IH_inf_mutation\optimise_W_comb_GF_h.csv')
 
 """Optimise IH administration duration and holiday duration for MMd GF IH->
 IH combination -> WMMd IH -> holiday"""
@@ -4590,7 +4526,7 @@ def minimise_MM_GF_comb_W_h():
 
     # Save the results
     save_optimised_results(result,
-                  r'..\data\data_model_nr_IH_inf_mutation\optimise_GF_comb_W_h.csv')
+            r'..\data\data_model_nr_IH_inf_mutation\optimise_GF_comb_W_h.csv')
 
 """Optimise IH administration duration and holiday duration for WMMd IH->
 IH combination -> MMd GF IH -> holiday"""
@@ -4656,7 +4592,7 @@ def minimise_MM_W_comb_GF_h_IH():
 
     # Save the results
     save_optimised_results(result,
-                r'..\data\data_model_nr_IH_inf_mutation\optimise_W_comb_GF_h_IH.csv')
+        r'..\data\data_model_nr_IH_inf_mutation\optimise_W_comb_GF_h_IH.csv')
 
 
 """Optimise IH administration duration and holiday duration for MMd GF IH->
@@ -4725,7 +4661,7 @@ def minimise_MM_GF_comb_W_h_IH():
 
     # Save the results
     save_optimised_results(result,
-                r'..\data\data_model_nr_IH_inf_mutation\optimise_GF_comb_W_h_IH.csv')
+            r'..\data\data_model_nr_IH_inf_mutation\optimise_GF_comb_W_h_IH.csv')
 
 """Optimise IH administration duration and holiday duration for WMMd IH -> WMMd
 IH + MMd GF IH -> MMd GF IH -> holiday"""
@@ -4787,7 +4723,7 @@ def minimise_MM_W_WandGF_GF_h():
 
     # Save the results
     save_optimised_results(result,
-                r'..\data\data_model_nr_IH_inf_mutation\optimise_W_WandGF_GF_h.csv')
+            r'..\data\data_model_nr_IH_inf_mutation\optimise_W_WandGF_GF_h.csv')
 
 
 """Optimise IH administration duration and holiday duration for MMd GF IH-> MMd
@@ -4850,7 +4786,7 @@ def minimise_MM_GF_GFandW_W_h():
 
     # Save the results
     save_optimised_results(result,
-                r'..\data\data_model_nr_IH_inf_mutation\optimise_GF_WandGF_W_h.csv')
+            r'..\data\data_model_nr_IH_inf_mutation\optimise_GF_WandGF_W_h.csv')
 
 """Optimise IH administration duration and holiday duration for WMMd IH -> WMMd
 IH + MMd GF IH -> MMd GF IH -> holiday"""
@@ -4913,7 +4849,7 @@ def minimise_MM_W_WandGF_GF_h_IH():
 
     # Save the results
     save_optimised_results(result,
-                r'..\data\data_model_nr_IH_inf_mutation\optimise_W_WandGF_GF_h_IH.csv')
+        r'..\data\data_model_nr_IH_inf_mutation\optimise_W_WandGF_GF_h_IH.csv')
 
 
 """Optimise IH administration duration and holiday duration for MMd GF IH-> MMd
@@ -4977,7 +4913,7 @@ def minimise_MM_GF_GFandW_W_h_IH():
 
     # Save the results
     save_optimised_results(result,
-                r'..\data\data_model_nr_IH_inf_mutation\optimise_GF_WandGF_W_h_IH.csv')
+        r'..\data\data_model_nr_IH_inf_mutation\optimise_GF_WandGF_W_h_IH.csv')
 
 """Optimise IH administration duration and holiday duration for WMMd IH -> MMd GF
 IH -> holiday by different WMMd IH strengths"""
@@ -5059,7 +4995,8 @@ def minimise_MM_W_GF_h_changing_W_IH(growth_rates, growth_rates_IH, decay_rates,
                                                             ignore_index=True)
 
     # Save the data
-    save_dataframe(df_W_GF_h_change_W, filename, r'..\data\data_model_nr_IH_inf_mutation')
+    save_dataframe(df_W_GF_h_change_W, filename,
+                                    r'..\data\data_model_nr_IH_inf_mutation')
 
 
 """Optimise IH administration duration and holiday duration for WMMd IH -> MMd GF
@@ -5144,7 +5081,8 @@ def minimise_MM_W_GF_h_changing_GF_IH(growth_rates, growth_rates_IH, decay_rates
                                                             ignore_index=True)
 
     # Save the data
-    save_dataframe(df_W_GF_h_change_GF, filename, r'..\data\data_model_nr_IH_inf_mutation')
+    save_dataframe(df_W_GF_h_change_GF, filename,
+                                        r'..\data\data_model_nr_IH_inf_mutation')
 
 """optimise IH administration duration and holiday duration for MMd GF IH -> WMMd
 IH -> holiday by different WMMd IH strengths"""
@@ -5226,7 +5164,8 @@ def minimise_MM_GF_W_h_changing_W_IH(growth_rates, growth_rates_IH, decay_rates,
         df_GF_W_h_change_W = pd.concat([df_GF_W_h_change_W, new_row_df],
                                                             ignore_index=True)
     # Save the data
-    save_dataframe(df_GF_W_h_change_W, filename, r'..\data\data_model_nr_IH_inf_mutation')
+    save_dataframe(df_GF_W_h_change_W, filename,
+                                    r'..\data\data_model_nr_IH_inf_mutation')
 
 
 """optimise IH administration duration and holiday duration for MMd GF IH -> WMMd
@@ -5311,7 +5250,8 @@ def minimise_MM_GF_W_h_changing_GF_IH(growth_rates, growth_rates_IH, decay_rates
                                                             ignore_index=True)
 
     # Save the data
-    save_dataframe(df_GF_W_h_change_GF, filename, r'..\data\data_model_nr_IH_inf_mutation')
+    save_dataframe(df_GF_W_h_change_GF, filename,
+                                    r'..\data\data_model_nr_IH_inf_mutation')
 
 if __name__ == "__main__":
     main()
