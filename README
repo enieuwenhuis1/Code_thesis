@@ -12,7 +12,7 @@ while during traditional therapy the MTD is continuously administered. The model
 looked at the interactions via diffusible factors between four cell types: drug-
 sensitive MM cells (MMd), resistant MM cells (MMr), osteoblasts (OBs) and
 osteoclasts (OCs). Both models simulate a public goods game in the framework of
-evolutionary game theory with collective interactions. The impact of an MMd GF 
+evolutionary game theory with collective interactions. The impact of an MMd GF
 inhibitor (IH) and a WMMd IH on the cell type fractions and numbers are studied
 for different strengths, administration durations and holiday durations.
 
@@ -169,17 +169,17 @@ TEST THE CODE
 To test some of the functions in the model, doc tests are added and automatically
 run when the MMMM_model_nr_to_frac_IH_inf.py code is run.
 
-NUMBER MODEL WITH A MUTATION CHANCE: MM_model_nr_IH_inf.py
-MM_model_nr_IH_inf.py contains the code with the mathematical formulas simulating
-the number dynamics of the four cell types MMd, MMr, OCs and OBs in the MM
-microenvironment. There is a mutation chance implemented indicating the chance that
-an MMd gets a cancerous mutation turning them into an MMr during a generation
-(cell division). The chance is higher when IHs are present. It contains the code
-to make figures showing the effect of the WMMd IH, the MMd GF IH and a combination
-of different administration periods and strengths on the cell type numbers.
-Furthermore, it contains an optimisation strategy to find the best holiday duration,
-administration duration and IH strength simultaneously. The IHs not only affect
-the MMd but also the OC and OB.
+NUMBER MODEL WITH A MUTATION CHANCE: MM_model_nr_IH_inf_mutation.py
+MM_model_nr_IH_inf_mutation.py contains the code with the mathematical formulas
+simulating the number dynamics of the four cell types MMd, MMr, OCs and OBs in the
+MM microenvironment. There is a mutation rate implemented that indicates the rate
+at which MMd get mutations making them resistance and therefore turning them into
+MMr. The rate is higher when IHs are present. It contains the code to make figures
+showing the effect of the WMMd IH, the MMd GF IH and a combination of different
+administration periods and strengths on the cell type numbers. Furthermore, it
+contains an optimisation strategy to find the best administration duration,
+holiday duration and IH strength simultaneously. The IHs not only affect the MMd
+but also the OC and OB.
 
 TEST THE CODE
 To test some of the functions in the model, doc tests are added and automatically
@@ -211,7 +211,7 @@ and tables. This folder contains:
                           to fractions and adding extra IH influences.
 * data_model_nr_IH_inf_mutation: contains all the data obtained from the model
                           simulating cell type numbers whereby extra IH influences
-                          and a cancerous mutation chance were added.
+                          and a resitance mutation rate were added.
 
 THE VISUALISATION
 In the folder visualisation, all made figures are shown. This folder contains:
@@ -238,7 +238,7 @@ In the folder visualisation, all made figures are shown. This folder contains:
                             were added.
 * results_model_nr_IH_inf_mutation: contains all the figures obtained from the
                             model simulating cell type numbers whereby extra IH
-                            influences and a cancerous mutation chance were added.
+                            influences and a resistance mutation rate were added.
 
 
 HOW TO RUN THE CODES
@@ -266,7 +266,7 @@ Number model with extra IH influences, MM_model_nr_IH_inf.py
 Number-to-fraction model with extra IH influences, MM_model_nr_to_frac_IH_inf.py
         - python MM_model_nr_to_frac_IH_inf.py
 
-Number model with a cancerous mutation chance, MM_model_nr_IH_inf.py
+Number model with a resistance mutation rate, MM_model_nr_IH_inf.py
         - python MM_model_nr_IH_inf.py
 
 
