@@ -141,7 +141,7 @@ def main():
     # Optimise IH administration duration, holiday duration and strengths for
     # MMd GF IH -> WMMd IH + MMd GF IH -> WMMd IH -> holiday
     minimise_MM_GF_GFandW_W_h_IH()
-
+    
     # Optimise IH administration duration, holiday duration and strengths for
     # WMMd IH -> WMMd IH + MMd GF IH -> MMd GF IH -> holiday
     minimise_MM_W_WandGF_GF_h_IH()
@@ -5809,7 +5809,7 @@ def minimise_MM_GF_W_h_changing_W_IH(growth_rates, growth_rates_IH, decay_rates,
 
         # optimise the administration and holiday durations
         # t_step_IH_strength = [GF IH t, W IH t, h t]
-        t_step_IH_strength = [3.438, 2.000, 2.562]
+        t_step_IH_strength = [3.260, 2.687, 2.104]
         result = minimize(minimal_tumour_nr_t_3_situations, t_step_IH_strength,
                 args=(switch_dataframe_GF_W_h, nOC, nOB, nMMd, nMMr, growth_rates,
                 growth_rates_IH, decay_rates, decay_rates_IH, matrix_no_GF_IH,
@@ -5894,7 +5894,7 @@ def minimise_MM_GF_W_h_changing_GF_IH(growth_rates, growth_rates_IH, decay_rates
 
         # optimise the administration and holiday durations
         # t_step_IH_strength = [GF IH t, W IH t, h t]
-        t_step_IH_strength = [3.438, 2.000, 2.562]
+        t_step_IH_strength = [3.260, 2.687, 2.104]
         result = minimize(minimal_tumour_nr_t_3_situations, t_step_IH_strength,
                 args=(switch_dataframe_GF_W_h, nOC, nOB, nMMd, nMMr,
                 growth_rates, growth_rates_IH, decay_rates, decay_rates_IH,
@@ -5978,7 +5978,7 @@ def minimise_MM_W_GF_h_changing_W_IH(growth_rates, growth_rates_IH, decay_rates,
 
         # optimise the administration and holiday durations
         # t_step_IH_strength = [GF IH t, W IH t, h t]
-        t_step_IH_strength = [3.000, 2.181, 3.003]
+        t_step_IH_strength = [3.000, 2.338, 3.114]
         result = minimize(minimal_tumour_nr_t_3_situations, t_step_IH_strength,
             args=(switch_dataframe_W_GF_h, nOC, nOB, nMMd, nMMr, growth_rates,
             growth_rates_IH, decay_rates, decay_rates_IH, matrix_no_GF_IH,
@@ -6064,7 +6064,7 @@ def minimise_MM_W_GF_h_changing_GF_IH(growth_rates, growth_rates_IH, decay_rates
 
         # optimise the administration and holiday durations
         # t_step_IH_strength = [GF IH t, W IH t, h t]
-        t_step_IH_strength = [3.000, 2.181, 3.003]
+        t_step_IH_strength = [3.000, 2.338, 3.114]
         result = minimize(minimal_tumour_nr_t_3_situations, t_step_IH_strength,
             args=(switch_dataframe_W_GF_h, nOC, nOB, nMMd, nMMr, growth_rates,
             growth_rates_IH, decay_rates, decay_rates_IH, matrix_no_GF_IH,
