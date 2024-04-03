@@ -45,7 +45,7 @@ def main():
     # by adaptive therapy (original situation)
     list_t_steps_drug = [10, 10, 10]
     Figure_continuous_MTD_vs_AT_a_h(13, list_t_steps_drug)
-
+    
     # Make a figure showing the cell fraction dynamics by traditional therapy and
     # by adaptive therapy for shorter holiday and administration periods compared
     # to the original situation
@@ -1277,24 +1277,53 @@ def Figure_continuous_MTD_vs_AT_s_and_w_a_h(n_switches, t_steps_drug):
         [0.0, 1.6, 2.2, 1.9],
         [0.95, 0.0, -0.5, -0.5],
         [2.2, 0, 0.2, 0.0],
-        [1.9, 0, -0.8, 0.2]])
+        [1.9, 0, -0.8, 0.4]])
 
     # Payoff matrix when only GF inhibitor drugs are present
     matrix_GF_IH = np.array([
         [0.0, 1.6, 2.2, 1.9],
         [0.95, 0.0, -0.5, -0.5],
         [0.65, 0, 0.2, 0.0],
-        [1.9, 0, -0.8, 0.2]])
+        [1.9, 0, -0.8, 0.4]])
 
     # Payoff matrix when both inhibitor drugs are present
     matrix_GF_IH_comb = np.array([
         [0.0, 1.6, 2.2, 1.9],
         [0.95, 0.0, -0.5, -0.5],
         [1.2, 0.0, 0.2, 0.0],
-        [1.9, 0.0, -1.1, 0.2]])
+        [1.9, 0.0, -1.1, 0.4]])
 
     # WMMd inhibitor effect when both inhibitor drugs are present
     WMMd_inhibitor_comb = 0.62
+
+    # WMMd inhibitor effect when only WMMd IH is present
+    WMMd_inhibitor = 1.28
+
+
+
+    # Payoff matrix when no drugs are present
+    matrix_no_GF_IH = np.array([
+        [0.0, 1.6, 2.2, 1.9],
+        [0.95, 0.0, -0.5, -0.5],
+        [2.2, 0, 0.2, 0.0],
+        [1.9, 0, -0.8, 0.42]])
+
+    # Payoff matrix when only GF inhibitor drugs are present
+    matrix_GF_IH = np.array([
+        [0.0, 1.6, 2.2, 1.9],
+        [0.95, 0.0, -0.5, -0.5],
+        [0.65, 0, 0.2, 0.0],
+        [1.9, 0, -0.8, 0.42]])
+
+    # Payoff matrix when both inhibitor drugs are present
+    matrix_GF_IH_comb = np.array([
+        [0.0, 1.6, 2.2, 1.9],
+        [0.95, 0.0, -0.5, -0.5],
+        [1.24, 0.0, 0.2, 0.0],
+        [1.9, 0.0, -1.1, 0.42]])
+
+    # WMMd inhibitor effect when both inhibitor drugs are present
+    WMMd_inhibitor_comb = 0.65
 
     # WMMd inhibitor effect when only WMMd IH is present
     WMMd_inhibitor = 1.28
@@ -1880,21 +1909,21 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
         [0.0, 1.6, 2.2, 1.9],
         [0.95, 0.0, -0.5, -0.5],
         [2.2, 0, 0.2, 0.0],
-        [1.9, 0, -0.8, 0.2]])
+        [1.9, 0, -0.8, 0.3]])
 
     # Payoff matrix when only GF inhibitor drugs are present
     matrix_GF_IH = np.array([
         [0.0, 1.6, 2.2, 1.9],
         [0.95, 0.0, -0.5, -0.5],
-        [0.7, 0, 0.2, 0.0],
-        [1.9, 0, -0.8, 0.2]])
+        [0.73, 0, 0.2, 0.0],
+        [1.9, 0, -0.8, 0.3]])
 
     # Payoff matrix when both inhibitor drugs are present
     matrix_GF_IH_comb = np.array([
         [0.0, 1.6, 2.2, 1.9],
         [0.95, 0.0, -0.5, -0.5],
         [1.1, 0, 0.2, 0.0],
-        [1.9, 0, -1.1, 0.2]])
+        [1.9, 0, -1.1, 0.3]])
 
     # WMMd inhibitor effect when both inhibitor drugs are present
     WMMd_inhibitor_comb = 0.75
@@ -1999,7 +2028,7 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
             ax.set_title(r'A) $W_{MMd}$ IH', pad=10)
 
             # Turn to the right angle
-            ax.view_init(elev = 28, azim = -127)
+            ax.view_init(elev = 32, azim = -140)
 
             # Add a color bar
             color_bar = fig.colorbar(surf, ax=ax, shrink=0.4, location= 'right')
@@ -2015,7 +2044,7 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
             ax.set_title('B)  MMd GF IH', pad=10)
 
             # Turn to the right angle
-            ax.view_init(elev = 32, azim = -128)
+            ax.view_init(elev = 38, azim = -133)
 
             # Add a color bar
             color_bar = fig.colorbar(surf, ax=ax, shrink=0.4, location= 'right')
@@ -2032,7 +2061,7 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
             ax.set_title('C)  IH combination', pad=10)
 
             # Turn to the right angle
-            ax.view_init(elev = 40, azim = -142)
+            ax.view_init(elev = 43, azim = -148)
 
             # Add a color bar
             color_bar = fig.colorbar(surf, ax=ax, shrink=0.4, location= 'right')

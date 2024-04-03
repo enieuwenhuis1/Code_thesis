@@ -41,26 +41,26 @@ def main():
     # Do doc tests
     doctest.testmod()
 
-    # # Make a figure showing the cell number dynamics by traditional therapy and
-    # # by adaptive therapy (original situation)
-    # list_t_steps_drug = [10, 10, 10]
-    # Figure_continuous_MTD_vs_AT(20, list_t_steps_drug)
-    #
-    # # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # # by adaptive therapy for shorter holiday and administration periods compared
-    # # to the original situation
-    # list_t_steps_drug = [5, 5, 5]
-    # Figure_continuous_MTD_vs_AT_short_a_h(40, list_t_steps_drug)
-    #
-    # # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # # by adaptive therapy for weaker IHs compared to the original situation
-    # list_t_steps_drug = [10, 10, 10]
-    # Figure_continuous_MTD_vs_AT_weak_a_h(20, list_t_steps_drug)
+    # Make a figure showing the cell number dynamics by traditional therapy and
+    # by adaptive therapy (original situation)
+    list_t_steps_drug = [10, 10, 10]
+    Figure_continuous_MTD_vs_AT(20, list_t_steps_drug)
+
+    # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # by adaptive therapy for shorter holiday and administration periods compared
+    # to the original situation
+    list_t_steps_drug = [5, 5, 5]
+    Figure_continuous_MTD_vs_AT_short_a_h(40, list_t_steps_drug)
+
+    # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # by adaptive therapy for weaker IHs compared to the original situation
+    list_t_steps_drug = [10, 10, 10]
+    Figure_continuous_MTD_vs_AT_weak_a_h(20, list_t_steps_drug)
 
     # Make a figure showing the cell number dynamics by traditional therapy and
     # by adaptive therapy
     list_t_steps_drug = [5, 5, 5]
-    Figure_continuous_MTD_vs_AT_realistic(45, list_t_steps_drug)
+    Figure_continuous_MTD_vs_AT_realistic(44, list_t_steps_drug)
 
     # Make a 3D figure showthing the effect of different drug holiday and
     # administration periods
@@ -549,9 +549,9 @@ def save_Figure(Figure, file_name, folder_path):
     os.makedirs(folder_path, exist_ok=True)
     Figure.savefig(os.path.join(folder_path, file_name))
 
-def switch_dataframe(time_IH, n_switches, t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd,
-                nMMr, growth_rates, growth_rates_IH, decay_rates, decay_rates_IH,
-                matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor = 0):
+def switch_dataframe(time_IH, n_switches, t_steps_drug, t_steps_no_drug, nOC,
+            nOB, nMMd, nMMr, growth_rates, growth_rates_IH, decay_rates,
+            decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor = 0):
     """ Function that makes a dataframe of the nOC, nOB, nMMd and nMMr values
     over time for a given time of drug holiday and administration periods.
 
@@ -2476,15 +2476,15 @@ def switch_dataframe_W_WandGF_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
 def minimal_tumour_nr_t_3_situations(t_steps_IH_strength, function_order, nOC,
                 nOB, nMMd, nMMr, growth_rates, growth_rates_IH, decay_rates,
                 decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor):
-    """ Function that makes a dataframe of the nOC, nOB, nMMd and nMMr values over
-    time for a given MMd GF IH administration, WMMd IH administration and holiday
-    duration and IH strength.
+    """ Function that makes a dataframe of the nOC, nOB, nMMd and nMMr values
+    over time for a given MMd GF IH administration, WMMd IH administration and
+    holiday duration and IH strength.
 
     Parameters:
     -----------
     t_steps_IH_strength: List
-        List with the number of generations the MMD GF IH, the WMMd IH and no drugs
-        are administared and the MMD GF IH and WMMd IH strength.
+        List with the number of generations the MMD GF IH, the WMMd IH and no
+        drugs are administared and the MMD GF IH and WMMd IH strength.
     function_order: Function
         Function that makes a dataframe of the number values for a specific IH
         administration order.
@@ -2527,8 +2527,8 @@ def minimal_tumour_nr_t_3_situations(t_steps_IH_strength, function_order, nOC,
 
     # Create a dataframe of the numbers
     df = function_order(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
-        t_steps_no_drug, nOC, nOB, nMMd, nMMr, growth_rates, growth_rates_IH,
-        decay_rates, decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor)
+     t_steps_no_drug, nOC, nOB, nMMd, nMMr, growth_rates, growth_rates_IH,
+     decay_rates, decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor)
 
     # Determine the average MM number in the last period with and without drugs
     last_MM_numbers = df['total nMM'].tail(int(time_round))
@@ -2591,8 +2591,8 @@ def minimal_tumour_nr_t_3_situations_IH(t_steps_IH_strength, function_order, nOC
 
     # Create a dataframe of the numbers
     df = function_order(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
-        t_steps_no_drug, nOC, nOB, nMMd, nMMr, growth_rates, growth_rates_IH,
-        decay_rates, decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor)
+     t_steps_no_drug, nOC, nOB, nMMd, nMMr, growth_rates, growth_rates_IH,
+     decay_rates, decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor)
 
     # Determine the average MM number in the last period with and without drugs
     last_MM_numbers = df['total nMM'].tail(int(time_round))
@@ -2604,15 +2604,15 @@ def minimal_tumour_nr_t_3_situations_IH(t_steps_IH_strength, function_order, nOC
 def minimal_tumour_nr_t_3_sit_GF_IH(t_steps_IH_strength, function_order, nOC,
                 nOB, nMMd, nMMr, growth_rates, growth_rates_IH, decay_rates,
                 decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH, matrix_GF_IH_comb):
-    """ Function that makes a dataframe of the nOC, nOB, nMMd and nMMr values over
-    time for a given MMd GF IH administration, WMMd IH administration, IH
+    """ Function that makes a dataframe of the nOC, nOB, nMMd and nMMr values
+    over time for a given MMd GF IH administration, WMMd IH administration, IH
     combination administration and holiday duration and Ih strength.
 
     Parameters:
     -----------
     t_steps_IH_strength: List
-        List with the number of generations the MMD GF IH, the WMMd IH and no drugs
-        are administared and the MMD GF IH and WMMd IH strength.
+        List with the number of generations the MMD GF IH, the WMMd IH and no
+        drugs are administared and the MMD GF IH and WMMd IH strength.
     function_order: Function
         Function that makes a dataframe of the number values for a specific IH
         administration order.
@@ -2673,15 +2673,15 @@ def minimal_tumour_nr_t_3_sit_GF_IH(t_steps_IH_strength, function_order, nOC,
 def minimal_tumour_nr_t_3_sit_W_IH(t_steps_IH_strength, function_order, nOC,
                 nOB, nMMd, nMMr, growth_rates, growth_rates_IH, decay_rates,
                 decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH_comb):
-    """ Function that makes a dataframe of the nOC, nOB, nMMd and nMMr values over
-    time for a given MMd GF IH administration, WMMd IH administration, IH
+    """ Function that makes a dataframe of the nOC, nOB, nMMd and nMMr values
+    over time for a given MMd GF IH administration, WMMd IH administration, IH
     combination administration and holiday duration and Ih strength.
 
     Parameters:
     -----------
     t_steps_IH_strength: List
-        List with the number of generations the MMD GF IH, the WMMd IH and no drugs
-        are administared and the MMD GF IH and WMMd IH strength.
+        List with the number of generations the MMD GF IH, the WMMd IH and no
+        drugs are administared and the MMD GF IH and WMMd IH strength.
     function_order: Function
         Function that makes a dataframe of the number values for a specific IH
         administration order.
@@ -2738,15 +2738,15 @@ def minimal_tumour_nr_t_3_sit_W_IH(t_steps_IH_strength, function_order, nOC,
 def minimal_tumour_nr_t_3_4_situations_IH(t_steps_IH_strength, function_order,
                 nOC, nOB, nMMd, nMMr, growth_rates, growth_rates_IH,
                 decay_rates, decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH):
-    """ Function that makes a dataframe of the nOC, nOB, nMMd and nMMr values over
-    time for a given MMd GF IH administration, WMMd IH administration and holiday
-    duration and IH strength.
+    """ Function that makes a dataframe of the nOC, nOB, nMMd and nMMr values
+    over time for a given MMd GF IH administration, WMMd IH administration and
+    holiday duration and IH strength.
 
     Parameters:
     -----------
     t_steps_IH_strength: List
-        List with the number of generations the MMD GF IH, the WMMd IH and no drugs
-        are administared and the MMD GF IH and WMMd IH strength.
+        List with the number of generations the MMD GF IH, the WMMd IH and no
+        drugs are administared and the MMD GF IH and WMMd IH strength.
     function_order: Function
         Function that makes a dataframe of the number values for a specific IH
         administration order.
@@ -2789,8 +2789,8 @@ def minimal_tumour_nr_t_3_4_situations_IH(t_steps_IH_strength, function_order,
 
     # Create a dataframe of the numbers
     df = function_order(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
-        t_steps_no_drug, nOC, nOB, nMMd, nMMr, growth_rates, growth_rates_IH,
-        decay_rates, decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor)
+     t_steps_no_drug, nOC, nOB, nMMd, nMMr, growth_rates, growth_rates_IH,
+     decay_rates, decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor)
 
     # Determine the average MM number in the last period with and without drugs
     last_MM_numbers = df['total nMM'].tail(int(time_round))
@@ -2802,8 +2802,8 @@ def minimal_tumour_nr_t_4_situations(t_steps, function_order, nOC, nOB, nMMd,
                         nMMr, growth_rates, growth_rates_IH, decay_rates,
                         decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH,
                         matrix_GF_IH_comb, WMMd_inhibitor, WMMd_inhibitor_comb):
-    """ Function that makes a dataframe of the nOC, nOB, nMMd and nMMr values over
-    time for a given MMd GF IH administration, WMMd IH administration, IH
+    """ Function that makes a dataframe of the nOC, nOB, nMMd and nMMr values
+    over time for a given MMd GF IH administration, WMMd IH administration, IH
     combination administration and holiday duration and IH strength.
 
     Parameters:
@@ -2869,8 +2869,8 @@ def minimal_tumour_nr_t_4_situations(t_steps, function_order, nOC, nOB, nMMd,
     return float(average_MM_number)
 
 def minimal_tumour_nr_t_4_sit_equal(t_steps_IH_strength, function_order, nOC, nOB,
-            nMMd, nMMr, growth_rates, growth_rates_IH, decay_rates, decay_rates_IH,
-            matrix_no_GF_IH, matrix_GF_IH, matrix_GF_IH_comb, WMMd_inhibitor):
+        nMMd, nMMr, growth_rates, growth_rates_IH, decay_rates, decay_rates_IH,
+        matrix_no_GF_IH, matrix_GF_IH, matrix_GF_IH_comb, WMMd_inhibitor):
     """ Function that makes a dataframe of the nOC, nOB, nMMd and nMMr values over
     time for a given MMd GF IH administration, WMMd IH administration, WMMd IH +
     MMd GF IH combination administration and holiday duration.
@@ -2878,8 +2878,8 @@ def minimal_tumour_nr_t_4_sit_equal(t_steps_IH_strength, function_order, nOC, nO
     Parameters:
     -----------
     t_steps_IH_strength: List
-        List with the number of generations the MMD GF IH, the WMMd IH and no drugs
-        are administared and the MMD GF IH and WMMd IH strength.
+        List with the number of generations the MMD GF IH, the WMMd IH and no
+        drugs are administared and the MMD GF IH and WMMd IH strength.
     function_order: Function
         Function that makes a dataframe of the number values for a specific IH
         administration order.
@@ -2946,8 +2946,8 @@ def minimal_tumour_nr_t_4_sit_equal_IH(t_steps_IH_strength, function_order,
     Parameters:
     -----------
     t_steps_IH_strength: List
-        List with the number of generations the MMD GF IH, the WMMd IH and no drugs
-        are administared and the MMD GF IH and WMMd IH strength.
+        List with the number of generations the MMD GF IH, the WMMd IH and no
+        drugs are administared and the MMD GF IH and WMMd IH strength.
     function_order: Function
         Function that makes a dataframe of the number values for a specific IH
         administration order.
@@ -3006,9 +3006,9 @@ def minimal_tumour_nr_t_4_sit_equal_IH(t_steps_IH_strength, function_order,
     return float(average_MM_number)
 
 
-def minimal_tumour_nr_t_4_situations_IH(t_steps_IH_strength, function_order, nOC,
-                nOB, nMMd, nMMr, growth_rates, growth_rates_IH, decay_rates,
-                decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH, matrix_GF_IH_comb):
+def minimal_tumour_nr_t_4_situations_IH(t_steps_IH_strength, function_order,
+            nOC, nOB, nMMd, nMMr, growth_rates, growth_rates_IH, decay_rates,
+            decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH, matrix_GF_IH_comb):
     """ Function that makes a dataframe of the nOC, nOB, nMMd and nMMr values over
     time for a given MMd GF IH administration, WMMd IH administration, IH
     combination administration and holiday duration and Ih strength.
@@ -3628,11 +3628,11 @@ def Figure_continuous_MTD_vs_AT_realistic(n_switches, t_steps_drug):
     matrix_GF_IH_comb = np.array([
         [0.0, 0.4, 0.6, 0.55],
         [0.3, 0.0, -0.3, -0.3],
-        [0.28, 0.0, 0.5, 0.0],
+        [0.24, 0.0, 0.5, 0.0],
         [0.55, 0.0, -0.8, 0.65]])
 
     # WMMd inhibitor effect when both inhibitor drugs are present
-    WMMd_inhibitor_comb = 0.6
+    WMMd_inhibitor_comb = 0.41
 
     # WMMd inhibitor effect when only WMMd IH is present
     WMMd_inhibitor = 4.0
@@ -3651,13 +3651,13 @@ def Figure_continuous_MTD_vs_AT_realistic(n_switches, t_steps_drug):
             WMMd_inhibitor_comb)
 
     # Make dataframes for continiously administration
-    df_total_GF = continuous_add_IH_df(30, 260, nOC, nOB, nMMd, nMMr,
+    df_total_GF = continuous_add_IH_df(30, 250, nOC, nOB, nMMd, nMMr,
                             growth_rates, growth_rates_IH, decay_rates,
                             decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH)
-    df_total_WMMd = continuous_add_IH_df(30, 260, nOC, nOB, nMMd, nMMr,
+    df_total_WMMd = continuous_add_IH_df(30, 250, nOC, nOB, nMMd, nMMr,
                     growth_rates, growth_rates_IH, decay_rates, decay_rates_IH,
                     matrix_no_GF_IH, matrix_no_GF_IH, WMMd_inhibitor)
-    df_total_comb = continuous_add_IH_df(30, 260, nOC, nOB, nMMd, nMMr,
+    df_total_comb = continuous_add_IH_df(30, 250, nOC, nOB, nMMd, nMMr,
                     growth_rates, growth_rates_IH, decay_rates, decay_rates_IH,
                     matrix_no_GF_IH, matrix_GF_IH_comb, WMMd_inhibitor_comb)
 
@@ -3699,7 +3699,7 @@ def Figure_continuous_MTD_vs_AT_realistic(n_switches, t_steps_drug):
                                                     legend=False, ax=axs[0, 2])
     axs[0, 2].set_xlabel(' ')
     axs[0, 2].set_ylabel(' ')
-    axs[0, 2].set_title(r"Traditional therapy MMd GF IH and $W_{MMd}$ IH")
+    axs[0, 2].set_title(r"Traditional therapy IH combination")
     axs[0, 2].grid(True)
 
     # Plot the data with drug holidays in the third plot
@@ -3724,7 +3724,7 @@ def Figure_continuous_MTD_vs_AT_realistic(n_switches, t_steps_drug):
                                                     legend=False, ax=axs[1, 2])
     axs[1, 2].set_xlabel('Generations', fontsize=11)
     axs[1, 2].set_ylabel(' ')
-    axs[1, 2].set_title(r"Adaptive therapy MMd GF IH and $W_{MMd}$ IH")
+    axs[1, 2].set_title(r"Adaptive therapy IH combination")
     axs[1, 2].grid(True)
 
     # Create a single legend outside of all plots
@@ -5872,7 +5872,7 @@ def minimise_MM_GF_W_h_changing_GF_IH(growth_rates, growth_rates_IH, decay_rates
 
     # Make a datframe
     column_names = ['GF IH strength', 'MMd GF IH duration', 'WMMd IH duration',
-                                                'Holiday duration', 'MM fraction']
+                                            'Holiday duration', 'MM fraction']
     df_GF_W_h_change_GF = pd.DataFrame(columns = column_names)
 
     for i in range(20):
