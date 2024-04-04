@@ -3637,33 +3637,32 @@ def Figure_continuous_MTD_vs_AT_realistic(n_switches, t_steps_drug):
     # WMMd inhibitor effect when only WMMd IH is present
     WMMd_inhibitor = 4.0
 
-
-    # Payoff matrix when no drugs are present
-    matrix_no_GF_IH = np.array([
-        [0.0, 0.4, 0.6, 0.55],
-        [0.3, 0.0, -0.3, -0.3],
-        [0.6, 0.0, 0.5, 0.0],
-        [0.55, 0.0, -0.6, 0.65]])
-
-    # Payoff matrix when only GF inhibitor drugs are present
-    matrix_GF_IH = np.array([
-        [0.0, 0.4, 0.6, 0.55],
-        [0.3, 0.0, -0.3, -0.3],
-        [0.11, 0.0, 0.5, 0.0],
-        [0.55, 0.0, -0.6, 0.65]])
-
-    # Payoff matrix when both inhibitor drugs are present
-    matrix_GF_IH_comb = np.array([
-        [0.0, 0.4, 0.6, 0.55],
-        [0.3, 0.0, -0.3, -0.3],
-        [0.23, 0.0, 0.5, 0.0],
-        [0.55, 0.0, -0.8, 0.65]])
-
-    # WMMd inhibitor effect when both inhibitor drugs are present
-    WMMd_inhibitor_comb = 0.41
-
-    # WMMd inhibitor effect when only WMMd IH is present
-    WMMd_inhibitor = 4.0
+    # # Payoff matrix when no drugs are present
+    # matrix_no_GF_IH = np.array([
+    #     [0.0, 0.4, 0.6, 0.55],
+    #     [0.3, 0.0, -0.3, -0.3],
+    #     [0.6, 0.0, 0.5, 0.0],
+    #     [0.55, 0.0, -0.6, 0.65]])
+    #
+    # # Payoff matrix when only GF inhibitor drugs are present
+    # matrix_GF_IH = np.array([
+    #     [0.0, 0.4, 0.6, 0.55],
+    #     [0.3, 0.0, -0.3, -0.3],
+    #     [0.11, 0.0, 0.5, 0.0],
+    #     [0.55, 0.0, -0.6, 0.65]])
+    #
+    # # Payoff matrix when both inhibitor drugs are present
+    # matrix_GF_IH_comb = np.array([
+    #     [0.0, 0.4, 0.6, 0.55],
+    #     [0.3, 0.0, -0.3, -0.3],
+    #     [0.23, 0.0, 0.5, 0.0],
+    #     [0.55, 0.0, -0.8, 0.65]])
+    #
+    # # WMMd inhibitor effect when both inhibitor drugs are present
+    # WMMd_inhibitor_comb = 0.41
+    #
+    # # WMMd inhibitor effect when only WMMd IH is present
+    # WMMd_inhibitor = 4.0
 
     # Make dataframe for the different drug hollyday duration values
     df_total_switch_GF = switch_dataframe(30, n_switches, t_steps_drug[0],
@@ -3692,7 +3691,7 @@ def Figure_continuous_MTD_vs_AT_realistic(n_switches, t_steps_drug):
     # Save the data
     save_dataframe(df_total_switch_GF, 'df_cell_nr_IH_inf_switch_GF_IH_r.csv',
                                             r'..\data\data_model_nr_IH_inf')
-    save_dataframe(df_total_switch_WMMd, 'df_cell_nr_IH_inf_switch_WMMd_IH_s.csv',
+    save_dataframe(df_total_switch_WMMd, 'df_cell_nr_IH_inf_switch_WMMd_IH_r.csv',
                                             r'..\data\data_model_nr_IH_inf')
     save_dataframe(df_total_switch_comb, 'df_cell_nr_IH_inf_switch_comb_IH_r.csv',
                                             r'..\data\data_model_nr_IH_inf')
