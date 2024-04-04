@@ -187,19 +187,19 @@ def main():
 
     # Optimise IH administration duration, holiday duration and strengths for
     # WMMd IH -> IH combination -> MMd GF IH -> holiday
-    # minimise_MM_W_comb_GF_h_IH()
-    # minimise_MM_W_comb_GF_h_IH()
-    # minimise_MM_W_comb_GF_h_IH()
-    # minimise_MM_W_comb_GF_h_IH()
-    # minimise_MM_W_comb_GF_h_IH()
-    # minimise_MM_W_comb_GF_h_IH()
-    # minimise_MM_W_comb_GF_h_IH()
-    # minimise_MM_W_comb_GF_h_IH()
-    # minimise_MM_W_comb_GF_h_IH()
-    # minimise_MM_W_comb_GF_h_IH()
-    # minimise_MM_W_comb_GF_h_IH()
-    # minimise_MM_W_comb_GF_h_IH()
-    # print(hi)
+    minimise_MM_W_comb_GF_h_IH()
+    minimise_MM_W_comb_GF_h_IH()
+    minimise_MM_W_comb_GF_h_IH()
+    minimise_MM_W_comb_GF_h_IH()
+    minimise_MM_W_comb_GF_h_IH()
+    minimise_MM_W_comb_GF_h_IH()
+    minimise_MM_W_comb_GF_h_IH()
+    minimise_MM_W_comb_GF_h_IH()
+    minimise_MM_W_comb_GF_h_IH()
+    minimise_MM_W_comb_GF_h_IH()
+    minimise_MM_W_comb_GF_h_IH()
+    minimise_MM_W_comb_GF_h_IH()
+    print(hi)
 
 
     # # Optimise IH administration duration and holiday duration for MMd GF IH ->
@@ -224,19 +224,19 @@ def main():
 
     # # Optimise IH administration duration, holiday duration and strengths for
     # # MMd GF IH -> WMMd IH + MMd GF IH -> WMMd IH -> holiday
-    minimise_MM_GF_GFandW_W_h_IH()
-    minimise_MM_GF_GFandW_W_h_IH()
-    minimise_MM_GF_GFandW_W_h_IH()
-    minimise_MM_GF_GFandW_W_h_IH()
-    minimise_MM_GF_GFandW_W_h_IH()
-    minimise_MM_GF_GFandW_W_h_IH()
-    minimise_MM_GF_GFandW_W_h_IH()
-    minimise_MM_GF_GFandW_W_h_IH()
-    minimise_MM_GF_GFandW_W_h_IH()
-    minimise_MM_GF_GFandW_W_h_IH()
-    minimise_MM_GF_GFandW_W_h_IH()
-    minimise_MM_GF_GFandW_W_h_IH()
-    print(hi)
+    # minimise_MM_GF_GFandW_W_h_IH()
+    # minimise_MM_GF_GFandW_W_h_IH()
+    # minimise_MM_GF_GFandW_W_h_IH()
+    # minimise_MM_GF_GFandW_W_h_IH()
+    # minimise_MM_GF_GFandW_W_h_IH()
+    # minimise_MM_GF_GFandW_W_h_IH()
+    # minimise_MM_GF_GFandW_W_h_IH()
+    # minimise_MM_GF_GFandW_W_h_IH()
+    # minimise_MM_GF_GFandW_W_h_IH()
+    # minimise_MM_GF_GFandW_W_h_IH()
+    # minimise_MM_GF_GFandW_W_h_IH()
+    # minimise_MM_GF_GFandW_W_h_IH()
+    # print(hi)
 
     # # Optimise IH administration duration, holiday duration and strengths for
     # # WMMd IH -> WMMd IH + MMd GF IH -> MMd GF IH -> holiday
