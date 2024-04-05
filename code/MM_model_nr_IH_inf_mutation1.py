@@ -90,15 +90,22 @@ def main():
 
 
     """ The optimisation situations """
-    # # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
-    # # holiday
+    # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
+    # holiday
     # minimise_MM_GF_W_h()
     # minimise_MM_GF_W_h()
     # minimise_MM_GF_W_h()
     # minimise_MM_GF_W_h()
     # minimise_MM_GF_W_h()
     # minimise_MM_GF_W_h()
-    #
+    # minimise_MM_GF_W_h()
+    # minimise_MM_GF_W_h()
+    # minimise_MM_GF_W_h()
+    # minimise_MM_GF_W_h()
+    # minimise_MM_GF_W_h()
+    # minimise_MM_GF_W_h()
+    # print(hi)
+
     # # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
     # # holiday
     # minimise_MM_W_GF_h()
@@ -107,6 +114,13 @@ def main():
     # minimise_MM_W_GF_h()
     # minimise_MM_W_GF_h()
     # minimise_MM_W_GF_h()
+    # minimise_MM_W_GF_h()
+    # minimise_MM_W_GF_h()
+    # minimise_MM_W_GF_h()
+    # minimise_MM_W_GF_h()
+    # minimise_MM_W_GF_h()
+    # minimise_MM_W_GF_h()
+    # print(hi)
     #
     # # # Optimise IH administration duration, holiday duration and strength for
     # # # MMd GF IH -> WMMd IH -> holiday
@@ -116,18 +130,30 @@ def main():
     # minimise_MM_GF_W_h_IH()
     # minimise_MM_GF_W_h_IH()
     # minimise_MM_GF_W_h_IH()
+    # minimise_MM_GF_W_h_IH()
+    # minimise_MM_GF_W_h_IH()
+    # minimise_MM_GF_W_h_IH()
+    # minimise_MM_GF_W_h_IH()
+    # minimise_MM_GF_W_h_IH()
+    # minimise_MM_GF_W_h_IH()
     # print(hi)
-    #
-    # # Optimise IH administration duration, holiday duration and strength for
-    # # WMMd IH -> MMd GF IH ->  holiday
-    # minimise_MM_W_GF_h_IH()
-    # minimise_MM_W_GF_h_IH()
-    # minimise_MM_W_GF_h_IH()
-    # minimise_MM_W_GF_h_IH()
-    # minimise_MM_W_GF_h_IH()
-    # minimise_MM_W_GF_h_IH()
-    # print(hi)
-    #
+
+    # Optimise IH administration duration, holiday duration and strength for
+    # WMMd IH -> MMd GF IH ->  holiday
+    minimise_MM_W_GF_h_IH()
+    minimise_MM_W_GF_h_IH()
+    minimise_MM_W_GF_h_IH()
+    minimise_MM_W_GF_h_IH()
+    minimise_MM_W_GF_h_IH()
+    minimise_MM_W_GF_h_IH()
+    minimise_MM_W_GF_h_IH()
+    minimise_MM_W_GF_h_IH()
+    minimise_MM_W_GF_h_IH()
+    minimise_MM_W_GF_h_IH()
+    minimise_MM_W_GF_h_IH()
+    minimise_MM_W_GF_h_IH()
+    print(hi)
+
     # # # # Optimise IH administration duration, holiday duration and strength for
     # # # # MMd GF IH -> holiday -> WMMd IH -> holiday
     # minimise_MM_GF_h_W_h_IH()
@@ -618,7 +644,6 @@ def mutation_MMd_to_MMr(IH_present, nMMd, nMMd_change, nMMr_change):
     # Determine the mutation rate based on how manny IHs are present
     if IH_present == 0:
         mutation_rate = 0.0004
-
     if IH_present == 1:
         mutation_rate = 0.00042
 
