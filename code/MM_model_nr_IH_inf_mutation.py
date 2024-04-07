@@ -116,20 +116,20 @@ def main():
     # # MMd GF IH -> IH combination -> holiday
     # minimise_MM_GF_comb_h_IH()
     #
-    # # # Optimise IH administration duration, holiday duration and strengths for
-    # # # WMMd IH -> IH combination -> holiday
+    # Optimise IH administration duration, holiday duration and strengths for
+    # WMMd IH -> IH combination -> holiday
     # minimise_MM_W_comb_h_IH()
     #
     # # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
     # # holiday for different WMMd IH strengths and MMd GF IH = 0.4
     # minimise_MM_GF_W_h_changing_W_IH([0.8, 1.2, 0.3, 0.3], [0.7, 1.3, 0.3, 0.3],
     # [0.9, 0.08, 0.2, 0.1], [1.0, 0.08, 0.2, 0.1], 'df_MM_GF_W_h_changing_W_IH.csv')
-
+    #
     # # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
     # # holiday for different WMMd IH strengths and MMd GF IH = 0.4
     # minimise_MM_W_GF_h_changing_W_IH([0.8, 1.2, 0.3, 0.3], [0.7, 1.3, 0.3, 0.3],
     # [0.9, 0.08, 0.2, 0.1], [1.0, 0.08, 0.2, 0.1], 'df_MM_W_GF_h_changing_W_IH.csv')
-
+    #
     # # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
     # # holiday for different MMd GF IH strengths and WMMd IH = 0.4
     # minimise_MM_GF_W_h_changing_GF_IH([0.8, 1.2, 0.3, 0.3], [0.7, 1.3, 0.3, 0.3],
@@ -146,7 +146,7 @@ def main():
     # minimise_MM_GF_W_h_changing_W_IH([0.88, 1.32, 0.33, 0.33], [0.77, 1.43, 0.33,
     #                    0.33], [0.99, 0.088, 0.22, 0.11], [1.1, 0.088, 0.22, 0.11],
     #                                     'df_MM_GF_W_h_changing_W_IH_h_gr_dr.csv')
-
+    #
     # # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
     # # holiday for different WMMd IH strengths whereby the growth and decay rate
     # # are decreased with 10%
@@ -154,19 +154,19 @@ def main():
     #                   0.33], [0.99, 0.088, 0.22, 0.11], [1.1, 0.088, 0.22, 0.11],
     #                                     'df_MM_W_GF_h_changing_W_IH_h_gr_dr.csv')
     #
-    # # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
-    # # holiday for different MMd GF IH strengths whereby the growth and decay rate
-    # # are decreased with 10%
-    # minimise_MM_GF_W_h_changing_GF_IH([0.88, 1.32, 0.33, 0.33], [0.77,1.43, 0.33,
-    #                   0.33], [0.99, 0.088, 0.22, 0.11], [1.1, 0.088, 0.22, 0.11],
-    #                                     'df_MM_GF_W_h_changing_GF_IH_h_gr_dr.csv')
+    # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
+    # holiday for different MMd GF IH strengths whereby the growth and decay rate
+    # are decreased with 10%
+    minimise_MM_GF_W_h_changing_GF_IH([0.88, 1.32, 0.33, 0.33], [0.77,1.43, 0.33,
+                      0.33], [0.99, 0.088, 0.22, 0.11], [1.1, 0.088, 0.22, 0.11],
+                                        'df_MM_GF_W_h_changing_GF_IH_h_gr_dr.csv')
 
-    # # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
-    # # holiday for different MMd GF IH strengths whereby the growth and decay rate
-    # # are decreased with 10%
-    # minimise_MM_W_GF_h_changing_GF_IH([0.88, 1.32, 0.33, 0.33], [0.77, 1.43, 0.33,
-    #                    0.33], [0.99, 0.088, 0.22, 0.11], [1.1, 0.088, 0.22, 0.11],
-    #                                   'df_MM_W_GF_h_changing_GF_IH_h_gr_dr.csv')
+    # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
+    # holiday for different MMd GF IH strengths whereby the growth and decay rate
+    # are decreased with 10%
+    minimise_MM_W_GF_h_changing_GF_IH([0.88, 1.32, 0.33, 0.33], [0.77, 1.43, 0.33,
+                       0.33], [0.99, 0.088, 0.22, 0.11], [1.1, 0.088, 0.22, 0.11],
+                                      'df_MM_W_GF_h_changing_GF_IH_h_gr_dr.csv')
 
     # # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
     # # holiday for different WMMd IH strengths whereby the growth and decay rate are
@@ -174,7 +174,7 @@ def main():
     # minimise_MM_GF_W_h_changing_W_IH([0.72, 1.08, 0.27, 0.27], [0.63, 1.17, 0.27,
     #                   0.27], [0.81, 0.072, 0.18, 0.09], [0.9, 0.072, 0.18, 0.09],
     #                                     'df_MM_GF_W_h_changing_W_IH_l_gr_dr.csv')
-
+    #
     # # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
     # # holiday for different WMMd IH strengths whereby the growth and decay rate
     # # are decreased with 10%
@@ -182,12 +182,12 @@ def main():
     #                   0.27], [0.81, 0.072, 0.18, 0.09], [0.9, 0.072, 0.18, 0.09],
     #                                     'df_MM_W_GF_h_changing_W_IH_l_gr_dr.csv')
 
-    # # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
-    # # holiday for different MMd GF IH strengths whereby the growth and decay rate
-    # # are decreased with 10%
-    # minimise_MM_GF_W_h_changing_GF_IH([0.72, 1.08, 0.27, 0.27], [0.63, 1.17, 0.27,
-    #                 0.27], [0.81, 0.072, 0.18, 0.09], [0.9, 0.072, 0.18, 0.09],
-    #                                 'df_MM_GF_W_h_changing_GF_IH_l_gr_dr.csv')
+    # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
+    # holiday for different MMd GF IH strengths whereby the growth and decay rate
+    # are decreased with 10%
+    minimise_MM_GF_W_h_changing_GF_IH([0.72, 1.08, 0.27, 0.27], [0.63, 1.17, 0.27,
+                    0.27], [0.81, 0.072, 0.18, 0.09], [0.9, 0.072, 0.18, 0.09],
+                                    'df_MM_GF_W_h_changing_GF_IH_l_gr_dr.csv')
 
     # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
     # holiday for different MMd GF IH strengths whereby the growth and decay rate
@@ -4683,11 +4683,11 @@ def minimise_MM_GF_W_h_changing_W_IH(growth_rates, growth_rates_IH, decay_rates,
                                             'Holiday duration', 'MM fraction']
     df_GF_W_h_change_W = pd.DataFrame(columns = column_names)
 
-    for i in range(20):
+    for i in range(30):
         print(i)
 
         # Calculate the strength of the WMMd IH
-        W_IH = 0.2 + (i/100)
+        W_IH = 0.1 + (i/100)
         print(W_IH)
 
         # Set start values
@@ -4707,7 +4707,7 @@ def minimise_MM_GF_W_h_changing_W_IH(growth_rates, growth_rates_IH, decay_rates,
         matrix_GF_IH = np.array([
             [0.0, 0.4, 0.65, 0.55],
             [0.3, 0.0, -0.3, -0.3],
-            [0.3, 0.0, 0.2, 0.0],
+            [0.2, 0.0, 0.2, 0.0],
             [0.55, 0.0, -0.6, 0.4]])
 
         # optimise the administration and holiday durations
@@ -4794,7 +4794,7 @@ def minimise_MM_GF_W_h_changing_GF_IH(growth_rates, growth_rates_IH, decay_rates
             [0.6 - GF_IH, 0.0, 0.2, 0.0],
             [0.55, 0.0, -0.6, 0.4]])
 
-        WMMd_inhibitor = 0.3
+        WMMd_inhibitor = 0.4
 
         # optimise the administration and holiday durations
         # t_step_IH_strength = [GF IH t, W IH t, h t]
@@ -4855,10 +4855,10 @@ def minimise_MM_W_GF_h_changing_W_IH(growth_rates, growth_rates_IH, decay_rates,
                                             'Holiday duration', 'MM fraction']
     df_W_GF_h_change_W = pd.DataFrame(columns = column_names)
 
-    for i in range(20):
+    for i in range(30):
 
         # Calculate the strength of the MMd GF IH
-        W_IH = 0.2 + (i/100)
+        W_IH = 0.1 + (i/100)
         print(W_IH)
 
         # Set start values
@@ -4878,7 +4878,7 @@ def minimise_MM_W_GF_h_changing_W_IH(growth_rates, growth_rates_IH, decay_rates,
         matrix_GF_IH = np.array([
             [0.0, 0.4, 0.65, 0.55],
             [0.3, 0.0, -0.3, -0.3],
-            [0.3, 0.0, 0.2, 0.0],
+            [0.2, 0.0, 0.2, 0.0],
             [0.55, 0.0, -0.6, 0.4]])
 
         # optimise the administration and holiday durations
@@ -4966,7 +4966,7 @@ def minimise_MM_W_GF_h_changing_GF_IH(growth_rates, growth_rates_IH, decay_rates
             [0.6 -GF_IH, 0.0, 0.2, 0.0],
             [0.55, 0.0, -0.6, 0.4]])
 
-        WMMd_inhibitor = 0.3
+        WMMd_inhibitor = 0.4
 
         # optimise the administration and holiday durations
         # t_step_IH_strength = [GF IH t, W IH t, h t]
