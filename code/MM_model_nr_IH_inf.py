@@ -38,14 +38,14 @@ M = np.array([
 """
 
 def main():
-    # Do doc tests
-    doctest.testmod()
-    #
+    # # Do doc tests
+    # doctest.testmod()
+    # #
     # # Make a figure showing the cell number dynamics by traditional therapy and
     # # by adaptive therapy (original situation)
     # list_t_steps_drug = [10, 10, 10]
     # Figure_continuous_MTD_vs_AT(20, list_t_steps_drug)
-    #
+
     # # Make a figure showing the cell fraction dynamics by traditional therapy and
     # # by adaptive therapy for shorter holiday and administration periods compared
     # # to the original situation
@@ -57,11 +57,11 @@ def main():
     # list_t_steps_drug = [10, 10, 10]
     # Figure_continuous_MTD_vs_AT_weak_a_h(20, list_t_steps_drug)
     #
-    # # Make a figure showing the cell number dynamics by traditional therapy and
-    # # by adaptive therapy
-    # list_t_steps_drug = [5, 5, 5]
-    # Figure_continuous_MTD_vs_AT_realistic(44, list_t_steps_drug)
-    #
+    # Make a figure showing the cell number dynamics by traditional therapy and
+    # by adaptive therapy
+    list_t_steps_drug = [5, 5, 5]
+    Figure_continuous_MTD_vs_AT_realistic(44, list_t_steps_drug)
+
     # # Make a 3D figure showthing the effect of different drug holiday and
     # # administration periods
     # Figure_3D_MM_numb_IH_add_and_holiday()
@@ -102,9 +102,9 @@ def main():
     # # WMMd IH -> MMd GF IH ->  holiday
     # minimise_MM_W_GF_h_IH()
     #
-    # # Optimise IH administration duration, holiday duration and strength for
-    # # MMd GF IH -> holiday -> WMMd IH -> holiday
-    # minimise_MM_GF_h_W_h_IH()
+    # Optimise IH administration duration, holiday duration and strength for
+    # MMd GF IH -> holiday -> WMMd IH -> holiday
+    minimise_MM_GF_h_W_h_IH()
     #
     # # Optimise IH administration duration, holiday duration and strength for
     # # WMMd IH -> holiday -> MMd GF IH ->  holiday
@@ -219,19 +219,15 @@ def main():
     #                 0.27], [0.81, 0.072, 0.18, 0.09], [0.9, 0.072, 0.18, 0.09],
     #                                 'df_MM_GF_W_h_changing_GF_IH_l_gr_dr.csv')
 
-    # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
-    # holiday for different MMd GF IH strengths whereby the growth and decay rate
-    # are decreased with 10%
-    minimise_MM_W_GF_h_changing_GF_IH([0.72, 1.08, 0.27, 0.27], [0.63, 1.17, 0.27,
-                       0.27], [0.81, 0.072, 0.18, 0.09], [0.9, 0.072, 0.18, 0.09],
-                                    'df_MM_W_GF_h_changing_GF_IH_l_gr_dr.csv')
+    # # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
+    # # holiday for different MMd GF IH strengths whereby the growth and decay rate
+    # # are decreased with 10%
+    # minimise_MM_W_GF_h_changing_GF_IH([0.72, 1.08, 0.27, 0.27], [0.63, 1.17, 0.27,
+    #                    0.27], [0.81, 0.072, 0.18, 0.09], [0.9, 0.072, 0.18, 0.09],
+    #                                 'df_MM_W_GF_h_changing_GF_IH_l_gr_dr.csv')
 
-    # Make the figures of the MM number and different by IH strengths
-    Figure_optimisation('Figure_optimisation_normal', int(0))
-
-    Figure_optimisation('Figure_optimisation_h_gr_dr', int(1))
-
-    Figure_optimisation('Figure_optimisation_l_gr_dr', int(2))
+    # Make a figure of the MM number after optimisation by different IH strengths
+    Figure_optimisation()
 
 def dOC_dt(nOC, nOB, nMMd, nMMr, gr_OC, dr_OC, matrix):
     """
@@ -3443,168 +3439,114 @@ def minimal_tumour_numb_WMMd_IH(WMMd_inhibitor, nOC, nOB, nMMd, nMMr,
 
     return float(last_MM_number)
 
+
 """ Figure that shows the MM number after optimisation for different MMd GF IH
 and WMMd IH strengths"""
-def Figure_optimisation(figure_name, data):
+def Figure_optimisation():
     """ Function that makes a figure of the the MM number after optimisation for
     different MMd GF IH and WMMd IH strengths. It shows the MM number for the
     repeating stitautions WMMd IH -> MMd GF IH -> holiday and MMd GF IH -> WMMd
     IH -> holiday.
-
-    Parameters:
-    -----------
-    figure_name: String
-        The name onder which the figure should be saved.
-    data: Int
-        Ensures the right data is collected. 0 = normal gr and dr values,  =
-        increased gr and dr values and 2 = decreased gr and dr values
     """
-    # collect data
-    if data == 0:
-        df_GF_W_h_changing_GF = pd.read_csv(\
-        r'..\data\data_model_nr_IH_inf\df_MM_GF_W_h_changing_GF_IH.csv')
-        df_W_GF_h_changing_GF = pd.read_csv(\
-        r'..\data\data_model_nr_IH_inf\df_MM_W_GF_h_changing_GF_IH.csv')
-        df_GF_W_h_changing_W = pd.read_csv(\
-        r'..\data\data_model_nr_IH_inf\df_MM_GF_W_h_changing_W_IH.csv')
-        df_W_GF_h_changing_W = pd.read_csv(\
-        r'..\data\data_model_nr_IH_inf\df_MM_W_GF_h_changing_W_IH.csv')
 
-    if data == 1:
-        df_GF_W_h_changing_GF = pd.read_csv(\
-        r'..\data\data_model_nr_IH_inf\df_MM_GF_W_h_changing_GF_IH_h_gr_dr.csv')
-        df_W_GF_h_changing_GF = pd.read_csv(\
-        r'..\data\data_model_nr_IH_inf\df_MM_W_GF_h_changing_GF_IH_h_gr_dr.csv')
-        df_GF_W_h_changing_W = pd.read_csv(\
-        r'..\data\data_model_nr_IH_inf\df_MM_GF_W_h_changing_W_IH_h_gr_dr.csv')
-        df_W_GF_h_changing_W = pd.read_csv(\
-        r'..\data\data_model_nr_IH_inf\df_MM_W_GF_h_changing_W_IH_h_gr_dr.csv')
+    # Collect needed data
+    df_GF_W_h_changing_GF = pd.read_csv(\
+    r'..\data\data_model_nr_IH_inf\df_MM_GF_W_h_changing_GF_IH.csv')
+    df_W_GF_h_changing_GF = pd.read_csv(\
+    r'..\data\data_model_nr_IH_inf\df_MM_W_GF_h_changing_GF_IH.csv')
+    df_GF_W_h_changing_W = pd.read_csv(\
+    r'..\data\data_model_nr_IH_inf\df_MM_GF_W_h_changing_W_IH.csv')
+    df_W_GF_h_changing_W = pd.read_csv(\
+    r'..\data\data_model_nr_IH_inf\df_MM_W_GF_h_changing_W_IH.csv')
 
-    if data == 2:
-        df_GF_W_h_changing_GF = pd.read_csv(\
-        r'..\data\data_model_nr_IH_inf\df_MM_GF_W_h_changing_GF_IH_l_gr_dr.csv')
-        df_W_GF_h_changing_GF = pd.read_csv(\
-        r'..\data\data_model_nr_IH_inf\df_MM_W_GF_h_changing_GF_IH_l_gr_dr.csv')
-        df_GF_W_h_changing_W = pd.read_csv(\
-        r'..\data\data_model_nr_IH_inf\df_MM_GF_W_h_changing_W_IH_l_gr_dr.csv')
-        df_W_GF_h_changing_W = pd.read_csv(\
-        r'..\data\data_model_nr_IH_inf\df_MM_W_GF_h_changing_W_IH_l_gr_dr.csv')
+    df_GF_W_h_changing_GF_h = pd.read_csv(\
+    r'..\data\data_model_nr_IH_inf\df_MM_GF_W_h_changing_GF_IH_h_gr_dr.csv')
+    df_W_GF_h_changing_GF_h = pd.read_csv(\
+    r'..\data\data_model_nr_IH_inf\df_MM_W_GF_h_changing_GF_IH_h_gr_dr.csv')
+    df_GF_W_h_changing_W_h = pd.read_csv(\
+    r'..\data\data_model_nr_IH_inf\df_MM_GF_W_h_changing_W_IH_h_gr_dr.csv')
+    df_W_GF_h_changing_W_h = pd.read_csv(\
+    r'..\data\data_model_nr_IH_inf\df_MM_W_GF_h_changing_W_IH_h_gr_dr.csv')
+
+    df_GF_W_h_changing_GF_l = pd.read_csv(\
+    r'..\data\data_model_nr_IH_inf\df_MM_GF_W_h_changing_GF_IH_l_gr_dr.csv')
+    df_W_GF_h_changing_GF_l = pd.read_csv(\
+    r'..\data\data_model_nr_IH_inf\df_MM_W_GF_h_changing_GF_IH_l_gr_dr.csv')
+    df_GF_W_h_changing_W_l = pd.read_csv(\
+    r'..\data\data_model_nr_IH_inf\df_MM_GF_W_h_changing_W_IH_l_gr_dr.csv')
+    df_W_GF_h_changing_W_l = pd.read_csv(\
+    r'..\data\data_model_nr_IH_inf\df_MM_W_GF_h_changing_W_IH_l_gr_dr.csv')
 
     # Create a plot with two sublot next to eachother
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 6))
+    fig, axs = plt.subplots(2, 3, figsize=(20, 9))
 
     # First subplot, here MMd GF IH is changing
-    ax1.plot(df_W_GF_h_changing_GF['GF IH strength'],
+    axs[0, 0].plot(df_W_GF_h_changing_GF['GF IH strength'],
         df_GF_W_h_changing_GF['MM fraction'], color = 'mediumpurple')
-    ax1.plot(df_W_GF_h_changing_GF['GF IH strength'],
+    axs[0, 0].plot(df_W_GF_h_changing_GF['GF IH strength'],
         df_W_GF_h_changing_GF['MM fraction'],color = 'teal')
-    ax1.set_title(r"""MM number after optimisation for different MMd GF IH
-    strengths whereby $W_{MMd}$ IH stayed 0.4""")
-    ax1.set_xlabel('Strength MMd GF IH', fontsize=11)
-    ax1.set_ylabel('MM number', fontsize=11)
+    axs[0, 0].set_title(r"""Changing MMd GF IH strengths (normal)""")
+    axs[0, 0].set_xlabel('Strength MMd GF IH')
+    axs[0, 0].set_ylabel('MM number')
 
     # Second subplot, here WMMd IH is changing
-    ax2.plot(df_W_GF_h_changing_W['W IH strength'],
+    axs[1, 0].plot(df_W_GF_h_changing_W['W IH strength'],
      df_GF_W_h_changing_W['MM fraction'], color = 'mediumpurple')
-    ax2.plot(df_W_GF_h_changing_W['W IH strength'],
+    axs[1, 0].plot(df_W_GF_h_changing_W['W IH strength'],
       df_W_GF_h_changing_W['MM fraction'], color = 'teal')
-    ax2.set_title(r"""MM number after optimisation for different $W_{MMd}$ IH
-    strengths whereby MMd GF IH stayed 0.4""")
-    ax2.set_xlabel('Strength $W_{MMd}$ IH', fontsize=11)
-    ax2.set_ylabel('MM number', fontsize=11)
-    ax2.set_xticks([0.20, 0.22, 0.24, 0.26, 0.28, 0.30, 0.32, 0.34, 0.36, 0.38])
+    axs[1, 0].set_title(r"""Changing $W_{MMd}$ IH strength (normal)""")
+    axs[1, 0].set_xlabel('Strength $W_{MMd}$ IH')
+    axs[1, 0].set_ylabel('MM number')
+    axs[1, 0].set_xticks([0.20, 0.23, 0.26, 0.29, 0.32, 0.35, 0.38])
+
+    # Third subplot, here MMd GF IH is changing
+    axs[0, 1].plot(df_W_GF_h_changing_GF_h['GF IH strength'],
+        df_GF_W_h_changing_GF_h['MM fraction'], color = 'mediumpurple')
+    axs[0, 1].plot(df_W_GF_h_changing_GF_h['GF IH strength'],
+        df_W_GF_h_changing_GF_h['MM fraction'],color = 'teal')
+    axs[0, 1].set_title(r"""Changing MMd GF IH strength (increased)""")
+    axs[0, 1].set_xlabel('Strength MMd GF IH')
+    axs[0, 1].set_ylabel('MM number')
+
+    # Fourth subplot, here WMMd IH is changing
+    axs[1, 1].plot(df_W_GF_h_changing_W_h['W IH strength'],
+     df_GF_W_h_changing_W_h['MM fraction'], color = 'mediumpurple')
+    axs[1, 1].plot(df_W_GF_h_changing_W_h['W IH strength'],
+      df_W_GF_h_changing_W_h['MM fraction'], color = 'teal')
+    axs[1, 1].set_title(r"""Changing $W_{MMd}$ IH strength (increased)""")
+    axs[1, 1].set_xlabel('Strength $W_{MMd}$ IH')
+    axs[1, 1].set_ylabel('MM number')
+    axs[1, 1].set_xticks([0.20, 0.23, 0.26, 0.29, 0.32, 0.35, 0.38])
+
+    # Fifth subplot, here MMd GF IH is changing
+    axs[0, 2].plot(df_W_GF_h_changing_GF_l['GF IH strength'],
+        df_GF_W_h_changing_GF_l['MM fraction'], color = 'mediumpurple')
+    axs[0, 2].plot(df_W_GF_h_changing_GF_l['GF IH strength'],
+        df_W_GF_h_changing_GF_l['MM fraction'],color = 'teal')
+    axs[0, 2].set_xlabel('Strength MMd GF IH')
+    axs[0, 2].set_title(r"""Changing MMd GF IH strength (decreased)""")
+    axs[0, 2].set_ylabel('MM number')
+
+    # Sixth subplot, here WMMd IH is changing
+    axs[1, 2].plot(df_W_GF_h_changing_W_l['W IH strength'],
+     df_GF_W_h_changing_W_l['MM fraction'], color = 'mediumpurple')
+    axs[1, 2].plot(df_W_GF_h_changing_W_l['W IH strength'],
+      df_W_GF_h_changing_W_l['MM fraction'], color = 'teal')
+    axs[1, 2].set_title(r"""Changing $W_{MMd}$ IH strength (decreased)""")
+    axs[1, 2].set_xlabel('Strength $W_{MMd}$ IH')
+    axs[1, 2].set_ylabel('MM number')
+    axs[1, 2].set_xticks([0.20, 0.23, 0.26, 0.29, 0.32, 0.35, 0.38])
 
     # Create a single legend outside of all plots
     legend_labels = [r'MMd GF IH → $W_{MMd}$ IH → holiday',
-                                    r'$W_{MMd}$ IH → MMd GF IH → holiday']
+                                     r'$W_{MMd}$ IH → MMd GF IH → holiday']
 
-    ax1.legend(labels = legend_labels)
-    ax2.legend(labels = legend_labels)
-
-    # Save and show the plot
-    save_Figure(plt, figure_name, r'..\visualisation\results_model_nr_IH_inf')
-    plt.show()
-
-""" Figure that shows the MM number after optimisation for different MMd GF IH
-and WMMd IH strengths"""
-def Figure_optimisation_large(figure_name, data):
-    """ Function that makes a figure of the the MM number after optimisation for
-    different MMd GF IH and WMMd IH strengths. It shows the MM number for the
-    repeating stitautions WMMd IH -> MMd GF IH -> holiday and MMd GF IH -> WMMd
-    IH -> holiday.
-
-    Parameters:
-    -----------
-    figure_name: String
-        The name onder which the figure should be saved.
-    data: Int
-        Ensures the right data is collected. 0 = normal gr and dr values,  =
-        increased gr and dr values and 2 = decreased gr and dr values
-    """
-    # collect data
-    if data == 0:
-        df_GF_W_h_changing_GF = pd.read_csv(\
-        r'..\data\data_model_nr_IH_inf\df_MM_GF_W_h_changing_GF_IH.csv')
-        df_W_GF_h_changing_GF = pd.read_csv(\
-        r'..\data\data_model_nr_IH_inf\df_MM_W_GF_h_changing_GF_IH.csv')
-        df_GF_W_h_changing_W = pd.read_csv(\
-        r'..\data\data_model_nr_IH_inf\df_MM_GF_W_h_changing_W_IH.csv')
-        df_W_GF_h_changing_W = pd.read_csv(\
-        r'..\data\data_model_nr_IH_inf\df_MM_W_GF_h_changing_W_IH.csv')
-
-    if data == 1:
-        df_GF_W_h_changing_GF_h = pd.read_csv(\
-        r'..\data\data_model_nr_IH_inf\df_MM_GF_W_h_changing_GF_IH_h_gr_dr.csv')
-        df_W_GF_h_changing_GF_h = pd.read_csv(\
-        r'..\data\data_model_nr_IH_inf\df_MM_W_GF_h_changing_GF_IH_h_gr_dr.csv')
-        df_GF_W_h_changing_W_h = pd.read_csv(\
-        r'..\data\data_model_nr_IH_inf\df_MM_GF_W_h_changing_W_IH_h_gr_dr.csv')
-        df_W_GF_h_changing_W_h = pd.read_csv(\
-        r'..\data\data_model_nr_IH_inf\df_MM_W_GF_h_changing_W_IH_h_gr_dr.csv')
-
-    if data == 2:
-        df_GF_W_h_changing_GF_l = pd.read_csv(\
-        r'..\data\data_model_nr_IH_inf\df_MM_GF_W_h_changing_GF_IH_l_gr_dr.csv')
-        df_W_GF_h_changing_GF_l = pd.read_csv(\
-        r'..\data\data_model_nr_IH_inf\df_MM_W_GF_h_changing_GF_IH_l_gr_dr.csv')
-        df_GF_W_h_changing_W_l = pd.read_csv(\
-        r'..\data\data_model_nr_IH_inf\df_MM_GF_W_h_changing_W_IH_l_gr_dr.csv')
-        df_W_GF_h_changing_W_l = pd.read_csv(\
-        r'..\data\data_model_nr_IH_inf\df_MM_W_GF_h_changing_W_IH_l_gr_dr.csv')
-
-    # Create a plot with two sublot next to eachother
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 6))
-
-    # First subplot, here MMd GF IH is changing
-    ax1.plot(df_W_GF_h_changing_GF['GF IH strength'],
-        df_GF_W_h_changing_GF['MM fraction'], color = 'mediumpurple')
-    ax1.plot(df_W_GF_h_changing_GF['GF IH strength'],
-        df_W_GF_h_changing_GF['MM fraction'],color = 'teal')
-    ax1.set_title(r"""MM number after optimisation for different MMd GF IH
-    strengths whereby $W_{MMd}$ IH stayed 0.4""")
-    ax1.set_xlabel('Strength MMd GF IH', fontsize=11)
-    ax1.set_ylabel('MM number', fontsize=11)
-
-    # Second subplot, here WMMd IH is changing
-    ax2.plot(df_W_GF_h_changing_W['W IH strength'],
-     df_GF_W_h_changing_W['MM fraction'], color = 'mediumpurple')
-    ax2.plot(df_W_GF_h_changing_W['W IH strength'],
-      df_W_GF_h_changing_W['MM fraction'], color = 'teal')
-    ax2.set_title(r"""MM number after optimisation for different $W_{MMd}$ IH
-    strengths whereby MMd GF IH stayed 0.4""")
-    ax2.set_xlabel('Strength $W_{MMd}$ IH', fontsize=11)
-    ax2.set_ylabel('MM number', fontsize=11)
-    ax2.set_xticks([0.20, 0.22, 0.24, 0.26, 0.28, 0.30, 0.32, 0.34, 0.36, 0.38])
-
-    # Create a single legend outside of all plots
-    legend_labels = [r'MMd GF IH → $W_{MMd}$ IH → holiday',
-                                    r'$W_{MMd}$ IH → MMd GF IH → holiday']
-
-    ax1.legend(labels = legend_labels)
-    ax2.legend(labels = legend_labels)
+    fig.legend(labels = legend_labels, loc='upper center', ncol=4,
+                                                                fontsize='large')
 
     # Save and show the plot
-    save_Figure(plt, figure_name, r'..\visualisation\results_model_nr_IH_inf')
+    save_Figure(plt, 'Figure_optimisation_comb_n_h_l',
+                                    r'..\visualisation\results_model_nr_IH_inf')
     plt.show()
 
 """ Figure to determine the difference between traditional and adaptive therapy
@@ -3792,14 +3734,14 @@ def Figure_continuous_MTD_vs_AT_realistic(n_switches, t_steps_drug):
     matrix_GF_IH = np.array([
         [0.0, 0.4, 0.6, 0.55],
         [0.3, 0.0, -0.3, -0.3],
-        [0.12, 0.0, 0.5, 0.0],
+        [0.11, 0.0, 0.5, 0.0],
         [0.55, 0.0, -0.6, 0.65]])
 
     # Payoff matrix when both inhibitor drugs are present
     matrix_GF_IH_comb = np.array([
         [0.0, 0.4, 0.6, 0.55],
         [0.3, 0.0, -0.3, -0.3],
-        [0.24, 0.0, 0.5, 0.0],
+        [0.23, 0.0, 0.5, 0.0],
         [0.55, 0.0, -0.8, 0.65]])
 
     # WMMd inhibitor effect when both inhibitor drugs are present
@@ -3853,8 +3795,8 @@ def Figure_continuous_MTD_vs_AT_realistic(n_switches, t_steps_drug):
     df_total_GF.plot(x='Generation', y=['nOC', 'nOB', 'nMMd', 'nMMr'],
                                                     legend=False, ax=axs[0, 0])
     axs[0, 0].set_xlabel(' ')
-    axs[0, 0].set_ylabel('Number', fontsize=11)
-    axs[0, 0].set_title(f"Traditional therapy MMd GF IH ")
+    axs[0, 0].set_ylabel('Number', fontsize=13)
+    axs[0, 0].set_title(f"Traditional therapy MMd GF IH ", fontsize=14)
     axs[0, 0].grid(True)
 
     # Plot the data with drug holidays in the second plot
@@ -3862,7 +3804,7 @@ def Figure_continuous_MTD_vs_AT_realistic(n_switches, t_steps_drug):
                                                     legend=False, ax=axs[0, 1])
     axs[0, 1].set_xlabel(' ')
     axs[0, 1].set_ylabel(' ')
-    axs[0, 1].set_title(r"Traditional therapy $W_{MMd}$ IH")
+    axs[0, 1].set_title(r"Traditional therapy $W_{MMd}$ IH", fontsize=15)
     axs[0, 1].grid(True)
 
     # Plot the data with drug holidays in the second plot
@@ -3870,39 +3812,39 @@ def Figure_continuous_MTD_vs_AT_realistic(n_switches, t_steps_drug):
                                                     legend=False, ax=axs[0, 2])
     axs[0, 2].set_xlabel(' ')
     axs[0, 2].set_ylabel(' ')
-    axs[0, 2].set_title(r"Traditional therapy IH combination")
+    axs[0, 2].set_title(r"Traditional therapy IH combination", fontsize=15)
     axs[0, 2].grid(True)
 
     # Plot the data with drug holidays in the third plot
     df_total_switch_GF.plot(x='Generation', y=['nOC', 'nOB', 'nMMd', 'nMMr'],
                                                     legend=False, ax=axs[1, 0])
-    axs[1, 0].set_xlabel('Generations', fontsize=11)
-    axs[1, 0].set_ylabel('Number', fontsize=11)
-    axs[1, 0].set_title(f"Adaptive therapy MMd GF IH")
+    axs[1, 0].set_xlabel('Generations', fontsize=13)
+    axs[1, 0].set_ylabel('Number', fontsize=13)
+    axs[1, 0].set_title(f"Adaptive therapy MMd GF IH", fontsize=15)
     axs[1, 0].grid(True)
     plt.grid(True)
 
     # Plot the data with drug holidays in the fourth plot
     df_total_switch_WMMd.plot(x='Generation', y=['nOC', 'nOB', 'nMMd', 'nMMr'],
                                                     legend=False, ax=axs[1, 1])
-    axs[1, 1].set_xlabel('Generations', fontsize=11)
+    axs[1, 1].set_xlabel('Generations', fontsize=13)
     axs[1, 1].set_ylabel(' ')
-    axs[1, 1].set_title(r"Adaptive therapy $W_{MMd}$ IH")
+    axs[1, 1].set_title(r"Adaptive therapy $W_{MMd}$ IH", fontsize=15)
     axs[1, 1].grid(True)
 
     # Plot the data with drug holidays in the fourth plot
     df_total_switch_comb.plot(x='Generation', y=['nOC', 'nOB', 'nMMd', 'nMMr'],
                                                     legend=False, ax=axs[1, 2])
-    axs[1, 2].set_xlabel('Generations', fontsize=11)
+    axs[1, 2].set_xlabel('Generations', fontsize=12)
     axs[1, 2].set_ylabel(' ')
-    axs[1, 2].set_title(r"Adaptive therapy IH combination")
+    axs[1, 2].set_title(r"Adaptive therapy IH combination", fontsize=14)
     axs[1, 2].grid(True)
 
     # Create a single legend outside of all plots
     legend_labels = ['Number of OC', 'Number of OB', 'Number of MMd',
                                                                 'Number of MMr']
     fig.legend(labels = legend_labels, loc='upper center', ncol=4,
-                                                                fontsize='large')
+                                                            fontsize='x-large')
     save_Figure(plt, 'line_plot_cell_nr_IH_inf_AT_MTD_r',
                                  r'..\visualisation\results_model_nr_IH_inf')
     plt.show()
@@ -4885,7 +4827,7 @@ def minimise_MM_GF_W_h_IH():
     matrix_GF_IH = np.array([
         [0.0, 0.4, 0.65, 0.55],
         [0.3, 0.0, -0.3, -0.3],
-        [0.3, 0.0, 0.2, 0.0],
+        [0.2, 0.0, 0.2, 0.0],
         [0.55, 0.0, -0.6, 0.4]])
 
     # Optimise the administration and holiday durations and the IH strengths
@@ -4994,7 +4936,7 @@ def minimise_MM_GF_h_W_h_IH():
     matrix_GF_IH = np.array([
         [0.0, 0.4, 0.65, 0.55],
         [0.3, 0.0, -0.3, -0.3],
-        [0.3, 0.0, 0.2, 0.0],
+        [0.2, 0.0, 0.2, 0.0],
         [0.55, 0.0, -0.6, 0.4]])
 
     # Optimise the administration and holiday durations and the IH strengths

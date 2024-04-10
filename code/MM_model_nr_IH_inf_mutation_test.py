@@ -230,13 +230,15 @@ def main():
     #                    0.27], [0.81, 0.072, 0.18, 0.09], [0.9, 0.072, 0.18, 0.09],
     #                                 'df_MM_W_GF_h_changing_GF_IH_l_gr_dr.csv')
 
+    # Make a figure of the MM number and by different IH strengths
+    Figure_optimisation()
 
     # Make the figures of the MM number and different by IH strengths
-    Figure_optimisation('Figure_optimisation_normal', int(0))
+    Figure_optimisation1('Figure_optimisation_normal', int(0))
 
-    Figure_optimisation('Figure_optimisation_h_gr_dr', int(1))
+    Figure_optimisation1('Figure_optimisation_h_gr_dr', int(1))
 
-    Figure_optimisation('Figure_optimisation_l_gr_dr', int(2))
+    Figure_optimisation1('Figure_optimisation_l_gr_dr', int(2))
 
 def dOC_dt(nOC, nOB, nMMd, nMMr, gr_OC, dr_OC, matrix):
     """
@@ -4426,7 +4428,120 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
 
 """ Figure that shows the MM number after optimisation for different MMd GF IH
 and WMMd IH strengths"""
-def Figure_optimisation(figure_name, data):
+def Figure_optimisation():
+    """ Function that makes a figure of the the MM number after optimisation for
+    different MMd GF IH and WMMd IH strengths. It shows the MM number for the
+    repeating stitautions WMMd IH -> MMd GF IH -> holiday and MMd GF IH -> WMMd
+    IH -> holiday.
+    """
+
+    # Collect needed data
+    df_GF_W_h_changing_GF = pd.read_csv(\
+    r'..\data\data_model_nr_IH_inf_mutation\df_MM_GF_W_h_changing_GF_IH.csv')
+    df_W_GF_h_changing_GF = pd.read_csv(\
+    r'..\data\data_model_nr_IH_inf_mutation\df_MM_W_GF_h_changing_GF_IH.csv')
+    df_GF_W_h_changing_W = pd.read_csv(\
+    r'..\data\data_model_nr_IH_inf_mutation\df_MM_GF_W_h_changing_W_IH.csv')
+    df_W_GF_h_changing_W = pd.read_csv(\
+    r'..\data\data_model_nr_IH_inf_mutation\df_MM_W_GF_h_changing_W_IH.csv')
+
+    df_GF_W_h_changing_GF_h = pd.read_csv(\
+    r'..\data\data_model_nr_IH_inf_mutation\df_MM_GF_W_h_changing_GF_IH_h_gr_dr.csv')
+    df_W_GF_h_changing_GF_h = pd.read_csv(\
+    r'..\data\data_model_nr_IH_inf_mutation\df_MM_W_GF_h_changing_GF_IH_h_gr_dr.csv')
+    df_GF_W_h_changing_W_h = pd.read_csv(\
+    r'..\data\data_model_nr_IH_inf_mutation\df_MM_GF_W_h_changing_W_IH_h_gr_dr.csv')
+    df_W_GF_h_changing_W_h = pd.read_csv(\
+    r'..\data\data_model_nr_IH_inf_mutation\df_MM_W_GF_h_changing_W_IH_h_gr_dr.csv')
+
+    df_GF_W_h_changing_GF_l = pd.read_csv(\
+    r'..\data\data_model_nr_IH_inf_mutation\df_MM_GF_W_h_changing_GF_IH_l_gr_dr.csv')
+    df_W_GF_h_changing_GF_l = pd.read_csv(\
+    r'..\data\data_model_nr_IH_inf_mutation\df_MM_W_GF_h_changing_GF_IH_l_gr_dr.csv')
+    df_GF_W_h_changing_W_l = pd.read_csv(\
+    r'..\data\data_model_nr_IH_inf_mutation\df_MM_GF_W_h_changing_W_IH_l_gr_dr.csv')
+    df_W_GF_h_changing_W_l = pd.read_csv(\
+    r'..\data\data_model_nr_IH_inf_mutation\df_MM_W_GF_h_changing_W_IH_l_gr_dr.csv')
+
+    # Create a plot with two sublot next to eachother
+    fig, axs = plt.subplots(2, 3, figsize=(20, 9))
+
+    # First subplot, here MMd GF IH is changing
+    axs[0, 0].plot(df_W_GF_h_changing_GF['GF IH strength'],
+        df_GF_W_h_changing_GF['MM fraction'], color = 'mediumpurple')
+    axs[0, 0].plot(df_W_GF_h_changing_GF['GF IH strength'],
+        df_W_GF_h_changing_GF['MM fraction'],color = 'teal')
+    axs[0, 0].set_title(r"""Changing MMd GF IH strengths (normal)""")
+    axs[0, 0].set_xlabel('Strength MMd GF IH')
+    axs[0, 0].set_ylabel('MM number')
+
+    # Second subplot, here WMMd IH is changing
+    axs[1, 0].plot(df_W_GF_h_changing_W['W IH strength'],
+     df_GF_W_h_changing_W['MM fraction'], color = 'mediumpurple')
+    axs[1, 0].plot(df_W_GF_h_changing_W['W IH strength'],
+      df_W_GF_h_changing_W['MM fraction'], color = 'teal')
+    axs[1, 0].set_title(r"""Changing $W_{MMd}$ IH strength (normal)""")
+    axs[1, 0].set_xlabel('Strength $W_{MMd}$ IH')
+    axs[1, 0].set_ylabel('MM number')
+    axs[1, 0].set_xticks([0.20, 0.23, 0.26, 0.29, 0.32, 0.35, 0.38])
+
+    # Third subplot, here MMd GF IH is changing
+    axs[0, 1].plot(df_W_GF_h_changing_GF_h['GF IH strength'],
+        df_GF_W_h_changing_GF_h['MM fraction'], color = 'mediumpurple')
+    axs[0, 1].plot(df_W_GF_h_changing_GF_h['GF IH strength'],
+        df_W_GF_h_changing_GF_h['MM fraction'],color = 'teal')
+    axs[0, 1].set_title(r"""Changing MMd GF IH strength (increased)""")
+    axs[0, 1].set_xlabel('Strength MMd GF IH')
+    axs[0, 1].set_ylabel('MM number')
+
+    # Fourth subplot, here WMMd IH is changing
+    axs[1, 1].plot(df_W_GF_h_changing_W_h['W IH strength'],
+     df_GF_W_h_changing_W_h['MM fraction'], color = 'mediumpurple')
+    axs[1, 1].plot(df_W_GF_h_changing_W_h['W IH strength'],
+      df_W_GF_h_changing_W_h['MM fraction'], color = 'teal')
+    axs[1, 1].set_title(r"""Changing $W_{MMd}$ IH strength (increased)""")
+    axs[1, 1].set_xlabel('Strength $W_{MMd}$ IH')
+    axs[1, 1].set_ylabel('MM number')
+    axs[1, 1].set_xticks([0.20, 0.23, 0.26, 0.29, 0.32, 0.35, 0.38])
+
+    # Fifth subplot, here MMd GF IH is changing
+    axs[0, 2].plot(df_W_GF_h_changing_GF_l['GF IH strength'],
+        df_GF_W_h_changing_GF_l['MM fraction'], color = 'mediumpurple')
+    axs[0, 2].plot(df_W_GF_h_changing_GF_l['GF IH strength'],
+        df_W_GF_h_changing_GF_l['MM fraction'],color = 'teal')
+    axs[0, 2].set_xlabel('Strength MMd GF IH')
+    axs[0, 2].set_title(r"""Changing MMd GF IH strength (decreased)""")
+    axs[0, 2].set_ylabel('MM number')
+
+    # Sixth subplot, here WMMd IH is changing
+    axs[1, 2].plot(df_W_GF_h_changing_W_l['W IH strength'],
+     df_GF_W_h_changing_W_l['MM fraction'], color = 'mediumpurple')
+    axs[1, 2].plot(df_W_GF_h_changing_W_l['W IH strength'],
+      df_W_GF_h_changing_W_l['MM fraction'], color = 'teal')
+    axs[1, 2].set_title(r"""Changing $W_{MMd}$ IH strength (decreased)""")
+    axs[1, 2].set_xlabel('Strength $W_{MMd}$ IH')
+    axs[1, 2].set_ylabel('MM number')
+    axs[1, 2].set_xticks([0.20, 0.23, 0.26, 0.29, 0.32, 0.35, 0.38])
+
+    # Create a single legend outside of all plots
+    legend_labels = [r'MMd GF IH → $W_{MMd}$ IH → holiday',
+                                     r'$W_{MMd}$ IH → MMd GF IH → holiday']
+
+    fig.legend(labels = legend_labels, loc='upper center', ncol=4,
+                                                                fontsize='large')
+
+    # Save and show the plot
+    save_Figure(plt, 'Figure_optimisation_comb_n_h_l',
+                        r'..\visualisation\results_model_nr_IH_inf_mutation')
+    plt.show()
+
+
+
+
+
+""" Figure that shows the MM number after optimisation for different MMd GF IH
+and WMMd IH strengths"""
+def Figure_optimisation1(figure_name, data):
     """ Function that makes a figure of the the MM number after optimisation for
     different MMd GF IH and WMMd IH strengths. It shows the MM number for the
     repeating stitautions WMMd IH -> MMd GF IH -> holiday and MMd GF IH -> WMMd
@@ -4443,7 +4558,7 @@ def Figure_optimisation(figure_name, data):
     # collect data
     if data == 0:
         df_GF_W_h_changing_GF = pd.read_csv(\
-        r'..\data\data_model_nr_IH_inf_mutation\df_MM_GF_W_h_changing_GF_IH.csv')
+        r"..\data\data_model_nr_IH_inf_mutation\df_MM_GF_W_h_changing_GF_IH.csv")
         df_W_GF_h_changing_GF = pd.read_csv(\
         r'..\data\data_model_nr_IH_inf_mutation\df_MM_W_GF_h_changing_GF_IH.csv')
         df_GF_W_h_changing_W = pd.read_csv(\

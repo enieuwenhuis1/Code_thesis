@@ -45,26 +45,26 @@ def main():
     # Do doc tests
     # doctest.testmod()
 
-    # # Make a figure showing the cell number dynamics by traditional therapy and
-    # # by adaptive therapy (original situation)
-    # list_t_steps_drug = [10, 10, 10]
-    # Figure_continuous_MTD_vs_AT(20, list_t_steps_drug)
+    # Make a figure showing the cell number dynamics by traditional therapy and
+    # by adaptive therapy (original situation)
+    list_t_steps_drug = [10, 10, 10]
+    Figure_continuous_MTD_vs_AT(20, list_t_steps_drug)
     #
     # # Make a figure showing the cell fraction dynamics by traditional therapy and
     # # by adaptive therapy for shorter holiday and administration periods compared
     # # to the original situation
     # list_t_steps_drug = [4, 4, 4]
     # Figure_continuous_MTD_vs_AT_short_a_h(50, list_t_steps_drug)
-    #
+
     # # Make a figure showing the cell fraction dynamics by traditional therapy and
     # # by adaptive therapy for weaker IHs compared to the original situation
     # list_t_steps_drug = [10, 10, 10]
     # Figure_continuous_MTD_vs_AT_weak_a_h(20, list_t_steps_drug)
 
-    # # Make a figure showing the cell number dynamics by traditional therapy and
-    # # by adaptive therapy
-    # list_t_steps_drug = [5, 5, 5]
-    # Figure_continuous_MTD_vs_AT_realistic(44, list_t_steps_drug)
+    # Make a figure showing the cell number dynamics by traditional therapy and
+    # by adaptive therapy
+    list_t_steps_drug = [5, 5, 5]
+    Figure_continuous_MTD_vs_AT_realistic(44, list_t_steps_drug)
     #
     # # Make a 3D figure showthing the effect of different drug holiday and
     # # administration periods
@@ -108,19 +108,19 @@ def main():
 
     # # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
     # # holiday
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # print(hi)
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    print(hi)
     #
     # # # Optimise IH administration duration, holiday duration and strength for
     # # # MMd GF IH -> WMMd IH -> holiday
@@ -4125,26 +4125,26 @@ def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
     WMMd_inhibitor = 0.74
 
     # Make dataframe for the different drug hollyday duration values
-    df_total_switch_GF = switch_dataframe(60, n_switches, t_steps_drug[0],
+    df_total_switch_GF = switch_dataframe(80, n_switches, t_steps_drug[0],
             t_steps_drug[0], nOC, nOB, nMMd, nMMr, growth_rates, growth_rates_IH,
             decay_rates, decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH, int(1))
-    df_total_switch_WMMd = switch_dataframe(60, n_switches, t_steps_drug[1],
+    df_total_switch_WMMd = switch_dataframe(80, n_switches, t_steps_drug[1],
             t_steps_drug[1], nOC, nOB, nMMd, nMMr, growth_rates, growth_rates_IH,
             decay_rates, decay_rates_IH, matrix_no_GF_IH, matrix_no_GF_IH,
             int(1), WMMd_inhibitor)
-    df_total_switch_comb = switch_dataframe(60, n_switches, t_steps_drug[2],
+    df_total_switch_comb = switch_dataframe(80, n_switches, t_steps_drug[2],
             t_steps_drug[2], nOC, nOB, nMMd, nMMr, growth_rates, growth_rates_IH,
             decay_rates, decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH_comb,
             int(2), WMMd_inhibitor_comb)
 
     # Make dataframes for continiously administration
-    df_total_GF = continuous_add_IH_df(60, 260, nOC, nOB, nMMd, nMMr,
+    df_total_GF = continuous_add_IH_df(80, 260, nOC, nOB, nMMd, nMMr,
                         growth_rates, growth_rates_IH, decay_rates,
                         decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH, int(1))
-    df_total_WMMd = continuous_add_IH_df(60, 260, nOC, nOB, nMMd, nMMr,
+    df_total_WMMd = continuous_add_IH_df(80, 260, nOC, nOB, nMMd, nMMr,
                     growth_rates, growth_rates_IH, decay_rates, decay_rates_IH,
                     matrix_no_GF_IH, matrix_no_GF_IH, int(1), WMMd_inhibitor)
-    df_total_comb = continuous_add_IH_df(60, 260, nOC, nOB, nMMd, nMMr,
+    df_total_comb = continuous_add_IH_df(80, 260, nOC, nOB, nMMd, nMMr,
                 growth_rates, growth_rates_IH, decay_rates, decay_rates_IH,
                 matrix_no_GF_IH, matrix_GF_IH_comb, int(2), WMMd_inhibitor_comb)
 
