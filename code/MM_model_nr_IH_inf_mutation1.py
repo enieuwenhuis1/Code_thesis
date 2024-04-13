@@ -47,8 +47,8 @@ def main():
 
     # Make a figure showing the cell number dynamics by traditional therapy and
     # by adaptive therapy (original situation)
-    list_t_steps_drug = [10, 10, 10]
-    Figure_continuous_MTD_vs_AT(20, list_t_steps_drug)
+    # list_t_steps_drug = [10, 10, 10]
+    # Figure_continuous_MTD_vs_AT(20, list_t_steps_drug)
     #
     # # Make a figure showing the cell fraction dynamics by traditional therapy and
     # # by adaptive therapy for shorter holiday and administration periods compared
@@ -63,8 +63,8 @@ def main():
 
     # Make a figure showing the cell number dynamics by traditional therapy and
     # by adaptive therapy
-    list_t_steps_drug = [5, 5, 5]
-    Figure_continuous_MTD_vs_AT_realistic(44, list_t_steps_drug)
+    # list_t_steps_drug = [5, 5, 5]
+    # Figure_continuous_MTD_vs_AT_realistic(44, list_t_steps_drug)
     #
     # # Make a 3D figure showthing the effect of different drug holiday and
     # # administration periods

@@ -229,9 +229,9 @@ def main():
     # minimise_MM_W_GF_h_changing_GF_IH([0.72, 1.08, 0.27, 0.27], [0.63, 1.17, 0.27,
     #                    0.27], [0.81, 0.072, 0.18, 0.09], [0.9, 0.072, 0.18, 0.09],
     #                                 'df_MM_W_GF_h_changing_GF_IH_l_gr_dr.csv')
-
-    # Make a figure of the MM number and by different IH strengths
-    Figure_optimisation()
+    #
+    # # Make a figure of the MM number and by different IH strengths
+    # Figure_optimisation()
 
     # Make the figures of the MM number and different by IH strengths
     Figure_optimisation1('Figure_optimisation_normal', int(0))

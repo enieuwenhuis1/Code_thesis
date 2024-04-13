@@ -154,30 +154,30 @@ def main():
     # minimise_MM_GF_W_h()
     # minimise_MM_GF_W_h()
     # print(hi)
-    #
-    # # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
-    # # holiday
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # print(hi)
+
+    # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
+    # holiday
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    print(hi)
     # Optimise IH administration duration, holiday duration and strength for
     # MMd GF IH -> WMMd IH -> holiday
     # minimise_MM_GF_W_h_IH()
@@ -262,7 +262,7 @@ def main():
     # # minimise_MM_W_comb_GF_h()
     # # minimise_MM_W_comb_GF_h()
     # # print(hi)
-    #
+
     # # Optimise IH administration duration, holiday duration and strengths for
     # # MMd GF IH -> IH combination -> WMMd IH -> holiday
     # minimise_MM_GF_comb_W_h_IH()
