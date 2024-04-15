@@ -3710,7 +3710,8 @@ def Figure_continuous_MTD_vs_AT(n_switches, t_steps_drug):
 The interaction matrix is changed to make it more realistic"""
 def Figure_continuous_MTD_vs_AT_realistic(n_switches, t_steps_drug):
     """ Function that makes a figure with 6 subplots showing the cell number
-    dynamics by traditional therapy (continuous MTD) and adaptive therapy.
+    dynamics by traditional therapy (continuous MTD) and adaptive therapy. It
+    also prints the number values in the new equilibrium during adaptive therapy.
 
     Parameters:
     -----------
@@ -3780,6 +3781,28 @@ def Figure_continuous_MTD_vs_AT_realistic(n_switches, t_steps_drug):
     df_total_comb = continuous_add_IH_df(30, 300, nOC, nOB, nMMd, nMMr,
                     growth_rates, growth_rates_IH, decay_rates, decay_rates_IH,
                     matrix_no_GF_IH, matrix_GF_IH_comb, WMMd_inhibitor_comb)
+
+    # Print the equilibrium MMd and MMr values caused by the adaptive therapy 
+    last_MMd_fractions_GF = df_total_switch_GF['xMMd'].tail(int(6))
+    average_MMd_fraction_GF = last_MMd_fractions_GF.sum() / 6
+    last_MMr_fractions_GF = df_total_switch_GF['xMMr'].tail(int(6))
+    average_MMr_fraction_GF = last_MMr_fractions_GF.sum() / 6
+    print('Adaptive therapy MMd GF IH: xMMd =',average_MMd_fraction_GF,
+                                        'and xMMr =', average_MMr_fraction_GF)
+
+    last_MMd_fractions_WMMd = df_total_switch_WMMd['xMMd'].tail(int(6))
+    average_MMd_fraction_WMMd = last_MMd_fractions_WMMd.sum() / 6
+    last_MMr_fractions_WMMd = df_total_switch_WMMd['xMMr'].tail(int(6))
+    average_MMr_fraction_WMMd = last_MMr_fractions_WMMd.sum() / 6
+    print('Adaptive therapy WMMd IH: xMMd =',average_MMd_fraction_WMMd,
+                                        'and xMMr =', average_MMr_fraction_WMMd)
+
+    last_MMd_fractions_comb = df_total_switch_comb['xMMd'].tail(int(6))
+    average_MMd_fraction_comb = last_MMd_fractions_comb.sum() / 6
+    last_MMr_fractions_comb = df_total_switch_comb['xMMr'].tail(int(6))
+    average_MMr_fraction_comb = last_MMr_fractions_comb.sum() / 6
+    print('Adaptive therapy IH combination: xMMd =',average_MMd_fraction_comb,
+                                        'and xMMr =', average_MMr_fraction_comb)
 
     # Save the data
     save_dataframe(df_total_switch_GF, 'df_cell_nr_IH_inf_switch_GF_IH_r.csv',

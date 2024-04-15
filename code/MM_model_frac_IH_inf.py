@@ -1249,7 +1249,8 @@ def Figure_continuous_MTD_vs_AT_s_and_w_a_h(n_switches, t_steps_drug):
     """ Function that makes a figure with 6 subplots showing the cell type
     fraction dynamics by traditional therapy (continuous MTD) and adaptive
     therapy.The holiday and administration periods are short (5 generations) and
-    the IHs are weaker.
+    the IHs are weaker. It also prints the number values in the new equilibrium
+    during adaptive and traditional therapy.
 
     Parameters:
     -----------
@@ -1284,14 +1285,14 @@ def Figure_continuous_MTD_vs_AT_s_and_w_a_h(n_switches, t_steps_drug):
     matrix_GF_IH = np.array([
         [0.0, 1.4, 2.2, 1.5],
         [0.95, 0.0, -0.5, -0.5],
-        [0.6, 0, 0.2, 0.0],
+        [0.55, 0, 0.2, 0.0],
         [1.9, 0, -0.8, 0.4]])
 
     # Payoff matrix when both inhibitor drugs are present
     matrix_GF_IH_comb = np.array([
         [0.0, 1.4, 2.2, 1.5],
         [0.95, 0.0, -0.5, -0.5],
-        [1.22, 0.0, 0.2, 0.0],
+        [1.2, 0.0, 0.2, 0.0],
         [1.9, 0.0, -1.1, 0.4]])
 
     # WMMd inhibitor effect when both inhibitor drugs are present
@@ -1321,6 +1322,50 @@ def Figure_continuous_MTD_vs_AT_s_and_w_a_h(n_switches, t_steps_drug):
     df_total_comb = continuous_add_IH_df(120, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
                                     cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH,
                                     matrix_GF_IH_comb, WMMd_inhibitor_comb)
+
+    # Print the equilibrium MMd and MMr values caused by the adaptive therapy
+    last_MMd_fractions_GF = df_total_switch_GF['xMMd'].tail(int(6))
+    average_MMd_fraction_GF = last_MMd_fractions_GF.sum() / 6
+    last_MMr_fractions_GF = df_total_switch_GF['xMMr'].tail(int(6))
+    average_MMr_fraction_GF = last_MMr_fractions_GF.sum() / 6
+    print('Adaptive therapy MMd GF IH: xMMd =',average_MMd_fraction_GF,
+                                        'and xMMr =', average_MMr_fraction_GF)
+
+    last_MMd_fractions_WMMd = df_total_switch_WMMd['xMMd'].tail(int(6))
+    average_MMd_fraction_WMMd = last_MMd_fractions_WMMd.sum() / 6
+    last_MMr_fractions_WMMd = df_total_switch_WMMd['xMMr'].tail(int(6))
+    average_MMr_fraction_WMMd = last_MMr_fractions_WMMd.sum() / 6
+    print('Adaptive therapy WMMd IH: xMMd =',average_MMd_fraction_WMMd,
+                                        'and xMMr =', average_MMr_fraction_WMMd)
+
+    last_MMd_fractions_comb = df_total_switch_comb['xMMd'].tail(int(6))
+    average_MMd_fraction_comb = last_MMd_fractions_comb.sum() / 6
+    last_MMr_fractions_comb = df_total_switch_comb['xMMr'].tail(int(6))
+    average_MMr_fraction_comb = last_MMr_fractions_comb.sum() / 6
+    print('Adaptive therapy IH combination: xMMd =',average_MMd_fraction_comb,
+                                        'and xMMr =', average_MMr_fraction_comb)
+
+    # Print the equilibrium MMd and MMr values caused by the traditional therapy
+    last_MMd_fractions_GF = df_total_GF['xMMd'].tail(int(6))
+    average_MMd_fraction_GF = last_MMd_fractions_GF.sum() / 6
+    last_MMr_fractions_GF = df_total_GF['xMMr'].tail(int(6))
+    average_MMr_fraction_GF = last_MMr_fractions_GF.sum() / 6
+    print(' Traditional therapy MMd GF IH: xMMd =',average_MMd_fraction_GF,
+                                        'and xMMr =', average_MMr_fraction_GF)
+
+    last_MMd_fractions_WMMd = df_total_WMMd['xMMd'].tail(int(6))
+    average_MMd_fraction_WMMd = last_MMd_fractions_WMMd.sum() / 6
+    last_MMr_fractions_WMMd = df_total_WMMd['xMMr'].tail(int(6))
+    average_MMr_fraction_WMMd = last_MMr_fractions_WMMd.sum() / 6
+    print(' Traditional therapy WMMd IH: xMMd =',average_MMd_fraction_WMMd,
+                                        'and xMMr =', average_MMr_fraction_WMMd)
+
+    last_MMd_fractions_comb = df_total_comb['xMMd'].tail(int(6))
+    average_MMd_fraction_comb = last_MMd_fractions_comb.sum() / 6
+    last_MMr_fractions_comb = df_total_comb['xMMr'].tail(int(6))
+    average_MMr_fraction_comb = last_MMr_fractions_comb.sum() / 6
+    print(' Traditional therapy IH combination: xMMd =',average_MMd_fraction_comb,
+                                        'and xMMr =', average_MMr_fraction_comb)
 
     # Save the data
     save_dataframe(df_total_switch_GF,'df_cell_frac_IH_switch_GF_IH_s_&_w_a_h.csv',

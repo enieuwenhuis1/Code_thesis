@@ -47,8 +47,8 @@ def main():
 
     # Make a figure showing the cell number dynamics by traditional therapy and
     # by adaptive therapy
-    # list_t_steps_drug = [3, 3, 3]
-    # Figure_continuous_MTD_vs_AT_realistic(90, list_t_steps_drug)
+    list_t_steps_drug = [3, 3, 3]
+    Figure_continuous_MTD_vs_AT_realistic(90, list_t_steps_drug)
 
     # # Make a 3D figure showthing the effect of different drug holiday and
     # # administration periods
@@ -80,45 +80,45 @@ def main():
     # # WMMd IH -> holiday -> MMd GF IH ->  holiday
     # minimise_MM_W_h_GF_h_IH()
     #
-    # # Optimise IH administration duration and holiday duration for MMd GF IH
-    # # -> IH combination -> WMMd IH -> holiday
-    # minimise_MM_GF_comb_W_h()
-    #
-    # # Optimise IH administration duration and holiday duration for WMMd IH ->
-    # # IH combination -> MMd GF IH -> holiday
-    # minimise_MM_W_comb_GF_h()
-    #
+    # Optimise IH administration duration and holiday duration for MMd GF IH
+    # -> IH combination -> WMMd IH -> holiday
+    minimise_MM_GF_comb_W_h()
+
+    # Optimise IH administration duration and holiday duration for WMMd IH ->
+    # IH combination -> MMd GF IH -> holiday
+    minimise_MM_W_comb_GF_h()
+
+    # Optimise IH administration duration, holiday duration and strengths for
+    # MMd GF IH -> IH combination -> WMMd IH -> holiday
+    minimise_MM_GF_comb_W_h_IH()
+
     # # Optimise IH administration duration, holiday duration and strengths for
-    # # MMd GF IH -> IH combination -> WMMd IH -> holiday
-    # minimise_MM_GF_comb_W_h_IH()
-    #
-    # # # Optimise IH administration duration, holiday duration and strengths for
-    # # # WMMd IH -> IH combination -> MMd GF IH -> holiday
-    # minimise_MM_W_comb_GF_h_IH()
-    #
-    # # Optimise IH administration duration and holiday duration for MMd GF IH ->
-    # # WMMd IH + MMd GF IH -> WMMd IH -> holiday
-    # minimise_MM_GF_GFandW_W_h()
-    #
-    # # Optimise IH administration duration and holiday duration for WMMd IH ->
-    # # WMMd IH + MMd GF IH -> MMd GF IH -> holiday
-    # minimise_MM_W_WandGF_GF_h()
-    #
-    # # Optimise IH administration duration, holiday duration and strengths for
-    # # MMd GF IH -> WMMd IH + MMd GF IH -> WMMd IH -> holiday
-    # minimise_MM_GF_GFandW_W_h_IH()
-    #
-    # # Optimise IH administration duration, holiday duration and strengths for
-    # # WMMd IH -> WMMd IH + MMd GF IH -> MMd GF IH -> holiday
-    # minimise_MM_W_WandGF_GF_h_IH()
-    #
-    # # Optimise IH administration duration, holiday duration and strengths for
-    # # MMd GF IH -> IH combination -> holiday
-    # minimise_MM_GF_comb_h_IH()
-    #
-    # # Optimise IH administration duration, holiday duration and strengths for
-    # # WMMd IH -> IH combination -> holiday
-    # minimise_MM_W_comb_h_IH()
+    # # WMMd IH -> IH combination -> MMd GF IH -> holiday
+    minimise_MM_W_comb_GF_h_IH()
+
+    # Optimise IH administration duration and holiday duration for MMd GF IH ->
+    # WMMd IH + MMd GF IH -> WMMd IH -> holiday
+    minimise_MM_GF_GFandW_W_h()
+
+    # Optimise IH administration duration and holiday duration for WMMd IH ->
+    # WMMd IH + MMd GF IH -> MMd GF IH -> holiday
+    minimise_MM_W_WandGF_GF_h()
+
+    # Optimise IH administration duration, holiday duration and strengths for
+    # MMd GF IH -> WMMd IH + MMd GF IH -> WMMd IH -> holiday
+    minimise_MM_GF_GFandW_W_h_IH()
+
+    # Optimise IH administration duration, holiday duration and strengths for
+    # WMMd IH -> WMMd IH + MMd GF IH -> MMd GF IH -> holiday
+    minimise_MM_W_WandGF_GF_h_IH()
+
+    # Optimise IH administration duration, holiday duration and strengths for
+    # MMd GF IH -> IH combination -> holiday
+    minimise_MM_GF_comb_h_IH()
+
+    # Optimise IH administration duration, holiday duration and strengths for
+    # WMMd IH -> IH combination -> holiday
+    minimise_MM_W_comb_h_IH()
 
     # # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
     # # holiday for different WMMd IH strengths and MMd GF IH = 0.4
