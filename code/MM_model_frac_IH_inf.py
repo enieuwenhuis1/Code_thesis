@@ -7,12 +7,12 @@ Description:  Code with the model that simulates the dynamics in the multiple
               MM cells (MMd), resistant MM cells (MMr), osteoblasts (OB) and
               osteoclasts (OC). The model is a public goods game in the framework
               of evolutionary game theory with collective interactions and linear
-              benefits. In this model, there is looked at the fractions of the four
-              cell types.
+              benefits. In this model, there is looked at the fractions of the
+              four cell types.
 
-              The IHs have not only an influence on the MMd but also on the OB and
-              OC. This was incorporated by increasing the cOC value and decreasing
-              the cOB value when an IH was administered.
+              The IHs have not only an influence on the MMd but also on the OB
+              and OC. This was incorporated by increasing the cOC value and
+              decreasing the cOB value when an IH was administered.
 """
 
 # Import the needed libraries
@@ -60,8 +60,8 @@ def main():
     # Make a figure showing the cell fraction dynamics by traditional therapy and
     # by adaptive therapy for shorter holiday and administration periods and
     # weaker IHs compared to the original situation
-    list_t_steps_drug = [5, 5, 5]
-    Figure_continuous_MTD_vs_AT_s_and_w_a_h(24, list_t_steps_drug)
+    list_t_steps_drug = [3, 3, 3]
+    Figure_continuous_MTD_vs_AT_s_and_w_a_h(35, list_t_steps_drug)
 
     # Make a figure showing the cell fraction dynamics by traditional therapy and
     # by adaptive therapy whereby the OB-OC equilibrium gets restored
@@ -91,7 +91,7 @@ def main():
     list_t_steps_no_drug = [8, 5]
     list_n_steps = [18, 18]
     Figure_duration_A_h_MMd_IH(list_n_steps, list_t_steps_drug,
-                                                            list_t_steps_no_drug)
+                                                        list_t_steps_no_drug)
 
 
 def fitness_WOC(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix):
@@ -199,7 +199,8 @@ def fitness_WOB(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix):
 def fitness_WMMd(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix,
                                                             WMMd_inhibitor = 0):
     """
-    Function that calculates the fitness of a drug-senstive MM cell in a population.
+    Function that calculates the fitness of a drug-senstive MM cell in a
+    population.
 
     Parameters:
     -----------
@@ -1274,59 +1275,30 @@ def Figure_continuous_MTD_vs_AT_s_and_w_a_h(n_switches, t_steps_drug):
 
     # Payoff matrix when no drugs are present
     matrix_no_GF_IH = np.array([
-        [0.0, 1.6, 2.2, 1.9],
+        [0.0, 1.4, 2.2, 1.5],
         [0.95, 0.0, -0.5, -0.5],
         [2.2, 0, 0.2, 0.0],
         [1.9, 0, -0.8, 0.4]])
 
     # Payoff matrix when only GF inhibitor drugs are present
     matrix_GF_IH = np.array([
-        [0.0, 1.6, 2.2, 1.9],
+        [0.0, 1.4, 2.2, 1.5],
         [0.95, 0.0, -0.5, -0.5],
-        [0.65, 0, 0.2, 0.0],
+        [0.6, 0, 0.2, 0.0],
         [1.9, 0, -0.8, 0.4]])
 
     # Payoff matrix when both inhibitor drugs are present
     matrix_GF_IH_comb = np.array([
-        [0.0, 1.6, 2.2, 1.9],
+        [0.0, 1.4, 2.2, 1.5],
         [0.95, 0.0, -0.5, -0.5],
-        [1.2, 0.0, 0.2, 0.0],
+        [1.22, 0.0, 0.2, 0.0],
         [1.9, 0.0, -1.1, 0.4]])
 
     # WMMd inhibitor effect when both inhibitor drugs are present
-    WMMd_inhibitor_comb = 0.62
+    WMMd_inhibitor_comb = 0.67
 
     # WMMd inhibitor effect when only WMMd IH is present
-    WMMd_inhibitor = 1.28
-
-
-
-    # Payoff matrix when no drugs are present
-    matrix_no_GF_IH = np.array([
-        [0.0, 1.6, 2.2, 1.9],
-        [0.95, 0.0, -0.5, -0.5],
-        [2.2, 0, 0.2, 0.0],
-        [1.9, 0, -0.8, 0.42]])
-
-    # Payoff matrix when only GF inhibitor drugs are present
-    matrix_GF_IH = np.array([
-        [0.0, 1.6, 2.2, 1.9],
-        [0.95, 0.0, -0.5, -0.5],
-        [0.65, 0, 0.2, 0.0],
-        [1.9, 0, -0.8, 0.42]])
-
-    # Payoff matrix when both inhibitor drugs are present
-    matrix_GF_IH_comb = np.array([
-        [0.0, 1.6, 2.2, 1.9],
-        [0.95, 0.0, -0.5, -0.5],
-        [1.24, 0.0, 0.2, 0.0],
-        [1.9, 0.0, -1.1, 0.42]])
-
-    # WMMd inhibitor effect when both inhibitor drugs are present
-    WMMd_inhibitor_comb = 0.65
-
-    # WMMd inhibitor effect when only WMMd IH is present
-    WMMd_inhibitor = 1.28
+    WMMd_inhibitor = 1.24
 
     # Make dataframe for the different drug hollyday duration values
     df_total_switch_GF = switch_dataframe(n_switches, t_steps_drug[0],
@@ -1341,12 +1313,12 @@ def Figure_continuous_MTD_vs_AT_s_and_w_a_h(n_switches, t_steps_drug):
                 WMMd_inhibitor_comb)
 
     # Make dataframes for continiously administration
-    df_total_GF = continuous_add_IH_df(135, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
+    df_total_GF = continuous_add_IH_df(120, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
             cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH)
-    df_total_WMMd = continuous_add_IH_df(135, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
+    df_total_WMMd = continuous_add_IH_df(120, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
                                     cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH,
                                     matrix_no_GF_IH, WMMd_inhibitor)
-    df_total_comb = continuous_add_IH_df(135, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
+    df_total_comb = continuous_add_IH_df(120, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
                                     cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH,
                                     matrix_GF_IH_comb, WMMd_inhibitor_comb)
 
@@ -1371,8 +1343,8 @@ def Figure_continuous_MTD_vs_AT_s_and_w_a_h(n_switches, t_steps_drug):
     df_total_GF.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
                                                     legend=False, ax=axs[0, 0])
     axs[0, 0].set_xlabel(' ')
-    axs[0, 0].set_ylabel('Fraction', fontsize=11)
-    axs[0, 0].set_title(f"Traditional therapy MMd GF IH ")
+    axs[0, 0].set_ylabel('Fraction', fontsize=12)
+    axs[0, 0].set_title(f"Traditional therapy MMd GF IH ", fontsize=14)
     axs[0, 0].grid(True)
 
     # Plot the data with drug holidays in the second plot
@@ -1380,7 +1352,7 @@ def Figure_continuous_MTD_vs_AT_s_and_w_a_h(n_switches, t_steps_drug):
                                                     legend=False, ax=axs[0, 1])
     axs[0, 1].set_xlabel(' ')
     axs[0, 1].set_ylabel(' ')
-    axs[0, 1].set_title(r"Traditional therapy $W_{MMd}$ IH")
+    axs[0, 1].set_title(r"Traditional therapy $W_{MMd}$ IH", fontsize=14)
     axs[0, 1].grid(True)
 
     # Plot the data with drug holidays in the second plot
@@ -1388,35 +1360,35 @@ def Figure_continuous_MTD_vs_AT_s_and_w_a_h(n_switches, t_steps_drug):
                                                     legend=False, ax=axs[0, 2])
     axs[0, 2].set_xlabel(' ')
     axs[0, 2].set_ylabel(' ')
-    axs[0, 2].set_title(r"Traditional therapy IH combination")
+    axs[0, 2].set_title(r"Traditional therapy IH combination", fontsize=14)
     axs[0, 2].set_yticks([i/10 for i in range(9)])
     axs[0, 2].grid(True)
 
     # Plot the data with drug holidays in the third plot
     df_total_switch_GF.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
                                                     legend=False, ax=axs[1, 0])
-    axs[1, 0].set_xlabel('Generations', fontsize=11)
-    axs[1, 0].set_ylabel('Fraction', fontsize=11)
-    axs[1, 0].set_title(f"Adaptive therapy MMd GF IH")
+    axs[1, 0].set_xlabel('Generations', fontsize=12)
+    axs[1, 0].set_ylabel('Fraction', fontsize=12)
+    axs[1, 0].set_title(f"Adaptive therapy MMd GF IH", fontsize=14)
     axs[1, 0].grid(True)
     plt.grid(True)
 
     # Plot the data with drug holidays in the fourth plot
     df_total_switch_WMMd.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
                                                     legend=False, ax=axs[1, 1])
-    axs[1, 1].set_xlabel('Generations', fontsize=11)
+    axs[1, 1].set_xlabel('Generations', fontsize=12)
     axs[1, 1].set_ylabel(' ')
-    axs[1, 1].set_title(r"Adaptive therapy $W_{MMd}$ IH")
+    axs[1, 1].set_title(r"Adaptive therapy $W_{MMd}$ IH", fontsize=14)
     axs[1, 1].grid(True)
 
     # Plot the data with drug holidays in the fourth plot
     df_total_switch_comb.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
                                                     legend=False, ax=axs[1, 2])
-    axs[1, 2].set_xlabel('Generations', fontsize=11)
+    axs[1, 2].set_xlabel('Generations', fontsize=12)
     axs[1, 2].set_ylabel(' ')
-    axs[1, 2].set_title(r"Adaptive therapy IH combination")
+    axs[1, 2].set_title(r"Adaptive therapy IH combination", fontsize=14)
     axs[1, 2].grid(True)
-    axs[1, 2].set_yticks([i/10 for i in range(9)])
+    # axs[1, 2].set_yticks([i/10 for i in range(9)])
 
     # Create a single legend outside of all plots
     legend_labels = ['Fraction OC', 'Fraction OB', 'Fraction MMd', 'Fraction MMr']

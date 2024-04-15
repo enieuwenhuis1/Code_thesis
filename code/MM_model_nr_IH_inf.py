@@ -59,8 +59,8 @@ def main():
 
     # Make a figure showing the cell number dynamics by traditional therapy and
     # by adaptive therapy
-    list_t_steps_drug = [5, 5, 5]
-    Figure_continuous_MTD_vs_AT_realistic(64, list_t_steps_drug)
+    list_t_steps_drug = [3, 3, 3]
+    Figure_continuous_MTD_vs_AT_realistic(90, list_t_steps_drug)
     #
     # # Make a 3D figure showthing the effect of different drug holiday and
     # # administration periods
@@ -3771,13 +3771,13 @@ def Figure_continuous_MTD_vs_AT_realistic(n_switches, t_steps_drug):
             WMMd_inhibitor_comb)
 
     # Make dataframes for continiously administration
-    df_total_GF = continuous_add_IH_df(30, 350, nOC, nOB, nMMd, nMMr,
+    df_total_GF = continuous_add_IH_df(30, 300, nOC, nOB, nMMd, nMMr,
                             growth_rates, growth_rates_IH, decay_rates,
                             decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH)
-    df_total_WMMd = continuous_add_IH_df(30, 350, nOC, nOB, nMMd, nMMr,
+    df_total_WMMd = continuous_add_IH_df(30, 300, nOC, nOB, nMMd, nMMr,
                     growth_rates, growth_rates_IH, decay_rates, decay_rates_IH,
                     matrix_no_GF_IH, matrix_no_GF_IH, WMMd_inhibitor)
-    df_total_comb = continuous_add_IH_df(30, 350, nOC, nOB, nMMd, nMMr,
+    df_total_comb = continuous_add_IH_df(30, 300, nOC, nOB, nMMd, nMMr,
                     growth_rates, growth_rates_IH, decay_rates, decay_rates_IH,
                     matrix_no_GF_IH, matrix_GF_IH_comb, WMMd_inhibitor_comb)
 
