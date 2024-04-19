@@ -43,17 +43,17 @@ M = np.array([
 
 def main():
     # Do doc tests
-    doctest.testmod()
+    # doctest.testmod()
 
     # Make a figure showing the cell number dynamics by traditional therapy and
     # by adaptive therapy
     list_t_steps_drug = [3, 3, 3]
     Figure_continuous_MTD_vs_AT_realistic(90, list_t_steps_drug)
 
-    # # Make a 3D figure showthing the effect of different drug holiday and
-    # # administration periods
-    # Figure_3D_MM_numb_IH_add_and_holiday()
-    #
+    # Make a 3D figure showthing the effect of different drug holiday and
+    # administration periods
+    Figure_3D_MM_numb_IH_add_and_holiday()
+
     #
     # """ The optimisation situations """
     # # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
@@ -521,7 +521,6 @@ def dMMd_dt_no_MMr(nOC, nOB, nMMd, nMMr, gr_MMd, dr_MMd, matrix, WMMd_inhibitor 
                                             WMMd_inhibitor) - (dr_MMd * nMMd)
 
     return change_nMMd
-
 
 def mutation_MMd_to_MMr(IH_present, nMMd, nMMd_change, nMMr_change):
     """Function that determines the number of MMd that become a MMr through
@@ -3451,7 +3450,7 @@ def minimal_tumour_numb_t_steps(t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd,
     n_switches = int((400 // time_step) -1)
 
     # Create a dataframe of the numbers
-    df = switch_dataframe(60, n_switches, t_steps_drug, t_steps_no_drug, nOC,
+    df = switch_dataframe(30, n_switches, t_steps_drug, t_steps_no_drug, nOC,
                 nOB, nMMd, nMMr, growth_rates, growth_rates_IH, decay_rates,
                 decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH, IH_present,
                 WMMd_inhibitor)
@@ -3517,37 +3516,15 @@ def Figure_continuous_MTD_vs_AT_realistic(n_switches, t_steps_drug):
 
 
     # Make dataframe for the different drug hollyday duration values
-    df_total_switch_GF = switch_dataframe(30, n_switches, t_steps_drug[0],
-            t_steps_drug[0], nOC, nOB, nMMd, nMMr, growth_rates, growth_rates_IH,
+    df_total_switch_GF = switch_dataframe(30, n_switches, 2, 6, nOC, nOB, nMMd, nMMr, growth_rates, growth_rates_IH,
             decay_rates, decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH, int(1))
-    df_total_switch_WMMd = switch_dataframe(30, n_switches, t_steps_drug[1],
-            t_steps_drug[1], nOC, nOB, nMMd, nMMr, growth_rates, growth_rates_IH,
+    df_total_switch_WMMd = switch_dataframe(30, n_switches, 5, 2,
+            nOC, nOB, nMMd, nMMr, growth_rates, growth_rates_IH,
             decay_rates, decay_rates_IH, matrix_no_GF_IH, matrix_no_GF_IH,
             int(1), WMMd_inhibitor)
-    df_total_switch_comb = switch_dataframe(30, n_switches, t_steps_drug[2],
-            t_steps_drug[2], nOC, nOB, nMMd, nMMr, growth_rates, growth_rates_IH,
+    df_total_switch_comb = switch_dataframe(30, n_switches, 2, 2, nOC, nOB, nMMd, nMMr, growth_rates, growth_rates_IH,
             decay_rates, decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH_comb,
             int(2), WMMd_inhibitor_comb)
-
-
-    last_MMd_numbers_GF = df_total_switch_GF['nMMd'].tail(int(6))
-    average_MMd_number_GF = last_MMd_numbers_GF.sum() / 6
-    last_MMr_numbers_GF = df_total_switch_GF['nMMr'].tail(int(6))
-    average_MMr_number_GF = last_MMr_numbers_GF.sum() / 6
-    print('1 gf d and r ',average_MMd_number_GF, average_MMr_number_GF)
-
-    last_MMd_numbers_WMMd = df_total_switch_WMMd['nMMd'].tail(int(6))
-    average_MMd_number_WMMd = last_MMd_numbers_WMMd.sum() / 6
-    last_MMr_numbers_WMMd = df_total_switch_WMMd['nMMr'].tail(int(6))
-    average_MMr_number_WMMd = last_MMr_numbers_WMMd.sum() / 6
-    print('1 W d and r ',average_MMd_number_WMMd, average_MMr_number_WMMd)
-
-    last_MMd_numbers_comb = df_total_switch_comb['nMMd'].tail(int(6))
-    average_MMd_number_comb = last_MMd_numbers_comb.sum() / 6
-    last_MMr_numbers_comb = df_total_switch_comb['nMMr'].tail(int(6))
-    average_MMr_number_comb = last_MMr_numbers_comb.sum() / 6
-    print('1 comb d and r ',average_MMd_number_comb, average_MMr_number_comb)
-
 
     # Make dataframes for continiously administration
     df_total_GF = continuous_add_IH_df(30, 300, nOC, nOB, nMMd, nMMr,
@@ -3560,23 +3537,27 @@ def Figure_continuous_MTD_vs_AT_realistic(n_switches, t_steps_drug):
                 growth_rates, growth_rates_IH, decay_rates, decay_rates_IH,
                 matrix_no_GF_IH, matrix_GF_IH_comb, int(2), WMMd_inhibitor_comb)
 
-    last_MMd_numbers_GF = df_total_GF['nMMd'].tail(int(6))
-    average_MMd_number_GF = last_MMd_numbers_GF.sum() / 6
-    last_MMr_numbers_GF = df_total_GF['nMMr'].tail(int(6))
-    average_MMr_number_GF = last_MMr_numbers_GF.sum() / 6
-    print('2 gf d and r ',average_MMd_number_GF, average_MMr_number_GF)
+    # Print the equilibrium MMd and MMr values caused by the adaptive therapy
+    last_MMd_fractions_GF = df_total_switch_GF['nMMd'].tail(int(6))
+    average_MMd_fraction_GF = last_MMd_fractions_GF.sum() / 6
+    last_MMr_fractions_GF = df_total_switch_GF['nMMr'].tail(int(6))
+    average_MMr_fraction_GF = last_MMr_fractions_GF.sum() / 6
+    print('Adaptive therapy MMd GF IH: nMMd =',average_MMd_fraction_GF,
+                                        'and nMMr =', average_MMr_fraction_GF)
 
-    last_MMd_numbers_WMMd = df_total_WMMd['nMMd'].tail(int(6))
-    average_MMd_number_WMMd = last_MMd_numbers_WMMd.sum() / 6
-    last_MMr_numbers_WMMd = df_total_WMMd['nMMr'].tail(int(6))
-    average_MMr_number_WMMd = last_MMr_numbers_WMMd.sum() / 6
-    print('2 W d and r ',average_MMd_number_WMMd, average_MMr_number_WMMd)
+    last_MMd_fractions_WMMd = df_total_switch_WMMd['nMMd'].tail(int(6))
+    average_MMd_fraction_WMMd = last_MMd_fractions_WMMd.sum() / 6
+    last_MMr_fractions_WMMd = df_total_switch_WMMd['nMMr'].tail(int(6))
+    average_MMr_fraction_WMMd = last_MMr_fractions_WMMd.sum() / 6
+    print('Adaptive therapy WMMd IH: nMMd =',average_MMd_fraction_WMMd,
+                                        'and nMMr =', average_MMr_fraction_WMMd)
 
-    last_MMd_numbers_comb = df_total_comb['nMMd'].tail(int(6))
-    average_MMd_number_comb = last_MMd_numbers_comb.sum() / 6
-    last_MMr_numbers_comb = df_total_comb['nMMr'].tail(int(6))
-    average_MMr_number_comb = last_MMr_numbers_comb.sum() / 6
-    print('2 comb d and r ',average_MMd_number_comb, average_MMr_number_comb)
+    last_MMd_fractions_comb = df_total_switch_comb['nMMd'].tail(int(6))
+    average_MMd_fraction_comb = last_MMd_fractions_comb.sum() / 6
+    last_MMr_fractions_comb = df_total_switch_comb['nMMr'].tail(int(6))
+    average_MMr_fraction_comb = last_MMr_fractions_comb.sum() / 6
+    print('Adaptive therapy IH combination: nMMd =',average_MMd_fraction_comb,
+                                        'and nMMr =', average_MMr_fraction_comb)
 
     # Save the data
     save_dataframe(df_total_switch_GF, 'df_cell_nr_IH_inf_switch_GF_IH_r.csv',
@@ -3697,6 +3678,45 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
 
     # WMMd inhibitor effect when only WMMd IH is present
     WMMd_inhibitor = 0.42
+
+    # Set start values
+    nOC = 210
+    nOB = 300
+    nMMd = 220
+    nMMr = 0
+    growth_rates = [0.8, 1.2, 0.3, 0.3]
+    decay_rates = [0.9, 0.08, 0.2, 0.1]
+    growth_rates_IH = [0.7, 1.3, 0.3, 0.3]
+    decay_rates_IH = [1.0, 0.08, 0.2, 0.1]
+
+
+    # Payoff matrix when no drugs are present
+    matrix_no_GF_IH = np.array([
+    [0.0, 0.4, 0.6, 0.55],
+    [0.3, 0.0, -0.3, -0.3],
+    [0.6, 0.0, 0.5, 0.0],
+    [0.55, 0.0, -0.6, 0.65]])
+
+    # Payoff matrix when only GF inhibitor drugs are present
+    matrix_GF_IH = np.array([
+    [0.0, 0.4, 0.6, 0.55],
+    [0.3, 0.0, -0.3, -0.3],
+    [0.12, 0.0, 0.5, 0.0],
+    [0.55, 0.0, -0.6, 0.65]])
+
+    # Payoff matrix when both inhibitor drugs are present
+    matrix_GF_IH_comb = np.array([
+    [0.0, 0.4, 0.6, 0.55],
+    [0.3, 0.0, -0.3, -0.3],
+    [0.23, 0.0, 0.5, 0.0],
+    [0.55, 0.0, -0.8, 0.65]])
+
+    # WMMd inhibitor effect when both inhibitor drugs are present
+    WMMd_inhibitor_comb = 0.41
+
+    # WMMd inhibitor effect when only WMMd IH is present
+    WMMd_inhibitor = 4
+
 
     # Make a dataframe
     column_names = ['Generations no drug', 'Generations drug', 'MM number']

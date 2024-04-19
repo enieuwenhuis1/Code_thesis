@@ -52,21 +52,21 @@ def main():
     # list_t_steps_drug = [5, 5, 5]
     # Figure_continuous_MTD_vs_AT_short_a_h(20, list_t_steps_drug)
     #
-    # # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # # by adaptive therapy for weaker IHs compared to the original situation
+    # # Make a figure showing the cell fraction dynamics by traditional therapy
+    # # and by adaptive therapy for weaker IHs compared to the original situation
     # list_t_steps_drug = [10, 10, 10]
     # Figure_continuous_MTD_vs_AT_weak_a_h(12, list_t_steps_drug)
-
+    #
     # Make a figure showing the cell fraction dynamics by traditional therapy and
     # by adaptive therapy for shorter holiday and administration periods and
     # weaker IHs compared to the original situation
-    list_t_steps_drug = [3, 3, 3]
-    Figure_continuous_MTD_vs_AT_s_and_w_a_h(35, list_t_steps_drug)
+    list_t_steps_drug = [5, 5, 5]
+    Figure_continuous_MTD_vs_AT_s_and_w_a_h(22, list_t_steps_drug)
 
-    # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # by adaptive therapy whereby the OB-OC equilibrium gets restored
-    list_t_steps_drug = [10, 10, 10]
-    Figure_continuous_MTD_vs_AT_OB_a_h(9, list_t_steps_drug)
+    # # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # # by adaptive therapy whereby the OB-OC equilibrium gets restored
+    # list_t_steps_drug = [10, 10, 10]
+    # Figure_continuous_MTD_vs_AT_OB_a_h(9, list_t_steps_drug)
 
     # Make a 3D figure showthing the effect of different drug holiday and
     # administration periods
@@ -494,14 +494,16 @@ def save_Figure(Figure, file_name, folder_path):
     Figure.savefig(os.path.join(folder_path, file_name))
 
 
-def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd,
-                            xMMr, N, cOC, cOB, cMMd, cMMr, cOC_IH, cOB_IH,
-                            matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor = 0):
+def switch_dataframe(time_start_drugs, n_switches, t_steps_drug, t_steps_no_drug,
+                xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, cOC_IH, cOB_IH,
+                matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor = 0):
     """ Function that makes a dataframe of the xOC, xOB, xMMd and xMMr values
     over time for a given time of drug holiday and administration periods.
 
     Parameters:
     -----------
+    time_start_drugs: Int
+        The generation after which the inhibitors will be administared.
     n_switches: Int
         The fraction of switches between giving drugs and not giving drugs.
     t_steps_drug: Int
@@ -547,7 +549,7 @@ def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd,
     x = 0
     time = 0
     df_total_switch = pd.DataFrame()
-    t_steps = 15
+    t_steps = time_start_drugs
     t = np.linspace(0, t_steps, t_steps*2)
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix_no_GF_IH)
@@ -623,13 +625,16 @@ def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd,
     return df_total_switch
 
 
-def continuous_add_IH_df(end_generation, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd,
-        cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor = 0):
+def continuous_add_IH_df(time_start_drugs, end_generation, xOC, xOB, xMMd, xMMr,
+        N, cOC, cOB, cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH,
+        WMMd_inhibitor = 0):
     """ Function that makes a dataframe of the cell type fractions when the IHs
     are administered continuously.
 
     Parameters:
     -----------
+    time_start_drugs: Int
+        The generation after which the inhibitors will get administared
     end_generation: Int
         The last generation for which the fractions have to be calculated
     xOC: Float
@@ -667,7 +672,7 @@ def continuous_add_IH_df(end_generation, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd
     df_total: DataFrame
         The dataframe with the cell fractions when IHs are continiously administered.
     """
-    t = np.linspace(0, 15, 15)
+    t = np.linspace(0, time_start_drugs, time_start_drugs)
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC, cOB, cMMd, cMMr, matrix_no_GF_IH)
 
@@ -682,7 +687,7 @@ def continuous_add_IH_df(end_generation, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd
     xMMd = df_1['xMMd'].iloc[-1]
     xMMr = df_1['xMMr'].iloc[-1]
 
-    t = np.linspace(15, end_generation, 120)
+    t = np.linspace(time_start_drugs, end_generation, 120)
     y0 = [xOC, xOB, xMMd, xMMr]
     parameters = (N, cOC_IH, cOB_IH, cMMd, cMMr, matrix_GF_IH, WMMd_inhibitor)
 
@@ -764,7 +769,7 @@ def minimal_tumour_frac_t_steps(t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd,
     n_switches = int((110 // time_step) -1)
 
     # Create a dataframe of the fractions
-    df = switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, xOC, xOB,
+    df = switch_dataframe(15, n_switches, t_steps_drug, t_steps_no_drug, xOC, xOB,
                             xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, cOC_IH, cOB_IH,
                              matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor)
 
@@ -1148,26 +1153,26 @@ def Figure_continuous_MTD_vs_AT_a_h(n_switches, t_steps_drug):
     WMMd_inhibitor = 1.45
 
     # Make dataframe for the different drug hollyday duration values
-    df_total_switch_GF = switch_dataframe(n_switches, t_steps_drug[0],
+    df_total_switch_GF = switch_dataframe(15, n_switches, t_steps_drug[0],
                 t_steps_drug[0], xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
                 cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH)
-    df_total_switch_WMMd = switch_dataframe(n_switches, t_steps_drug[1],
+    df_total_switch_WMMd = switch_dataframe(15, n_switches, t_steps_drug[1],
                 t_steps_drug[1], xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
                 cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_no_GF_IH, WMMd_inhibitor)
-    df_total_switch_comb = switch_dataframe(n_switches, t_steps_drug[2],
+    df_total_switch_comb = switch_dataframe(15, n_switches, t_steps_drug[2],
                 t_steps_drug[2], xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
                 cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH_comb,
                 WMMd_inhibitor_comb)
 
     # Make dataframes for continiously administration
-    df_total_GF = continuous_add_IH_df(135, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
-            cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH)
-    df_total_WMMd = continuous_add_IH_df(135, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
-                                    cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH,
-                                    matrix_no_GF_IH, WMMd_inhibitor)
-    df_total_comb = continuous_add_IH_df(135, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
-                                    cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH,
-                                    matrix_GF_IH_comb, WMMd_inhibitor_comb)
+    df_total_GF = continuous_add_IH_df(15, 135, xOC, xOB, xMMd, xMMr, N, cOC,
+                cOB, cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH)
+    df_total_WMMd = continuous_add_IH_df(15, 135, xOC, xOB, xMMd, xMMr, N, cOC,
+                            cOB, cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH,
+                            matrix_no_GF_IH, WMMd_inhibitor)
+    df_total_comb = continuous_add_IH_df(15, 135, xOC, xOB, xMMd, xMMr, N, cOC,
+                            cOB, cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH,
+                            matrix_GF_IH_comb, WMMd_inhibitor_comb)
 
     # Save the data
     save_dataframe(df_total_switch_GF,'df_cell_frac_IH_switch_GF_IH_a_h.csv',
@@ -1292,78 +1297,78 @@ def Figure_continuous_MTD_vs_AT_s_and_w_a_h(n_switches, t_steps_drug):
     matrix_GF_IH_comb = np.array([
         [0.0, 1.4, 2.2, 1.5],
         [0.95, 0.0, -0.5, -0.5],
-        [1.2, 0.0, 0.2, 0.0],
+        [1.28, 0.0, 0.2, 0.0],
         [1.9, 0.0, -1.1, 0.4]])
 
     # WMMd inhibitor effect when both inhibitor drugs are present
-    WMMd_inhibitor_comb = 0.67
+    WMMd_inhibitor_comb = 0.65
 
     # WMMd inhibitor effect when only WMMd IH is present
-    WMMd_inhibitor = 1.24
+    WMMd_inhibitor = 1.35
 
     # Make dataframe for the different drug hollyday duration values
-    df_total_switch_GF = switch_dataframe(n_switches, t_steps_drug[0],
+    df_total_switch_GF = switch_dataframe(10, n_switches, t_steps_drug[0],
                 t_steps_drug[0], xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
                 cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH)
-    df_total_switch_WMMd = switch_dataframe(n_switches, t_steps_drug[1],
+    df_total_switch_WMMd = switch_dataframe(10, n_switches, t_steps_drug[1],
                 t_steps_drug[1], xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
                 cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_no_GF_IH, WMMd_inhibitor)
-    df_total_switch_comb = switch_dataframe(n_switches, t_steps_drug[2],
+    df_total_switch_comb = switch_dataframe(10, n_switches, t_steps_drug[2],
                 t_steps_drug[2], xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
                 cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH_comb,
                 WMMd_inhibitor_comb)
 
     # Make dataframes for continiously administration
-    df_total_GF = continuous_add_IH_df(120, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
-            cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH)
-    df_total_WMMd = continuous_add_IH_df(120, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
-                                    cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH,
-                                    matrix_no_GF_IH, WMMd_inhibitor)
-    df_total_comb = continuous_add_IH_df(120, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
-                                    cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH,
-                                    matrix_GF_IH_comb, WMMd_inhibitor_comb)
+    df_total_GF = continuous_add_IH_df(10, 120, xOC, xOB, xMMd, xMMr, N, cOC,
+            cOB, cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH)
+    df_total_WMMd = continuous_add_IH_df(10, 120, xOC, xOB, xMMd, xMMr, N, cOC,
+                            cOB, cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH,
+                            matrix_no_GF_IH, WMMd_inhibitor)
+    df_total_comb = continuous_add_IH_df(10, 120, xOC, xOB, xMMd, xMMr, N, cOC,
+                            cOB, cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH,
+                            matrix_GF_IH_comb, WMMd_inhibitor_comb)
 
     # Print the equilibrium MMd and MMr values caused by the adaptive therapy
-    last_MMd_fractions_GF = df_total_switch_GF['xMMd'].tail(int(6))
-    average_MMd_fraction_GF = last_MMd_fractions_GF.sum() / 6
-    last_MMr_fractions_GF = df_total_switch_GF['xMMr'].tail(int(6))
-    average_MMr_fraction_GF = last_MMr_fractions_GF.sum() / 6
+    last_MMd_fractions_GF = df_total_switch_GF['xMMd'].tail(int(10))
+    average_MMd_fraction_GF = last_MMd_fractions_GF.sum() / 10
+    last_MMr_fractions_GF = df_total_switch_GF['xMMr'].tail(int(10))
+    average_MMr_fraction_GF = last_MMr_fractions_GF.sum() / 10
     print('Adaptive therapy MMd GF IH: xMMd =',average_MMd_fraction_GF,
                                         'and xMMr =', average_MMr_fraction_GF)
 
-    last_MMd_fractions_WMMd = df_total_switch_WMMd['xMMd'].tail(int(6))
-    average_MMd_fraction_WMMd = last_MMd_fractions_WMMd.sum() / 6
-    last_MMr_fractions_WMMd = df_total_switch_WMMd['xMMr'].tail(int(6))
-    average_MMr_fraction_WMMd = last_MMr_fractions_WMMd.sum() / 6
+    last_MMd_fractions_WMMd = df_total_switch_WMMd['xMMd'].tail(int(10))
+    average_MMd_fraction_WMMd = last_MMd_fractions_WMMd.sum() / 10
+    last_MMr_fractions_WMMd = df_total_switch_WMMd['xMMr'].tail(int(10))
+    average_MMr_fraction_WMMd = last_MMr_fractions_WMMd.sum() / 10
     print('Adaptive therapy WMMd IH: xMMd =',average_MMd_fraction_WMMd,
                                         'and xMMr =', average_MMr_fraction_WMMd)
 
-    last_MMd_fractions_comb = df_total_switch_comb['xMMd'].tail(int(6))
-    average_MMd_fraction_comb = last_MMd_fractions_comb.sum() / 6
-    last_MMr_fractions_comb = df_total_switch_comb['xMMr'].tail(int(6))
-    average_MMr_fraction_comb = last_MMr_fractions_comb.sum() / 6
+    last_MMd_fractions_comb = df_total_switch_comb['xMMd'].tail(int(10))
+    average_MMd_fraction_comb = last_MMd_fractions_comb.sum() / 10
+    last_MMr_fractions_comb = df_total_switch_comb['xMMr'].tail(int(10))
+    average_MMr_fraction_comb = last_MMr_fractions_comb.sum() / 10
     print('Adaptive therapy IH combination: xMMd =',average_MMd_fraction_comb,
                                         'and xMMr =', average_MMr_fraction_comb)
 
     # Print the equilibrium MMd and MMr values caused by the traditional therapy
-    last_MMd_fractions_GF = df_total_GF['xMMd'].tail(int(6))
-    average_MMd_fraction_GF = last_MMd_fractions_GF.sum() / 6
-    last_MMr_fractions_GF = df_total_GF['xMMr'].tail(int(6))
-    average_MMr_fraction_GF = last_MMr_fractions_GF.sum() / 6
+    last_MMd_fractions_GF = df_total_GF['xMMd'].tail(int(10))
+    average_MMd_fraction_GF = last_MMd_fractions_GF.sum() / 10
+    last_MMr_fractions_GF = df_total_GF['xMMr'].tail(int(10))
+    average_MMr_fraction_GF = last_MMr_fractions_GF.sum() / 10
     print(' Traditional therapy MMd GF IH: xMMd =',average_MMd_fraction_GF,
                                         'and xMMr =', average_MMr_fraction_GF)
 
-    last_MMd_fractions_WMMd = df_total_WMMd['xMMd'].tail(int(6))
-    average_MMd_fraction_WMMd = last_MMd_fractions_WMMd.sum() / 6
-    last_MMr_fractions_WMMd = df_total_WMMd['xMMr'].tail(int(6))
-    average_MMr_fraction_WMMd = last_MMr_fractions_WMMd.sum() / 6
+    last_MMd_fractions_WMMd = df_total_WMMd['xMMd'].tail(int(10))
+    average_MMd_fraction_WMMd = last_MMd_fractions_WMMd.sum() / 10
+    last_MMr_fractions_WMMd = df_total_WMMd['xMMr'].tail(int(10))
+    average_MMr_fraction_WMMd = last_MMr_fractions_WMMd.sum() / 10
     print(' Traditional therapy WMMd IH: xMMd =',average_MMd_fraction_WMMd,
                                         'and xMMr =', average_MMr_fraction_WMMd)
 
-    last_MMd_fractions_comb = df_total_comb['xMMd'].tail(int(6))
-    average_MMd_fraction_comb = last_MMd_fractions_comb.sum() / 6
-    last_MMr_fractions_comb = df_total_comb['xMMr'].tail(int(6))
-    average_MMr_fraction_comb = last_MMr_fractions_comb.sum() / 6
+    last_MMd_fractions_comb = df_total_comb['xMMd'].tail(int(10))
+    average_MMd_fraction_comb = last_MMd_fractions_comb.sum() / 10
+    last_MMr_fractions_comb = df_total_comb['xMMr'].tail(int(10))
+    average_MMr_fraction_comb = last_MMr_fractions_comb.sum() / 10
     print(' Traditional therapy IH combination: xMMd =',average_MMd_fraction_comb,
                                         'and xMMr =', average_MMr_fraction_comb)
 
@@ -1386,6 +1391,7 @@ def Figure_continuous_MTD_vs_AT_s_and_w_a_h(n_switches, t_steps_drug):
 
     # Plot the data without drug holidays in the first plot
     df_total_GF.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+                    color= ['tab:pink', 'tab:purple', 'tab:blue', 'tab:red'],
                                                     legend=False, ax=axs[0, 0])
     axs[0, 0].set_xlabel(' ')
     axs[0, 0].set_ylabel('Fraction', fontsize=12)
@@ -1394,6 +1400,7 @@ def Figure_continuous_MTD_vs_AT_s_and_w_a_h(n_switches, t_steps_drug):
 
     # Plot the data with drug holidays in the second plot
     df_total_WMMd.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+                    color= ['tab:pink', 'tab:purple', 'tab:blue', 'tab:red'],
                                                     legend=False, ax=axs[0, 1])
     axs[0, 1].set_xlabel(' ')
     axs[0, 1].set_ylabel(' ')
@@ -1402,15 +1409,16 @@ def Figure_continuous_MTD_vs_AT_s_and_w_a_h(n_switches, t_steps_drug):
 
     # Plot the data with drug holidays in the second plot
     df_total_comb.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+                    color= ['tab:pink', 'tab:purple', 'tab:blue', 'tab:red'],
                                                     legend=False, ax=axs[0, 2])
     axs[0, 2].set_xlabel(' ')
     axs[0, 2].set_ylabel(' ')
     axs[0, 2].set_title(r"Traditional therapy IH combination", fontsize=14)
-    axs[0, 2].set_yticks([i/10 for i in range(9)])
     axs[0, 2].grid(True)
 
     # Plot the data with drug holidays in the third plot
     df_total_switch_GF.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+                    color= ['tab:pink', 'tab:purple', 'tab:blue', 'tab:red'],
                                                     legend=False, ax=axs[1, 0])
     axs[1, 0].set_xlabel('Generations', fontsize=12)
     axs[1, 0].set_ylabel('Fraction', fontsize=12)
@@ -1420,6 +1428,7 @@ def Figure_continuous_MTD_vs_AT_s_and_w_a_h(n_switches, t_steps_drug):
 
     # Plot the data with drug holidays in the fourth plot
     df_total_switch_WMMd.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+                    color= ['tab:pink', 'tab:purple', 'tab:blue', 'tab:red'],
                                                     legend=False, ax=axs[1, 1])
     axs[1, 1].set_xlabel('Generations', fontsize=12)
     axs[1, 1].set_ylabel(' ')
@@ -1428,16 +1437,18 @@ def Figure_continuous_MTD_vs_AT_s_and_w_a_h(n_switches, t_steps_drug):
 
     # Plot the data with drug holidays in the fourth plot
     df_total_switch_comb.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+                    color= ['tab:pink', 'tab:purple', 'tab:blue', 'tab:red'],
                                                     legend=False, ax=axs[1, 2])
     axs[1, 2].set_xlabel('Generations', fontsize=12)
     axs[1, 2].set_ylabel(' ')
     axs[1, 2].set_title(r"Adaptive therapy IH combination", fontsize=14)
     axs[1, 2].grid(True)
-    # axs[1, 2].set_yticks([i/10 for i in range(9)])
+
 
     # Create a single legend outside of all plots
     legend_labels = ['Fraction OC', 'Fraction OB', 'Fraction MMd', 'Fraction MMr']
-    fig.legend(labels = legend_labels, loc='upper center', ncol=4, fontsize='large')
+    fig.legend(labels = legend_labels, loc='upper center', ncol=4,
+                                                            fontsize='x-large')
     save_Figure(plt, 'line_plot_cell_frac_IH_AT_MTD_s_&_w_a_h',
                                  r'..\visualisation\results_model_frac_IH_inf')
     plt.show()
@@ -1499,26 +1510,26 @@ def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
     WMMd_inhibitor = 1.45
 
     # Make dataframe for the different drug hollyday duration values
-    df_total_switch_GF = switch_dataframe(n_switches, t_steps_drug[0],
+    df_total_switch_GF = switch_dataframe(15, n_switches, t_steps_drug[0],
                 t_steps_drug[0], xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
                 cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH)
-    df_total_switch_WMMd = switch_dataframe(n_switches, t_steps_drug[1],
+    df_total_switch_WMMd = switch_dataframe(15, n_switches, t_steps_drug[1],
                 t_steps_drug[1], xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
                 cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_no_GF_IH, WMMd_inhibitor)
-    df_total_switch_comb = switch_dataframe(n_switches, t_steps_drug[2],
+    df_total_switch_comb = switch_dataframe(15, n_switches, t_steps_drug[2],
                                 t_steps_drug[2], xOC, xOB, xMMd, xMMr, N, cOC,
                                 cOB, cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH,
                                 matrix_GF_IH_comb, WMMd_inhibitor_comb)
 
     # Make dataframes for continiously administration
-    df_total_GF = continuous_add_IH_df(135, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
-            cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH)
-    df_total_WMMd = continuous_add_IH_df(135, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
-                                    cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH,
-                                    matrix_no_GF_IH, WMMd_inhibitor)
-    df_total_comb = continuous_add_IH_df(135, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
-                                    cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH,
-                                    matrix_GF_IH_comb, WMMd_inhibitor_comb)
+    df_total_GF = continuous_add_IH_df(15, 135, xOC, xOB, xMMd, xMMr, N, cOC,
+                cOB, cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH)
+    df_total_WMMd = continuous_add_IH_df(15, 135, xOC, xOB, xMMd, xMMr, N, cOC,
+                                cOB, cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH,
+                                matrix_no_GF_IH, WMMd_inhibitor)
+    df_total_comb = continuous_add_IH_df(15, 135, xOC, xOB, xMMd, xMMr, N, cOC,
+                                cOB, cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH,
+                                matrix_GF_IH_comb, WMMd_inhibitor_comb)
 
     # Save the data
     save_dataframe(df_total_switch_GF, 'df_cell_frac_IH_switch_GF_IH_short_a_h.csv',
@@ -1651,26 +1662,26 @@ def Figure_continuous_MTD_vs_AT_weak_a_h(n_switches, t_steps_drug):
     WMMd_inhibitor = 1.2
 
     # Make dataframe for the different drug hollyday duration values
-    df_total_switch_GF = switch_dataframe(n_switches, t_steps_drug[0],
+    df_total_switch_GF = switch_dataframe(15, n_switches, t_steps_drug[0],
                 t_steps_drug[0], xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
                 cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH)
-    df_total_switch_WMMd = switch_dataframe(n_switches, t_steps_drug[1],
+    df_total_switch_WMMd = switch_dataframe(15, n_switches, t_steps_drug[1],
                 t_steps_drug[1], xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
                 cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_no_GF_IH, WMMd_inhibitor)
-    df_total_switch_comb = switch_dataframe(n_switches, t_steps_drug[2],
+    df_total_switch_comb = switch_dataframe(15, n_switches, t_steps_drug[2],
                                 t_steps_drug[2], xOC, xOB, xMMd, xMMr, N, cOC,
                                 cOB, cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH,
                                 matrix_GF_IH_comb, WMMd_inhibitor_comb)
 
     # Make dataframes for continiously administration
-    df_total_GF = continuous_add_IH_df(135, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
-            cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH)
-    df_total_WMMd = continuous_add_IH_df(135, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
-                                    cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH,
-                                    matrix_no_GF_IH, WMMd_inhibitor)
-    df_total_comb = continuous_add_IH_df(135, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
-                                    cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH,
-                                    matrix_GF_IH_comb, WMMd_inhibitor_comb)
+    df_total_GF = continuous_add_IH_df(15, 135, xOC, xOB, xMMd, xMMr, N, cOC,
+            cOB, cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH)
+    df_total_WMMd = continuous_add_IH_df(15, 135, xOC, xOB, xMMd, xMMr, N, cOC,
+                                cOB, cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH,
+                                matrix_no_GF_IH, WMMd_inhibitor)
+    df_total_comb = continuous_add_IH_df(15, 135, xOC, xOB, xMMd, xMMr, N, cOC,
+                                cOB, cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH,
+                                matrix_GF_IH_comb, WMMd_inhibitor_comb)
 
     # Save the data
     save_dataframe(df_total_switch_GF, 'df_cell_frac_IH_switch_GF_IH_weak_a_h.csv',
@@ -1804,26 +1815,26 @@ def Figure_continuous_MTD_vs_AT_OB_a_h(n_switches, t_steps_drug):
     WMMd_inhibitor = 1.45
 
     # Make dataframe for the different drug hollyday duration values
-    df_total_switch_GF = switch_dataframe(n_switches, t_steps_drug[0],
+    df_total_switch_GF = switch_dataframe(15, n_switches, t_steps_drug[0],
                 t_steps_drug[0], xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
                 cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH)
-    df_total_switch_WMMd = switch_dataframe(n_switches, t_steps_drug[1],
+    df_total_switch_WMMd = switch_dataframe(15, n_switches, t_steps_drug[1],
                 t_steps_drug[1], xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
                 cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_no_GF_IH, WMMd_inhibitor)
-    df_total_switch_comb = switch_dataframe(n_switches, t_steps_drug[2],
+    df_total_switch_comb = switch_dataframe(15, n_switches, t_steps_drug[2],
                 t_steps_drug[2], xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
                 cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH_comb,
                 WMMd_inhibitor_comb)
 
     # Make dataframes for continiously administration
-    df_total_GF = continuous_add_IH_df(110, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
-            cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH)
-    df_total_WMMd = continuous_add_IH_df(110, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
-                                    cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH,
-                                    matrix_no_GF_IH, WMMd_inhibitor)
-    df_total_comb = continuous_add_IH_df(110, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
-                                    cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH,
-                                    matrix_GF_IH_comb, WMMd_inhibitor_comb)
+    df_total_GF = continuous_add_IH_df(15, 110, xOC, xOB, xMMd, xMMr, N, cOC,
+            cOB, cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH)
+    df_total_WMMd = continuous_add_IH_df(15, 110, xOC, xOB, xMMd, xMMr, N, cOC,
+                                cOB, cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH,
+                                matrix_no_GF_IH, WMMd_inhibitor)
+    df_total_comb = continuous_add_IH_df(15, 110, xOC, xOB, xMMd, xMMr, N, cOC,
+                                cOB, cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH,
+                                matrix_GF_IH_comb, WMMd_inhibitor_comb)
 
 
     # Save the data
@@ -1947,7 +1958,6 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
 
     # WMMd inhibitor effect when only WMMd IH is present
     WMMd_inhibitor = 1.22
-
     # Make a dataframe
     column_names = ['Generations no drug', 'Generations drug', 'MM fraction']
     df_holiday_GF_IH = pd.DataFrame(columns=column_names)
@@ -1968,7 +1978,7 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
                                                             ignore_index=True)
 
     # Save the data
-    save_dataframe(df_holiday_GF_IH, 'df_cell_frac_IH_best_MMd_GH_IH_holiday.csv',
+    save_dataframe(df_holiday_GF_IH, 'df_cell_frac_IH_best_MMd_GF_IH_holiday.csv',
                                          r'..\data\data_model_frac_IH_inf')
 
     # Determine the axis values
@@ -2268,11 +2278,11 @@ def Figure_duration_A_h_MMd_IH(n_switches, t_steps_drug, t_steps_no_drug):
     WMMd_inhibitor_half = 0.6
 
     # Make dataframe for the different drug hollyday duration values
-    df_total_switch_1 = switch_dataframe(n_switches[0], t_steps_drug[0],
+    df_total_switch_1 = switch_dataframe(15, n_switches[0], t_steps_drug[0],
                                 t_steps_no_drug[0], xOC, xOB, xMMd, xMMr, N, cOC,
                                 cOB, cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH,
                                 matrix_GF_IH_half, WMMd_inhibitor_half)
-    df_total_switch_2 = switch_dataframe(n_switches[1], t_steps_drug[1],
+    df_total_switch_2 = switch_dataframe(15, n_switches[1], t_steps_drug[1],
                                 t_steps_no_drug[1], xOC, xOB, xMMd, xMMr, N, cOC,
                                 cOB, cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH,
                                 matrix_GF_IH_half, WMMd_inhibitor_half)

@@ -171,15 +171,14 @@ run when the MMMM_model_nr_to_frac_IH_inf.py code is run.
 
 NUMBER MODEL WITH A MUTATION CHANCE: MM_model_nr_IH_inf_mutation.py
 MM_model_nr_IH_inf_mutation.py contains the code with the mathematical formulas
-simulating the number dynamics of the four cell types MMd, MMr, OCs and OBs in the
-MM microenvironment. There is a mutation rate implemented that indicates the rate
-at which MMd get mutations making them resistance and therefore turning them into
-MMr. The rate is higher when IHs are present. It contains the code to make figures
-showing the effect of the WMMd IH, the MMd GF IH and a combination of different
-administration periods and strengths on the cell type numbers. Furthermore, it
-contains an optimisation strategy to find the best administration duration,
-holiday duration and IH strength simultaneously. The IHs not only affect the MMd
-but also the OC and OB.
+simulating the number dynamics of the four cell types MMd, MMr, OCs and OBs in
+the MM microenvironment. There is a mutation rate implemented that indicates the
+rate at which MMd get mutations making them resistance and therefore turning them
+into MMr.It contains the code to make figures showing the effect of the WMMd IH,
+the MMd GF IH and a combination of different administration periods and strengths
+on the cell type numbers. Furthermore, it contains an optimisation strategy to 
+find the best administration duration, holiday duration and IH strength
+simultaneously. The IHs not only affect the MMd but also the OC and OB.
 
 TEST THE CODE
 To test some of the functions in the model, doc tests are added and automatically
