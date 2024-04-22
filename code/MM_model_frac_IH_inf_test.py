@@ -45,7 +45,7 @@ def main():
     # # by adaptive therapy (original situation)
     # list_t_steps_drug = [10, 10, 10]
     # Figure_continuous_MTD_vs_AT_a_h(13, list_t_steps_drug)
-
+    #
     # # Make a figure showing the cell fraction dynamics by traditional therapy and
     # # by adaptive therapy for shorter holiday and administration periods compared
     # # to the original situation
@@ -60,8 +60,8 @@ def main():
     # Make a figure showing the cell fraction dynamics by traditional therapy and
     # by adaptive therapy for shorter holiday and administration periods and
     # weaker IHs compared to the original situation
-    list_t_steps_drug = [5, 5, 5]
-    Figure_continuous_MTD_vs_AT_s_and_w_a_h(22, list_t_steps_drug)
+    list_t_steps_drug = [6, 6, 6]
+    Figure_continuous_MTD_vs_AT_s_and_w_a_h(18, list_t_steps_drug)
 
     # # Make a figure showing the cell fraction dynamics by traditional therapy and
     # # by adaptive therapy whereby the OB-OC equilibrium gets restored
@@ -1281,30 +1281,30 @@ def Figure_continuous_MTD_vs_AT_s_and_w_a_h(n_switches, t_steps_drug):
 
     # Payoff matrix when no drugs are present
     matrix_no_GF_IH = np.array([
-        [0.0, 1.4, 2.2, 1.5],
+        [0.0, 1.4, 2.2, 1.45],
         [0.95, 0.0, -0.5, -0.5],
         [2.2, 0, 0.2, 0.0],
         [1.9, 0, -0.8, 0.4]])
 
     # Payoff matrix when only GF inhibitor drugs are present
     matrix_GF_IH = np.array([
-        [0.0, 1.4, 2.2, 1.5],
+        [0.0, 1.4, 2.2, 1.45],
         [0.95, 0.0, -0.5, -0.5],
-        [0.55, 0, 0.2, 0.0],
+        [0.58, 0, 0.2, 0.0],
         [1.9, 0, -0.8, 0.4]])
 
     # Payoff matrix when both inhibitor drugs are present
     matrix_GF_IH_comb = np.array([
-        [0.0, 1.4, 2.2, 1.5],
+        [0.0, 1.4, 2.2, 1.45],
         [0.95, 0.0, -0.5, -0.5],
-        [1.28, 0.0, 0.2, 0.0],
+        [1.31, 0.0, 0.2, 0.0],
         [1.9, 0.0, -1.1, 0.4]])
 
     # WMMd inhibitor effect when both inhibitor drugs are present
     WMMd_inhibitor_comb = 0.65
 
     # WMMd inhibitor effect when only WMMd IH is present
-    WMMd_inhibitor = 1.35
+    WMMd_inhibitor = 1.33
 
     # Make dataframe for the different drug hollyday duration values
     df_total_switch_GF = switch_dataframe(10, n_switches, t_steps_drug[0],
@@ -1328,47 +1328,48 @@ def Figure_continuous_MTD_vs_AT_s_and_w_a_h(n_switches, t_steps_drug):
                             cOB, cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH,
                             matrix_GF_IH_comb, WMMd_inhibitor_comb)
 
+
     # Print the equilibrium MMd and MMr values caused by the adaptive therapy
-    last_MMd_fractions_GF = df_total_switch_GF['xMMd'].tail(int(10))
-    average_MMd_fraction_GF = last_MMd_fractions_GF.sum() / 10
-    last_MMr_fractions_GF = df_total_switch_GF['xMMr'].tail(int(10))
-    average_MMr_fraction_GF = last_MMr_fractions_GF.sum() / 10
+    last_MMd_fractions_GF = df_total_switch_GF['xMMd'].tail(int(12))
+    average_MMd_fraction_GF = last_MMd_fractions_GF.sum() / 12
+    last_MMr_fractions_GF = df_total_switch_GF['xMMr'].tail(int(12))
+    average_MMr_fraction_GF = last_MMr_fractions_GF.sum() / 12
     print('Adaptive therapy MMd GF IH: xMMd =',average_MMd_fraction_GF,
                                         'and xMMr =', average_MMr_fraction_GF)
 
-    last_MMd_fractions_WMMd = df_total_switch_WMMd['xMMd'].tail(int(10))
-    average_MMd_fraction_WMMd = last_MMd_fractions_WMMd.sum() / 10
-    last_MMr_fractions_WMMd = df_total_switch_WMMd['xMMr'].tail(int(10))
-    average_MMr_fraction_WMMd = last_MMr_fractions_WMMd.sum() / 10
+    last_MMd_fractions_WMMd = df_total_switch_WMMd['xMMd'].tail(int(12))
+    average_MMd_fraction_WMMd = last_MMd_fractions_WMMd.sum() / 12
+    last_MMr_fractions_WMMd = df_total_switch_WMMd['xMMr'].tail(int(12))
+    average_MMr_fraction_WMMd = last_MMr_fractions_WMMd.sum() / 12
     print('Adaptive therapy WMMd IH: xMMd =',average_MMd_fraction_WMMd,
                                         'and xMMr =', average_MMr_fraction_WMMd)
 
-    last_MMd_fractions_comb = df_total_switch_comb['xMMd'].tail(int(10))
-    average_MMd_fraction_comb = last_MMd_fractions_comb.sum() / 10
-    last_MMr_fractions_comb = df_total_switch_comb['xMMr'].tail(int(10))
-    average_MMr_fraction_comb = last_MMr_fractions_comb.sum() / 10
+    last_MMd_fractions_comb = df_total_switch_comb['xMMd'].tail(int(12))
+    average_MMd_fraction_comb = last_MMd_fractions_comb.sum() / 12
+    last_MMr_fractions_comb = df_total_switch_comb['xMMr'].tail(int(12))
+    average_MMr_fraction_comb = last_MMr_fractions_comb.sum() / 12
     print('Adaptive therapy IH combination: xMMd =',average_MMd_fraction_comb,
                                         'and xMMr =', average_MMr_fraction_comb)
 
     # Print the equilibrium MMd and MMr values caused by the traditional therapy
-    last_MMd_fractions_GF = df_total_GF['xMMd'].tail(int(10))
-    average_MMd_fraction_GF = last_MMd_fractions_GF.sum() / 10
-    last_MMr_fractions_GF = df_total_GF['xMMr'].tail(int(10))
-    average_MMr_fraction_GF = last_MMr_fractions_GF.sum() / 10
+    last_MMd_fractions_GF = df_total_GF['xMMd'].tail(int(12))
+    average_MMd_fraction_GF = last_MMd_fractions_GF.sum() / 12
+    last_MMr_fractions_GF = df_total_GF['xMMr'].tail(int(12))
+    average_MMr_fraction_GF = last_MMr_fractions_GF.sum() / 12
     print(' Traditional therapy MMd GF IH: xMMd =',average_MMd_fraction_GF,
                                         'and xMMr =', average_MMr_fraction_GF)
 
-    last_MMd_fractions_WMMd = df_total_WMMd['xMMd'].tail(int(10))
-    average_MMd_fraction_WMMd = last_MMd_fractions_WMMd.sum() / 10
-    last_MMr_fractions_WMMd = df_total_WMMd['xMMr'].tail(int(10))
-    average_MMr_fraction_WMMd = last_MMr_fractions_WMMd.sum() / 10
+    last_MMd_fractions_WMMd = df_total_WMMd['xMMd'].tail(int(12))
+    average_MMd_fraction_WMMd = last_MMd_fractions_WMMd.sum() / 12
+    last_MMr_fractions_WMMd = df_total_WMMd['xMMr'].tail(int(12))
+    average_MMr_fraction_WMMd = last_MMr_fractions_WMMd.sum() / 12
     print(' Traditional therapy WMMd IH: xMMd =',average_MMd_fraction_WMMd,
                                         'and xMMr =', average_MMr_fraction_WMMd)
 
-    last_MMd_fractions_comb = df_total_comb['xMMd'].tail(int(10))
-    average_MMd_fraction_comb = last_MMd_fractions_comb.sum() / 10
-    last_MMr_fractions_comb = df_total_comb['xMMr'].tail(int(10))
-    average_MMr_fraction_comb = last_MMr_fractions_comb.sum() / 10
+    last_MMd_fractions_comb = df_total_comb['xMMd'].tail(int(12))
+    average_MMd_fraction_comb = last_MMd_fractions_comb.sum() / 12
+    last_MMr_fractions_comb = df_total_comb['xMMr'].tail(int(12))
+    average_MMr_fraction_comb = last_MMr_fractions_comb.sum() / 12
     print(' Traditional therapy IH combination: xMMd =',average_MMd_fraction_comb,
                                         'and xMMr =', average_MMr_fraction_comb)
 
@@ -1394,7 +1395,7 @@ def Figure_continuous_MTD_vs_AT_s_and_w_a_h(n_switches, t_steps_drug):
                     color= ['tab:pink', 'tab:purple', 'tab:blue', 'tab:red'],
                                                     legend=False, ax=axs[0, 0])
     axs[0, 0].set_xlabel(' ')
-    axs[0, 0].set_ylabel('Cell fraction', fontsize=12)
+    axs[0, 0].set_ylabel('Fraction', fontsize=12)
     axs[0, 0].set_title(f"Traditional therapy MMd GF IH ", fontsize=14)
     axs[0, 0].grid(True)
 
@@ -1421,7 +1422,7 @@ def Figure_continuous_MTD_vs_AT_s_and_w_a_h(n_switches, t_steps_drug):
                     color= ['tab:pink', 'tab:purple', 'tab:blue', 'tab:red'],
                                                     legend=False, ax=axs[1, 0])
     axs[1, 0].set_xlabel('Generations', fontsize=12)
-    axs[1, 0].set_ylabel('Cell fraction', fontsize=12)
+    axs[1, 0].set_ylabel('Fraction', fontsize=12)
     axs[1, 0].set_title(f"Adaptive therapy MMd GF IH", fontsize=14)
     axs[1, 0].grid(True)
     plt.grid(True)
@@ -1446,7 +1447,7 @@ def Figure_continuous_MTD_vs_AT_s_and_w_a_h(n_switches, t_steps_drug):
 
 
     # Create a single legend outside of all plots
-    legend_labels = ['OC fraction', 'OB fraction', 'MMd fraction', 'MMr fraction']
+    legend_labels = ['Fraction OC', 'Fraction OB', 'Fraction MMd', 'Fraction MMr']
     fig.legend(labels = legend_labels, loc='upper center', ncol=4,
                                                             fontsize='x-large')
     save_Figure(plt, 'line_plot_cell_frac_IH_AT_MTD_s_&_w_a_h',

@@ -26,7 +26,6 @@ import csv
 from scipy.optimize import minimize
 from mpl_toolkits.mplot3d import Axes3D
 import doctest
-import pickle
 
 """
 Example interaction matrix:

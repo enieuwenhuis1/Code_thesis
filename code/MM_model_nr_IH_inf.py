@@ -25,7 +25,6 @@ import csv
 from scipy.optimize import minimize
 from mpl_toolkits.mplot3d import Axes3D
 import doctest
-import pickle
 
 """
 Example interaction matrix:
@@ -56,16 +55,16 @@ def main():
     # # by adaptive therapy for weaker IHs compared to the original situation
     # list_t_steps_drug = [10, 10, 10]
     # Figure_continuous_MTD_vs_AT_weak_a_h(20, list_t_steps_drug)
-
+    # 
     # # Make a figure showing the cell number dynamics by traditional therapy and
     # # by adaptive therapy
-    list_t_steps_drug = [3, 3, 3]
-    Figure_continuous_MTD_vs_AT_realistic(90, list_t_steps_drug)
+    # list_t_steps_drug = [3, 3, 3]
+    # Figure_continuous_MTD_vs_AT_realistic(90, list_t_steps_drug)
 
-    # # Make a 3D figure showthing the effect of different drug holiday and
-    # # administration periods
-    # Figure_3D_MM_numb_IH_add_and_holiday()
-    #
+    # Make a 3D figure showthing the effect of different drug holiday and
+    # administration periods
+    Figure_3D_MM_numb_IH_add_and_holiday()
+
     # # Make a figure that shows the MM number for different bOC,MMd values
     # Figure_best_b_OC_MMd()
     #
@@ -92,15 +91,15 @@ def main():
     # # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
     # # holiday
     # minimise_MM_W_GF_h()
-    #
-    # # Optimise IH administration duration, holiday duration and strength for
-    # # MMd GF IH -> WMMd IH -> holiday
+
+    # Optimise IH administration duration, holiday duration and strength for
+    # MMd GF IH -> WMMd IH -> holiday
     minimise_MM_GF_W_h_IH()
-    #
-    # # Optimise IH administration duration, holiday duration and strength for
-    # # WMMd IH -> MMd GF IH ->  holiday
+
+    # Optimise IH administration duration, holiday duration and strength for
+    # WMMd IH -> MMd GF IH ->  holiday
     minimise_MM_W_GF_h_IH()
-    #
+
     # # Optimise IH administration duration, holiday duration and strength for
     # # MMd GF IH -> holiday -> WMMd IH -> holiday
     # minimise_MM_GF_h_W_h_IH()
@@ -3826,7 +3825,7 @@ def Figure_continuous_MTD_vs_AT_realistic(n_switches, t_steps_drug):
                     color= ['tab:pink', 'tab:purple', 'tab:blue', 'tab:red'],
                                                     legend=False, ax=axs[0, 0])
     axs[0, 0].set_xlabel(' ')
-    axs[0, 0].set_ylabel('Number', fontsize=12)
+    axs[0, 0].set_ylabel('Cell number', fontsize=12)
     axs[0, 0].set_title(f"Traditional therapy MMd GF IH ", fontsize=14)
     axs[0, 0].grid(True)
 
@@ -3854,7 +3853,7 @@ def Figure_continuous_MTD_vs_AT_realistic(n_switches, t_steps_drug):
                     color= ['tab:pink', 'tab:purple', 'tab:blue', 'tab:red'],
                                                     legend=False, ax=axs[1, 0])
     axs[1, 0].set_xlabel('Generations', fontsize=12)
-    axs[1, 0].set_ylabel('Number', fontsize=12)
+    axs[1, 0].set_ylabel('Cell number', fontsize=12)
     axs[1, 0].set_title(f"Adaptive therapy MMd GF IH", fontsize=14)
     axs[1, 0].grid(True)
     plt.grid(True)
@@ -3878,8 +3877,7 @@ def Figure_continuous_MTD_vs_AT_realistic(n_switches, t_steps_drug):
     axs[1, 2].grid(True)
 
     # Create a single legend outside of all plots
-    legend_labels = ['Number of OC', 'Number of OB', 'Number of MMd',
-                                                                'Number of MMr']
+    legend_labels = ['OC number', 'OB number', 'MMd number', 'MMr number']
     fig.legend(labels = legend_labels, loc='upper center', ncol=4,
                                                             fontsize='x-large')
     save_Figure(plt, 'line_plot_cell_nr_IH_inf_AT_MTD_r',
@@ -4210,24 +4208,24 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
 
     # Payoff matrix when no drugs are present
     matrix_no_GF_IH = np.array([
-        [0.0, 0.4, 0.64, 0.57],
+        [0.0, 0.4, 0.65, 0.55],
         [0.3, 0.0, -0.3, -0.3],
         [0.6, 0.0, 0.2, 0.0],
-        [0.57, 0.0, -0.6, 0.4]])
+        [0.55, 0.0, -0.6, 0.4]])
 
     # Payoff matrix when only GF inhibitor drugs are present
     matrix_GF_IH = np.array([
-        [0.0, 0.4, 0.64, 0.57],
+        [0.0, 0.4, 0.65, 0.55],
         [0.3, 0.0, -0.3, -0.3],
-        [0.3, 0.0, 0.2, 0.0],
-        [0.57, 0.0, -0.6, 0.4]])
+        [0.24, 0.0, 0.2, 0.0],
+        [0.55, 0.0, -0.6, 0.4]])
 
     # Payoff matrix when both inhibitor drugs are present
     matrix_GF_IH_comb = np.array([
-        [0.0, 0.4, 0.64, 0.57],
+        [0.0, 0.4, 0.65, 0.55],
         [0.3, 0.0, -0.3, -0.3],
         [0.4, 0.0, 0.2, 0.0],
-        [0.57, 0.0, -0.8, 0.4]])
+        [0.55, 0.0, -0.8, 0.4]])
 
     # WMMd inhibitor effect when both inhibitor drugs are present
     WMMd_inhibitor_comb = 0.3
@@ -4329,15 +4327,15 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
             # Add labels
             ax.set_xlabel('Generations no IH')
             ax.set_ylabel('Generations IH')
-            ax.set_zlabel('Number of MM')
+            ax.set_zlabel('MM number')
             ax.set_title(r'A) $W_{MMd}$ IH', pad=10)
 
             # Turn to the right angle
-            ax.view_init(elev = 19, azim = -130)
+            ax.view_init(elev = 12, azim = -138)
 
             # Add a color bar
             color_bar = fig.colorbar(surf, ax=ax, shrink=0.4, location= 'right')
-            color_bar.set_label('Number of MM')
+            color_bar.set_label('MM number')
 
         elif i == 2:
             surf = ax.plot_surface(X_GF_IH, Y_GF_IH, Z_GF_IH, cmap = 'coolwarm')
@@ -4345,7 +4343,7 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
             # Add labels
             ax.set_xlabel('Generations no IH')
             ax.set_ylabel('Generations IH')
-            ax.set_zlabel('Number of MM')
+            ax.set_zlabel('MM number')
             ax.set_title('B)  MMd GF IH', pad=10)
 
             # Turn to the right angle
@@ -4354,7 +4352,7 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
             # Add a color bar
             color_bar = fig.colorbar(surf, ax=ax, shrink=0.4, location= 'right')
 
-            color_bar.set_label('Number of MM')
+            color_bar.set_label('MM number')
 
         elif i == 3:
             surf = ax.plot_surface(X_comb, Y_comb, Z_comb, cmap = 'coolwarm')
@@ -4362,7 +4360,7 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
             # Add labels
             ax.set_xlabel('Generations no IHs')
             ax.set_ylabel('Generations IHs')
-            ax.set_zlabel('Number of MM')
+            ax.set_zlabel('MM number')
             ax.set_title('C)  IH combination', pad=10)
 
             # Turn to the right angle
@@ -4370,7 +4368,7 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
 
             # Add a color bar
             color_bar = fig.colorbar(surf, ax=ax, shrink=0.4, location= 'right')
-            color_bar.set_label('Number of MM')
+            color_bar.set_label('MM number')
 
         else:
             # Hide the emply subplot
@@ -4874,8 +4872,8 @@ def minimise_MM_GF_W_h_IH():
     result = minimize(minimal_tumour_nr_t_3_situations_IH, t_step_IH_strength,
             args=(switch_dataframe_GF_W_h, nOC, nOB, nMMd, nMMr, growth_rates,
             growth_rates_IH, decay_rates, decay_rates_IH, matrix_no_GF_IH,
-            matrix_GF_IH), bounds = [(0, None), (0, None), (0, None), (0, 0.55),
-            (0, 0.6)], method='Nelder-Mead')
+            matrix_GF_IH), bounds = [(0, None), (0, None), (0, None), (0, 0.6),
+            (0, None)], method='Nelder-Mead')
 
     # Print the results
     print('Optimising IH administration duration, holiday duration and strength')
@@ -4928,8 +4926,8 @@ def minimise_MM_W_GF_h_IH():
     result = minimize(minimal_tumour_nr_t_3_situations_IH, t_step_IH_strength,
             args=(switch_dataframe_W_GF_h, nOC, nOB, nMMd, nMMr, growth_rates,
             growth_rates_IH, decay_rates, decay_rates_IH, matrix_no_GF_IH,
-            matrix_GF_IH), bounds = [(0, None), (0, None), (0, None), (0, 0.55),
-            (0, 0.6)], method='Nelder-Mead')
+            matrix_GF_IH), bounds = [(0, None), (0, None), (0, None), (0, 0.6),
+            (0, None)], method='Nelder-Mead')
 
     # Print the results
     print('Optimising IH administration duration, holiday duration and strength')
@@ -5233,7 +5231,7 @@ def minimise_MM_W_comb_GF_h_IH():
         args=(switch_dataframe_W_comb_GF_h, nOC, nOB, nMMd, nMMr, growth_rates,
         growth_rates_IH, decay_rates, decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH,
         matrix_GF_IH_comb), bounds = [(0, None), (0, None), (0, None), (0, None),
-        (0, None), (0, None), (0, None), (0, None)], method='Nelder-Mead')
+        (0, 0.6), (0, 0.6), (0, None), (0, None)], method='Nelder-Mead')
 
     # Print the results
     print('Optimising IH administration duration, holiday duration and strength')
@@ -5300,7 +5298,7 @@ def minimise_MM_GF_comb_W_h_IH():
         args=(switch_dataframe_GF_comb_W_h, nOC, nOB, nMMd, nMMr, growth_rates,
         growth_rates_IH, decay_rates, decay_rates_IH, matrix_no_GF_IH,
         matrix_GF_IH, matrix_GF_IH_comb), bounds = [(0, None), (0, None),
-        (0, None), (0, None), (0, 0.55), (0, 0.55), (0, None), (0, None)],
+        (0, None), (0, None), (0, 0.6), (0, 0.6), (0, None), (0, None)],
         method='Nelder-Mead')
 
     # Print the results
