@@ -60,8 +60,8 @@ def main():
     # Make a figure showing the cell fraction dynamics by traditional therapy and
     # by adaptive therapy for shorter holiday and administration periods and
     # weaker IHs compared to the original situation
-    list_t_steps_drug = [6, 6, 6]
-    Figure_continuous_MTD_vs_AT_s_and_w_a_h(18, list_t_steps_drug)
+    # list_t_steps_drug = [6, 6, 6]
+    # Figure_continuous_MTD_vs_AT_s_and_w_a_h(18, list_t_steps_drug)
 
     # # Make a figure showing the cell fraction dynamics by traditional therapy and
     # # by adaptive therapy whereby the OB-OC equilibrium gets restored
@@ -1920,7 +1920,7 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
     that caused the lowest total MM fraction."""
 
     # Set initial parameter values
-    N = 50
+    N = 100
     cMMr = 1.3
     cMMd = 1.2
     cOB = 0.8
@@ -1935,30 +1935,31 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
 
     # Payoff matrix when no drugs are present
     matrix_no_GF_IH = np.array([
-        [0.0, 1.6, 2.2, 1.9],
+        [0.0, 1.4, 2.2, 1.6],
         [0.95, 0.0, -0.5, -0.5],
         [2.2, 0, 0.2, 0.0],
-        [1.9, 0, -0.8, 0.3]])
+        [1.9, 0, -0.8, 0.4]])
 
     # Payoff matrix when only GF inhibitor drugs are present
     matrix_GF_IH = np.array([
-        [0.0, 1.6, 2.2, 1.9],
+        [0.0, 1.4, 2.2, 1.6],
         [0.95, 0.0, -0.5, -0.5],
         [0.73, 0, 0.2, 0.0],
-        [1.9, 0, -0.8, 0.3]])
+        [1.9, 0, -0.8, 0.4]])
 
     # Payoff matrix when both inhibitor drugs are present
     matrix_GF_IH_comb = np.array([
-        [0.0, 1.6, 2.2, 1.9],
+        [0.0, 1.4, 2.2, 1.6],
         [0.95, 0.0, -0.5, -0.5],
         [1.1, 0, 0.2, 0.0],
-        [1.9, 0, -1.1, 0.3]])
+        [1.9, 0, -1.1, 0.4]])
 
     # WMMd inhibitor effect when both inhibitor drugs are present
-    WMMd_inhibitor_comb = 0.75
+    WMMd_inhibitor_comb = 0.7
 
     # WMMd inhibitor effect when only WMMd IH is present
-    WMMd_inhibitor = 1.22
+    WMMd_inhibitor = 1.21
+
     # Make a dataframe
     column_names = ['Generations no drug', 'Generations drug', 'MM fraction']
     df_holiday_GF_IH = pd.DataFrame(columns=column_names)
@@ -2056,7 +2057,7 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
             ax.set_title(r'A) $W_{MMd}$ IH', pad=10)
 
             # Turn to the right angle
-            ax.view_init(elev = 32, azim = -140)
+            ax.view_init(elev = 32, azim = -130)
 
             # Add a color bar
             color_bar = fig.colorbar(surf, ax=ax, shrink=0.4, location= 'right')
