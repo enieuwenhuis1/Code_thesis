@@ -58,92 +58,92 @@ def main():
     """ The optimisation situations """
     # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
     # holiday
-    # minimise_MM_GF_W_h()
-    # minimise_MM_GF_W_h()
-    # minimise_MM_GF_W_h()
-    # minimise_MM_GF_W_h()
-    # minimise_MM_GF_W_h()
-    # minimise_MM_GF_W_h()
-    # minimise_MM_GF_W_h()
-    # minimise_MM_GF_W_h()
-    # minimise_MM_GF_W_h()
-    # minimise_MM_GF_W_h()
-    # minimise_MM_GF_W_h()
-    # minimise_MM_GF_W_h()
-    # minimise_MM_GF_W_h()
-    # minimise_MM_GF_W_h()
-    # minimise_MM_GF_W_h()
-    # minimise_MM_GF_W_h()
-    # minimise_MM_GF_W_h()
-    # minimise_MM_GF_W_h()
-    # minimise_MM_GF_W_h()
-    # minimise_MM_GF_W_h()
-    # print(hi)
-    #
-    # # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
-    # # holiday
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # minimise_MM_W_GF_h()
-    # print(hi)
+    minimise_MM_GF_W_h()
+    minimise_MM_GF_W_h()
+    minimise_MM_GF_W_h()
+    minimise_MM_GF_W_h()
+    minimise_MM_GF_W_h()
+    minimise_MM_GF_W_h()
+    minimise_MM_GF_W_h()
+    minimise_MM_GF_W_h()
+    minimise_MM_GF_W_h()
+    minimise_MM_GF_W_h()
+    minimise_MM_GF_W_h()
+    minimise_MM_GF_W_h()
+    minimise_MM_GF_W_h()
+    minimise_MM_GF_W_h()
+    minimise_MM_GF_W_h()
+    minimise_MM_GF_W_h()
+    minimise_MM_GF_W_h()
+    minimise_MM_GF_W_h()
+    minimise_MM_GF_W_h()
+    minimise_MM_GF_W_h()
+    print(hi)
 
-    # # Optimise IH administration duration, holiday duration and strength for
-    # # MMd GF IH -> WMMd IH -> holiday
-    # minimise_MM_GF_W_h_IH()
-    # minimise_MM_GF_W_h_IH()
-    # minimise_MM_GF_W_h_IH()
-    # minimise_MM_GF_W_h_IH()
-    # minimise_MM_GF_W_h_IH()
-    # minimise_MM_GF_W_h_IH()
-    # minimise_MM_GF_W_h_IH()
-    # minimise_MM_GF_W_h_IH()
-    # minimise_MM_GF_W_h_IH()
-    # minimise_MM_GF_W_h_IH()
-    # minimise_MM_GF_W_h_IH()
-    # minimise_MM_GF_W_h_IH()
-    # minimise_MM_GF_W_h_IH()
-    # minimise_MM_GF_W_h_IH()
-    # minimise_MM_GF_W_h_IH()
-    # print(hi)
+    # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
+    # holiday
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    minimise_MM_W_GF_h()
+    print(hi)
+
+    # Optimise IH administration duration, holiday duration and strength for
+    # MMd GF IH -> WMMd IH -> holiday
+    minimise_MM_GF_W_h_IH()
+    minimise_MM_GF_W_h_IH()
+    minimise_MM_GF_W_h_IH()
+    minimise_MM_GF_W_h_IH()
+    minimise_MM_GF_W_h_IH()
+    minimise_MM_GF_W_h_IH()
+    minimise_MM_GF_W_h_IH()
+    minimise_MM_GF_W_h_IH()
+    minimise_MM_GF_W_h_IH()
+    minimise_MM_GF_W_h_IH()
+    minimise_MM_GF_W_h_IH()
+    minimise_MM_GF_W_h_IH()
+    minimise_MM_GF_W_h_IH()
+    minimise_MM_GF_W_h_IH()
+    minimise_MM_GF_W_h_IH()
+    print(hi)
 
     # Optimise IH administration duration, holiday duration and strength for
     # WMMd IH -> MMd GF IH ->  holiday
-    # minimise_MM_W_GF_h_IH()
-    # minimise_MM_W_GF_h_IH()
-    # minimise_MM_W_GF_h_IH()
-    # minimise_MM_W_GF_h_IH()
-    # minimise_MM_W_GF_h_IH()
-    # minimise_MM_W_GF_h_IH()
-    # minimise_MM_W_GF_h_IH()
-    # minimise_MM_W_GF_h_IH()
-    # minimise_MM_W_GF_h_IH()
-    # minimise_MM_W_GF_h_IH()
-    # minimise_MM_W_GF_h_IH()
-    # minimise_MM_W_GF_h_IH()
-    # minimise_MM_W_GF_h_IH()
-    # minimise_MM_W_GF_h_IH()
-    # minimise_MM_W_GF_h_IH()
-    # minimise_MM_W_GF_h_IH()
-    # minimise_MM_W_GF_h_IH()
-    # minimise_MM_W_GF_h_IH()
-    # print(hi)
+    minimise_MM_W_GF_h_IH()
+    minimise_MM_W_GF_h_IH()
+    minimise_MM_W_GF_h_IH()
+    minimise_MM_W_GF_h_IH()
+    minimise_MM_W_GF_h_IH()
+    minimise_MM_W_GF_h_IH()
+    minimise_MM_W_GF_h_IH()
+    minimise_MM_W_GF_h_IH()
+    minimise_MM_W_GF_h_IH()
+    minimise_MM_W_GF_h_IH()
+    minimise_MM_W_GF_h_IH()
+    minimise_MM_W_GF_h_IH()
+    minimise_MM_W_GF_h_IH()
+    minimise_MM_W_GF_h_IH()
+    minimise_MM_W_GF_h_IH()
+    minimise_MM_W_GF_h_IH()
+    minimise_MM_W_GF_h_IH()
+    minimise_MM_W_GF_h_IH()
+    print(hi)
 
     # # # Optimise IH administration duration, holiday duration and strength for
     # # # MMd GF IH -> holiday -> WMMd IH -> holiday
@@ -702,7 +702,7 @@ def mutation_MMd_to_MMr(IH_present, nMMd, nMMd_change, nMMr_change):
         mutation_rate = 0.00012
 
     if IH_present == 2:
-        mutation_rate = 0.00014
+        mutation_rate = 0.00007
 
     # Update the nMMd and nMMr change
     nMMd_change -= nMMd * mutation_rate
@@ -1047,10 +1047,11 @@ def switch_dataframe_GF_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
         Dataframe with the nOC, nOB, nMMd and nMMr values over time.
     """
     # Set initial values
+    print(nOC, nOB, nMMd, nMMr)
     x = 0
     time = 0
     df_total_switch = pd.DataFrame()
-    t_steps = 60
+    t_steps = 30
     t = np.linspace(0, t_steps, t_steps*2)
     y0 = [nOC, nOB, nMMd, nMMr]
     parameters = (growth_rates, decay_rates, matrix_no_GF_IH, int(0))
@@ -2864,6 +2865,8 @@ def minimal_tumour_nr_t_3_situations(t_steps_IH_strength, function_order, nOC,
         decay_rates, decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH,
         WMMd_inhibitor)
 
+    print('dataframe', df)
+
     # Determine the average MM number in the last period with and without drugs
     last_MM_numbers = df['total nMM'].tail(int(time_round))
     average_MM_number = last_MM_numbers.sum() / (int(time_round))
@@ -3954,9 +3957,9 @@ def minimise_MM_GF_W_h():
     etc."""
 
     # Set start values
-    nOC = 20
-    nOB = 30
-    nMMd = 20
+    nOC = 220
+    nOB = 310
+    nMMd = 210
     nMMr = 0
     growth_rates = [0.8, 1.2, 0.3, 0.3]
     decay_rates = [0.9, 0.08, 0.2, 0.1]

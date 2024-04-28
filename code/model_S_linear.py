@@ -41,48 +41,48 @@ import doctest
 def main():
     # Do doc tests
     doctest.testmod()
-    #
-    # # Make Figure 2 in the paper of Sartakhti et al., 2016.
-    # Figure_2()
-    #
-    # # Make Figure 3 in the paper of Sartakhti et al., 2016.
-    # Figure_3()
-    #
-    # # Make Figure 5 in the paper of Sartakhti et al., 2016.
-    # Figure_5()
-    #
-    # # Make Figure 8A in the paper of Sartakhti et al., 2016.
-    # Figure_8A()
-    #
-    # # Make Figure 8B in the paper of Sartakhti et al., 2016.
-    # Figure_8B()
-    #
-    # # Make Figure 9A in the paper of Sartakhti et al., 2016.
-    # Figure_9A()
-    #
-    # # Make Figure 9B in the paper of Sartakhti et al., 2016.
-    # Figure_9B()
-    #
-    # # Make Figure 9C in the paper of Sartakhti et al., 2016.
-    # Figure_9C()
-    #
-    # # Make Figure 10A in the paper of Sartakhti et al., 2016.
-    # Figure_10A()
-    #
-    # # Make Figure 10B in the paper of Sartakhti et al., 2016.
-    # Figure_10B()
-    #
-    # # Make Figure 11 in the paper of Sartakhti et al., 2016.
-    # Figure_11()
-    #
-    # # Make Figure 12A middle in the paper of Sartakhti et al., 2016.
-    # Figure_12A_middle()
-    #
-    # # Make Figure 12A right in the paper of Sartakhti et al., 2016.
-    # Figure_12A_right()
-    #
-    # # # Make Figure 12B middle in the paper of Sartakhti et al., 2016.
-    # Figure_12B_middle()
+    
+    # Make Figure 2 in the paper of Sartakhti et al., 2016.
+    Figure_2()
+
+    # Make Figure 3 in the paper of Sartakhti et al., 2016.
+    Figure_3()
+
+    # Make Figure 5 in the paper of Sartakhti et al., 2016.
+    Figure_5()
+
+    # Make Figure 8A in the paper of Sartakhti et al., 2016.
+    Figure_8A()
+
+    # Make Figure 8B in the paper of Sartakhti et al., 2016.
+    Figure_8B()
+
+    # Make Figure 9A in the paper of Sartakhti et al., 2016.
+    Figure_9A()
+
+    # Make Figure 9B in the paper of Sartakhti et al., 2016.
+    Figure_9B()
+
+    # Make Figure 9C in the paper of Sartakhti et al., 2016.
+    Figure_9C()
+
+    # Make Figure 10A in the paper of Sartakhti et al., 2016.
+    Figure_10A()
+
+    # Make Figure 10B in the paper of Sartakhti et al., 2016.
+    Figure_10B()
+
+    # Make Figure 11 in the paper of Sartakhti et al., 2016.
+    Figure_11()
+
+    # Make Figure 12A middle in the paper of Sartakhti et al., 2016.
+    Figure_12A_middle()
+
+    # Make Figure 12A right in the paper of Sartakhti et al., 2016.
+    Figure_12A_right()
+
+    # # Make Figure 12B middle in the paper of Sartakhti et al., 2016.
+    Figure_12B_middle()
 
     # Make Figure 12B right in the paper of Sartakhti et al., 2016.
     Figure_12B_right()

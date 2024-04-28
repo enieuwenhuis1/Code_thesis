@@ -58,12 +58,12 @@ def main():
     #
     # # Make a figure showing the cell number dynamics by traditional therapy and
     # # by adaptive therapy
-    list_t_steps_drug = [3, 3, 3]
-    Figure_continuous_MTD_vs_AT_realistic(90, list_t_steps_drug)
+    # list_t_steps_drug = [3, 3, 3]
+    # Figure_continuous_MTD_vs_AT_realistic(90, list_t_steps_drug)
 
-    # Make a 3D figure showthing the effect of different drug holiday and
-    # administration periods
-    Figure_3D_MM_numb_IH_add_and_holiday()
+    # # Make a 3D figure showthing the effect of different drug holiday and
+    # # administration periods
+    # Figure_3D_MM_numb_IH_add_and_holiday()
 
     # # Make a figure that shows the MM number for different bOC,MMd values
     # Figure_best_b_OC_MMd()
@@ -4882,6 +4882,8 @@ def minimise_MM_GF_W_h_IH():
     # Optimise the administration and holiday durations and the IH strengths
     # t_step_IH_strength = [GF IH t, W IH t, h t, GF IH s, W IH s]
     t_step_IH_strength = [2.176, 2.437, 2.252, 0.472, 0.315]
+    t_step_IH_strength = [2.012, 3.202, 2.583, 0.415, 0.324]
+    t_step_IH_strength = [3.460, 2.193, 3.543, 0.449, 0.331]
     result = minimize(minimal_tumour_nr_t_3_situations_IH, t_step_IH_strength,
             args=(switch_dataframe_GF_W_h, nOC, nOB, nMMd, nMMr, growth_rates,
             growth_rates_IH, decay_rates, decay_rates_IH, matrix_no_GF_IH,
@@ -4935,7 +4937,10 @@ def minimise_MM_W_GF_h_IH():
 
     # Optimise the administration and holiday durations and the IH strengths
     # t_step_IH_strength = [GF IH t, W IH t, h t, GF IH s, W IH s]
-    t_step_IH_strength = [3.771, 3.850, 2.605, 0.364, 0.425]
+    # t_step_IH_strength = [3.771, 3.850, 2.605, 0.364, 0.425]
+    # t_step_IH_strength = [3.338, 2.805, 3.620, 0.339, 0.443]
+    # t_step_IH_strength = [3.679, 3.076, 2.461, 0.389, 0.496]
+    t_step_IH_strength = [2.193, 2.383, 2.137, 0.384, 0.392]
     result = minimize(minimal_tumour_nr_t_3_situations_IH, t_step_IH_strength,
             args=(switch_dataframe_W_GF_h, nOC, nOB, nMMd, nMMr, growth_rates,
             growth_rates_IH, decay_rates, decay_rates_IH, matrix_no_GF_IH,

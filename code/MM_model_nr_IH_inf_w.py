@@ -55,11 +55,11 @@ def main():
     # # by adaptive therapy for weaker IHs compared to the original situation
     # list_t_steps_drug = [10, 10, 10]
     # Figure_continuous_MTD_vs_AT_weak_a_h(20, list_t_steps_drug)
-    #
-    # # Make a figure showing the cell number dynamics by traditional therapy and
-    # # by adaptive therapy
-    # list_t_steps_drug = [3, 3, 3]
-    # Figure_continuous_MTD_vs_AT_realistic(90, list_t_steps_drug)
+
+    # Make a figure showing the cell number dynamics by traditional therapy and
+    # by adaptive therapy
+    list_t_steps_drug = [3, 3, 3]
+    Figure_continuous_MTD_vs_AT_realistic(90, list_t_steps_drug)
 
     # Make a 3D figure showthing the effect of different drug holiday and
     # administration periods
@@ -3134,7 +3134,7 @@ def continuous_add_IH_df(time_IH, end_generation, nOC, nOB, nMMd, nMMr,
     nMMr = df_1['nMMr'].iloc[-1]
 
     # Set the currect values
-    t = np.linspace(time_IH, end_generation, 400)
+    t = np.linspace(time_IH, 250, 400)
     y0 = [nOC, nOB, nMMd, nMMr]
     parameters = (growth_rates_IH, decay_rates_IH, matrix_GF_IH, WMMd_inhibitor)
 
@@ -3143,8 +3143,24 @@ def continuous_add_IH_df(time_IH, end_generation, nOC, nOB, nMMd, nMMr,
     df_2 = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
+    # Determine the current numbers
+    nOC = df_2['nOC'].iloc[-1]
+    nOB = df_2['nOB'].iloc[-1]
+    nMMd = df_2['nMMd'].iloc[-1]
+    nMMr = df_2['nMMr'].iloc[-1]
+
+    # Set the currect values
+    t = np.linspace(250, end_generation, 400)
+    y0 = [nOC, nOB, nMMd, nMMr]
+    parameters = (growth_rates, decay_rates, matrix_no_GF_IH)
+
+    # Determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_3 = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
+                'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
+
     # Combine the dataframes
-    df_total = pd.concat([df_1, df_2])
+    df_total = pd.concat([df_1, df_2, df_3])
 
     return df_total
 
@@ -3837,7 +3853,7 @@ def Figure_continuous_MTD_vs_AT_realistic(n_switches, t_steps_drug):
     axs[0, 1].set_ylabel(' ')
     axs[0, 1].set_title(r"Traditional therapy $W_{MMd}$ IH", fontsize=14)
     axs[0, 1].grid(True)
-    axs[0, 1].set_yticks([0, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000])
+    # axs[0, 1].set_yticks([0, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000])
 
     # Plot the data with drug holidays in the second plot
     df_total_comb.plot(x='Generation', y=['nOC', 'nOB', 'nMMd', 'nMMr'],
