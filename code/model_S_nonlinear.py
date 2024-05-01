@@ -4,7 +4,7 @@ University:   UvA
 Student id':  13717405
 Description:  Code that attempts to replicate the formulas and Figures from the
               paper by Sartakhti et al. (2018) to get a better understanding of
-              cancer modeling. The model simulates linear and nonlinear dynamics
+              cancer modelling. The model simulates linear and nonlinear dynamics
               and collective interactions in the multiple myeloma (MM) micro-
               environment with three cell types: MM cells, osteoblasts (OB) and
               osteoclasts (OC).

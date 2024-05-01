@@ -38,28 +38,28 @@ def main():
     # Do doc tests
     doctest.testmod()
 
-    # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # by adaptive therapy (original situation)
-    list_t_steps_drug = [10, 10, 10]
-    Figure_continuous_MTD_vs_AT_a_h(12, list_t_steps_drug)
-
-    # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # by adaptive therapy for shorter holiday and administration periods compared
-    # to the original situation
-    list_t_steps_drug = [5, 5, 5]
-    Figure_continuous_MTD_vs_AT_short_a_h(20, list_t_steps_drug)
-
-    # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # by adaptive therapy for weaker IHs compared to the original situation
-    list_t_steps_drug = [10, 10, 10]
-    Figure_continuous_MTD_vs_AT_weak_a_h(12, list_t_steps_drug)
-
-    # Make a 3D figure showthing the effect of different drug holiday and
-    # administration periods
-    Figure_3D_MM_frac_IH_add_and_holiday()
-
-    # Make a figure that shows the MM fraction for different bOC,MMd values
-    Figure_best_b_OC_MMd()
+    # # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # # by adaptive therapy (original situation)
+    # list_t_steps_drug = [10, 10, 10]
+    # Figure_continuous_MTD_vs_AT_a_h(12, list_t_steps_drug)
+    #
+    # # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # # by adaptive therapy for shorter holiday and administration periods compared
+    # # to the original situation
+    # list_t_steps_drug = [5, 5, 5]
+    # Figure_continuous_MTD_vs_AT_short_a_h(20, list_t_steps_drug)
+    #
+    # # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # # by adaptive therapy for weaker IHs compared to the original situation
+    # list_t_steps_drug = [10, 10, 10]
+    # Figure_continuous_MTD_vs_AT_weak_a_h(12, list_t_steps_drug)
+    #
+    # # Make a 3D figure showthing the effect of different drug holiday and
+    # # administration periods
+    # Figure_3D_MM_frac_IH_add_and_holiday()
+    #
+    # # Make a figure that shows the MM fraction for different bOC,MMd values
+    # Figure_best_b_OC_MMd()
 
     # Make a figure that shows the MM fraction for different WMMd IH values
     Figure_best_WMMd_IH()
@@ -1109,7 +1109,7 @@ def Figure_best_WMMd_IH():
     for WMMd_inhibitor in range(3000):
         WMMd_inhibitor = WMMd_inhibitor/1000
         frac_tumour = minimal_tumour_frac_WMMd_IH(WMMd_inhibitor, xOC, xOB, xMMd,
-                            xMMr, N, cOC, cOB, cMMd, cMMr, matrix, t, False)
+                                xMMr, N, cOC, cOB, cMMd, cMMr, matrix, t, False)
         dict_frac_tumour_high_c[WMMd_inhibitor] = frac_tumour
 
     # Save the data

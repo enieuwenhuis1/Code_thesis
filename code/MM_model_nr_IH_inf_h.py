@@ -55,34 +55,34 @@ def main():
     # # by adaptive therapy for weaker IHs compared to the original situation
     # list_t_steps_drug = [10, 10, 10]
     # Figure_continuous_MTD_vs_AT_weak_a_h(20, list_t_steps_drug)
-    #
-    # # Make a figure showing the cell number dynamics by traditional therapy and
-    # # by adaptive therapy
-    # list_t_steps_drug = [3, 3, 3]
-    # Figure_continuous_MTD_vs_AT_realistic(90, list_t_steps_drug)
 
-    # # Make a 3D figure showthing the effect of different drug holiday and
-    # # administration periods
-    # Figure_3D_MM_numb_IH_add_and_holiday()
+    # Make a figure showing the cell number dynamics by traditional therapy and
+    # by adaptive therapy
+    list_t_steps_drug = [3, 3, 3]
+    Figure_continuous_MTD_vs_AT_realistic(90, list_t_steps_drug)
+
+    # Make a 3D figure showthing the effect of different drug holiday and
+    # administration periods
+    Figure_3D_MM_numb_IH_add_and_holiday()
 
     # # Make a figure that shows the MM number for different bOC,MMd values
     # Figure_best_b_OC_MMd()
     #
     # # Make a figure that shows the MM number for different WMMd IH values
     # Figure_best_WMMd_IH()
-    #
-    # # Make a 3D figure showing the effect of different WMMd and MMd GF IH
-    # # strengths
-    # Figure_3D_MM_numb_MMd_IH_strength()
-    #
-    # # Make line plots showing the dynamics when the IH administration is longer
-    # # than the holiday and one it is the other way around.
-    # list_t_steps_drug = [3, 10]
-    # list_t_steps_no_drug = [10, 3]
-    # list_n_steps = [40, 40]
-    # Figure_duration_a_h_MMd_IH(list_n_steps, list_t_steps_drug,
-    #                                                       list_t_steps_no_drug)
-    #
+
+    # Make a 3D figure showing the effect of different WMMd and MMd GF IH
+    # strengths
+    Figure_3D_MM_numb_MMd_IH_strength()
+
+    # Make line plots showing the dynamics when the IH administration is longer
+    # than the holiday and one it is the other way around.
+    list_t_steps_drug = [3, 10]
+    list_t_steps_no_drug = [10, 3]
+    list_n_steps = [40, 40]
+    Figure_duration_a_h_MMd_IH(list_n_steps, list_t_steps_drug,
+                                                          list_t_steps_no_drug)
+
     """ The optimisation situations """
     # # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
     # # holiday
@@ -115,38 +115,38 @@ def main():
     # # Optimise IH administration duration and holiday duration for WMMd IH ->
     # # IH combination -> MMd GF IH -> holiday
     # minimise_MM_W_comb_GF_h()
-    #
+    # #
     # # Optimise IH administration duration, holiday duration and strengths for
     # # MMd GF IH -> IH combination -> WMMd IH -> holiday
     # minimise_MM_GF_comb_W_h_IH()
-    #
+
     # # Optimise IH administration duration, holiday duration and strengths for
     # # WMMd IH -> IH combination -> MMd GF IH -> holiday
     # minimise_MM_W_comb_GF_h_IH()
-
-    # Optimise IH administration duration and holiday duration for MMd GF IH ->
-    # WMMd IH + MMd GF IH -> WMMd IH -> holiday
-    minimise_MM_GF_GFandW_W_h()
-
-    # Optimise IH administration duration and holiday duration for WMMd IH ->
-    # WMMd IH + MMd GF IH -> MMd GF IH -> holiday
-    minimise_MM_W_WandGF_GF_h()
-
-    # Optimise IH administration duration, holiday duration and strengths for
-    # MMd GF IH -> WMMd IH + MMd GF IH -> WMMd IH -> holiday
-    minimise_MM_GF_GFandW_W_h_IH()
-
-    # Optimise IH administration duration, holiday duration and strengths for
-    # WMMd IH -> WMMd IH + MMd GF IH -> MMd GF IH -> holiday
-    minimise_MM_W_WandGF_GF_h_IH()
-
-    # Optimise IH administration duration, holiday duration and strengths for
-    # MMd GF IH -> IH combination -> holiday
-    minimise_MM_GF_comb_h_IH()
-
-    # Optimise IH administration duration, holiday duration and strengths for
-    # WMMd IH -> IH combination -> holiday
-    minimise_MM_W_comb_h_IH()
+    #
+    # # Optimise IH administration duration and holiday duration for MMd GF IH ->
+    # # WMMd IH + MMd GF IH -> WMMd IH -> holiday
+    # minimise_MM_GF_GFandW_W_h()
+    #
+    # # Optimise IH administration duration and holiday duration for WMMd IH ->
+    # # WMMd IH + MMd GF IH -> MMd GF IH -> holiday
+    # minimise_MM_W_WandGF_GF_h()
+    #
+    # # Optimise IH administration duration, holiday duration and strengths for
+    # # MMd GF IH -> WMMd IH + MMd GF IH -> WMMd IH -> holiday
+    # minimise_MM_GF_GFandW_W_h_IH()
+    #
+    # # Optimise IH administration duration, holiday duration and strengths for
+    # # WMMd IH -> WMMd IH + MMd GF IH -> MMd GF IH -> holiday
+    # minimise_MM_W_WandGF_GF_h_IH()
+    #
+    # # Optimise IH administration duration, holiday duration and strengths for
+    # # MMd GF IH -> IH combination -> holiday
+    # minimise_MM_GF_comb_h_IH()
+    # #
+    # # Optimise IH administration duration, holiday duration and strengths for
+    # # WMMd IH -> IH combination -> holiday
+    # minimise_MM_W_comb_h_IH()
     #
     # # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
     # # holiday for different WMMd IH strengths and MMd GF IH = 0.4
@@ -167,7 +167,7 @@ def main():
     # # holiday for different MMd GF IH strengths and WMMd IH = 0.4
     # minimise_MM_W_GF_h_changing_GF_IH([0.8, 1.2, 0.3, 0.3], [0.7, 1.3, 0.3, 0.3],
     # [0.9, 0.08, 0.2, 0.1], [1.0, 0.08, 0.2, 0.1], 'df_MM_W_GF_h_changing_GF_IH.csv')
-    #
+
     # # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
     # # holiday for different WMMd IH strengths whereby the growth and decay rate
     # # are decreased with 10%
@@ -195,37 +195,37 @@ def main():
     # minimise_MM_W_GF_h_changing_GF_IH([0.88, 1.32, 0.33, 0.33], [0.77, 1.43, 0.33,
     #                    0.33], [0.99, 0.088, 0.22, 0.11], [1.1, 0.088, 0.22, 0.11],
     #                                   'df_MM_W_GF_h_changing_GF_IH_h_gr_dr.csv')
-    #
-    # # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
-    # # holiday for different WMMd IH strengths whereby the growth and decay rate are
-    # # decreased with 10%
-    # minimise_MM_GF_W_h_changing_W_IH([0.72, 1.08, 0.27, 0.27], [0.63, 1.17, 0.27,
-    #                   0.27], [0.81, 0.072, 0.18, 0.09], [0.9, 0.072, 0.18, 0.09],
-    #                                     'df_MM_GF_W_h_changing_W_IH_l_gr_dr.csv')
-    #
-    # # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
-    # # holiday for different WMMd IH strengths whereby the growth and decay rate
-    # # are decreased with 10%
-    # minimise_MM_W_GF_h_changing_W_IH([0.72, 1.08, 0.27, 0.27], [0.63, 1.17, 0.27,
-    #                   0.27], [0.81, 0.072, 0.18, 0.09], [0.9, 0.072, 0.18, 0.09],
-    #                                     'df_MM_W_GF_h_changing_W_IH_l_gr_dr.csv')
-    #
-    # # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
-    # # holiday for different MMd GF IH strengths whereby the growth and decay rate
-    # # are decreased with 10%
-    # minimise_MM_GF_W_h_changing_GF_IH([0.72, 1.08, 0.27, 0.27], [0.63, 1.17, 0.27,
-    #                 0.27], [0.81, 0.072, 0.18, 0.09], [0.9, 0.072, 0.18, 0.09],
-    #                                 'df_MM_GF_W_h_changing_GF_IH_l_gr_dr.csv')
-    #
-    # # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
-    # # holiday for different MMd GF IH strengths whereby the growth and decay rate
-    # # are decreased with 10%
-    # minimise_MM_W_GF_h_changing_GF_IH([0.72, 1.08, 0.27, 0.27], [0.63, 1.17, 0.27,
-    #                    0.27], [0.81, 0.072, 0.18, 0.09], [0.9, 0.072, 0.18, 0.09],
-    #                                 'df_MM_W_GF_h_changing_GF_IH_l_gr_dr.csv')
 
-    # Make a figure of the MM number after optimisation by different IH strengths
-    Figure_optimisation()
+    # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
+    # holiday for different WMMd IH strengths whereby the growth and decay rate are
+    # decreased with 10%
+    minimise_MM_GF_W_h_changing_W_IH([0.72, 1.08, 0.27, 0.27], [0.63, 1.17, 0.27,
+                      0.27], [0.81, 0.072, 0.18, 0.09], [0.9, 0.072, 0.18, 0.09],
+                                        'df_MM_GF_W_h_changing_W_IH_l_gr_dr.csv')
+
+    # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
+    # holiday for different WMMd IH strengths whereby the growth and decay rate
+    # are decreased with 10%
+    minimise_MM_W_GF_h_changing_W_IH([0.72, 1.08, 0.27, 0.27], [0.63, 1.17, 0.27,
+                      0.27], [0.81, 0.072, 0.18, 0.09], [0.9, 0.072, 0.18, 0.09],
+                                        'df_MM_W_GF_h_changing_W_IH_l_gr_dr.csv')
+
+    # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
+    # holiday for different MMd GF IH strengths whereby the growth and decay rate
+    # are decreased with 10%
+    minimise_MM_GF_W_h_changing_GF_IH([0.72, 1.08, 0.27, 0.27], [0.63, 1.17, 0.27,
+                    0.27], [0.81, 0.072, 0.18, 0.09], [0.9, 0.072, 0.18, 0.09],
+                                    'df_MM_GF_W_h_changing_GF_IH_l_gr_dr.csv')
+
+    # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
+    # holiday for different MMd GF IH strengths whereby the growth and decay rate
+    # are decreased with 10%
+    minimise_MM_W_GF_h_changing_GF_IH([0.72, 1.08, 0.27, 0.27], [0.63, 1.17, 0.27,
+                       0.27], [0.81, 0.072, 0.18, 0.09], [0.9, 0.072, 0.18, 0.09],
+                                    'df_MM_W_GF_h_changing_GF_IH_l_gr_dr.csv')
+
+    # # Make a figure of the MM number after optimisation by different IH strengths
+    # Figure_optimisation()
 
 def dOC_dt(nOC, nOB, nMMd, nMMr, gr_OC, dr_OC, matrix):
     """
@@ -3252,7 +3252,7 @@ def minimal_tumour_numb_t_steps(t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd,
     n_switches = int((400 // time_step) -1)
 
     # Create a dataframe of the numbers
-    df = switch_dataframe(60, n_switches, t_steps_drug, t_steps_no_drug, nOC,
+    df = switch_dataframe(30, n_switches, t_steps_drug, t_steps_no_drug, nOC,
                   nOB, nMMd, nMMr, growth_rates, growth_rates_IH, decay_rates,
                   decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor)
 
@@ -4881,8 +4881,6 @@ def minimise_MM_GF_W_h_IH():
 
     # Optimise the administration and holiday durations and the IH strengths
     # t_step_IH_strength = [GF IH t, W IH t, h t, GF IH s, W IH s]
-    t_step_IH_strength = [2.176, 2.437, 2.252, 0.472, 0.315]
-    t_step_IH_strength = [2.012, 3.202, 2.583, 0.415, 0.324]
     t_step_IH_strength = [3.460, 2.193, 3.543, 0.449, 0.331]
     result = minimize(minimal_tumour_nr_t_3_situations_IH, t_step_IH_strength,
             args=(switch_dataframe_GF_W_h, nOC, nOB, nMMd, nMMr, growth_rates,
@@ -4937,9 +4935,6 @@ def minimise_MM_W_GF_h_IH():
 
     # Optimise the administration and holiday durations and the IH strengths
     # t_step_IH_strength = [GF IH t, W IH t, h t, GF IH s, W IH s]
-    # t_step_IH_strength = [3.771, 3.850, 2.605, 0.364, 0.425]
-    # t_step_IH_strength = [3.338, 2.805, 3.620, 0.339, 0.443]
-    # t_step_IH_strength = [3.679, 3.076, 2.461, 0.389, 0.496]
     t_step_IH_strength = [2.193, 2.383, 2.137, 0.384, 0.392]
     result = minimize(minimal_tumour_nr_t_3_situations_IH, t_step_IH_strength,
             args=(switch_dataframe_W_GF_h, nOC, nOB, nMMd, nMMr, growth_rates,

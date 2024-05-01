@@ -11,8 +11,8 @@ Description:  The code of the model that simulates the dynamics in the multiple
               to fractions and the figures show those fraction dynamics.
 
               The IHs have not only an influence on the MMd but also on the OB and
-              OC. This was incorporated by increasing the drOC and grOB value and
-              decreasing the grOC value when an IH was administered.
+              OC. This was incorporated by increasing the drOC value and grOB value
+              and decreasing the grOC value when an IH was administered.
 """
 
 # Import the needed libraries
@@ -79,33 +79,33 @@ def main():
                                                         list_t_steps_no_drug)
 
     """ The optimisation situations """
-    # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
-    # holiday
-    minimise_MM_GF_W_h()
-
-    # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
-    # holiday
-    minimise_MM_W_GF_h()
-
-    # Optimise IH administration duration, holiday duration and strength for
-    # MMd GF IH -> WMMd IH -> holiday
-    minimise_MM_GF_W_h_IH()
-
-    # Optimise IH administration duration, holiday duration and strength for
-    # WMMd IH -> MMd GF IH ->  holiday
-    minimise_MM_W_GF_h_IH()
-
-    # Optimise IH administration duration, holiday duration and strength for
-    # MMd GF IH -> holiday -> WMMd IH -> holiday
-    minimise_MM_GF_h_W_h_IH()
-
-    # Optimise IH administration duration, holiday duration and strength for
-    # WMMd IH -> holiday -> MMd GF IH ->  holiday
-    minimise_MM_W_h_GF_h_IH()
-
-    # Optimise IH administration duration and holiday duration for MMd GF IH
-    # -> IH combination -> WMMd IH -> holiday
-    minimise_MM_GF_comb_W_h()
+    # # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
+    # # holiday
+    # minimise_MM_GF_W_h()
+    #
+    # # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
+    # # holiday
+    # minimise_MM_W_GF_h()
+    #
+    # # Optimise IH administration duration, holiday duration and strength for
+    # # MMd GF IH -> WMMd IH -> holiday
+    # minimise_MM_GF_W_h_IH()
+    #
+    # # Optimise IH administration duration, holiday duration and strength for
+    # # WMMd IH -> MMd GF IH ->  holiday
+    # minimise_MM_W_GF_h_IH()
+    #
+    # # Optimise IH administration duration, holiday duration and strength for
+    # # MMd GF IH -> holiday -> WMMd IH -> holiday
+    # minimise_MM_GF_h_W_h_IH()
+    #
+    # # Optimise IH administration duration, holiday duration and strength for
+    # # WMMd IH -> holiday -> MMd GF IH ->  holiday
+    # minimise_MM_W_h_GF_h_IH()
+    #
+    # # Optimise IH administration duration and holiday duration for MMd GF IH
+    # # -> IH combination -> WMMd IH -> holiday
+    # minimise_MM_GF_comb_W_h()
 
     # Optimise IH administration duration and holiday duration for WMMd IH ->
     # IH combination -> MMd GF IH -> holiday
@@ -529,7 +529,7 @@ def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd,
     x = 0
     time = 0
     df_total_switch = pd.DataFrame()
-    t_steps = 60
+    t_steps = 30
     t = np.linspace(0, t_steps, t_steps*2)
     y0 = [nOC, nOB, nMMd, nMMr]
     parameters = (growth_rates, decay_rates, matrix_no_GF_IH)
@@ -657,7 +657,7 @@ def switch_dataframe_GF_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
     x = 0
     time = 0
     df_total_switch = pd.DataFrame()
-    t_steps = 60
+    t_steps = 30
     t = np.linspace(0, t_steps, t_steps*2)
     y0 = [nOC, nOB, nMMd, nMMr]
     parameters = (growth_rates, decay_rates, matrix_no_GF_IH)
@@ -817,7 +817,7 @@ def switch_dataframe_GF_h_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
     x = 0
     time = 0
     df_total_switch = pd.DataFrame()
-    t_steps = 60
+    t_steps = 30
     t = np.linspace(0, t_steps, t_steps*2)
     y0 = [nOC, nOB, nMMd, nMMr]
     parameters = (growth_rates, decay_rates, matrix_no_GF_IH)
@@ -1004,7 +1004,7 @@ def switch_dataframe_W_h_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
     x = 0
     time = 0
     df_total_switch = pd.DataFrame()
-    t_steps = 60
+    t_steps = 30
     t = np.linspace(0, t_steps, t_steps*2)
     y0 = [nOC, nOB, nMMd, nMMr]
     parameters = (growth_rates, decay_rates, matrix_no_GF_IH)
@@ -1192,7 +1192,7 @@ def switch_dataframe_W_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
     x = 0
     time = 0
     df_total_switch = pd.DataFrame()
-    t_steps = 60
+    t_steps = 30
     t = np.linspace(0, t_steps, t_steps*2)
     y0 = [nOC, nOB, nMMd, nMMr]
     parameters = (growth_rates, decay_rates, matrix_no_GF_IH)
@@ -1358,7 +1358,7 @@ def switch_dataframe_W_comb_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
     x = 0
     time = 0
     df_total_switch = pd.DataFrame()
-    t_steps = 60
+    t_steps = 30
     t = np.linspace(0, t_steps, t_steps*2)
     y0 = [nOC, nOB, nMMd, nMMr]
     parameters = (growth_rates, decay_rates, matrix_no_GF_IH)
@@ -1553,7 +1553,7 @@ def switch_dataframe_GF_comb_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
     x = 0
     time = 0
     df_total_switch = pd.DataFrame()
-    t_steps = 60
+    t_steps = 30
     t = np.linspace(0, t_steps, t_steps*2)
     y0 = [nOC, nOB, nMMd, nMMr]
     parameters = (growth_rates, decay_rates, matrix_no_GF_IH)
@@ -1747,7 +1747,7 @@ def switch_dataframe_GF_WandGF_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
     x = 0
     time = 0
     df_total_switch = pd.DataFrame()
-    t_steps = 60
+    t_steps = 30
     t = np.linspace(0, t_steps, t_steps*2)
     y0 = [nOC, nOB, nMMd, nMMr]
     parameters = (growth_rates, decay_rates, matrix_no_GF_IH)
@@ -1939,7 +1939,7 @@ def switch_dataframe_W_WandGF_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
     x = 0
     time = 0
     df_total_switch = pd.DataFrame()
-    t_steps = 60
+    t_steps = 30
     t = np.linspace(0, t_steps, t_steps*2)
     y0 = [nOC, nOB, nMMd, nMMr]
     parameters = (growth_rates, decay_rates, matrix_no_GF_IH)

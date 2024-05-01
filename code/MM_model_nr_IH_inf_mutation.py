@@ -10,8 +10,8 @@ Description:  The code of the model that simulates the dynamics in the multiple
               model, there is looked at the numbers of the four cell types.
 
               The IHs have not only an influence on the MMd but also on the OB
-              and OC. This was incorporated by increasing the drOC and grOB value
-              and decreasing the grOC value when a IH was administered. In
+              and OC. This was incorporated by increasing the drOC value and grOB
+              value and decreasing the grOC value when a IH was administered. In
               addition, there is a mutation rate implemented that indicates the
               rate at which which MMd get mutations making them resistance and
               therefore turning them into MMr.
@@ -44,14 +44,14 @@ def main():
     # Do doc tests
     doctest.testmod()
 
-    # Make a figure showing the cell number dynamics by traditional therapy and
-    # by adaptive therapy
-    list_t_steps_drug = [3, 3, 3]
-    Figure_continuous_MTD_vs_AT_realistic(90, list_t_steps_drug)
-
-    # Make a 3D figure showthing the effect of different drug holiday and
-    # administration periods
-    Figure_3D_MM_numb_IH_add_and_holiday()
+    # # Make a figure showing the cell number dynamics by traditional therapy and
+    # # by adaptive therapy
+    # list_t_steps_drug = [3, 3, 3]
+    # Figure_continuous_MTD_vs_AT_realistic(90, list_t_steps_drug)
+    #
+    # # Make a 3D figure showthing the effect of different drug holiday and
+    # # administration periods
+    # Figure_3D_MM_numb_IH_add_and_holiday()
 
     """ The optimisation situations """
     # # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
@@ -78,17 +78,17 @@ def main():
     # # WMMd IH -> holiday -> MMd GF IH ->  holiday
     # minimise_MM_W_h_GF_h_IH()
     #
-    # Optimise IH administration duration and holiday duration for MMd GF IH
-    # -> IH combination -> WMMd IH -> holiday
-    minimise_MM_GF_comb_W_h()
-
-    # Optimise IH administration duration and holiday duration for WMMd IH ->
-    # IH combination -> MMd GF IH -> holiday
-    minimise_MM_W_comb_GF_h()
-
-    # Optimise IH administration duration, holiday duration and strengths for
-    # MMd GF IH -> IH combination -> WMMd IH -> holiday
-    minimise_MM_GF_comb_W_h_IH()
+    # # Optimise IH administration duration and holiday duration for MMd GF IH
+    # # -> IH combination -> WMMd IH -> holiday
+    # minimise_MM_GF_comb_W_h()
+    #
+    # # Optimise IH administration duration and holiday duration for WMMd IH ->
+    # # IH combination -> MMd GF IH -> holiday
+    # minimise_MM_W_comb_GF_h()
+    #
+    # # Optimise IH administration duration, holiday duration and strengths for
+    # # MMd GF IH -> IH combination -> WMMd IH -> holiday
+    # minimise_MM_GF_comb_W_h_IH()
 
     # # Optimise IH administration duration, holiday duration and strengths for
     # # WMMd IH -> IH combination -> MMd GF IH -> holiday
@@ -558,7 +558,7 @@ def mutation_MMd_to_MMr(IH_present, nMMd, nMMd_change, nMMr_change):
         mutation_rate = 0.00012
 
     if IH_present == 2:
-        mutation_rate = 0.00014 * 0.00014
+        mutation_rate = 0.00007
 
     # Update the nMMd and nMMr change
     nMMd_change -= nMMd * mutation_rate
@@ -4437,6 +4437,7 @@ def minimise_MM_W_comb_GF_h_IH():
     # t_step_IH_strength = [GF IH t, W IH t, comb t, h t, GF IH s, comb GF IH s
     # W IH s, comb W IH s]
     t_step_IH_strength = [2.628, 2.308, 3.838, 2.524, 0.331, 0.087, 0.477, 0.084]
+    t_step_IH_strength = [2.056, 2.940, 3.020, 2.107, 0.469, 0.105, 0.321, 0.109]
     result = minimize(minimal_tumour_nr_t_4_situations_IH, t_step_IH_strength,
         args=(switch_dataframe_W_comb_GF_h, nOC, nOB, nMMd, nMMr, growth_rates,
         growth_rates_IH, decay_rates, decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH,
