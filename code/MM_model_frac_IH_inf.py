@@ -41,21 +41,21 @@ def main():
     # Do doc tests
     doctest.testmod()
 
-    # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # by adaptive therapy (original situation)
-    list_t_steps_drug = [10, 10, 10]
-    Figure_continuous_MTD_vs_AT_a_h(13, list_t_steps_drug)
-
-    # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # by adaptive therapy for shorter holiday and administration periods compared
-    # to the original situation
-    list_t_steps_drug = [5, 5, 5]
-    Figure_continuous_MTD_vs_AT_short_a_h(20, list_t_steps_drug)
-
-    # Make a figure showing the cell fraction dynamics by traditional therapy
-    # and by adaptive therapy for weaker IHs compared to the original situation
-    list_t_steps_drug = [10, 10, 10]
-    Figure_continuous_MTD_vs_AT_weak_a_h(12, list_t_steps_drug)
+    # # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # # by adaptive therapy (original situation)
+    # list_t_steps_drug = [10, 10, 10]
+    # Figure_continuous_MTD_vs_AT_a_h(13, list_t_steps_drug)
+    #
+    # # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # # by adaptive therapy for shorter holiday and administration periods compared
+    # # to the original situation
+    # list_t_steps_drug = [5, 5, 5]
+    # Figure_continuous_MTD_vs_AT_short_a_h(20, list_t_steps_drug)
+    #
+    # # Make a figure showing the cell fraction dynamics by traditional therapy
+    # # and by adaptive therapy for weaker IHs compared to the original situation
+    # list_t_steps_drug = [10, 10, 10]
+    # Figure_continuous_MTD_vs_AT_weak_a_h(12, list_t_steps_drug)
 
     # Make a figure showing the cell fraction dynamics by traditional therapy and
     # by adaptive therapy for shorter holiday and administration periods and
@@ -63,10 +63,10 @@ def main():
     list_t_steps_drug = [5, 5, 5]
     Figure_continuous_MTD_vs_AT_s_and_w_a_h(18, list_t_steps_drug)
 
-    # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # by adaptive therapy whereby the OB-OC equilibrium gets restored
-    list_t_steps_drug = [10, 10, 10]
-    Figure_continuous_MTD_vs_AT_OB_a_h(9, list_t_steps_drug)
+    # # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # # by adaptive therapy whereby the OB-OC equilibrium gets restored
+    # list_t_steps_drug = [10, 10, 10]
+    # Figure_continuous_MTD_vs_AT_OB_a_h(9, list_t_steps_drug)
 
     # Make a 3D figure showthing the effect of different drug holiday and
     # administration periods
@@ -1396,7 +1396,7 @@ def Figure_continuous_MTD_vs_AT_s_and_w_a_h(n_switches, t_steps_drug):
     axs[0, 0].axvspan(xmin=10, xmax=102, color='lightgray', alpha=0.45)
     axs[0, 0].set_xlim(1, 102)
     axs[0, 0].set_xlabel(' ')
-    axs[0, 0].set_ylabel('Cell fraction', fontsize=12)
+    axs[0, 0].set_ylabel(r'Cell fraction ($x_{i}$)', fontsize=12)
     axs[0, 0].set_title(f"Traditional therapy MMd GF IH ", fontsize=14)
     axs[0, 0].grid(True, linestyle='--')
 
@@ -1429,7 +1429,7 @@ def Figure_continuous_MTD_vs_AT_s_and_w_a_h(n_switches, t_steps_drug):
     axs[1, 0].axvspan(xmin=10, xmax=102, color='lightgray', alpha=0.45)
     axs[1, 0].set_xlim(1, 102)
     axs[1, 0].set_xlabel('Generations', fontsize=12)
-    axs[1, 0].set_ylabel('Cell fraction', fontsize=12)
+    axs[1, 0].set_ylabel(r'Cell fraction ($x_{i}$)', fontsize=12)
     axs[1, 0].set_title(f"Adaptive therapy MMd GF IH", fontsize=14)
     axs[1, 0].grid(True, linestyle='--')
 
