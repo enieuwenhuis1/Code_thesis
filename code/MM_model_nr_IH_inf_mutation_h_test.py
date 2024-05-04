@@ -4591,14 +4591,14 @@ def minimise_MM_GF_comb_W_h_IH():
     # optimise the administration and holiday durations and the IH strengths
     # t_step_IH_strength = [GF IH t, W IH t, comb t, h t, GF IH s, comb GF IH s
     # W IH s, comb W IH s]
-    a = 3 + random.uniform(-1, 1)
-    b = 3 + random.uniform(-1, 1)
-    c = 3 + random.uniform(-1, 1)
-    d = 3 + random.uniform(-1, 1)
-    e = 0.4 + random.uniform(-0.1, 0.1)
-    f = 0.1 + random.uniform(-0.02, 0.02)
-    g = 0.4 + random.uniform(-0.1, 0.1)
-    h = 0.1 + random.uniform(-0.02, 0.02)
+    a = round(3 + random.uniform(-1, 1), 3)
+    b = round(3 + random.uniform(-1, 1), 3)
+    c = round(3 + random.uniform(-1, 1), 3)
+    d = round(3 + random.uniform(-1, 1), 3)
+    e = round(0.4 + random.uniform(-0.1, 0.1), 3)
+    f = round(0.1 + random.uniform(-0.02, 0.02), 3)
+    g = round(0.4 + random.uniform(-0.1, 0.1), 3)
+    h = round(0.1 + random.uniform(-0.02, 0.02), 3)
 
     print(a, b, c, d, e, f, g, h)
     t_step_IH_strength = [a, b, c, d, e, f, g, h]

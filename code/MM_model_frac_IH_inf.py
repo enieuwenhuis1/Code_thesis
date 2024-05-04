@@ -60,8 +60,8 @@ def main():
     # Make a figure showing the cell fraction dynamics by traditional therapy and
     # by adaptive therapy for shorter holiday and administration periods and
     # weaker IHs compared to the original situation
-    list_t_steps_drug = [5, 5, 5]
-    Figure_continuous_MTD_vs_AT_s_and_w_a_h(18, list_t_steps_drug)
+    # list_t_steps_drug = [5, 5, 5]
+    # Figure_continuous_MTD_vs_AT_s_and_w_a_h(18, list_t_steps_drug)
 
     # # Make a figure showing the cell fraction dynamics by traditional therapy and
     # # by adaptive therapy whereby the OB-OC equilibrium gets restored
