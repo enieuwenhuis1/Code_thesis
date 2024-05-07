@@ -28,7 +28,6 @@ import csv
 from scipy.optimize import minimize
 from mpl_toolkits.mplot3d import Axes3D
 import doctest
-import random
 
 """
 Example interaction matrix:
@@ -46,9 +45,9 @@ def main():
 
     # # Make a figure showing the cell number dynamics by traditional therapy and
     # # by adaptive therapy
-    list_t_steps_drug = [3, 3, 3]
-    Figure_continuous_MTD_vs_AT_realistic(90, list_t_steps_drug)
-    #
+    # list_t_steps_drug = [3, 3, 3]
+    # Figure_continuous_MTD_vs_AT_realistic(90, list_t_steps_drug)
+    # #
     # # Make a 3D figure showthing the effect of different drug holiday and
     # # administration periods
     # Figure_3D_MM_numb_IH_add_and_holiday()
@@ -62,11 +61,11 @@ def main():
     # list_t_steps_drug = [3, 3, 3]
     # Figure_continuous_MTD_vs_AT_MMr_comb(90, list_t_steps_drug)
 
-    # Make a figure showing the number dynamics by traditional and adaptive
-    # therapy for situations whereby resistance mutations are only possible during
-    # the therapies
-    list_t_steps_drug = [3, 3, 3]
-    Figure_continuous_MTD_vs_AT_therapy_mut(80, list_t_steps_drug)
+    # # Make a figure showing the number dynamics by traditional and adaptive
+    # # therapy for situations whereby resistance mutations are only possible during
+    # # the therapies
+    # list_t_steps_drug = [3, 3, 3]
+    # Figure_continuous_MTD_vs_AT_therapy_mut(80, list_t_steps_drug)
 
     """ The optimisation situations """
     # # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
@@ -77,10 +76,10 @@ def main():
     # # holiday
     # minimise_MM_W_GF_h()
     #
-    # # Optimise IH administration duration, holiday duration and strength for
-    # # MMd GF IH -> WMMd IH -> holiday
-    # minimise_MM_GF_W_h_IH()
-    #
+    # Optimise IH administration duration, holiday duration and strength for
+    # MMd GF IH -> WMMd IH -> holiday
+    minimise_MM_GF_W_h_IH()
+
     # # Optimise IH administration duration, holiday duration and strength for
     # # WMMd IH -> MMd GF IH ->  holiday
     # minimise_MM_W_GF_h_IH()
@@ -739,26 +738,6 @@ def save_dataframe(data_frame, file_name, folder_path):
     os.makedirs(folder_path, exist_ok=True)
     file_path = os.path.join(folder_path, file_name)
     data_frame.to_csv(file_path, index=False)
-
-def save_dictionary(dictionary, file_path):
-    """ Function that saves a dictionary as csv file.
-
-    Parameters:
-    -----------
-    dictionary: Dictionary
-        The dictionary containing the collected data.
-    file_path: String
-        The name of the csv file and the path where the dictionary will be saved.
-    """
-    with open(file_path, 'w', newline='') as csvfile:
-        writer = csv.writer(csvfile)
-
-        # Create a header
-        writer.writerow(['Key', 'Value'])
-
-        # Loop over the rows
-        for key, value in dictionary.items():
-            writer.writerow([str(key), str(value)])
 
 def save_optimised_results(results, file_path):
     """ Function that saves the results of the optimised function as csv file.
@@ -3887,7 +3866,7 @@ def Figure_continuous_MTD_vs_AT_realistic(n_switches, t_steps_drug):
     WMMd_inhibitor_comb = 0.43
 
     # WMMd inhibitor effect when only WMMd IH is present
-    WMMd_inhibitor = 6
+    WMMd_inhibitor = 4.2
 
     # Make dataframe for the different drug hollyday duration values
     df_total_switch_GF = switch_dataframe(30, n_switches, t_steps_drug[0],
@@ -4918,7 +4897,7 @@ def minimise_MM_GF_W_h_IH():
 
     # optimise the administration and holiday durations and the IH strengths
     # t_step_IH_strength = [GF IH t, W IH t, h t, GF IH s, W IH s]
-    t_step_IH_strength = [2.184, 2.532, 2.087, 0.354, 0.301]
+    t_step_IH_strength = [2.806, 2.074, 2.668, 0.308, 0.491]
     result = minimize(minimal_tumour_nr_t_3_situations_IH, t_step_IH_strength,
             args=(switch_dataframe_GF_W_h, nOC, nOB, nMMd, nMMr, growth_rates,
             growth_rates_IH, decay_rates, decay_rates_IH, matrix_no_GF_IH,
@@ -5343,9 +5322,7 @@ def minimise_MM_GF_comb_W_h_IH():
     # optimise the administration and holiday durations and the IH strengths
     # t_step_IH_strength = [GF IH t, W IH t, comb t, h t, GF IH s, comb GF IH s
     # W IH s, comb W IH s]
-    # t_step_IH_strength = [2.043, 2.063, 2.769, 3.732, 0.305, 0.094, 0.386, 0.095]
     t_step_IH_strength = [2.202, 2.263, 2.344, 2.435, 0.368, 0.094, 0.356, 0.084]
-    t_step_IH_strength = [2.064, 3.235, 2.816, 2.09, 0.459, 0.091, 0.306, 0.103]
     result = minimize(minimal_tumour_nr_t_4_situations_IH, t_step_IH_strength,
         args=(switch_dataframe_GF_comb_W_h, nOC, nOB, nMMd, nMMr, growth_rates,
         growth_rates_IH, decay_rates, decay_rates_IH, matrix_no_GF_IH,
@@ -5808,6 +5785,7 @@ def minimise_MM_GF_W_h_changing_W_IH(growth_rates, growth_rates_IH, decay_rates,
                 method='Nelder-Mead')
 
         # Print the results
+        print(f'The WMMd IH stength is {W_IH}')
         print('Optimising IH administration duration and holiday duration')
         print('Repeated order: MMd GF IH -> WMMd IH -> holiday')
         print(f"""The best MMd GF IH add duration is {result.x[0]} generations
@@ -5892,6 +5870,7 @@ def minimise_MM_GF_W_h_changing_GF_IH(growth_rates, growth_rates_IH, decay_rates
                 [(0, None), (0, None), (0, None)], method='Nelder-Mead')
 
         # Print the results
+        print(f'The MMd GF IH stength is {GF_IH}')
         print('Optimising IH administration duration and holiday duration')
         print('Repeated order: MMd GF IH -> WMMd IH -> holiday')
         print(f"""The best MMd GF IH add duration is {result.x[0]} generations
@@ -5975,6 +5954,7 @@ def minimise_MM_W_GF_h_changing_W_IH(growth_rates, growth_rates_IH, decay_rates,
             method='Nelder-Mead')
 
         # Print the results
+        print(f'The WMMd IH stength is {W_IH}')
         print('Optimising IH administration duration and holiday duration')
         print('Repeated order: WMMd IH -> MMd GF IH -> holiday')
         print(f"""The best MMd GF IH add duration is {result.x[0]} generations
@@ -6060,6 +6040,7 @@ def minimise_MM_W_GF_h_changing_GF_IH(growth_rates, growth_rates_IH, decay_rates
             (0, None)], method='Nelder-Mead')
 
         # Print the results
+        print(f'The MMd GF IH stength is {GF_IH}')
         print('Optimising IH administration duration and holiday duration')
         print('Repeated order: WMMd IH -> MMd GF IH -> holiday')
         print(f"""The best MMd GF IH add duration is {result.x[0]} generations

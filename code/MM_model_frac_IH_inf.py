@@ -60,8 +60,8 @@ def main():
     # Make a figure showing the cell fraction dynamics by traditional therapy and
     # by adaptive therapy for shorter holiday and administration periods and
     # weaker IHs compared to the original situation
-    # list_t_steps_drug = [5, 5, 5]
-    # Figure_continuous_MTD_vs_AT_s_and_w_a_h(18, list_t_steps_drug)
+    list_t_steps_drug = [5, 5, 5]
+    Figure_continuous_MTD_vs_AT_s_and_w_a_h(18, list_t_steps_drug)
 
     # # Make a figure showing the cell fraction dynamics by traditional therapy and
     # # by adaptive therapy whereby the OB-OC equilibrium gets restored
@@ -1463,6 +1463,7 @@ def Figure_continuous_MTD_vs_AT_s_and_w_a_h(n_switches, t_steps_drug):
     save_Figure(plt, 'line_plot_cell_frac_IH_AT_MTD_s_&_w_a_h',
                                  r'..\visualisation\results_model_frac_IH_inf')
     plt.show()
+
 
 """ Figure to determine the difference between traditional and adaptive therapy.
 Shorter holiday and administration periods compared to the original situation"""

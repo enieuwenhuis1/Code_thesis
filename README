@@ -6,11 +6,11 @@ MATHEMATICAL MODEL MULTIPLE MYELOMA
 The goal was to make fraction and number models that simulate the interactions
 between four cell types In the MM microenvironment: drug-sensitive MM cells (MMd),
 resistant MM cells (MMr), osteoblasts (OBs) and osteoclasts (OCs). All models
-used collective interactions and were made in the framework of eveolutionary game
-theory. The models were used determine the effect of traditional therapy and
+used collective interactions and were made in the framework of evolutionary game
+theory. The models were utilised to determine the effect of traditional therapy and
 adaptive therapy to study the impact of the inhibitors (IHs) on the cell type
 fractions and numbers for different strengths, administration durations and
-holiday durations. In addition the IH holiday duration, administration duration 
+holiday durations. In addition, the IH holiday duration, administration duration
 and strength were optimised.
 
 To better understand MM microenvironment modelling, the figures from Sartakhti et

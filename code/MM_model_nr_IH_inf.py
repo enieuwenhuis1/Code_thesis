@@ -5741,7 +5741,6 @@ def minimise_MM_W_GF_h_changing_W_IH(growth_rates, growth_rates_IH, decay_rates,
 
         # Calculate the strength of the MMd GF IH
         W_IH = 0.2 + (round(i)/100)
-        print(W_IH)
 
         # Set start values
         nOC = 20
@@ -5773,6 +5772,7 @@ def minimise_MM_W_GF_h_changing_W_IH(growth_rates, growth_rates_IH, decay_rates,
                 method='Nelder-Mead')
 
         # Print the results
+        print(f'The WMMd IH stength is {W_IH}')
         print('Optimising IH administration duration and holiday duration')
         print('Repeated order: WMMd IH -> MMd GF IH -> holiday')
         print(f"""The best MMd GF IH add duration is {result.x[0]} generations
@@ -5831,8 +5831,7 @@ def minimise_MM_W_GF_h_changing_GF_IH(growth_rates, growth_rates_IH, decay_rates
 
         # Calculate the strength of the MMd GF IH
         GF_IH = round(0.08 + (i/100), 2)
-        print(GF_IH)
-
+        
         # Set start values
         nOC = 20
         nOB = 30
@@ -5865,6 +5864,7 @@ def minimise_MM_W_GF_h_changing_GF_IH(growth_rates, growth_rates_IH, decay_rates
                 (0, None)], method='Nelder-Mead')
 
         # Print the results
+        print(f'The MMd GF IH stength is {GF_IH}')
         print('Optimising IH administration duration and holiday duration')
         print('Repeated order: WMMd IH -> MMd GF IH -> holiday')
         print(f"""The best MMd GF IH add duration is {result.x[0]} generations
@@ -5919,11 +5919,9 @@ def minimise_MM_GF_W_h_changing_W_IH(growth_rates, growth_rates_IH, decay_rates,
     df_GF_W_h_change_W = pd.DataFrame(columns = column_names)
 
     for i in range(20):
-        print(i)
 
         # Calculate the strength of the WMMd IH
         W_IH = 0.2 + (round(i)/100)
-        print(W_IH)
 
         # Set start values
         nOC = 20
@@ -5955,6 +5953,7 @@ def minimise_MM_GF_W_h_changing_W_IH(growth_rates, growth_rates_IH, decay_rates,
                 method='Nelder-Mead')
 
         # Print the results
+        print(f'The WMMd IH stength is {W_IH}')
         print('Optimising IH administration duration and holiday duration')
         print('Repeated order: MMd GF IH -> WMMd IH -> holiday')
         print(f"""The best MMd GF IH add duration is {result.x[0]} generations
@@ -6012,7 +6011,6 @@ def minimise_MM_GF_W_h_changing_GF_IH(growth_rates, growth_rates_IH, decay_rates
         # Calculate the strength of the MMd GF IH
         GF_IH = round(0.08 + (i)/100, 2)
 
-
         # Set start values
         nOC = 20
         nOB = 30
@@ -6045,6 +6043,7 @@ def minimise_MM_GF_W_h_changing_GF_IH(growth_rates, growth_rates_IH, decay_rates
                 (0, None)], method='Nelder-Mead')
 
         # Print the results
+        print(f'The MMd GF IH stength is {GF_IH}')
         print('Optimising IH administration duration and holiday duration')
         print('Repeated order: MMd GF IH -> WMMd IH -> holiday')
         print(f"""The best MMd GF IH add duration is {result.x[0]} generations
