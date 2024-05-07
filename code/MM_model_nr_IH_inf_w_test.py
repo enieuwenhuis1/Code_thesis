@@ -152,33 +152,33 @@ def main():
     # # Optimise IH administration and holiday duration and strength for MMd GF IH
     # # -> WMMd IH -> holiday where the weight of the MMr relative to the MMd can
     # # be specified
-    # relative_weight_MMr = 1.3
-    # minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
-    # minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
-    # minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
-    # minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
-    # minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
-    # minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
-    # minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
-    # minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
-    # minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
-    # minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
-    # minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
-    # minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
-    # minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
-    # minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
-    # minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
-    # minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
-    # minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
-    # minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
-    # minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
-    # minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
-    # print(hi)
+    relative_weight_MMr = 1.2
+    minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
+    minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
+    minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
+    minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
+    minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
+    minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
+    minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
+    minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
+    minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
+    minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
+    minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
+    minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
+    minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
+    minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
+    minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
+    minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
+    minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
+    minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
+    minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
+    minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
+    print(hi)
 
     # # Optimise IH administration and holiday duration and strength for WMMd IH ->
     # # MMd GF IH -> holiday where the weight of the MMr relative to the MMd can be
     # # specified
-    # relative_weight_MMr = 1.3
+    # relative_weight_MMr = 1.2
     # minimise_MM_W_GF_h_IH_w(relative_weight_MMr)
     # minimise_MM_W_GF_h_IH_w(relative_weight_MMr)
     # minimise_MM_W_GF_h_IH_w(relative_weight_MMr)
@@ -200,11 +200,11 @@ def main():
     # minimise_MM_W_GF_h_IH_w(relative_weight_MMr)
     # minimise_MM_W_GF_h_IH_w(relative_weight_MMr)
     # print(hi)
-
+    #
     # # Optimise IH administration and holiday duration and strengths for MMd GF IH
     # # -> IH combination -> WMMd IH -> holiday where the weight of the MMr relative
     # # to the MMd can be specified
-    # relative_weight_MMr = 1.3
+    # relative_weight_MMr = 1.2
     # minimise_MM_GF_comb_W_h_IH_w(relative_weight_MMr)
     # minimise_MM_GF_comb_W_h_IH_w(relative_weight_MMr)
     # minimise_MM_GF_comb_W_h_IH_w(relative_weight_MMr)
@@ -235,7 +235,7 @@ def main():
     # Optimise IH administration and holiday duration and strengths for WMMd IH
     # -> IH combination -> MMd GF IH -> holiday where the weight of the MMr
     # relative to the MMd can be specified
-    relative_weight_MMr = 1.3
+    relative_weight_MMr = 1.2
     minimise_MM_W_comb_GF_h_IH_w(relative_weight_MMr)
     minimise_MM_W_comb_GF_h_IH_w(relative_weight_MMr)
     minimise_MM_W_comb_GF_h_IH_w(relative_weight_MMr)
