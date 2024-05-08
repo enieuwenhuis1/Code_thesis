@@ -85,14 +85,14 @@ def main():
     # # WMMd IH -> MMd GF IH ->  holiday
     # minimise_MM_W_GF_h_IH()
 
-    # # # Optimise IH administration duration, holiday duration and strength for
-    # # # MMd GF IH -> holiday -> WMMd IH -> holiday
+    # # Optimise IH administration duration, holiday duration and strength for
+    # # MMd GF IH -> holiday -> WMMd IH -> holiday
     # minimise_MM_GF_h_W_h_IH()
     #
     # # Optimise IH administration duration, holiday duration and strength for
     # # WMMd IH -> holiday -> MMd GF IH ->  holiday
     # minimise_MM_W_h_GF_h_IH()
-    #
+
     # # Optimise IH administration duration and holiday duration for MMd GF IH
     # # -> IH combination -> WMMd IH -> holiday
     # minimise_MM_GF_comb_W_h()
@@ -213,17 +213,29 @@ def main():
     # Figure_optimisation()
 
     """ The weighted optimisation situations """
-    # # Optimise IH administration and holiday duration and strength for MMd GF IH
-    # # -> WMMd IH -> holiday where the weight of the MMr relative to the MMd can
-    # # be specified
-    # relative_weight_MMr = 1.2
-    # minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
-    #
+    # Optimise IH administration and holiday duration and strength for MMd GF IH
+    # -> WMMd IH -> holiday where the weight of the MMr relative to the MMd can
+    # be specified
+    relative_weight_MMr = 1.2
+    minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
+
     # # Optimise IH administration and holiday duration and strength for WMMd IH ->
     # # MMd GF IH -> holiday where the weight of the MMr relative to the MMd can be
     # # specified
     # relative_weight_MMr = 1.2
     # minimise_MM_W_GF_h_IH_w(relative_weight_MMr)
+
+    # Optimise IH administration duration, holiday duration and strength for MMd
+    # GF IH -> holiday -> WMMd IH -> holiday where the weight of the MMr relative
+    # to the MMd can be specified
+    relative_weight_MMr = 1.2
+    minimise_MM_GF_h_W_h_IH_w(relative_weight_MMr)
+
+    # Optimise IH administration duration, holiday duration and strength for WMMd
+    # IH -> holiday -> MMd GF IH -> holiday where the weight of the MMr relative
+    # to the MMd can be specified
+    relative_weight_MMr = 1.2
+    minimise_MM_W_h_GF_h_IH_w(relative_weight_MMr)
 
     # Optimise IH administration and holiday duration and strengths for MMd GF IH
     # -> IH combination -> WMMd IH -> holiday where the weight of the MMr relative
@@ -3071,7 +3083,6 @@ def minimal_tumour_nr_t_3_situations_IH(t_steps_IH_strength, function_order,
       t_steps_no_drug, nOC, nOB, nMMd, nMMr, growth_rates, growth_rates_IH,
       decay_rates, decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor)
 
-
     # Determine if the normal or weighted MMM number should be calculated
     if weight_MMr == int(1):
 
@@ -3089,8 +3100,8 @@ def minimal_tumour_nr_t_3_situations_IH(t_steps_IH_strength, function_order,
     return float(average_MM_number)
 
 def minimal_tumour_nr_t_3_4_situations_IH(t_steps_IH_strength, function_order,
-                nOC, nOB, nMMd, nMMr, growth_rates, growth_rates_IH,
-                decay_rates, decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH):
+            weight_MMr, nOC, nOB, nMMd, nMMr, growth_rates, growth_rates_IH,
+            decay_rates, decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH):
     """ Function that makes a dataframe of the nOC, nOB, nMMd and nMMr values
     over time for a given MMd GF IH administration, WMMd IH administration and
     holiday duration and IH strength.
@@ -3103,6 +3114,8 @@ def minimal_tumour_nr_t_3_4_situations_IH(t_steps_IH_strength, function_order,
     function_order: Function
         Function that makes a dataframe of the number values for a specific IH
         administration order.
+    weight_MMr: Int
+        The weight of the MMr relative to that of the MMd.
     nOC: Float
         Number of OC.
     nOB: Float
@@ -3130,7 +3143,7 @@ def minimal_tumour_nr_t_3_4_situations_IH(t_steps_IH_strength, function_order,
     Returns:
     --------
     average_MM_number: float
-        The average total MM number in the last period.
+        The (weighted) total MM number in the last period.
     """
     t_steps_GF_IH, t_steps_WMMd_IH, t_steps_no_drug, GF_IH,\
                                             WMMd_inhibitor = t_steps_IH_strength
@@ -3146,9 +3159,19 @@ def minimal_tumour_nr_t_3_4_situations_IH(t_steps_IH_strength, function_order,
       t_steps_no_drug, nOC, nOB, nMMd, nMMr, growth_rates, growth_rates_IH,
       decay_rates, decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor)
 
-    # Determine the average MM number in the last period with and without drugs
-    last_MM_numbers = df['total nMM'].tail(int(time_round))
-    average_MM_number = last_MM_numbers.sum() / (int(time_round))
+    # Determine if the normal or weighted MMM number should be calculated
+    if weight_MMr == int(1):
+
+        # Determine the average MM number in the last period
+        last_MM_numbers = df['total nMM'].tail(int(time_round))
+        average_MM_number = last_MM_numbers.sum() / (int(time_round))
+
+    else:
+        # Determine the weighted MM number in the last period
+        last_MMd_numbers = df['nMMd'].tail(int(time_round))
+        last_MMr_numbers = df['nMMr'].tail(int(time_round)) * weight_MMr
+        average_MM_number = (last_MMd_numbers.sum() + last_MMr_numbers.sum())/ \
+                                                                (int(time_round))
 
     return float(average_MM_number)
 
@@ -5059,10 +5082,10 @@ def minimise_MM_GF_h_W_h_IH():
     # t_step_IH_strength = [GF IH t, W IH t, h t, GF IH s, W IH s]
     t_step_IH_strength = [2.660, 2.129, 3.569, 0.318, 0.346]
     result = minimize(minimal_tumour_nr_t_3_4_situations_IH, t_step_IH_strength,
-            args=(switch_dataframe_GF_h_W_h, nOC, nOB, nMMd, nMMr, growth_rates,
-            growth_rates_IH, decay_rates, decay_rates_IH, matrix_no_GF_IH,
-            matrix_GF_IH), bounds = [(0, None), (0, None), (0, None), (0, 0.55),
-            (0, 0.6)], method='Nelder-Mead')
+            args=(switch_dataframe_GF_h_W_h, int(1), nOC, nOB, nMMd, nMMr,
+            growth_rates, growth_rates_IH, decay_rates, decay_rates_IH,
+            matrix_no_GF_IH, matrix_GF_IH), bounds = [(0, None), (0, None),
+            (0, None), (0, 0.55), (0, 0.6)], method='Nelder-Mead')
 
     # Print the results
     print('Optimising IH administration duration, holiday duration and strength')
@@ -5112,10 +5135,10 @@ def minimise_MM_W_h_GF_h_IH():
     # t_step_IH_strength = [GF IH t, W IH t, h t, GF IH s, W IH s]
     t_step_IH_strength = [3.933, 2.651, 3.122, 0.396, 0.452]
     result = minimize(minimal_tumour_nr_t_3_4_situations_IH, t_step_IH_strength,
-            args=(switch_dataframe_W_h_GF_h, nOC, nOB, nMMd, nMMr, growth_rates,
-            growth_rates_IH, decay_rates, decay_rates_IH, matrix_no_GF_IH,
-            matrix_GF_IH), bounds = [(0, None), (0, None), (0, None), (0, 0.55),
-            (0, None)], method='Nelder-Mead')
+            args=(switch_dataframe_W_h_GF_h, int(1), nOC, nOB, nMMd, nMMr,
+            growth_rates, growth_rates_IH, decay_rates, decay_rates_IH,
+            matrix_no_GF_IH, matrix_GF_IH), bounds = [(0, None), (0, None),
+            (0, None), (0, 0.55), (0, None)], method='Nelder-Mead')
 
     # Print the results
     print('Optimising IH administration duration, holiday duration and strength')
@@ -6148,7 +6171,7 @@ def minimise_MM_GF_W_h_IH_w(relative_weight_MMr):
 
     # optimise the administration and holiday durations and the IH strengths
     # t_step_IH_strength = [GF IH t, W IH t, h t, GF IH s, W IH s]
-    t_step_IH_strength = [2.366, 2.58, 2.238, 0.413, 0.463]
+    t_step_IH_strength = [2.366, 3.58, 2.238, 0.413, 0.463]
     result = minimize(minimal_tumour_nr_t_3_situations_IH, t_step_IH_strength,
             args=(switch_dataframe_GF_W_h, relative_weight_MMr, nOC, nOB, nMMd,
             nMMr, growth_rates, growth_rates_IH, decay_rates, decay_rates_IH,
@@ -6380,6 +6403,129 @@ def minimise_MM_GF_comb_W_h_IH_w(relative_weight_MMr):
     save_optimised_results(result,
         r'..\data\data_model_nr_IH_inf_mutation\optimise_GF_comb_W_h_IH_w.csv')
 
+"""Optimise IH administration duration, holiday duration and strength for WMMd
+IH -> holiday -> MMd GF IH -> holiday where the weight of the MMr relative to the
+MMd can be specified"""
+def minimise_MM_W_h_GF_h_IH_w(relative_weight_MMr):
+    """Function that determines the best IH administration durations and holiday
+    durations when the order is WMMd IH -> holiday -> MMd GF IH -> holiday ->
+    WMMd IH etc. It also determines the best MMd GF IH and WMMd IH strength.
+    The weight of the MMr relative to the MMd can be specified.
+
+    Parameters:
+    -----------
+    relative_weight_MMr: Int
+        The weight of the MMr relative to that of the MMd.
+    """
+
+    # Set start values
+    nOC = 20
+    nOB = 30
+    nMMd = 20
+    nMMr = 0
+    growth_rates = [0.8, 1.2, 0.3, 0.3]
+    decay_rates = [0.9, 0.08, 0.2, 0.1]
+    growth_rates_IH = [0.7, 1.3, 0.3, 0.3]
+    decay_rates_IH = [1.0, 0.08, 0.2, 0.1]
+
+    # Payoff matrix when no drugs are present
+    matrix_no_GF_IH = np.array([
+        [0.0, 0.4, 0.65, 0.55],
+        [0.3, 0.0, -0.3, -0.3],
+        [0.6, 0.0, 0.2, 0.0],
+        [0.55, 0.0, -0.6, 0.4]])
+
+    # Payoff matrix when only GF inhibitor drugs are present
+    matrix_GF_IH = np.array([
+        [0.0, 0.4, 0.65, 0.55],
+        [0.3, 0.0, -0.3, -0.3],
+        [0.2, 0.0, 0.2, 0.0],
+        [0.55, 0.0, -0.6, 0.4]])
+
+    # optimise the administration and holiday durations and the IH strengths
+    # t_step_IH_strength = [GF IH t, W IH t, h t, GF IH s, W IH s]
+    t_step_IH_strength = [2.79, 2.398, 3.583, 0.322, 0.467]
+    result = minimize(minimal_tumour_nr_t_3_4_situations_IH, t_step_IH_strength,
+            args=(switch_dataframe_W_h_GF_h, relative_weight_MMr, nOC, nOB, nMMd,
+            nMMr, growth_rates, growth_rates_IH, decay_rates, decay_rates_IH,
+            matrix_no_GF_IH, matrix_GF_IH), bounds = [(0, None), (0, None),
+            (0, None), (0, 0.6), (0, None)], method='Nelder-Mead')
+
+    # Print the results
+    print('Optimising IH administration duration, holiday duration and strength')
+    print('Repeated order: WMMd IH -> holiday -> MMd GF IH -> holiday')
+    print(f"""The best MMd GF IH add duration is {result.x[0]} generations
+    The best WMMd IH add duration is {result.x[1]} generations
+    The best holiday duration is {result.x[2]} generations
+    The best MMd GF IH strength is {result.x[3]}
+    The best WMMd IH strengths is {result.x[4]}
+    --> gives a MM number of {result.fun}""")
+
+    # Save the results
+    save_optimised_results(result,
+            r'..\data\data_model_nr_IH_inf_mutation\optimise_W_h_GF_h_IH_w.csv')
+
+"""Optimise IH administration duration, holiday duration and strength for MMd GF
+IH -> holiday -> WMMd IH -> holiday where the weight of the MMr relative to the
+MMd can be specified """
+def minimise_MM_GF_h_W_h_IH_w(relative_weight_MMr):
+    """Function that determines the best IH administration durations and holiday
+    durations when the order is MMd GF IH -> holiday -> WMMd IH -> holiday -> MMd
+    GF IH etc. It also determines the best MMd GF IH and WMMd IH strength. The
+    weight of the MMr relative to the MMd can be specified.
+
+    Parameters:
+    -----------
+    relative_weight_MMr: Int
+        The weight of the MMr relative to that of the MMd.
+    """
+
+    # Set start values
+    nOC = 20
+    nOB = 30
+    nMMd = 20
+    nMMr = 0
+    growth_rates = [0.8, 1.2, 0.3, 0.3]
+    decay_rates = [0.9, 0.08, 0.2, 0.1]
+    growth_rates_IH = [0.7, 1.3, 0.3, 0.3]
+    decay_rates_IH = [1.0, 0.08, 0.2, 0.1]
+
+    # Payoff matrix when no drugs are present
+    matrix_no_GF_IH = np.array([
+        [0.0, 0.4, 0.65, 0.55],
+        [0.3, 0.0, -0.3, -0.3],
+        [0.6, 0.0, 0.2, 0.0],
+        [0.55, 0.0, -0.6, 0.4]])
+
+    # Payoff matrix when only GF inhibitor drugs are present
+    matrix_GF_IH = np.array([
+        [0.0, 0.4, 0.65, 0.55],
+        [0.3, 0.0, -0.3, -0.3],
+        [0.2, 0.0, 0.2, 0.0],
+        [0.55, 0.0, -0.6, 0.4]])
+
+    # optimise the administration and holiday durations and the IH strengths
+    # t_step_IH_strength = [GF IH t, W IH t, h t, GF IH s, W IH s]
+    t_step_IH_strength = [3.381, 3.509, 2.789, 0.377, 0.344]
+    result = minimize(minimal_tumour_nr_t_3_4_situations_IH, t_step_IH_strength,
+            args=(switch_dataframe_GF_h_W_h, relative_weight_MMr, nOC, nOB, nMMd,
+            nMMr, growth_rates, growth_rates_IH, decay_rates, decay_rates_IH,
+            matrix_no_GF_IH, matrix_GF_IH), bounds = [(0, None), (0, None),
+            (0, None), (0, 0.55), (0, 0.6)], method='Nelder-Mead')
+
+    # Print the results
+    print('Optimising IH administration duration, holiday duration and strength')
+    print('Repeated order: MMd GF IH -> holiday -> WMMd IH -> holiday')
+    print(f"""The best MMd GF IH add duration is {result.x[0]} generations
+    The best WMMd IH add duration is {result.x[1]} generations
+    The best holiday duration is {result.x[2]} generations
+    The best MMd GF IH strength is {result.x[3]}
+    The best WMMd IH strengths is {result.x[4]}
+    --> gives a MM number of {result.fun}""")
+
+    # Save the results
+    save_optimised_results(result,
+            r'..\data\data_model_nr_IH_inf_mutation\optimise_GF_h_W_h_IH_w.csv')
 
 if __name__ == "__main__":
     main()

@@ -1797,7 +1797,7 @@ def Figure_continuous_MTD_vs_AT_OB_a_h(n_switches, t_steps_drug):
     xMMr = 0.3
 
     cOC_IH = 1.1
-    cOB_IH = 0.64
+    cOB_IH = 0.7
 
     # Payoff matrix when no drugs are present
     matrix_no_GF_IH = np.array([
