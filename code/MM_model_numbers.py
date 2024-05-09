@@ -8,6 +8,15 @@ Description:  Code of the model that simulates the dynamics in the multiple
               osteoclasts (OC). The model is a public goods game in the framework
               of evolutionary game theory with collective interactions. In this
               model, there is looked at the numbers of the four cell types.
+
+
+Example interaction matrix:
+M = np.array([
+       Foc Fob Fmmd Fmmr
+    OC  [a,  b,  c,  d],
+    OB  [e,  f,  g,  h],
+    MMd [i,  j,  k,  l],
+    MMr [m,  n,  o,  p]])
 """
 
 # Import the needed libraries
@@ -22,15 +31,6 @@ from scipy.optimize import minimize
 from mpl_toolkits.mplot3d import Axes3D
 import doctest
 
-"""
-Example interaction matrix:
-M = np.array([
-       Goc Gob Gmmd Gmmr
-    OC  [a,  b,  c,  d],
-    OB  [e,  f,  g,  h],
-    MMd [i,  j,  k,  l],
-    MMr [m,  n,  o,  p]])
-"""
 
 def main():
     # Do doc tests

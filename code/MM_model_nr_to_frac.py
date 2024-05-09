@@ -9,6 +9,15 @@ Description:  Code of the model that simulates the dynamics in the multiple myel
               evolutionary game theory with collective interactions. The cell type
               numbers of the model made in MM_model_numbers.py are converted to
               fractions and the figures show those fraction dynamics.
+
+
+Example interaction matrix:
+M = np.array([
+       Foc Fob Fmmd Fmmr
+    OC  [a,  b,  c,  d],
+    OB  [e,  f,  g,  h],
+    MMd [i,  j,  k,  l],
+    MMr [m,  n,  o,  p]])
 """
 
 # Import the needed libraries
@@ -22,16 +31,6 @@ import csv
 from scipy.optimize import minimize
 from mpl_toolkits.mplot3d import Axes3D
 import doctest
-
-"""
-Example interaction matrix:
-M = np.array([
-       Goc Gob Gmmd Gmmr
-    OC  [a,  b,  c,  d],
-    OB  [e,  f,  g,  h],
-    MMd [i,  j,  k,  l],
-    MMr [m,  n,  o,  p]])
-"""
 
 def main():
     # Do doc tests
