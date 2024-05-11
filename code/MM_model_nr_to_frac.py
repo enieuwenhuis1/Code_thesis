@@ -511,9 +511,9 @@ def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd,
     return df_total_switch
 
 
-def minimal_tumour_nr_to_frac_t_steps(t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd,
-                                nMMr, growth_rates, decay_rates, matrix_no_GF_IH,
-                                matrix_GF_IH, WMMd_inhibitor = 0):
+def minimal_tumour_nr_to_frac_t_steps(t_steps_drug, t_steps_no_drug, nOC, nOB,
+                        nMMd, nMMr, growth_rates, decay_rates, matrix_no_GF_IH,
+                        matrix_GF_IH, WMMd_inhibitor = 0):
     """ Function that makes a dataframe of the nOC, nOB, nMMd and nMMr values over
     time for a given time of a drug holiday.
 
@@ -684,8 +684,8 @@ def x_y_z_axis_values_3d_plot(dataframe, name):
 
     return (X_values, Y_values, Z_values)
 
-def minimal_tumour_nr_to_frac_b_OC_MMd(b_OC_MMd, nOC, nOB, nMMd, nMMr, growth_rates,
-                                        decay_rates, matrix, b_OC_MMd_array):
+def minimal_tumour_nr_to_frac_b_OC_MMd(b_OC_MMd, nOC, nOB, nMMd, nMMr,
+                        growth_rates, decay_rates, matrix, b_OC_MMd_array):
     """Function that determines the fraction of the population being MM for a
     specific b_OC_MMd value.
 
@@ -1322,9 +1322,9 @@ def Figure_best_WMMd_IH():
     WMMd_IH_start = 0.2
 
     # Perform the optimization
-    result = minimize(minimal_tumour_nr_to_frac_WMMd_IH, WMMd_IH_start, args = (nOC,
-                            nOB, nMMd, nMMr, growth_rates, decay_rates, matrix,
-                            True), bounds=[(0, 0.8)], method='Nelder-Mead')
+    result = minimize(minimal_tumour_nr_to_frac_WMMd_IH, WMMd_IH_start,
+                args = (nOC, nOB, nMMd, nMMr, growth_rates, decay_rates, matrix,
+                True), bounds=[(0, 0.8)], method='Nelder-Mead')
 
     # Retrieve the optimal value
     optimal_WMMd_IH = result.x
@@ -1363,9 +1363,9 @@ def Figure_best_WMMd_IH():
 
 """ Figure to determine the best b_OC_MMd value """
 def Figure_best_b_OC_MMd():
-    """ Function that makes a Figure that shows the total MM fraction for different
-    b_OC_MMd values. It also determines the b_OC_MMd value causing the lowest
-    total fraction of MM cells"""
+    """ Function that makes a Figure that shows the total MM fraction for
+    different b_OC_MMd values. It also determines the b_OC_MMd value causing the
+    lowest total fraction of MM cells"""
 
     # Set initial parameter values
     nOC = 20

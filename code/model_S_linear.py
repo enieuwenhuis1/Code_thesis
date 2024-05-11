@@ -41,7 +41,7 @@ import doctest
 def main():
     # Do doc tests
     doctest.testmod()
-    
+
     # Make Figure 2 in the paper of Sartakhti et al., 2016.
     Figure_2()
 
@@ -493,8 +493,8 @@ def Figure_2():
     fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(14,6))
 
     # Plot the first subplot
-    df_fitness_second_line.plot(x='Generation', y=['WOC', 'WOB', 'WMM', 'W_average'],
-                                                                        ax=axes[0])
+    df_fitness_second_line.plot(x='Generation', y=['WOC', 'WOB', 'WMM', \
+                                                    'W_average'], ax=axes[0])
     axes[0].set_title('Fitness for a scenario where c2<c1<c3 (Figure 2)')
     axes[0].set_xlabel('Generations')
     axes[0].set_ylabel('Fitness')
@@ -502,7 +502,8 @@ def Figure_2():
                                                                 loc='upper right')
 
     # Plot the second subplot
-    df_Figure_2_second_line.plot(x='Generation', y=['xOC', 'xOB', 'xMM'], ax=axes[1])
+    df_Figure_2_second_line.plot(x='Generation', y=['xOC', 'xOB', 'xMM'],
+                                                                    ax=axes[1])
     axes[1].set_title('Dynamics for a scenario where c2<c1<c3 (Figure 2)')
     axes[1].set_xlabel('Generations')
     axes[1].set_ylabel('Fraction')
@@ -606,22 +607,22 @@ def Figure_3():
     fig1, axes = plt.subplots(1, 3, figsize=(15, 5))
 
     # Plot each dataframe in one subplot
-    df_Figure_3_first_line.plot(ax=axes[0], x='Generation', y=['xOC', 'xOB', 'xMM'],
-                          label = ['fraction OC', 'fraction OB', 'fraction MM'])
+    df_Figure_3_first_line.plot(ax=axes[0], x='Generation', y=['xOC', 'xOB', \
+                'xMM'], label = ['fraction OC', 'fraction OB', 'fraction MM'])
     axes[0].set_title('Dynamics for a scenario where c2<c1<c3 (Figure 3)')
     axes[0].set_xlabel('Generations')
     axes[0].set_ylabel('Fraction')
     axes[0].legend(loc = 'upper right')
 
-    df_Figure_3_second_line.plot(ax=axes[1], x='Generation', y=['xOC', 'xOB', 'xMM'],
-                            label = ['fraction OC', 'fraction OB', 'fraction MM'])
+    df_Figure_3_second_line.plot(ax=axes[1], x='Generation', y=['xOC', 'xOB',
+                'xMM'], label = ['fraction OC', 'fraction OB', 'fraction MM'])
     axes[1].set_title('Dynamics for a scenario where c2<c1<c3 (Figure 3)')
     axes[1].set_xlabel('Generations')
     axes[1].set_ylabel('Fraction')
     axes[1].legend(loc ='upper right')
 
-    df_Figure_3_third_line.plot(ax=axes[2], x='Generation', y=['xOC', 'xOB', 'xMM'],
-                          label = ['fraction OC', 'fraction OB', 'fraction MM'])
+    df_Figure_3_third_line.plot(ax=axes[2], x='Generation', y=['xOC', 'xOB', \
+                'xMM'], label = ['fraction OC', 'fraction OB', 'fraction MM'])
     axes[2].set_title('Dynamics for a scenario where c2<c1<c3 (Figure 3)')
     axes[2].set_xlabel('Generations')
     axes[2].set_ylabel('Fraction')
@@ -690,16 +691,17 @@ def Figure_5():
     fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(14,6))
 
     # Plot the first subplot
-    df_fitness_first_line.plot(x='Generation', y=['WOC', 'WOB', 'WMM', 'W_average'],
-                                                                        ax=axes[0])
+    df_fitness_first_line.plot(x='Generation', y=['WOC', 'WOB', 'WMM', \
+                                                    'W_average'], ax=axes[0])
     axes[0].set_title('Fitness for a scenario where c2<c1<c3 (Figure 5)')
     axes[0].set_xlabel('Generations')
     axes[0].set_ylabel('Fitness')
     axes[0].legend(['Fitness OC', 'Fitness OB', 'Fitness MM', 'Average fitness'],
-                                                                loc ='upper right')
+                                                            loc ='upper right')
 
     # Plot the second subplot
-    df_Figure_5_first_line.plot(x='Generation', y=['xOC', 'xOB', 'xMM'], ax=axes[1])
+    df_Figure_5_first_line.plot(x='Generation', y=['xOC', 'xOB', 'xMM'],
+                                                                        ax=axes[1])
     axes[1].set_title('Dynamics for a scenario where c2<c1<c3 (Figure 5)')
     axes[1].set_xlabel('Generations')
     axes[1].set_ylabel('Fraction')
@@ -714,8 +716,8 @@ def Figure_5():
     fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(14,6))
 
     # Plot the first subplot
-    df_fitness_second_line.plot(x='Generation', y=['WOC', 'WOB', 'WMM', 'W_average'],
-                                                                        ax=axes[0])
+    df_fitness_second_line.plot(x='Generation', y=['WOC', 'WOB', 'WMM', \
+                                                'W_average'], ax=axes[0])
     axes[0].set_title('Fitness for a scenario where c2<c1<c3 (Figure 5)')
     axes[0].set_xlabel('Generations')
     axes[0].set_ylabel('Fitness')

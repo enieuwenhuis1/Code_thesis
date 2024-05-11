@@ -7,8 +7,8 @@ Description:  Code with the model that simulates the dynamics in the multiple
               MM cells (MMd), resistant MM cells (MMr), osteoblasts (OB) and
               osteoclasts (OC). The model is a public goods game in the framework
               of evolutionary game theory with collective interactions and linear
-              benefits. In this model, there is looked at the fractions of the four
-              cell types.
+              benefits. In this model, there is looked at the fractions of the
+              four cell types.
 
 
 Example interaction matrix:
@@ -97,8 +97,6 @@ def main():
     Dataframe_bMMrOC_eigenvalues()
     Dataframe_bOCMMd_eigenvalues()
     Dataframe_bMMdMMd_bMMrMMr_eigenvalues()
-
-
 
 def fitness_WOC(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix):
     """
@@ -2221,8 +2219,9 @@ def Figure_3_senarios_WMMd_IH(n_switches, t_steps_drug):
     axs[0, 0].grid(True)
 
     # Plot the data with drug holidays in the second plot
-    df_total_switch_1.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'], label=[\
-    'fraction OC', 'fraction OB', 'fraction MMd','fraction MMr'], ax=axs[0, 1])
+    df_total_switch_1.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+            label=['fraction OC', 'fraction OB', 'fraction MMd','fraction MMr'],
+            ax=axs[0, 1])
     axs[0, 1].set_xlabel(' ')
     axs[0, 1].set_ylabel('MM fraction')
     axs[0, 1].set_title(f'Dynamics when WMMd inhibitors are administered every {t[0]} {g}')
@@ -2230,8 +2229,9 @@ def Figure_3_senarios_WMMd_IH(n_switches, t_steps_drug):
     axs[0, 1].grid(True)
 
     # Plot the data with drug holidays in the third plot
-    df_total_switch_2.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'], label=[\
-    'fraction OC', 'fraction OB', 'fraction MMd','fraction MMr'], ax=axs[1, 0])
+    df_total_switch_2.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+            label=['fraction OC', 'fraction OB', 'fraction MMd','fraction MMr'],
+            ax=axs[1, 0])
     axs[1, 0].set_xlabel('Generations')
     axs[1, 0].set_ylabel('MM fraction')
     axs[1, 0].set_title(f'Dynamics when WMMd inhibitors are administered every {t[1]} {g}')
@@ -2240,8 +2240,9 @@ def Figure_3_senarios_WMMd_IH(n_switches, t_steps_drug):
     plt.grid(True)
 
     # Plot the data with drug holidays in the fourth plot
-    df_total_switch_3.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'], label=[\
-    'fraction OC', 'fraction OB', 'fraction MMd','fraction MMr'], ax=axs[1, 1])
+    df_total_switch_3.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+            label=['fraction OC', 'fraction OB', 'fraction MMd','fraction MMr'],
+            ax=axs[1, 1])
     axs[1, 1].set_xlabel('Generations')
     axs[1, 1].set_ylabel('MM fraction')
     axs[1, 1].set_title(f'Dynamics when WMMd inhibitors are administered every {t[2]} {g}')
@@ -2714,8 +2715,8 @@ def Dataframe_bOCMMd_eigenvalues():
                 new_row_df = pd.DataFrame([{'Generations no drug': \
                     int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
                     'MM fraction': float(frac_tumour)}])
-                df_holiday = pd.concat([df_holiday, new_row_df],
-                                                            ignore_index=True)
+                df_holiday = pd.concat([df_holiday, new_row_df], ignore_index= \
+                    True) if not new_row_df.isna().all().all() else df_holiday
 
         # Find the drug administration and holiday period causing the lowest MM
         # fraction
@@ -2866,7 +2867,8 @@ def Dataframe_bMMrOC_eigenvalues():
                 new_row_df = pd.DataFrame([{'Generations no drug': \
                     int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
                     'MM fraction': float(frac_tumour)}])
-                df_holiday = pd.concat([df_holiday, new_row_df], ignore_index=True)
+                df_holiday = pd.concat([df_holiday, new_row_df], ignore_index= \
+                    True) if not new_row_df.isna().all().all() else df_holiday
 
         # Find the drug administration and holiday period causing the lowest MM
         # fraction
@@ -3015,7 +3017,8 @@ def Dataframe_bMMdMMd_bMMrMMr_eigenvalues():
                 new_row_df = pd.DataFrame([{'Generations no drug': \
                     int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
                     'MM fraction': float(frac_tumour)}])
-                df_holiday = pd.concat([df_holiday, new_row_df], ignore_index=True)
+                df_holiday = pd.concat([df_holiday, new_row_df], ignore_index= \
+                    True) if not new_row_df.isna().all().all() else df_holiday
 
         # Find the drug administration and holiday period causing the lowest MM
         # fraction

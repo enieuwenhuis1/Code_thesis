@@ -414,8 +414,8 @@ def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd,
 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_total_switch = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
-                'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
+    df_total_switch = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': \
+      y[:, 1], 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
     # Increase the time
     time += t_steps
@@ -1325,9 +1325,9 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
                     decay_rates,matrix_no_GF_IH, matrix_no_GF_IH, WMMd_inhibitor)
 
             # Add results to the dataframe
-            new_row_df = pd.DataFrame([{'Generations no drug': int(t_steps_no_drug),
-                                            'Generations drug': int(t_steps_drug),
-                                             'MM number': float(numb_tumour)}])
+            new_row_df = pd.DataFrame([{'Generations no drug': \
+                    int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
+                    'MM number': float(numb_tumour)}])
             df_holiday_W_IH = pd.concat([df_holiday_W_IH, new_row_df],
                                                                 ignore_index=True)
 
@@ -1351,11 +1351,11 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
                 matrix_no_GF_IH, matrix_GF_IH_comb, WMMd_inhibitor_comb)
 
             # Add results to the dataframe
-            new_row_df = pd.DataFrame([{'Generations no drug': int(t_steps_no_drug),
-                                            'Generations drug': int(t_steps_drug),
-                                            'MM number': float(numb_tumour)}])
+            new_row_df = pd.DataFrame([{'Generations no drug': \
+                    int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
+                    'MM number': float(numb_tumour)}])
             df_holiday_comb = pd.concat([df_holiday_comb, new_row_df],
-                                                                ignore_index=True)
+                                                            ignore_index=True)
 
     # Save the data
     save_dataframe(df_holiday_comb, 'df_cell_numb_best_MMd_IH_holiday.csv',
@@ -1482,9 +1482,9 @@ def Figure_3D_MM_numb_MMd_IH_strength():
             matrix_GF_IH[3, 2] = -0.6 - extra_MMr_IH
 
             # Determine the minimal tumour size
-            numb_tumour = minimal_tumour_numb_t_steps(t_steps_drug, t_steps_no_drug,
-                                nOC, nOB, nMMd, nMMr, growth_rates, decay_rates,
-                                matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor)
+            numb_tumour = minimal_tumour_numb_t_steps(t_steps_drug,
+                    t_steps_no_drug, nOC, nOB, nMMd, nMMr, growth_rates,
+                    decay_rates, matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor)
 
             # Add results to the dataframe
             new_row_df = pd.DataFrame([{'Strength WMMd IH':\

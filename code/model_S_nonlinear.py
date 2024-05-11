@@ -122,9 +122,9 @@ def probability_number_cells(nOC, nOB, N, xOC, xOB, xMM):
 
 """
 Payoff is the benefit that a cell receives through their actions. For osteoclasts
-(OC), osteoblasts (OB), and multiple myeloma cells (MM), the payoffs are calculated
-based on the number of cells of each type, the effects of the diffusible factors
-and the factor production costs.
+(OC), osteoblasts (OB), and multiple myeloma cells (MM), the payoffs are
+calculated based on the number of cells of each type, the effects of the diffusible
+factors and the factor production costs.
 
 VOC= bOC,OC(nOC+1)+ bOB,OC(nOB)+ bMM,OC(N−1−nOC−nOB)−cOC
 - Positive terms: the effects of diffusible factors
@@ -241,8 +241,8 @@ fractions occurs. The outer sum iterates over values of nOC and the inner sum
 iterates over values of nOB. The fitness values are normalized using N/(N-1).
 """
 
-def calculate_fitness(N, xOC, xOB, xMM, bOC_OC, bOB_OC, bMM_OC, cOC, bOC_OB, bOB_OB,
-                                        bMM_OB, cOB, bOC_MM, bOB_MM, bMM_MM, cMM):
+def calculate_fitness(N, xOC, xOB, xMM, bOC_OC, bOB_OC, bMM_OC, cOC, bOC_OB,
+                            bOB_OB, bMM_OB, cOB, bOC_MM, bOB_MM, bMM_MM, cMM):
     """ Function that calculates the fitness of the osteoblasts, osteoclasts and
     multiple myeloma cells (5).
 
@@ -308,7 +308,8 @@ def calculate_fitness(N, xOC, xOB, xMM, bOC_OC, bOB_OC, bMM_OC, cOC, bOC_OB, bOB
         for nOB in range(0, N- nOC):
 
             # Calculate the probability of nOC, nOB and (N-nOC-nOB) MM cells
-            probability_value = probability_number_cells(nOC, nOB, N, xOC, xOB, xMM)
+            probability_value = probability_number_cells(nOC, nOB, N, xOC, xOB,
+                                                                            xMM)
 
             # Determine the fitness of the OC, OB and MM cells
             payoff_OC_value = payoff_OC(nOC, nOB, N, bOC_OC, bOB_OC, bMM_OC, cOC)
@@ -566,9 +567,9 @@ def dynamics_same_h_and_s(y, t, parameters):
     bMM_MM = benefit_function(nMM, h, BMM_MM, s, N)
 
     # Determine the fitness values
-    fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM, bOC_OC,
-                                bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB, bMM_OB,
-                                    cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
+    fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM,
+                        bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
+                        bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
 
     # Determine the change of the xOC, xOB, xMM values and W average value
     xOC_change, xOB_change, xMM_change, W_average = calculate_replicator_dynamics(
@@ -588,11 +589,11 @@ def dynamics_different_h_and_s(y, t, parameters):
     t: Numpy.ndarray
         Array with the time points.
     parameters: tuple
-        Tuple containing parameters required for computation -> (NN, hOC_OC, hOC_OB,
-        hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC, hMM_OB, hMM_MM, sOC_OC, sOC_OB,
-        sOC_MM, sOB_OC, sOB_OB, sOB_MM, sMM_OC, sMM_OB, sMM_MM, BOC_OC, BOB_OC,
-        BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM, cOC_value, cOB_value,
-        cMM_value)
+        Tuple containing parameters required for computation -> (NN, hOC_OC,
+        hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC, hMM_OB, hMM_MM, sOC_OC,
+        sOC_OB, sOC_MM, sOB_OC, sOB_OB, sOB_MM, sMM_OC, sMM_OB, sMM_MM, BOC_OC,
+        BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM, cOC_value,
+        cOB_value, cMM_value)
 
     Returns:
     -----------
@@ -626,8 +627,8 @@ def dynamics_different_h_and_s(y, t, parameters):
 
     # Determine fitness values for each strategy
     fitness_OC, fitness_OB, fitness_MM = calculate_fitness(N, xOC, xOB, xMM,
-                            bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
-                             bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
+                        bOC_OC, bOB_OC, bMM_OC, cOC_value, bOC_OB, bOB_OB,
+                         bMM_OB, cOB_value, bOC_MM, bOB_MM, bMM_MM, cMM_value)
 
     # Determine changes in strategy fractions
     xOC_change, xOB_change, xMM_change, _ = calculate_replicator_dynamics(
@@ -661,7 +662,8 @@ def Figure_1():
     s = 1e-10
     h = 0.7
 
-    # Initial fractions and values --> are needed to make a plot but are not mentioned
+    # Initial fractions and values --> are needed to make a plot but are not
+    # mentioned
     xOC = 0.4
     xOB = 0.3
     xMM = 0.3
@@ -672,8 +674,8 @@ def Figure_1():
 
     # Set initial condition and parameters
     y0 = [xOC, xOB, xMM]
-    parameters = (N, h, s, BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM,\
-                                BOB_MM, BMM_MM, cOC_value, cOB_value, cMM_value)
+    parameters = (N, h, s, BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB,
+                        BOC_MM, BOB_MM, BMM_MM, cOC_value, cOB_value, cMM_value)
     t = np.linspace(0, 300, 300)
 
     # Solve ODE
@@ -742,7 +744,8 @@ def Figure_1():
     fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(14,6))
 
     # Plot the first subplot
-    df_fitness.plot(x='Generation', y=['WOC', 'WOB', 'WMM', 'W_average'], ax=axes[0])
+    df_fitness.plot(x='Generation', y=['WOC', 'WOB', 'WMM', 'W_average'],
+                                                                    ax=axes[0])
     axes[0].set_title('Fitness linear benefits (Figure 1)')
     axes[0].set_xlabel('Generations')
     axes[0].set_ylabel('Fitness')
@@ -754,7 +757,8 @@ def Figure_1():
     axes[1].set_title('Dynamics linear benefits (Figure 1)')
     axes[1].set_xlabel('Generations')
     axes[1].set_ylabel('Fraction')
-    axes[1].legend(['fraction OC', 'fraction OB', 'fraction MM'], loc = 'upper left')
+    axes[1].legend(['fraction OC', 'fraction OB', 'fraction MM'],
+                                                            loc = 'upper left')
     plt.tight_layout()
     save_Figure(plt, 'Line_plot_Figure_1',
                     r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
@@ -810,11 +814,12 @@ def Figure_2():
     for h_value in h_values:
         n_values = np.linspace(0, N, 100)
         benefit_values = [benefit_function(n, h_value, B_value, s_value,
-                                                            N) for n in n_values]
+                                                        N) for n in n_values]
 
         # Add the data to the dataframe
         df_sigmoids_Figure_2 = pd.concat([df_sigmoids_Figure_2, pd.DataFrame({
-        'n_values': n_values, 'benefit_values': benefit_values, 'h_value': h_value})])
+        'n_values': n_values, 'benefit_values': benefit_values,
+        'h_value': h_value})])
 
     # Save the data as csv file
     save_data(df_sigmoids_Figure_2, 'data_sigmoids_Figure_2.csv',
@@ -823,7 +828,8 @@ def Figure_2():
     # Make a plot
     fig, axes = plt.subplots(1, len(h_values), figsize=(14, 5))
     for i, (h_value, group) in enumerate(df_sigmoids_Figure_2.groupby('h_value')):
-        axes[i].plot(group['n_values'], group['benefit_values'], label=f'h={h_value}')
+        axes[i].plot(group['n_values'], group['benefit_values'],
+        label=f'h={h_value}')
 
         # Give titles
         axes[i].set_title(f'sigmoid benefit h={h_value}')
@@ -841,7 +847,7 @@ def Figure_2():
     plt.show()
 
     df_ternary_Figure_2 = pd.DataFrame(columns=['Generation', 'xOC', 'xOB', 'xMM',
-                                                                        'h_value'])
+                                                                    'h_value'])
 
     # Cost of producing diffusible factors
     cOC_value = 0.1
@@ -888,9 +894,10 @@ def Figure_2():
         # Extract the solution and create dataframe
         xOC_values, xOB_values, xMM_values = y[:, 0], y[:, 1], y[:, 2]
         df = pd.DataFrame({'Generation': t, 'xOC': xOC_values, 'xOB': xOB_values,
-                                                                'xMM': xMM_values})
+                                                            'xMM': xMM_values})
         df['h_value'] = h_value
-        df_ternary_Figure_2 = pd.concat([df, df_ternary_Figure_2], ignore_index=True)
+        df_ternary_Figure_2 = pd.concat([df, df_ternary_Figure_2],
+                                                            ignore_index=True)
 
     # Save the data as csv file
     save_data(df_ternary_Figure_2, 'data_ternary_Figure_2.csv',
@@ -959,7 +966,8 @@ def Figure_3():
     sMM_OB = 20
     sMM_MM = 50
 
-    # Initial fractions and values --> are needed to make a plot but are not mentioned
+    # Initial fractions and values --> are needed to make a plot but are not
+    # mentioned
     xOC = 0.3
     xOB = 0.2
     xMM = 0.5
@@ -969,10 +977,10 @@ def Figure_3():
 
     # Set initial condition and parameters
     y0 = [xOC, xOB, xMM]
-    parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC, hMM_OB,\
-    hMM_MM, sOC_OC, sOC_OB, sOC_MM, sOB_OC, sOB_OB, sOB_MM, sMM_OC, sMM_OB, sMM_MM, \
-    BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM, \
-    cOC_value, cOB_value, cMM_value)
+    parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC, \
+     hMM_OB, hMM_MM, sOC_OC, sOC_OB, sOC_MM, sOB_OC, sOB_OB, sOB_MM, sMM_OC, \
+     sMM_OB, sMM_MM, BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, \
+     BOB_MM, BMM_MM, cOC_value, cOB_value, cMM_value)
     t = np.linspace(0, 100, 200)
 
     # Solve ODE
@@ -981,7 +989,7 @@ def Figure_3():
     # Extract the solution and create dataframe
     xOC_values, xOB_values, xMM_values = y[:, 0], y[:, 1], y[:, 2]
     df_Figure_3_nonlinear = pd.DataFrame({'Generation': t, 'xOC': xOC_values,
-                                            'xOB': xOB_values, 'xMM': xMM_values})
+                                        'xOB': xOB_values, 'xMM': xMM_values})
 
     # Initial fractions and values --> are needed to make a plot but are not mentioned
     xOC = 0.3
@@ -995,10 +1003,10 @@ def Figure_3():
 
     # Set initial condition and parameters
     y0 = [xOC, xOB, xMM]
-    parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC, hMM_OB,
-    hMM_MM, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear,
-    s_linear, s_linear, BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM,
-    BOB_MM, BMM_MM, cOC_value, cOB_value, cMM_value)
+    parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC,
+    hMM_OB, hMM_MM, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear,
+    s_linear, s_linear, s_linear, BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB,
+    BOC_MM, BOB_MM, BMM_MM, cOC_value, cOB_value, cMM_value)
     t = np.linspace(0, 100, 100)
 
     # Solve ODE
@@ -1107,7 +1115,8 @@ def Figure_4():
     sMM_OB = 10
     sMM_MM = 100
 
-    # Initial fractions and values --> are needed to make a plot but are not mentioned
+    # Initial fractions and values --> are needed to make a plot but are not
+    # mentioned
     xOC = 0.2
     xOB = 0.5
     xMM = 0.3
@@ -1143,10 +1152,10 @@ def Figure_4():
 
     # Set initial condition and parameters
     y0 = [xOC, xOB, xMM]
-    parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC, hMM_OB,\
-    hMM_MM, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear,\
-    s_linear, s_linear, BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, \
-    BOB_MM, BMM_MM, cOC_value, cOB_value, cMM_value)
+    parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC,
+    hMM_OB, hMM_MM, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear,
+    s_linear, s_linear, s_linear, BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB,
+    BOC_MM, BOB_MM, BMM_MM, cOC_value, cOB_value, cMM_value)
     t = np.linspace(0, 2000, 2000)
 
     # Solve ODE
@@ -1266,10 +1275,10 @@ def Figure_5():
 
     # Set initial condition and parameters
     y0 = [xOC, xOB, xMM]
-    parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC, hMM_OB,
-    hMM_MM, sOC_OC, sOC_OB, sOC_MM, sOB_OC, sOB_OB, sOB_MM, sMM_OC, sMM_OB, sMM_MM,
-    BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM,
-    cOC_value, cOB_value, cMM_value)
+    parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC,
+    hMM_OB, hMM_MM, sOC_OC, sOC_OB, sOC_MM, sOB_OC, sOB_OB, sOB_MM, sMM_OC,
+    sMM_OB, sMM_MM, BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM,
+    BOB_MM, BMM_MM, cOC_value, cOB_value, cMM_value)
     t = np.linspace(0, 100)
 
     # Solve ODE
@@ -1280,7 +1289,8 @@ def Figure_5():
     df_Figure_5_nonlinear = pd.DataFrame({'Generation': t, 'xOC': xOC_values,
                                         'xOB': xOB_values, 'xMM': xMM_values})
 
-    # Initial fractions and values --> are needed to make a plot but are not mentioned
+    # Initial fractions and values --> are needed to make a plot but are not
+    # mentioned
     xOC = 0.2
     xOB = 0.5
     xMM = 0.3
@@ -1292,10 +1302,10 @@ def Figure_5():
     s_linear = 10e-10
     # Set initial condition and parameters
     y0 = [xOC, xOB, xMM]
-    parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC, hMM_OB,
-    hMM_MM, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear,
-    s_linear, s_linear, BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM,
-    BOB_MM, BMM_MM, cOC_value, cOB_value, cMM_value)
+    parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC,
+    hMM_OB, hMM_MM, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear,
+    s_linear, s_linear, s_linear, BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB,
+    BOC_MM, BOB_MM, BMM_MM, cOC_value, cOB_value, cMM_value)
     t = np.linspace(0, 100)
 
     # Solve ODE
@@ -1304,7 +1314,7 @@ def Figure_5():
     # Extract the solution and create dataframe
     xOC_values, xOB_values, xMM_values = y[:, 0], y[:, 1], y[:, 2]
     df_Figure_5_linear = pd.DataFrame({'Generation': t, 'xOC': xOC_values,
-                                            'xOB': xOB_values, 'xMM': xMM_values})
+                                        'xOB': xOB_values, 'xMM': xMM_values})
 
     # Save the data as csv file
     save_data(df_Figure_5_nonlinear, 'data_Figure_5_nonlinear.csv',
@@ -1414,10 +1424,10 @@ def Figure_6():
 
     # Set initial condition and parameters
     y0 = [xOC, xOB, xMM]
-    parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC, hMM_OB,
-    hMM_MM, sOC_OC, sOC_OB, sOC_MM, sOB_OC, sOB_OB, sOB_MM, sMM_OC, sMM_OB, sMM_MM, \
-    BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM, \
-    cOC_value, cOB_value, cMM_value)
+    parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC,
+    hMM_OB, hMM_MM, sOC_OC, sOC_OB, sOC_MM, sOB_OC, sOB_OB, sOB_MM, sMM_OC,
+    sMM_OB, sMM_MM, BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM,
+    BOB_MM, BMM_MM, cOC_value, cOB_value, cMM_value)
     t = np.linspace(0, 200)
 
     # Solve ODE
@@ -1426,7 +1436,7 @@ def Figure_6():
     # Extract the solution and create dataframe
     xOC_values, xOB_values, xMM_values = y[:, 0], y[:, 1], y[:, 2]
     df_Figure_6_nonlinear = pd.DataFrame({'Generation': t, 'xOC': xOC_values,
-                                            'xOB': xOB_values, 'xMM': xMM_values})
+                                        'xOB': xOB_values, 'xMM': xMM_values})
 
     # Initial fractions and values --> are needed to make a plot but are not mentioned
     xOC = 0.2
@@ -1441,10 +1451,10 @@ def Figure_6():
 
     # Set initial condition and parameters
     y0 = [xOC, xOB, xMM]
-    parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC, hMM_OB,
-    hMM_MM, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear,
-    s_linear, s_linear, BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM,
-    BOB_MM, BMM_MM, cOC_value, cOB_value, cMM_value)
+    parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC,
+    hMM_OB, hMM_MM, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear,
+    s_linear, s_linear, s_linear, BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB,
+    BOC_MM, BOB_MM, BMM_MM, cOC_value, cOB_value, cMM_value)
     t = np.linspace(0, 200)
 
     # Solve ODE
@@ -1563,10 +1573,10 @@ def Figure_7():
 
     # Set initial condition and parameters
     y0 = [xOC, xOB, xMM]
-    parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC, hMM_OB,
-    hMM_MM, sOC_OC, sOC_OB, sOC_MM, sOB_OC, sOB_OB, sOB_MM, sMM_OC, sMM_OB, sMM_MM, \
-    BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM, \
-    cOC_value, cOB_value, cMM_value)
+    parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC,
+    hMM_OB, hMM_MM, sOC_OC, sOC_OB, sOC_MM, sOB_OC, sOB_OB, sOB_MM, sMM_OC,
+    sMM_OB, sMM_MM, BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM,
+    BOB_MM, BMM_MM, cOC_value, cOB_value, cMM_value)
     t = np.linspace(0, 1000, 1000)
 
     # Solve ODE
@@ -1575,7 +1585,7 @@ def Figure_7():
     # Extract the solution and create dataframe
     xOC_values, xOB_values, xMM_values = y[:, 0], y[:, 1], y[:, 2]
     df_Figure_7_nonlinear = pd.DataFrame({'Generation': t, 'xOC': xOC_values,
-                                            'xOB': xOB_values, 'xMM': xMM_values})
+                                        'xOB': xOB_values, 'xMM': xMM_values})
 
     # Make lists
     WOC_list = []
@@ -1643,10 +1653,10 @@ def Figure_7():
 
     # Set initial condition and parameters
     y0 = [xOC, xOB, xMM]
-    parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC, hMM_OB,
-    hMM_MM, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear,
-    s_linear, s_linear, BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM,
-    BOB_MM, BMM_MM, cOC_value, cOB_value, cMM_value)
+    parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC,
+    hMM_OB, hMM_MM, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear,
+    s_linear, s_linear, s_linear, BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB,
+    BOC_MM, BOB_MM, BMM_MM, cOC_value, cOB_value, cMM_value)
     t = np.linspace(0, 400, 400)
 
     # Solve ODE
@@ -1670,7 +1680,7 @@ def Figure_7():
 
     # Plot the first subplot
     df_fitness_nonlinear.plot(x='Generation', y=['WOC', 'WOB', 'WMM', 'W_average'],
-                                                                        ax=axes[0])
+                                                                    ax=axes[0])
     axes[0].set_title('Fitness nonlinear benefits (Figure 7)')
     axes[0].set_xlabel('Generations')
     axes[0].set_ylabel('Fitness')
@@ -1780,10 +1790,10 @@ def Figure_8():
 
     # Set initial condition and parameters
     y0 = [xOC, xOB, xMM]
-    parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC, hMM_OB,
-    hMM_MM, sOC_OC, sOC_OB, sOC_MM, sOB_OC, sOB_OB, sOB_MM, sMM_OC, sMM_OB, sMM_MM,
-    BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM,
-    cOC_value, cOB_value, cMM_value)
+    parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC,
+    hMM_OB, hMM_MM, sOC_OC, sOC_OB, sOC_MM, sOB_OC, sOB_OB, sOB_MM, sMM_OC,
+    sMM_OB, sMM_MM, BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM,
+    BOB_MM, BMM_MM, cOC_value, cOB_value, cMM_value)
     t = np.linspace(0, 200, 200)
 
     # Solve ODE
@@ -1792,7 +1802,7 @@ def Figure_8():
     # Extract the solution and create dataframe
     xOC_values, xOB_values, xMM_values = y[:, 0], y[:, 1], y[:, 2]
     df_Figure_8_nonlinear = pd.DataFrame({'Generation': t, 'xOC': xOC_values,
-                                            'xOB': xOB_values, 'xMM': xMM_values})
+                                        'xOB': xOB_values, 'xMM': xMM_values})
 
     # Make lists
     WOC_list = []
@@ -1859,10 +1869,10 @@ def Figure_8():
 
     # Set initial condition and parameters
     y0 = [xOC, xOB, xMM]
-    parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC, hMM_OB,
-    hMM_MM, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear,
-    s_linear, s_linear, BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM,
-    BOB_MM, BMM_MM, cOC_value, cOB_value, cMM_value)
+    parameters = (N, hOC_OC, hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC,
+    hMM_OB, hMM_MM, s_linear, s_linear, s_linear, s_linear, s_linear, s_linear,
+    s_linear, s_linear, s_linear, BOC_OC, BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB,
+    BOC_MM, BOB_MM, BMM_MM, cOC_value, cOB_value, cMM_value)
     t = np.linspace(0, 200, 200)
 
     # Solve ODE
