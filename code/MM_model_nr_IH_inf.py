@@ -5012,7 +5012,7 @@ def minimise_MM_GF_W_h_IH():
 
     # Optimise the administration and holiday durations and the IH strengths
     # t_step_IH_strength = [GF IH t, W IH t, h t, GF IH s, W IH s]
-    t_step_IH_strength = [3.512, 2.994, 2.182, 0.457, 0.461]
+    t_step_IH_strength = [3.004, 2.297, 2.480, 0.456, 0.417]
     result = minimize(minimal_tumour_nr_t_3_situations_IH, t_step_IH_strength,
             args=(switch_dataframe_GF_W_h, False,  nOC, nOB, nMMd, nMMr,
             growth_rates, growth_rates_IH, decay_rates, decay_rates_IH,
