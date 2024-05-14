@@ -90,14 +90,14 @@ def main():
     # # holiday
     # minimise_MM_W_GF_h()
     #
-    # # Optimise IH administration duration, holiday duration and strength for
-    # # MMd GF IH -> WMMd IH -> holiday
-    # minimise_MM_GF_W_h_IH()
-    #
-    # # Optimise IH administration duration, holiday duration and strength for
-    # # WMMd IH -> MMd GF IH ->  holiday
-    # minimise_MM_W_GF_h_IH()
-    #
+    # Optimise IH administration duration, holiday duration and strength for
+    # MMd GF IH -> WMMd IH -> holiday
+    minimise_MM_GF_W_h_IH()
+
+    # Optimise IH administration duration, holiday duration and strength for
+    # WMMd IH -> MMd GF IH ->  holiday
+    minimise_MM_W_GF_h_IH()
+
     # # Optimise IH administration duration, holiday duration and strength for
     # # MMd GF IH -> holiday -> WMMd IH -> holiday
     # minimise_MM_GF_h_W_h_IH()
@@ -5012,7 +5012,7 @@ def minimise_MM_GF_W_h_IH():
 
     # Optimise the administration and holiday durations and the IH strengths
     # t_step_IH_strength = [GF IH t, W IH t, h t, GF IH s, W IH s]
-    t_step_IH_strength = [3.460, 2.193, 3.543, 0.449, 0.331]
+    t_step_IH_strength = [3.512, 2.994, 2.182, 0.457, 0.461]
     result = minimize(minimal_tumour_nr_t_3_situations_IH, t_step_IH_strength,
             args=(switch_dataframe_GF_W_h, False,  nOC, nOB, nMMd, nMMr,
             growth_rates, growth_rates_IH, decay_rates, decay_rates_IH,
@@ -5066,7 +5066,7 @@ def minimise_MM_W_GF_h_IH():
 
     # Optimise the administration and holiday durations and the IH strengths
     # t_step_IH_strength = [GF IH t, W IH t, h t, GF IH s, W IH s]
-    t_step_IH_strength = [2.193, 2.383, 2.137, 0.384, 0.392]
+    t_step_IH_strength = [2.105, 2.065, 2.007, 0.321, 0.466]
     result = minimize(minimal_tumour_nr_t_3_situations_IH, t_step_IH_strength,
             args=(switch_dataframe_W_GF_h, False,  nOC, nOB, nMMd, nMMr,
             growth_rates, growth_rates_IH, decay_rates, decay_rates_IH,

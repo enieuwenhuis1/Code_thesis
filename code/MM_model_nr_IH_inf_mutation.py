@@ -42,12 +42,12 @@ import random
 def main():
     # Do doc tests
     doctest.testmod()
-
+    #
     # # Make a figure showing the cell number dynamics by traditional therapy and
     # # by adaptive therapy
-    # list_t_steps_drug = [3, 3, 3]
+    # list_t_steps_drug = [3,3,3]
     # Figure_continuous_MTD_vs_AT_realistic(90, list_t_steps_drug)
-    # #
+    #
     # # Make a 3D figure showthing the effect of different drug holiday and
     # # administration periods
     # Figure_3D_MM_numb_IH_add_and_holiday()
@@ -76,13 +76,13 @@ def main():
     # # holiday
     # minimise_MM_W_GF_h()
     #
-    # # Optimise IH administration duration, holiday duration and strength for
-    # # MMd GF IH -> WMMd IH -> holiday
-    # minimise_MM_GF_W_h_IH()
-    #
-    # # Optimise IH administration duration, holiday duration and strength for
-    # # WMMd IH -> MMd GF IH ->  holiday
-    # minimise_MM_W_GF_h_IH()
+    # Optimise IH administration duration, holiday duration and strength for
+    # MMd GF IH -> WMMd IH -> holiday
+    minimise_MM_GF_W_h_IH()
+
+    # Optimise IH administration duration, holiday duration and strength for
+    # WMMd IH -> MMd GF IH ->  holiday
+    minimise_MM_W_GF_h_IH()
     #
     # # Optimise IH administration duration, holiday duration and strength for
     # # MMd GF IH -> holiday -> WMMd IH -> holiday
@@ -5028,7 +5028,7 @@ def minimise_MM_GF_W_h_IH():
 
     # optimise the administration and holiday durations and the IH strengths
     # t_step_IH_strength = [GF IH t, W IH t, h t, GF IH s, W IH s]
-    t_step_IH_strength = [2.806, 2.074, 2.668, 0.308, 0.491]
+    t_step_IH_strength = [2.160, 3.525, 2.255, 0.357, 0.308]
     result = minimize(minimal_tumour_nr_t_3_situations_IH, t_step_IH_strength,
             args=(switch_dataframe_GF_W_h, int(1), nOC, nOB, nMMd, nMMr,
             growth_rates, growth_rates_IH, decay_rates, decay_rates_IH,
@@ -5082,7 +5082,7 @@ def minimise_MM_W_GF_h_IH():
 
     # Optimise the administration and holiday durations and the IH strengths
     # t_step_IH_strength = [GF IH t, W IH t, h t, GF IH s, W IH s]
-    t_step_IH_strength = [2.138, 2.099, 3.296, 0.360, 0.378]
+    t_step_IH_strength = [3.052, 2.168, 2.045, 0.472, 0.348]
     result = minimize(minimal_tumour_nr_t_3_situations_IH, t_step_IH_strength,
             args=(switch_dataframe_W_GF_h, int(1), nOC, nOB, nMMd, nMMr,
             growth_rates, growth_rates_IH, decay_rates, decay_rates_IH,
