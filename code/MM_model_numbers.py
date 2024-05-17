@@ -1,6 +1,6 @@
 """
 Author:       Eva Nieuwenhuis
-University:   UvA
+University:   Biosystems Data Analysis Group, UvA
 Student id:   13717405
 Description:  Code of the model that simulates the dynamics in the multiple
               myeloma (MM) microenvironment with four cell types: drug-sensitive

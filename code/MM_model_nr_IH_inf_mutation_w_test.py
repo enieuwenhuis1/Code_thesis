@@ -133,10 +133,30 @@ def main():
     # # WMMd IH -> IH combination -> holiday
     # minimise_MM_W_comb_h_IH()
 
-    # # # Optimise IH administration and holiday duration and strength for MMd GF IH
-    # # # -> WMMd IH -> holiday where the weight of the MMr relative to the MMd can
-    # # # be specified
+    # # Optimise IH administration and holiday duration and strength for MMd GF IH
+    # # -> WMMd IH -> holiday where the weight of the MMr relative to the MMd can
+    # # be specified
     # relative_weight_MMr = 1.2
+    # minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
+    # minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
+    # minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
+    # minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
+    # minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
+    # minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
+    # minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
+    # minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
+    # minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
+    # minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
+    # minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
+    # minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
+    # minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
+    # minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
+    # minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
+    # minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
+    # minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
+    # minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
+    # minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
+    # minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
     # minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
     # minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
     # minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
@@ -163,6 +183,26 @@ def main():
     # MMd GF IH -> holiday where the weight of the MMr relative to the MMd can be
     # specified
     relative_weight_MMr = 1.2
+    minimise_MM_W_GF_h_IH_w(relative_weight_MMr)
+    minimise_MM_W_GF_h_IH_w(relative_weight_MMr)
+    minimise_MM_W_GF_h_IH_w(relative_weight_MMr)
+    minimise_MM_W_GF_h_IH_w(relative_weight_MMr)
+    minimise_MM_W_GF_h_IH_w(relative_weight_MMr)
+    minimise_MM_W_GF_h_IH_w(relative_weight_MMr)
+    minimise_MM_W_GF_h_IH_w(relative_weight_MMr)
+    minimise_MM_W_GF_h_IH_w(relative_weight_MMr)
+    minimise_MM_W_GF_h_IH_w(relative_weight_MMr)
+    minimise_MM_W_GF_h_IH_w(relative_weight_MMr)
+    minimise_MM_W_GF_h_IH_w(relative_weight_MMr)
+    minimise_MM_W_GF_h_IH_w(relative_weight_MMr)
+    minimise_MM_W_GF_h_IH_w(relative_weight_MMr)
+    minimise_MM_W_GF_h_IH_w(relative_weight_MMr)
+    minimise_MM_W_GF_h_IH_w(relative_weight_MMr)
+    minimise_MM_W_GF_h_IH_w(relative_weight_MMr)
+    minimise_MM_W_GF_h_IH_w(relative_weight_MMr)
+    minimise_MM_W_GF_h_IH_w(relative_weight_MMr)
+    minimise_MM_W_GF_h_IH_w(relative_weight_MMr)
+    minimise_MM_W_GF_h_IH_w(relative_weight_MMr)
     minimise_MM_W_GF_h_IH_w(relative_weight_MMr)
     minimise_MM_W_GF_h_IH_w(relative_weight_MMr)
     minimise_MM_W_GF_h_IH_w(relative_weight_MMr)

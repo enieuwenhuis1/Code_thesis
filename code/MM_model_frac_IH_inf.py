@@ -1,6 +1,6 @@
 """
 Author:       Eva Nieuwenhuis
-University:   UvA
+University:   Biosystems Data Analysis Group, UvA
 Student id:   13717405
 Description:  Code with the model that simulates the dynamics in the multiple
               myeloma (MM) microenvironment with four cell types: drug-sensitive
@@ -660,16 +660,18 @@ def continuous_add_IH_df(time_start_drugs, end_generation, xOC, xOB, xMMd, xMMr,
         Cost parameter OB when a IH is administered.
     matrix_no_GF_IH: Numpy.ndarray
         4x4 matrix containing the interaction factors when no GF IH are
-                                                                    administrated.
+                                                                administrated.
     matrix_GF_IH: Numpy.ndarray
-        4x4 matrix containing the interaction factors when GF IH are administrated.
+        4x4 matrix containing the interaction factors when GF IH are
+                                                                administrated.
     WMMd_inhibitor: Float
         The effect of a drug on the MMd fitness.
 
     Returns:
     --------
     df_total: DataFrame
-        The dataframe with the cell fractions when IHs are continiously administered.
+        The dataframe with the cell fractions when IHs are continiously
+                                                                administered.
     """
     t = np.linspace(0, time_start_drugs, time_start_drugs)
     y0 = [xOC, xOB, xMMd, xMMr]
@@ -1329,45 +1331,45 @@ def Figure_continuous_MTD_vs_AT_s_and_w_a_h(n_switches, t_steps_drug):
 
     # Print the equilibrium MMd and MMr values caused by the adaptive therapy
     last_MMd_fractions_GF = df_total_switch_GF['xMMd'].tail(int(10))
-    average_MMd_fraction_GF = last_MMd_fractions_GF.sum() / 10
+    average_MMd_fraction_GF = round(last_MMd_fractions_GF.sum() / 10, 2)
     last_MMr_fractions_GF = df_total_switch_GF['xMMr'].tail(int(10))
-    average_MMr_fraction_GF = last_MMr_fractions_GF.sum() / 10
+    average_MMr_fraction_GF = round(last_MMr_fractions_GF.sum() / 10, 2)
     print('Adaptive therapy MMd GF IH: xMMd =',average_MMd_fraction_GF,
                                         'and xMMr =', average_MMr_fraction_GF)
 
     last_MMd_fractions_WMMd = df_total_switch_WMMd['xMMd'].tail(int(10))
-    average_MMd_fraction_WMMd = last_MMd_fractions_WMMd.sum() / 10
+    average_MMd_fraction_WMMd = round(last_MMd_fractions_WMMd.sum() / 10, 2)
     last_MMr_fractions_WMMd = df_total_switch_WMMd['xMMr'].tail(int(10))
-    average_MMr_fraction_WMMd = last_MMr_fractions_WMMd.sum() / 10
+    average_MMr_fraction_WMMd = round(last_MMr_fractions_WMMd.sum() / 10, 2)
     print('Adaptive therapy WMMd IH: xMMd =',average_MMd_fraction_WMMd,
                                         'and xMMr =', average_MMr_fraction_WMMd)
 
     last_MMd_fractions_comb = df_total_switch_comb['xMMd'].tail(int(10))
-    average_MMd_fraction_comb = last_MMd_fractions_comb.sum() / 10
+    average_MMd_fraction_comb = round(last_MMd_fractions_comb.sum() / 10, 2)
     last_MMr_fractions_comb = df_total_switch_comb['xMMr'].tail(int(10))
-    average_MMr_fraction_comb = last_MMr_fractions_comb.sum() / 10
+    average_MMr_fraction_comb = round(last_MMr_fractions_comb.sum() / 10, 2)
     print('Adaptive therapy IH combination: xMMd =',average_MMd_fraction_comb,
                                         'and xMMr =', average_MMr_fraction_comb)
 
     # Print the equilibrium MMd and MMr values caused by the traditional therapy
     last_MMd_fractions_GF = df_total_GF['xMMd'].tail(int(10))
-    average_MMd_fraction_GF = last_MMd_fractions_GF.sum() / 10
+    average_MMd_fraction_GF = round(last_MMd_fractions_GF.sum() / 10, 2)
     last_MMr_fractions_GF = df_total_GF['xMMr'].tail(int(10))
-    average_MMr_fraction_GF = last_MMr_fractions_GF.sum() / 10
+    average_MMr_fraction_GF = round(last_MMr_fractions_GF.sum() / 10, 2)
     print(' Traditional therapy MMd GF IH: xMMd =',average_MMd_fraction_GF,
                                         'and xMMr =', average_MMr_fraction_GF)
 
     last_MMd_fractions_WMMd = df_total_WMMd['xMMd'].tail(int(10))
-    average_MMd_fraction_WMMd = last_MMd_fractions_WMMd.sum() / 10
+    average_MMd_fraction_WMMd = round(last_MMd_fractions_WMMd.sum() / 10, 2)
     last_MMr_fractions_WMMd = df_total_WMMd['xMMr'].tail(int(10))
-    average_MMr_fraction_WMMd = last_MMr_fractions_WMMd.sum() / 10
+    average_MMr_fraction_WMMd = round(last_MMr_fractions_WMMd.sum() / 10, 2)
     print(' Traditional therapy WMMd IH: xMMd =',average_MMd_fraction_WMMd,
                                         'and xMMr =', average_MMr_fraction_WMMd)
 
     last_MMd_fractions_comb = df_total_comb['xMMd'].tail(int(10))
-    average_MMd_fraction_comb = last_MMd_fractions_comb.sum() / 10
+    average_MMd_fraction_comb = round(last_MMd_fractions_comb.sum() / 10, 2)
     last_MMr_fractions_comb = df_total_comb['xMMr'].tail(int(10))
-    average_MMr_fraction_comb = last_MMr_fractions_comb.sum() / 10
+    average_MMr_fraction_comb = round(last_MMr_fractions_comb.sum() / 10, 2)
     print(' Traditional therapy IH combination: xMMd =',average_MMd_fraction_comb,
                                         'and xMMr =', average_MMr_fraction_comb)
 

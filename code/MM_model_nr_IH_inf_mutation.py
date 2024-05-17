@@ -1,6 +1,6 @@
 """
 Author:       Eva Nieuwenhuis
-University:   UvA
+University:   Biosystems Data Analysis Group, UvA
 Student id':  13717405
 Description:  The code of the model that simulates the dynamics in the multiple
               myeloma (MM) microenvironment with four cell types: drug-sensitive
@@ -57,7 +57,7 @@ def main():
     # Figure_3D_MM_numb_MMd_IH_strength()
     #
     # # Make a figure showing the number dynamics by traditional and adaptive
-    # # therapy for situations with MMR at the start and resistance mutations
+    # # therapy for situations with MMr at the start and resistance mutations
     # list_t_steps_drug = [3, 3, 3]
     # Figure_continuous_MTD_vs_AT_MMr_comb(90, list_t_steps_drug)
     #
@@ -100,14 +100,14 @@ def main():
     # # IH combination -> MMd GF IH -> holiday
     # minimise_MM_W_comb_GF_h()
     #
-    # # Optimise IH administration duration, holiday duration and strengths for
-    # # MMd GF IH -> IH combination -> WMMd IH -> holiday
-    # minimise_MM_GF_comb_W_h_IH()
-    #
-    # # Optimise IH administration duration, holiday duration and strengths for
-    # # WMMd IH -> IH combination -> MMd GF IH -> holiday
-    # minimise_MM_W_comb_GF_h_IH()
-    #
+    # Optimise IH administration duration, holiday duration and strengths for
+    # MMd GF IH -> IH combination -> WMMd IH -> holiday
+    minimise_MM_GF_comb_W_h_IH()
+
+    # Optimise IH administration duration, holiday duration and strengths for
+    # WMMd IH -> IH combination -> MMd GF IH -> holiday
+    minimise_MM_W_comb_GF_h_IH()
+
     # # Optimise IH administration duration and holiday duration for MMd GF IH ->
     # # WMMd IH + MMd GF IH -> WMMd IH -> holiday
     # minimise_MM_GF_GFandW_W_h()
@@ -3026,6 +3026,7 @@ def minimal_tumour_nr_t_3_situations(t_steps_IH_strength, function_order, nOC,
     average_MM_number: float
         The average total MM number in the last period.
     """
+    # Unpack the values that should be optimised
     t_steps_GF_IH, t_steps_WMMd_IH, t_steps_no_drug, = t_steps_IH_strength
     n_rounds = 60
 
@@ -3091,6 +3092,7 @@ def minimal_tumour_nr_t_3_situations_IH(t_steps_IH_strength, function_order,
     average_MM_number: float
         The average (weighted) MM number in the last period.
     """
+    # Unpack the values that should be optimised
     t_steps_GF_IH, t_steps_WMMd_IH, t_steps_no_drug, GF_IH,\
                                             WMMd_inhibitor = t_steps_IH_strength
     n_rounds = 60
@@ -3166,6 +3168,7 @@ def minimal_tumour_nr_t_3_4_situations_IH(t_steps_IH_strength, function_order,
     average_MM_number: float
         The (weighted) total MM number in the last period.
     """
+    # Unpack the values that should be optimised
     t_steps_GF_IH, t_steps_WMMd_IH, t_steps_no_drug, GF_IH,\
                                             WMMd_inhibitor = t_steps_IH_strength
     n_rounds = 60
@@ -3248,6 +3251,7 @@ def minimal_tumour_nr_t_4_situations(t_steps, function_order, nOC, nOB, nMMd,
     average_MM_number: float
         The average total MM number in the last period.
     """
+    # Unpack the values that should be optimised
     t_steps_GF_IH, t_steps_WMMd_IH, t_steps_comb, t_steps_no_drug = t_steps
     n_rounds = 60
 
@@ -3314,8 +3318,8 @@ def minimal_tumour_nr_t_4_sit_equal(t_steps_IH_strength, function_order, nOC, nO
     --------
     average_MM_number: float
         The average total MM number in the last period.
-
     """
+    # Unpack the values that should be optimised
     t_steps_GF_IH, t_steps_WMMd_IH, t_steps_comb, \
                                         t_steps_no_drug = t_steps_IH_strength
 
@@ -3383,8 +3387,8 @@ def minimal_tumour_nr_t_4_sit_equal_IH(t_steps_IH_strength, function_order,
     --------
     average_MM_number: float
         The (weighted) total MM number in the last period.
-
     """
+    # Unpack the values that should be optimised
     t_steps_GF_IH, t_steps_WMMd_IH, t_steps_comb, t_steps_no_drug, GF_IH, \
                                             WMMd_inhibitor = t_steps_IH_strength
 
@@ -3466,6 +3470,7 @@ def minimal_tumour_nr_t_3_sit_GF_IH(t_steps_IH_strength, function_order,
     average_MM_number: float
         The (weighted) total MM number in the last period.
     """
+    # Unpack the values that should be optimised
     t_steps_GF_IH, t_steps_comb, t_steps_no_drug, GF_IH, GF_IH_comb, \
                                         WMMd_inhibitor_comb = t_steps_IH_strength
     n_rounds = 60
@@ -3544,6 +3549,7 @@ def minimal_tumour_nr_t_3_sit_W_IH(t_steps_IH_strength, function_order,
     average_MM_number: float
         The (weighted) total MM number in the last period.
     """
+    # Unpack the values that should be optimised
     t_steps_WMMd_IH, t_steps_comb, t_steps_no_drug, GF_IH_comb, \
                     WMMd_inhibitor,  WMMd_inhibitor_comb = t_steps_IH_strength
     n_rounds = 60
@@ -3622,6 +3628,7 @@ def minimal_tumour_nr_t_4_situations_IH(t_steps_IH_strength, function_order,
     average_MM_number: float
         The average (weighted) MM number in the last period.
     """
+    # Unpack the values that should be optimised
     t_steps_GF_IH, t_steps_WMMd_IH, t_steps_comb, t_steps_no_drug, GF_IH, \
          GF_IH_comb, WMMd_inhibitor, WMMd_inhibitor_comb = t_steps_IH_strength
     n_rounds = 60
@@ -3928,7 +3935,6 @@ def minimal_tumour_numb_t_steps(t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd,
     --------
     average_MM_number: float
         The average total MM number in the last period.
-
     """
     # Deteremine the number of switches
     time_step = (t_steps_drug + t_steps_no_drug) / 2
@@ -4920,7 +4926,7 @@ def minimise_MM_GF_W_h():
 
     WMMd_inhibitor = 0.4
 
-    # optimise the administration and holiday durations
+    # Optimise the administration and holiday durations
     # t_step_IH_strength = [GF IH t, W IH t, h t]
     t_step_IH_strength = [2.880, 2.576, 3.366]
     result = minimize(minimal_tumour_nr_t_3_situations, t_step_IH_strength,
@@ -4973,7 +4979,7 @@ def minimise_MM_W_GF_h():
 
     WMMd_inhibitor = 0.4
 
-    # optimise the administration and holiday durations
+    # Optimise the administration and holiday durations
     # t_step_IH_strength = [GF IH t, W IH t, h t]
     t_step_IH_strength = [2.349, 3.684, 2.113]
     result = minimize(minimal_tumour_nr_t_3_situations, t_step_IH_strength,
@@ -5026,7 +5032,7 @@ def minimise_MM_GF_W_h_IH():
         [0.2, 0.0, 0.2, 0.0],
         [0.55, 0.0, -0.6, 0.4]])
 
-    # optimise the administration and holiday durations and the IH strengths
+    # Optimise the administration and holiday durations and the IH strengths
     # t_step_IH_strength = [GF IH t, W IH t, h t, GF IH s, W IH s]
     t_step_IH_strength = [2.160, 3.525, 2.255, 0.357, 0.308]
     result = minimize(minimal_tumour_nr_t_3_situations_IH, t_step_IH_strength,
@@ -5135,7 +5141,7 @@ def minimise_MM_GF_h_W_h_IH():
         [0.2, 0.0, 0.2, 0.0],
         [0.55, 0.0, -0.6, 0.4]])
 
-    # optimise the administration and holiday durations and the IH strengths
+    # Optimise the administration and holiday durations and the IH strengths
     # t_step_IH_strength = [GF IH t, W IH t, h t, GF IH s, W IH s]
     t_step_IH_strength = [2.660, 2.129, 3.569, 0.318, 0.346]
     result = minimize(minimal_tumour_nr_t_3_4_situations_IH, t_step_IH_strength,
@@ -5188,7 +5194,7 @@ def minimise_MM_W_h_GF_h_IH():
         [0.2, 0.0, 0.2, 0.0],
         [0.55, 0.0, -0.6, 0.4]])
 
-    # optimise the administration and holiday durations and the IH strengths
+    # Optimise the administration and holiday durations and the IH strengths
     # t_step_IH_strength = [GF IH t, W IH t, h t, GF IH s, W IH s]
     t_step_IH_strength = [3.933, 2.651, 3.122, 0.396, 0.452]
     result = minimize(minimal_tumour_nr_t_3_4_situations_IH, t_step_IH_strength,
@@ -5255,7 +5261,7 @@ def minimise_MM_W_comb_GF_h():
     # WMMd inhibitor effect when only WMMd IH is present
     WMMd_inhibitor = 0.4
 
-    # optimise the administration and holiday durations
+    # Optimise the administration and holiday durations
     # t_step_guess = [GF IH t, W IH t, comb t, h t]
     t_step_guess = [3.812, 2.092, 2.112, 2.212]
     result = minimize(minimal_tumour_nr_t_4_situations, t_step_guess, args=(\
@@ -5322,7 +5328,7 @@ def minimise_MM_GF_comb_W_h():
     # WMMd inhibitor effect when only WMMd IH is present
     WMMd_inhibitor = 0.4
 
-    # optimise the administration and holiday durations
+    # Optimise the administration and holiday durations
     t_step_guess = [3.186, 3.726, 2.674, 2.386]
     result = minimize(minimal_tumour_nr_t_4_situations, t_step_guess, args=(\
         switch_dataframe_GF_comb_W_h, nOC, nOB, nMMd, nMMr, growth_rates,
@@ -5383,7 +5389,7 @@ def minimise_MM_W_comb_GF_h_IH():
         [0.4, 0.0, 0.2, 0.0],
         [0.55, 0.0, -0.8, 0.4]])
 
-    # optimise the administration and holiday durations and the IH strengths
+    # Optimise the administration and holiday durations and the IH strengths
     # t_step_IH_strength = [GF IH t, W IH t, comb t, h t, GF IH s, comb GF IH s
     # W IH s, comb W IH s]
     t_step_IH_strength = [2.056, 2.940, 3.020, 2.107, 0.469, 0.105, 0.321, 0.109]
@@ -5450,7 +5456,7 @@ def minimise_MM_GF_comb_W_h_IH():
         [0.4, 0.0, 0.2, 0.0],
         [0.55, 0.0, -0.8, 0.4]])
 
-    # optimise the administration and holiday durations and the IH strengths
+    # Optimise the administration and holiday durations and the IH strengths
     # t_step_IH_strength = [GF IH t, W IH t, comb t, h t, GF IH s, comb GF IH s
     # W IH s, comb W IH s]
     t_step_IH_strength = [2.202, 2.263, 2.344, 2.435, 0.368, 0.094, 0.356, 0.084]
@@ -5906,7 +5912,7 @@ def minimise_MM_GF_W_h_changing_W_IH(growth_rates, growth_rates_IH, decay_rates,
             [0.2, 0.0, 0.2, 0.0],
             [0.55, 0.0, -0.6, 0.4]])
 
-        # optimise the administration and holiday durations
+        # Optimise the administration and holiday durations
         # t_step_IH_strength = [GF IH t, W IH t, h t]
         t_step_IH_strength = [3.000, 2.000, 3.000]
         result = minimize(minimal_tumour_nr_t_3_situations, t_step_IH_strength,
@@ -5990,7 +5996,7 @@ def minimise_MM_GF_W_h_changing_GF_IH(growth_rates, growth_rates_IH, decay_rates
 
         WMMd_inhibitor = 0.4
 
-        # optimise the administration and holiday durations
+        # Optimise the administration and holiday durations
         # t_step_IH_strength = [GF IH t, W IH t, h t]
         t_step_IH_strength = [3.000, 2.000, 3.000]
         result = minimize(minimal_tumour_nr_t_3_situations, t_step_IH_strength,
@@ -6073,7 +6079,7 @@ def minimise_MM_W_GF_h_changing_W_IH(growth_rates, growth_rates_IH, decay_rates,
             [0.2, 0.0, 0.2, 0.0],
             [0.55, 0.0, -0.6, 0.4]])
 
-        # optimise the administration and holiday durations
+        # Optimise the administration and holiday durations
         # t_step_IH_strength = [GF IH t, W IH t, h t]
         t_step_IH_strength = [3.000, 2.001, 3.011]
         result = minimize(minimal_tumour_nr_t_3_situations, t_step_IH_strength,
@@ -6158,7 +6164,7 @@ def minimise_MM_W_GF_h_changing_GF_IH(growth_rates, growth_rates_IH, decay_rates
 
         WMMd_inhibitor = 0.4
 
-        # optimise the administration and holiday durations
+        # Optimise the administration and holiday durations
         # t_step_IH_strength = [GF IH t, W IH t, h t]
         t_step_IH_strength = [3.000, 2.001, 3.011]
         result = minimize(minimal_tumour_nr_t_3_situations, t_step_IH_strength,
@@ -6226,7 +6232,7 @@ def minimise_MM_GF_W_h_IH_w(relative_weight_MMr):
         [0.2, 0.0, 0.2, 0.0],
         [0.55, 0.0, -0.6, 0.4]])
 
-    # optimise the administration and holiday durations and the IH strengths
+    # Optimise the administration and holiday durations and the IH strengths
     # t_step_IH_strength = [GF IH t, W IH t, h t, GF IH s, W IH s]
     t_step_IH_strength = [2.138, 2.858, 2.438, 0.333, 0.389]
     result = minimize(minimal_tumour_nr_t_3_situations_IH, t_step_IH_strength,
@@ -6357,7 +6363,7 @@ def minimise_MM_W_comb_GF_h_IH_w(relative_weight_MMr):
         [0.4, 0.0, 0.2, 0.0],
         [0.55, 0.0, -0.8, 0.4]])
 
-    # optimise the administration and holiday durations and the IH strengths
+    # Optimise the administration and holiday durations and the IH strengths
     # t_step_IH_strength = [GF IH t, W IH t, comb t, h t, GF IH s, comb GF IH s
     # W IH s, comb W IH s]
     t_step_IH_strength = [3.328, 2.421, 2.058, 2.319, 0.494, 0.103, 0.311, 0.096]
@@ -6432,7 +6438,7 @@ def minimise_MM_GF_comb_W_h_IH_w(relative_weight_MMr):
         [0.4, 0.0, 0.2, 0.0],
         [0.55, 0.0, -0.8, 0.4]])
 
-    # optimise the administration and holiday durations and the IH strengths
+    # Optimise the administration and holiday durations and the IH strengths
     # t_step_IH_strength = [GF IH t, W IH t, comb t, h t, GF IH s, comb GF IH s
     # W IH s, comb W IH s]
     t_step_IH_strength = [2.422, 2.113, 2.003, 2.769, 0.405, 0.081, 0.314, 0.112]
@@ -6499,7 +6505,7 @@ def minimise_MM_W_h_GF_h_IH_w(relative_weight_MMr):
         [0.2, 0.0, 0.2, 0.0],
         [0.55, 0.0, -0.6, 0.4]])
 
-    # optimise the administration and holiday durations and the IH strengths
+    # Optimise the administration and holiday durations and the IH strengths
     # t_step_IH_strength = [GF IH t, W IH t, h t, GF IH s, W IH s]
     t_step_IH_strength = [2.79, 2.398, 3.583, 0.322, 0.467]
     result = minimize(minimal_tumour_nr_t_3_4_situations_IH, t_step_IH_strength,
@@ -6561,7 +6567,7 @@ def minimise_MM_GF_h_W_h_IH_w(relative_weight_MMr):
         [0.2, 0.0, 0.2, 0.0],
         [0.55, 0.0, -0.6, 0.4]])
 
-    # optimise the administration and holiday durations and the IH strengths
+    # Optimise the administration and holiday durations and the IH strengths
     # t_step_IH_strength = [GF IH t, W IH t, h t, GF IH s, W IH s]
     t_step_IH_strength = [3.381, 3.509, 2.789, 0.377, 0.344]
     result = minimize(minimal_tumour_nr_t_3_4_situations_IH, t_step_IH_strength,

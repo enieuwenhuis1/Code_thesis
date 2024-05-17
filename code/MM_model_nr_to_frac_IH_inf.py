@@ -1,6 +1,6 @@
 """
 Author:       Eva Nieuwenhuis
-University:   UvA
+University:   Biosystems Data Analysis Group, UvA
 Student id:   13717405
 Description:  The code of the model that simulates the dynamics in the multiple
               myeloma (MM) microenvironment with four cell types: drug-sensitive
@@ -2124,6 +2124,7 @@ def minimal_tumour_nr_to_frac_t_3_situations(t_steps_IH_strength, function_order
     average_MM_fraction: float
         The average total MM fraction in the last period.
     """
+    # Unpack the values that should be optimised
     t_steps_GF_IH, t_steps_WMMd_IH, t_steps_no_drug, = t_steps_IH_strength
     n_rounds = 50
 
@@ -2188,8 +2189,8 @@ def minimal_tumour_nr_to_frac_t_3_situations_IH(t_steps_IH_strength,
     --------
     average_MM_fraction: float
         The average total MM fraction in the last period.
-
     """
+    # Unpack the values that should be optimised
     t_steps_GF_IH, t_steps_WMMd_IH, t_steps_no_drug, GF_IH,\
                                             WMMd_inhibitor = t_steps_IH_strength
     matrix_GF_IH[2, 0] = 0.6 - GF_IH
@@ -2253,8 +2254,8 @@ def minimal_tumour_nr_to_frac_t_3_4_situations_IH(t_steps_IH_strength,
     --------
     average_MM_fraction: float
         The average total MM fraction in the last period.
-
     """
+    # Unpack the values that should be optimised
     t_steps_GF_IH, t_steps_WMMd_IH, t_steps_no_drug, GF_IH,\
                                             WMMd_inhibitor = t_steps_IH_strength
     matrix_GF_IH[2, 0] = 0.6 - GF_IH
@@ -2326,8 +2327,8 @@ def minimal_tumour_nr_to_frac_t_4_situations(t_steps, function_order, nOC, nOB,
     --------
     average_MM_fraction: float
         The average total MM fraction in the last period.
-
     """
+    # Unpack the values that should be optimised
     t_steps_GF_IH, t_steps_WMMd_IH, t_steps_comb, t_steps_no_drug = t_steps
     n_rounds = 50
     time_round = t_steps_GF_IH + t_steps_no_drug + t_steps_WMMd_IH + t_steps_comb
@@ -2393,8 +2394,8 @@ def minimal_tumour_nr_to_frac_t_4_sit_equal_IH(t_steps_IH_strength, function_ord
     --------
     average_MM_fraction: float
         The average total MM fraction in the last period.
-
     """
+    # Unpack the values that should be optimised
     t_steps_GF_IH, t_steps_WMMd_IH, t_steps_comb, t_steps_no_drug, GF_IH, \
                                             WMMd_inhibitor = t_steps_IH_strength
 
@@ -2470,8 +2471,8 @@ def minimal_tumour_nr_to_frac_t_4_situations_IH(t_steps_IH_strength,
     --------
     average_MM_fraction: float
         The average total MM number in the last period.
-
     """
+    # Unpack the values that should be optimised
     t_steps_GF_IH, t_steps_WMMd_IH, t_steps_comb, t_steps_no_drug, GF_IH, \
          GF_IH_comb, WMMd_inhibitor, WMMd_inhibitor_comb = t_steps_IH_strength
     n_rounds = 50

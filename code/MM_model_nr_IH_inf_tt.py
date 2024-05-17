@@ -54,10 +54,10 @@ def main():
     # list_t_steps_drug = [10, 10, 10]
     # Figure_continuous_MTD_vs_AT_weak_a_h(20, list_t_steps_drug)
     # #
-    # # Make a figure showing the cell number dynamics by traditional therapy and
-    # # by adaptive therapy
-    # list_t_steps_drug = [3, 3, 3]
-    # Figure_continuous_MTD_vs_AT_realistic(90, list_t_steps_drug)
+    # Make a figure showing the cell number dynamics by traditional therapy and
+    # by adaptive therapy
+    list_t_steps_drug = [3, 3, 3]
+    Figure_continuous_MTD_vs_AT_realistic(90, list_t_steps_drug)
     #
     # # Make a 3D figure showthing the effect of different drug holiday and
     # # administration periods
