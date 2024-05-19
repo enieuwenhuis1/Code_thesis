@@ -265,10 +265,10 @@ def fitness_WMMr(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix):
         Fraction of OC.
     xOB: Float
         Fraction of OB.
-    xMMr: Float
-        Fraction of the MMr.
     xMMd: Float
         Fraction of the MMd.
+    xMMr: Float
+        Fraction of the MMr.
     N: Int
         fraction of individuals within the interaction range.
     cOC: Float
@@ -1283,7 +1283,7 @@ def Figure_continuous_MTD_vs_AT_a_h(n_switches, t_steps_drug):
         [1.9, 0, -0.8, 0.2]])
 
     # Payoff matrix when both inhibitor drugs are present
-    matrix_GF_IH_comb = np.array([
+    matrix_IH_comb = np.array([
         [0.0, 1.6, 2.2, 1.9],
         [0.95,0.0, -0.5, -0.5],
         [1.23, 0, 0.2, 0.0],
@@ -1304,7 +1304,7 @@ def Figure_continuous_MTD_vs_AT_a_h(n_switches, t_steps_drug):
                 matrix_no_GF_IH, matrix_no_GF_IH, WMMd_inhibitor)
     df_total_switch_comb = switch_dataframe(n_switches, t_steps_drug[2],
                 t_steps_drug[2], xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
-                matrix_no_GF_IH, matrix_GF_IH_comb, WMMd_inhibitor_comb)
+                matrix_no_GF_IH, matrix_IH_comb, WMMd_inhibitor_comb)
 
     # Make dataframes for continiously administration
     df_total_GF = continuous_add_IH_df(135, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
@@ -1312,7 +1312,7 @@ def Figure_continuous_MTD_vs_AT_a_h(n_switches, t_steps_drug):
     df_total_WMMd = continuous_add_IH_df(135, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
             cMMd, cMMr, matrix_no_GF_IH, matrix_no_GF_IH, WMMd_inhibitor)
     df_total_comb = continuous_add_IH_df(135, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
-            cMMd, cMMr, matrix_no_GF_IH, matrix_GF_IH_comb, WMMd_inhibitor_comb)
+            cMMd, cMMr, matrix_no_GF_IH, matrix_IH_comb, WMMd_inhibitor_comb)
 
     # Save the data
     save_dataframe(df_total_switch_GF, 'df_cell_frac_switch_GF_IH_a_h.csv',
@@ -1429,7 +1429,7 @@ def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
         [1.9, 0, -0.8, 0.2]])
 
     # Payoff matrix when both inhibitor drugs are present
-    matrix_GF_IH_comb = np.array([
+    matrix_IH_comb = np.array([
         [0.0, 1.6, 2.2, 1.9],
         [0.95,0.0, -0.5, -0.5],
         [1.23, 0, 0.2, 0.0],
@@ -1450,7 +1450,7 @@ def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
                 matrix_no_GF_IH, matrix_no_GF_IH, WMMd_inhibitor)
     df_total_switch_comb = switch_dataframe(n_switches, t_steps_drug[2],
                 t_steps_drug[2], xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
-                matrix_no_GF_IH, matrix_GF_IH_comb, WMMd_inhibitor_comb)
+                matrix_no_GF_IH, matrix_IH_comb, WMMd_inhibitor_comb)
 
     # Make dataframes for continiously administration
     df_total_GF = continuous_add_IH_df(135, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
@@ -1458,7 +1458,7 @@ def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
     df_total_WMMd = continuous_add_IH_df(135, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
             cMMd, cMMr, matrix_no_GF_IH, matrix_no_GF_IH, WMMd_inhibitor)
     df_total_comb = continuous_add_IH_df(135, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
-            cMMd, cMMr, matrix_no_GF_IH, matrix_GF_IH_comb, WMMd_inhibitor_comb)
+            cMMd, cMMr, matrix_no_GF_IH, matrix_IH_comb, WMMd_inhibitor_comb)
 
     # Save the data
     save_dataframe(df_total_switch_GF, 'df_cell_frac_switch_GF_IH_short_a_h.csv',
@@ -1575,7 +1575,7 @@ def Figure_continuous_MTD_vs_AT_weak_a_h(n_switches, t_steps_drug):
         [1.9, 0, -0.8, 0.2]])
 
     # Payoff matrix when both inhibitor drugs are present
-    matrix_GF_IH_comb = np.array([
+    matrix_IH_comb = np.array([
         [0.0, 1.6, 2.2, 1.9],
         [0.95,0.0, -0.5, -0.5],
         [1.27, 0, 0.2, 0.0],
@@ -1596,7 +1596,7 @@ def Figure_continuous_MTD_vs_AT_weak_a_h(n_switches, t_steps_drug):
                 matrix_no_GF_IH, matrix_no_GF_IH, WMMd_inhibitor)
     df_total_switch_comb = switch_dataframe(n_switches, t_steps_drug[2],
                 t_steps_drug[2], xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
-                matrix_no_GF_IH, matrix_GF_IH_comb, WMMd_inhibitor_comb)
+                matrix_no_GF_IH, matrix_IH_comb, WMMd_inhibitor_comb)
 
     # Make dataframes for continiously administration
     df_total_GF = continuous_add_IH_df(135, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
@@ -1604,7 +1604,7 @@ def Figure_continuous_MTD_vs_AT_weak_a_h(n_switches, t_steps_drug):
     df_total_WMMd = continuous_add_IH_df(135, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
             cMMd, cMMr, matrix_no_GF_IH, matrix_no_GF_IH, WMMd_inhibitor)
     df_total_comb = continuous_add_IH_df(135, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
-            cMMd, cMMr, matrix_no_GF_IH, matrix_GF_IH_comb, WMMd_inhibitor_comb)
+            cMMd, cMMr, matrix_no_GF_IH, matrix_IH_comb, WMMd_inhibitor_comb)
 
     # Save the data
     save_dataframe(df_total_switch_GF, 'df_cell_frac_switch_GF_IH_weak_a_h.csv',
@@ -1713,7 +1713,7 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
         [1.9, 0, -0.77, 0.2]])
 
     # Payoff matrix when both inhibitor drugs are present
-    matrix_GF_IH_comb = np.array([
+    matrix_IH_comb = np.array([
         [0.0, 1.6, 2.2, 1.9],
         [0.95, 0.0, -0.5, -0.5],
         [1.1, 0, 0.2, 0.0],
@@ -1788,7 +1788,7 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
         for t_steps_drug in range(2, 22):
             frac_tumour = minimal_tumour_frac_t_steps(t_steps_drug,
                 t_steps_no_drug, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
-                matrix_no_GF_IH, matrix_GF_IH_comb, WMMd_inhibitor_comb)
+                matrix_no_GF_IH, matrix_IH_comb, WMMd_inhibitor_comb)
 
             # Add results to the dataframe
             new_row_df = pd.DataFrame([{'Generations no drug': \

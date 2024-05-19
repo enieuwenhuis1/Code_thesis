@@ -420,10 +420,10 @@ def dMMr_dt(nOC, nOB, nMMd, nMMr, gr_MMr, dr_MMr, matrix):
         Number of OC.
     nOB: Float
         Number of OB.
-    nMMr: Float
-        Number of the MMr.
     nMMd: Float
         Number of the MMd.
+    nMMr: Float
+        Number of the MMr.
     gr_MMr: Float
         Growth rate of the MMr.
     dr_MMr: Float
@@ -3671,7 +3671,7 @@ def continuous_add_IH_df(time_IH, end_generation, nOC, nOB, nMMd,nMMr,
     time_IH: Int
         The time point at which the IHs get administered
     end_generation: Int
-        The last generation for which the fractions have to be calculated
+        The last generation for which the numbers have to be calculated
     nOC: Float
         Number of OC.
     nOB: Float
@@ -3752,7 +3752,7 @@ def continuous_add_IH_df_mut_t(time_IH, mutation_start, end_generation, nOC, nOB
     mutation_start: Int
         The generation from which resistance mutations can occur
     end_generation: Int
-        The last generation for which the fractions have to be calculated
+        The last generation for which the numbers have to be calculated
     nOC: Float
         Number of OC.
     nOB: Float
@@ -3859,7 +3859,7 @@ def x_y_z_axis_values_3d_plot(dataframe, name):
     """
 
     # Find the drug administration and holiday period causing the lowest MM
-    # fraction
+    # number
     min_index =  dataframe['MM number'].idxmin()
     g_no_drug_min = dataframe.loc[min_index, 'Generations no drug']
     g_drug_min = dataframe.loc[min_index, 'Generations drug']
@@ -3883,7 +3883,7 @@ def x_y_z_axis_values_3d_plot(dataframe, name):
     X_values, Y_values = np.meshgrid(X_values, Y_values)
     Z_values = np.zeros((20, 20))
 
-    # Fill the 2D array with the MM fraction values by looping over each row
+    # Fill the 2D array with the MM number values by looping over each row
     for index, row in dataframe.iterrows():
         i = int(row.iloc[0]) - 2
         j = int(row.iloc[1]) - 2
@@ -4820,9 +4820,9 @@ def Figure_optimisation():
 
     # First subplot, here MMd GF IH is changing
     axs[0, 0].plot(df_W_GF_h_changing_GF['GF IH strength'],
-        df_GF_W_h_changing_GF['MM fraction'], color = 'mediumpurple')
+        df_GF_W_h_changing_GF['MM number'], color = 'mediumpurple')
     axs[0, 0].plot(df_W_GF_h_changing_GF['GF IH strength'],
-        df_W_GF_h_changing_GF['MM fraction'],color = 'teal')
+        df_W_GF_h_changing_GF['MM number'],color = 'teal')
     axs[0, 0].set_title(r"""Changing MMd GF IH strengths (normal)""",
                                                                 fontsize = 13)
     axs[0, 0].set_xlabel('Strength MMd GF IH', fontsize = 12)
@@ -4830,9 +4830,9 @@ def Figure_optimisation():
 
     # Second subplot, here WMMd IH is changing
     axs[1, 0].plot(df_W_GF_h_changing_W['W IH strength'],
-     df_GF_W_h_changing_W['MM fraction'], color = 'mediumpurple')
+     df_GF_W_h_changing_W['MM number'], color = 'mediumpurple')
     axs[1, 0].plot(df_W_GF_h_changing_W['W IH strength'],
-      df_W_GF_h_changing_W['MM fraction'], color = 'teal')
+      df_W_GF_h_changing_W['MM number'], color = 'teal')
     axs[1, 0].set_title(r"""Changing $W_{MMd}$ IH strength (normal)""",
                                                                 fontsize = 13)
     axs[1, 0].set_xlabel('Strength $W_{MMd}$ IH', fontsize = 12)
@@ -4841,9 +4841,9 @@ def Figure_optimisation():
 
     # Third subplot, here MMd GF IH is changing
     axs[0, 1].plot(df_W_GF_h_changing_GF_h['GF IH strength'],
-        df_GF_W_h_changing_GF_h['MM fraction'], color = 'mediumpurple')
+        df_GF_W_h_changing_GF_h['MM number'], color = 'mediumpurple')
     axs[0, 1].plot(df_W_GF_h_changing_GF_h['GF IH strength'],
-        df_W_GF_h_changing_GF_h['MM fraction'],color = 'teal')
+        df_W_GF_h_changing_GF_h['MM number'],color = 'teal')
     axs[0, 1].set_title(r"""Changing MMd GF IH strength (increased)""",
                                                                 fontsize = 13)
     axs[0, 1].set_xlabel('Strength MMd GF IH', fontsize = 12)
@@ -4851,9 +4851,9 @@ def Figure_optimisation():
 
     # Fourth subplot, here WMMd IH is changing
     axs[1, 1].plot(df_W_GF_h_changing_W_h['W IH strength'],
-     df_GF_W_h_changing_W_h['MM fraction'], color = 'mediumpurple')
+     df_GF_W_h_changing_W_h['MM number'], color = 'mediumpurple')
     axs[1, 1].plot(df_W_GF_h_changing_W_h['W IH strength'],
-      df_W_GF_h_changing_W_h['MM fraction'], color = 'teal')
+      df_W_GF_h_changing_W_h['MM number'], color = 'teal')
     axs[1, 1].set_title(r"""Changing $W_{MMd}$ IH strength (increased)""",
                                                                 fontsize = 13)
     axs[1, 1].set_xlabel('Strength $W_{MMd}$ IH', fontsize = 12)
@@ -4862,9 +4862,9 @@ def Figure_optimisation():
 
     # Fifth subplot, here MMd GF IH is changing
     axs[0, 2].plot(df_W_GF_h_changing_GF_l['GF IH strength'],
-        df_GF_W_h_changing_GF_l['MM fraction'], color = 'mediumpurple')
+        df_GF_W_h_changing_GF_l['MM number'], color = 'mediumpurple')
     axs[0, 2].plot(df_W_GF_h_changing_GF_l['GF IH strength'],
-        df_W_GF_h_changing_GF_l['MM fraction'],color = 'teal')
+        df_W_GF_h_changing_GF_l['MM number'],color = 'teal')
     axs[0, 2].set_xlabel('Strength MMd GF IH', fontsize = 12)
     axs[0, 2].set_title(r"""Changing MMd GF IH strength (decreased)""",
                                                                 fontsize = 13)
@@ -4872,9 +4872,9 @@ def Figure_optimisation():
 
     # Sixth subplot, here WMMd IH is changing
     axs[1, 2].plot(df_W_GF_h_changing_W_l['W IH strength'],
-     df_GF_W_h_changing_W_l['MM fraction'], color = 'mediumpurple')
+     df_GF_W_h_changing_W_l['MM number'], color = 'mediumpurple')
     axs[1, 2].plot(df_W_GF_h_changing_W_l['W IH strength'],
-      df_W_GF_h_changing_W_l['MM fraction'], color = 'teal')
+      df_W_GF_h_changing_W_l['MM number'], color = 'teal')
     axs[1, 2].set_title(r"""Changing $W_{MMd}$ IH strength (decreased)""",
                                                                 fontsize = 13)
     axs[1, 2].set_xlabel('Strength $W_{MMd}$ IH', fontsize = 12)
@@ -5884,7 +5884,7 @@ def minimise_MM_GF_W_h_changing_W_IH(growth_rates, growth_rates_IH, decay_rates,
 
     # Make a datframe
     column_names = ['W IH strength', 'MMd GF IH duration', 'WMMd IH duration',
-                                            'Holiday duration', 'MM fraction']
+                                            'Holiday duration', 'MM number']
     df_GF_W_h_change_W = pd.DataFrame(columns = column_names)
 
     for i in range(20):
@@ -5932,7 +5932,7 @@ def minimise_MM_GF_W_h_changing_W_IH(growth_rates, growth_rates_IH, decay_rates,
         # Add results to the dataframe
         new_row_df = pd.DataFrame([{'W IH strength': W_IH, 'MMd GF IH duration':\
              result.x[0], 'WMMd IH duration':result.x[1], 'Holiday duration': \
-             result.x[2], 'MM fraction':result.fun}])
+             result.x[2], 'MM number':result.fun}])
         df_GF_W_h_change_W = pd.concat([df_GF_W_h_change_W, new_row_df],
                                                             ignore_index=True)
     # Save the dataframe
@@ -5966,7 +5966,7 @@ def minimise_MM_GF_W_h_changing_GF_IH(growth_rates, growth_rates_IH, decay_rates
 
     # Make a datframe
     column_names = ['GF IH strength', 'MMd GF IH duration', 'WMMd IH duration',
-                                            'Holiday duration', 'MM fraction']
+                                            'Holiday duration', 'MM number']
     df_GF_W_h_change_GF = pd.DataFrame(columns = column_names)
 
     for i in range(15):
@@ -6016,7 +6016,7 @@ def minimise_MM_GF_W_h_changing_GF_IH(growth_rates, growth_rates_IH, decay_rates
         # Add results to the dataframe
         new_row_df = pd.DataFrame([{'GF IH strength': GF_IH, 'MMd GF IH duration':\
             result.x[0], 'WMMd IH duration':result.x[1], 'Holiday duration': \
-            result.x[2], 'MM fraction':result.fun}])
+            result.x[2], 'MM number':result.fun}])
         df_GF_W_h_change_GF = pd.concat([df_GF_W_h_change_GF, new_row_df],
                                                             ignore_index=True)
 
@@ -6051,7 +6051,7 @@ def minimise_MM_W_GF_h_changing_W_IH(growth_rates, growth_rates_IH, decay_rates,
 
     # Make a datframe
     column_names = ['W IH strength', 'MMd GF IH duration', 'WMMd IH duration',
-                                            'Holiday duration', 'MM fraction']
+                                            'Holiday duration', 'MM number']
     df_W_GF_h_change_W = pd.DataFrame(columns = column_names)
 
     for i in range(20):
@@ -6099,7 +6099,7 @@ def minimise_MM_W_GF_h_changing_W_IH(growth_rates, growth_rates_IH, decay_rates,
         # Add results to the dataframe
         new_row_df = pd.DataFrame([{'W IH strength': W_IH, 'MMd GF IH duration':\
             result.x[0], 'WMMd IH duration':result.x[1], 'Holiday duration': \
-            result.x[2], 'MM fraction':result.fun}])
+            result.x[2], 'MM number':result.fun}])
         df_W_GF_h_change_W = pd.concat([df_W_GF_h_change_W, new_row_df],
                                                             ignore_index=True)
 
@@ -6134,7 +6134,7 @@ def minimise_MM_W_GF_h_changing_GF_IH(growth_rates, growth_rates_IH, decay_rates
 
     # Make a datframe
     column_names = ['GF IH strength', 'MMd GF IH duration', 'WMMd IH duration',
-                                            'Holiday duration', 'MM fraction']
+                                            'Holiday duration', 'MM number']
     df_W_GF_h_change_GF = pd.DataFrame(columns = column_names)
 
     for i in range(15):
@@ -6184,7 +6184,7 @@ def minimise_MM_W_GF_h_changing_GF_IH(growth_rates, growth_rates_IH, decay_rates
         # Add results to the dataframe
         new_row_df = pd.DataFrame([{'GF IH strength': GF_IH, 'MMd GF IH duration':\
             result.x[0], 'WMMd IH duration':result.x[1], 'Holiday duration': \
-             result.x[2], 'MM fraction':result.fun}])
+             result.x[2], 'MM number':result.fun}])
         df_W_GF_h_change_GF = pd.concat([df_W_GF_h_change_GF, new_row_df],
                                                             ignore_index=True)
 
@@ -6295,7 +6295,7 @@ def minimise_MM_W_GF_h_IH_w(relative_weight_MMr):
 
     # Optimise the administration and holiday durations and the IH strengths
     # t_step_IH_strength = [GF IH t, W IH t, h t, GF IH s, W IH s]
-    t_step_IH_strength = [3.382, 3.315, 2.071, 0.399, 0.496]
+    t_step_IH_strength = [3.091, 2.833, 2.393, 0.396, 0.470]
     result = minimize(minimal_tumour_nr_t_3_situations_IH, t_step_IH_strength,
             args=(switch_dataframe_W_GF_h, relative_weight_MMr, nOC, nOB, nMMd,
             nMMr, growth_rates, growth_rates_IH, decay_rates, decay_rates_IH,
