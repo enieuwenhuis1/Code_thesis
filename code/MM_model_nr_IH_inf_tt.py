@@ -590,11 +590,11 @@ def dynamics_discrete(time_IH, time_end, upper_limit_MMd, upper_limit_MMr, nOC,
 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_2 = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
+    df= pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': y[:, 1],
             'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
     # Combine the dataframes
-    df_numbers = pd.concat([df_numbers, df_2])
+    df_numbers = pd.concat([df_numbers, df])
 
     # Calculate the number of generations the therapy is given
     time_step_t = time_end - time_IH
@@ -667,7 +667,6 @@ def dynamics_discrete(time_IH, time_end, upper_limit_MMd, upper_limit_MMr, nOC,
     # Calculate average administration and holiday duration
     average_a_duration = sum(duration_administration) / times_administration
     average_h_duration = sum(duration_holiday) / times_holiday
-    print(times_holiday, times_administration)
 
     return df_numbers, average_a_duration, average_h_duration
 
@@ -4187,9 +4186,9 @@ def Figure_continuous_MTD_vs_AT_realistic(n_switches, t_steps_drug):
 """ Figure to determine the difference between traditional and adaptive therapy
 The number dynamics are determined on a discrete manner"""
 def Figure_continuous_MTD_vs_AT_discrete(upper_limit_MMd, upper_limit_MMr):
-    """ Function that makes a figure with 6 subplots showing the cell number
-    dynamics by traditional therapy (continuous MTD) and adaptive therapy. It
-    also prints the number values in the new equilibrium during adaptive therapy.
+    """ Function that makes a figure with 3 subplots showing the cell number
+    dynamics by adaptive therapy whereby the administration is dependent on the
+    MMr and MMd number. It prints the average holiday and administration duration. 
 
     Parameters:
     -----------
@@ -4199,9 +4198,9 @@ def Figure_continuous_MTD_vs_AT_discrete(upper_limit_MMd, upper_limit_MMr):
         The maximum number of MMr, when reached the IH administration stops
     """
     # Set start values
-    nOC = 100
-    nOB = 200
-    nMMd = 140
+    nOC = 90
+    nOB = 160
+    nMMd = 100
     nMMr = 10
     growth_rates = [0.8, 1.2, 0.3, 0.3]
     decay_rates = [0.9, 0.08, 0.2, 0.1]
@@ -4232,50 +4231,73 @@ def Figure_continuous_MTD_vs_AT_discrete(upper_limit_MMd, upper_limit_MMr):
     # WMMd inhibitor effect when both inhibitor drugs are present
     WMMd_inhibitor_comb = 0.22
 
+    # WMMd inhibitor effect when only WMMd IH is present
+    WMMd_inhibitor = 0.75
+
     # Make dataframe for the different drug hollyday duration values
-    df_total_switch_GF, a_dur_GF, h_dur_GF = dynamics_discrete(25, 500, upper_limit_MMd,
-            upper_limit_MMr, nOC, nOB, nMMd, nMMr, growth_rates, decay_rates,
-            matrix_no_GF_IH, matrix_GF_IH)
-    df_total_switch_comb, a_dur_comb, h_dur_comb = dynamics_discrete(25, 500, upper_limit_MMd,
-            upper_limit_MMr, nOC, nOB, nMMd, nMMr, growth_rates, decay_rates,
-            matrix_no_GF_IH, matrix_IH_comb, WMMd_inhibitor_comb)
+    df_total_switch_GF, a_dur_GF, h_dur_GF = dynamics_discrete(30, 500,
+        upper_limit_MMd, upper_limit_MMr, nOC, nOB, nMMd, nMMr, growth_rates,
+        decay_rates, matrix_no_GF_IH, matrix_GF_IH)
+    df_total_switch_WMMd, a_dur_W, h_dur_W = dynamics_discrete(30, 500,
+        upper_limit_MMd, upper_limit_MMr, nOC, nOB, nMMd, nMMr, growth_rates,
+        decay_rates, matrix_no_GF_IH, matrix_no_GF_IH, WMMd_inhibitor)
+    df_total_switch_comb, a_dur_comb, h_dur_comb = dynamics_discrete(30, 500,
+        upper_limit_MMd, upper_limit_MMr, nOC, nOB, nMMd, nMMr, growth_rates,
+        decay_rates, matrix_no_GF_IH, matrix_IH_comb, WMMd_inhibitor_comb)
 
     # Print average holiday and administration duration
-    print(f"""The average MMd GF IH administration duration is {a_dur_GF} and
-                    the average MMd GF IH holiday duration is {h_dur_GF}""")
-    print(f"""The average IH combination administration duration is {a_dur_comb}
-            and the average IH combination holiday duration is {h_dur_comb}""")
+    print(f"""The average MMd GF IH administration duration is
+    {round(a_dur_GF, 0)} generations and the average MMd GF IH holiday duration
+    is {round(h_dur_GF, 0)} generations""")
+    print(f"""The average WMMd IH administration duration is {round(a_dur_W, 0)}
+    generations and the average WMMd IH holiday duration is {round(h_dur_W, 0)}
+    generations""")
+    print(f"""The average IH combination administration duration is
+    {round(a_dur_comb, 0)} generations and the average IH combination holiday
+    duration is {round(h_dur_comb, 0)} generations""")
 
     # Save the data
     save_dataframe(df_total_switch_GF, 'df_cell_nr_IH_inf_switch_GF_IH_d.csv',
                                             r'..\data\data_model_nr_IH_inf')
+    save_dataframe(df_total_switch_WMMd, 'df_cell_nr_IH_inf_switch_W_IH_d.csv',
+                                            r'..\data\data_model_nr_IH_inf')
     save_dataframe(df_total_switch_comb, 'df_cell_nr_IH_inf_switch_comb_IH_d.csv',
                                             r'..\data\data_model_nr_IH_inf')
 
-    # Create a Figure
-    fig, axs = plt.subplots(1, 2, figsize=(12, 6))
+    fig, axs = plt.subplots(1, 3, figsize=(20, 5))
 
     # Plot the data without drug holidays in the first plot
     df_total_switch_GF.plot(x='Generation', y=['nOC', 'nOB', 'nMMd', 'nMMr'],
                     color= ['tab:pink', 'tab:purple', 'tab:blue', 'tab:red'],
                                                     legend=False, ax=axs[0])
-    axs[0].axvspan(xmin = 25, xmax = 502, color = 'lightgray', alpha = 0.45)
+    axs[0].axvspan(xmin = 30, xmax = 502, color = 'lightgray', alpha = 0.45)
     axs[0].set_xlim(1, 502)
-    axs[0].set_xlabel(' ')
+    axs[0].set_xlabel('Generations', fontsize=12)
     axs[0].set_ylabel(r'Cell number ($n_{i}$)', fontsize=12)
     axs[0].set_title(f"Traditional therapy MMd GF IH ", fontsize=14)
     axs[0].grid(True, linestyle='--')
 
     # Plot the data with drug holidays in the second plot
-    df_total_switch_comb.plot(x='Generation', y=['nOC', 'nOB', 'nMMd', 'nMMr'],
+    df_total_switch_WMMd.plot(x='Generation', y=['nOC', 'nOB', 'nMMd', 'nMMr'],
                     color= ['tab:pink', 'tab:purple', 'tab:blue', 'tab:red'],
                                                     legend=False, ax=axs[1])
-    axs[1].axvspan(xmin = 25, xmax = 502, color = 'lightgray', alpha = 0.45)
+    axs[1].axvspan(xmin = 30, xmax = 502, color = 'lightgray', alpha = 0.45)
     axs[1].set_xlim(1, 502)
-    axs[1].set_xlabel(' ')
+    axs[1].set_xlabel('Generations', fontsize=12)
     axs[1].set_ylabel(' ')
-    axs[1].set_title(r"Traditional therapy IH combination", fontsize=14)
+    axs[1].set_title(r"Traditional therapy $W_{MMd}$ IH", fontsize=14)
     axs[1].grid(True, linestyle='--')
+
+    # Plot the data with drug holidays in the second plot
+    df_total_switch_comb.plot(x='Generation', y=['nOC', 'nOB', 'nMMd', 'nMMr'],
+                    color= ['tab:pink', 'tab:purple', 'tab:blue', 'tab:red'],
+                                                    legend=False, ax=axs[2])
+    axs[2].axvspan(xmin = 30, xmax = 502, color = 'lightgray', alpha = 0.45)
+    axs[2].set_xlim(1, 502)
+    axs[2].set_xlabel('Generations', fontsize=12)
+    axs[2].set_ylabel(' ')
+    axs[2].set_title(r"Traditional therapy IH combination", fontsize=14)
+    axs[2].grid(True, linestyle='--')
 
     # Create a single legend outside of all plots
     legend_labels = ['OC number', 'OB number', 'MMd number', 'MMr number',
@@ -4285,7 +4307,6 @@ def Figure_continuous_MTD_vs_AT_discrete(upper_limit_MMd, upper_limit_MMr):
     save_Figure(plt, 'line_plot_cell_nr_IH_inf_AT_MTD_d',
                                  r'..\visualisation\results_model_nr_IH_inf')
     plt.show()
-
 
 
 """ Figure to determine the difference between traditional and adaptive therapy.

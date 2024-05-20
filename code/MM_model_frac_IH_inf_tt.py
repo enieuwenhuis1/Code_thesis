@@ -2816,5 +2816,6 @@ def Figure_frac_fitness_dynamics():
                                 r'..\visualisation\results_model_frac_IH_inf')
     plt.show()
 
+
 if __name__ == "__main__":
     main()
