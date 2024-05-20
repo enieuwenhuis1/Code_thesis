@@ -658,7 +658,8 @@ def dynamics_discrete(time_IH, time_end, upper_limit_MMd, upper_limit_MMr, nOC,
             x = int(1)
 
         # Add results to the dataframe
-        new_row_df = pd.DataFrame([{'Generation': time_IH+time_step, 'nOC': nOC, 'nOB': nOB, 'nMMd': nMMd, 'nMMr': nMMr, 'total nMM': nMMt}])
+        new_row_df = pd.DataFrame([{'Generation': time_IH+time_step, 'nOC': nOC,
+        'nOB': nOB, 'nMMd': nMMd, 'nMMr': nMMr, 'total nMM': nMMt}])
         df_numbers = pd.concat([df_numbers, new_row_df], ignore_index=True)
 
         # Add one to the duration

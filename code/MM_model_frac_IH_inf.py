@@ -93,7 +93,7 @@ def main():
     #                                                     list_t_steps_no_drug)
 
     # Make a figure of the fraction dynamics whereby there is a limit for the MMd
-    # and MMr frcation
+    # and MMr fraction
     Figure_continuous_MTD_vs_AT_discrete(0.3, 0.15)
 
 

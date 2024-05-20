@@ -5054,9 +5054,9 @@ def Figure_optimisation():
 """ Figure to determine the difference between traditional and adaptive therapy
 The number dynamics are determined on a discrete manner"""
 def Figure_continuous_MTD_vs_AT_discrete(upper_limit_MMd, upper_limit_MMr):
-    """ Function that makes a figure with 6 subplots showing the cell number
-    dynamics by traditional therapy (continuous MTD) and adaptive therapy. It
-    also prints the number values in the new equilibrium during adaptive therapy.
+    """ Function that makes a figure with 3 subplots showing the cell number
+    dynamics by adaptive therapy whereby the administration is dependent on the
+    MMr and MMd number. It prints the average holiday and administration duration.
 
     Parameters:
     -----------
@@ -5127,11 +5127,11 @@ def Figure_continuous_MTD_vs_AT_discrete(upper_limit_MMd, upper_limit_MMr):
 
     # Save the data
     save_dataframe(df_total_switch_GF, 'df_cell_nr_IH_inf_switch_GF_IH_d.csv',
-                                            r'..\data\data_model_nr_IH_inf')
+                                    r'..\data\data_model_nr_IH_inf_mutation')
     save_dataframe(df_total_switch_WMMd, 'df_cell_nr_IH_inf_switch_W_IH_d.csv',
-                                            r'..\data\data_model_nr_IH_inf')
+                                    r'..\data\data_model_nr_IH_inf_mutation')
     save_dataframe(df_total_switch_comb, 'df_cell_nr_IH_inf_switch_comb_IH_d.csv',
-                                            r'..\data\data_model_nr_IH_inf')
+                                    r'..\data\data_model_nr_IH_inf_mutation')
 
     fig, axs = plt.subplots(1, 3, figsize=(20, 5))
 
@@ -5174,7 +5174,7 @@ def Figure_continuous_MTD_vs_AT_discrete(upper_limit_MMd, upper_limit_MMr):
     fig.legend(labels = legend_labels, loc='upper center', ncol=5,
                                                             fontsize='x-large')
     save_Figure(plt, 'line_plot_cell_nr_IH_inf_AT_MTD_d',
-                                 r'..\visualisation\results_model_nr_IH_inf')
+                         r'..\visualisation\results_model_nr_IH_inf_mutation')
     plt.show()
 
 """optimise IH administration duration and holiday duration for MMd GF IH -> WMMd
