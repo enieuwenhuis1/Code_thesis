@@ -1,7 +1,8 @@
 """
-Author:       Eva Nieuwenhuis
-University:   Biosystems Data Analysis Group, UvA
-Student id:   13717405
+Author:            Eva Nieuwenhuis
+University group:  Biosystems Data Analysis Group, UvA
+Student ID:        13717405
+
 Description:  Code with the model that simulates the dynamics in the multiple
               myeloma (MM) microenvironment with four cell types: drug-sensitive
               MM cells (MMd), resistant MM cells (MMr), osteoblasts (OB) and
@@ -1339,7 +1340,7 @@ def Figure_continuous_MTD_vs_AT_a_h(n_switches, t_steps_drug):
     axs[0, 0].set_title(f"Continuous MTD MMd GF IH ")
     axs[0, 0].grid(True)
 
-    # Plot the data with drug holidays in the second plot
+    # Plot the data without drug holidays in the second plot
     df_total_WMMd.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
                                                     legend=False, ax=axs[0, 1])
     axs[0, 1].set_xlabel(' ')
@@ -1347,7 +1348,7 @@ def Figure_continuous_MTD_vs_AT_a_h(n_switches, t_steps_drug):
     axs[0, 1].set_title(r"Continuous MTD $W_{MMd}$ IH")
     axs[0, 1].grid(True)
 
-    # Plot the data with drug holidays in the second plot
+    # Plot the data without drug holidays in the third plot
     df_total_comb.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
                                                     legend=False, ax=axs[0, 2])
     axs[0, 2].set_xlabel(' ')
@@ -1355,7 +1356,7 @@ def Figure_continuous_MTD_vs_AT_a_h(n_switches, t_steps_drug):
     axs[0, 2].set_title(r"Continuous MTD MMd GF IH and $W_{MMd}$ IH")
     axs[0, 2].grid(True)
 
-    # Plot the data with drug holidays in the third plot
+    # Plot the data with drug holidays in the fourth plot
     df_total_switch_GF.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
                                                     legend=False, ax=axs[1, 0])
     axs[1, 0].set_xlabel('Generations', fontsize=11)
@@ -1364,7 +1365,7 @@ def Figure_continuous_MTD_vs_AT_a_h(n_switches, t_steps_drug):
     axs[1, 0].grid(True)
     plt.grid(True)
 
-    # Plot the data with drug holidays in the fourth plot
+    # Plot the data with drug holidays in the fifth plot
     df_total_switch_WMMd.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
                                                     legend=False, ax=axs[1, 1])
     axs[1, 1].set_xlabel('Generations', fontsize=11)
@@ -1372,7 +1373,7 @@ def Figure_continuous_MTD_vs_AT_a_h(n_switches, t_steps_drug):
     axs[1, 1].set_title(r"Adaptive therapy $W_{MMd}$ IH")
     axs[1, 1].grid(True)
 
-    # Plot the data with drug holidays in the fourth plot
+    # Plot the data with drug holidays in the sixth plot
     df_total_switch_comb.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
                                                     legend=False, ax=axs[1, 2])
     axs[1, 2].set_xlabel('Generations', fontsize=11)
@@ -1485,7 +1486,7 @@ def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
     axs[0, 0].set_title(f"Continuous MTD MMd GF IH ")
     axs[0, 0].grid(True)
 
-    # Plot the data with drug holidays in the second plot
+    # Plot the data without drug holidays in the second plot
     df_total_WMMd.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
                                                     legend=False, ax=axs[0, 1])
     axs[0, 1].set_xlabel(' ')
@@ -1493,7 +1494,7 @@ def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
     axs[0, 1].set_title(r"Continuous MTD $W_{MMd}$ IH")
     axs[0, 1].grid(True)
 
-    # Plot the data with drug holidays in the second plot
+    # Plot the data without drug holidays in the third plot
     df_total_comb.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
                                                     legend=False, ax=axs[0, 2])
     axs[0, 2].set_xlabel(' ')
@@ -1501,7 +1502,7 @@ def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
     axs[0, 2].set_title(r"Continuous MTD MMd GF IH and $W_{MMd}$ IH")
     axs[0, 2].grid(True)
 
-    # Plot the data with drug holidays in the third plot
+    # Plot the data with drug holidays in the fourth plot
     df_total_switch_GF.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
                                                     legend=False, ax=axs[1, 0])
     axs[1, 0].set_xlabel('Generations', fontsize=11)
@@ -1510,7 +1511,7 @@ def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
     axs[1, 0].grid(True)
     plt.grid(True)
 
-    # Plot the data with drug holidays in the fourth plot
+    # Plot the data with drug holidays in the fifth plot
     df_total_switch_WMMd.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
                                                     legend=False, ax=axs[1, 1])
     axs[1, 1].set_xlabel('Generations', fontsize=11)
@@ -1518,7 +1519,7 @@ def Figure_continuous_MTD_vs_AT_short_a_h(n_switches, t_steps_drug):
     axs[1, 1].set_title(r"Adaptive therapy $W_{MMd}$ IH")
     axs[1, 1].grid(True)
 
-    # Plot the data with drug holidays in the fourth plot
+    # Plot the data with drug holidays in the sixth plot
     df_total_switch_comb.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
                                                     legend=False, ax=axs[1, 2])
     axs[1, 2].set_xlabel('Generations', fontsize=11)
@@ -1631,7 +1632,7 @@ def Figure_continuous_MTD_vs_AT_weak_a_h(n_switches, t_steps_drug):
     axs[0, 0].set_title(f"Continuous MTD MMd GF IH ")
     axs[0, 0].grid(True)
 
-    # Plot the data with drug holidays in the second plot
+    # Plot the data without drug holidays in the second plot
     df_total_WMMd.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
                                                     legend=False, ax=axs[0, 1])
     axs[0, 1].set_xlabel(' ')
@@ -1639,7 +1640,7 @@ def Figure_continuous_MTD_vs_AT_weak_a_h(n_switches, t_steps_drug):
     axs[0, 1].set_title(r"Continuous MTD $W_{MMd}$ IH")
     axs[0, 1].grid(True)
 
-    # Plot the data with drug holidays in the second plot
+    # Plot the data without drug holidays in the third plot
     df_total_comb.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
                                                     legend=False, ax=axs[0, 2])
     axs[0, 2].set_xlabel(' ')
@@ -1647,7 +1648,7 @@ def Figure_continuous_MTD_vs_AT_weak_a_h(n_switches, t_steps_drug):
     axs[0, 2].set_title(r"Continuous MTD MMd GF IH and $W_{MMd}$ IH")
     axs[0, 2].grid(True)
 
-    # Plot the data with drug holidays in the third plot
+    # Plot the data with drug holidays in the fourth plot
     df_total_switch_GF.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
                                                     legend=False, ax=axs[1, 0])
     axs[1, 0].set_xlabel('Generations', fontsize=11)
@@ -1656,7 +1657,7 @@ def Figure_continuous_MTD_vs_AT_weak_a_h(n_switches, t_steps_drug):
     axs[1, 0].grid(True)
     plt.grid(True)
 
-    # Plot the data with drug holidays in the fourth plot
+    # Plot the data with drug holidays in the fifth plot
     df_total_switch_WMMd.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
                                                     legend=False, ax=axs[1, 1])
     axs[1, 1].set_xlabel('Generations', fontsize=11)
@@ -1664,7 +1665,7 @@ def Figure_continuous_MTD_vs_AT_weak_a_h(n_switches, t_steps_drug):
     axs[1, 1].set_title(r"Adaptive therapy $W_{MMd}$ IH")
     axs[1, 1].grid(True)
 
-    # Plot the data with drug holidays in the fourth plot
+    # Plot the data with drug holidays in the sixth plot
     df_total_switch_comb.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
                                                     legend=False, ax=axs[1, 2])
     axs[1, 2].set_xlabel('Generations', fontsize=11)
@@ -2089,7 +2090,7 @@ def Figure_3_senarios_MMd_GF_IH(n_switches, t_steps_drug):
     axs[0, 0].legend(loc = 'upper right')
     axs[0, 0].grid(True)
 
-    # Plot the data with drug holidays in the second plot
+    # Plot the data without drug holidays in the second plot
     df_total_switch_1.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
                            label=['fraction OC', 'fraction OB', 'fraction MMd',
                            'fraction MMr'], ax=axs[0, 1])
@@ -2626,7 +2627,7 @@ def Figure_duration_A_h_MMd_IH(n_switches, t_steps_drug, t_steps_no_drug):
     ta = t_steps_drug
     th = t_steps_no_drug
 
-    # Plot the data with drug holidays in the second plot
+    # Plot the data with short administrations in the first plot
     df_total_switch_1.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
                             label=[ 'Fraction OC', 'Fraction OB', 'Fraction MMd',
                             'Fraction MMr'], ax=axs[0])
@@ -2637,7 +2638,7 @@ def Figure_duration_A_h_MMd_IH(n_switches, t_steps_drug, t_steps_no_drug):
     axs[0].legend(loc = 'upper right')
     axs[0].grid(True)
 
-    # Plot the data with drug holidays in the third plot
+    # Plot the data with long administrations in the second plot
     df_total_switch_2.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
                             label=[ 'Fraction OC', 'Fraction OB', 'Fraction MMd',
                             'Fraction MMr'], ax=axs[1])

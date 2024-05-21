@@ -1,11 +1,11 @@
-Author:       Eva Nieuwenhuis
-University:   UvA
-Student ID:   13717405
+Author:            Eva Nieuwenhuis
+University group:  Biosystems Data Analysis Group, UvA
+Student ID:        13717405
 
 MATHEMATICAL MODEL MULTIPLE MYELOMA
 The goal was to make fraction and number models that simulate the interactions
 between four cell types In the MM microenvironment: drug-sensitive MM cells (MMd),
-resistant MM cells (MMr), osteoblasts (OBs) and osteoclasts (OCs). All models
+resistant MM cells (MMr), osteoblasts (OB) and osteoclasts (OC). All models
 used collective interactions and were made in the framework of evolutionary game
 theory. The models were utilised to determine the effect of traditional therapy and
 adaptive therapy to study the impact of the inhibitors (IHs) on the cell type
@@ -66,66 +66,63 @@ collective interactions.
 
 MODEL WITH FRACTIONS: MM_model_fractions.py
 MM_model_fractions.py contains the code with the mathematical formulas simulating
-the fraction dynamics of the four cell types MMd, MMr, OCs and OBs in the MM
-microenvironment. It contains the code to make the figures showing the effect of
-the WMMd IH, MMd GF IH and IH combination for different administration periods
-and strengths on the cell type fractions. In addition, it contains code to make
-tables showing the eigenvalues, best administration and holiday duration and the
-lowest MM fraction for different interaction matrices. The IHs only affect the MMd.
+the fraction dynamics of the MMd, MMr, OC and OB. It contains the code to make the
+figures showing the effect of the WMMd IH, MMd GF IH and IH combination for
+different administration periods and strengths on the cell fractions. In addition,
+it contains code to make tables showing the eigenvalues, best administration and
+holiday duration and the lowest MM fraction for different interaction matrices.
+The IHs only affect the MMd.
 
 MODEL WITH NUMBERS: MM_model_numbers.py
 MM_model_numbers.py contains the code with the mathematical formulas simulating
-the number dynamics of the four cell types MMd, MMr, OCs and OBs in the MM
-microenvironment. It contains the code to make the figures showing the effect of
-the WMMd IH, MMd GF IH and IH combination for different administration periods
-and strengths on the cell type numbers. The IHs only affect the MMd.
+the number dynamics of the MMd, MMr, OC and OB. It contains the code to make the
+figures showing the effect of the WMMd IH, MMd GF IH and IH combination for
+different administration periods and strengths on the cell numbers. The IHs only
+affect the MMd.
 
 NUMBER MODEL CONVERTED TO A FRACTION MODEL: MM_model_nr_to_frac.py
 MM_model_nr_to_frac.py uses the mathematical formulas from MM_model_numbers.py
 to simulate the number dynamics and at the end, the numbers are converted to
-fractions. Hence the shows the fraction dynamics of the four cell types MMd, MMr,
-OCs and OBs in the MM microenvironment by a changing N. It contains code to make
-the figures showing the effect of the WMMd IH, MMd GF IH and IH combination for
-different administration periods and strengths on the cell type fractions. The
-IHs only affect the MMd.
+fractions. Hence the shows the fraction dynamics of the MMd, MMr, OC and OB by a
+changing N. It contains code to make the figures showing the effect of the WMMd
+IH, MMd GF IH and IH combination for different administration periods and
+strengths on the cell fractions. The IHs only affect the MMd.
 
 FRACTION MODEL WITH EXTRA IH INFLUENCES: MM_model_frac_IH_inf.py
-MM_model_frac_IH_inf.py contains the code with the mathematical formulas simulating
-the fraction dynamics of the four cell types MMd, MMr, OCs and OBs in the MM
-microenvironment. It contains the code to make the figures showing the effect of
-the WMMd IH, MMd GF IH and IH combination for different administration periods
-and strengths on the cell type fractions. The IHs not only affect the MMd but also
-the OC and OB.
+MM_model_frac_IH_inf.py contains the code with the mathematical formulas
+simulating the fraction dynamics of the MMd, MMr, OC and OB. It contains the code
+to make the figures showing the effect of the WMMd IH, MMd GF IH and IH combination
+for different administration periods and strengths on the cell fractions. The IHs
+not only affect the MMd but also the OC and OB.
 
 NUMBER MODEL WITH EXTRA IH INFLUENCES: MM_model_nr_IH_inf.py
 MM_model_nr_IH_inf.py contains the code with the mathematical formulas simulating
-the number dynamics of the four cell types MMd, MMr, OCs and OBs in the MM
-microenvironment. It contains the code to make the figures showing the effect of
-the WMMd IH, MMd GF IH and IH combination for different administration periods
-and strengths on the cell type numbers. Furthermore, it contains an optimisation
-strategy to find the best holiday duration, administration duration and IH strength
-simultaneously. The IHs not only affect the MMd but also the OC and OB.
+the number dynamics of the MMd, MMr, OC and OB. It contains the code to make the
+figures showing the effect of the WMMd IH, MMd GF IH and IH combination for
+different administration periods and strengths on the cell numbers. Furthermore,
+it contains an (weighted) optimisation strategy to find the best holiday duration,
+administration duration and IH strength simultaneously. The IHs not only affect
+the MMd but also the OC and OB.
 
 NUMBER-TO-FRACTION MODEL WITH EXTRA IH INFLUENCES: MM_model_nr_to_frac_IH_inf.py
 MM_model_nr_to_frac_IH_inf.py uses the mathematical formulas from MM_model_numbers.py
 to simulate the number dynamics and at the end, the numbers are converted to
-fractions. Hence the shows the fraction dynamics of the four cell types MMd, MMr,
-OCs and OBs in the MM microenvironment by a changing N. It contains code to make
-the figures showing the effect of the WMMd IH, MMd GF IH and IH combination for
-different administration periods and strengths on the cell type fractions. It also
-contains an optimisation strategy to find the best holiday duration, administration
-duration and IH strength simultaneously. The IHs not only affect the MMd but also
-the OC and OB.
+fractions. Hence the shows the fraction dynamics of the MMd, MMr, OC and OB by a
+changing N. It contains code to make the figures showing the effect of the WMMd
+IH, MMd GF IH and IH combination for different administration periods and strengths
+on the cell fractions. It also contains an optimisation strategy to find the best
+holiday duration, administration duration and IH strength simultaneously. The IHs
+not only affect the MMd but also the OC and OB.
 
 NUMBER MODEL WITH A MUTATION CHANCE: MM_model_nr_IH_inf_mutation.py
 MM_model_nr_IH_inf_mutation.py contains the code with the mathematical formulas
-simulating the number dynamics of the four cell types MMd, MMr, OCs and OBs in
-the MM microenvironment. The MMd can become MMr via a mutation that happens at
-a specified rate. It contains the code to make figures showing the effect of the
-WMMd  IH, the MMd GF IH and a combination of different administration periods
-and strengths on the cell type numbers. Furthermore, it contains an optimisation
-strategy to find the best administration duration, holiday duration and IH
-strength simultaneously. The IHs not only affect the MMd but also the OC and OB.
+simulating the number dynamics of the MMd, MMr, OC and OB. The MMd can become MMr
+via a mutation that happens at a specified rate. It contains the code to make
+figures showing the effect of the WMMd  IH, the MMd GF IH and a combination of
+different administration periods and strengths on the cell numbers. Furthermore,
+it contains an (weighted) optimisation strategy to find the best administration
+duration, holiday duration and IH strength simultaneously. The IHs not only affect
+the MMd but also the OC and OB.
 
 
 TEST THE CODES
@@ -137,28 +134,27 @@ THE DATA
 The folder data contains a folder per model with all the generated data that is
 used to make figures and tables. The folders data contains are:
 * reproduced_data_Sartakhti_nonlinear: contains all the data obtained with the
-                          model based on the paper of Sartakhti et al., 2018.
+                        model based on the paper of Sartakhti et al., 2018.
 * reproduced_data_Sartakhti_linear: contains all the data obtained with the model
-                          based on the paper of Sartakhti et al., 2016.
+                        based on the paper of Sartakhti et al., 2016.
 * data_model_fractions: contains all the data obtained from the model simulating
-                          cell type fractions.
+                        cell type fractions.
 * data_model_numbers: contains all the data obtained from the model simulating
-                          cell type numbers.
+                        cell type numbers.
 * data_model_nr_to_frac: contains all the data obtained from the model simulating
-                         cell type fractions by converting the numbers to
-                         fractions.
+                        cell type fractions by converting the numbers to
+                        fractions.
 * data_model_frac_IH_inf: contains all the data obtained from the model simulating
-                          cell type fractions whereby extra IH influences were
-                          added.
+                        cell type fractions whereby extra IH influences were
+                        added.
 * data_model_nr_IH_inf: contains all the data obtained from the model simulating
-                          cell type numbers whereby extra IH influences were
-                          added.
+                        cell type numbers whereby extra IH influences were added                          added.
 * data_model_nr_to_frac_IH_inf: contains all the data obtained from the model
-                          simulating cell type fractions by converting the numbers
-                          to fractions and adding extra IH influences.
+                        simulating cell type fractions by converting the numbers
+                        to fractions whereby extra IH influences were added.
 * data_model_nr_IH_inf_mutation: contains all the data obtained from the model
-                          simulating cell type numbers whereby extra IH influences
-                          and a resistance mutation rate were added.
+                        simulating cell type numbers whereby extra IH influences
+                        and a resistance mutation rate were added.
 
 
 THE VISUALISATION
@@ -178,7 +174,7 @@ are stored. The folders which visualisation contains are:
 * results_model_frac_IH_inf: contains all the figures obtained from the model
                             simulating cell-type fractions whereby extra IH
                             influences were added.
-* results_model_nr_IH_inf; contains all the figures obtained from the model
+* results_model_nr_IH_inf: contains all the figures obtained from the model
                             simulating cell type numbers whereby extra IH
                             influences were added.
 * results_model_nr_to_frac_IH_inf: contains all the data obtained from the model

@@ -1,7 +1,8 @@
 """
-Author:       Eva Nieuwenhuis
-University:   Biosystems Data Analysis Group, UvA
-Student id':  13717405
+Author:            Eva Nieuwenhuis
+University group:  Biosystems Data Analysis Group, UvA
+Student ID:        13717405
+
 Description:  Code that attempts to replicate the formulas and Figures from the
               paper by Sartakhti et al. (2018) to get a better understanding of
               cancer modelling. The model simulates linear and nonlinear dynamics

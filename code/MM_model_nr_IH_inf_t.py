@@ -471,7 +471,7 @@ def dMMr_dt(nOC, nOB, nMMd, nMMr, gr_MMr, dr_MMr, matrix):
     return change_nMMr
 
 
-def model_dynamics(y, t, growth_rates, decay_rates, matrix, WMMd_inhibitor = 0):
+def model_dynamics(y, t, growth_rates, decay_rates, matrix_drugs, matrix_no_drugs, WMMd_inhibitor = 0):
     """Function that determines the number dynamics in a population over time.
 
     Parameters:
@@ -484,8 +484,10 @@ def model_dynamics(y, t, growth_rates, decay_rates, matrix, WMMd_inhibitor = 0):
         List with the growth rate values of the OC, OB, MMd and MMr.
     decay_rates: List
         List with the decay rate values of OC, OB, MMd and MMr.
+    matrix_drugs: Numpy.ndarray
+        4x4 matrix containing the interaction factors when drugs are administered.
     matrix: Numpy.ndarray
-        4x4 matrix containing the interaction factors.
+        4x4 matrix containing the interaction factors when no drugs are administered.
     WMMd_inhibitor: Float
         The effect of a drug on the MMd fitness.
 
@@ -516,6 +518,40 @@ def model_dynamics(y, t, growth_rates, decay_rates, matrix, WMMd_inhibitor = 0):
     nMMr_change = dMMr_dt(nOC, nOB, nMMd, nMMr, growth_rates[3], decay_rates[3],
                                                                         matrix)
 
+    if nMMr = 5:
+        x = 1
+
+    if x= 1:
+        nOC_change = dOC_dt(nOC, nOB, nMMd, nMMr, growth_rates[0], decay_rates[0],
+                                                                matrix_drugs)
+        nOB_change = dOB_dt(nOC, nOB, nMMd, nMMr, growth_rates[1], decay_rates[1],
+                                                                matrix_drugs)
+        nMMd_change = dMMd_dt(nOC, nOB, nMMd, nMMr, growth_rates[2], decay_rates[2],
+                                                matrix_drugs, WMMd_inhibitor)
+        nMMr_change = dMMr_dt(nOC, nOB, nMMd, nMMr, growth_rates[3], decay_rates[3],
+                                                                matrix_drugs)
+
+    if x= 0:
+        nOC_change = dOC_dt(nOC, nOB, nMMd, nMMr, growth_rates[0], decay_rates[0],
+                                                                matrix_no_drugs)
+        nOB_change = dOB_dt(nOC, nOB, nMMd, nMMr, growth_rates[1], decay_rates[1],
+                                                                matrix_no_drugs)
+        nMMd_change = dMMd_dt(nOC, nOB, nMMd, nMMr, growth_rates[2], decay_rates[2],
+                                                                matrix_no_drugs)
+        nMMr_change = dMMr_dt(nOC, nOB, nMMd, nMMr, growth_rates[3], decay_rates[3],
+                                                                matrix_no_drugs)
+        x= 1
+
+    if nMMr > 2000 and x = 1:
+        nOC_change = dOC_dt(nOC, nOB, nMMd, nMMr, growth_rates[0], decay_rates[0],
+                                                                matrix_drugs)
+        nOB_change = dOB_dt(nOC, nOB, nMMd, nMMr, growth_rates[1], decay_rates[1],
+                                                                matrix_drugs)
+        nMMd_change = dMMd_dt(nOC, nOB, nMMd, nMMr, growth_rates[2], decay_rates[2],
+                                                matrix_drugs, WMMd_inhibitor)
+        nMMr_change = dMMr_dt(nOC, nOB, nMMd, nMMr, growth_rates[3], decay_rates[3],
+                                                                matrix_drugs)
+    print(x)
     # Make floats of the arrays
     nOC_change = float(nOC_change)
     nOB_change = float(nOB_change)

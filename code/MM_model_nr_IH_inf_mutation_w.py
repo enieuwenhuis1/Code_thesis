@@ -213,6 +213,14 @@ def main():
     # Figure_optimisation()
 
     """ The weighted optimisation situations """
+    # # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
+    # # holiday
+    # minimise_MM_GF_W_h()
+    #
+    # # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
+    # # holiday
+    # minimise_MM_W_GF_h()
+
     # Optimise IH administration and holiday duration and strength for MMd GF IH
     # -> WMMd IH -> holiday where the weight of the MMr relative to the MMd can
     # be specified
