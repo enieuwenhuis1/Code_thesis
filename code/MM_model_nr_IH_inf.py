@@ -51,7 +51,7 @@ def main():
     # # by adaptive therapy for weaker IHs compared to the original situation
     # list_t_steps_drug = [10, 10, 10]
     # Figure_continuous_MTD_vs_AT_weak_a_h(20, list_t_steps_drug)
-    # #
+    #
     # # Make a figure showing the cell number dynamics by traditional therapy and
     # # by adaptive therapy
     # list_t_steps_drug = [3, 3, 3]
@@ -78,12 +78,18 @@ def main():
     # list_n_steps = [40, 40]
     # Figure_duration_a_h_MMd_IH(list_n_steps, list_t_steps_drug,
     #                                                       list_t_steps_no_drug)
+    #
+    # Make a figure of the number dynamics whereby there is a limit for the
+    # MMd and MMr number. The last paramter is low or high-> low: the MMr limit
+    # values are low (< 500), high: the MMr limit values are high (> 500)
+    Figure_AT_MMd_MMr_limit(500, 250, 'low')
 
-    # Make a figure of the number dynamics whereby there is a limit for the MMd
-    # and MMr number
-    Figure_continuous_MTD_vs_AT_discrete(900, 400)
+    # Make a figure of the number dynamics whereby there is a high limit for the
+    # MMd and MMr number. The last paramter is low or high-> low: the MMr limit
+    # values are low (< 500), high: the MMr limit values are high (> 500)
+    Figure_AT_MMd_MMr_limit(1200, 700, 'high')
 
-    # """ The unweighted optimisation situations """
+    """ The unweighted optimisation situations """
     # # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
     # # holiday
     # minimise_MM_GF_W_h()
@@ -91,15 +97,15 @@ def main():
     # # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
     # # holiday
     # minimise_MM_W_GF_h()
-    #
-    # Optimise IH administration duration, holiday duration and strength for
-    # MMd GF IH -> WMMd IH -> holiday
+    # #
+    # # Optimise IH administration duration, holiday duration and strength for
+    # # MMd GF IH -> WMMd IH -> holiday
     # minimise_MM_GF_W_h_IH()
     #
     # # Optimise IH administration duration, holiday duration and strength for
     # # WMMd IH -> MMd GF IH ->  holiday
     # minimise_MM_W_GF_h_IH()
-
+    #
     # # Optimise IH administration duration, holiday duration and strength for
     # # MMd GF IH -> holiday -> WMMd IH -> holiday
     # minimise_MM_GF_h_W_h_IH()
@@ -115,15 +121,15 @@ def main():
     # # Optimise IH administration duration and holiday duration for WMMd IH ->
     # # IH combination -> MMd GF IH -> holiday
     # minimise_MM_W_comb_GF_h()
-    # #
-    # Optimise IH administration duration, holiday duration and strengths for
-    # MMd GF IH -> IH combination -> WMMd IH -> holiday
+    #
+    # # Optimise IH administration duration, holiday duration and strengths for
+    # # MMd GF IH -> IH combination -> WMMd IH -> holiday
     # minimise_MM_GF_comb_W_h_IH()
     #
     # # Optimise IH administration duration, holiday duration and strengths for
     # # WMMd IH -> IH combination -> MMd GF IH -> holiday
     # minimise_MM_W_comb_GF_h_IH()
-
+    #
     # # Optimise IH administration duration and holiday duration for MMd GF IH ->
     # # WMMd IH + MMd GF IH -> WMMd IH -> holiday
     # minimise_MM_GF_GFandW_W_h()
@@ -228,11 +234,11 @@ def main():
     # Figure_optimisation()
 
     """ The weighted optimisation situations """
-    # # Optimise IH administration and holiday duration and strength for MMd GF IH
-    # # -> WMMd IH -> holiday where the weight of the MMr relative to the MMd can
-    # # be specified
-    # relative_weight_MMr = 1.2
-    # minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
+    # Optimise IH administration and holiday duration and strength for MMd GF IH
+    # -> WMMd IH -> holiday where the weight of the MMr relative to the MMd can
+    # be specified
+    relative_weight_MMr = 1.2
+    minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
 
     # Optimise IH administration and holiday duration and strength for WMMd IH ->
     # MMd GF IH -> holiday where the weight of the MMr relative to the MMd can be
@@ -527,11 +533,11 @@ def model_dynamics(y, t, growth_rates, decay_rates, matrix, WMMd_inhibitor = 0):
     return [nOC_change, nOB_change, nMMd_change, nMMr_change]
 
 
-def dynamics_discrete(time_IH, time_end, upper_limit_MMd, upper_limit_MMr, nOC,
-                    nOB, nMMd, nMMr, growth_rates, decay_rates, matrix_no_drugs,
-                    matrix_drugs, WMMd_inhibitor = 0):
-    """Function that determines the number dynamics in a discrete manner. It also
-     ensures that the MMr number and MMd number do not become too high.
+def dynamics_MMd_MMr_limits(time_IH, time_end, upper_limit_MMd, upper_limit_MMr,
+            nOC, nOB, nMMd, nMMr, growth_rates, decay_rates, matrix_no_drugs,
+            matrix_drugs, WMMd_inhibitor = 0):
+    """Function that determines the number dynamics. It ensures that the MMr
+    number and MMd number do not become too high.
 
     Parameters:
     -----------
@@ -637,22 +643,25 @@ def dynamics_discrete(time_IH, time_end, upper_limit_MMd, upper_limit_MMr, nOC,
         nMMt = nMMd + nMMr
 
         # If there are too many MMr stop drug administration
-        if nMMr > upper_limit_MMr:
+        if nMMr > upper_limit_MMr and x == int(1) and duration > 5:
 
-            if x == int(1):
-                duration_administration.append(duration)
-                times_administration += 1
-                duration = 0
+            # Add the administration duration to the list withd durations
+            duration_administration.append(duration)
+            times_administration += 1
+            duration = 0
 
+            # Start the IH holliday
             x = int(0)
 
         # If there are too many MMd stop drug holiday
-        if nMMd > upper_limit_MMd:
+        if nMMd > upper_limit_MMd and x == int(0) and duration > 5:
 
-            if x == int(0):
-                duration_holiday.append(duration)
-                times_holiday += 1
-                duration = 0
+            # Add the holiday duration to the list withd durations
+            duration_holiday.append(duration)
+            times_holiday += 1
+            duration = 0
+
+            # Start the IH administration
             x = int(1)
 
         # Add results to the dataframe
@@ -4184,11 +4193,12 @@ def Figure_continuous_MTD_vs_AT_realistic(n_switches, t_steps_drug):
 
 
 """ Figure to determine the difference between traditional and adaptive therapy
-The number dynamics are determined on a discrete manner"""
-def Figure_continuous_MTD_vs_AT_discrete(upper_limit_MMd, upper_limit_MMr):
-    """ Function that makes a figure with 6 subplots showing the cell number
-    dynamics by traditional therapy (continuous MTD) and adaptive therapy. It
-    also prints the number values in the new equilibrium during adaptive therapy.
+The AT administration and holiday durations depend on the MMd and MMr number"""
+def Figure_AT_MMd_MMr_limit(upper_limit_MMd, upper_limit_MMr, limit):
+    """ Function that makes a figure with 3 subplots showing the cell number
+    dynamics adaptive therapy. The IH administration starts when MMd because
+    too high and stops when the MMr becomes too high. It prints the average
+    adinistration and holiday duration
 
     Parameters:
     -----------
@@ -4196,6 +4206,9 @@ def Figure_continuous_MTD_vs_AT_discrete(upper_limit_MMd, upper_limit_MMr):
         The maximum number of MMd, when reached the IH administration starts
     upper_limit_MMr: Int
         The maximum number of MMr, when reached the IH administration stops
+    limit: String
+        low -> The MMr limit values are low (< 500), high-> the MMd limit values
+        are high (> 500). Ensures that figures are saved under different names
     """
     # Set start values
     nOC = 90
@@ -4228,20 +4241,29 @@ def Figure_continuous_MTD_vs_AT_discrete(upper_limit_MMd, upper_limit_MMr):
         [0.25, 0.0, 0.5, 0.0],
         [0.54, 0.0, -0.7, 0.7]])
 
-    # WMMd inhibitor effect when both inhibitor drugs are present
-    WMMd_inhibitor_comb = 0.22
+    # Determine if the MMr limit is low or high and set the correct drug strengths
+    if limit == 'low':
+        # WMMd inhibitor effect when both inhibitor drugs are present
+        WMMd_inhibitor_comb = 0.24
 
-    # WMMd inhibitor effect when only WMMd IH is present
-    WMMd_inhibitor = 0.75
+        # WMMd inhibitor effect when only WMMd IH is present
+        WMMd_inhibitor = 0.55
+
+    else:
+        # WMMd inhibitor effect when both inhibitor drugs are present
+        WMMd_inhibitor_comb = 0.24
+
+        # WMMd inhibitor effect when only WMMd IH is present
+        WMMd_inhibitor = 0.72
 
     # Make dataframe for the different drug hollyday duration values
-    df_total_switch_GF, a_dur_GF, h_dur_GF = dynamics_discrete(30, 500,
-        upper_limit_MMd, upper_limit_MMr, nOC, nOB, nMMd, nMMr, growth_rates,
+    df_switch_GF, a_dur_GF, h_dur_GF = dynamics_MMd_MMr_limits(30, 500,
+        upper_limit_MMd,  upper_limit_MMr, nOC, nOB, nMMd, nMMr, growth_rates,
         decay_rates, matrix_no_GF_IH, matrix_GF_IH)
-    df_total_switch_WMMd, a_dur_W, h_dur_W = dynamics_discrete(30, 500,
+    df_switch_WMMd, a_dur_W, h_dur_W = dynamics_MMd_MMr_limits(30, 500,
         upper_limit_MMd, upper_limit_MMr, nOC, nOB, nMMd, nMMr, growth_rates,
         decay_rates, matrix_no_GF_IH, matrix_no_GF_IH, WMMd_inhibitor)
-    df_total_switch_comb, a_dur_comb, h_dur_comb = dynamics_discrete(30, 500,
+    df_switch_comb, a_dur_comb, h_dur_comb = dynamics_MMd_MMr_limits(30, 500,
         upper_limit_MMd, upper_limit_MMr, nOC, nOB, nMMd, nMMr, growth_rates,
         decay_rates, matrix_no_GF_IH, matrix_IH_comb, WMMd_inhibitor_comb)
 
@@ -4256,44 +4278,56 @@ def Figure_continuous_MTD_vs_AT_discrete(upper_limit_MMd, upper_limit_MMr):
     {round(a_dur_comb, 0)} generations and the average IH combination holiday
     duration is {round(h_dur_comb, 0)} generations""")
 
-    # Save the data
-    save_dataframe(df_total_switch_GF, 'df_cell_nr_IH_inf_switch_GF_IH_d.csv',
+    # Determine if the MMr limit is low or high and save the data under the
+    # correct name
+    if limit == 'low':
+        # Save the data
+        save_dataframe(df_switch_GF, 'df_cell_nr_GF_IH_AT_MM_limit_l.csv',
                                             r'..\data\data_model_nr_IH_inf')
-    save_dataframe(df_total_switch_WMMd, 'df_cell_nr_IH_inf_switch_W_IH_d.csv',
+        save_dataframe(df_switch_WMMd, 'df_cell_nr_W_IH_AT_MM_limit_l.csv',
                                             r'..\data\data_model_nr_IH_inf')
-    save_dataframe(df_total_switch_comb, 'df_cell_nr_IH_inf_switch_comb_IH_d.csv',
+        save_dataframe(df_switch_comb, 'df_cell_nr_IH_comb_AT_MM_limit_l.csv',
                                             r'..\data\data_model_nr_IH_inf')
 
-    fig, axs = plt.subplots(1, 3, figsize=(20, 5))
+    else:
+        # Save the data
+        save_dataframe(df_switch_GF, 'df_cell_nr_GF_IH_AT_MM_limit_h.csv',
+                                            r'..\data\data_model_nr_IH_inf')
+        save_dataframe(df_switch_WMMd, 'df_cell_nr_W_IH_AT_MM_limit_h.csv',
+                                            r'..\data\data_model_nr_IH_inf')
+        save_dataframe(df_switch_comb, 'df_cell_nr_IH_comb_AT_MM_limit_h.csv',
+                                            r'..\data\data_model_nr_IH_inf')
+
+    fig, axs = plt.subplots(1, 3, figsize=(18, 6))
 
     # Plot the data of the AT based on the MMd and MMr number (MMd GF IH)
-    df_total_switch_GF.plot(x='Generation', y=['nOC', 'nOB', 'nMMd', 'nMMr'],
+    df_switch_GF.plot(x='Generation', y=['nOC', 'nOB', 'nMMd', 'nMMr'],
                     color= ['tab:pink', 'tab:purple', 'tab:blue', 'tab:red'],
                                                     legend=False, ax=axs[0])
-    axs[0].axvspan(xmin = 30, xmax = 502, color = 'lightgray', alpha = 0.45)
-    axs[0].set_xlim(1, 502)
+    axs[0].axvspan(xmin = 30, xmax = 402, color = 'lightgray', alpha = 0.45)
+    axs[0].set_xlim(1, 402)
     axs[0].set_xlabel('Generations', fontsize=12)
     axs[0].set_ylabel(r'Cell number ($n_{i}$)', fontsize=12)
     axs[0].set_title(f"Traditional therapy MMd GF IH ", fontsize=14)
     axs[0].grid(True, linestyle='--')
 
     # Plot the data of the AT based on the MMd and MMr number (WMMd IH)
-    df_total_switch_WMMd.plot(x='Generation', y=['nOC', 'nOB', 'nMMd', 'nMMr'],
+    df_switch_WMMd.plot(x='Generation', y=['nOC', 'nOB', 'nMMd', 'nMMr'],
                     color= ['tab:pink', 'tab:purple', 'tab:blue', 'tab:red'],
                                                     legend=False, ax=axs[1])
-    axs[1].axvspan(xmin = 30, xmax = 502, color = 'lightgray', alpha = 0.45)
-    axs[1].set_xlim(1, 502)
+    axs[1].axvspan(xmin = 30, xmax = 402, color = 'lightgray', alpha = 0.45)
+    axs[1].set_xlim(1, 402)
     axs[1].set_xlabel('Generations', fontsize=12)
     axs[1].set_ylabel(' ')
     axs[1].set_title(r"Traditional therapy $W_{MMd}$ IH", fontsize=14)
     axs[1].grid(True, linestyle='--')
 
     # Plot the data of the AT based on the MMd and MMr number (IH combination)
-    df_total_switch_comb.plot(x='Generation', y=['nOC', 'nOB', 'nMMd', 'nMMr'],
+    df_switch_comb.plot(x='Generation', y=['nOC', 'nOB', 'nMMd', 'nMMr'],
                     color= ['tab:pink', 'tab:purple', 'tab:blue', 'tab:red'],
                                                     legend=False, ax=axs[2])
-    axs[2].axvspan(xmin = 30, xmax = 502, color = 'lightgray', alpha = 0.45)
-    axs[2].set_xlim(1, 502)
+    axs[2].axvspan(xmin = 30, xmax = 402, color = 'lightgray', alpha = 0.45)
+    axs[2].set_xlim(1, 402)
     axs[2].set_xlabel('Generations', fontsize=12)
     axs[2].set_ylabel(' ')
     axs[2].set_title(r"Traditional therapy IH combination", fontsize=14)
@@ -4304,7 +4338,14 @@ def Figure_continuous_MTD_vs_AT_discrete(upper_limit_MMd, upper_limit_MMr):
                                                                     'Therapy']
     fig.legend(labels = legend_labels, loc='upper center', ncol=5,
                                                             fontsize='x-large')
-    save_Figure(plt, 'line_plot_cell_nr_IH_inf_AT_MTD_d',
+
+    # Determine if the MMr limit is low or high and save the figure under the
+    # correct name
+    if limit == 'low':
+        save_Figure(plt, 'line_plot_cell_nr_AT_l_limit_MMd_MMr',
+                                 r'..\visualisation\results_model_nr_IH_inf')
+    else:
+        save_Figure(plt, 'line_plot_cell_nr_AT_h_limit_MMd_MMr',
                                  r'..\visualisation\results_model_nr_IH_inf')
     plt.show()
 
