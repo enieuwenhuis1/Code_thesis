@@ -312,6 +312,35 @@ def model_dynamics(y, t, growth_rates, decay_rates, matrix, WMMd_inhibitor = 0):
 
     return [nOC_change, nOB_change, nMMd_change, nMMr_change]
 
+def combine_dataframes(df_1, df_2):
+    """ Function that combines two datafranes in on dataframe
+
+    Parameters:
+    -----------
+    df_1: DataFrame
+        The first dataframe containing the collected data.
+    df_2: DataFrame
+        The second dataframe containing the collected data.
+
+    Returns:
+    --------
+    combined_df: DataFrame
+        Dataframe that is a combination of the two dataframes
+    """
+    # Check if the dataframes are empty
+    if df_1.empty or df_2.empty:
+        # return the dataframe that is not empty
+        combined_df = df_1 if not df_1.empty else df_2
+
+    else:
+        # delete the NA columns
+        df_1 = df_1.dropna(axis=1, how='all')
+        df_2 = df_2.dropna(axis=1, how='all')
+
+        # Combine the dataframes
+        combined_df = pd.concat([df_1, df_2], ignore_index=True)
+
+    return(combined_df)
 
 def save_dataframe(data_frame, file_name, folder_path):
     """ Function that saves a dataframe as csv file.
@@ -474,7 +503,7 @@ def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd,
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -502,7 +531,7 @@ def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd,
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -627,7 +656,7 @@ def continuous_add_IH_df(end_generation, nOC, nOB, nMMd, nMMr, growth_rates,
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
     # Combine the dataframes
-    df_total = pd.concat([df_1, df_2])
+    df_total = combine_dataframes(df_1, df_2)
 
     return df_total
 
@@ -653,7 +682,8 @@ def x_y_z_axis_values_3d_plot(dataframe, name):
         Array with the values for the z-axis
     """
 
-    # Find the drug administration and holiday period causing the lowest MM fraction
+    # Find the drug administration and holiday period causing the lowest MM
+    # fraction
     min_index =  dataframe['MM fraction'].idxmin()
     g_no_drug_min = dataframe.loc[min_index, 'Generations no drug']
     g_drug_min = dataframe.loc[min_index, 'Generations drug']
@@ -1484,8 +1514,7 @@ def Figure_3D_MM_nr_to_frac_IH_add_and_holiday():
             new_row_df = pd.DataFrame([{'Generations no drug':
                     int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
                                     'MM fraction': float(nr_to_frac_tumour)}])
-            df_holiday_GF_IH = pd.concat([df_holiday_GF_IH, new_row_df],
-                                                            ignore_index=True)
+            df_holiday_GF_IH = combine_dataframes(df_holiday_GF_IH, new_row_df)
 
 
     # Save the data
@@ -1512,8 +1541,7 @@ def Figure_3D_MM_nr_to_frac_IH_add_and_holiday():
             new_row_df = pd.DataFrame([{'Generations no drug': int(t_steps_no_drug),
                                             'Generations drug': int(t_steps_drug),
                                     'MM fraction': float(nr_to_frac_tumour)}])
-            df_holiday_W_IH = pd.concat([df_holiday_W_IH, new_row_df],
-                                                                ignore_index=True)
+            df_holiday_W_IH = combine_dataframes(df_holiday_W_IH, new_row_df)
 
     # Save the data
     save_dataframe(df_holiday_W_IH, 'df_cell_nr_to_frac_best_WMMd_IH_holiday.csv',
@@ -1538,8 +1566,7 @@ def Figure_3D_MM_nr_to_frac_IH_add_and_holiday():
             new_row_df = pd.DataFrame([{'Generations no drug': int(t_steps_no_drug),
                                             'Generations drug': int(t_steps_drug),
                                     'MM fraction': float(nr_to_frac_tumour)}])
-            df_holiday_comb = pd.concat([df_holiday_comb, new_row_df],
-                                                                ignore_index=True)
+            df_holiday_comb = combine_dataframes(df_holiday_comb, new_row_df)
 
     # Save the data
     save_dataframe(df_holiday_comb, 'df_cell_nr_to_frac_best_MMd_IH_holiday.csv',
@@ -1675,7 +1702,7 @@ def Figure_3D_MM_nr_to_frac_MMd_IH_strength():
                         round(strength_WMMd_IH/ 50, 3), 'Strength MMd GF IH': \
                 round(strength_MMd_GF_IH/ 50, 3), 'MM number': nr_to_frac_tumour}])
 
-            df_holiday = pd.concat([df_holiday, new_row_df], ignore_index=True)
+            df_holiday = combine_dataframes(df_holiday, new_row_df)
 
     # Save the data
     save_dataframe(df_holiday, 'df_cell_nr_to_frac_best_MMd_IH_strength.csv',

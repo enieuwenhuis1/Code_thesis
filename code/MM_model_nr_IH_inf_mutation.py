@@ -41,105 +41,110 @@ import random
 def main():
     # Do doc tests
     doctest.testmod()
-    #
-    # # Make a figure showing the cell number dynamics by traditional therapy and
-    # # by adaptive therapy
-    # list_t_steps_drug = [3,3,3]
-    # Figure_continuous_MTD_vs_AT_realistic(90, list_t_steps_drug)
-    #
-    # # Make a 3D figure showthing the effect of different drug holiday and
-    # # administration periods
-    # Figure_3D_MM_numb_IH_add_and_holiday()
-    #
-    # # Make a 3D figure showing the effect of different WMMd and MMd GF IH
-    # # strengths
-    # Figure_3D_MM_numb_MMd_IH_strength()
-    #
-    # # Make a figure showing the number dynamics by traditional and adaptive
-    # # therapy for situations with MMr at the start and resistance mutations
-    # list_t_steps_drug = [3, 3, 3]
-    # Figure_continuous_MTD_vs_AT_MMr_comb(90, list_t_steps_drug)
-    #
-    # # Make a figure showing the number dynamics by traditional and adaptive
-    # # therapy for situations whereby resistance mutations are only possible during
-    # # the therapies
-    # list_t_steps_drug = [3, 3, 3]
-    # Figure_continuous_MTD_vs_AT_therapy_mut(80, list_t_steps_drug)
-    #
-    # # Make a figure of the number dynamics whereby there is a limit for the
-    # # MMd and MMr number. The last paramter is low or high-> low: the MMr limit
-    # # values are low (< 500), high: the MMr limit values are high (> 500)
-    # Figure_AT_MMd_MMr_limit(500, 250, 'low')
+
+    # Make a figure showing the cell number dynamics by traditional therapy and
+    # by adaptive therapy
+    list_t_steps_drug = [3,3,3]
+    Figure_continuous_MTD_vs_AT_realistic(90, list_t_steps_drug)
+
+    # Make a 3D figure showthing the effect of different drug holiday and
+    # administration periods
+    Figure_3D_MM_numb_IH_add_and_holiday()
+
+    # Make a 3D figure showing the effect of different WMMd and MMd GF IH
+    # strengths
+    Figure_3D_MM_numb_MMd_IH_strength()
+
+    # Make a figure showing the number dynamics by traditional and adaptive
+    # therapy for situations with MMr at the start and resistance mutations
+    list_t_steps_drug = [3, 3, 3]
+    Figure_continuous_MTD_vs_AT_MMr_comb(90, list_t_steps_drug)
+
+    # Make a figure showing the number dynamics by traditional and adaptive
+    # therapy for situations whereby resistance mutations are only possible during
+    # the therapies
+    list_t_steps_drug = [3, 3, 3]
+    Figure_continuous_MTD_vs_AT_therapy_mut(80, list_t_steps_drug)
+
+    # Make a figure of the number dynamics whereby there is a low limit for the
+    # MMd and MMr number. The last paramter is low, middel or high-> low: nMMr
+    # limit < 400, middel: nMMr limit 400-800, high: MMr limit > 800
+    Figure_AT_MMd_MMr_limit(300, 150, 'low')
+
+    # Make a figure of the number dynamics whereby there is a limit for the MMd
+    # and MMr number. The last paramter is low, middel or high-> low: nMMr limit
+    # < 400, middel: nMMr limit 400-800, high: MMr limit > 800
+    Figure_AT_MMd_MMr_limit(500, 250, 'middel')
 
     # Make a figure of the number dynamics whereby there is a high limit for the
-    # MMd and MMr number. The last paramter is low or high-> low: the MMr limit
-    # values are low (< 500), high: the MMr limit values are high (> 500)
+    # MMd and MMr number. The last paramter is low, middel or high-> low: nMMr
+    # limit < 400, middel: nMMr limit 400-800, high: MMr limit > 800
     Figure_AT_MMd_MMr_limit(1200, 700, 'high')
 
-    # """ The unweighted optimisation situations """
-    # # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
-    # # holiday
-    # minimise_MM_GF_W_h()
-    #
-    # # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
-    # # holiday
-    # minimise_MM_W_GF_h()
-    #
-    # # Optimise IH administration duration, holiday duration and strength for
-    # # MMd GF IH -> WMMd IH -> holiday
-    # minimise_MM_GF_W_h_IH()
-    #
-    # # Optimise IH administration duration, holiday duration and strength for
-    # # WMMd IH -> MMd GF IH ->  holiday
-    # minimise_MM_W_GF_h_IH()
-    #
-    # # Optimise IH administration duration, holiday duration and strength for
-    # # MMd GF IH -> holiday -> WMMd IH -> holiday
-    # minimise_MM_GF_h_W_h_IH()
-    #
-    # # Optimise IH administration duration, holiday duration and strength for
-    # # WMMd IH -> holiday -> MMd GF IH ->  holiday
-    # minimise_MM_W_h_GF_h_IH()
-    #
-    # # Optimise IH administration duration and holiday duration for MMd GF IH
-    # # -> IH combination -> WMMd IH -> holiday
-    # minimise_MM_GF_comb_W_h()
-    #
-    # # Optimise IH administration duration and holiday duration for WMMd IH ->
-    # # IH combination -> MMd GF IH -> holiday
-    # minimise_MM_W_comb_GF_h()
-    #
-    # # Optimise IH administration duration, holiday duration and strengths for
-    # # MMd GF IH -> IH combination -> WMMd IH -> holiday
-    # minimise_MM_GF_comb_W_h_IH()
-    #
-    # # Optimise IH administration duration, holiday duration and strengths for
-    # # WMMd IH -> IH combination -> MMd GF IH -> holiday
-    # minimise_MM_W_comb_GF_h_IH()
-    #
-    # # Optimise IH administration duration and holiday duration for MMd GF IH ->
-    # # WMMd IH + MMd GF IH -> WMMd IH -> holiday
-    # minimise_MM_GF_GFandW_W_h()
-    #
-    # # Optimise IH administration duration and holiday duration for WMMd IH ->
-    # # WMMd IH + MMd GF IH -> MMd GF IH -> holiday
-    # minimise_MM_W_WandGF_GF_h()
-    #
-    # # Optimise IH administration duration, holiday duration and strengths for
-    # # MMd GF IH -> WMMd IH + MMd GF IH -> WMMd IH -> holiday
-    # minimise_MM_GF_GFandW_W_h_IH()
-    #
-    # # Optimise IH administration duration, holiday duration and strengths for
-    # # WMMd IH -> WMMd IH + MMd GF IH -> MMd GF IH -> holiday
-    # minimise_MM_W_WandGF_GF_h_IH()
-    #
-    # # Optimise IH administration duration, holiday duration and strengths for
-    # # MMd GF IH -> IH combination -> holiday
-    # minimise_MM_GF_comb_h_IH()
-    #
-    # # Optimise IH administration duration, holiday duration and strengths for
-    # # WMMd IH -> IH combination -> holiday
-    # minimise_MM_W_comb_h_IH()
+    """ The unweighted optimisation situations """
+    # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
+    # holiday
+    minimise_MM_GF_W_h()
+
+    # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
+    # holiday
+    minimise_MM_W_GF_h()
+
+    # Optimise IH administration duration, holiday duration and strength for
+    # MMd GF IH -> WMMd IH -> holiday
+    minimise_MM_GF_W_h_IH()
+
+    # Optimise IH administration duration, holiday duration and strength for
+    # WMMd IH -> MMd GF IH ->  holiday
+    minimise_MM_W_GF_h_IH()
+
+    # Optimise IH administration duration, holiday duration and strength for
+    # MMd GF IH -> holiday -> WMMd IH -> holiday
+    minimise_MM_GF_h_W_h_IH()
+
+    # Optimise IH administration duration, holiday duration and strength for
+    # WMMd IH -> holiday -> MMd GF IH ->  holiday
+    minimise_MM_W_h_GF_h_IH()
+
+    # Optimise IH administration duration and holiday duration for MMd GF IH
+    # -> IH combination -> WMMd IH -> holiday
+    minimise_MM_GF_comb_W_h()
+
+    # Optimise IH administration duration and holiday duration for WMMd IH ->
+    # IH combination -> MMd GF IH -> holiday
+    minimise_MM_W_comb_GF_h()
+
+    # Optimise IH administration duration, holiday duration and strengths for
+    # MMd GF IH -> IH combination -> WMMd IH -> holiday
+    minimise_MM_GF_comb_W_h_IH()
+
+    # Optimise IH administration duration, holiday duration and strengths for
+    # WMMd IH -> IH combination -> MMd GF IH -> holiday
+    minimise_MM_W_comb_GF_h_IH()
+
+    # Optimise IH administration duration and holiday duration for MMd GF IH ->
+    # WMMd IH + MMd GF IH -> WMMd IH -> holiday
+    minimise_MM_GF_GFandW_W_h()
+
+    # Optimise IH administration duration and holiday duration for WMMd IH ->
+    # WMMd IH + MMd GF IH -> MMd GF IH -> holiday
+    minimise_MM_W_WandGF_GF_h()
+
+    # Optimise IH administration duration, holiday duration and strengths for
+    # MMd GF IH -> WMMd IH + MMd GF IH -> WMMd IH -> holiday
+    minimise_MM_GF_GFandW_W_h_IH()
+
+    # Optimise IH administration duration, holiday duration and strengths for
+    # WMMd IH -> WMMd IH + MMd GF IH -> MMd GF IH -> holiday
+    minimise_MM_W_WandGF_GF_h_IH()
+
+    # Optimise IH administration duration, holiday duration and strengths for
+    # MMd GF IH -> IH combination -> holiday
+    minimise_MM_GF_comb_h_IH()
+
+    # Optimise IH administration duration, holiday duration and strengths for
+    # WMMd IH -> IH combination -> holiday
+    minimise_MM_W_comb_h_IH()
 
 
     # # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
@@ -792,7 +797,7 @@ def dynamics_MMd_MMr_limits(time_IH, time_end, upper_limit_MMd, upper_limit_MMr,
             'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
     # Combine the dataframes
-    df_numbers = pd.concat([df_numbers, df])
+    df_numbers = combine_dataframes(df_numbers, df)
 
     # Calculate the number of generations the therapy is given
     time_step_t = time_end - time_IH
@@ -867,8 +872,9 @@ def dynamics_MMd_MMr_limits(time_IH, time_end, upper_limit_MMd, upper_limit_MMr,
             x = int(1)
 
         # Add results to the dataframe
-        new_row_df = pd.DataFrame([{'Generation': time_IH+time_step, 'nOC': nOC, 'nOB': nOB, 'nMMd': nMMd, 'nMMr': nMMr, 'total nMM': nMMt}])
-        df_numbers = pd.concat([df_numbers, new_row_df], ignore_index=True)
+        new_row_df = pd.DataFrame([{'Generation': time_IH+time_step, 'nOC': nOC,
+                'nOB': nOB, 'nMMd': nMMd, 'nMMr': nMMr, 'total nMM': nMMt}])
+        df_numbers = combine_dataframes(df_numbers, new_row_df)
 
         # Add one to the duration
         duration += 1
@@ -947,6 +953,36 @@ def model_dynamics_no_mut(y, t, growth_rates, decay_rates, matrix, IH_present,
     nMMr_change = float(nMMr_change)
 
     return [nOC_change, nOB_change, nMMd_change, nMMr_change]
+
+def combine_dataframes(df_1, df_2):
+    """ Function that combines two datafranes in on dataframe
+
+    Parameters:
+    -----------
+    df_1: DataFrame
+        The first dataframe containing the collected data.
+    df_2: DataFrame
+        The second dataframe containing the collected data.
+
+    Returns:
+    --------
+    combined_df: DataFrame
+        Dataframe that is a combination of the two dataframes
+    """
+    # Check if the dataframes are empty
+    if df_1.empty or df_2.empty:
+        # return the dataframe that is not empty
+        combined_df = df_1 if not df_1.empty else df_2
+
+    else:
+        # delete the NA columns
+        df_1 = df_1.dropna(axis=1, how='all')
+        df_2 = df_2.dropna(axis=1, how='all')
+
+        # Combine the dataframes
+        combined_df = pd.concat([df_1, df_2], ignore_index=True)
+
+    return(combined_df)
 
 def save_dataframe(data_frame, file_name, folder_path):
     """ Function that saves a dataframe as csv file.
@@ -1105,7 +1141,7 @@ def switch_dataframe(time_IH, n_switches, t_steps_drug, t_steps_no_drug, nOC,
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -1133,7 +1169,7 @@ def switch_dataframe(time_IH, n_switches, t_steps_drug, t_steps_no_drug, nOC,
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -1238,7 +1274,7 @@ def switch_dataframe_mut_t(time_IH, n_switches, n_switches_no_mut, t_steps_drug,
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -1266,7 +1302,7 @@ def switch_dataframe_mut_t(time_IH, n_switches, n_switches_no_mut, t_steps_drug,
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -1299,7 +1335,7 @@ def switch_dataframe_mut_t(time_IH, n_switches, n_switches_no_mut, t_steps_drug,
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -1327,7 +1363,7 @@ def switch_dataframe_mut_t(time_IH, n_switches, n_switches_no_mut, t_steps_drug,
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -1428,7 +1464,7 @@ def switch_dataframe_GF_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -1458,7 +1494,7 @@ def switch_dataframe_GF_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -1487,7 +1523,7 @@ def switch_dataframe_GF_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -1589,7 +1625,7 @@ def switch_dataframe_GF_h_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -1618,7 +1654,7 @@ def switch_dataframe_GF_h_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -1648,7 +1684,7 @@ def switch_dataframe_GF_h_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -1677,7 +1713,7 @@ def switch_dataframe_GF_h_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -1778,7 +1814,7 @@ def switch_dataframe_W_h_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -1807,7 +1843,7 @@ def switch_dataframe_W_h_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -1836,7 +1872,7 @@ def switch_dataframe_W_h_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -1865,7 +1901,7 @@ def switch_dataframe_W_h_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -1967,7 +2003,7 @@ def switch_dataframe_W_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -1996,7 +2032,7 @@ def switch_dataframe_W_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -2025,7 +2061,7 @@ def switch_dataframe_W_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -2130,7 +2166,7 @@ def switch_dataframe_W_comb_h(n_rounds, t_steps_WMMd_IH, t_steps_comb,
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -2160,7 +2196,7 @@ def switch_dataframe_W_comb_h(n_rounds, t_steps_WMMd_IH, t_steps_comb,
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -2189,7 +2225,7 @@ def switch_dataframe_W_comb_h(n_rounds, t_steps_WMMd_IH, t_steps_comb,
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -2292,7 +2328,7 @@ def switch_dataframe_GF_comb_h(n_rounds, t_steps_GF_IH, t_steps_comb,
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -2322,7 +2358,7 @@ def switch_dataframe_GF_comb_h(n_rounds, t_steps_GF_IH, t_steps_comb,
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -2351,7 +2387,7 @@ def switch_dataframe_GF_comb_h(n_rounds, t_steps_GF_IH, t_steps_comb,
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -2460,7 +2496,7 @@ def switch_dataframe_W_comb_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -2490,7 +2526,7 @@ def switch_dataframe_W_comb_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -2519,7 +2555,7 @@ def switch_dataframe_W_comb_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -2548,7 +2584,7 @@ def switch_dataframe_W_comb_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -2655,7 +2691,7 @@ def switch_dataframe_GF_comb_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -2685,7 +2721,7 @@ def switch_dataframe_GF_comb_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -2715,7 +2751,7 @@ def switch_dataframe_GF_comb_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -2744,7 +2780,7 @@ def switch_dataframe_GF_comb_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -2850,7 +2886,7 @@ def switch_dataframe_GF_WandGF_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -2880,7 +2916,7 @@ def switch_dataframe_GF_WandGF_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -2910,7 +2946,7 @@ def switch_dataframe_GF_WandGF_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -2939,7 +2975,7 @@ def switch_dataframe_GF_WandGF_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -3047,7 +3083,7 @@ def switch_dataframe_W_WandGF_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -3077,7 +3113,7 @@ def switch_dataframe_W_WandGF_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -3106,7 +3142,7 @@ def switch_dataframe_W_WandGF_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -3135,7 +3171,7 @@ def switch_dataframe_W_WandGF_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -3997,7 +4033,7 @@ def continuous_add_IH_df_mut_t(time_IH, mutation_start, end_generation, nOC, nOB
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
     # Combine the dataframes
-    df_total = pd.concat([df_1, df_2, df_3])
+    df_total = combine_dataframes(df_1, df_2, df_3)
 
     return df_total
 
@@ -4690,8 +4726,7 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
             new_row_df = pd.DataFrame([{'Generations no drug': \
                     int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
                                              'MM number': float(numb_tumour)}])
-            df_holiday_GF_IH = pd.concat([df_holiday_GF_IH, new_row_df],
-                                                            ignore_index=True)
+            df_holiday_GF_IH = combine_dataframes(df_holiday_GF_IH, new_row_df)
 
     # Save the data
     save_dataframe(df_holiday_GF_IH, 'df_cell_nr_IH_inf_best_MMd_GH_IH_holiday.csv',
@@ -4718,8 +4753,7 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
             new_row_df = pd.DataFrame([{'Generations no drug': \
                     int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
                                              'MM number': float(numb_tumour)}])
-            df_holiday_W_IH = pd.concat([df_holiday_W_IH, new_row_df],
-                                                            ignore_index=True)
+            df_holiday_W_IH = combine_dataframes(df_holiday_W_IH, new_row_df)
 
     # Save the data
     save_dataframe(df_holiday_W_IH, 'df_cell_nr_IH_inf_best_WMMd_IH_holiday.csv',
@@ -4745,8 +4779,7 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
             new_row_df = pd.DataFrame([{'Generations no drug': \
                     int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
                                             'MM number': float(numb_tumour)}])
-            df_holiday_comb = pd.concat([df_holiday_comb, new_row_df],
-                                                             ignore_index=True)
+            df_holiday_comb = combine_dataframes(df_holiday_comb, new_row_df)
 
     # Save the data
     save_dataframe(df_holiday_comb, 'df_cell_nr_IH_inf_best_MMd_IH_holiday.csv',
@@ -4884,7 +4917,7 @@ def Figure_3D_MM_numb_MMd_IH_strength():
                         round(strength_WMMd_IH/ 50, 3), 'Strength MMd GF IH': \
                 round(strength_MMd_GF_IH/ 50, 3), 'MM number': numb_tumour}])
 
-            df_holiday = pd.concat([df_holiday, new_row_df], ignore_index=True)
+            df_holiday = combine_dataframes(df_holiday, new_row_df)
 
     # Save the data
     save_dataframe(df_holiday, 'df_cell_nr_IH_inf_best_MMd_IH_strength.csv',
@@ -5074,9 +5107,10 @@ def Figure_AT_MMd_MMr_limit(upper_limit_MMd, upper_limit_MMr, limit):
     upper_limit_MMr: Int
         The maximum number of MMr, when reached the IH administration stops
     limit: String
-        low -> The MMr limit values are low (< 500), high-> the MMd limit values
-        are high (> 500). Ensures that figures are saved under different names
+        The MMr limit -> low: nMMr limit < 400, middel: nMMr limit 400-800,
+        high: MMr limit > 800
     """
+
     # Set start values
     nOC = 410
     nOB = 490
@@ -5108,16 +5142,25 @@ def Figure_AT_MMd_MMr_limit(upper_limit_MMd, upper_limit_MMr, limit):
         [0.25, 0.0, 0.5, 0.0],
         [0.54, 0.0, -0.7, 0.7]])
 
-
     # Determine if the MMr limit is low or high and set the correct drug strengths
     if limit == 'low':
+
+        # WMMd inhibitor effect when both inhibitor drugs are present
+        WMMd_inhibitor_comb = 0.28
+
+        # WMMd inhibitor effect when only WMMd IH is present
+        WMMd_inhibitor = 0.61
+
+    if limit == 'middel':
+
         # WMMd inhibitor effect when both inhibitor drugs are present
         WMMd_inhibitor_comb = 0.27
 
         # WMMd inhibitor effect when only WMMd IH is present
         WMMd_inhibitor = 0.7
 
-    else:
+    if limit == 'high':
+
         # WMMd inhibitor effect when both inhibitor drugs are present
         WMMd_inhibitor_comb = 0.23
 
@@ -5158,7 +5201,17 @@ def Figure_AT_MMd_MMr_limit(upper_limit_MMd, upper_limit_MMr, limit):
         save_dataframe(df_switch_comb, 'df_cell_nr_IH_comb_AT_MM_limit_l.csv',
                                     r'..\data\data_model_nr_IH_inf_mutation')
 
+    if limit == 'middel':
+        # Save the data
+        save_dataframe(df_switch_GF, 'df_cell_nr_GF_IH_AT_MM_limit.csv',
+                                    r'..\data\data_model_nr_IH_inf_mutation')
+        save_dataframe(df_switch_WMMd, 'df_cell_nr_W_IH_AT_MM_limit.csv',
+                                    r'..\data\data_model_nr_IH_inf_mutation')
+        save_dataframe(df_switch_comb, 'df_cell_nr_IH_comb_AT_MM_limit.csv',
+                                    r'..\data\data_model_nr_IH_inf_mutation')
+
     else:
+        # Save the data
         save_dataframe(df_switch_GF, 'df_cell_nr_GF_IH_AT_MM_limit_h.csv',
                                     r'..\data\data_model_nr_IH_inf_mutation')
         save_dataframe(df_switch_WMMd, 'df_cell_nr_W_IH_AT_MM_limit_h.csv',
@@ -5211,6 +5264,9 @@ def Figure_AT_MMd_MMr_limit(upper_limit_MMd, upper_limit_MMr, limit):
     # correct name
     if limit == 'low':
         save_Figure(plt, 'line_plot_cell_nr_AT_l_limit_MMd_MMr',
+                        r'..\visualisation\results_model_nr_IH_inf_mutation')
+    if limit == 'middel':
+        save_Figure(plt, 'line_plot_cell_nr_AT_limit_MMd_MMr',
                         r'..\visualisation\results_model_nr_IH_inf_mutation')
     else:
         save_Figure(plt, 'line_plot_cell_nr_AT_h_limit_MMd_MMr',
@@ -6214,8 +6270,9 @@ def minimise_MM_GF_W_h_changing_W_IH(growth_rates, growth_rates_IH, decay_rates,
 
     for i in range(20):
 
-        # Calculate the strength of the WMMd IH
+        # Calculate and print the strength of the WMMd IH
         W_IH = 0.2 + (i/100)
+        print(f'The WMMd IH stength is {W_IH}')
 
         # Set start values
         nOC = 20
@@ -6258,8 +6315,7 @@ def minimise_MM_GF_W_h_changing_W_IH(growth_rates, growth_rates_IH, decay_rates,
         new_row_df = pd.DataFrame([{'W IH strength': W_IH, 'MMd GF IH duration':\
              result.x[0], 'WMMd IH duration':result.x[1], 'Holiday duration': \
              result.x[2], 'MM number':result.fun}])
-        df_GF_W_h_change_W = pd.concat([df_GF_W_h_change_W, new_row_df],
-                                                            ignore_index=True)
+        df_GF_W_h_change_W = combine_dataframes(df_GF_W_h_change_W, new_row_df)
     # Save the dataframe
     save_dataframe(df_GF_W_h_change_W, filename,
                                     r'..\data\data_model_nr_IH_inf_mutation')
@@ -6296,8 +6352,9 @@ def minimise_MM_GF_W_h_changing_GF_IH(growth_rates, growth_rates_IH, decay_rates
 
     for i in range(15):
 
-        # Calculate the strength of the MMd GF IH
+        # Calculate and print the strength of the MMd GF IH
         GF_IH = 0.08 + (i/100)
+        print(f'The MMd GF IH stength is {GF_IH}')
 
         # Set start values
         nOC = 20
@@ -6342,8 +6399,7 @@ def minimise_MM_GF_W_h_changing_GF_IH(growth_rates, growth_rates_IH, decay_rates
         new_row_df = pd.DataFrame([{'GF IH strength': GF_IH, 'MMd GF IH duration':\
             result.x[0], 'WMMd IH duration':result.x[1], 'Holiday duration': \
             result.x[2], 'MM number':result.fun}])
-        df_GF_W_h_change_GF = pd.concat([df_GF_W_h_change_GF, new_row_df],
-                                                            ignore_index=True)
+        df_GF_W_h_change_GF = combine_dataframes(df_GF_W_h_change_GF, new_row_df)
 
     # Save the dataframe
     save_dataframe(df_GF_W_h_change_GF, filename,
@@ -6381,8 +6437,9 @@ def minimise_MM_W_GF_h_changing_W_IH(growth_rates, growth_rates_IH, decay_rates,
 
     for i in range(20):
 
-        # Calculate the strength of the MMd GF IH
+        # Calculate and print the strength of the MMd GF IH
         W_IH = 0.2 + (i/100)
+        print(f'The WMMd IH stength is {W_IH}')
 
         # Set start values
         nOC = 20
@@ -6425,8 +6482,7 @@ def minimise_MM_W_GF_h_changing_W_IH(growth_rates, growth_rates_IH, decay_rates,
         new_row_df = pd.DataFrame([{'W IH strength': W_IH, 'MMd GF IH duration':\
             result.x[0], 'WMMd IH duration':result.x[1], 'Holiday duration': \
             result.x[2], 'MM number':result.fun}])
-        df_W_GF_h_change_W = pd.concat([df_W_GF_h_change_W, new_row_df],
-                                                            ignore_index=True)
+        df_W_GF_h_change_W = combine_dataframes(df_W_GF_h_change_W, new_row_df)
 
     # Save the dataframe
     save_dataframe(df_W_GF_h_change_W, filename,
@@ -6464,8 +6520,9 @@ def minimise_MM_W_GF_h_changing_GF_IH(growth_rates, growth_rates_IH, decay_rates
 
     for i in range(15):
 
-        # Calculate the strength of the MMd GF IH
+        # Calculate and print the strength of the MMd GF IH
         GF_IH = 0.08 + (i/100)
+        print(f'The MMd GF IH stength is {GF_IH}')
 
         # Set start values
         nOC = 20
@@ -6510,8 +6567,7 @@ def minimise_MM_W_GF_h_changing_GF_IH(growth_rates, growth_rates_IH, decay_rates
         new_row_df = pd.DataFrame([{'GF IH strength': GF_IH, 'MMd GF IH duration':\
             result.x[0], 'WMMd IH duration':result.x[1], 'Holiday duration': \
              result.x[2], 'MM number':result.fun}])
-        df_W_GF_h_change_GF = pd.concat([df_W_GF_h_change_GF, new_row_df],
-                                                            ignore_index=True)
+        df_W_GF_h_change_GF = combine_dataframes(df_W_GF_h_change_GF, new_row_df)
 
     # Save the dataframe
     save_dataframe(df_W_GF_h_change_GF, filename,

@@ -103,6 +103,36 @@ M = np.array([
     MM [g, h, i]])
 """
 
+def combine_dataframes(df_1, df_2):
+    """ Function that combines two datafranes in on dataframe
+
+    Parameters:
+    -----------
+    df_1: DataFrame
+        The first dataframe containing the collected data.
+    df_2: DataFrame
+        The second dataframe containing the collected data.
+
+    Returns:
+    --------
+    combined_df: DataFrame
+        Dataframe that is a combination of the two dataframes
+    """
+    # Check if the dataframes are empty
+    if df_1.empty or df_2.empty:
+        # return the dataframe that is not empty
+        combined_df = df_1 if not df_1.empty else df_2
+
+    else:
+        # delete the NA columns
+        df_1 = df_1.dropna(axis=1, how='all')
+        df_2 = df_2.dropna(axis=1, how='all')
+
+        # Combine the dataframes
+        combined_df = pd.concat([df_1, df_2], ignore_index=True)
+
+    return(combined_df)
+
 def save_data(data_frame, file_name, folder_path):
     """ Function that saves a dataframe as csv file.
 
@@ -469,13 +499,13 @@ def Figure_2():
     fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(14,6))
 
     # Plot the first subplot
-    df_fitness_first_line.plot(x='Generation', y=['WOC', 'WOB', 'WMM', 'W_average'],
-                                                                        ax=axes[0])
+    df_fitness_first_line.plot(x='Generation', y=['WOC', 'WOB', 'WMM',
+                                                    'W_average'], ax=axes[0])
     axes[0].set_title('Fitness for a scenario where c2<c1<c3 (Figure 2)')
     axes[0].set_xlabel('Generations')
     axes[0].set_ylabel('Fitness')
     axes[0].legend(['Fitness OC', 'Fitness OB', 'Fitness MM', 'Average fitness'],
-                                                                loc='upper right')
+                                                            loc='upper right')
 
     # Plot the second subplot
     df_Figure_2_first_line.plot(x='Generation', y=['xOC', 'xOB', 'xMM'],
@@ -500,7 +530,7 @@ def Figure_2():
     axes[0].set_xlabel('Generations')
     axes[0].set_ylabel('Fitness')
     axes[0].legend(['Fitness OC', 'Fitness OB', 'Fitness MM', 'Average fitness'],
-                                                                loc='upper right')
+                                                            loc='upper right')
 
     # Plot the second subplot
     df_Figure_2_second_line.plot(x='Generation', y=['xOC', 'xOB', 'xMM'],
@@ -702,7 +732,7 @@ def Figure_5():
 
     # Plot the second subplot
     df_Figure_5_first_line.plot(x='Generation', y=['xOC', 'xOB', 'xMM'],
-                                                                        ax=axes[1])
+                                                                    ax=axes[1])
     axes[1].set_title('Dynamics for a scenario where c2<c1<c3 (Figure 5)')
     axes[1].set_xlabel('Generations')
     axes[1].set_ylabel('Fraction')
@@ -726,7 +756,8 @@ def Figure_5():
                                                                 loc ='upper right')
 
     # Plot the second subplot
-    df_Figure_5_second_line.plot(x='Generation', y=['xOC', 'xOB', 'xMM'], ax=axes[1])
+    df_Figure_5_second_line.plot(x='Generation', y=['xOC', 'xOB', 'xMM'],
+                                                                    ax=axes[1])
     axes[1].set_title('Dynamics for a scenario where c2<c1<c3 (Figure 5)')
     axes[1].set_xlabel('Generations')
     axes[1].set_ylabel('Fraction')
@@ -1432,7 +1463,7 @@ def Figure_11():
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
     'xOB': y[:, 1], 'xMM': y[:, 2]})
-    df_Figure_11_first_line = pd.concat([df_1, df_2])
+    df_Figure_11_first_line = combine_dataframes(df_1, df_2)
 
     save_data(df_Figure_11_first_line, 'df_Figure_11_line.csv',
                                     r'..\data\reproduced_data_Sartakhti_linear')

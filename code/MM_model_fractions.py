@@ -446,6 +446,36 @@ def frac_to_fitness_values(dataframe_fractions, N, cOC, cOB, cMMd, cMMr, matrix,
 
     return(dataframe_fitness)
 
+def combine_dataframes(df_1, df_2):
+    """ Function that combines two datafranes in on dataframe
+
+    Parameters:
+    -----------
+    df_1: DataFrame
+        The first dataframe containing the collected data.
+    df_2: DataFrame
+        The second dataframe containing the collected data.
+
+    Returns:
+    --------
+    combined_df: DataFrame
+        Dataframe that is a combination of the two dataframes
+    """
+    # Check if the dataframes are empty
+    if df_1.empty or df_2.empty:
+        # return the dataframe that is not empty
+        combined_df = df_1 if not df_1.empty else df_2
+
+    else:
+        # delete the NA columns
+        df_1 = df_1.dropna(axis=1, how='all')
+        df_2 = df_2.dropna(axis=1, how='all')
+
+        # Combine the dataframes
+        combined_df = pd.concat([df_1, df_2], ignore_index=True)
+
+    return(combined_df)
+
 def save_dataframe(data_frame, file_name, folder_path):
     """ Function that saves a dataframe as csv file.
 
@@ -582,10 +612,10 @@ def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd,
             # Determine the ODE solutions
             y = odeint(model_dynamics, y0, t, args=parameters)
             df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
+              'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -613,7 +643,7 @@ def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd,
                 'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -677,8 +707,8 @@ def pronto_switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, xOC, xOB,
 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_total_switch = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
+    df_total_switch = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': \
+      y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
     # Increase the time
     time += t_steps_no_drug
@@ -708,7 +738,7 @@ def pronto_switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, xOC, xOB,
                 'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -736,7 +766,7 @@ def pronto_switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, xOC, xOB,
                 'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -808,10 +838,10 @@ def continuous_add_IH_df(end_generation, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_2 = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
+            'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
     # Combine the dataframes
-    df_total = pd.concat([df_1, df_2])
+    df_total = combine_dataframes(df_1, df_2)
 
     return df_total
 
@@ -1742,8 +1772,7 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
             new_row_df = pd.DataFrame([{'Generations no drug': \
                     int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
                                              'MM fraction': float(frac_tumour)}])
-            df_holiday_GF_IH = pd.concat([df_holiday_GF_IH, new_row_df],
-                                                            ignore_index=True)
+            df_holiday_GF_IH = combine_dataframes(df_holiday_GF_IH, new_row_df)
 
     # Save the data
     save_dataframe(df_holiday_GF_IH, 'df_cell_frac_best_MMd_GH_IH_holiday.csv',
@@ -1769,8 +1798,7 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
             new_row_df = pd.DataFrame([{'Generations no drug':\
                     int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
                                          'MM fraction': float(frac_tumour)}])
-            df_holiday_W_IH = pd.concat([df_holiday_W_IH, new_row_df],
-                                                            ignore_index=True)
+            df_holiday_W_IH = combine_dataframes(df_holiday_W_IH, new_row_df)
 
     # Save the data
     save_dataframe(df_holiday_W_IH, 'df_cell_frac_best_WMMd_IH_holiday.csv',
@@ -1795,8 +1823,7 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
             new_row_df = pd.DataFrame([{'Generations no drug': \
                     int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
                                             'MM fraction': float(frac_tumour)}])
-            df_holiday_comb = pd.concat([df_holiday_comb, new_row_df],
-                                                                ignore_index=True)
+            df_holiday_comb = combine_dataframes(df_holiday_comb, new_row_df)
 
     # Save the data
     save_dataframe(df_holiday_comb, 'df_cell_frac_best_MMd_IH_holiday.csv',
@@ -1932,7 +1959,7 @@ def Figure_3D_MM_frac_MMd_IH_strength():
                         round(strength_WMMd_IH/ 10, 1), 'Strength MMd GF IH': \
                 round(strength_MMd_GF_IH/ 10, 1), 'MM fraction': frac_tumour}])
 
-            df_holiday = pd.concat([df_holiday, new_row_df], ignore_index=True)
+            df_holiday = combine_dataframes(df_holiday, new_row_df)
 
     # Save the data
     save_dataframe(df_holiday, 'df_cell_frac_best_MMd_IH_strength.csv',
@@ -2064,7 +2091,7 @@ def Figure_3_senarios_MMd_GF_IH(n_switches, t_steps_drug):
                 'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
     # Combine the dataframes
-    df_total = pd.concat([df_1, df_2])
+    df_total = combine_dataframes(df_1, df_2)
 
     # Save the data
     save_dataframe(df_total_switch_1, 'df_cell_frac_G6_MMd_GF_inhibit.csv',
@@ -2193,7 +2220,7 @@ def Figure_3_senarios_WMMd_IH(n_switches, t_steps_drug):
                 'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
     # Combine the dataframes
-    df_total = pd.concat([df_1, df_2])
+    df_total = combine_dataframes(df_1, df_2)
 
     # Save the data
     save_dataframe(df_total_switch_1, 'df_cell_frac_G8_WMMd_inhibit.csv',
@@ -2327,7 +2354,7 @@ def Figure_3_senarios_MMd_GF_WMMd_IH(n_switches, t_steps_drug):
                 'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
     # Combine the dataframes
-    df_total = pd.concat([df_1, df_2])
+    df_total = combine_dataframes(df_1, df_2)
 
     # Save the data
     save_dataframe(df_total_switch_1, 'df_cell_frac_G10_MMd_GF_WMMd_inhibit.csv',
@@ -2449,8 +2476,8 @@ def Figure_frac_fitness_dynamics():
                             'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
 
     # Combine the dataframes
-    df_MMd_GF_inhibition = pd.concat([df_1_MMd_GF_inhibition,
-                                                        df_2_MMd_GF_inhibition])
+    df_MMd_GF_inhibition = combine_dataframes(df_1_MMd_GF_inhibition,
+                                                        df_2_MMd_GF_inhibition)
 
     # Set new start parameter values
     xOC = 0.15
@@ -2486,22 +2513,23 @@ def Figure_frac_fitness_dynamics():
                             'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
 
     # Combine the dataframes
-    df_WMMd_inhibition = pd.concat([df_1_WMMd_inhibition, df_2_WMMd_inhibition])
+    df_WMMd_inhibition = combine_dataframes(df_1_WMMd_inhibition,
+                                                        df_2_WMMd_inhibition)
 
     # Make dataframes for the fitness values
     df_fitness_WMMd_inhibition_1 = frac_to_fitness_values(df_1_WMMd_inhibition,
                                     N, cOC, cOB, cMMd, cMMr, matrix_no_GF_IH)
     df_fitness_WMMd_inhibition_2 = frac_to_fitness_values(df_2_WMMd_inhibition,
                     N, cOC, cOB, cMMd, cMMr, matrix_no_GF_IH, WMMd_inhibitor)
-    df_fitness_WMMd_inhibition = pd.concat([df_fitness_WMMd_inhibition_1,
-                            df_fitness_WMMd_inhibition_2], ignore_index=True)
+    df_fitness_WMMd_inhibition = combine_dataframes(df_fitness_WMMd_inhibition_1,
+                            df_fitness_WMMd_inhibition_2)
 
     df_fitness_MMd_GF_inhibition_1 = frac_to_fitness_values(df_1_MMd_GF_inhibition,
                                        N, cOC, cOB, cMMd, cMMr, matrix_no_GF_IH)
     df_fitness_MMd_GF_inhibition_2 = frac_to_fitness_values(df_2_MMd_GF_inhibition,
                                           N, cOC, cOB, cMMd, cMMr, matrix_GF_IH)
-    df_fitness_MMd_GF_inhibition = pd.concat([df_fitness_MMd_GF_inhibition_1,
-                              df_fitness_MMd_GF_inhibition_2], ignore_index=True)
+    df_fitness_MMd_GF_inhibition = combine_dataframes(df_fitness_MMd_GF_inhibition_1,
+                              df_fitness_MMd_GF_inhibition_2)
 
     # Save the data
     save_dataframe(df_WMMd_inhibition, 'df_cell_frac_cWMMd_inhibit.csv',
@@ -2716,8 +2744,7 @@ def Dataframe_bOCMMd_eigenvalues():
                 new_row_df = pd.DataFrame([{'Generations no drug': \
                     int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
                     'MM fraction': float(frac_tumour)}])
-                df_holiday = pd.concat([df_holiday, new_row_df], ignore_index= \
-                    True) if not new_row_df.isna().all().all() else df_holiday
+                df_holiday = combine_dataframes(df_holiday, new_row_df)
 
         # Find the drug administration and holiday period causing the lowest MM
         # fraction
@@ -2732,8 +2759,7 @@ def Dataframe_bOCMMd_eigenvalues():
                 'Eigenvalue 3': eigenvalues[2], 'Eigenvalue 4': eigenvalues[3],
                 'period H': g_no_drug_min, 'period A': g_drug_min,
                 'MM fraction': frac_min}])
-        df_eigenvalues = pd.concat([df_eigenvalues, new_row_df],
-                                                                ignore_index=True)
+        df_eigenvalues = combine_dataframes(df_eigenvalues, new_row_df)
 
         # Add data to a dataframe and discard the imaginary part to make it a float
         new_row_df = pd.DataFrame([{'bOC,MMd': round(0.6 + (i/10), 1),
@@ -2741,8 +2767,7 @@ def Dataframe_bOCMMd_eigenvalues():
                 float(eigenvalues[1]), 'Eigenvalue 3': float(eigenvalues[2]),
                 'Eigenvalue 4': float(eigenvalues[3]), 'period H': g_no_drug_min,
                 'period A': g_drug_min, 'MM fraction': frac_min}])
-        df_eigenvalues_float = pd.concat([df_eigenvalues_float, new_row_df],
-                                                                ignore_index=True)
+        df_eigenvalues_float = combine_dataframes(df_eigenvalues_float, new_row_df)
 
     # Calculate Spearman correlation coefficients and p-values with eigenvalue 1
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
@@ -2868,8 +2893,7 @@ def Dataframe_bMMrOC_eigenvalues():
                 new_row_df = pd.DataFrame([{'Generations no drug': \
                     int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
                     'MM fraction': float(frac_tumour)}])
-                df_holiday = pd.concat([df_holiday, new_row_df], ignore_index= \
-                    True) if not new_row_df.isna().all().all() else df_holiday
+                df_holiday = combine_dataframes(df_holiday, new_row_df)
 
         # Find the drug administration and holiday period causing the lowest MM
         # fraction
@@ -2884,8 +2908,7 @@ def Dataframe_bMMrOC_eigenvalues():
                 'Eigenvalue 3': eigenvalues[2], 'Eigenvalue 4': eigenvalues[3],
                 'period H': g_no_drug_min, 'period A': g_drug_min,
                 'MM fraction': frac_min}])
-        df_eigenvalues = pd.concat([df_eigenvalues, new_row_df],
-                                                            ignore_index=True)
+        df_eigenvalues = combine_dataframes(df_eigenvalues, new_row_df)
 
         # Add data to a dataframe and discard the imaginary part to make it a float
         new_row_df = pd.DataFrame([{'bMMd,MMr': round(1.5 + (i/10), 1),
@@ -2893,8 +2916,7 @@ def Dataframe_bMMrOC_eigenvalues():
                 float(eigenvalues[1]), 'Eigenvalue 3': float(eigenvalues[2]),
                 'Eigenvalue 4': float(eigenvalues[3]), 'period H': g_no_drug_min,
                 'period A': g_drug_min, 'MM fraction': frac_min}])
-        df_eigenvalues_float = pd.concat([df_eigenvalues_float, new_row_df],
-                                                            ignore_index=True)
+        df_eigenvalues_float = combine_dataframes(df_eigenvalues_float, new_row_df)
 
     # Calculate Spearman correlation coefficients and p-values with eigenvalue 1
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\
@@ -3018,8 +3040,7 @@ def Dataframe_bMMdMMd_bMMrMMr_eigenvalues():
                 new_row_df = pd.DataFrame([{'Generations no drug': \
                     int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
                     'MM fraction': float(frac_tumour)}])
-                df_holiday = pd.concat([df_holiday, new_row_df], ignore_index= \
-                    True) if not new_row_df.isna().all().all() else df_holiday
+                df_holiday = combine_dataframes(df_holiday, new_row_df)
 
         # Find the drug administration and holiday period causing the lowest MM
         # fraction
@@ -3034,7 +3055,7 @@ def Dataframe_bMMdMMd_bMMrMMr_eigenvalues():
                 'Eigenvalue 3': eigenvalues[2], 'Eigenvalue 4': eigenvalues[3],
                 'period H': g_no_drug_min, 'period A': g_drug_min,
                 'MM fraction': frac_min}])
-        df_eigenvalues = pd.concat([df_eigenvalues, new_row_df], ignore_index=True)
+        df_eigenvalues = combine_dataframes(df_eigenvalues, new_row_df)
 
         # Add data to a dataframe and discard the imaginary part to make it a float
         new_row_df = pd.DataFrame([{'bMMd,MMd & bMMr,MMr':  round(0.1 + (i/5), 1),
@@ -3042,8 +3063,7 @@ def Dataframe_bMMdMMd_bMMrMMr_eigenvalues():
                  float(eigenvalues[1]),'Eigenvalue 3': float(eigenvalues[2]),
                  'Eigenvalue 4': float(eigenvalues[3]), 'period H': g_no_drug_min,
                  'period A': g_drug_min, 'MM fraction': frac_min}])
-        df_eigenvalues_float = pd.concat([df_eigenvalues_float, new_row_df],
-                                                              ignore_index=True)
+        df_eigenvalues_float = combine_dataframes(df_eigenvalues_float, new_row_df)
 
     # Calculate Spearman correlation coefficients and p-values with eigenvalue 1
     correlation_coefficient, p_value = spearmanr(df_eigenvalues_float[\

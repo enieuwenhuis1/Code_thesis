@@ -37,58 +37,58 @@ import doctest
 def main():
     # Do doc tests
     doctest.testmod()
-    #
-    # # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # # by adaptive therapy (original situation)
-    # list_t_steps_drug = [10, 10, 10]
-    # Figure_continuous_MTD_vs_AT_a_h(13, list_t_steps_drug)
-    #
-    # # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # # by adaptive therapy for shorter holiday and administration periods compared
-    # # to the original situation
-    # list_t_steps_drug = [5, 5, 5]
-    # Figure_continuous_MTD_vs_AT_short_a_h(20, list_t_steps_drug)
-    #
-    # # Make a figure showing the cell fraction dynamics by traditional therapy
-    # # and by adaptive therapy for weaker IHs compared to the original situation
-    # list_t_steps_drug = [10, 10, 10]
-    # Figure_continuous_MTD_vs_AT_weak_a_h(12, list_t_steps_drug)
-    #
-    # # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # # by adaptive therapy for shorter holiday and administration periods and
-    # # weaker IHs compared to the original situation
-    # list_t_steps_drug = [5, 5, 5]
-    # Figure_continuous_MTD_vs_AT_s_and_w_a_h(18, list_t_steps_drug)
-    #
-    # # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # # by adaptive therapy whereby the OB-OC equilibrium gets restored
-    # list_t_steps_drug = [10, 10, 10]
-    # Figure_continuous_MTD_vs_AT_OB_a_h(9, list_t_steps_drug)
-    #
-    # # Make a 3D figure showthing the effect of different drug holiday and
-    # # administration periods
-    # Figure_3D_MM_frac_IH_add_and_holiday()
-    #
-    # # Make a figure that shows the MM fraction for different bOC,MMd values
-    # Figure_best_b_OC_MMd()
-    #
-    # # Make a figure that shows the MM fraction for different WMMd IH values
-    # Figure_best_WMMd_IH()
-    #
-    # # Make a 3D figure showing the effect of different WMMd and MMd GF IH
-    # # strengths
-    # Figure_3D_MM_frac_MMd_IH_strength()
-    #
-    # # Make a figure that shows the cell fraction dynamics and fitness
-    # Figure_frac_fitness_dynamics()
-    #
-    # # Make line plots showing the dynamics when the IH administration is longer
-    # # than the holiday and one it is the other way around.
-    # list_t_steps_drug = [5, 8]
-    # list_t_steps_no_drug = [8, 5]
-    # list_n_steps = [18, 18]
-    # Figure_duration_A_h_MMd_IH(list_n_steps, list_t_steps_drug,
-    #                                                     list_t_steps_no_drug)
+
+    # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # by adaptive therapy (original situation)
+    list_t_steps_drug = [10, 10, 10]
+    Figure_continuous_MTD_vs_AT_a_h(13, list_t_steps_drug)
+
+    # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # by adaptive therapy for shorter holiday and administration periods compared
+    # to the original situation
+    list_t_steps_drug = [5, 5, 5]
+    Figure_continuous_MTD_vs_AT_short_a_h(20, list_t_steps_drug)
+
+    # Make a figure showing the cell fraction dynamics by traditional therapy
+    # and by adaptive therapy for weaker IHs compared to the original situation
+    list_t_steps_drug = [10, 10, 10]
+    Figure_continuous_MTD_vs_AT_weak_a_h(12, list_t_steps_drug)
+
+    # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # by adaptive therapy for shorter holiday and administration periods and
+    # weaker IHs compared to the original situation
+    list_t_steps_drug = [5, 5, 5]
+    Figure_continuous_MTD_vs_AT_s_and_w_a_h(18, list_t_steps_drug)
+
+    # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # by adaptive therapy whereby the OB-OC equilibrium gets restored
+    list_t_steps_drug = [10, 10, 10]
+    Figure_continuous_MTD_vs_AT_OB_a_h(9, list_t_steps_drug)
+
+    # Make a 3D figure showthing the effect of different drug holiday and
+    # administration periods
+    Figure_3D_MM_frac_IH_add_and_holiday()
+
+    # Make a figure that shows the MM fraction for different bOC,MMd values
+    Figure_best_b_OC_MMd()
+
+    # Make a figure that shows the MM fraction for different WMMd IH values
+    Figure_best_WMMd_IH()
+
+    # Make a 3D figure showing the effect of different WMMd and MMd GF IH
+    # strengths
+    Figure_3D_MM_frac_MMd_IH_strength()
+
+    # Make a figure that shows the cell fraction dynamics and fitness
+    Figure_frac_fitness_dynamics()
+
+    # Make line plots showing the dynamics when the IH administration is longer
+    # than the holiday and one it is the other way around.
+    list_t_steps_drug = [5, 8]
+    list_t_steps_no_drug = [8, 5]
+    list_n_steps = [18, 18]
+    Figure_duration_A_h_MMd_IH(list_n_steps, list_t_steps_drug,
+                                                        list_t_steps_no_drug)
 
     # Make a figure of the fraction dynamics whereby there is a limit for the MMd
     # and MMr fraction
@@ -372,8 +372,8 @@ def model_dynamics(y, t, N, cOC, cOB, cMMd, cMMr, matrix, WMMd_inhibitor = 0):
 def dynamics_discrete(time_IH, time_end, upper_limit_MMd, upper_limit_MMr, xOC,
                 xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, cOC_IH, cOB_IH,
                 matrix_no_drugs, matrix_drugs, WMMd_inhibitor = 0):
-    """Function that determines the fraction dynamics in a discrete manner. It also
-     ensures that the MMr fraction and MMd fraction do not become too high.
+    """Function that determines the fraction dynamics in a discrete manner. It
+    also ensures that the MMr fraction and MMd fraction do not become too high.
 
     Parameters:
     -----------
@@ -440,7 +440,7 @@ def dynamics_discrete(time_IH, time_end, upper_limit_MMd, upper_limit_MMr, xOC,
         'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
     # Combine the dataframes
-    df_fractions = pd.concat([df_fractions, df])
+    df_fractions = combine_dataframes(df_fractions, df)
 
     # Calculate the fraction of generations the therapy is given
     time_step_t = time_end - time_IH
@@ -524,7 +524,7 @@ def dynamics_discrete(time_IH, time_end, upper_limit_MMd, upper_limit_MMr, xOC,
         # Add results to the dataframe
         new_row_df = pd.DataFrame([{'Generation': time_IH+time_step, 'xOC': xOC,
                 'xOB': xOB, 'xMMd': xMMd, 'xMMr': xMMr, 'total xMM': xMMt}])
-        df_fractions = pd.concat([df_fractions, new_row_df], ignore_index=True)
+        df_fractions = combine_dataframes(df_fractions, new_row_df)
 
         # Add one to the duration
         duration += 1
@@ -532,8 +532,6 @@ def dynamics_discrete(time_IH, time_end, upper_limit_MMd, upper_limit_MMr, xOC,
     # Calculate average administration and holiday duration
     average_a_duration = sum(duration_administration) / times_administration
     average_h_duration = sum(duration_holiday) / times_holiday
-    # average_a_duration = sum(duration_administration) / 1
-    # average_h_duration = sum(duration_holiday) / 1
 
     return df_fractions, average_a_duration, average_h_duration
 
@@ -611,6 +609,36 @@ def frac_to_fitness_values(dataframe_fractions, N, cOC, cOB, cMMd, cMMr, matrix,
                                 'WMMr': WMMr_list, 'W_average': W_average_list})
 
     return(dataframe_fitness)
+
+def combine_dataframes(df_1, df_2):
+    """ Function that combines two datafranes in on dataframe
+
+    Parameters:
+    -----------
+    df_1: DataFrame
+        The first dataframe containing the collected data.
+    df_2: DataFrame
+        The second dataframe containing the collected data.
+
+    Returns:
+    --------
+    combined_df: DataFrame
+        Dataframe that is a combination of the two dataframes
+    """
+    # Check if the dataframes are empty
+    if df_1.empty or df_2.empty:
+        # return the dataframe that is not empty
+        combined_df = df_1 if not df_1.empty else df_2
+
+    else:
+        # delete the NA columns
+        df_1 = df_1.dropna(axis=1, how='all')
+        df_2 = df_2.dropna(axis=1, how='all')
+
+        # Combine the dataframes
+        combined_df =  pd.concat([df_1, df_2], ignore_index=True)
+
+    return(combined_df)
 
 def save_dataframe(data_frame, file_name, folder_path):
     """ Function that saves a dataframe as csv file.
@@ -757,7 +785,7 @@ def switch_dataframe(time_start_drugs, n_switches, t_steps_drug, t_steps_no_drug
                 'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -785,7 +813,7 @@ def switch_dataframe(time_start_drugs, n_switches, t_steps_drug, t_steps_no_drug
                 'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
             # Add dataframe to total dataframe
-            df_total_switch = pd.concat([df_total_switch, df])
+            df_total_switch = combine_dataframes(df_total_switch, df)
             df_total_switch.reset_index(drop=True, inplace=True)
 
             # Change the x and time value
@@ -869,7 +897,7 @@ def continuous_add_IH_df(time_start_drugs, end_generation, xOC, xOB, xMMd, xMMr,
                 'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
 
     # Combine the dataframes
-    df_total = pd.concat([df_1, df_2])
+    df_total = combine_dataframes(df_1, df_2)
 
     return df_total
 
@@ -1071,8 +1099,8 @@ def minimal_tumour_frac_b_OC_MMd(b_OC_MMd, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
     return float(last_MM_fraction)
 
 """Determine the best drug effect value for high and low cOB and cOC values"""
-def minimal_tumour_frac_WMMd_IH(WMMd_inhibitor, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
-                    cMMd, cMMr, cOC_IH, cOB_IH, matrix, t, WMMd_inhibitor_array):
+def minimal_tumour_frac_WMMd_IH(WMMd_inhibitor, xOC, xOB, xMMd, xMMr, N, cOC,
+            cOB, cMMd, cMMr, cOC_IH, cOB_IH, matrix, t, WMMd_inhibitor_array):
     """Function that determines the fraction of the population being MM for a
     specific WMMd drug inhibitor value.
 
@@ -1640,7 +1668,8 @@ The fraction dynamics are determined on a discrete manner"""
 def Figure_continuous_MTD_vs_AT_discrete(upper_limit_MMd, upper_limit_MMr):
     """ Function that makes a figure with 3 subplots showing the cell fraction
     dynamics by adaptive therapy whereby the administration is dependent on the
-    MMr and MMd fraction. It prints the average holiday and administration duration.
+    MMr and MMd fraction. It prints the average holiday and administration
+    duration.
 
     Parameters:
     -----------
@@ -2288,8 +2317,7 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
             new_row_df = pd.DataFrame([{'Generations no drug': \
                     int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
                                          'MM fraction': float(frac_tumour)}])
-            df_holiday_GF_IH = pd.concat([df_holiday_GF_IH, new_row_df],
-                                                            ignore_index=True)
+            df_holiday_GF_IH = combine_dataframes(df_holiday_GF_IH, new_row_df)
 
     # Save the data
     save_dataframe(df_holiday_GF_IH, 'df_cell_frac_IH_best_MMd_GF_IH_holiday.csv',
@@ -2315,8 +2343,7 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
             new_row_df = pd.DataFrame([{'Generations no drug':\
                     int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
                                          'MM fraction': float(frac_tumour)}])
-            df_holiday_W_IH = pd.concat([df_holiday_W_IH, new_row_df],
-                                                            ignore_index=True)
+            df_holiday_W_IH = combine_dataframes(df_holiday_W_IH, new_row_df)
 
     # Save the data
     save_dataframe(df_holiday_W_IH, 'df_cell_frac_IH_best_WMMd_IH_holiday.csv',
@@ -2342,8 +2369,7 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
             new_row_df = pd.DataFrame([{'Generations no drug': \
                     int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
                                             'MM fraction': float(frac_tumour)}])
-            df_holiday_comb = pd.concat([df_holiday_comb, new_row_df],
-                                                            ignore_index=True)
+            df_holiday_comb = combine_dataframes(df_holiday_comb, new_row_df)
 
     # Save the data
     save_dataframe(df_holiday_comb, 'df_cell_frac_IH_best_MMd_IH_holiday.csv',
@@ -2483,7 +2509,7 @@ def Figure_3D_MM_frac_MMd_IH_strength():
                         round(strength_WMMd_IH/ 10, 1), 'Strength MMd GF IH': \
                 round(strength_MMd_GF_IH/ 10, 1), 'MM fraction': frac_tumour}])
 
-            df_holiday = pd.concat([df_holiday, new_row_df], ignore_index=True)
+            df_holiday = combine_dataframes(df_holiday, new_row_df)
 
     # Save the data
     save_dataframe(df_holiday, 'df_cell_frac_IH_best_MMd_IH_strength.csv',
@@ -2700,8 +2726,8 @@ def Figure_frac_fitness_dynamics():
                             'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
 
     # Combine the dataframes
-    df_MMd_GF_inhibition = pd.concat([df_1_MMd_GF_inhibition,
-                                                        df_2_MMd_GF_inhibition])
+    df_MMd_GF_inhibition = combine_dataframes(df_1_MMd_GF_inhibition,
+                                                        df_2_MMd_GF_inhibition)
 
     # Set new start parameter values
     xOC = 0.15
@@ -2737,22 +2763,23 @@ def Figure_frac_fitness_dynamics():
                             'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
 
     # Combine the dataframes
-    df_WMMd_inhibition = pd.concat([df_1_WMMd_inhibition, df_2_WMMd_inhibition])
+    df_WMMd_inhibition = combine_dataframes(df_1_WMMd_inhibition,
+                                                            df_2_WMMd_inhibition)
 
     # Make dataframes for the fitness values
     df_fitness_WMMd_inhibition_1 = frac_to_fitness_values(df_1_WMMd_inhibition,
                                     N, cOC, cOB, cMMd, cMMr, matrix_no_GF_IH)
     df_fitness_WMMd_inhibition_2 = frac_to_fitness_values(df_2_WMMd_inhibition,
                 N, cOC_IH, cOB_IH, cMMd, cMMr, matrix_no_GF_IH, WMMd_inhibitor)
-    df_fitness_WMMd_inhibition = pd.concat([df_fitness_WMMd_inhibition_1,
-                                df_fitness_WMMd_inhibition_2], ignore_index=True)
+    df_fitness_WMMd_inhibition = combine_dataframes(df_fitness_WMMd_inhibition_1,
+                                df_fitness_WMMd_inhibition_2)
 
     df_fitness_MMd_GF_inhibition_1 = frac_to_fitness_values(df_1_MMd_GF_inhibition,
                                        N, cOC, cOB, cMMd, cMMr, matrix_no_GF_IH)
     df_fitness_MMd_GF_inhibition_2 = frac_to_fitness_values(df_2_MMd_GF_inhibition,
                                  N, cOC_IH, cOB_IH, cMMd, cMMr, matrix_GF_IH)
-    df_fitness_MMd_GF_inhibition = pd.concat([df_fitness_MMd_GF_inhibition_1,
-                              df_fitness_MMd_GF_inhibition_2], ignore_index=True)
+    df_fitness_MMd_GF_inhibition = combine_dataframes(df_fitness_MMd_GF_inhibition_1,
+                              df_fitness_MMd_GF_inhibition_2)
 
     # Save the data
     save_dataframe(df_WMMd_inhibition, 'df_cell_frac_WMMd_inhibit.csv',

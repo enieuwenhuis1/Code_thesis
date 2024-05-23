@@ -301,8 +301,8 @@ def calculate_fitness(N, xOC, xOB, xMM, bOC_OC, bOB_OC, bMM_OC, cOC, bOC_OB,
     fitness_OB = 0
     fitness_MM = 0
 
-    # Loop over the range of nOC values. (-1 is left out of the range because then the
-    # range goes to N-1 if you have range(1, N-1) Then the range goes to N-2)
+    # Loop over the range of nOC values. (-1 is left out of the range because then
+    # the range goes to N-1 if you have range(1, N-1) Then the range goes to N-2)
     for nOC in range(1, N):
 
         # Loop over the range of nOB values
@@ -329,9 +329,9 @@ def calculate_fitness(N, xOC, xOB, xMM, bOC_OC, bOB_OC, bMM_OC, cOC, bOC_OB,
     return normalized_fitness_OC, normalized_fitness_OB, normalized_fitness_MM
 
 """
-Replicator dynamics says that cells with a higher fitness will increase in fraction
-over time, while those with lower fitness will decrease. W* represents the average
-fitness in the population.
+Replicator dynamics says that cells with a higher fitness will increase in
+fraction over time, while those with lower fitness will decrease. W* represents
+the average fitness in the population.
 """
 
 def calculate_replicator_dynamics(xOC, xOB, xMM, WOC, WOB, WMM):
@@ -382,8 +382,8 @@ def calculate_replicator_dynamics(xOC, xOB, xMM, WOC, WOB, WMM):
 
 """
 The benefit function gives the benefit of the diffusible factors of cell type i
-on cell type j. The more cells of type i (higher n) the higher the benefit because
-more diffusible factors (10).
+on cell type j. The more cells of type i (higher n) the higher the benefit
+because more diffusible factors (10).
 """
 
 def sigmoid(n_i, h, B_max, s, N):
@@ -447,8 +447,8 @@ def benefit_function(n_i, h, B_max, s, N):
     if B_max == 0:
         benefit_value = 1
     else:
-        benefit_value = (sigmoid(n_i, h, B_max, s, N) - sigmoid(0, h, B_max, s, N))\
-                        /(sigmoid(N, h, B_max, s, N) - sigmoid(0, h, B_max, s, N))
+        benefit_value = (sigmoid(n_i, h, B_max, s, N) - sigmoid(0, h, B_max,
+            s, N)) /(sigmoid(N, h, B_max, s, N) - sigmoid(0, h, B_max, s, N))
 
 
     # If the benefit value is nan set it to zero
@@ -456,6 +456,36 @@ def benefit_function(n_i, h, B_max, s, N):
         benefit_value = 1
 
     return benefit_value
+
+def combine_dataframes(df_1, df_2):
+    """ Function that combines two datafranes in on dataframe
+
+    Parameters:
+    -----------
+    df_1: DataFrame
+        The first dataframe containing the collected data.
+    df_2: DataFrame
+        The second dataframe containing the collected data.
+
+    Returns:
+    --------
+    combined_df: DataFrame
+        Dataframe that is a combination of the two dataframes
+    """
+    # Check if the dataframes are empty
+    if df_1.empty or df_2.empty:
+        # return the dataframe that is not empty
+        combined_df = df_1 if not df_1.empty else df_2
+
+    else:
+        # delete the NA columns
+        df_1 = df_1.dropna(axis=1, how='all')
+        df_2 = df_2.dropna(axis=1, how='all')
+
+        # Combine the dataframes
+        combined_df = pd.concat([df_1, df_2], ignore_index=True)
+
+    return(combined_df)
 
 def save_data(data_frame, file_name, folder_path):
     """ Function that saves a dataframe as csv file.
@@ -810,7 +840,7 @@ def Figure_2():
 
     # Create a DataFrame to store the data
     df_sigmoids_Figure_2 = pd.DataFrame(columns=['n_values', 'benefit_values',
-                                                                        'h_value'])
+                                                                    'h_value'])
     # Loop over h values
     for h_value in h_values:
         n_values = np.linspace(0, N, 100)
@@ -818,9 +848,9 @@ def Figure_2():
                                                         N) for n in n_values]
 
         # Add the data to the dataframe
-        df_sigmoids_Figure_2 = pd.concat([df_sigmoids_Figure_2, pd.DataFrame({
-        'n_values': n_values, 'benefit_values': benefit_values,
-        'h_value': h_value})])
+        df_sigmoids_Figure_2 = combine_dataframes(df_sigmoids_Figure_2,
+                pd.DataFrame({ 'n_values': n_values,
+                'benefit_values': benefit_values, 'h_value': h_value}))
 
     # Save the data as csv file
     save_data(df_sigmoids_Figure_2, 'data_sigmoids_Figure_2.csv',
@@ -897,8 +927,7 @@ def Figure_2():
         df = pd.DataFrame({'Generation': t, 'xOC': xOC_values, 'xOB': xOB_values,
                                                             'xMM': xMM_values})
         df['h_value'] = h_value
-        df_ternary_Figure_2 = pd.concat([df, df_ternary_Figure_2],
-                                                            ignore_index=True)
+        df_ternary_Figure_2 = combine_dataframes(df, df_ternary_Figure_2)
 
     # Save the data as csv file
     save_data(df_ternary_Figure_2, 'data_ternary_Figure_2.csv',
@@ -992,7 +1021,8 @@ def Figure_3():
     df_Figure_3_nonlinear = pd.DataFrame({'Generation': t, 'xOC': xOC_values,
                                         'xOB': xOB_values, 'xMM': xMM_values})
 
-    # Initial fractions and values --> are needed to make a plot but are not mentioned
+    # Initial fractions and values --> are needed to make a plot but are not
+    # mentioned
     xOC = 0.3
     xOB = 0.2
     xMM = 0.5
@@ -1139,7 +1169,7 @@ def Figure_4():
     # Extract the solution and create dataframe
     xOC_values, xOB_values, xMM_values = y[:, 0], y[:, 1], y[:, 2]
     df_Figure_4_nonlinear = pd.DataFrame({'Generation': t, 'xOC': xOC_values,
-                                            'xOB': xOB_values, 'xMM': xMM_values})
+                                        'xOB': xOB_values, 'xMM': xMM_values})
 
     # Initial fractions and values --> are needed to make a plot but are not mentioned
     xOC = 0.2
@@ -1265,7 +1295,8 @@ def Figure_5():
     sMM_OB = 10
     sMM_MM = 100
 
-    # Initial fractions and values --> are needed to make a plot but are not mentioned
+    # Initial fractions and values --> are needed to make a plot but are not
+    # mentioned
     xOC = 0.2
     xOB = 0.5
     xMM = 0.3
@@ -1414,7 +1445,8 @@ def Figure_6():
     sMM_OB = 50
     sMM_MM = 50
 
-    # Initial fractions and values --> are needed to make a plot but are not mentioned
+    # Initial fractions and values --> are needed to make a plot but are not
+    # mentioned
     xOC = 0.2
     xOB = 0.5
     xMM = 0.3
@@ -1439,7 +1471,8 @@ def Figure_6():
     df_Figure_6_nonlinear = pd.DataFrame({'Generation': t, 'xOC': xOC_values,
                                         'xOB': xOB_values, 'xMM': xMM_values})
 
-    # Initial fractions and values --> are needed to make a plot but are not mentioned
+    # Initial fractions and values --> are needed to make a plot but are not
+    # mentioned
     xOC = 0.2
     xOB = 0.5
     xMM = 0.3
@@ -1563,7 +1596,8 @@ def Figure_7():
     sMM_OB = 5
     sMM_MM = 5
 
-    # Initial fractions and values --> are needed to make a plot but are not mentioned
+    # Initial fractions and values --> are needed to make a plot but are not
+    # mentioned
     xOC = 0.2
     xOB = 0.5
     xMM = 0.3
@@ -1780,7 +1814,8 @@ def Figure_8():
     sMM_MM = 1000
 
 
-    # Initial fractions and values --> are needed to make a plot but are not mentioned
+    # Initial fractions and values --> are needed to make a plot but are not
+    # mentioned
     xOC = 0.35
     xOB = 0.4
     xMM = 0.25
@@ -2160,8 +2195,9 @@ def Figure_10():
         n_values = np.linspace(0, N, 100)
         benefit_data= [benefit_function(n, h_value, B_value, s_value, N) for n \
                                                                     in n_values]
-        df_Figure_10 = pd.concat([df_Figure_10, pd.DataFrame({'n_values': n_values,
-                            'benefit_values': benefit_data, 's_value': s_value})])
+        df_Figure_10 = combine_dataframes(df_Figure_10,
+                pd.DataFrame({'n_values': n_values, 'benefit_values': benefit_data,
+                's_value': s_value}))
 
     # Save the data as csv file
     save_data(df_Figure_10, 'data_Figure_10.csv',
