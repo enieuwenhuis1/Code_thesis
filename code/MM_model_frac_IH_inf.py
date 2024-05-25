@@ -1034,6 +1034,26 @@ def x_y_z_axis_values_3d_plot(dataframe, name):
 
     return (X_values, Y_values, Z_values)
 
+def avarage_MMr_MMd_nr(dataframe, time, therapy):
+    """ Function that calculates the average MMd and MMr number
+
+    Parameters:
+    -----------
+    dataframe: Dataframe
+        The dataframe containing the MMd and MMr numbers over time
+    time: Int
+        The time over which the average MMd and MMr number should be calculated
+    therapy: String
+        The kind of therapy used
+    """
+
+    last_MMd_fractions = dataframe['xMMd'].tail(int(time))
+    average_MMd_fraction = round(last_MMd_fractions.sum() / time, 2)
+    last_MMr_fractions = dataframe['xMMr'].tail(int(time))
+    average_MMr_fraction = round(last_MMr_fractions.sum() / time, 2)
+    print(f'{therapy}: xMMd =',average_MMd_fraction,
+                                        'and xMMr =', average_MMr_fraction)
+
 def minimal_tumour_frac_b_OC_MMd(b_OC_MMd, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
                         cMMd, cMMr, cOC_IH, cOB_IH, matrix, t, b_OC_MMd_array):
     """Function that determines the fraction of the population being MM for a
@@ -1528,48 +1548,13 @@ def Figure_continuous_MTD_vs_AT_s_and_w_a_h(n_switches, t_steps_drug):
                             matrix_IH_comb, WMMd_inhibitor_comb)
 
     # Print the equilibrium MMd and MMr values caused by the adaptive therapy
-    last_MMd_fractions_GF = df_total_switch_GF['xMMd'].tail(int(10))
-    average_MMd_fraction_GF = round(last_MMd_fractions_GF.sum() / 10, 2)
-    last_MMr_fractions_GF = df_total_switch_GF['xMMr'].tail(int(10))
-    average_MMr_fraction_GF = round(last_MMr_fractions_GF.sum() / 10, 2)
-    print('Adaptive therapy MMd GF IH: xMMd =',average_MMd_fraction_GF,
-                                        'and xMMr =', average_MMr_fraction_GF)
-
-    last_MMd_fractions_WMMd = df_total_switch_WMMd['xMMd'].tail(int(10))
-    average_MMd_fraction_WMMd = round(last_MMd_fractions_WMMd.sum() / 10, 2)
-    last_MMr_fractions_WMMd = df_total_switch_WMMd['xMMr'].tail(int(10))
-    average_MMr_fraction_WMMd = round(last_MMr_fractions_WMMd.sum() / 10, 2)
-    print('Adaptive therapy WMMd IH: xMMd =',average_MMd_fraction_WMMd,
-                                        'and xMMr =', average_MMr_fraction_WMMd)
-
-    last_MMd_fractions_comb = df_total_switch_comb['xMMd'].tail(int(10))
-    average_MMd_fraction_comb = round(last_MMd_fractions_comb.sum() / 10, 2)
-    last_MMr_fractions_comb = df_total_switch_comb['xMMr'].tail(int(10))
-    average_MMr_fraction_comb = round(last_MMr_fractions_comb.sum() / 10, 2)
-    print('Adaptive therapy IH combination: xMMd =',average_MMd_fraction_comb,
-                                        'and xMMr =', average_MMr_fraction_comb)
-
-    # Print the equilibrium MMd and MMr values caused by the traditional therapy
-    last_MMd_fractions_GF = df_total_GF['xMMd'].tail(int(10))
-    average_MMd_fraction_GF = round(last_MMd_fractions_GF.sum() / 10, 2)
-    last_MMr_fractions_GF = df_total_GF['xMMr'].tail(int(10))
-    average_MMr_fraction_GF = round(last_MMr_fractions_GF.sum() / 10, 2)
-    print(' Traditional therapy MMd GF IH: xMMd =',average_MMd_fraction_GF,
-                                        'and xMMr =', average_MMr_fraction_GF)
-
-    last_MMd_fractions_WMMd = df_total_WMMd['xMMd'].tail(int(10))
-    average_MMd_fraction_WMMd = round(last_MMd_fractions_WMMd.sum() / 10, 2)
-    last_MMr_fractions_WMMd = df_total_WMMd['xMMr'].tail(int(10))
-    average_MMr_fraction_WMMd = round(last_MMr_fractions_WMMd.sum() / 10, 2)
-    print(' Traditional therapy WMMd IH: xMMd =',average_MMd_fraction_WMMd,
-                                        'and xMMr =', average_MMr_fraction_WMMd)
-
-    last_MMd_fractions_comb = df_total_comb['xMMd'].tail(int(10))
-    average_MMd_fraction_comb = round(last_MMd_fractions_comb.sum() / 10, 2)
-    last_MMr_fractions_comb = df_total_comb['xMMr'].tail(int(10))
-    average_MMr_fraction_comb = round(last_MMr_fractions_comb.sum() / 10, 2)
-    print(' Traditional therapy IH combination: xMMd =',average_MMd_fraction_comb,
-                                        'and xMMr =', average_MMr_fraction_comb)
+    # Print the equilibrium MMd and MMr values caused by the adaptive therapy
+    avarage_MMr_MMd_nr(df_total_switch_GF, 10, 'Adaptive thearpy MMd GF IH')
+    avarage_MMr_MMd_nr(df_total_switch_WMMd, 10, 'Adaptive thearpy WMMd IH')
+    avarage_MMr_MMd_nr(df_total_switch_comb, 10, 'Adaptive thearpy IH combination')
+    avarage_MMr_MMd_nr(df_total_GF, 10, 'Traditional thearpy MMd GF IH')
+    avarage_MMr_MMd_nr(df_total_WMMd, 10, 'Traditional thearpy WMMd IH')
+    avarage_MMr_MMd_nr(df_total_comb, 10, 'Traditional thearpy IH combination')
 
     # Save the data
     save_dataframe(df_total_switch_GF,'df_cell_frac_IH_switch_GF_IH_s_&_w_a_h.csv',
