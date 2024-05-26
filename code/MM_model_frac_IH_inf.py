@@ -38,32 +38,32 @@ def main():
     # Do doc tests
     doctest.testmod()
 
-    # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # by adaptive therapy (original situation)
-    list_t_steps_drug = [10, 10, 10]
-    Figure_continuous_MTD_vs_AT_a_h(13, list_t_steps_drug)
-
-    # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # by adaptive therapy for shorter holiday and administration periods compared
-    # to the original situation
-    list_t_steps_drug = [5, 5, 5]
-    Figure_continuous_MTD_vs_AT_short_a_h(20, list_t_steps_drug)
-
-    # Make a figure showing the cell fraction dynamics by traditional therapy
-    # and by adaptive therapy for weaker IHs compared to the original situation
-    list_t_steps_drug = [10, 10, 10]
-    Figure_continuous_MTD_vs_AT_weak_a_h(12, list_t_steps_drug)
-
-    # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # by adaptive therapy for shorter holiday and administration periods and
-    # weaker IHs compared to the original situation
-    list_t_steps_drug = [5, 5, 5]
-    Figure_continuous_MTD_vs_AT_s_and_w_a_h(18, list_t_steps_drug)
-
-    # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # by adaptive therapy whereby the OB-OC equilibrium gets restored
-    list_t_steps_drug = [10, 10, 10]
-    Figure_continuous_MTD_vs_AT_OB_a_h(9, list_t_steps_drug)
+    # # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # # by adaptive therapy (original situation)
+    # list_t_steps_drug = [10, 10, 10]
+    # Figure_continuous_MTD_vs_AT_a_h(13, list_t_steps_drug)
+    #
+    # # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # # by adaptive therapy for shorter holiday and administration periods compared
+    # # to the original situation
+    # list_t_steps_drug = [5, 5, 5]
+    # Figure_continuous_MTD_vs_AT_short_a_h(20, list_t_steps_drug)
+    #
+    # # Make a figure showing the cell fraction dynamics by traditional therapy
+    # # and by adaptive therapy for weaker IHs compared to the original situation
+    # list_t_steps_drug = [10, 10, 10]
+    # Figure_continuous_MTD_vs_AT_weak_a_h(12, list_t_steps_drug)
+    #
+    # # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # # by adaptive therapy for shorter holiday and administration periods and
+    # # weaker IHs compared to the original situation
+    # list_t_steps_drug = [5, 5, 5]
+    # Figure_continuous_MTD_vs_AT_s_and_w_a_h(18, list_t_steps_drug)
+    #
+    # # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # # by adaptive therapy whereby the OB-OC equilibrium gets restored
+    # list_t_steps_drug = [10, 10, 10]
+    # Figure_continuous_MTD_vs_AT_OB_a_h(9, list_t_steps_drug)
 
     # Make a 3D figure showthing the effect of different drug holiday and
     # administration periods
@@ -92,7 +92,7 @@ def main():
 
     # Make a figure of the fraction dynamics whereby there is a limit for the MMd
     # and MMr fraction
-    Figure_continuous_MTD_vs_AT_discrete(0.3, 0.15)
+    Figure_AT_MMd_MMr_limit(0.3, 0.15)
 
 
 def fitness_WOC(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, matrix):
@@ -369,11 +369,11 @@ def model_dynamics(y, t, N, cOC, cOB, cMMd, cMMr, matrix, WMMd_inhibitor = 0):
     return [xOC_change, xOB_change, xMMd_change, xMMr_change]
 
 
-def dynamics_discrete(time_IH, time_end, upper_limit_MMd, upper_limit_MMr, xOC,
-                xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, cOC_IH, cOB_IH,
+def dynamics_MMd_MMr_limits(time_IH, time_end, upper_limit_MMd, upper_limit_MMr,
+                xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, cOC_IH, cOB_IH,
                 matrix_no_drugs, matrix_drugs, WMMd_inhibitor = 0):
-    """Function that determines the fraction dynamics in a discrete manner. It
-    also ensures that the MMr fraction and MMd fraction do not become too high.
+    """Function that determines the number dynamics. It ensures that the MMr
+    number and MMd fraction do not become too high.
 
     Parameters:
     -----------
@@ -978,6 +978,70 @@ def minimal_tumour_frac_t_steps(t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd,
     average_MM_fraction = last_MM_fractions.sum() / (int(time_step*2))
 
     return float(average_MM_fraction)
+
+
+def dataframe_3D_plot(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, cOC_IH,
+            cOB_IH, matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor = 0):
+    """ Function that create a dataframe with the average MM fraction for
+    different IH administration and holiday durations
+
+    Parameters:
+    -----------
+    xOC: Float
+        Fraction of OC.
+    xOB: Float
+        Fraction of OB.
+    xMMr: Float
+        Fraction of the MMr.
+    xMMd: Float
+        Fraction of the MMd.
+    N: Int
+        fraction of cells in the difussion range.
+    cOC: Float
+        Cost parameter OC.
+    cOB: float
+        Cost parameter OB.
+    cMMr: Float
+        Cost parameter MMr.
+    cMMd: Float
+        Cost parameter MMd.
+    cOC_IH: Float
+        Cost parameter OC when a IH is administered.
+    cOB_IH: Float
+        Cost parameter OB when a IH is administered.
+    matrix_no_GF_IH: Numpy.ndarray
+        4x4 matrix containing the interaction factors when no GF IH are
+                                                                administered.
+    matrix_GF_IH: Numpy.ndarray
+        4x4 matrix containing the interaction factors when GF IH are administered.
+    WMMd_inhibitor: Float
+        The effect of a drug on the MMd fitness.
+
+    Returns:
+    --------
+    df_MM_frac: DataFrame
+        The dataframe with the average MM fraction for different IH holiday
+        and administration durations
+    """
+    # Make a dataframe
+    column_names = ['Generations no drug', 'Generations drug', 'MM fraction']
+    df_MM_frac = pd.DataFrame(columns=column_names)
+
+    # Loop over all the t_step values for drug administration and drug holidays
+    for t_steps_no_drug in range(2, 22):
+
+        for t_steps_drug in range(2, 22):
+            frac_tumour = minimal_tumour_frac_t_steps(t_steps_drug, t_steps_no_drug,
+                xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, cOC_IH, cOB_IH,
+                matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor)
+
+            # Add results to the dataframe
+            new_row_df = pd.DataFrame([{'Generations no drug': \
+                    int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
+                                         'MM fraction': float(frac_tumour)}])
+            df_MM_frac = combine_dataframes(df_MM_frac, new_row_df)
+
+    return(df_MM_frac)
 
 def x_y_z_axis_values_3d_plot(dataframe, name):
     """ Function that determines the x, y and z axis values from the given
@@ -1649,12 +1713,12 @@ def Figure_continuous_MTD_vs_AT_s_and_w_a_h(n_switches, t_steps_drug):
     plt.show()
 
 """ Figure to determine the difference between traditional and adaptive therapy
-The fraction dynamics are determined on a discrete manner"""
-def Figure_continuous_MTD_vs_AT_discrete(upper_limit_MMd, upper_limit_MMr):
+The AT administration and holiday durations depend on the MMd and MMr fraction"""
+def Figure_AT_MMd_MMr_limit(upper_limit_MMd, upper_limit_MMr):
     """ Function that makes a figure with 3 subplots showing the cell fraction
-    dynamics by adaptive therapy whereby the administration is dependent on the
-    MMr and MMd fraction. It prints the average holiday and administration
-    duration.
+    dynamics during adaptive therapy. The IH administration starts when MMd
+    because too high and stops when the MMr becomes too high. It prints the
+    average adinistration and holiday duration
 
     Parameters:
     -----------
@@ -1705,15 +1769,16 @@ def Figure_continuous_MTD_vs_AT_discrete(upper_limit_MMd, upper_limit_MMr):
     WMMd_inhibitor = 1.35
 
     # Make dataframe for the different drug hollyday duration values
-    df_total_switch_GF, a_dur_GF, h_dur_GF = dynamics_discrete(15, 150,
+    df_total_switch_GF, a_dur_GF, h_dur_GF = dynamics_MMd_MMr_limits(15, 150,
                 upper_limit_MMd, upper_limit_MMr, xOC, xOB, xMMd, xMMr, N, cOC,
                 cOB, cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH)
-    df_total_switch_WMMd, a_dur_W, h_dur_W = dynamics_discrete(15, 150,
+    df_total_switch_WMMd, a_dur_W, h_dur_W = dynamics_MMd_MMr_limits(15, 150,
        upper_limit_MMd, upper_limit_MMr, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd,
        cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_no_GF_IH, WMMd_inhibitor)
-    df_total_switch_comb, a_dur_comb, h_dur_comb = dynamics_discrete(15, 150,
-     upper_limit_MMd, upper_limit_MMr, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd,
-     cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_IH_comb, WMMd_inhibitor_comb)
+    df_total_switch_comb, a_dur_comb, h_dur_comb = dynamics_MMd_MMr_limits(15,
+                150, upper_limit_MMd, upper_limit_MMr, xOC, xOB, xMMd, xMMr,
+                N, cOC, cOB, cMMd,  cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH,
+                matrix_IH_comb, WMMd_inhibitor_comb)
 
     # Print average holiday and administration duration
     print(f"""The average MMd GF IH administration duration is
@@ -2237,7 +2302,6 @@ def Figure_continuous_MTD_vs_AT_OB_a_h(n_switches, t_steps_drug):
                              r'..\visualisation\results_model_frac_IH_inf')
     plt.show()
 
-
 """ 3D plot showing the best IH holiday and administration periods"""
 def Figure_3D_MM_frac_IH_add_and_holiday():
     """ Figure that makes three 3D plot that shows the average MM fraction for
@@ -2286,23 +2350,9 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
     # WMMd inhibitor effect when only WMMd IH is present
     WMMd_inhibitor = 1.21
 
-    # Make a dataframe
-    column_names = ['Generations no drug', 'Generations drug', 'MM fraction']
-    df_holiday_GF_IH = pd.DataFrame(columns=column_names)
-
-    # Loop over all the t_step values for drug administration and drug holidays
-    for t_steps_no_drug in range(2, 22):
-
-        for t_steps_drug in range(2, 22):
-            frac_tumour = minimal_tumour_frac_t_steps(t_steps_drug,
-                    t_steps_no_drug, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd,
-                    cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH)
-
-            # Add results to the dataframe
-            new_row_df = pd.DataFrame([{'Generations no drug': \
-                    int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
-                                         'MM fraction': float(frac_tumour)}])
-            df_holiday_GF_IH = combine_dataframes(df_holiday_GF_IH, new_row_df)
+    # Create a dataframe
+    df_holiday_GF_IH = dataframe_3D_plot( xOC, xOB, xMMd, xMMr, N, cOC, cOB,
+        cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_GF_IH)
 
     # Save the data
     save_dataframe(df_holiday_GF_IH, 'df_cell_frac_IH_best_MMd_GF_IH_holiday.csv',
@@ -2312,23 +2362,9 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
     X_GF_IH, Y_GF_IH, Z_GF_IH = x_y_z_axis_values_3d_plot(df_holiday_GF_IH,
                                                                         'GF IH')
 
-    # Make a dataframe
-    column_names = ['Generations no drug', 'Generations drug', 'MM fraction']
-    df_holiday_W_IH = pd.DataFrame(columns=column_names)
-
-    # Loop over al the t_step values for drug dministration and drug holidays
-    for t_steps_no_drug in range(2, 22):
-
-        for t_steps_drug in range(2, 22):
-            frac_tumour = minimal_tumour_frac_t_steps(t_steps_drug,
-                t_steps_no_drug, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
-                cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_no_GF_IH, WMMd_inhibitor)
-
-            # Add results to the dataframe
-            new_row_df = pd.DataFrame([{'Generations no drug':\
-                    int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
-                                         'MM fraction': float(frac_tumour)}])
-            df_holiday_W_IH = combine_dataframes(df_holiday_W_IH, new_row_df)
+    # Create a dataframe
+    df_holiday_W_IH = dataframe_3D_plot(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd,
+        cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_no_GF_IH, WMMd_inhibitor)
 
     # Save the data
     save_dataframe(df_holiday_W_IH, 'df_cell_frac_IH_best_WMMd_IH_holiday.csv',
@@ -2337,27 +2373,13 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
     # Determine the axis values
     X_W_IH, Y_W_IH, Z_W_IH = x_y_z_axis_values_3d_plot(df_holiday_W_IH, "W IH")
 
-    # Make a dataframe
-    column_names = ['Generations no drug', 'Generations drug', 'MM fraction']
-    df_holiday_comb = pd.DataFrame(columns=column_names)
-
-    # Loop over al the t_step values for drug dministration and drug holidays
-    for t_steps_no_drug in range(2, 22):
-
-        for t_steps_drug in range(2, 22):
-            frac_tumour = minimal_tumour_frac_t_steps(t_steps_drug,
-                        t_steps_no_drug, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd,
-                        cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_IH_comb,
-                        WMMd_inhibitor_comb)
-
-            # Add results to the dataframe
-            new_row_df = pd.DataFrame([{'Generations no drug': \
-                    int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
-                                            'MM fraction': float(frac_tumour)}])
-            df_holiday_comb = combine_dataframes(df_holiday_comb, new_row_df)
+    # Create a dataframe
+    df_holiday_comb = dataframe_3D_plot(xOC, xOB, xMMd, xMMr, N, cOC,
+                cOB, cMMd, cMMr, cOC_IH, cOB_IH, matrix_no_GF_IH, matrix_IH_comb,
+                WMMd_inhibitor_comb)
 
     # Save the data
-    save_dataframe(df_holiday_comb, 'df_cell_frac_IH_best_MMd_IH_holiday.csv',
+    save_dataframe(df_holiday_comb, 'df_cell_frac_IH_best_comb_IH_holiday.csv',
                                          r'..\data\data_model_frac_IH_inf')
 
     # Determine the axis values
@@ -2365,8 +2387,8 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
                                                             'IH combination')
 
     # Create a figure and a grid of subplots
-    fig, axes = plt.subplots(2, 2, figsize=(11, 9), subplot_kw={'projection': '3d'},
-                                    gridspec_kw={'hspace': 0.25, 'wspace': 0.25})
+    fig, axes = plt.subplots(2, 2, figsize=(11, 9), subplot_kw={'projection': \
+                        '3d'}, gridspec_kw={'hspace': 0.25, 'wspace': 0.25})
 
     # Plot each subplot
     for i, ax in enumerate(axes.flat, start=1):
