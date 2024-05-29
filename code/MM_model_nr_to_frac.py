@@ -3,13 +3,13 @@ Author:            Eva Nieuwenhuis
 University group:  Biosystems Data Analysis Group, UvA
 Student ID:        13717405
 
-Description:  Code of the model that simulates the dynamics in the multiple myeloma
-              (MM) microenvironment with four cell types: drug-sensitive MM cells
-              (MMd), resistant MM cells (MMr), osteoblasts (OB) and osteoclasts
-              (OC). The model is a public goods game in the framework of
-              evolutionary game theory with collective interactions. The cell type
-              numbers of the model made in MM_model_numbers.py are converted to
-              fractions and the figures show those fraction dynamics.
+Description:  Code of the model that simulates the dynamics in the multiple
+              myeloma (MM) microenvironment with four cell types: drug-sensitive
+              MM cells (MMd), resistant MM cells (MMr), osteoblasts (OB) and
+              osteoclasts (OC). The model is made in the framework of evolutionary
+              game theory and uses collective interactions. The cell type numbers
+              of the model made in MM_model_numbers.py are converted to fractions
+              and the figures show those fraction dynamics.
 
 
 Example interaction matrix:
@@ -36,7 +36,7 @@ import doctest
 def main():
     # Do doc tests
     doctest.testmod()
-
+    
     # Make a figure showing the cell fraction dynamics by traditional therapy and
     # by adaptive therapy (original situation)
     list_t_steps_drug = [10, 10, 10]
@@ -1569,7 +1569,7 @@ def Figure_3D_MM_nr_to_frac_IH_add_and_holiday():
             df_holiday_comb = combine_dataframes(df_holiday_comb, new_row_df)
 
     # Save the data
-    save_dataframe(df_holiday_comb, 'df_cell_nr_to_frac_best_MMd_IH_holiday.csv',
+    save_dataframe(df_holiday_comb, 'df_cell_nr_to_frac_best_comb_IH_holiday.csv',
                                              r'..\data\data_model_nr_to_frac')
 
     # Determine the axis values
@@ -1705,7 +1705,7 @@ def Figure_3D_MM_nr_to_frac_MMd_IH_strength():
             df_holiday = combine_dataframes(df_holiday, new_row_df)
 
     # Save the data
-    save_dataframe(df_holiday, 'df_cell_nr_to_frac_best_MMd_IH_strength.csv',
+    save_dataframe(df_holiday, 'df_cell_nr_to_frac_best_comb_IH_strength.csv',
                                              r'..\data\data_model_nr_to_frac')
 
 

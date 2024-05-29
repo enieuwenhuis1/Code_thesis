@@ -6,10 +6,13 @@ Student ID:        13717405
 Description:  The code of the model that simulates the dynamics in the multiple
               myeloma (MM) microenvironment with four cell types: drug-sensitive
               MM cells (MMd), resistant MM cells (MMr), osteoblasts (OB) and
-              osteoclasts (OC). The model is a public goods game in the framework
-              of evolutionary game theory with collective interactions. In this
-              model, there is looked at the numbers of the four cell types. The
-              IHs have not only an influence on the MMd but also on the OB and OC.
+              osteoclasts (OC). The model has collective interactions and is made
+              in the framework of evolutionary game theory. In this model, there
+              is looked at the number dynamics of the four cell types during
+              different IH administration methods. Furthermore, it contains a
+              (weighted) optimisation to find the best administration manner and
+              combination. The IHs do not only influence on the MMd but also the
+              OB and OC.
 
 Example interaction matrix:
 M = np.array([
@@ -35,7 +38,7 @@ import doctest
 def main():
     # Do doc tests
     doctest.testmod()
-    #
+
     # # Make a figure showing the cell number dynamics by traditional therapy and
     # # by adaptive therapy (original situation)
     # list_t_steps_drug = [10, 10, 10]
@@ -52,15 +55,15 @@ def main():
     # list_t_steps_drug = [10, 10, 10]
     # Figure_continuous_MTD_vs_AT_weak_a_h(20, list_t_steps_drug)
     #
-    # Make a figure showing the cell number dynamics by traditional therapy and
-    # by adaptive therapy
+    # # Make a figure showing the cell number dynamics by traditional therapy and
+    # # by adaptive therapy
     # list_t_steps_drug = [3, 3, 3]
     # Figure_continuous_MTD_vs_AT_realistic(90, list_t_steps_drug)
     #
-    # Make a 3D figure showthing the effect of different drug holiday and
-    # administration periods
+    # # Make a 3D figure showthing the effect of different drug holiday and
+    # # administration periods
     # Figure_3D_MM_numb_IH_add_and_holiday()
-
+    #
     # # Make a figure that shows the MM number for different bOC,MMd values
     # Figure_best_b_OC_MMd()
     #
@@ -93,8 +96,8 @@ def main():
     # # MMd and MMr number. The last paramter is low, middel or high-> low: nMMr
     # # limit < 400, middel: nMMr limit 400-800, high: MMr limit > 800
     # Figure_AT_MMd_MMr_limit(1200, 700, 'high')
-
-    """ The unweighted optimisation situations """
+    #
+    # """ The unweighted optimisation situations """
     # # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
     # # holiday
     # minimise_MM_GF_W_h()
@@ -102,7 +105,7 @@ def main():
     # # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
     # # holiday
     # minimise_MM_W_GF_h()
-    # #
+    #
     # # Optimise IH administration duration, holiday duration and strength for
     # # MMd GF IH -> WMMd IH -> holiday
     # minimise_MM_GF_W_h_IH()
@@ -155,10 +158,10 @@ def main():
     # # MMd GF IH -> IH combination -> holiday
     # minimise_MM_GF_comb_h_IH()
     #
-    # Optimise IH administration duration, holiday duration and strengths for
-    # WMMd IH -> IH combination -> holiday
-    minimise_MM_W_comb_h_IH()
-
+    # # Optimise IH administration duration, holiday duration and strengths for
+    # # WMMd IH -> IH combination -> holiday
+    # minimise_MM_W_comb_h_IH()
+    #
     # # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
     # # holiday for different WMMd IH strengths and MMd GF IH = 0.4
     # minimise_MM_GF_W_h_changing_W_IH([0.8, 1.2, 0.3, 0.3], [0.7, 1.3, 0.3, 0.3],
@@ -235,68 +238,67 @@ def main():
     #                    0.27], [0.81, 0.072, 0.18, 0.09], [0.9, 0.072, 0.18, 0.09],
     #                                 'df_MM_W_GF_h_changing_GF_IH_l_gr_dr.csv')
 
-    # # Make a figure of the MM number after optimisation by different IH strengths
-    # Figure_optimisation()
+    # Make a figure of the MM number after optimisation by different IH strengths
+    Figure_optimisation()
 
     """ The weighted optimisation situations """
-    # # Optimise IH administration and holiday duration and strength for MMd GF IH
-    # # -> WMMd IH -> holiday where the weight of the MMr relative to the MMd can
-    # # be specified
-    # relative_weight_MMr = 1.2
-    # minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
-    #
-    # # Optimise IH administration and holiday duration and strength for WMMd IH ->
-    # # MMd GF IH -> holiday where the weight of the MMr relative to the MMd can be
-    # # specified
-    # relative_weight_MMr = 1.2
-    # minimise_MM_W_GF_h_IH_w(relative_weight_MMr)
-    #
-    # # Optimise IH administration duration, holiday duration and strength for MMd
-    # # GF IH -> holiday -> WMMd IH -> holiday where the weight of the MMr relative
-    # # to the MMd can be specified
-    # relative_weight_MMr = 1.2
-    # minimise_MM_GF_h_W_h_IH_w(relative_weight_MMr)
-    #
-    # # Optimise IH administration duration, holiday duration and strength for WMMd
-    # # IH -> holiday -> MMd GF IH -> holiday where the weight of the MMr relative
-    # # to the MMd can be specified
-    # relative_weight_MMr = 1.2
-    # minimise_MM_W_h_GF_h_IH_w(relative_weight_MMr)
-    #
-    # # Optimise IH administration and holiday duration and strengths for MMd GF IH
-    # # -> IH combination -> WMMd IH -> holiday where the weight of the MMr relative
-    # # to the MMd can be specified
-    # relative_weight_MMr = 1.2
-    # minimise_MM_GF_comb_W_h_IH_w(relative_weight_MMr)
-    #
-    # # Optimise IH administration and holiday duration and strengths for WMMd IH
-    # # -> IH combination -> MMd GF IH -> holiday where the weight of the MMr
-    # # relative to the MMd can be specified
-    # relative_weight_MMr = 1.2
-    # minimise_MM_W_comb_GF_h_IH_w(relative_weight_MMr)
-    #
-    # # Optimise IH administration duration, holiday duration and strengths for MMd
-    # # GF IH -> WMMd IH + MMd GF IH -> WMMd IH -> holiday where the weight of the
-    # # MMr relative to the MMd can be specified
-    # relative_weight_MMr = 1.2
-    # minimise_MM_GF_GFandW_W_h_IH_w(relative_weight_MMr)
-    #
-    # # Optimise IH administration duration, holiday duration and strengths for WMMd
-    # # IH -> WMMd IH + MMd GF IH -> MMd GF IH -> holiday where the weight of the
-    # # MMr relative to the MMd can be specified
-    # relative_weight_MMr = 1.2
-    # minimise_MM_W_WandGF_GF_h_IH_w(relative_weight_MMr)
-    #
-    # # Optimise IH administration duration, holiday duration and strengths for
-    # # MMd GF IH -> IH combination -> holiday
-    # relative_weight_MMr = 1.2
-    # minimise_MM_GF_comb_h_IH_w(relative_weight_MMr)
+    # Optimise IH administration and holiday duration and strength for MMd GF IH
+    # -> WMMd IH -> holiday where the weight of the MMr relative to the MMd can
+    # be specified
+    relative_weight_MMr = 1.2
+    minimise_MM_GF_W_h_IH_w(relative_weight_MMr)
+
+    # Optimise IH administration and holiday duration and strength for WMMd IH ->
+    # MMd GF IH -> holiday where the weight of the MMr relative to the MMd can be
+    # specified
+    relative_weight_MMr = 1.2
+    minimise_MM_W_GF_h_IH_w(relative_weight_MMr)
+
+    # Optimise IH administration duration, holiday duration and strength for MMd
+    # GF IH -> holiday -> WMMd IH -> holiday where the weight of the MMr relative
+    # to the MMd can be specified
+    relative_weight_MMr = 1.2
+    minimise_MM_GF_h_W_h_IH_w(relative_weight_MMr)
+
+    # Optimise IH administration duration, holiday duration and strength for WMMd
+    # IH -> holiday -> MMd GF IH -> holiday where the weight of the MMr relative
+    # to the MMd can be specified
+    relative_weight_MMr = 1.2
+    minimise_MM_W_h_GF_h_IH_w(relative_weight_MMr)
+
+    # Optimise IH administration and holiday duration and strengths for MMd GF IH
+    # -> IH combination -> WMMd IH -> holiday where the weight of the MMr relative
+    # to the MMd can be specified
+    relative_weight_MMr = 1.2
+    minimise_MM_GF_comb_W_h_IH_w(relative_weight_MMr)
+
+    # Optimise IH administration and holiday duration and strengths for WMMd IH
+    # -> IH combination -> MMd GF IH -> holiday where the weight of the MMr
+    # relative to the MMd can be specified
+    relative_weight_MMr = 1.2
+    minimise_MM_W_comb_GF_h_IH_w(relative_weight_MMr)
+
+    # Optimise IH administration duration, holiday duration and strengths for MMd
+    # GF IH -> WMMd IH + MMd GF IH -> WMMd IH -> holiday where the weight of the
+    # MMr relative to the MMd can be specified
+    relative_weight_MMr = 1.2
+    minimise_MM_GF_GFandW_W_h_IH_w(relative_weight_MMr)
+
+    # Optimise IH administration duration, holiday duration and strengths for WMMd
+    # IH -> WMMd IH + MMd GF IH -> MMd GF IH -> holiday where the weight of the
+    # MMr relative to the MMd can be specified
+    relative_weight_MMr = 1.2
+    minimise_MM_W_WandGF_GF_h_IH_w(relative_weight_MMr)
+
+    # Optimise IH administration duration, holiday duration and strengths for
+    # MMd GF IH -> IH combination -> holiday
+    relative_weight_MMr = 1.2
+    minimise_MM_GF_comb_h_IH_w(relative_weight_MMr)
 
     # Optimise IH administration duration, holiday duration and strengths for
     # WMMd IH -> IH combination -> holiday
     relative_weight_MMr = 1.2
     minimise_MM_W_comb_h_IH_w(relative_weight_MMr)
-
 
 
 def dOC_dt(nOC, nOB, nMMd, nMMr, gr_OC, dr_OC, matrix):
@@ -4171,7 +4173,7 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
             matrix_IH_comb, WMMd_inhibitor_comb)
 
     # Save the data
-    save_dataframe(df_holiday_comb, 'df_cell_nr_IH_inf_best_MMd_IH_holiday.csv',
+    save_dataframe(df_holiday_comb, 'df_cell_nr_IH_inf_best_comb_IH_holiday.csv',
                                              r'..\data\data_model_nr_IH_inf')
 
     # Determine the axis values
@@ -4309,7 +4311,7 @@ def Figure_3D_MM_numb_MMd_IH_strength():
             df_holiday = combine_dataframes(df_holiday, new_row_df)
 
     # Save the data
-    save_dataframe(df_holiday, 'df_cell_nr_IH_inf_best_MMd_IH_strength.csv',
+    save_dataframe(df_holiday, 'df_cell_nr_IH_inf_best_comb_IH_strength.csv',
                                              r'..\data\data_model_nr_IH_inf')
 
 
@@ -4527,14 +4529,14 @@ def Figure_duration_a_h_MMd_IH(n_switches, t_steps_drug, t_steps_no_drug):
 
     # Payoff matrix when no drugs are present
     matrix_no_GF_IH = np.array([
-        [0.0, 0.4, 0.65, 0.5],
+        [0.0, 0.4, 0.6, 0.5],
         [0.3, 0.0, -0.3, -0.3],
         [0.6, 0.0, 0.2, 0.0],
         [0.55, 0.0, -0.6, 0.4]])
 
     # Payoff matrix when both inhibitor drugs are present
     matrix_GF_IH_half = np.array([
-        [0.0, 0.4, 0.65, 0.5],
+        [0.0, 0.4, 0.6, 0.5],
         [0.3, 0.0, -0.3, -0.3],
         [0.35, 0.0, 0.2, 0.0],
         [0.55, 0.0, -0.8, 0.4]])
@@ -4730,7 +4732,7 @@ def minimise_MM_GF_W_h_IH():
 
     # Optimise the administration and holiday durations and the IH strengths
     # t_step_IH_strength = [GF IH t, W IH t, h t, GF IH s, W IH s]
-    t_step_IH_strength = [2.447, 2.384, 2.536, 0.368, 0.311]
+    t_step_IH_strength = [2.461, 2.434, 2.730, 0.382, 0.496]
     result = minimize(minimal_tumour_nr_t_3_situations_IH, t_step_IH_strength,
             args=(switch_dataframe_GF_W_h, False,  nOC, nOB, nMMd, nMMr,
             growth_rates, growth_rates_IH, decay_rates, decay_rates_IH,
@@ -6240,7 +6242,7 @@ def minimise_MM_W_h_GF_h_IH_w(relative_weight_MMr):
 
     # Save the results
     save_optimised_results(result,
-            r'..\data\data_model_nr_IH_inf_mutation\optimise_W_h_GF_h_IH_w.csv')
+            r'..\data\data_model_nr_IH_inf\optimise_W_h_GF_h_IH_w.csv')
 
 """Optimise IH administration duration, holiday duration and strength for MMd GF
 IH -> holiday -> WMMd IH -> holiday where the weight of the MMr relative to the
@@ -6302,7 +6304,7 @@ def minimise_MM_GF_h_W_h_IH_w(relative_weight_MMr):
 
     # Save the results
     save_optimised_results(result,
-            r'..\data\data_model_nr_IH_inf_mutation\optimise_GF_h_W_h_IH_w.csv')
+            r'..\data\data_model_nr_IH_inf\optimise_GF_h_W_h_IH_w.csv')
 
 """Optimise IH administration duration and holiday duration for WMMd IH -> WMMd
 IH + MMd GF IH -> MMd GF IH -> holiday where the weight of the MMr relative to

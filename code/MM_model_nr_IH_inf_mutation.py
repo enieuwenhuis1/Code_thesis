@@ -3,17 +3,23 @@ Author:            Eva Nieuwenhuis
 University group:  Biosystems Data Analysis Group, UvA
 Student ID:        13717405
 
+
 Description:  The code of the model that simulates the dynamics in the multiple
               myeloma (MM) microenvironment with four cell types: drug-sensitive
               MM cells (MMd), resistant MM cells (MMr), osteoblasts (OB) and
-              osteoclasts (OC). The model is a public goods game in the framework
-              of evolutionary game theory with collective interactions. In this
-              model, there is looked at the numbers of the four cell types.
+              osteoclasts (OC). The model has collective interactions and is made
+              in the framework of evolutionary game theory. In this model, there
+              is looked at the number dynamics of the four cell types during
+              different IH administration methods. Furthermore, it contains a
+              (weighted) optimisation to find the best administration manner and
+              combination. The IHs do not only influence on the MMd but also the
+              OB and OC.
 
               Compared to MM_model_nr_IH_inf.py there is a resistance mutation
               rate implemented. This mutation rate indicates how frequently MMd
               undergo mutations that make them resistant to the IHs, therefore
-              transforming into MMr.
+              transforming them into MMr.
+
 
 
 Example interaction matrix:
@@ -47,9 +53,9 @@ def main():
     # list_t_steps_drug = [3,3,3]
     # Figure_continuous_MTD_vs_AT_realistic(90, list_t_steps_drug)
     #
-    # Make a 3D figure showthing the effect of different drug holiday and
-    # administration periods
-    Figure_3D_MM_numb_IH_add_and_holiday()
+    # # Make a 3D figure showthing the effect of different drug holiday and
+    # # administration periods
+    # Figure_3D_MM_numb_IH_add_and_holiday()
     #
     # # Make a 3D figure showing the effect of different WMMd and MMd GF IH
     # # strengths
@@ -80,8 +86,8 @@ def main():
     # # MMd and MMr number. The last paramter is low, middel or high-> low: nMMr
     # # limit < 400, middel: nMMr limit 400-800, high: MMr limit > 800
     # Figure_AT_MMd_MMr_limit(1200, 700, 'high')
-
-    """ The unweighted optimisation situations """
+    #
+    # """ The unweighted optimisation situations """
     # # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
     # # holiday
     # minimise_MM_GF_W_h()
@@ -145,7 +151,7 @@ def main():
     # # Optimise IH administration duration, holiday duration and strengths for
     # # WMMd IH -> IH combination -> holiday
     # minimise_MM_W_comb_h_IH()
-
+    #
     # # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
     # # holiday for different WMMd IH strengths and MMd GF IH = 0.4
     # minimise_MM_GF_W_h_changing_W_IH([0.8, 1.2, 0.3, 0.3], [0.7, 1.3, 0.3, 0.3],
@@ -180,12 +186,12 @@ def main():
     #                   0.33], [0.99, 0.088, 0.22, 0.11], [1.1, 0.088, 0.22, 0.11],
     #                                     'df_MM_W_GF_h_changing_W_IH_h_gr_dr.csv')
     #
-    # # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
-    # # holiday for different MMd GF IH strengths whereby the growth and decay rate
-    # # are decreased with 10%
-    # minimise_MM_GF_W_h_changing_GF_IH([0.88, 1.32, 0.33, 0.33], [0.77,1.43, 0.33,
-    #                   0.33], [0.99, 0.088, 0.22, 0.11], [1.1, 0.088, 0.22, 0.11],
-    #                                     'df_MM_GF_W_h_changing_GF_IH_h_gr_dr.csv')
+    # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
+    # holiday for different MMd GF IH strengths whereby the growth and decay rate
+    # are decreased with 10%
+    minimise_MM_GF_W_h_changing_GF_IH([0.88, 1.32, 0.33, 0.33], [0.77,1.43, 0.33,
+                      0.33], [0.99, 0.088, 0.22, 0.11], [1.1, 0.088, 0.22, 0.11],
+                                        'df_MM_GF_W_h_changing_GF_IH_h_gr_dr.csv')
     #
     # # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
     # # holiday for different MMd GF IH strengths whereby the growth and decay rate
@@ -221,9 +227,9 @@ def main():
     # minimise_MM_W_GF_h_changing_GF_IH([0.72, 1.08, 0.27, 0.27], [0.63, 1.17, 0.27,
     #                    0.27], [0.81, 0.072, 0.18, 0.09], [0.9, 0.072, 0.18, 0.09],
     #                                 'df_MM_W_GF_h_changing_GF_IH_l_gr_dr.csv')
-    #
-    # # Make a figure of the MM number after optimisation by different IH strengths
-    # Figure_optimisation()
+
+    # Make a figure of the MM number after optimisation by different IH strengths
+    Figure_optimisation()
 
     """ The weighted optimisation situations """
     # Optimise IH administration and holiday duration and strength for MMd GF IH
@@ -732,7 +738,7 @@ def dynamics_MMd_MMr_limits(time_IH, time_end, upper_limit_MMd, upper_limit_MMr,
                 IH_present, nOC, nOB, nMMd, nMMr, growth_rates, decay_rates,
                 matrix_no_drugs, matrix_drugs, WMMd_inhibitor = 0):
     """Function that determines the number dynamics. It ensures that the MMr
-    number and MMd number do not become too high..
+    number and MMd number do not become too high.
 
     Parameters:
     -----------
@@ -1995,7 +2001,6 @@ def switch_dataframe_GF_comb_h(n_rounds, t_steps_GF_IH, t_steps_comb,
 
     return df_total_switch
 
-
 def switch_dataframe_W_comb_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
             t_steps_comb, t_steps_no_drug, nOC, nOB, nMMd, nMMr, growth_rates,
             growth_rates_IH, decay_rates, decay_rates_IH, matrix_no_GF_IH,
@@ -2087,8 +2092,8 @@ def switch_dataframe_W_comb_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
         if x == 1:
             # Extend the dataframe
             df_total_switch = make_part_df(df_total_switch, time, t_steps_comb,
-                growth_rates_IH, decay_rates_IH, matrix_IH_comb, int(2),
-                WMMd_inhibitor_comb)
+                        growth_rates_IH, decay_rates_IH, matrix_IH_comb, int(2),
+                        WMMd_inhibitor_comb)
 
             # Change the x and time value
             x = int(2)
@@ -2098,7 +2103,7 @@ def switch_dataframe_W_comb_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
         if x == 2:
             # Extend the dataframe
             df_total_switch = make_part_df(df_total_switch, time, t_steps_GF_IH,
-                            growth_rates_IH, decay_rates_IH, matrix_GF_IH, int(1))
+                        growth_rates_IH, decay_rates_IH, matrix_GF_IH, int(1))
 
             # Change the x and time value
             x = int(3)
@@ -3393,7 +3398,8 @@ def continuous_add_IH_df_mut_t(time_IH, mutation_start, end_generation, nOC, nOB
                 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
 
     # Combine the dataframes
-    df_total = combine_dataframes(df_1, df_2, df_3)
+    df_total = combine_dataframes(df_1, df_2)
+    df_total = combine_dataframes(df_total, df_3)
 
     return df_total
 
@@ -4101,7 +4107,7 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
                 matrix_IH_comb, int(2), WMMd_inhibitor_comb)
 
     # Save the data
-    save_dataframe(df_holiday_comb, 'df_cell_nr_IH_inf_best_MMd_IH_holiday.csv',
+    save_dataframe(df_holiday_comb, 'df_cell_nr_IH_inf_best_comb_IH_holiday.csv',
                                         r'..\data\data_model_nr_IH_inf_mutation')
 
     # Determine the axis values
@@ -4239,7 +4245,7 @@ def Figure_3D_MM_numb_MMd_IH_strength():
             df_holiday = combine_dataframes(df_holiday, new_row_df)
 
     # Save the data
-    save_dataframe(df_holiday, 'df_cell_nr_IH_inf_best_MMd_IH_strength.csv',
+    save_dataframe(df_holiday, 'df_cell_nr_IH_inf_best_comb_IH_strength.csv',
                                      r'..\data\data_model_nr_IH_inf_mutation')
 
     # Find the drug administration and holiday period causing the lowest MM number
@@ -4415,9 +4421,9 @@ def Figure_optimisation():
 The AT administration and holiday durations depend on the MMd and MMr number"""
 def Figure_AT_MMd_MMr_limit(upper_limit_MMd, upper_limit_MMr, limit):
     """ Function that makes a figure with 3 subplots showing the cell number
-    dynamics adaptive therapy. The IH administration starts when MMd because
-    too high and stops when the MMr becomes too high. It prints the average
-    adinistration and holiday duration
+    dynamics during adaptive therapy. The IH administration starts when MMd
+    because too high and stops when the MMr becomes too high. It prints the
+    average adinistration and holiday duration
 
     Parameters:
     -----------
@@ -5934,7 +5940,7 @@ def minimise_MM_GF_W_h_IH_w(relative_weight_MMr):
 
     # Optimise the administration and holiday durations and the IH strengths
     # t_step_IH_strength = [GF IH t, W IH t, h t, GF IH s, W IH s]
-    t_step_IH_strength = [2.138, 2.858, 2.438, 0.333, 0.389]
+    t_step_IH_strength = [2.950, 2.376, 2.874, 0.312, 0.462]
     result = minimize(minimal_tumour_nr_t_3_situations_IH, t_step_IH_strength,
             args=(switch_dataframe_GF_W_h, relative_weight_MMr, nOC, nOB, nMMd,
             nMMr, growth_rates, growth_rates_IH, decay_rates, decay_rates_IH,

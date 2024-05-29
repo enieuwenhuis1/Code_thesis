@@ -23,31 +23,22 @@ PYTHON AND LIBRARY VERSION
 The models were written in Python code (version 3.11.4) using Atom (version 1.60.0).
 Some libraries need to be installed to run the codes in the code folder.
 
-Libraries that need to be installed for model_S_nonlinear.py and model_S_linear.py:
+Libraries that need to be installed for all nine code files :
 * numpy (version 1.26.0)
     - install: pip install numpy==1.26.0
 * matplotlib (version 3.8.0)
     - install: pip install matplotlib==3.8.0
 * pandas (version 2.1.3)
     - install: pip install pandas==2.1.3
+* scipy (version 1.11.4)
+    - install: pip install scipy==1.11.4
+
+Exta libraries that need to be installed to run model_S_nonlinear.py and
+model_S_linear.py:
 * ternary (version 0.1)
     - install: pip install ternary==0.1
 * plotly (version 5.18.0)
     - install: pip install plotly==5.18.0
-* scipy (version 1.11.4)
-    - install: pip install scipy==1.11.4
-
-Libraries that need to be installed for MM_model_fractions.py, MM_model_numbers.py,
-MM_model_nr_to_frac.py, MM_model_frac_IH_inf.py, MM_model_nr_to_frac_IH_inf.py,
-MM_model_nr_IH_inf.py and MM_model_nr_IH_inf_mutation.py:
-* numpy (version 1.26.0)
-    - install: pip install numpy==1.26.0
-* matplotlib (version 3.8.0)
-    - install: pip install matplotlib==3.8.0
-* pandas (version 2.1.3)
-    - install: pip install pandas==2.1.3
-* scipy (version 1.11.4)
-    - install: pip install scipy==1.11.4
 
 
 MODEL WITH NONLINEAR BENEFITS: model_S_nonlinear.py
@@ -66,68 +57,68 @@ collective interactions.
 
 MODEL WITH FRACTIONS: MM_model_fractions.py
 MM_model_fractions.py contains the code with the mathematical formulas simulating
-the fraction dynamics of the MMd, MMr, OC and OB. It contains the code to make the
-figures showing the effect of the WMMd IH, MMd GF IH and IH combination for
-different administration periods and strengths on the cell fractions. In addition,
-it contains code to make tables showing the eigenvalues, best administration and
+the fraction dynamics of the MMd, MMr, OC and OB. It contains code to make figures
+showing the effect of the WMMd IH, MMd GF IH and IH combination on the cell
+fractions for different administration periods and strengths. In addition, it
+contains code to make tables showing the eigenvalues, best administration and
 holiday duration and the lowest MM fraction for different interaction matrices.
 The IHs only affect the MMd.
 
 MODEL WITH NUMBERS: MM_model_numbers.py
 MM_model_numbers.py contains the code with the mathematical formulas simulating
-the number dynamics of the MMd, MMr, OC and OB. It contains the code to make the
-figures showing the effect of the WMMd IH, MMd GF IH and IH combination for
-different administration periods and strengths on the cell numbers. The IHs only
-affect the MMd.
+the number dynamics of the MMd, MMr, OC and OB. It contains code to make figures
+showing the effect of the WMMd IH, MMd GF IH and IH combination on the cell
+numbers for different administration periods and strengths. The IHs only affect
+the MMd.
 
 NUMBER MODEL CONVERTED TO A FRACTION MODEL: MM_model_nr_to_frac.py
 MM_model_nr_to_frac.py uses the mathematical formulas from MM_model_numbers.py
 to simulate the number dynamics and at the end, the numbers are converted to
 fractions. Hence the shows the fraction dynamics of the MMd, MMr, OC and OB by a
-changing N. It contains code to make the figures showing the effect of the WMMd
-IH, MMd GF IH and IH combination for different administration periods and
-strengths on the cell fractions. The IHs only affect the MMd.
+changing N. It contains code to make figures showing the effect of the WMMd IH,
+MMd GF IH and IH combination on the cell fractions for different administration
+periods and strengths. The IHs only affect the MMd.
 
-FRACTION MODEL WITH EXTRA IH INFLUENCES: MM_model_frac_IH_inf.py
+FRACTION MODEL: MM_model_frac_IH_inf.py
 MM_model_frac_IH_inf.py contains the code with the mathematical formulas
-simulating the fraction dynamics of the MMd, MMr, OC and OB. It contains the code
-to make the figures showing the effect of the WMMd IH, MMd GF IH and IH combination
-for different administration periods and strengths on the cell fractions. The IHs
+simulating the fraction dynamics of the MMd, MMr, OC and OB. It contains code to
+make figures showing the effect of the WMMd IH, MMd GF IH and IH combination on
+the cell fractions for different administration periods and strengths. The IHs
 not only affect the MMd but also the OC and OB.
 
-NUMBER MODEL WITH EXTRA IH INFLUENCES: MM_model_nr_IH_inf.py
+NUMBER MODEL WITHOUT RESISTANCE MUTATIONS: MM_model_nr_IH_inf.py
 MM_model_nr_IH_inf.py contains the code with the mathematical formulas simulating
-the number dynamics of the MMd, MMr, OC and OB. It contains the code to make the
-figures showing the effect of the WMMd IH, MMd GF IH and IH combination for
-different administration periods and strengths on the cell numbers. Furthermore,
-it contains an (weighted) optimisation strategy to find the best holiday duration,
-administration duration and IH strength simultaneously. The IHs not only affect
-the MMd but also the OC and OB.
+the number dynamics of the MMd, MMr, OC and OB. It contains code to make figures
+showing the effect of the WMMd IH, MMd GF IH and IH combination on the cell numbers
+for different administration periods and strengths. Furthermore, it contains a
+(weighted) optimisation to find the best holiday duration, administration duration
+and IH strength simultaneously. The IHs not only affect the MMd but also the OC
+and OB.
 
 NUMBER-TO-FRACTION MODEL WITH EXTRA IH INFLUENCES: MM_model_nr_to_frac_IH_inf.py
-MM_model_nr_to_frac_IH_inf.py uses the mathematical formulas from MM_model_numbers.py
+MM_model_nr_to_frac_IH_inf.py uses mathematical formulas from MM_model_numbers.py
 to simulate the number dynamics and at the end, the numbers are converted to
 fractions. Hence the shows the fraction dynamics of the MMd, MMr, OC and OB by a
-changing N. It contains code to make the figures showing the effect of the WMMd
-IH, MMd GF IH and IH combination for different administration periods and strengths
-on the cell fractions. It also contains an optimisation strategy to find the best
-holiday duration, administration duration and IH strength simultaneously. The IHs
-not only affect the MMd but also the OC and OB.
+changing N. It contains code to make figures showing the effect of the WMMd IH,
+MMd GF IH and IH combination on the cell fractions for different administration
+periods and strengths. It also contains an optimisation to find the best holiday
+duration, administration duration and IH strength simultaneously. The IHs not only
+affect the MMd but also the OC and OB.
 
-NUMBER MODEL WITH A MUTATION CHANCE: MM_model_nr_IH_inf_mutation.py
+NUMBER MODEL WITH RESISTANCE MUTATIONS: MM_model_nr_IH_inf_mutation.py
 MM_model_nr_IH_inf_mutation.py contains the code with the mathematical formulas
 simulating the number dynamics of the MMd, MMr, OC and OB. The MMd can become MMr
-via a mutation that happens at a specified rate. It contains the code to make
-figures showing the effect of the WMMd  IH, the MMd GF IH and a combination of
-different administration periods and strengths on the cell numbers. Furthermore,
-it contains an (weighted) optimisation strategy to find the best administration
-duration, holiday duration and IH strength simultaneously. The IHs not only affect
-the MMd but also the OC and OB.
+via a mutation that happens at a specified rate. It contains code to make figures
+showing the effect of the WMMd  IH, the MMd GF IH and a combination on the cell
+numbers for different administration periods and strengths. Furthermore, it
+contains a (weighted) optimisation to find the best administration duration,
+holiday duration and IH strength simultaneously. The IHs not only affect the MMd
+but also the OC and OB.
 
 
 TEST THE CODES
 To test some of the functions in every code file, doc tests are added to the code.
-These are automatically run when the specific function in the code file is run.
+These are automatically run when the specific function is run.
 
 
 THE DATA
@@ -145,10 +136,9 @@ used to make figures and tables. The folders data contains are:
                         cell type fractions by converting the numbers to
                         fractions.
 * data_model_frac_IH_inf: contains all the data obtained from the model simulating
-                        cell type fractions whereby extra IH influences were
-                        added.
+                        cell type fractions whereby extra IH influences were added.
 * data_model_nr_IH_inf: contains all the data obtained from the model simulating
-                        cell type numbers whereby extra IH influences were added                          added.
+                        cell type numbers whereby extra IH influences were added.
 * data_model_nr_to_frac_IH_inf: contains all the data obtained from the model
                         simulating cell type fractions by converting the numbers
                         to fractions whereby extra IH influences were added.

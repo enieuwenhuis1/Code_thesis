@@ -5,26 +5,35 @@ Student ID:        13717405
 
 Description:  Code that attempts to replicate the formulas and Figures from the
               paper by Sartakhti et al. (2016) to get a better understanding of
-              cancer modeling. The model simulates linear dynamics and collective
-              interactions in the multiple myeloma (MM) microenvironment with three
-              cell types: MM cells, osteoblasts (OB) and osteoclasts (OC).
+              cancer modeling. The model uses linear effects and collective
+              interactions to simulate the dynamics in the multiple myeloma (MM)
+              microenvironment with three cell types: MM cells, osteoblasts (OB)
+              and osteoclasts (OC).
 
               When running the code it also shows line plots of the fractions,
               these are not in the paper but are shown for a better understanding
               of the dynamics.
 
-              For some plots, it is not fully clear which parameter values are used.
-              This could be an explanation for why the found stable points are not
-              always the same as shown in the paper. However using the formula to
-              calculate the place of the stable points, the reproduced plots show
-              the correct stable points for the used parameter values. Since the
-              paper has not disclosed its code, direct comparisons cannot be made
-              to determine their used parameter values.
+              For some plots, it is not clear which parameter values were used.
+              This could be an explanation for why the place of the found stable
+              points was not always the same as shown in the paper. However using
+              the formulas to calculate the place of the stable points, the
+              reproduced plots show the correct stable points for the used parameter
+              values. Since the paper has not disclosed its code, direct comparisons
+              cannot be made to determine their used parameter values.
 
 
 Sartakhti, J. S., Manshaei, M. H., Bateni, S., & Archetti, M. (2016). Evolutionary
 dynamics of tumour-Stroma interactions in multiple myeloma. PLOS ONE, 11(12),
 e0168856. https://doi.org/10.1371/journal.pone.0168856
+
+
+Example interaction matrix:
+M = np.array([
+       Goc Gob Gmm
+    OC [a, b, c],
+    OB [d, e, f],
+    MM [g, h, i]])
 """
 
 # Import the needed libraries
@@ -93,15 +102,6 @@ def main():
 
     # Make Figure 12C right in the paper of Sartakhti et al., 2016.
     Figure_12C_right()
-
-"""
-Example interaction matrix:
-M = np.array([
-       Goc Gob Gmm
-    OC [a, b, c],
-    OB [d, e, f],
-    MM [g, h, i]])
-"""
 
 def combine_dataframes(df_1, df_2):
     """ Function that combines two datafranes in on dataframe

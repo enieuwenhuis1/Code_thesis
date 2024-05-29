@@ -6,10 +6,10 @@ Student ID:        13717405
 Description:  Code with the model that simulates the dynamics in the multiple
               myeloma (MM) microenvironment with four cell types: drug-sensitive
               MM cells (MMd), resistant MM cells (MMr), osteoblasts (OB) and
-              osteoclasts (OC). The model is a public goods game in the framework
-              of evolutionary game theory with collective interactions and linear
-              benefits. In this model, there is looked at the fractions of the
-              four cell types.
+              osteoclasts (OC). The model is made in the framework of evolutionary
+              game theory and uses collective interactions and linear benefits.
+              In this model, there is looked at the fraction dynamics of the four
+              cell types.
 
 
 Example interaction matrix:
@@ -1609,7 +1609,7 @@ def Figure_continuous_MTD_vs_AT_weak_a_h(n_switches, t_steps_drug):
     matrix_IH_comb = np.array([
         [0.0, 1.6, 2.2, 1.9],
         [0.95,0.0, -0.5, -0.5],
-        [1.27, 0, 0.2, 0.0],
+        [1.28, 0, 0.2, 0.0],
         [1.9, 0, -1.1, 0.2]])
 
     # WMMd inhibitor effect when both inhibitor drugs are present
@@ -1826,7 +1826,7 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
             df_holiday_comb = combine_dataframes(df_holiday_comb, new_row_df)
 
     # Save the data
-    save_dataframe(df_holiday_comb, 'df_cell_frac_best_MMd_IH_holiday.csv',
+    save_dataframe(df_holiday_comb, 'df_cell_frac_best_comb_IH_holiday.csv',
                                              r'..\data\data_model_fractions')
 
     # Determine the axis values
@@ -1962,7 +1962,7 @@ def Figure_3D_MM_frac_MMd_IH_strength():
             df_holiday = combine_dataframes(df_holiday, new_row_df)
 
     # Save the data
-    save_dataframe(df_holiday, 'df_cell_frac_best_MMd_IH_strength.csv',
+    save_dataframe(df_holiday, 'df_cell_frac_best_comb_IH_strength.csv',
                                              r'..\data\data_model_fractions')
 
 
@@ -2621,14 +2621,14 @@ def Figure_duration_A_h_MMd_IH(n_switches, t_steps_drug, t_steps_no_drug):
     # Payoff matrix when no drugs are present
     matrix_no_GF_IH = np.array([
         [0.0, 1.6, 2.2, 1.9],
-        [0.95,0.0, -0.5, -0.5],
+        [1.0,0.0, -0.5, -0.5],
         [2.2, 0, 0.2, 0.0],
         [1.9, 0, -0.8, 0.2]])
 
     # Payoff matrix when both inhibitor drugs are present
     matrix_GF_IH_half = np.array([
         [0.0, 1.6, 2.2, 1.9],
-        [0.95,0.0, -0.5, -0.5],
+        [1.0,0.0, -0.5, -0.5],
         [1.4, 0, 0.2, 0.0],
         [1.9, 0, -1.0, 0.2]])
 

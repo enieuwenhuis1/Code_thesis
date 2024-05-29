@@ -3,16 +3,16 @@ Author:            Eva Nieuwenhuis
 University group:  Biosystems Data Analysis Group, UvA
 Student ID:        13717405
 
-Description:  Code that attempts to replicate the formulas and Figures from the
+Description:  Code that attempts to replicate the formulas and figures from the
               paper by Sartakhti et al. (2018) to get a better understanding of
               cancer modelling. The model simulates linear and nonlinear dynamics
-              and collective interactions in the multiple myeloma (MM) micro-
-              environment with three cell types: MM cells, osteoblasts (OB) and
-              osteoclasts (OC).
+              in the multiple myeloma (MM) microenvironment with three cell types:
+              MM cells, osteoblasts (OB) and osteoclasts (OC). It is continuous
+              and uses collective interactions.
 
               The found results do not align with those presented in the paper.
               This difference may be because of potential misinterpretations or
-              errors in the formulas utilized. However, as the paper has not
+              errors in the formulas utilised. However, as the paper has not
               disclosed its code, direct comparisons cannot be made to determine
               the exact differences. Because the results are different I wrote my
               interpretation of some formulas in this code.

@@ -3,18 +3,14 @@ Author:            Eva Nieuwenhuis
 University group:  Biosystems Data Analysis Group, UvA
 Student ID:        13717405
 
-Description:  The code of the model that simulates the dynamics in the multiple
+Description:  Code of the model that simulates the dynamics in the multiple
               myeloma (MM) microenvironment with four cell types: drug-sensitive
               MM cells (MMd), resistant MM cells (MMr), osteoblasts (OB) and
-              osteoclasts (OC). The model is a public goods game in the framework
-              of evolutionary game theory with collective interactions. The cell
-              type numbers of the model made in MM_model_nr_IH_inf.py are converted
-              to fractions and the figures show those fraction dynamics.
-
-              The IHs have not only an influence on the MMd but also on the OB and
-              OC. This was incorporated by increasing the drOC value and grOB value
-              and decreasing the grOC value when an IH was administered.
-
+              osteoclasts (OC). The model is made in the framework of evolutionary
+              game theory and uses collective interactions. The cell type numbers
+              of the model made in MM_model_nr_IH_inf.py are converted to
+              fractions and the figures show those fraction dynamics. The IHs do
+              not only influence the MMd but also the OB and OC.
 
 Example interaction matrix:
 M = np.array([
@@ -41,47 +37,47 @@ def main():
     # Do doc tests
     doctest.testmod()
 
-    # # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # # by adaptive therapy (original situation)
-    # list_t_steps_drug = [10, 10, 10]
-    # Figure_continuous_MTD_vs_AT(20, list_t_steps_drug)
-    #
-    # # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # # by adaptive therapy for shorter holiday and administration periods compared
-    # # to the original situation
-    # list_t_steps_drug = [4, 4, 4]
-    # Figure_continuous_MTD_vs_AT_short_a_h(50, list_t_steps_drug)
-    #
-    # # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # # by adaptive therapy for weaker IHs compared to the original situation
-    # list_t_steps_drug = [10, 10, 10]
-    # Figure_continuous_MTD_vs_AT_weak_a_h(20, list_t_steps_drug)
-    #
-    # # Make a figure showing the cell number dynamics by traditional therapy and
-    # # by adaptive therapy
-    # list_t_steps_drug = [3, 3, 3]
-    # Figure_continuous_MTD_vs_AT_realistic(90, list_t_steps_drug)
-    #
-    # # Make a figure that shows the MM fraction for different bOC,MMd values
-    # Figure_best_b_OC_MMd()
-    #
-    # # Make a figure that shows the MM fraction for different WMMd IH values
-    # Figure_best_WMMd_IH()
-    #
-    # # Make a 3D figure showthing the effect of different drug holiday and
-    # # administration periods
-    # Figure_3D_MM_nr_to_frac_IH_add_and_holiday()
-    #
-    # # Make a 3D figure showing the effect of different WMMd and MMd GF IH strengths
-    # Figure_3D_MM_nr_to_frac_MMd_IH_strength()
-    #
-    # # Make line plots showing the dynamics when the IH administration is longer
-    # # than the holiday and one it is the other way around.
-    # list_t_steps_drug = [5, 15]
-    # list_t_steps_no_drug = [15, 5]
-    # list_n_steps = [30, 30]
-    # Figure_duration_A_h_MMd_IH(list_n_steps, list_t_steps_drug,
-    #                                                     list_t_steps_no_drug)
+    # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # by adaptive therapy (original situation)
+    list_t_steps_drug = [10, 10, 10]
+    Figure_continuous_MTD_vs_AT(20, list_t_steps_drug)
+
+    # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # by adaptive therapy for shorter holiday and administration periods compared
+    # to the original situation
+    list_t_steps_drug = [4, 4, 4]
+    Figure_continuous_MTD_vs_AT_short_a_h(50, list_t_steps_drug)
+
+    # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # by adaptive therapy for weaker IHs compared to the original situation
+    list_t_steps_drug = [10, 10, 10]
+    Figure_continuous_MTD_vs_AT_weak_a_h(20, list_t_steps_drug)
+
+    # Make a figure showing the cell number dynamics by traditional therapy and
+    # by adaptive therapy
+    list_t_steps_drug = [3, 3, 3]
+    Figure_continuous_MTD_vs_AT_realistic(90, list_t_steps_drug)
+
+    # Make a figure that shows the MM fraction for different bOC,MMd values
+    Figure_best_b_OC_MMd()
+
+    # Make a figure that shows the MM fraction for different WMMd IH values
+    Figure_best_WMMd_IH()
+
+    # Make a 3D figure showthing the effect of different drug holiday and
+    # administration periods
+    Figure_3D_MM_nr_to_frac_IH_add_and_holiday()
+
+    # Make a 3D figure showing the effect of different WMMd and MMd GF IH strengths
+    Figure_3D_MM_nr_to_frac_MMd_IH_strength()
+
+    # Make line plots showing the dynamics when the IH administration is longer
+    # than the holiday and one it is the other way around.
+    list_t_steps_drug = [5, 15]
+    list_t_steps_no_drug = [15, 5]
+    list_n_steps = [30, 30]
+    Figure_duration_A_h_MMd_IH(list_n_steps, list_t_steps_drug,
+                                                        list_t_steps_no_drug)
 
     """ The optimisation situations """
     # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH
@@ -3798,7 +3794,7 @@ def Figure_3D_MM_nr_to_frac_IH_add_and_holiday():
             df_holiday_comb = combine_dataframes(df_holiday_comb, new_row_df)
 
     # Save the data
-    save_dataframe(df_holiday_comb, 'df_cell_nr_to_frac_best_MMd_IH_holiday.csv',
+    save_dataframe(df_holiday_comb, 'df_cell_nr_to_frac_best_comb_IH_holiday.csv',
                                      r'..\data\data_model_nr_to_frac_IH_inf')
 
     # Determine the axis values
@@ -3937,7 +3933,7 @@ def Figure_3D_MM_nr_to_frac_MMd_IH_strength():
             df_holiday = combine_dataframes(df_holiday, new_row_df)
 
     # Save the data
-    save_dataframe(df_holiday, 'df_cell_nr_to_frac_best_MMd_IH_strength.csv',
+    save_dataframe(df_holiday, 'df_cell_nr_to_frac_best_comb_IH_strength.csv',
                                     r'..\data\data_model_nr_to_frac_IH_inf')
 
 

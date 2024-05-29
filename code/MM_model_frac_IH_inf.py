@@ -6,11 +6,11 @@ Student ID:        13717405
 Description:  Code with the model that simulates the dynamics in the multiple
               myeloma (MM) microenvironment with four cell types: drug-sensitive
               MM cells (MMd), resistant MM cells (MMr), osteoblasts (OB) and
-              osteoclasts (OC). The model is a public goods game in the framework
-              of evolutionary game theory with collective interactions and linear
-              benefits. In this model, there is looked at the fractions of the
-              four cell types. The IHs have not only an influence on the MMd but
-              also on the OB and OC.
+              osteoclasts (OC). The model has collective interactions and linear
+              benefits and is made in the framework of evolutionary game theory.
+              In this model, there is looked at the fraction dynamics of the four
+              cell types during different IH administration methods. The IHs do
+              not only influence on the MMd but also the OB and OC.
 
 
 Example interaction matrix:
@@ -38,32 +38,32 @@ def main():
     # Do doc tests
     doctest.testmod()
 
-    # # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # # by adaptive therapy (original situation)
-    # list_t_steps_drug = [10, 10, 10]
-    # Figure_continuous_MTD_vs_AT_a_h(13, list_t_steps_drug)
-    #
-    # # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # # by adaptive therapy for shorter holiday and administration periods compared
-    # # to the original situation
-    # list_t_steps_drug = [5, 5, 5]
-    # Figure_continuous_MTD_vs_AT_short_a_h(20, list_t_steps_drug)
-    #
-    # # Make a figure showing the cell fraction dynamics by traditional therapy
-    # # and by adaptive therapy for weaker IHs compared to the original situation
-    # list_t_steps_drug = [10, 10, 10]
-    # Figure_continuous_MTD_vs_AT_weak_a_h(12, list_t_steps_drug)
-    #
-    # # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # # by adaptive therapy for shorter holiday and administration periods and
-    # # weaker IHs compared to the original situation
-    # list_t_steps_drug = [5, 5, 5]
-    # Figure_continuous_MTD_vs_AT_s_and_w_a_h(18, list_t_steps_drug)
-    #
-    # # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # # by adaptive therapy whereby the OB-OC equilibrium gets restored
-    # list_t_steps_drug = [10, 10, 10]
-    # Figure_continuous_MTD_vs_AT_OB_a_h(9, list_t_steps_drug)
+    # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # by adaptive therapy (original situation)
+    list_t_steps_drug = [10, 10, 10]
+    Figure_continuous_MTD_vs_AT_a_h(13, list_t_steps_drug)
+
+    # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # by adaptive therapy for shorter holiday and administration periods compared
+    # to the original situation
+    list_t_steps_drug = [5, 5, 5]
+    Figure_continuous_MTD_vs_AT_short_a_h(20, list_t_steps_drug)
+
+    # Make a figure showing the cell fraction dynamics by traditional therapy
+    # and by adaptive therapy for weaker IHs compared to the original situation
+    list_t_steps_drug = [10, 10, 10]
+    Figure_continuous_MTD_vs_AT_weak_a_h(12, list_t_steps_drug)
+
+    # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # by adaptive therapy for shorter holiday and administration periods and
+    # weaker IHs compared to the original situation
+    list_t_steps_drug = [5, 5, 5]
+    Figure_continuous_MTD_vs_AT_realistic(18, list_t_steps_drug)
+
+    # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # by adaptive therapy whereby the OB-OC equilibrium gets restored
+    list_t_steps_drug = [10, 10, 10]
+    Figure_continuous_MTD_vs_AT_OB_a_h(9, list_t_steps_drug)
 
     # Make a 3D figure showthing the effect of different drug holiday and
     # administration periods
@@ -1533,7 +1533,7 @@ def Figure_continuous_MTD_vs_AT_a_h(n_switches, t_steps_drug):
 """ Figure to determine the difference between traditional and adaptive therapy
 Shorter holiday and administration periods and weaker IHs compared to the original
 situation"""
-def Figure_continuous_MTD_vs_AT_s_and_w_a_h(n_switches, t_steps_drug):
+def Figure_continuous_MTD_vs_AT_realistic(n_switches, t_steps_drug):
     """ Function that makes a figure with 6 subplots showing the cell type
     fraction dynamics by traditional therapy (continuous MTD) and adaptive
     therapy.The holiday and administration periods are short (5 generations) and
@@ -1621,17 +1621,17 @@ def Figure_continuous_MTD_vs_AT_s_and_w_a_h(n_switches, t_steps_drug):
     avarage_MMr_MMd_nr(df_total_comb, 10, 'Traditional thearpy IH combination')
 
     # Save the data
-    save_dataframe(df_total_switch_GF,'df_cell_frac_IH_switch_GF_IH_s_&_w_a_h.csv',
+    save_dataframe(df_total_switch_GF,'df_cell_frac_IH_switch_GF_IH_r.csv',
                                         r'..\data\data_model_frac_IH_inf')
-    save_dataframe(df_total_switch_WMMd,'df_cell_frac_IH_switch_WMMd_IH_s_&_w_a_h.csv',
+    save_dataframe(df_total_switch_WMMd,'df_cell_frac_IH_switch_WMMd_IH_r.csv',
                                         r'..\data\data_model_frac_IH_inf')
-    save_dataframe(df_total_switch_comb,'df_cell_frac_IH_switch_comb_IH_s_&_w_a_h.csv',
+    save_dataframe(df_total_switch_comb,'df_cell_frac_IH_switch_comb_IH_r.csv',
                                         r'..\data\data_model_frac_IH_inf')
-    save_dataframe(df_total_GF, 'df_cell_frac_IH_continuous_GF_IH_s_&_w_a_h.csv',
+    save_dataframe(df_total_GF, 'df_cell_frac_IH_continuous_GF_IH_r.csv',
                                          r'..\data\data_model_frac_IH_inf')
-    save_dataframe(df_total_WMMd,'df_cell_frac_IH_continuous_WMMd_IH_s_&_w_a_h.csv',
+    save_dataframe(df_total_WMMd,'df_cell_frac_IH_continuous_WMMd_IH_r.csv',
                                          r'..\data\data_model_frac_IH_inf')
-    save_dataframe(df_total_comb,'df_cell_frac_IH_continuous_comb_IH_s_&_w_a_h.csv',
+    save_dataframe(df_total_comb,'df_cell_frac_IH_continuous_comb_IH_r.csv',
                                         r'..\data\data_model_frac_IH_inf')
 
     # Create a Figure
@@ -1708,7 +1708,7 @@ def Figure_continuous_MTD_vs_AT_s_and_w_a_h(n_switches, t_steps_drug):
                                                     'MMr fraction', 'Therapy']
     fig.legend(labels = legend_labels, loc='upper center', ncol=5,
                                                             fontsize='x-large')
-    save_Figure(plt, 'line_plot_cell_frac_IH_AT_MTD_s_&_w_a_h',
+    save_Figure(plt, 'line_plot_cell_frac_IH_AT_MTD_r',
                                  r'..\visualisation\results_model_frac_IH_inf')
     plt.show()
 
@@ -2519,7 +2519,7 @@ def Figure_3D_MM_frac_MMd_IH_strength():
             df_holiday = combine_dataframes(df_holiday, new_row_df)
 
     # Save the data
-    save_dataframe(df_holiday, 'df_cell_frac_IH_best_MMd_IH_strength.csv',
+    save_dataframe(df_holiday, 'df_cell_frac_IH_best_comb_IH_strength.csv',
                                          r'..\data\data_model_frac_IH_inf')
 
 
