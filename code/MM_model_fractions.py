@@ -380,7 +380,7 @@ def frac_to_fitness_values(dataframe_fractions, N, cOC, cOB, cMMd, cMMr, matrix,
 
     Parameters:
     -----------
-    dataframe_fractions: Dataframe
+    dataframe_fractions: DataFrame
         Dataframe with the fractions of the OB, OC MMd and MMr on every
         timepoint.
     N: Int
@@ -400,7 +400,7 @@ def frac_to_fitness_values(dataframe_fractions, N, cOC, cOB, cMMd, cMMr, matrix,
 
     Returns:
     --------
-    dataframe_fitness: Dataframe
+    dataframe_fitness: DataFrame
         A dataframe with the fitness values of the OB, OC, MMd and MMr and
         the average fitness on every time point.
     """
@@ -570,7 +570,7 @@ def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd,
 
     Returns:
     --------
-    df_total_switch: Dataframe
+    df_total_switch: DataFrame
         Dataframe with the xOC, xOB, xMMd and xMMr values over time.
     """
     # Set initial values
@@ -679,7 +679,7 @@ def pronto_switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, xOC, xOB,
         Fraction of cells in the difussion range.
     cOC: Float
         Cost parameter OC.
-    cOB: float
+    cOB: Float
         Cost parameter OB.
     cMMr: Float
         Cost parameter MMr.
@@ -695,7 +695,7 @@ def pronto_switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, xOC, xOB,
 
     Returns:
     --------
-    df_total_switch: Dataframe
+    df_total_switch: DataFrame
         Dataframe with the xOC, xOB, xMMd and xMMr values over time.
     """
     # Set initial values
@@ -796,7 +796,7 @@ def continuous_add_IH_df(end_generation, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd
         Fraction of cells in the difussion range.
     cOC: Float
         Cost parameter OC.
-    cOB: float
+    cOB: Float
         Cost parameter OB.
     cMMr: Float
         Cost parameter MMr.
@@ -869,7 +869,7 @@ def minimal_tumour_frac_t_steps(t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd,
         Fraction of cells in the difussion range.
     cOC: Float
         Cost parameter OC.
-    cOB: float
+    cOB: Float
         Cost parameter OB.
     cMMr: Float
         Cost parameter MMr.
@@ -926,7 +926,7 @@ def x_y_z_axis_values_3d_plot(dataframe, name):
 
     Parameters:
     -----------
-    Dataframe: dataFrame
+    Dataframe: DataFrame
         The dataframe with the generated data
     name: String
         The name of the administered IH(s)
@@ -995,7 +995,7 @@ def minimal_tumour_frac_b_OC_MMd(b_OC_MMd, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
         Number of cells in the difussion range.
     cOC: Float
         Cost parameter OC.
-    cOB: float
+    cOB: Float
         Cost parameter OB.
     cMMd: Float
         Cost parameter drug-sensitive MM cells.
@@ -1056,7 +1056,7 @@ def minimal_tumour_frac_WMMd_IH(WMMd_inhibitor, xOC, xOB, xMMd, xMMr, N, cOC,
         Number of cells in the difussion range.
     cOC: Float
         Cost parameter OC.
-    cOB: float
+    cOB: Float
         Cost parameter OB.
     cMMd: Float
         Cost parameter drug-sensitive MM cells.
@@ -1771,7 +1771,7 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
             # Add results to the dataframe
             new_row_df = pd.DataFrame([{'Generations no drug': \
                     int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
-                                             'MM fraction': float(frac_tumour)}])
+                                             'MM fraction': Float(frac_tumour)}])
             df_holiday_GF_IH = combine_dataframes(df_holiday_GF_IH, new_row_df)
 
     # Save the data
@@ -1797,7 +1797,7 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
             # Add results to the dataframe
             new_row_df = pd.DataFrame([{'Generations no drug':\
                     int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
-                                         'MM fraction': float(frac_tumour)}])
+                                         'MM fraction': Float(frac_tumour)}])
             df_holiday_W_IH = combine_dataframes(df_holiday_W_IH, new_row_df)
 
     # Save the data
@@ -1822,7 +1822,7 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
             # Add results to the dataframe
             new_row_df = pd.DataFrame([{'Generations no drug': \
                     int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
-                                            'MM fraction': float(frac_tumour)}])
+                                            'MM fraction': Float(frac_tumour)}])
             df_holiday_comb = combine_dataframes(df_holiday_comb, new_row_df)
 
     # Save the data
@@ -2743,7 +2743,7 @@ def Dataframe_bOCMMd_eigenvalues():
                 # Add results to the dataframe
                 new_row_df = pd.DataFrame([{'Generations no drug': \
                     int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
-                    'MM fraction': float(frac_tumour)}])
+                    'MM fraction': Float(frac_tumour)}])
                 df_holiday = combine_dataframes(df_holiday, new_row_df)
 
         # Find the drug administration and holiday period causing the lowest MM
@@ -2764,8 +2764,8 @@ def Dataframe_bOCMMd_eigenvalues():
         # Add data to a dataframe and discard the imaginary part to make it a float
         new_row_df = pd.DataFrame([{'bOC,MMd': round(0.6 + (i/10), 1),
                 'Eigenvalue 1':float(eigenvalues[0]), 'Eigenvalue 2': \
-                float(eigenvalues[1]), 'Eigenvalue 3': float(eigenvalues[2]),
-                'Eigenvalue 4': float(eigenvalues[3]), 'period H': g_no_drug_min,
+                float(eigenvalues[1]), 'Eigenvalue 3': Float(eigenvalues[2]),
+                'Eigenvalue 4': Float(eigenvalues[3]), 'period H': g_no_drug_min,
                 'period A': g_drug_min, 'MM fraction': frac_min}])
         df_eigenvalues_float = combine_dataframes(df_eigenvalues_float, new_row_df)
 
@@ -2892,7 +2892,7 @@ def Dataframe_bMMrOC_eigenvalues():
                 # Add results to the dataframe
                 new_row_df = pd.DataFrame([{'Generations no drug': \
                     int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
-                    'MM fraction': float(frac_tumour)}])
+                    'MM fraction': Float(frac_tumour)}])
                 df_holiday = combine_dataframes(df_holiday, new_row_df)
 
         # Find the drug administration and holiday period causing the lowest MM
@@ -2913,8 +2913,8 @@ def Dataframe_bMMrOC_eigenvalues():
         # Add data to a dataframe and discard the imaginary part to make it a float
         new_row_df = pd.DataFrame([{'bMMd,MMr': round(1.5 + (i/10), 1),
                 'Eigenvalue 1':float(eigenvalues[0]), 'Eigenvalue 2': \
-                float(eigenvalues[1]), 'Eigenvalue 3': float(eigenvalues[2]),
-                'Eigenvalue 4': float(eigenvalues[3]), 'period H': g_no_drug_min,
+                float(eigenvalues[1]), 'Eigenvalue 3': Float(eigenvalues[2]),
+                'Eigenvalue 4': Float(eigenvalues[3]), 'period H': g_no_drug_min,
                 'period A': g_drug_min, 'MM fraction': frac_min}])
         df_eigenvalues_float = combine_dataframes(df_eigenvalues_float, new_row_df)
 
@@ -3039,7 +3039,7 @@ def Dataframe_bMMdMMd_bMMrMMr_eigenvalues():
                 # Add results to the dataframe
                 new_row_df = pd.DataFrame([{'Generations no drug': \
                     int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
-                    'MM fraction': float(frac_tumour)}])
+                    'MM fraction': Float(frac_tumour)}])
                 df_holiday = combine_dataframes(df_holiday, new_row_df)
 
         # Find the drug administration and holiday period causing the lowest MM
@@ -3060,8 +3060,8 @@ def Dataframe_bMMdMMd_bMMrMMr_eigenvalues():
         # Add data to a dataframe and discard the imaginary part to make it a float
         new_row_df = pd.DataFrame([{'bMMd,MMd & bMMr,MMr':  round(0.1 + (i/5), 1),
                 'Eigenvalue 1':float(eigenvalues[0]), 'Eigenvalue 2': \
-                 float(eigenvalues[1]),'Eigenvalue 3': float(eigenvalues[2]),
-                 'Eigenvalue 4': float(eigenvalues[3]), 'period H': g_no_drug_min,
+                 float(eigenvalues[1]),'Eigenvalue 3': Float(eigenvalues[2]),
+                 'Eigenvalue 4': Float(eigenvalues[3]), 'period H': g_no_drug_min,
                  'period A': g_drug_min, 'MM fraction': frac_min}])
         df_eigenvalues_float = combine_dataframes(df_eigenvalues_float, new_row_df)
 

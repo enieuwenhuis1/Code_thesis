@@ -36,7 +36,7 @@ import doctest
 def main():
     # Do doc tests
     doctest.testmod()
-    
+
     # Make a figure showing the cell fraction dynamics by traditional therapy and
     # by adaptive therapy (original situation)
     list_t_steps_drug = [10, 10, 10]
@@ -458,7 +458,7 @@ def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd,
 
     Returns:
     --------
-    df_total_switch: Dataframe
+    df_total_switch: DataFrame
         Dataframe with the nOC, nOB, nMMd and nMMr values over time.
     """
     # Set initial values
@@ -575,7 +575,7 @@ def minimal_tumour_nr_to_frac_t_steps(t_steps_drug, t_steps_no_drug, nOC, nOB,
 
     Returns:
     --------
-    average_MM_fraction: float
+    average_MM_fraction: Float
         The average total MM fraction in the last period.
     """
     # Deteremine the number of switches
@@ -743,7 +743,7 @@ def minimal_tumour_nr_to_frac_b_OC_MMd(b_OC_MMd, nOC, nOB, nMMd, nMMr,
 
     Returns:
     --------
-    last_MM_numbers: float
+    last_MM_numbers: Float
         The average total MM number in the last period.
 
     Example:

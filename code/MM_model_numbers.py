@@ -330,11 +330,12 @@ def combine_dataframes(df_1, df_2):
     """
     # Check if the dataframes are empty
     if df_1.empty or df_2.empty:
-        # return the dataframe that is not empty
+
+        # Return the dataframe that is not empty
         combined_df = df_1 if not df_1.empty else df_2
 
     else:
-        # delete the NA columns
+        # Delete the NA columns
         df_1 = df_1.dropna(axis=1, how='all')
         df_2 = df_2.dropna(axis=1, how='all')
 
@@ -431,7 +432,7 @@ def switch_dataframe(n_switches, t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd,
 
     Returns:
     --------
-    df_total_switch: Dataframe
+    df_total_switch: DataFrame
         Dataframe with the nOC, nOB, nMMd and nMMr values over time.
     """
     # Set initial values
@@ -711,7 +712,7 @@ def minimal_tumour_numb_b_OC_MMd(b_OC_MMd, nOC, nOB, nMMd, nMMr, growth_rates,
 
     Returns:
     --------
-    last_MM_number: float
+    last_MM_number: Float
         The average total MM number in the last period.
 
     Example:
@@ -796,7 +797,7 @@ def minimal_tumour_numb_WMMd_IH(WMMd_inhibitor, nOC, nOB, nMMd, nMMr,
 
     Example:
     -----------
-    average_MM_numbers: float
+    average_MM_numbers: Float
         The average total MM number in the last period.
 
     >>> matrix = np.array([

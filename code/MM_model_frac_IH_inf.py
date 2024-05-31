@@ -412,7 +412,7 @@ def dynamics_MMd_MMr_limits(time_IH, time_end, upper_limit_MMd, upper_limit_MMr,
 
     Returns:
     --------
-    df_fractions: Dataframe
+    df_fractions: DataFrame
         The dataframe with the fraction per cell type over the time
     average_a_duration: Float
         The average administration duration
@@ -544,7 +544,7 @@ def frac_to_fitness_values(dataframe_fractions, N, cOC, cOB, cMMd, cMMr, matrix,
 
     Parameters:
     -----------
-    dataframe_fractions: Dataframe
+    dataframe_fractions: DataFrame
         Dataframe with the fractions of the OB, OC MMd and MMr on every
         timepoint.
     N: Int
@@ -564,7 +564,7 @@ def frac_to_fitness_values(dataframe_fractions, N, cOC, cOB, cMMd, cMMr, matrix,
 
     Returns:
     --------
-    dataframe_fitness: Dataframe
+    dataframe_fitness: DataFrame
         A dataframe with the fitness values of the OB, OC, MMd and MMr and
         the average fitness on every time point.
     """
@@ -627,11 +627,12 @@ def combine_dataframes(df_1, df_2):
     """
     # Check if the dataframes are empty
     if df_1.empty or df_2.empty:
-        # return the dataframe that is not empty
+
+        # Return the dataframe that is not empty
         combined_df = df_1 if not df_1.empty else df_2
 
     else:
-        # delete the NA columns
+        # Delete the NA columns
         df_1 = df_1.dropna(axis=1, how='all')
         df_2 = df_2.dropna(axis=1, how='all')
 
@@ -740,7 +741,7 @@ def switch_dataframe(time_start_drugs, n_switches, t_steps_drug, t_steps_no_drug
 
     Returns:
     --------
-    df_total_switch: Dataframe
+    df_total_switch: DataFrame
         Dataframe with the xOC, xOB, xMMd and xMMr values over time.
     """
     # Set initial values
@@ -847,7 +848,7 @@ def continuous_add_IH_df(time_start_drugs, end_generation, xOC, xOB, xMMd, xMMr,
         Fraction of cells in the difussion range.
     cOC: Float
         Cost parameter OC.
-    cOB: float
+    cOB: Float
         Cost parameter OB.
     cMMr: Float
         Cost parameter MMr.
@@ -925,7 +926,7 @@ def minimal_tumour_frac_t_steps(t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd,
         fraction of cells in the difussion range.
     cOC: Float
         Cost parameter OC.
-    cOB: float
+    cOB: Float
         Cost parameter OB.
     cMMr: Float
         Cost parameter MMr.
@@ -999,7 +1000,7 @@ def dataframe_3D_plot(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, cOC_IH,
         fraction of cells in the difussion range.
     cOC: Float
         Cost parameter OC.
-    cOB: float
+    cOB: Float
         Cost parameter OB.
     cMMr: Float
         Cost parameter MMr.
@@ -1038,7 +1039,7 @@ def dataframe_3D_plot(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, cOC_IH,
             # Add results to the dataframe
             new_row_df = pd.DataFrame([{'Generations no drug': \
                     int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
-                                         'MM fraction': float(frac_tumour)}])
+                                         'MM fraction': Float(frac_tumour)}])
             df_MM_frac = combine_dataframes(df_MM_frac, new_row_df)
 
     return(df_MM_frac)
@@ -1050,7 +1051,7 @@ def x_y_z_axis_values_3d_plot(dataframe, name):
 
     Parameters:
     -----------
-    Dataframe: dataFrame
+    Dataframe: DataFrame
         The dataframe with the generated data
     name: String
         The name of the administered IH(s)
@@ -1103,7 +1104,7 @@ def avarage_MMr_MMd_nr(dataframe, time, therapy):
 
     Parameters:
     -----------
-    dataframe: Dataframe
+    dataframe: DataFrame
         The dataframe containing the MMd and MMr numbers over time
     time: Int
         The time over which the average MMd and MMr number should be calculated
@@ -1139,7 +1140,7 @@ def minimal_tumour_frac_b_OC_MMd(b_OC_MMd, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
         Fraction of cells in the difussion range.
     cOC: Float
         Cost parameter OC.
-    cOB: float
+    cOB: Float
         Cost parameter OB.
     cMMd: Float
         Cost parameter drug-sensitive MM cells.
@@ -1204,7 +1205,7 @@ def minimal_tumour_frac_WMMd_IH(WMMd_inhibitor, xOC, xOB, xMMd, xMMr, N, cOC,
         Fraction of cells in the difussion range.
     cOC: Float
         Cost parameter OC.
-    cOB: float
+    cOB: Float
         Cost parameter OB.
     cMMd: Float
         Cost parameter drug-sensitive MM cells.

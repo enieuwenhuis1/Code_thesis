@@ -383,11 +383,12 @@ def combine_dataframes(df_1, df_2):
     """
     # Check if the dataframes are empty
     if df_1.empty or df_2.empty:
-        # return the dataframe that is not empty
+
+        # Return the dataframe that is not empty
         combined_df = df_1 if not df_1.empty else df_2
 
     else:
-        # delete the NA columns
+        # Delete the NA columns
         df_1 = df_1.dropna(axis=1, how='all')
         df_2 = df_2.dropna(axis=1, how='all')
 
@@ -1383,7 +1384,7 @@ def switch_dataframe_W_comb_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
 
     Returns:
     --------
-    df_total_switch: Dataframe
+    df_total_switch: DataFrame
         Dataframe with the nOC, nOB, nMMd and nMMr values over time.
     """
     # Set initial values
@@ -1578,7 +1579,7 @@ def switch_dataframe_GF_comb_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
 
     Returns:
     --------
-    df_total_switch: Dataframe
+    df_total_switch: DataFrame
         Dataframe with the nOC, nOB, nMMd and nMMr values over time.
     """
     # Set initial values
@@ -1772,7 +1773,7 @@ def switch_dataframe_GF_WandGF_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
 
     Returns:
     --------
-    df_total_switch: Dataframe
+    df_total_switch: DataFrame
         Dataframe with the nOC, nOB, nMMd and nMMr values over time.
     """
     # Set initial values
@@ -1964,7 +1965,7 @@ def switch_dataframe_W_WandGF_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
 
     Returns:
     --------
-    df_total_switch: Dataframe
+    df_total_switch: DataFrame
         Dataframe with the nOC, nOB, nMMd and nMMr values over time.
     """
     # Set initial values
@@ -2147,7 +2148,7 @@ def minimal_tumour_nr_to_frac_t_3_situations(t_steps_IH_strength, function_order
 
     Returns:
     --------
-    average_MM_fraction: float
+    average_MM_fraction: Float
         The average total MM fraction in the last period.
     """
     # Unpack the values that should be optimised
@@ -2213,7 +2214,7 @@ def minimal_tumour_nr_to_frac_t_3_situations_IH(t_steps_IH_strength,
 
     Returns:
     --------
-    average_MM_fraction: float
+    average_MM_fraction: Float
         The average total MM fraction in the last period.
     """
     # Unpack the values that should be optimised
@@ -2351,7 +2352,7 @@ def minimal_tumour_nr_to_frac_t_4_situations(t_steps, function_order, nOC, nOB,
 
     Returns:
     --------
-    average_MM_fraction: float
+    average_MM_fraction: Float
         The average total MM fraction in the last period.
     """
     # Unpack the values that should be optimised
@@ -2418,7 +2419,7 @@ def minimal_tumour_nr_to_frac_t_4_sit_equal_IH(t_steps_IH_strength, function_ord
 
     Returns:
     --------
-    average_MM_fraction: float
+    average_MM_fraction: Float
         The average total MM fraction in the last period.
     """
     # Unpack the values that should be optimised
@@ -2495,7 +2496,7 @@ def minimal_tumour_nr_to_frac_t_4_situations_IH(t_steps_IH_strength,
 
     Returns:
     --------
-    average_MM_fraction: float
+    average_MM_fraction: Float
         The average total MM number in the last period.
     """
     # Unpack the values that should be optimised
@@ -2691,7 +2692,7 @@ def minimal_tumour_nr_to_frac_to_frac_t_steps(t_steps_drug, t_steps_no_drug, nOC
 
     Returns:
     --------
-    average_MM_fraction: float
+    average_MM_fraction: Float
         The average total MM number in the last period.
 
     """
@@ -2839,7 +2840,7 @@ def minimal_tumour_nr_to_frac_to_frac_WMMd_IH(WMMd_inhibitor, nOC, nOB, nMMd,
 
     Example:
     -----------
-    average_MM_fraction: float
+    average_MM_fraction: Float
         The average total MM number in the last period.
 
     >>> matrix = np.array([

@@ -474,11 +474,12 @@ def combine_dataframes(df_1, df_2):
     """
     # Check if the dataframes are empty
     if df_1.empty or df_2.empty:
-        # return the dataframe that is not empty
+
+        # Return the dataframe that is not empty
         combined_df = df_1 if not df_1.empty else df_2
 
     else:
-        # delete the NA columns
+        # Delete the NA columns
         df_1 = df_1.dropna(axis=1, how='all')
         df_2 = df_2.dropna(axis=1, how='all')
 
@@ -565,7 +566,7 @@ def dynamics_same_h_and_s(y, t, parameters):
         List containing the current fractions of the OC, OB and MM cells
     t: Numpy.ndarray
         Array with the time points.
-    parameters: tuple
+    parameters: Tuple
         Tuple containing parameters required for computation -> (N, h, s, BOC_OC,
         BOB_OC, BMM_OC, BOC_OB, BOB_OB, BMM_OB, BOC_MM, BOB_MM, BMM_MM, cOC_value,
         cOB_value, cMM_value)
@@ -619,7 +620,7 @@ def dynamics_different_h_and_s(y, t, parameters):
         List containing the current fractions of the OC, OB and MM cells
     t: Numpy.ndarray
         Array with the time points.
-    parameters: tuple
+    parameters: Tuple
         Tuple containing parameters required for computation -> (NN, hOC_OC,
         hOC_OB, hOC_MM, hOB_OC, hOB_OB, hOB_MM, hMM_OC, hMM_OB, hMM_MM, sOC_OC,
         sOC_OB, sOC_MM, sOB_OC, sOB_OB, sOB_MM, sMM_OC, sMM_OB, sMM_MM, BOC_OC,

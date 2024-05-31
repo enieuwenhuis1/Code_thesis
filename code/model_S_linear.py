@@ -120,11 +120,12 @@ def combine_dataframes(df_1, df_2):
     """
     # Check if the dataframes are empty
     if df_1.empty or df_2.empty:
-        # return the dataframe that is not empty
+
+        # Return the dataframe that is not empty
         combined_df = df_1 if not df_1.empty else df_2
 
     else:
-        # delete the NA columns
+        # Delete the NA columns
         df_1 = df_1.dropna(axis=1, how='all')
         df_2 = df_2.dropna(axis=1, how='all')
 
@@ -972,6 +973,7 @@ def Figure_8B():
 """Figure 9A"""
 def Figure_9A():
     """Function that makes Figure 9A in the paper of Sartakhti et al., 2016."""
+
     # Set start values
     N = 10
     c3 = 1
@@ -1721,7 +1723,7 @@ def Figure_12B_middle():
     y0 = [xOC, xOB, xMM]
     parameters = (N, c1, c2, c3, matrix)
 
-    # determine the ODE solutions
+    # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
     df_Figure_12B_middle_second_line = pd.DataFrame({'Generation': t,
                                 'xOC': y[:, 0], 'xOB': y[:, 1], 'xMM': y[:, 2]})

@@ -976,7 +976,8 @@ def combine_dataframes(df_1, df_2):
     """
     # Check if the dataframes are empty
     if df_1.empty or df_2.empty:
-        # return the dataframe that is not empty
+
+        # Return the dataframe that is not empty
         combined_df = df_1 if not df_1.empty else df_2
 
     else:
@@ -1063,7 +1064,7 @@ def make_part_df(dataframe, start_time, time, growth_rates, decay_rates, matrix,
     -----------
     dataframe: DataFrame
         The dataframe to which the extra data should be added.
-    start_time:
+    start_time: Int
         The last generation in the current dataframe
     time: Int
         The time the cell number should be calculated
@@ -2525,7 +2526,7 @@ def minimal_tumour_nr_t_3_situations(t_steps_IH_strength, function_order, nOC,
 
     Returns:
     --------
-    average_MM_number: float
+    average_MM_number: Float
         The average total MM number in the last period.
     """
     # Unpack the values that should be optimised
@@ -2591,7 +2592,7 @@ def minimal_tumour_nr_t_3_situations_IH(t_steps_IH_strength, function_order,
 
     Returns:
     --------
-    average_MM_number: float
+    average_MM_number: Float
         The average (weighted) MM number in the last period.
     """
     # Unpack the values that should be optimised
@@ -2667,7 +2668,7 @@ def minimal_tumour_nr_t_3_4_situations_IH(t_steps_IH_strength, function_order,
 
     Returns:
     --------
-    average_MM_number: float
+    average_MM_number: Float
         The (weighted) total MM number in the last period.
     """
     # Unpack the values that should be optimised
@@ -2750,7 +2751,7 @@ def minimal_tumour_nr_t_4_situations(t_steps, function_order, nOC, nOB, nMMd,
 
     Returns:
     --------
-    average_MM_number: float
+    average_MM_number: Float
         The average total MM number in the last period.
     """
     # Unpack the values that should be optimised
@@ -2818,7 +2819,7 @@ def minimal_tumour_nr_t_4_sit_equal(t_steps_IH_strength, function_order, nOC, nO
 
     Returns:
     --------
-    average_MM_number: float
+    average_MM_number: Float
         The average total MM number in the last period.
     """
     # Unpack the values that should be optimised
@@ -2887,7 +2888,7 @@ def minimal_tumour_nr_t_4_sit_equal_IH(t_steps_IH_strength, function_order,
 
     Returns:
     --------
-    average_MM_number: float
+    average_MM_number: Float
         The (weighted) total MM number in the last period.
     """
     # Unpack the values that should be optimised
@@ -2969,7 +2970,7 @@ def minimal_tumour_nr_t_3_sit_GF_IH(t_steps_IH_strength, function_order,
 
     Returns:
     --------
-    average_MM_number: float
+    average_MM_number: Float
         The (weighted) total MM number in the last period.
     """
     # Unpack the values that should be optimised
@@ -3048,7 +3049,7 @@ def minimal_tumour_nr_t_3_sit_W_IH(t_steps_IH_strength, function_order,
 
     Returns:
     --------
-    average_MM_number: float
+    average_MM_number: Float
         The (weighted) total MM number in the last period.
     """
     # Unpack the values that should be optimised
@@ -3127,7 +3128,7 @@ def minimal_tumour_nr_t_4_situations_IH(t_steps_IH_strength, function_order,
 
     Returns:
     --------
-    average_MM_number: float
+    average_MM_number: Float
         The average (weighted) MM number in the last period.
     """
     # Unpack the values that should be optimised
@@ -3221,7 +3222,7 @@ def dataframe_3D_plot(nOC, nOB, nMMd, nMMr, growth_rates, growth_rates_IH,
             # Add results to the dataframe
             new_row_df = pd.DataFrame([{'Generations no drug': \
                     int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
-                                             'MM number': float(numb_tumour)}])
+                                             'MM number': Float(numb_tumour)}])
             df_MM_nr = combine_dataframes(df_MM_nr, new_row_df)
 
     return(df_MM_nr)
@@ -3500,7 +3501,7 @@ def minimal_tumour_numb_t_steps(t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd,
 
     Returns:
     --------
-    average_MM_number: float
+    average_MM_number: Float
         The average total MM number in the last period.
     """
     # Deteremine the number of switches
