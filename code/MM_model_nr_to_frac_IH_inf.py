@@ -14,11 +14,11 @@ Description:  Code of the model that simulates the dynamics in the multiple
 
 Example interaction matrix:
 M = np.array([
-       Foc Fob Fmmd Fmmr
-    OC  [a,  b,  c,  d],
-    OB  [e,  f,  g,  h],
-    MMd [i,  j,  k,  l],
-    MMr [m,  n,  o,  p]])
+         Foc     Fob   Fmmd   Fmmr
+    OC  [b1,1,  b2,1,  b3,1,  b4,1],
+    OB  [b1,2,  b2,2,  b3,2,  b4,2],
+    MMd [b1,3,  b2,3,  b3,3,  b4,3],
+    MMr [b1,4,  b2,4,  b3,4,  b4,4]])
 """
 
 # Import the needed libraries
@@ -164,13 +164,14 @@ def dOC_dt(nOC, nOB, nMMd, nMMr, gr_OC, dr_OC, matrix):
     744654.2266544278
     """
     # Extract the needed matrix values
-    a = matrix[0, 0]
-    b = matrix[0, 1]
-    c = matrix[0, 2]
-    d = matrix[0, 3]
+    b1_1 = matrix[0, 0]
+    b2_1 = matrix[0, 1]
+    b3_1 = matrix[0, 2]
+    b4_1 = matrix[0, 3]
 
     # Calculate the Change on in the number of OC
-    change_nOC = (gr_OC * nOC**a * nOB**b * nMMd**c * nMMr**d) - (dr_OC * nOC)
+    change_nOC = (gr_OC * nOC**b1_1 * nOB**b2_1 * nMMd**b3_1 * nMMr**b4_1) - \
+                                                                (dr_OC * nOC)
     return change_nOC
 
 def dOB_dt(nOC, nOB, nMMd, nMMr, gr_OB, dr_OB, matrix):
@@ -209,13 +210,14 @@ def dOB_dt(nOC, nOB, nMMd, nMMr, gr_OB, dr_OB, matrix):
     1320.9296319483412
     """
     # Extract the necessary matrix values
-    e = matrix[1, 0]
-    f = matrix[1, 1]
-    g = matrix[1, 2]
-    h = matrix[1, 3]
+    b1_2 = matrix[1, 0]
+    b2_2 = matrix[1, 1]
+    b3_2 = matrix[1, 2]
+    b4_2 = matrix[1, 3]
 
     # Calculate the change in number of OB
-    change_nOB = (gr_OB * nOC**e * nOB**f * nMMd**g * nMMr**h) - (dr_OB * nOB)
+    change_nOB = (gr_OB * nOC**b1_2 * nOB**b2_2 * nMMd**b3_2 * nMMr**b4_2) - \
+                                                                    (dr_OB * nOB)
     return change_nOB
 
 def dMMd_dt(nOC, nOB, nMMd, nMMr, gr_MMd, dr_MMd, matrix, WMMd_inhibitor = 0):
@@ -256,14 +258,14 @@ def dMMd_dt(nOC, nOB, nMMd, nMMr, gr_MMd, dr_MMd, matrix, WMMd_inhibitor = 0):
     4198.444487046028
     """
     # Extract the necessary matrix values
-    i = matrix[2, 0]
-    j = matrix[2, 1]
-    k = matrix[2, 2]
-    l = matrix[2, 3]
+    b1_3 = matrix[2, 0]
+    b2_3 = matrix[2, 1]
+    b3_3 = matrix[2, 2]
+    b4_3 = matrix[2, 3]
 
     # Calculate the change in the number of MMd
-    change_nMMd = (gr_MMd * nOC**i * nOB**j * nMMd**k * nMMr**l - nMMd * \
-                                            WMMd_inhibitor) - (dr_MMd * nMMd)
+    change_nMMd = (gr_MMd * nOC**b1_3 * nOB**b2_3 * nMMd**b3_3 * nMMr**b4_3 - nMMd * \
+                                             WMMd_inhibitor) - (dr_MMd * nMMd)
 
     return change_nMMd
 
@@ -303,13 +305,14 @@ def dMMr_dt(nOC, nOB, nMMd, nMMr, gr_MMr, dr_MMr, matrix):
     436.383290554087
     """
     # Extract the necessary matrix values
-    m = matrix[3, 0]
-    n = matrix[3, 1]
-    o = matrix[3, 2]
-    p = matrix[3, 3]
+    b1_4 = matrix[3, 0]
+    b2_4 = matrix[3, 1]
+    b3_4 = matrix[3, 2]
+    b4_4 = matrix[3, 3]
 
     # Calculate the change in the number of MMr
-    change_nMMr = (gr_MMr * nOC**m * nOB**n * nMMd**o * nMMr**p) - (dr_MMr * nMMr)
+    change_nMMr = (gr_MMr * nOC**b1_4 * nOB**b2_4 * nMMd**b3_4 * nMMr**b4_4) - \
+                                                                (dr_MMr * nMMr)
     return change_nMMr
 
 
@@ -466,12 +469,12 @@ def save_optimised_results(results, file_path):
         for result in results_to_saved:
             writer.writerow(result)
 
-def save_Figure(Figure, file_name, folder_path):
+def save_Figure(figure, file_name, folder_path):
     """Save the Figure to a specific folder.
 
     Parameters:
     -----------
-    Figure: Matplotlib Figure
+    figure: Matplotlib Figure
         Figure object that needs to be saved.
     file_name: String
         The name for the plot.
@@ -479,7 +482,7 @@ def save_Figure(Figure, file_name, folder_path):
         Path to the folder where the data will be saved.
     """
     os.makedirs(folder_path, exist_ok=True)
-    Figure.savefig(os.path.join(folder_path, file_name))
+    figure.savefig(os.path.join(folder_path, file_name))
 
 def number_to_fractions(dataframe):
     """ Function that converts the numbers in a dataframe to a fractions
@@ -555,7 +558,7 @@ def switch_dataframe(start_therapy, n_switches, t_steps_drug, t_steps_no_drug,
 
     Returns:
     --------
-    df_total_switch: Dataframe
+    df_total_switch: DataFrame
         Dataframe with the nOC, nOB, nMMd and nMMr values over time.
     """
     # Set initial values
@@ -683,7 +686,7 @@ def switch_dataframe_GF_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
 
     Returns:
     --------
-    df_total_switch: Dataframe
+    df_total_switch: DataFrame
         Dataframe with the nOC, nOB, nMMd and nMMr values over time.
     """
     # Set initial values
@@ -843,7 +846,7 @@ def switch_dataframe_GF_h_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
 
     Returns:
     --------
-    df_total_switch: Dataframe
+    df_total_switch: DataFrame
         Dataframe with the nOC, nOB, nMMd and nMMr values over time.
     """
     # Set initial values
@@ -1030,7 +1033,7 @@ def switch_dataframe_W_h_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
 
     Returns:
     --------
-    df_total_switch: Dataframe
+    df_total_switch: DataFrame
         Dataframe with the nOC, nOB, nMMd and nMMr values over time.
     """
     # Set initial values
@@ -1218,7 +1221,7 @@ def switch_dataframe_W_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
 
     Returns:
     --------
-    df_total_switch: Dataframe
+    df_total_switch: DataFrame
         Dataframe with the nOC, nOB, nMMd and nMMr values over time.
     """
     # Set initial values
@@ -2279,7 +2282,7 @@ def minimal_tumour_nr_to_frac_t_3_4_situations_IH(t_steps_IH_strength,
 
     Returns:
     --------
-    average_MM_fraction: float
+    average_MM_fraction: Float
         The average total MM fraction in the last period.
     """
     # Unpack the values that should be optimised
@@ -2603,7 +2606,7 @@ def x_y_z_axis_values_3d_plot(dataframe, name):
 
     Parameters:
     -----------
-    Dataframe: dataFrame
+    Dataframe: DataFrame
         The dataframe with the generated data
     name: String
         The name of the administered IH(s)

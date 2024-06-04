@@ -525,12 +525,12 @@ def collect_data(file_name, folder_path):
 
     return data_frame
 
-def save_Figure(Figure, file_name, folder_path):
+def save_Figure(figure, file_name, folder_path):
     """Save the Figure to a specific folder.
 
     Parameters:
     -----------
-    Figure: Matplotlib Figure
+    figure: Matplotlib Figure
         Figure object that needs to be saved.
     file_name: String
         The name for the plot.
@@ -538,7 +538,7 @@ def save_Figure(Figure, file_name, folder_path):
         Path to the folder where the data will be saved.
     """
     os.makedirs(folder_path, exist_ok=True)
-    Figure.savefig(os.path.join(folder_path, file_name))
+    figure.savefig(os.path.join(folder_path, file_name))
 
 def save_ternary(Figure, file_name, folder_path):
     """Save the ternary plot in a specific folder.

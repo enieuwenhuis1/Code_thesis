@@ -30,10 +30,10 @@ e0168856. https://doi.org/10.1371/journal.pone.0168856
 
 Example interaction matrix:
 M = np.array([
-       Goc Gob Gmm
-    OC [a, b, c],
-    OB [d, e, f],
-    MM [g, h, i]])
+        Goc   Gob   Gmm
+    OC [b1_1, b2_1, b3_1],
+    OB [b1_2, b2_2, b3_2],
+    MM [b1_3, b2_3, b3_3]])
 """
 
 # Import the needed libraries
@@ -150,12 +150,12 @@ def save_data(data_frame, file_name, folder_path):
     file_path = os.path.join(folder_path, file_name)
     data_frame.to_csv(file_path, index=False)
 
-def save_Figure(Figure, file_name, folder_path):
+def save_Figure(figure, file_name, folder_path):
     """Save the Figure to a specific folder.
 
     Parameters:
     -----------
-    Figure: Matplotlib Figure
+    figure: Matplotlib Figure
         Figure object that needs to be saved.
     file_name: String
         The name for the plot.
@@ -163,14 +163,14 @@ def save_Figure(Figure, file_name, folder_path):
         Path to the folder where the data will be saved.
     """
     os.makedirs(folder_path, exist_ok=True)
-    Figure.savefig(os.path.join(folder_path, file_name))
+    figure.savefig(os.path.join(folder_path, file_name))
 
-def save_ternary(Figure, file_name, folder_path):
+def save_ternary(figure, file_name, folder_path):
     """Save the ternary plot in a specific folder.
 
     Parameters:
     -----------
-    Figure: Matplotlib Figure
+    figure: Matplotlib Figure
         Figure object that needs to be saved.
     file_name: String
         The name for the plot.
@@ -178,7 +178,7 @@ def save_ternary(Figure, file_name, folder_path):
         Path to the folder where the data will be saved.
     """
     os.makedirs(folder_path, exist_ok=True)
-    pio.write_image(Figure, os.path.join(folder_path, f'{file_name}.png'),
+    pio.write_image(figure, os.path.join(folder_path, f'{file_name}.png'),
                                                                  format='png')
 
 def collect_data(file_name, folder_path):
@@ -239,12 +239,12 @@ def fitness_WOC(xOC, xOB, xMM, N, cOC, cOB, cMM, matrix):
     -0.025499999999999967
     """
     # Extract the needed matrix values
-    a = matrix[0, 0]
-    b = matrix[0, 1]
-    c = matrix[0, 2]
+    b1_1 = matrix[0, 0]
+    b2_1 = matrix[0, 1]
+    b3_1 = matrix[0, 2]
 
     # Calculate the fitness value
-    WOC = (c*cMM*xMM + b*cOB*xOB + a* cOC* xOC)*(N - 1)/N - cOC #(18)
+    WOC = (b3_1*cMM*xMM + b2_1*cOB*xOB + b1_1* cOC* xOC)*(N - 1)/N - cOC #(18)
     return WOC
 
 def fitness_WOB(xOC, xOB, xMM, N, cOC, cOB, cMM, matrix):
@@ -284,12 +284,12 @@ def fitness_WOB(xOC, xOB, xMM, N, cOC, cOB, cMM, matrix):
     -0.2893
     """
     # Extract the necessary matrix values
-    d = matrix[1, 0]
-    e = matrix[1, 1]
-    f = matrix[1, 2]
+    b1_2 = matrix[1, 0]
+    b2_2 = matrix[1, 1]
+    b3_2 = matrix[1, 2]
 
     # Calculate the fitness value
-    WOB = (d*cOC*xOC + f*cMM*xMM + e*cOB*xOB)*(N - 1)/N - cOB #(19)
+    WOB = (b1_2*cOC*xOC + b3_2*cMM*xMM + b2_2*cOB*xOB)*(N - 1)/N - cOB #(19)
     return WOB
 
 def fitness_WMM(xOC, xOB, xMM, N, cOC, cOB, cMM, matrix):
@@ -329,12 +329,12 @@ def fitness_WMM(xOC, xOB, xMM, N, cOC, cOB, cMM, matrix):
     0.03750000000000003
     """
     # Extract the necessary matrix values
-    g = matrix[2, 0]
-    h = matrix[2, 1]
-    i = matrix[2, 2]
+    b1_3 = matrix[2, 0]
+    b2_3 = matrix[2, 1]
+    b3_3 = matrix[2, 2]
 
     # Calculate the fitness value
-    WMM = (g*cOC*xOC + i*cMM*xMM + h*cOB*xOB)*(N - 1)/N - cMM #(20)
+    WMM = (b1_3*cOC*xOC + b3_3*cMM*xMM + b2_3*cOB*xOB)*(N - 1)/N - cMM #(20)
     return WMM
 
 def model_dynamics(y, t, N, cOC, cOB, cMM, matrix):
@@ -395,13 +395,23 @@ def frac_to_fitness_values(dataframe_fractions, N, cOC, cOB, cMM, matrix):
 
     Parameters:
     -----------
-    dataframe_fractions: Dataframe
+    dataframe_fractions: DataFrame
         Dataframe with the fractions of the OB, OC and MM cells on every
         timepoint
+    N: Int
+        Number of cells in the difussion range.
+    cOC: Float
+        Cost value of the OC.
+    cOB: Float
+        Cost value of the OB.
+    cMM: Float
+        Cost value of the MMs.
+    matrix: Numpy.ndarray
+        Matrix with the payoff values.
 
     Returns:
     --------
-    dataframe_fitness: Dataframe
+    dataframe_fitness: DataFrame
         A dataframe with the fitness values of the OB, OC and MM cells and
         the avreage fitness on every time point.
     """

@@ -14,11 +14,11 @@ Description:  Code of the model that simulates the dynamics in the multiple
 
 Example interaction matrix:
 M = np.array([
-       Foc Fob Fmmd Fmmr
-    OC  [a,  b,  c,  d],
-    OB  [e,  f,  g,  h],
-    MMd [i,  j,  k,  l],
-    MMr [m,  n,  o,  p]])
+         Foc     Fob   Fmmd   Fmmr
+    OC  [b1,1,  b2,1,  b3,1,  b4,1],
+    OB  [b1,2,  b2,2,  b3,2,  b4,2],
+    MMd [b1,3,  b2,3,  b3,3,  b4,3],
+    MMr [b1,4,  b2,4,  b3,4,  b4,4]])
 """
 
 # Import the needed libraries
@@ -329,11 +329,12 @@ def combine_dataframes(df_1, df_2):
     """
     # Check if the dataframes are empty
     if df_1.empty or df_2.empty:
-        # return the dataframe that is not empty
+
+        # Return the dataframe that is not empty
         combined_df = df_1 if not df_1.empty else df_2
 
     else:
-        # delete the NA columns
+        # Delete the NA columns
         df_1 = df_1.dropna(axis=1, how='all')
         df_2 = df_2.dropna(axis=1, how='all')
 
@@ -378,12 +379,12 @@ def save_dictionary(dictionary, file_path):
         for key, value in dictionary.items():
             writer.writerow([str(key), str(value)])
 
-def save_Figure(Figure, file_name, folder_path):
+def save_Figure(figure, file_name, folder_path):
     """Save the Figure to a specific folder.
 
     Parameters:
     -----------
-    Figure: Matplotlib Figure
+    figure: Matplotlib Figure
         Figure object that needs to be saved.
     file_name: String
         The name for the plot.
@@ -391,7 +392,7 @@ def save_Figure(Figure, file_name, folder_path):
         Path to the folder where the data will be saved.
     """
     os.makedirs(folder_path, exist_ok=True)
-    Figure.savefig(os.path.join(folder_path, file_name))
+    figure.savefig(os.path.join(folder_path, file_name))
 
 def number_to_fractions(dataframe):
     """ Function that converts the numbers in a dataframe to a fractions
@@ -667,7 +668,7 @@ def x_y_z_axis_values_3d_plot(dataframe, name):
 
     Parameters:
     -----------
-    Dataframe: dataFrame
+    dataframe: DataFrame
         The dataframe with the generated data
     name: String
         The name of the administered IH(s)
