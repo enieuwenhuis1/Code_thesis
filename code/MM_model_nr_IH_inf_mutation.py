@@ -49,10 +49,10 @@ def main():
     # Do doc tests
     doctest.testmod()
 
-    # Make a figure showing the cell number dynamics by traditional therapy and
-    # by adaptive therapy
-    list_t_steps_drug = [3,3,3]
-    Figure_continuous_MTD_vs_AT_realistic(90, list_t_steps_drug)
+    # # Make a figure showing the cell number dynamics by traditional therapy and
+    # # by adaptive therapy
+    # list_t_steps_drug = [3,3,3]
+    # Figure_continuous_MTD_vs_AT_realistic(90, list_t_steps_drug)
 
     # Make a 3D figure showthing the effect of different drug holiday and
     # administration periods
@@ -4130,8 +4130,8 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
             surf = ax.plot_surface(X_W_IH, Y_W_IH, Z_W_IH, cmap='coolwarm')
 
             # Add labels
-            ax.set_xlabel('Generations no IH')
-            ax.set_ylabel('Generations IH')
+            ax.set_ylabel('Generations a')
+            ax.set_xlabel('Generations h')
             ax.set_zlabel('MM number')
             ax.set_title(r'A) $W_{MMd}$ IH', pad=10)
 
@@ -4146,8 +4146,8 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
             surf = ax.plot_surface(X_GF_IH, Y_GF_IH, Z_GF_IH, cmap = 'coolwarm')
 
             # Add labels
-            ax.set_xlabel('Generations no IH')
-            ax.set_ylabel('Generations IH')
+            ax.set_ylabel('Generations a')
+            ax.set_xlabel('Generations h')
             ax.set_zlabel('MM number')
             ax.set_title('B)  MMd GF IH', pad=10)
 
@@ -4163,8 +4163,8 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
             surf = ax.plot_surface(X_comb, Y_comb, Z_comb, cmap = 'coolwarm')
 
             # Add labels
-            ax.set_xlabel('Generations no IHs')
-            ax.set_ylabel('Generations IHs')
+            ax.set_ylabel('Generations a')
+            ax.set_xlabel('Generations h')
             ax.set_zlabel('MM number')
             ax.set_title('C)  IH combination', pad=10)
 
@@ -4560,7 +4560,7 @@ def Figure_AT_MMd_MMr_limit(upper_limit_MMd, upper_limit_MMr, limit):
     axs[0].set_xlim(1, 402)
     axs[0].set_xlabel('Generations', fontsize=12)
     axs[0].set_ylabel(r'Cell number ($n_{i}$)', fontsize=12)
-    axs[0].set_title(f"Traditional therapy MMd GF IH ", fontsize=14)
+    axs[0].set_title(f"Adaptive therapy MMd GF IH ", fontsize=14)
     axs[0].grid(True, linestyle='--')
 
     # Plot the data of the AT based on the MMd and MMr number (WMMd IH)
@@ -4571,7 +4571,7 @@ def Figure_AT_MMd_MMr_limit(upper_limit_MMd, upper_limit_MMr, limit):
     axs[1].set_xlim(1, 402)
     axs[1].set_xlabel('Generations', fontsize=12)
     axs[1].set_ylabel(' ')
-    axs[1].set_title(r"Traditional therapy $W_{MMd}$ IH", fontsize=14)
+    axs[1].set_title(r"Adaptive therapy $W_{MMd}$ IH", fontsize=14)
     axs[1].grid(True, linestyle='--')
 
     # Plot the data of the AT based on the MMd and MMr number (IH combination)
@@ -4582,7 +4582,7 @@ def Figure_AT_MMd_MMr_limit(upper_limit_MMd, upper_limit_MMr, limit):
     axs[2].set_xlim(1, 402)
     axs[2].set_xlabel('Generations', fontsize=12)
     axs[2].set_ylabel(' ')
-    axs[2].set_title(r"Traditional therapy IH combination", fontsize=14)
+    axs[2].set_title(r"Adaptive therapy IH combination", fontsize=14)
     axs[2].grid(True, linestyle='--')
 
     # Create a single legend outside of all plots

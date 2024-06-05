@@ -38,21 +38,21 @@ def main():
     # Do doc tests
     doctest.testmod()
 
-    # Make a figure showing the cell number dynamics by traditional therapy and
-    # by adaptive therapy (original situation)
-    list_t_steps_drug = [10, 10, 10]
-    Figure_continuous_MTD_vs_AT(20, list_t_steps_drug)
-
-    # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # by adaptive therapy for shorter holiday and administration periods compared
-    # to the original situation
-    list_t_steps_drug = [4, 4, 4]
-    Figure_continuous_MTD_vs_AT_short_a_h(50, list_t_steps_drug)
-
-    # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # by adaptive therapy for weaker IHs compared to the original situation
-    list_t_steps_drug = [10, 10, 10]
-    Figure_continuous_MTD_vs_AT_weak_a_h(20, list_t_steps_drug)
+    # # Make a figure showing the cell number dynamics by traditional therapy and
+    # # by adaptive therapy (original situation)
+    # list_t_steps_drug = [10, 10, 10]
+    # Figure_continuous_MTD_vs_AT(20, list_t_steps_drug)
+    #
+    # # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # # by adaptive therapy for shorter holiday and administration periods compared
+    # # to the original situation
+    # list_t_steps_drug = [4, 4, 4]
+    # Figure_continuous_MTD_vs_AT_short_a_h(50, list_t_steps_drug)
+    #
+    # # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # # by adaptive therapy for weaker IHs compared to the original situation
+    # list_t_steps_drug = [10, 10, 10]
+    # Figure_continuous_MTD_vs_AT_weak_a_h(20, list_t_steps_drug)
 
     # Make a 3D figure showthing the effect of different drug holiday and
     # administration periods
@@ -1501,8 +1501,8 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
             surf = ax.plot_surface(X_W_IH, Y_W_IH, Z_W_IH, cmap='coolwarm')
 
             # Add labels
-            ax.set_xlabel('Generations no IH')
-            ax.set_ylabel('Generations IH')
+            ax.set_ylabel('Generations a')
+            ax.set_xlabel('Generations h')
             ax.set_zlabel('Number of MM')
             ax.set_title(r'A) $W_{MMd}$ IH', pad=10)
 
@@ -1517,8 +1517,8 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
             surf = ax.plot_surface(X_GF_IH, Y_GF_IH, Z_GF_IH, cmap = 'coolwarm')
 
             # Add labels
-            ax.set_xlabel('Generations no IH')
-            ax.set_ylabel('Generations IH')
+            ax.set_ylabel('Generations a')
+            ax.set_xlabel('Generations h')
             ax.set_zlabel('Number of MM')
             ax.set_title('B)  MMd GF IH', pad=10)
 
@@ -1534,8 +1534,8 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
             surf = ax.plot_surface(X_comb, Y_comb, Z_comb, cmap = 'coolwarm')
 
             # Add labels
-            ax.set_xlabel('Generations no IHs')
-            ax.set_ylabel('Generations IHs')
+            ax.set_ylabel('Generations a')
+            ax.set_xlabel('Generations h')
             ax.set_zlabel('Number of MM')
             ax.set_title('C)  $W_{MMd}$ IH and MMd GF IH', pad=10)
 
