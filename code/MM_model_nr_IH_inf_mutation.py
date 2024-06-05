@@ -1,7 +1,8 @@
 """
-Author:            Eva Nieuwenhuis
-University group:  Biosystems Data Analysis Group, UvA
-Student ID:        13717405
+Author:       Eva Nieuwenhuis
+Student ID:   13717405
+University:   UvA
+Group:        Biosystems Data Analysis Group
 
 
 Description:  The code of the model that simulates the dynamics in the multiple
@@ -88,12 +89,12 @@ def main():
     Figure_AT_MMd_MMr_limit(1200, 700, 'high')
 
     """ The unweighted optimisation situations """
-    # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH ->
-    # holiday
+    # Optimise IH administration and holiday duration for MMd GF IH -> WMMd IH
+    # -> holiday
     minimise_MM_GF_W_h()
 
-    # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH ->
-    # holiday
+    # Optimise IH administration and holiday duration for WMMd IH -> MMd GF IH
+    # -> holiday
     minimise_MM_W_GF_h()
 
     # Optimise IH administration duration, holiday duration and strength for
@@ -112,8 +113,8 @@ def main():
     # WMMd IH -> holiday -> MMd GF IH ->  holiday
     minimise_MM_W_h_GF_h_IH()
 
-    # Optimise IH administration duration and holiday duration for MMd GF IH
-    # -> IH combination -> WMMd IH -> holiday
+    # Optimise IH administration duration and holiday duration for MMd GF IH ->
+    # IH combination -> WMMd IH -> holiday
     minimise_MM_GF_comb_W_h()
 
     # Optimise IH administration duration and holiday duration for WMMd IH ->

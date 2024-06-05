@@ -1,7 +1,8 @@
 """
-Author:            Eva Nieuwenhuis
-University group:  Biosystems Data Analysis Group, UvA
-Student ID:        13717405
+Author:       Eva Nieuwenhuis
+Student ID:   13717405
+University:   UvA
+Group:        Biosystems Data Analysis Group
 
 Description:  Code that attempts to replicate the formulas and figures from the
               paper by Sartakhti et al. (2018) to get a better understanding of

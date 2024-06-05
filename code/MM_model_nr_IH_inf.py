@@ -1,7 +1,8 @@
 """
-Author:            Eva Nieuwenhuis
-University group:  Biosystems Data Analysis Group, UvA
-Student ID:        13717405
+Author:       Eva Nieuwenhuis
+Student ID:   13717405
+University:   UvA
+Group:        Biosystems Data Analysis Group
 
 Description:  The code of the model that simulates the dynamics in the multiple
               myeloma (MM) microenvironment with four cell types: drug-sensitive

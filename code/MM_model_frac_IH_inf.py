@@ -1,7 +1,8 @@
 """
-Author:            Eva Nieuwenhuis
-University group:  Biosystems Data Analysis Group, UvA
-Student ID:        13717405
+Author:       Eva Nieuwenhuis
+Student ID:   13717405
+University:   UvA
+Group:        Biosystems Data Analysis Group
 
 Description:  Code with the model that simulates the dynamics in the multiple
               myeloma (MM) microenvironment with four cell types: drug-sensitive
@@ -696,6 +697,61 @@ def save_Figure(figure, file_name, folder_path):
     figure.savefig(os.path.join(folder_path, file_name))
 
 
+def make_part_df(dataframe, start_time, time, N, cOC, cOB, cMMd, cMMr, matrix,
+            WMMd_inhibitor = 0):
+    """ Function that adds the cell numbers over a specified time to a given
+    dataframe
+
+    Parameters:
+    -----------
+    dataframe: DataFrame
+        The dataframe to which the extra data should be added.
+    start_time: Int
+        The last generation in the current dataframe
+    time: Int
+        The time the cell number should be calculated
+    N: Int
+        Fraction of cells in the difussion range.
+    cOC: Float
+        Cost parameter OC.
+    cOB: Float
+        Cost parameter OB.
+    cMMd: Float
+        Cost parameter MMd.
+    cMMr: Float
+        Cost parameter MMr.
+    matrix: Numpy.ndarray
+        4x4 matrix containing the interaction factors
+    WMMd_inhibitor: Float
+        The effect of a drug on the MMd fitness.
+
+    Returns:
+    --------
+    df_total: Dataframe
+        Dataframe with the extra nOC, nOB, nMMd and nMMr values
+    """
+    # Determine the start fraction values
+    xOC = dataframe['xOC'].iloc[-1]
+    xOB = dataframe['xOB'].iloc[-1]
+    xMMd = dataframe['xMMd'].iloc[-1]
+    xMMr = dataframe['xMMr'].iloc[-1]
+
+    # Set start parameter values
+    t = np.linspace(start_time, start_time+ time, int(time))
+    y0 = [xOC, xOB, xMMd, xMMr]
+    parameters = (N, cOC, cOB, cMMd, cMMr, matrix, WMMd_inhibitor)
+
+    # Determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
+        'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
+
+    # Add dataframe to total dataframe
+    df_total = combine_dataframes(dataframe, df)
+    df_total.reset_index(drop=True, inplace=True)
+
+    return df_total
+
 def switch_dataframe(time_start_drugs, n_switches, t_steps_drug, t_steps_no_drug,
                 xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr, cOC_IH, cOB_IH,
                 matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor = 0):
@@ -716,20 +772,20 @@ def switch_dataframe(time_start_drugs, n_switches, t_steps_drug, t_steps_no_drug
         Fraction of OC.
     xOB: Float
         Fraction of OB.
-    xMMr: Float
-        Fraction of the MMr.
     xMMd: Float
         Fraction of the MMd.
+    xMMr: Float
+        Fraction of the MMr.
     N: Int
         Fraction of cells in the difussion range.
     cOC: Float
         Cost parameter OC.
     cOB: Float
         Cost parameter OB.
-    cMMr: Float
-        Cost parameter MMr.
     cMMd: Float
         Cost parameter MMd.
+    cMMr: Float
+        Cost parameter MMr.
     cOC_IH: Float
         Cost parameter OC when a IH is administered.
     cOB_IH: Float
@@ -769,28 +825,8 @@ def switch_dataframe(time_start_drugs, n_switches, t_steps_drug, t_steps_no_drug
 
         # If x = 0 make sure the MMd is inhibited
         if x == 0:
-
-            # Determine the start fraction values
-            xOC = df_total_switch['xOC'].iloc[-1]
-            xOB = df_total_switch['xOB'].iloc[-1]
-            xMMd = df_total_switch['xMMd'].iloc[-1]
-            xMMr = df_total_switch['xMMr'].iloc[-1]
-
-            # Payoff matrix
-            matrix = matrix_GF_IH
-
-            t = np.linspace(time, time + t_steps_drug, t_steps_drug)
-            y0 = [xOC, xOB, xMMd, xMMr]
-            parameters = (N, cOC_IH, cOB_IH, cMMd, cMMr, matrix, WMMd_inhibitor)
-
-            # Determine the ODE solutions
-            y = odeint(model_dynamics, y0, t, args=parameters)
-            df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
-
-            # Add dataframe to total dataframe
-            df_total_switch = combine_dataframes(df_total_switch, df)
-            df_total_switch.reset_index(drop=True, inplace=True)
+            df_total_switch = make_part_df(df_total_switch, time, t_steps_drug,
+                    N, cOC_IH, cOB_IH, cMMd, cMMr, matrix_GF_IH, WMMd_inhibitor)
 
             # Change the x and time value
             x = 1
@@ -798,27 +834,8 @@ def switch_dataframe(time_start_drugs, n_switches, t_steps_drug, t_steps_no_drug
 
         # If x = 1 make sure the MMd is not inhibited
         else:
-            # Determine the start fraction values
-            xOC = df_total_switch['xOC'].iloc[-1]
-            xOB = df_total_switch['xOB'].iloc[-1]
-            xMMd = df_total_switch['xMMd'].iloc[-1]
-            xMMr = df_total_switch['xMMr'].iloc[-1]
-
-            # Payoff matrix
-            matrix = matrix_no_GF_IH
-
-            t = np.linspace(time, time + t_steps_no_drug , t_steps_no_drug)
-            y0 = [xOC, xOB, xMMd, xMMr]
-            parameters = (N, cOC, cOB, cMMd, cMMr, matrix)
-
-            # Determine the ODE solutions
-            y = odeint(model_dynamics, y0, t, args=parameters)
-            df = pd.DataFrame({'Generation': t, 'xOC': y[:, 0], 'xOB': y[:, 1],
-                'xMMd': y[:, 2], 'xMMr': y[:, 3], 'total xMM': y[:, 3]+ y[:, 2]})
-
-            # Add dataframe to total dataframe
-            df_total_switch = combine_dataframes(df_total_switch, df)
-            df_total_switch.reset_index(drop=True, inplace=True)
+            df_total_switch = make_part_df(df_total_switch, time, t_steps_no_drug,
+                                    N, cOC, cOB, cMMd, cMMr, matrix_no_GF_IH)
 
             # Change the x and time value
             x = 0
