@@ -450,6 +450,7 @@ def frac_to_fitness_values(dataframe_fractions, N, cOC, cOB, cMMd, cMMr, matrix,
 
     return(dataframe_fitness)
 
+
 def combine_dataframes(df_1, df_2):
     """ Function that combines two datafranes in on dataframe
 
@@ -899,6 +900,65 @@ def minimal_tumour_frac_t_steps(t_steps_drug, t_steps_no_drug, xOC, xOB, xMMd,
 
     return float(average_MM_fraction)
 
+def dataframe_3D_plot(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
+                            matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor = 0):
+    """ Function that create a dataframe with the average MM fraction for
+    different IH administration and holiday durations
+
+    Parameters:
+    -----------
+    xOC: Float
+        Fraction of OC.
+    xOB: Float
+        Fraction of OB.
+    xMMr: Float
+        Fraction of the MMr.
+    xMMd: Float
+        Fraction of the MMd.
+    N: Int
+        fraction of cells in the difussion range.
+    cOC: Float
+        Cost parameter OC.
+    cOB: Float
+        Cost parameter OB.
+    cMMr: Float
+        Cost parameter MMr.
+    cMMd: Float
+        Cost parameter MMd.
+    matrix_no_GF_IH: Numpy.ndarray
+        4x4 matrix containing the interaction factors when no GF IH are
+                                                                administered.
+    matrix_GF_IH: Numpy.ndarray
+        4x4 matrix containing the interaction factors when GF IH are administered.
+    WMMd_inhibitor: Float
+        The effect of a drug on the MMd fitness.
+
+    Returns:
+    --------
+    df_MM_frac: DataFrame
+        The dataframe with the average MM fraction for different IH holiday
+        and administration durations
+    """
+    # Make a dataframe
+    column_names = ['Generations no drug', 'Generations drug', 'MM fraction']
+    df_MM_frac = pd.DataFrame(columns=column_names)
+
+    # Loop over all the t_step values for drug administration and drug holidays
+    for t_steps_no_drug in range(2, 22):
+
+        for t_steps_drug in range(2, 22):
+            frac_tumour = minimal_tumour_frac_t_steps(t_steps_drug,
+                t_steps_no_drug, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
+                matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor)
+
+            # Add results to the dataframe
+            new_row_df = pd.DataFrame([{'Generations no drug': \
+                    int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
+                                         'MM fraction': float(frac_tumour)}])
+            df_MM_frac = combine_dataframes(df_MM_frac, new_row_df)
+
+    return(df_MM_frac)
+
 def x_y_z_axis_values_3d_plot(dataframe, name):
     """ Function that determines the x, y and z axis values from the given
     dataframe. It also prints the administration and holiday duration leading
@@ -1231,8 +1291,8 @@ def Figure_best_b_OC_MMd():
         b_OC_MMd = b_OC_MMd/1000
 
         # Determine the total MM fraction
-        frac_tumour = minimal_tumour_frac_b_OC_MMd(b_OC_MMd, xOC, xOB, xMMd, xMMr,
-                                    N, cOC, cOB, cMMd, cMMr, matrix, t, False)
+        frac_tumour = minimal_tumour_frac_b_OC_MMd(b_OC_MMd, xOC, xOB, xMMd,
+                                xMMr, N, cOC, cOB, cMMd, cMMr, matrix, t, False)
         dict_frac_tumour_GF[b_OC_MMd] = frac_tumour
 
     # Save the data
@@ -1611,9 +1671,9 @@ def Figure_continuous_MTD_vs_AT_weak_a_h(n_switches, t_steps_drug):
 
     # Make dataframes for continiously administration
     df_total_GF = continuous_add_IH_df(135, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
-            cMMd, cMMr, matrix_no_GF_IH, matrix_GF_IH)
+                                    cMMd, cMMr, matrix_no_GF_IH, matrix_GF_IH)
     df_total_WMMd = continuous_add_IH_df(135, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
-            cMMd, cMMr, matrix_no_GF_IH, matrix_no_GF_IH, WMMd_inhibitor)
+                cMMd, cMMr, matrix_no_GF_IH, matrix_no_GF_IH, WMMd_inhibitor)
     df_total_comb = continuous_add_IH_df(135, xOC, xOB, xMMd, xMMr, N, cOC, cOB,
             cMMd, cMMr, matrix_no_GF_IH, matrix_IH_comb, WMMd_inhibitor_comb)
 
@@ -1736,23 +1796,9 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
     # WMMd inhibitor effect when only WMMd IH is present
     WMMd_inhibitor = 1.25
 
-    # Make a dataframe
-    column_names = ['Generations no drug', 'Generations drug', 'MM fraction']
-    df_holiday_GF_IH = pd.DataFrame(columns=column_names)
-
-    # Loop over all the t_step values for drug administration and drug holidays
-    for t_steps_no_drug in range(2, 22):
-
-        for t_steps_drug in range(2, 22):
-            frac_tumour = minimal_tumour_frac_t_steps(t_steps_drug,
-                            t_steps_no_drug, xOC, xOB, xMMd, xMMr, N, cOC,
-                            cOB, cMMd, cMMr, matrix_no_GF_IH, matrix_GF_IH)
-
-            # Add results to the dataframe
-            new_row_df = pd.DataFrame([{'Generations no drug': \
-                    int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
-                                             'MM fraction': float(frac_tumour)}])
-            df_holiday_GF_IH = combine_dataframes(df_holiday_GF_IH, new_row_df)
+    # Create a dataframe
+    df_holiday_GF_IH = dataframe_3D_plot( xOC, xOB, xMMd, xMMr, N, cOC, cOB,
+        cMMd, cMMr, matrix_no_GF_IH, matrix_GF_IH)
 
     # Save the data
     save_dataframe(df_holiday_GF_IH, 'df_cell_frac_best_MMd_GH_IH_holiday.csv',
@@ -1760,25 +1806,11 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
 
     # Determine the axis values
     X_GF_IH, Y_GF_IH, Z_GF_IH = x_y_z_axis_values_3d_plot(df_holiday_GF_IH,
-                                                                        "GF IH")
+                                                                        'GF IH')
 
-    # Make a dataframe
-    column_names = ['Generations no drug', 'Generations drug', 'MM fraction']
-    df_holiday_W_IH = pd.DataFrame(columns=column_names)
-
-    # Loop over al the t_step values for drug dministration and drug holidays
-    for t_steps_no_drug in range(2, 22):
-
-        for t_steps_drug in range(2, 22):
-            frac_tumour = minimal_tumour_frac_t_steps(t_steps_drug,
-                        t_steps_no_drug, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd,
-                        cMMr, matrix_no_GF_IH, matrix_no_GF_IH, WMMd_inhibitor)
-
-            # Add results to the dataframe
-            new_row_df = pd.DataFrame([{'Generations no drug':\
-                    int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
-                                         'MM fraction': float(frac_tumour)}])
-            df_holiday_W_IH = combine_dataframes(df_holiday_W_IH, new_row_df)
+    # Create a dataframe
+    df_holiday_W_IH = dataframe_3D_plot(xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd,
+        cMMr, matrix_no_GF_IH, matrix_no_GF_IH, WMMd_inhibitor)
 
     # Save the data
     save_dataframe(df_holiday_W_IH, 'df_cell_frac_best_WMMd_IH_holiday.csv',
@@ -1787,31 +1819,21 @@ def Figure_3D_MM_frac_IH_add_and_holiday():
     # Determine the axis values
     X_W_IH, Y_W_IH, Z_W_IH = x_y_z_axis_values_3d_plot(df_holiday_W_IH, "W IH")
 
-    # Make a dataframe
-    column_names = ['Generations no drug', 'Generations drug', 'MM fraction']
-    df_holiday_comb = pd.DataFrame(columns=column_names)
+    # Create a dataframe
+    df_holiday_comb = dataframe_3D_plot(xOC, xOB, xMMd, xMMr, N, cOC,
+        cOB, cMMd, cMMr, matrix_no_GF_IH, matrix_IH_comb, WMMd_inhibitor_comb)
 
-    # Loop over al the t_step values for drug dministration and drug holidays
-    for t_steps_no_drug in range(2, 22):
+    # Save the data
+    save_dataframe(df_holiday_comb, 'df_cell_frac_IH_best_comb_IH_holiday.csv',
+                                         r'..\data\data_model_frac_IH_inf')
 
-        for t_steps_drug in range(2, 22):
-            frac_tumour = minimal_tumour_frac_t_steps(t_steps_drug,
-                t_steps_no_drug, xOC, xOB, xMMd, xMMr, N, cOC, cOB, cMMd, cMMr,
-                matrix_no_GF_IH, matrix_IH_comb, WMMd_inhibitor_comb)
-
-            # Add results to the dataframe
-            new_row_df = pd.DataFrame([{'Generations no drug': \
-                    int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
-                                            'MM fraction': float(frac_tumour)}])
-            df_holiday_comb = combine_dataframes(df_holiday_comb, new_row_df)
+    # Determine the axis values
+    X_comb, Y_comb, Z_comb = x_y_z_axis_values_3d_plot(df_holiday_comb,
+                                                            'IH combination')
 
     # Save the data
     save_dataframe(df_holiday_comb, 'df_cell_frac_best_comb_IH_holiday.csv',
                                              r'..\data\data_model_fractions')
-
-    # Determine the axis values
-    X_comb, Y_comb, Z_comb = x_y_z_axis_values_3d_plot(df_holiday_comb,
-                                                                "IH combination")
 
     # Create a figure and a grid of subplots
     fig, axes = plt.subplots(2, 2, figsize=(11, 9), subplot_kw={'projection': '3d'},
@@ -2086,6 +2108,7 @@ def Figure_3_senarios_MMd_GF_IH(n_switches, t_steps_drug):
     # Create a Figure
     fig, axs = plt.subplots(2, 2, figsize=(16, 10))
     g = 'generations'
+    aa = 'are administered'
     t = t_steps_drug
 
     # Plot the data without drug holidays in the first plot
@@ -2093,7 +2116,7 @@ def Figure_3_senarios_MMd_GF_IH(n_switches, t_steps_drug):
     'fraction OC', 'fraction OB', 'fraction MMd','fraction MMr'], ax=axs[0, 0])
     axs[0, 0].set_xlabel(' ')
     axs[0, 0].set_ylabel('MM fraction')
-    axs[0, 0].set_title(f'Dynamics when MMd GF inhibitors are administered continuously')
+    axs[0, 0].set_title(f'Dynamics when MMd GF inhibitors {aa} continuously')
     axs[0, 0].legend(loc = 'upper right')
     axs[0, 0].grid(True)
 
@@ -2103,7 +2126,7 @@ def Figure_3_senarios_MMd_GF_IH(n_switches, t_steps_drug):
                            'fraction MMr'], ax=axs[0, 1])
     axs[0, 1].set_xlabel(' ')
     axs[0, 1].set_ylabel('MM fraction')
-    axs[0, 1].set_title(f'Dynamics when MMd GF inhibitors are administered every {t[0]} {g}')
+    axs[0, 1].set_title(f'Dynamics when MMd GF inhibitors {aa} every {t[0]} {g}')
     axs[0, 1].legend(loc = 'upper right')
     axs[0, 1].grid(True)
 
@@ -2113,7 +2136,7 @@ def Figure_3_senarios_MMd_GF_IH(n_switches, t_steps_drug):
                             'fraction MMr'], ax=axs[1, 0])
     axs[1, 0].set_xlabel('Generations')
     axs[1, 0].set_ylabel('MM fraction')
-    axs[1, 0].set_title(f'Dynamics when MMd GF inhibitors are administered every {t[1]} {g}')
+    axs[1, 0].set_title(f'Dynamics when MMd GF inhibitors {aa} every {t[1]} {g}')
     axs[1, 0].legend(loc = 'upper right')
     axs[1, 0].grid(True)
     plt.grid(True)
@@ -2124,7 +2147,7 @@ def Figure_3_senarios_MMd_GF_IH(n_switches, t_steps_drug):
                             'fraction MMr'], ax=axs[1, 1])
     axs[1, 1].set_xlabel('Generations')
     axs[1, 1].set_ylabel('MM fraction')
-    axs[1, 1].set_title(f'Dynamics when MMd GF inhibitors are administered every {t[2]} {g}')
+    axs[1, 1].set_title(f'Dynamics when MMd GF inhibitors {aa} every {t[2]} {g}')
     axs[1, 1].legend(loc = 'upper right')
     axs[1, 1].grid(True)
     save_Figure(plt, 'line_plot_cell_frac_MMd_GF_inhibit',
@@ -2215,6 +2238,7 @@ def Figure_3_senarios_WMMd_IH(n_switches, t_steps_drug):
     # Create a Figure
     fig, axs = plt.subplots(2, 2, figsize=(16, 10))
     g = 'generations'
+    aa = 'are administered'
     t = t_steps_drug
 
     # Plot the data without drug holidays in the first plot
@@ -2222,7 +2246,7 @@ def Figure_3_senarios_WMMd_IH(n_switches, t_steps_drug):
     'fraction OC', 'fraction OB', 'fraction MMd','fraction MMr'], ax=axs[0, 0])
     axs[0, 0].set_xlabel(' ')
     axs[0, 0].set_ylabel('MM fraction')
-    axs[0, 0].set_title(f'Dynamics when drugs are administered continuously')
+    axs[0, 0].set_title(f'Dynamics when drugs {aa} continuously')
     axs[0, 0].legend(loc = 'upper right')
     axs[0, 0].grid(True)
 
@@ -2232,7 +2256,7 @@ def Figure_3_senarios_WMMd_IH(n_switches, t_steps_drug):
             ax=axs[0, 1])
     axs[0, 1].set_xlabel(' ')
     axs[0, 1].set_ylabel('MM fraction')
-    axs[0, 1].set_title(f'Dynamics when WMMd inhibitors are administered every {t[0]} {g}')
+    axs[0, 1].set_title(f'Dynamics when WMMd inhibitors {aa} every {t[0]} {g}')
     axs[0, 1].legend(loc = 'upper right')
     axs[0, 1].grid(True)
 
@@ -2242,7 +2266,7 @@ def Figure_3_senarios_WMMd_IH(n_switches, t_steps_drug):
             ax=axs[1, 0])
     axs[1, 0].set_xlabel('Generations')
     axs[1, 0].set_ylabel('MM fraction')
-    axs[1, 0].set_title(f'Dynamics when WMMd inhibitors are administered every {t[1]} {g}')
+    axs[1, 0].set_title(f'Dynamics when WMMd inhibitors {aa} every {t[1]} {g}')
     axs[1, 0].legend(loc = 'upper right')
     axs[1, 0].grid(True)
     plt.grid(True)
@@ -2253,7 +2277,7 @@ def Figure_3_senarios_WMMd_IH(n_switches, t_steps_drug):
             ax=axs[1, 1])
     axs[1, 1].set_xlabel('Generations')
     axs[1, 1].set_ylabel('MM fraction')
-    axs[1, 1].set_title(f'Dynamics when WMMd inhibitors are administered every {t[2]} {g}')
+    axs[1, 1].set_title(f'Dynamics when WMMd inhibitors {aa} every {t[2]} {g}')
     axs[1, 1].legend(loc = 'upper right')
     axs[1, 1].grid(True)
     save_Figure(plt, 'line_plot_cell_frac_WMMd_inhibit',
@@ -2429,14 +2453,14 @@ def Figure_frac_fitness_dynamics():
 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_1_MMd_GF_inhibition = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    df_1_MMd_GF_IH = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
                             'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
 
     # Determine the current fractions
-    xOC = df_1_MMd_GF_inhibition['xOC'].iloc[-1]
-    xOB = df_1_MMd_GF_inhibition['xOB'].iloc[-1]
-    xMMd = df_1_MMd_GF_inhibition['xMMd'].iloc[-1]
-    xMMr = df_1_MMd_GF_inhibition['xMMr'].iloc[-1]
+    xOC = df_1_MMd_GF_IH['xOC'].iloc[-1]
+    xOB = df_1_MMd_GF_IH['xOB'].iloc[-1]
+    xMMd = df_1_MMd_GF_IH['xMMd'].iloc[-1]
+    xMMr = df_1_MMd_GF_IH['xMMr'].iloc[-1]
 
     # Payoff matrix
     matrix_GF_IH = np.array([
@@ -2452,12 +2476,11 @@ def Figure_frac_fitness_dynamics():
 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_2_MMd_GF_inhibition = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    df_2_MMd_GF_IH = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
                             'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
 
     # Combine the dataframes
-    df_MMd_GF_inhibition = combine_dataframes(df_1_MMd_GF_inhibition,
-                                                        df_2_MMd_GF_inhibition)
+    df_MMd_GF_IH = combine_dataframes(df_1_MMd_GF_IH, df_2_MMd_GF_IH)
 
     # Set new start parameter values
     xOC = 0.15
@@ -2472,14 +2495,14 @@ def Figure_frac_fitness_dynamics():
 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_1_WMMd_inhibition = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    df_1_WMMd_IH = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
                             'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
 
     # Determine the current fractions
-    xOC = df_1_WMMd_inhibition['xOC'].iloc[-1]
-    xOB = df_1_WMMd_inhibition['xOB'].iloc[-1]
-    xMMd = df_1_WMMd_inhibition['xMMd'].iloc[-1]
-    xMMr = df_1_WMMd_inhibition['xMMr'].iloc[-1]
+    xOC = df_1_WMMd_IH['xOC'].iloc[-1]
+    xOB = df_1_WMMd_IH['xOB'].iloc[-1]
+    xMMd = df_1_WMMd_IH['xMMd'].iloc[-1]
+    xMMr = df_1_WMMd_IH['xMMr'].iloc[-1]
 
     # Initial conditions
     t = np.linspace(25, 100, 75)
@@ -2489,43 +2512,42 @@ def Figure_frac_fitness_dynamics():
 
     # Determine the ODE solutions
     y = odeint(model_dynamics, y0, t, args=parameters)
-    df_2_WMMd_inhibition = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
+    df_2_WMMd_IH = pd.DataFrame({'Generation': t, 'xOC': y[:, 0],
                             'xOB': y[:, 1], 'xMMd': y[:, 2], 'xMMr': y[:, 3]})
 
     # Combine the dataframes
-    df_WMMd_inhibition = combine_dataframes(df_1_WMMd_inhibition,
-                                                        df_2_WMMd_inhibition)
+    df_WMMd_IH = combine_dataframes(df_1_WMMd_IH, df_2_WMMd_IH)
 
     # Make dataframes for the fitness values
-    df_fitness_WMMd_inhibition_1 = frac_to_fitness_values(df_1_WMMd_inhibition,
-                                    N, cOC, cOB, cMMd, cMMr, matrix_no_GF_IH)
-    df_fitness_WMMd_inhibition_2 = frac_to_fitness_values(df_2_WMMd_inhibition,
-                    N, cOC, cOB, cMMd, cMMr, matrix_no_GF_IH, WMMd_inhibitor)
-    df_fitness_WMMd_inhibition = combine_dataframes(df_fitness_WMMd_inhibition_1,
-                            df_fitness_WMMd_inhibition_2)
+    df_fitness_WMMd_IH_1 = frac_to_fitness_values(df_1_WMMd_IH, N, cOC, cOB,
+                                                    cMMd, cMMr, matrix_no_GF_IH)
+    df_fitness_WMMd_IH_2 = frac_to_fitness_values(df_2_WMMd_IH, N, cOC, cOB,
+                                    cMMd, cMMr, matrix_no_GF_IH, WMMd_inhibitor)
+    df_fitness_WMMd_IH = combine_dataframes(df_fitness_WMMd_IH_1,
+                                                        df_fitness_WMMd_IH_2)
 
-    df_fitness_MMd_GF_inhibition_1 = frac_to_fitness_values(df_1_MMd_GF_inhibition,
-                                       N, cOC, cOB, cMMd, cMMr, matrix_no_GF_IH)
-    df_fitness_MMd_GF_inhibition_2 = frac_to_fitness_values(df_2_MMd_GF_inhibition,
-                                          N, cOC, cOB, cMMd, cMMr, matrix_GF_IH)
-    df_fitness_MMd_GF_inhibition = combine_dataframes(df_fitness_MMd_GF_inhibition_1,
-                              df_fitness_MMd_GF_inhibition_2)
+    df_fitness_MMd_GF_IH_1 = frac_to_fitness_values(df_1_MMd_GF_IH, N, cOC, cOB,
+                                                    cMMd, cMMr, matrix_no_GF_IH)
+    df_fitness_MMd_GF_IH_2 = frac_to_fitness_values(df_2_MMd_GF_IH, N, cOC, cOB,
+                                                    cMMd, cMMr, matrix_GF_IH)
+    df_fitness_MMd_GF_IH = combine_dataframes(df_fitness_MMd_GF_IH_1,
+                                                        df_fitness_MMd_GF_IH_2)
 
     # Save the data
-    save_dataframe(df_WMMd_inhibition, 'df_cell_frac_cWMMd_inhibit.csv',
+    save_dataframe(df_WMMd_IH, 'df_cell_frac_cWMMd_inhibit.csv',
                                             r'..\data\data_model_fractions')
-    save_dataframe(df_MMd_GF_inhibition, 'df_cell_frac_MMd_GF_inhibit.csv',
+    save_dataframe(df_MMd_GF_IH, 'df_cell_frac_MMd_GF_inhibit.csv',
                                              r'..\data\data_model_fractions')
-    save_dataframe(df_fitness_WMMd_inhibition, 'df_fitness_WMMd_inhibit.csv',
+    save_dataframe(df_fitness_WMMd_IH, 'df_fitness_WMMd_inhibit.csv',
                                              r'..\data\data_model_fractions')
-    save_dataframe(df_fitness_MMd_GF_inhibition, 'df_fitness_MMd_GF_inhibit.csv',
+    save_dataframe(df_fitness_MMd_GF_IH, 'df_fitness_MMd_GF_inhibit.csv',
                                             r'..\data\data_model_fractions')
 
     # Create a Figure
     fig, axs = plt.subplots(2, 2, figsize=(16, 8))
 
     # Plot first subplot
-    df_WMMd_inhibition.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+    df_WMMd_IH.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
                         label=['Fraction OC', 'Fraction OB', 'Fraction MMd',
                                  'Fraction MMr'], ax=axs[0, 0])
     axs[0, 0].set_xlabel(' ')
@@ -2535,7 +2557,7 @@ def Figure_frac_fitness_dynamics():
     axs[0, 0].grid(True)
 
     # Plot the second subplot
-    df_fitness_WMMd_inhibition.plot(y=['WOC', 'WOB', 'WMMd', 'WMMr', 'W_average'],
+    df_fitness_WMMd_IH.plot(y=['WOC', 'WOB', 'WMMd', 'WMMr', 'W_average'],
                             label = ['Fitness OC', 'Fitness OB', 'Fitness MMd',
                             'Fitness MMr', 'Average fitness'],  ax=axs[1, 0])
     axs[1, 0].set_title(r'Fitness dynamics when a $W_{MMd}$ IH is administered')
@@ -2547,7 +2569,7 @@ def Figure_frac_fitness_dynamics():
     axs[1, 0].grid(True)
 
     # Plot the third subplot
-    df_MMd_GF_inhibition.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
+    df_MMd_GF_IH.plot(x='Generation', y=['xOC', 'xOB', 'xMMd', 'xMMr'],
                         label=['Fraction OC', 'Fraction OB', 'Fraction MMd',
                                                 'Fraction MMr'], ax=axs[0, 1])
     axs[0, 1].set_xlabel(' ')
@@ -2557,7 +2579,7 @@ def Figure_frac_fitness_dynamics():
     axs[0, 1].grid(True)
 
     # Plot the fourth subplot
-    df_fitness_MMd_GF_inhibition.plot(y=['WOC', 'WOB', 'WMMd', 'WMMr', 'W_average'],
+    df_fitness_MMd_GF_IH.plot(y=['WOC', 'WOB', 'WMMd', 'WMMr', 'W_average'],
                              label = ['Fitness OC', 'Fitness OB', 'Fitness MMd',
                             'Fitness MMr', 'Average fitness'],  ax=axs[1, 1])
     axs[1, 1].set_title('Fitness dynamics when a MMd GF IH is administered')

@@ -38,21 +38,21 @@ def main():
     # Do doc tests
     doctest.testmod()
 
-    # # Make a figure showing the cell number dynamics by traditional therapy and
-    # # by adaptive therapy (original situation)
-    # list_t_steps_drug = [10, 10, 10]
-    # Figure_continuous_MTD_vs_AT(20, list_t_steps_drug)
-    #
-    # # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # # by adaptive therapy for shorter holiday and administration periods compared
-    # # to the original situation
-    # list_t_steps_drug = [4, 4, 4]
-    # Figure_continuous_MTD_vs_AT_short_a_h(50, list_t_steps_drug)
-    #
-    # # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # # by adaptive therapy for weaker IHs compared to the original situation
-    # list_t_steps_drug = [10, 10, 10]
-    # Figure_continuous_MTD_vs_AT_weak_a_h(20, list_t_steps_drug)
+    # Make a figure showing the cell number dynamics by traditional therapy and
+    # by adaptive therapy (original situation)
+    list_t_steps_drug = [10, 10, 10]
+    Figure_continuous_MTD_vs_AT(20, list_t_steps_drug)
+
+    # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # by adaptive therapy for shorter holiday and administration periods compared
+    # to the original situation
+    list_t_steps_drug = [4, 4, 4]
+    Figure_continuous_MTD_vs_AT_short_a_h(50, list_t_steps_drug)
+
+    # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # by adaptive therapy for weaker IHs compared to the original situation
+    list_t_steps_drug = [10, 10, 10]
+    Figure_continuous_MTD_vs_AT_weak_a_h(20, list_t_steps_drug)
 
     # Make a 3D figure showthing the effect of different drug holiday and
     # administration periods
@@ -212,8 +212,8 @@ def dMMd_dt(nOC, nOB, nMMd, nMMr, gr_MMd, dr_MMd, matrix, WMMd_inhibitor = 0):
     b4_3 = matrix[2, 3]
 
     # Calculate the change in the number of MMd
-    change_nMMd = (gr_MMd * nOC**b1_3 * nOB**b2_3 * nMMd**b3_3 * nMMr**b4_3 - nMMd * \
-                                             WMMd_inhibitor) - (dr_MMd * nMMd)
+    change_nMMd = (gr_MMd * nOC**b1_3 * nOB**b2_3 * nMMd**b3_3 * nMMr**b4_3 - \
+                                    nMMd * WMMd_inhibitor) - (dr_MMd * nMMd)
 
     return change_nMMd
 
@@ -673,6 +673,59 @@ def continuous_add_IH_df(end_generation, nOC, nOB, nMMd, nMMr, growth_rates,
     df_total = combine_dataframes(df_1, df_2)
 
     return df_total
+
+def dataframe_3D_plot(nOC, nOB, nMMd, nMMr, growth_rates, decay_rates,
+                            matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor = 0):
+    """ Function that create a dataframe with the average MM number for
+    different IH administration and holiday durations
+
+    Parameters:
+    -----------
+    nOC: Float
+        Number of OC.
+    nOB: Float
+        Number of OB.
+    nMMd: Float
+        Number of the MMd.
+    nMMr: Float
+        Number of the MMr.
+    growth_rates: List
+        List with the growth rate values of the OC, OB, MMd and MMr.
+    decay_rates: List
+        List with the decay rate values of OC, OB, MMd and MMr.
+    matrix_no_GF_IH: Numpy.ndarray
+        4x4 matrix containing the interaction factors when no GF IH are
+        administered.
+    matrix_GF_IH: Numpy.ndarray
+        4x4 matrix containing the interaction factors when GF IH are administered.
+    WMMd_inhibitor: Float
+        The effect of a drug on the MMd fitness.
+
+    Returns:
+    --------
+    df_MM_frac: DataFrame
+        The dataframe with the average MM number for different IH holiday
+        and administration durations
+    """
+    # Make a dataframe
+    column_names = ['Generations no drug', 'Generations drug', 'MM number']
+    df_MM_nr = pd.DataFrame(columns=column_names)
+
+    # Loop over all the t_step values for drug administration and drug holidays
+    for t_steps_no_drug in range(2, 22):
+
+        for t_steps_drug in range(2, 22):
+            numb_tumour = minimal_tumour_numb_t_steps(t_steps_drug,
+                    t_steps_no_drug, nOC, nOB, nMMd, nMMr, growth_rates,
+                    decay_rates, matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor)
+
+            # Add results to the dataframe
+            new_row_df = pd.DataFrame([{'Generations no drug': \
+                    int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
+                                             'MM number': float(numb_tumour)}])
+            df_MM_nr = combine_dataframes(df_MM_nr, new_row_df)
+
+    return(df_MM_nr)
 
 def minimal_tumour_numb_t_steps(t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd,
                                 nMMr, growth_rates, decay_rates, matrix_no_GF_IH,
@@ -1414,23 +1467,9 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
     # WMMd inhibitor effect when only WMMd IH is present
     WMMd_inhibitor = 0.38
 
-    # Make a dataframe
-    column_names = ['Generations no drug', 'Generations drug', 'MM number']
-    df_holiday_GF_IH = pd.DataFrame(columns=column_names)
-
-    # Loop over all the t_step values for drug administration and drug holidays
-    for t_steps_no_drug in range(2, 22):
-
-        for t_steps_drug in range(2, 22):
-            numb_tumour = minimal_tumour_numb_t_steps(t_steps_drug,
-                            t_steps_no_drug, nOC, nOB, nMMd, nMMr, growth_rates,
-                            decay_rates, matrix_no_GF_IH, matrix_GF_IH)
-
-            # Add results to the dataframe
-            new_row_df = pd.DataFrame([{'Generations no drug':
-                    int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
-                                             'MM number': float(numb_tumour)}])
-            df_holiday_GF_IH = combine_dataframes(df_holiday_GF_IH, new_row_df)
+    # Create a dataframe
+    df_holiday_GF_IH = dataframe_3D_plot(nOC, nOB, nMMd, nMMr, growth_rates,
+             decay_rates, matrix_no_GF_IH, matrix_GF_IH)
 
     # Save the data
     save_dataframe(df_holiday_GF_IH, 'df_cell_numb_best_MMd_GH_IH_holiday.csv',
@@ -1438,25 +1477,11 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
 
     # Determine the axis values
     X_GF_IH, Y_GF_IH, Z_GF_IH = x_y_z_axis_values_3d_plot(df_holiday_GF_IH,
-                                                                        'GF IH')
+                                                                        "GF IH")
 
-    # Make a dataframe
-    column_names = ['Generations no drug', 'Generations drug', 'MM number']
-    df_holiday_W_IH = pd.DataFrame(columns=column_names)
-
-    # Loop over al the t_step values for drug dministration and drug holidays
-    for t_steps_no_drug in range(2, 22):
-
-        for t_steps_drug in range(2, 22):
-            numb_tumour = minimal_tumour_numb_t_steps(t_steps_drug,
-                    t_steps_no_drug, nOC, nOB, nMMd, nMMr, growth_rates,
-                    decay_rates,matrix_no_GF_IH, matrix_no_GF_IH, WMMd_inhibitor)
-
-            # Add results to the dataframe
-            new_row_df = pd.DataFrame([{'Generations no drug': \
-                    int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
-                    'MM number': float(numb_tumour)}])
-            df_holiday_W_IH = combine_dataframes(df_holiday_W_IH, new_row_df)
+    # Create a dataframe
+    df_holiday_W_IH = dataframe_3D_plot(nOC, nOB, nMMd, nMMr, growth_rates,
+                decay_rates, matrix_no_GF_IH, matrix_no_GF_IH, WMMd_inhibitor)
 
     # Save the data
     save_dataframe(df_holiday_W_IH, 'df_cell_numb_best_WMMd_IH_holiday.csv',
@@ -1465,23 +1490,9 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
     # Determine the axis values
     X_W_IH, Y_W_IH, Z_W_IH = x_y_z_axis_values_3d_plot(df_holiday_W_IH, 'W IH')
 
-    # Make a dataframe
-    column_names = ['Generations no drug', 'Generations drug', 'MM number']
-    df_holiday_comb = pd.DataFrame(columns=column_names)
-
-    # Loop over al the t_step values for drug dministration and drug holidays
-    for t_steps_no_drug in range(2, 22):
-
-        for t_steps_drug in range(2, 22):
-            numb_tumour = minimal_tumour_numb_t_steps(t_steps_drug,
-                t_steps_no_drug, nOC, nOB, nMMd, nMMr, growth_rates, decay_rates,
-                matrix_no_GF_IH, matrix_IH_comb, WMMd_inhibitor_comb)
-
-            # Add results to the dataframe
-            new_row_df = pd.DataFrame([{'Generations no drug': \
-                    int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
-                    'MM number': float(numb_tumour)}])
-            df_holiday_comb = combine_dataframes(df_holiday_comb, new_row_df)
+    # Create a dataframe
+    df_holiday_comb = dataframe_3D_plot(nOC, nOB, nMMd, nMMr, growth_rates,
+            decay_rates, matrix_no_GF_IH, matrix_IH_comb, WMMd_inhibitor_comb)
 
     # Save the data
     save_dataframe(df_holiday_comb, 'df_cell_numb_best_comb_IH_holiday.csv',
@@ -1489,7 +1500,7 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
 
     # Determine the axis values
     X_comb, Y_comb, Z_comb = x_y_z_axis_values_3d_plot(df_holiday_comb,
-                                                            'IH comnbination')
+                                                                "IH combination")
 
     # Create a figure and a grid of subplots
     fig, axes = plt.subplots(2, 2, figsize=(11, 9), subplot_kw={'projection': '3d'},

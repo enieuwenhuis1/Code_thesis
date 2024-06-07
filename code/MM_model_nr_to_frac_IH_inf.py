@@ -38,32 +38,32 @@ def main():
     # Do doc tests
     doctest.testmod()
 
-    # # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # # by adaptive therapy (original situation)
-    # list_t_steps_drug = [10, 10, 10]
-    # Figure_continuous_MTD_vs_AT(20, list_t_steps_drug)
-    #
-    # # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # # by adaptive therapy for shorter holiday and administration periods compared
-    # # to the original situation
-    # list_t_steps_drug = [4, 4, 4]
-    # Figure_continuous_MTD_vs_AT_short_a_h(50, list_t_steps_drug)
-    #
-    # # Make a figure showing the cell fraction dynamics by traditional therapy and
-    # # by adaptive therapy for weaker IHs compared to the original situation
-    # list_t_steps_drug = [10, 10, 10]
-    # Figure_continuous_MTD_vs_AT_weak_a_h(20, list_t_steps_drug)
-    #
-    # # Make a figure showing the cell number dynamics by traditional therapy and
-    # # by adaptive therapy
-    # list_t_steps_drug = [3, 3, 3]
-    # Figure_continuous_MTD_vs_AT_realistic(90, list_t_steps_drug)
-    #
-    # # Make a figure that shows the MM fraction for different bOC,MMd values
-    # Figure_best_b_OC_MMd()
-    #
-    # # Make a figure that shows the MM fraction for different WMMd IH values
-    # Figure_best_WMMd_IH()
+    # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # by adaptive therapy (original situation)
+    list_t_steps_drug = [10, 10, 10]
+    Figure_continuous_MTD_vs_AT(20, list_t_steps_drug)
+
+    # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # by adaptive therapy for shorter holiday and administration periods compared
+    # to the original situation
+    list_t_steps_drug = [4, 4, 4]
+    Figure_continuous_MTD_vs_AT_short_a_h(50, list_t_steps_drug)
+
+    # Make a figure showing the cell fraction dynamics by traditional therapy and
+    # by adaptive therapy for weaker IHs compared to the original situation
+    list_t_steps_drug = [10, 10, 10]
+    Figure_continuous_MTD_vs_AT_weak_a_h(20, list_t_steps_drug)
+
+    # Make a figure showing the cell number dynamics by traditional therapy and
+    # by adaptive therapy
+    list_t_steps_drug = [3, 3, 3]
+    Figure_continuous_MTD_vs_AT_realistic(90, list_t_steps_drug)
+
+    # Make a figure that shows the MM fraction for different bOC,MMd values
+    Figure_best_b_OC_MMd()
+
+    # Make a figure that shows the MM fraction for different WMMd IH values
+    Figure_best_WMMd_IH()
 
     # Make a 3D figure showthing the effect of different drug holiday and
     # administration periods
@@ -564,6 +564,49 @@ def make_part_df(dataframe, start_time, time, growth_rates, decay_rates, matrix,
 
     return df_total
 
+def start_df(t_steps, nOC, nOB, nMMd, nMMr, growth_rates, decay_rates,
+             matrix_no_GF_IH):
+    """ Function that maked a dataframe with the cell numbers over time
+
+    Parameters:
+    -----------
+    t_steps:
+        The number of generations the therapy is given
+    nOC: Float
+        Number of OC.
+    nOB: Float
+        Number of OB.
+    nMMd: Float
+        Number of the MMd.
+    nMMr: Float
+        Number of the MMr.
+    growth_rates: List
+        List with the growth rate values of the OC, OB, MMd and MMr.
+    decay_rates: List
+        List with the decay rate values of OC, OB, MMd and MMr.
+    matrix_no_GF_IH: Numpy.ndarray
+        4x4 matrix containing the interaction factors when no GF IH are
+        administered.
+
+    Returns:
+    --------
+    df_total_switch: DataFrame
+        Dataframe with the nOC, nOB, nMMd and nMMr values over time.
+    """
+
+    # Make a dataframe and set start parameter values
+    df_total_switch = pd.DataFrame()
+    t = np.linspace(0, t_steps, t_steps*2)
+    y0 = [nOC, nOB, nMMd, nMMr]
+    parameters = (growth_rates, decay_rates, matrix_no_GF_IH)
+
+    # Determine the ODE solutions
+    y = odeint(model_dynamics, y0, t, args=parameters)
+    df_total_switch = pd.DataFrame({'Generation': t, 'nOC': y[:, 0],
+                            'nOB': y[:, 1], 'nMMd': y[:, 2], 'nMMr': y[:, 3],
+                            'total nMM': y[:, 3]+ y[:, 2]})
+    return(df_total_switch)
+
 def switch_dataframe(start_therapy, n_switches, t_steps_drug, t_steps_no_drug,
         nOC, nOB, nMMd, nMMr, growth_rates, growth_rates_IH, decay_rates,
         decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor = 0):
@@ -614,19 +657,13 @@ def switch_dataframe(start_therapy, n_switches, t_steps_drug, t_steps_no_drug,
     # Set initial values
     x = 0
     time = 0
-    df_total_switch = pd.DataFrame()
-    t_steps = start_therapy
-    t = np.linspace(0, t_steps, t_steps*2)
-    y0 = [nOC, nOB, nMMd, nMMr]
-    parameters = (growth_rates, decay_rates, matrix_no_GF_IH)
 
-    # Determine the ODE solutions
-    y = odeint(model_dynamics, y0, t, args=parameters)
-    df_total_switch = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB':\
-       y[:, 1], 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
+    # Make dataframe
+    df_total_switch = start_df(start_therapy, nOC, nOB, nMMd, nMMr, growth_rates,
+                    decay_rates, matrix_no_GF_IH)
 
     # Increase the time
-    time += t_steps
+    time += start_therapy
 
     # Perform a number of switches
     for i in range(n_switches):
@@ -705,20 +742,13 @@ def switch_dataframe_GF_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
     # Set initial values
     x = 0
     time = 0
-    df_total_switch = pd.DataFrame()
-    t_steps = 30
-    t = np.linspace(0, t_steps, t_steps*2)
-    y0 = [nOC, nOB, nMMd, nMMr]
-    parameters = (growth_rates, decay_rates, matrix_no_GF_IH)
 
-    # Determine the ODE solutions
-    y = odeint(model_dynamics, y0, t, args=parameters)
-    df_total_switch = pd.DataFrame({'Generation': t, 'nOC': y[:, 0],
-                                'nOB': y[:, 1], 'nMMd': y[:, 2], 'nMMr': y[:, 3],
-                                'total nMM': y[:, 3]+ y[:, 2]})
+    # Make dataframe
+    df_total_switch = start_df(30, nOC, nOB, nMMd, nMMr, growth_rates,
+                    decay_rates, matrix_no_GF_IH)
 
     # Increase the time
-    time += t_steps
+    time += 30
 
     # Perform a number of rounds
     for i in range(n_rounds):
@@ -808,19 +838,13 @@ def switch_dataframe_GF_h_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
     # Set initial values
     x = 0
     time = 0
-    df_total_switch = pd.DataFrame()
-    t_steps = 30
-    t = np.linspace(0, t_steps, t_steps*2)
-    y0 = [nOC, nOB, nMMd, nMMr]
-    parameters = (growth_rates, decay_rates, matrix_no_GF_IH)
 
-    # Determine the ODE solutions
-    y = odeint(model_dynamics, y0, t, args=parameters)
-    df_total_switch = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': \
-      y[:, 1], 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
+    # Make dataframe
+    df_total_switch = start_df(30, nOC, nOB, nMMd, nMMr, growth_rates,
+                    decay_rates, matrix_no_GF_IH)
 
     # Increase the time
-    time += t_steps
+    time += 30
 
     # Perform a number of rounds
     for i in range(n_rounds):
@@ -921,19 +945,13 @@ def switch_dataframe_W_h_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
     # Set initial values
     x = 0
     time = 0
-    df_total_switch = pd.DataFrame()
-    t_steps = 30
-    t = np.linspace(0, t_steps, t_steps*2)
-    y0 = [nOC, nOB, nMMd, nMMr]
-    parameters = (growth_rates, decay_rates, matrix_no_GF_IH)
 
-    # Determine the ODE solutions
-    y = odeint(model_dynamics, y0, t, args=parameters)
-    df_total_switch = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB':\
-       y[:, 1], 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
+    # Make dataframe
+    df_total_switch = start_df(30, nOC, nOB, nMMd, nMMr, growth_rates,
+                    decay_rates, matrix_no_GF_IH)
 
     # Increase the time
-    time += t_steps
+    time += 30
 
     # Perform a number of rounds
     for i in range(n_rounds):
@@ -1034,19 +1052,13 @@ def switch_dataframe_W_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
     # Set initial values
     x = 0
     time = 0
-    df_total_switch = pd.DataFrame()
-    t_steps = 30
-    t = np.linspace(0, t_steps, t_steps*2)
-    y0 = [nOC, nOB, nMMd, nMMr]
-    parameters = (growth_rates, decay_rates, matrix_no_GF_IH)
 
-    # Determine the ODE solutions
-    y = odeint(model_dynamics, y0, t, args=parameters)
-    df_total_switch = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': \
-      y[:, 1], 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
+    # Make dataframe
+    df_total_switch = start_df(30, nOC, nOB, nMMd, nMMr, growth_rates,
+                    decay_rates, matrix_no_GF_IH)
 
     # Increase the time
-    time += t_steps
+    time += 30
 
     # Perform a number of rounds
     for i in range(n_rounds):
@@ -1143,19 +1155,13 @@ def switch_dataframe_W_comb_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
     # Set initial values
     x = 0
     time = 0
-    df_total_switch = pd.DataFrame()
-    t_steps = 30
-    t = np.linspace(0, t_steps, t_steps*2)
-    y0 = [nOC, nOB, nMMd, nMMr]
-    parameters = (growth_rates, decay_rates, matrix_no_GF_IH)
 
-    # Determine the ODE solutions
-    y = odeint(model_dynamics, y0, t, args=parameters)
-    df_total_switch = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': \
-       y[:, 1], 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
+    # Make dataframe
+    df_total_switch = start_df(30, nOC, nOB, nMMd, nMMr, growth_rates,
+                    decay_rates, matrix_no_GF_IH)
 
     # Increase the time
-    time += t_steps
+    time += 30
 
     # Perform a number of rounds
     for i in range(n_rounds):
@@ -1263,19 +1269,13 @@ def switch_dataframe_GF_comb_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
     # Set initial values
     x = 0
     time = 0
-    df_total_switch = pd.DataFrame()
-    t_steps = 30
-    t = np.linspace(0, t_steps, t_steps*2)
-    y0 = [nOC, nOB, nMMd, nMMr]
-    parameters = (growth_rates, decay_rates, matrix_no_GF_IH)
 
-    # Determine the ODE solutions
-    y = odeint(model_dynamics, y0, t, args=parameters)
-    df_total_switch = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB':\
-       y[:, 1], 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
+    # Make dataframe
+    df_total_switch = start_df(30, nOC, nOB, nMMd, nMMr, growth_rates,
+                    decay_rates, matrix_no_GF_IH)
 
     # Increase the time
-    time += t_steps
+    time += 30
 
     # Perform a number of rounds
     for i in range(n_rounds):
@@ -1383,19 +1383,13 @@ def switch_dataframe_GF_WandGF_W_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
     # Set initial values
     x = 0
     time = 0
-    df_total_switch = pd.DataFrame()
-    t_steps = 30
-    t = np.linspace(0, t_steps, t_steps*2)
-    y0 = [nOC, nOB, nMMd, nMMr]
-    parameters = (growth_rates, decay_rates, matrix_no_GF_IH)
 
-    # Determine the ODE solutions
-    y = odeint(model_dynamics, y0, t, args=parameters)
-    df_total_switch = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': \
-     y[:, 1], 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
+    # Make dataframe
+    df_total_switch = start_df(30, nOC, nOB, nMMd, nMMr, growth_rates,
+                    decay_rates, matrix_no_GF_IH)
 
     # Increase the time
-    time += t_steps
+    time += 30
 
     # Perform a number of rounds
     for i in range(n_rounds):
@@ -1503,19 +1497,13 @@ def switch_dataframe_W_WandGF_GF_h(n_rounds, t_steps_GF_IH, t_steps_WMMd_IH,
     # Set initial values
     x = 0
     time = 0
-    df_total_switch = pd.DataFrame()
-    t_steps = 30
-    t = np.linspace(0, t_steps, t_steps*2)
-    y0 = [nOC, nOB, nMMd, nMMr]
-    parameters = (growth_rates, decay_rates, matrix_no_GF_IH)
 
-    # Determine the ODE solutions
-    y = odeint(model_dynamics, y0, t, args=parameters)
-    df_total_switch = pd.DataFrame({'Generation': t, 'nOC': y[:, 0], 'nOB': \
-      y[:, 1], 'nMMd': y[:, 2], 'nMMr': y[:, 3], 'total nMM': y[:, 3]+ y[:, 2]})
+    # Make dataframe
+    df_total_switch = start_df(30, nOC, nOB, nMMd, nMMr, growth_rates,
+                    decay_rates, matrix_no_GF_IH)
 
     # Increase the time
-    time += t_steps
+    time += 30
 
     # Perform a number of rounds
     for i in range(n_rounds):
@@ -2056,6 +2044,31 @@ def continuous_add_IH_df(start_therapy, end_generation, nOC, nOB, nMMd, nMMr,
 
     return df_total
 
+def dataframe_3D_plot(nOC, nOB, nMMd, nMMr, growth_rates, growth_rates_IH,
+                decay_rates, decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH,
+                WMMd_inhibitor = 0):
+
+    # Make a dataframe
+    column_names = ['Generations no drug', 'Generations drug', 'MM fraction']
+    df_MM_frac = pd.DataFrame(columns=column_names)
+
+    # Loop over all the t_step values for drug administration and drug holidays
+    for t_steps_no_drug in range(2, 22):
+
+        for t_steps_drug in range(2, 22):
+            nr_to_frac_tumour = minimal_tumour_nr_to_frac_t_steps( t_steps_drug,
+                        t_steps_no_drug, nOC, nOB, nMMd, nMMr, growth_rates,
+                        growth_rates_IH, decay_rates, decay_rates_IH,
+                        matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor)
+
+            # Add results to the dataframe
+            new_row_df = pd.DataFrame([{'Generations no drug':
+                    int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
+                                    'MM fraction': float(nr_to_frac_tumour)}])
+            df_MM_frac = combine_dataframes(df_MM_frac, new_row_df)
+
+    return (df_MM_frac)
+
 def x_y_z_axis_values_3d_plot(dataframe, name):
     """ Function that determines the x, y and z axis values from the given
     dataframe. It also prints the administration and holiday duration leading
@@ -2112,7 +2125,7 @@ def x_y_z_axis_values_3d_plot(dataframe, name):
     return (X_values, Y_values, Z_values)
 
 
-def minimal_tumour_nr_to_frac_to_frac_t_steps(t_steps_drug, t_steps_no_drug, nOC,
+def minimal_tumour_nr_to_frac_t_steps(t_steps_drug, t_steps_no_drug, nOC,
             nOB, nMMd, nMMr, growth_rates, growth_rates_IH, decay_rates,
             decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor = 0):
     """ Function that makes a dataframe of the nOC, nOB, nMMd and nMMr values over
@@ -2174,7 +2187,7 @@ def minimal_tumour_nr_to_frac_to_frac_t_steps(t_steps_drug, t_steps_no_drug, nOC
 
     return float(average_MM_fraction)
 
-def minimal_tumour_nr_to_frac_to_frac_b_OC_MMd(b_OC_MMd, nOC, nOB, nMMd, nMMr,
+def minimal_tumour_nr_to_frac_b_OC_MMd(b_OC_MMd, nOC, nOB, nMMd, nMMr,
                 growth_rates, growth_rates_IH, decay_rates, decay_rates_IH,
                 matrix, b_OC_MMd_array):
     """Function that determines the fraction of the population being MM for a
@@ -2219,7 +2232,7 @@ def minimal_tumour_nr_to_frac_to_frac_b_OC_MMd(b_OC_MMd, nOC, nOB, nMMd, nMMr,
     ...    [0.3, 0.0, -0.3, -0.3],
     ...    [0.6, 0.0, 0.2, 0.0],
     ...    [0.55, 0.0, -0.6, 0.4]])
-    >>> minimal_tumour_nr_to_frac_to_frac_b_OC_MMd(0.4, 20, 30, 20, 5,
+    >>> minimal_tumour_nr_to_frac_b_OC_MMd(0.4, 20, 30, 20, 5,
     ...       [0.8, 1.2, 0.3, 0.3], [0.7, 1.3, 0.3, 0.3], [0.9, 0.08, 0.2, 0.1],
     ...                             [1.0, 0.08, 0.2, 0.1], matrix, False)
     0.3976418570873122
@@ -2265,7 +2278,7 @@ def minimal_tumour_nr_to_frac_to_frac_b_OC_MMd(b_OC_MMd, nOC, nOB, nMMd, nMMr,
 
     return float(average_MM_fraction)
 
-def minimal_tumour_nr_to_frac_to_frac_WMMd_IH(WMMd_inhibitor, nOC, nOB, nMMd,
+def minimal_tumour_nr_to_frac_WMMd_IH(WMMd_inhibitor, nOC, nOB, nMMd,
             nMMr, growth_rates, growth_rates_IH, decay_rates,
             decay_rates_IH, matrix, WMMd_inhibitor_array):
     """Function that determines the fraction of the population being MM for a
@@ -2308,7 +2321,7 @@ def minimal_tumour_nr_to_frac_to_frac_WMMd_IH(WMMd_inhibitor, nOC, nOB, nMMd,
     ...    [0.3, 0.0, -0.3, -0.3],
     ...    [0.6, 0.0, 0.2, 0.0],
     ...    [0.55, 0.0, -0.6, 0.4]])
-    >>> minimal_tumour_nr_to_frac_to_frac_WMMd_IH(0.3, 20, 30, 20, 5,
+    >>> minimal_tumour_nr_to_frac_WMMd_IH(0.3, 20, 30, 20, 5,
     ...       [0.8, 1.2, 0.3, 0.3], [0.7, 1.3, 0.3, 0.3], [0.9, 0.08, 0.2, 0.1],
     ...       [1.0, 0.08, 0.2, 0.1], matrix, False)
     0.44343057821212617
@@ -3027,7 +3040,7 @@ def Figure_best_WMMd_IH():
     WMMd_IH_start = 0.2
 
     # Perform the optimization
-    result = minimize(minimal_tumour_nr_to_frac_to_frac_WMMd_IH, WMMd_IH_start,
+    result = minimize(minimal_tumour_nr_to_frac_WMMd_IH, WMMd_IH_start,
                 args = (nOC, nOB, nMMd, nMMr, growth_rates, growth_rates_IH,
                 decay_rates, decay_rates_IH, matrix, True), bounds=[(0, 0.8)],
                 method='Nelder-Mead')
@@ -3043,7 +3056,7 @@ def Figure_best_WMMd_IH():
     # Loop over the different WMMd_inhibitor values
     for WMMd_inhibitor in range(800):
         WMMd_inhibitor = WMMd_inhibitor/1000
-        nr_to_frac_tumour = minimal_tumour_nr_to_frac_to_frac_WMMd_IH(
+        nr_to_frac_tumour = minimal_tumour_nr_to_frac_WMMd_IH(
             WMMd_inhibitor, nOC, nOB, nMMd, nMMr, growth_rates, growth_rates_IH,
             decay_rates, decay_rates_IH, matrix, False)
         dict_nr_to_frac_tumour[WMMd_inhibitor] = nr_to_frac_tumour
@@ -3094,7 +3107,7 @@ def Figure_best_b_OC_MMd():
     b_OC_MMd_start = 0.45
 
     # Perform the optimization
-    result = minimize(minimal_tumour_nr_to_frac_to_frac_b_OC_MMd, b_OC_MMd_start,
+    result = minimize(minimal_tumour_nr_to_frac_b_OC_MMd, b_OC_MMd_start,
                     args = (nOC, nOB, nMMd, nMMr, growth_rates, growth_rates_IH,
                     decay_rates, decay_rates_IH, matrix, True),bounds=[(0, 0.8)],
                     method='Nelder-Mead')
@@ -3112,7 +3125,7 @@ def Figure_best_b_OC_MMd():
         b_OC_MMd = b_OC_MMd/1000
 
         # Determine the total MM number
-        nr_to_frac_tumour = minimal_tumour_nr_to_frac_to_frac_b_OC_MMd(b_OC_MMd,
+        nr_to_frac_tumour = minimal_tumour_nr_to_frac_b_OC_MMd(b_OC_MMd,
                     nOC, nOB, nMMd, nMMr, growth_rates, growth_rates_IH,
                     decay_rates, decay_rates_IH,matrix, False)
         dict_nr_to_frac_tumour_GF[b_OC_MMd] = nr_to_frac_tumour
@@ -3180,26 +3193,10 @@ def Figure_3D_MM_nr_to_frac_IH_add_and_holiday():
     # WMMd inhibitor effect when only WMMd IH is present
     WMMd_inhibitor = 0.35
 
-    # Make a dataframe
-    column_names = ['Generations no drug', 'Generations drug', 'MM fraction']
-    df_holiday_GF_IH = pd.DataFrame(columns=column_names)
-
-    # Loop over all the t_step values for drug administration and drug holidays
-    for t_steps_no_drug in range(2, 22):
-
-        for t_steps_drug in range(2, 22):
-            nr_to_frac_tumour = minimal_tumour_nr_to_frac_to_frac_t_steps(
-                        t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd, nMMr,
-                        growth_rates, growth_rates_IH, decay_rates,
-                        decay_rates_IH, matrix_no_GF_IH, matrix_GF_IH,)
-
-
-            # Add results to the dataframe
-            new_row_df = pd.DataFrame([{'Generations no drug':
-                    int(t_steps_no_drug), 'Generations drug': int(t_steps_drug),
-                                    'MM fraction': float(nr_to_frac_tumour)}])
-            df_holiday_GF_IH = combine_dataframes(df_holiday_GF_IH, new_row_df)
-
+    # Create a dataframe
+    df_holiday_GF_IH = dataframe_3D_plot(nOC, nOB, nMMd, nMMr, growth_rates,
+                                growth_rates_IH, decay_rates, decay_rates_IH,
+                                matrix_no_GF_IH, matrix_GF_IH)
 
     # Save the data
     save_dataframe(df_holiday_GF_IH, 'df_cell_nr_to_frac_best_MMd_GH_IH_holiday.csv',
@@ -3209,24 +3206,10 @@ def Figure_3D_MM_nr_to_frac_IH_add_and_holiday():
     X_GF_IH, Y_GF_IH, Z_GF_IH = x_y_z_axis_values_3d_plot(df_holiday_GF_IH,
                                                                         'GF IH')
 
-    # Make a dataframe
-    column_names = ['Generations no drug', 'Generations drug', 'MM fraction']
-    df_holiday_W_IH = pd.DataFrame(columns=column_names)
-
-    # Loop over al the t_step values for drug dministration and drug holidays
-    for t_steps_no_drug in range(2, 22):
-
-        for t_steps_drug in range(2, 22):
-            nr_to_frac_tumour = minimal_tumour_nr_to_frac_to_frac_t_steps(
-                    t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd, nMMr,
-                    growth_rates, growth_rates_IH, decay_rates, decay_rates_IH,
-                    matrix_no_GF_IH, matrix_no_GF_IH, WMMd_inhibitor)
-
-            # Add results to the dataframe
-            new_row_df = pd.DataFrame([{'Generations no drug': int(t_steps_no_drug),
-                                    'Generations drug': int(t_steps_drug),
-                                    'MM fraction': float(nr_to_frac_tumour)}])
-            df_holiday_W_IH = combine_dataframes(df_holiday_W_IH, new_row_df)
+    # Create a dataframe
+    df_holiday_W_IH = dataframe_3D_plot(nOC, nOB, nMMd, nMMr, growth_rates,
+                growth_rates_IH, decay_rates, decay_rates_IH, matrix_no_GF_IH,
+                matrix_no_GF_IH, WMMd_inhibitor)
 
     # Save the data
     save_dataframe(df_holiday_W_IH, 'df_cell_nr_to_frac_best_WMMd_IH_holiday.csv',
@@ -3235,24 +3218,10 @@ def Figure_3D_MM_nr_to_frac_IH_add_and_holiday():
     # Determine the axis values
     X_W_IH, Y_W_IH, Z_W_IH = x_y_z_axis_values_3d_plot(df_holiday_W_IH, 'W IH')
 
-    # Make a dataframe
-    column_names = ['Generations no drug', 'Generations drug', 'MM fraction']
-    df_holiday_comb = pd.DataFrame(columns=column_names)
-
-    # Loop over al the t_step values for drug dministration and drug holidays
-    for t_steps_no_drug in range(2, 22):
-
-        for t_steps_drug in range(2, 22):
-            nr_to_frac_tumour = minimal_tumour_nr_to_frac_to_frac_t_steps(
-                    t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd, nMMr,
-                    growth_rates, growth_rates_IH, decay_rates, decay_rates_IH,
-                    matrix_no_GF_IH, matrix_IH_comb, WMMd_inhibitor_comb)
-
-            # Add results to the dataframe
-            new_row_df = pd.DataFrame([{'Generations no drug': int(t_steps_no_drug),
-                                    'Generations drug': int(t_steps_drug),
-                                    'MM fraction': float(nr_to_frac_tumour)}])
-            df_holiday_comb = combine_dataframes(df_holiday_comb, new_row_df)
+    # Create a dataframe
+    df_holiday_comb = dataframe_3D_plot(nOC, nOB, nMMd, nMMr, growth_rates,
+                growth_rates_IH, decay_rates, decay_rates_IH, matrix_no_GF_IH,
+                matrix_IH_comb, WMMd_inhibitor_comb)
 
     # Save the data
     save_dataframe(df_holiday_comb, 'df_cell_nr_to_frac_best_comb_IH_holiday.csv',
@@ -3381,7 +3350,7 @@ def Figure_3D_MM_nr_to_frac_MMd_IH_strength():
             matrix_GF_IH[3, 2] = -0.6 - extra_MMr_IH
 
             # Determine the minimal tumour size
-            nr_to_frac_tumour = minimal_tumour_nr_to_frac_to_frac_t_steps(\
+            nr_to_frac_tumour = minimal_tumour_nr_to_frac_t_steps(\
                 t_steps_drug, t_steps_no_drug, nOC, nOB, nMMd, nMMr, growth_rates,
                 growth_rates_IH, decay_rates, decay_rates_IH,
                 matrix_no_GF_IH, matrix_GF_IH, WMMd_inhibitor)
