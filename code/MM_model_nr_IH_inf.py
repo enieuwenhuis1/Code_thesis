@@ -39,7 +39,7 @@ import doctest
 def main():
     # Do doc tests
     doctest.testmod()
-    
+
     # Make a figure showing the cell number dynamics by traditional therapy and
     # by adaptive therapy (original situation)
     list_t_steps_drug = [10, 10, 10]
@@ -4202,8 +4202,8 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
             surf = ax.plot_surface(X_W_IH, Y_W_IH, Z_W_IH, cmap='coolwarm')
 
             # Add labels
-            ax.set_ylabel('Generations a')
-            ax.set_xlabel('Generations h')
+            ax.set_ylabel('Generations admin')
+            ax.set_xlabel('Generations holiday')
             ax.set_zlabel('MM number')
             ax.set_title(r'A) $W_{MMd}$ IH', pad=10)
 
@@ -4218,8 +4218,8 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
             surf = ax.plot_surface(X_GF_IH, Y_GF_IH, Z_GF_IH, cmap = 'coolwarm')
 
             # Add labels
-            ax.set_ylabel('Generations a')
-            ax.set_xlabel('Generations h')
+            ax.set_ylabel('Generations admin')
+            ax.set_xlabel('Generations holiday')
             ax.set_zlabel('MM number')
             ax.set_title('B)  MMd GF IH', pad=10)
 
@@ -4235,8 +4235,8 @@ def Figure_3D_MM_numb_IH_add_and_holiday():
             surf = ax.plot_surface(X_comb, Y_comb, Z_comb, cmap = 'coolwarm')
 
             # Add labels
-            ax.set_ylabel('Generations a')
-            ax.set_xlabel('Generations h')
+            ax.set_ylabel('Generations admin')
+            ax.set_xlabel('Generations holiday')
             ax.set_zlabel('MM number')
             ax.set_title('C)  IH combination', pad=10)
 
