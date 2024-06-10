@@ -43,13 +43,13 @@ def main():
     # Make Figure 1 in the paper of Sartakhti et al., 2018.
     Figure_1()
 
-    # # Make the Figures in Figure 2 in the paper of Sartakhti et al., 2018.
+    # Make the Figures in Figure 2 in the paper of Sartakhti et al., 2018.
     Figure_2()
 
-    # # Make the Figures in Figure 3 in the paper of Sartakhti et al., 2018.
+    # Make the Figures in Figure 3 in the paper of Sartakhti et al., 2018.
     Figure_3()
 
-    # # Make the Figures in Figure 4 in the paper of Sartakhti et al., 2018.
+    # Make the Figures in Figure 4 in the paper of Sartakhti et al., 2018.
     Figure_4()
 
     # Make the Figures in Figure 5 in the paper of Sartakhti et al., 2018.

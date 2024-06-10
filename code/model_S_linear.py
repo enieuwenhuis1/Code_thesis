@@ -92,7 +92,7 @@ def main():
     # Make Figure 12A right in the paper of Sartakhti et al., 2016.
     Figure_12A_right()
 
-    # # Make Figure 12B middle in the paper of Sartakhti et al., 2016.
+    # Make Figure 12B middle in the paper of Sartakhti et al., 2016.
     Figure_12B_middle()
 
     # Make Figure 12B right in the paper of Sartakhti et al., 2016.

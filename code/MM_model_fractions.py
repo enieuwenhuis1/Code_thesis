@@ -2840,7 +2840,7 @@ def Dataframe_bMMrOC_eigenvalues():
     different bMMr,OC values."""
 
     # Make a dataframe
-    column_names = ['bMMd,MMr', 'Eigenvalue 1', 'Eigenvalue 2', 'Eigenvalue 3',
+    column_names = ['bMMr,OC', 'Eigenvalue 1', 'Eigenvalue 2', 'Eigenvalue 3',
                         'Eigenvalue 4', 'period H', 'period A', 'MM fraction']
     df_eigenvalues = pd.DataFrame(columns=column_names)
     df_eigenvalues_float = pd.DataFrame(columns=column_names)
@@ -2905,7 +2905,7 @@ def Dataframe_bMMrOC_eigenvalues():
         frac_min = df_holiday.loc[min_index, 'MM fraction']
 
         # Add data to a dataframe
-        new_row_df = pd.DataFrame([{'bMMd,MMr': round(1.5 + (i/10), 1),
+        new_row_df = pd.DataFrame([{'bMMr,OC': round(1.5 + (i/10), 1),
                 'Eigenvalue 1': eigenvalues[0], 'Eigenvalue 2': eigenvalues[1],
                 'Eigenvalue 3': eigenvalues[2], 'Eigenvalue 4': eigenvalues[3],
                 'period H': g_no_drug_min, 'period A': g_drug_min,
@@ -2913,7 +2913,7 @@ def Dataframe_bMMrOC_eigenvalues():
         df_eigenvalues = combine_dataframes(df_eigenvalues, new_row_df)
 
         # Add data to a dataframe and discard the imaginary part to make it a float
-        new_row_df = pd.DataFrame([{'bMMd,MMr': round(1.5 + (i/10), 1),
+        new_row_df = pd.DataFrame([{'bMMr,OC': round(1.5 + (i/10), 1),
                 'Eigenvalue 1':float(eigenvalues[0]), 'Eigenvalue 2': \
                 float(eigenvalues[1]), 'Eigenvalue 3': float(eigenvalues[2]),
                 'Eigenvalue 4': float(eigenvalues[3]), 'period H': g_no_drug_min,
