@@ -117,7 +117,7 @@ def dOC_dt(nOC, nOB, nMMd, nMMr, gr_OC, dr_OC, matrix):
     b3_1 = matrix[0, 2]
     b4_1 = matrix[0, 3]
 
-    # Calculate the Change on in the number of OC
+    # Calculate the change on in the number of OC
     change_nOC = (gr_OC * nOC**b1_1 * nOB**b2_1 * nMMd**b3_1 * nMMr**b4_1) - \
                                                                 (dr_OC * nOC)
     return change_nOC
