@@ -5821,12 +5821,12 @@ def minimise_MM_W_comb_GF_h_IH_w(relative_weight_MMr):
     # Optimise the administration and holiday durations and the IH strengths
     # t_step_IH_strength = [GF IH t, W IH t, comb t, h t, GF IH s, comb GF IH s
     # W IH s, comb W IH s]
-    t_step_IH_strength = [3.765, 2.725, 2.09, 2.775, 0.411, 0.119, 0.439, 0.08]
+    t_step_IH_strength = [3.765, 2.725, 2.090, 2.775, 0.411, 0.119, 0.439, 0.080]
     result = minimize(minimal_tumour_nr_t_4_situations_IH, t_step_IH_strength,
         args=(switch_dataframe_W_comb_GF_h, relative_weight_MMr, nOC, nOB, nMMd,
         nMMr, growth_rates, growth_rates_IH, decay_rates, decay_rates_IH,
         matrix_no_GF_IH, matrix_GF_IH, matrix_IH_comb), bounds = [(0, None),
-        (0, None), (0, None), (0, None), (0.015, 0.6), (0, 0.6), (0, None),
+        (0, None), (0, None), (0, None), (0.0, 0.6), (0, 0.6), (0, None),
         (0, None)], method='Nelder-Mead')
 
     # Print the results
