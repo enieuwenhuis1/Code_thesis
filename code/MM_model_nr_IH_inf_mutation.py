@@ -49,23 +49,23 @@ def main():
     # Do doc tests
     doctest.testmod()
 
-    # Make a figure showing the cell number dynamics by traditional therapy and
-    # by adaptive therapy
-    list_t_steps_drug = [3,3,3]
-    Figure_continuous_MTD_vs_AT_realistic(90, list_t_steps_drug)
-
-    # Make a 3D figure showthing the effect of different drug holiday and
-    # administration periods
-    Figure_3D_MM_numb_IH_add_and_holiday()
-
-    # Make a 3D figure showing the effect of different WMMd and MMd GF IH
-    # strengths
-    Figure_3D_MM_numb_MMd_IH_strength()
-
-    # Make a figure showing the number dynamics by traditional and adaptive
-    # therapy for situations with MMr at the start and resistance mutations
-    list_t_steps_drug = [3, 3, 3]
-    Figure_continuous_MTD_vs_AT_MMr_comb(90, list_t_steps_drug)
+    # # Make a figure showing the cell number dynamics by traditional therapy and
+    # # by adaptive therapy
+    # list_t_steps_drug = [3,3,3]
+    # Figure_continuous_MTD_vs_AT_realistic(90, list_t_steps_drug)
+    #
+    # # Make a 3D figure showthing the effect of different drug holiday and
+    # # administration periods
+    # Figure_3D_MM_numb_IH_add_and_holiday()
+    #
+    # # Make a 3D figure showing the effect of different WMMd and MMd GF IH
+    # # strengths
+    # Figure_3D_MM_numb_MMd_IH_strength()
+    #
+    # # Make a figure showing the number dynamics by traditional and adaptive
+    # # therapy for situations with MMr at the start and resistance mutations
+    # list_t_steps_drug = [3, 3, 3]
+    # Figure_continuous_MTD_vs_AT_MMr_comb(90, list_t_steps_drug)
 
     # Make a figure showing the number dynamics by traditional and adaptive
     # therapy for situations whereby resistance mutations are only possible
@@ -3643,7 +3643,7 @@ def Figure_continuous_MTD_vs_AT_realistic(n_switches, t_steps_drug):
     axs[0, 0].axvspan(xmin = 30, xmax = 302, color = 'lightgray', alpha = 0.45)
     axs[0, 0].set_xlim(1, 302)
     axs[0, 0].set_xlabel(' ')
-    axs[0, 0].set_ylabel(r'Cell number ($n_{i}$)', fontsize=12)
+    axs[0, 0].set_ylabel(r'Cell number ($n_{i}$)', fontsize=13)
     axs[0, 0].set_title(f"Traditional therapy MMd GF IH ", fontsize=14)
     axs[0, 0].set_yticks([0, 2500, 5000, 7500, 10000, 12500, 15000, 17500, 20000])
     axs[0, 0].grid(True, linestyle='--')
@@ -3677,8 +3677,8 @@ def Figure_continuous_MTD_vs_AT_realistic(n_switches, t_steps_drug):
                                                     legend=False, ax=axs[1, 0])
     axs[1, 0].axvspan(xmin = 30, xmax = 302, color = 'lightgray', alpha = 0.45)
     axs[1, 0].set_xlim(1, 302)
-    axs[1, 0].set_xlabel('Generations', fontsize=12)
-    axs[1, 0].set_ylabel(r'Cell number ($n_{i}$)', fontsize=12)
+    axs[1, 0].set_xlabel('Generations', fontsize=13)
+    axs[1, 0].set_ylabel(r'Cell number ($n_{i}$)', fontsize=13)
     axs[1, 0].set_title(f"Adaptive therapy MMd GF IH", fontsize=14)
     axs[1, 0].grid(True, linestyle='--')
     plt.grid(True)
@@ -3689,7 +3689,7 @@ def Figure_continuous_MTD_vs_AT_realistic(n_switches, t_steps_drug):
                                                     legend=False, ax=axs[1, 1])
     axs[1, 1].axvspan(xmin = 30, xmax = 302, color = 'lightgray', alpha = 0.45)
     axs[1, 1].set_xlim(1, 302)
-    axs[1, 1].set_xlabel('Generations', fontsize=12)
+    axs[1, 1].set_xlabel('Generations', fontsize=13)
     axs[1, 1].set_ylabel(' ')
     axs[1, 1].set_title(r"Adaptive therapy $W_{MMd}$ IH", fontsize=14)
     axs[1, 1].grid(True, linestyle='--')
@@ -3700,7 +3700,7 @@ def Figure_continuous_MTD_vs_AT_realistic(n_switches, t_steps_drug):
                                                     legend=False, ax=axs[1, 2])
     axs[1, 2].axvspan(xmin = 30, xmax = 302, color = 'lightgray', alpha = 0.45)
     axs[1, 2].set_xlim(1, 302)
-    axs[1, 2].set_xlabel('Generations', fontsize=12)
+    axs[1, 2].set_xlabel('Generations', fontsize=13)
     axs[1, 2].set_ylabel(' ')
     axs[1, 2].set_title(r"Adaptive therapy IH combination", fontsize=14)
     axs[1, 2].grid(True, linestyle='--')

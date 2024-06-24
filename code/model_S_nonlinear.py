@@ -721,7 +721,7 @@ def Figure_1():
 
     # Save the data as csv file
     save_data(df_Figure_1, 'data_Figure_1.csv',
-                                r'..\data\reproduced_data_Sartakhti_nonlinear')
+                                r'..\data\data_model_Sartakhti_nonlinear')
 
     # Make lists
     WOC_list = []
@@ -794,7 +794,7 @@ def Figure_1():
                                                             loc = 'upper left')
     plt.tight_layout()
     save_Figure(plt, 'Line_plot_Figure_1',
-                    r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
+                    r'..\visualisation\results_model_Sartakhti_nonlinear')
     plt.show()
 
     # Make a ternary plot
@@ -807,7 +807,7 @@ def Figure_1():
             caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
     fig.update_layout(title_text='Linear benefits (Figure 1)')
     save_ternary(fig, 'Ternary_plot_Figure_1',
-                    r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
+                    r'..\visualisation\results_model_Sartakhti_nonlinear')
     fig.show()
 
 """Figure 2"""
@@ -856,7 +856,7 @@ def Figure_2():
 
     # Save the data as csv file
     save_data(df_sigmoids_Figure_2, 'data_sigmoids_Figure_2.csv',
-                                r'..\data\reproduced_data_Sartakhti_nonlinear')
+                                r'..\data\data_model_Sartakhti_nonlinear')
 
     # Make a plot
     fig, axes = plt.subplots(1, len(h_values), figsize=(14, 5))
@@ -876,7 +876,7 @@ def Figure_2():
     # Show the plot
     plt.tight_layout()
     save_Figure(plt, 'Benefit_curves_Figure_2',
-                    r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
+                    r'..\visualisation\results_model_Sartakhti_nonlinear')
     plt.show()
 
     df_ternary_Figure_2 = pd.DataFrame(columns=['Generation', 'xOC', 'xOB', 'xMM',
@@ -933,7 +933,7 @@ def Figure_2():
 
     # Save the data as csv file
     save_data(df_ternary_Figure_2, 'data_ternary_Figure_2.csv',
-                                r'..\data\reproduced_data_Sartakhti_nonlinear')
+                                r'..\data\data_model_Sartakhti_nonlinear')
 
     # Loop over all the h values
     for h_value in h_values:
@@ -949,7 +949,7 @@ def Figure_2():
         h at {h_value} (Figure 2)""")
         name = f'subset_plot_h_{h_value}_Figure_2'
         save_ternary(fig, name,
-                    r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
+                    r'..\visualisation\results_model_Sartakhti_nonlinear')
         fig.show()
 
 
@@ -1052,9 +1052,9 @@ def Figure_3():
 
     # Save the data as csv file
     save_data(df_Figure_3_nonlinear, 'data_Figure_3_nonlinear.csv',
-                                r'..\data\reproduced_data_Sartakhti_nonlinear')
+                                r'..\data\data_model_Sartakhti_nonlinear')
     save_data(df_Figure_3_linear, 'data_Figure_3_linear.csv',
-                                r'..\data\reproduced_data_Sartakhti_nonlinear')
+                                r'..\data\data_model_Sartakhti_nonlinear')
 
     # Make a line plot of non-linear data
     df_Figure_3_nonlinear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
@@ -1064,7 +1064,7 @@ def Figure_3():
     plt.title('Nonlinear benefits (Figure 3)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'Line_plot_Figure_3_nonlinear',
-                    r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
+                    r'..\visualisation\results_model_Sartakhti_nonlinear')
     plt.show()
 
     # Make a ternary plot of non-linear data
@@ -1076,7 +1076,7 @@ def Figure_3():
             caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
     fig.update_layout(title_text=f'Nonlinear benefits (Figure 3)')
     save_ternary(fig, 'Ternary_plot_Figure_3_nonlinear',
-                    r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
+                    r'..\visualisation\results_model_Sartakhti_nonlinear')
     fig.show()
 
     # Make a line plot of linear data
@@ -1088,7 +1088,7 @@ def Figure_3():
     plt.title('Linear benefits (Figure 3)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'Line_plot_Figure_3_linear',
-                    r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
+                    r'..\visualisation\results_model_Sartakhti_nonlinear')
     plt.show()
 
     # Make a ternary plot  of linear data
@@ -1100,7 +1100,7 @@ def Figure_3():
             caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
     fig.update_layout(title_text= 'Linear benefits (Figure 3)')
     save_ternary(fig, 'Ternary_plot_Figure_3_linear',
-                    r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
+                    r'..\visualisation\results_model_Sartakhti_nonlinear')
     fig.show()
 
 """Figure 4"""
@@ -1202,9 +1202,9 @@ def Figure_4():
 
     # Save the data as csv file
     save_data(df_Figure_4_nonlinear, 'data_Figure_4_nonlinear.csv',
-                                r'..\data\reproduced_data_Sartakhti_nonlinear')
+                                r'..\data\data_model_Sartakhti_nonlinear')
     save_data(df_Figure_4_linear, 'data_Figure_4_linear.csv',
-                                r'..\data\reproduced_data_Sartakhti_nonlinear')
+                                r'..\data\data_model_Sartakhti_nonlinear')
 
     # Make a line plot of non-linear data
     df_Figure_4_nonlinear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
@@ -1214,7 +1214,7 @@ def Figure_4():
     plt.title('Nonlinear benefits (Figure 4)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'Line_plot_Figure_4_nonlinear',
-                    r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
+                    r'..\visualisation\results_model_Sartakhti_nonlinear')
     plt.show()
 
     # Make a ternary plot of non-linear data
@@ -1226,7 +1226,7 @@ def Figure_4():
             caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
     fig.update_layout(title_text= 'Nonlinear benefits (Figure 4)')
     save_ternary(fig, 'Ternary_plot_Figure_4_nonlinear',
-                    r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
+                    r'..\visualisation\results_model_Sartakhti_nonlinear')
     fig.show()
 
     # Make a line plot of linear data
@@ -1237,7 +1237,7 @@ def Figure_4():
     plt.title('Linear benefits (Figure 4)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'Line_plot_Figure_4_linear',
-                    r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
+                    r'..\visualisation\results_model_Sartakhti_nonlinear')
     plt.show()
 
     # Make a ternary plot  of linear data
@@ -1249,7 +1249,7 @@ def Figure_4():
             caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
     fig.update_layout(title_text= 'Linear benefits (Figure 4)')
     save_ternary(fig, 'Ternary_plot_Figure_4_linear',
-                    r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
+                    r'..\visualisation\results_model_Sartakhti_nonlinear')
     fig.show()
 
 """Figure 5"""
@@ -1352,9 +1352,9 @@ def Figure_5():
 
     # Save the data as csv file
     save_data(df_Figure_5_nonlinear, 'data_Figure_5_nonlinear.csv',
-                                r'..\data\reproduced_data_Sartakhti_nonlinear')
+                                r'..\data\data_model_Sartakhti_nonlinear')
     save_data(df_Figure_5_linear, 'data_Figure_5_linear.csv',
-                                r'..\data\reproduced_data_Sartakhti_nonlinear')
+                                r'..\data\data_model_Sartakhti_nonlinear')
 
     # Make a line plot of non-linear df
     df_Figure_5_nonlinear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
@@ -1364,7 +1364,7 @@ def Figure_5():
     plt.title('Nonlinear benefits (Figure 5)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'Line_plot_Figure_5_nonlinear',
-                    r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
+                    r'..\visualisation\results_model_Sartakhti_nonlinear')
     plt.show()
 
     # Make a ternary plot of non-linear data
@@ -1376,7 +1376,7 @@ def Figure_5():
             caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
     fig.update_layout(title_text= 'Nonlinear benefits (Figure 5)')
     save_ternary(fig, 'Ternary_plot_Figure_5_nonlinear',
-                    r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
+                    r'..\visualisation\results_model_Sartakhti_nonlinear')
     fig.show()
 
     # Make a line plot of linear data
@@ -1387,7 +1387,7 @@ def Figure_5():
     plt.legend(loc ='upper right')
     plt.title('linear benefits (Figure 5)')
     save_Figure(plt, 'Line_plot_Figure_5_linear',
-                    r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
+                    r'..\visualisation\results_model_Sartakhti_nonlinear')
     plt.show()
 
     # Make a ternary plot  of linear data
@@ -1399,7 +1399,7 @@ def Figure_5():
             caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
     fig.update_layout(title_text= 'Linear benefits (Figure 5)')
     save_ternary(fig, 'Ternary_plot_Figure_5_linear',
-                    r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
+                    r'..\visualisation\results_model_Sartakhti_nonlinear')
     fig.show()
 
 """Figure 6"""
@@ -1503,9 +1503,9 @@ def Figure_6():
 
     # Save the data as csv file
     save_data(df_Figure_6_nonlinear, 'data_Figure_6_nonlinear.csv',
-                                r'..\data\reproduced_data_Sartakhti_nonlinear')
+                                r'..\data\data_model_Sartakhti_nonlinear')
     save_data(df_Figure_6_linear, 'data_Figure_6_linear.csv',
-                                r'..\data\reproduced_data_Sartakhti_nonlinear')
+                                r'..\data\data_model_Sartakhti_nonlinear')
 
     # Make a line plot of non-linear data
     df_Figure_6_nonlinear.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
@@ -1515,7 +1515,7 @@ def Figure_6():
     plt.title('Nonlinear benefits (Figure 6)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'Line_plot_Figure_6_nonlinear',
-                    r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
+                    r'..\visualisation\results_model_Sartakhti_nonlinear')
     plt.show()
 
     # Make a ternary plot of non-linear data
@@ -1527,7 +1527,7 @@ def Figure_6():
             caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
     fig.update_layout(title_text= 'Nonlinear benefits (Figure 6)')
     save_ternary(fig, 'Ternary_plot_Figure_6_nonlinear',
-                    r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
+                    r'..\visualisation\results_model_Sartakhti_nonlinear')
     fig.show()
 
     # Make a line plot of linear data
@@ -1538,7 +1538,7 @@ def Figure_6():
     plt.title('Linear benefits (Figure 6)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'Line_plot_Figure_6_linear',
-                    r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
+                    r'..\visualisation\results_model_Sartakhti_nonlinear')
     plt.show()
 
     # Make a ternary plot  of linear data
@@ -1550,7 +1550,7 @@ def Figure_6():
             caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
     fig.update_layout(title_text= 'Linear benefits (Figure 6)')
     save_ternary(fig, 'Ternary_plot_Figure_6_linear',
-                    r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
+                    r'..\visualisation\results_model_Sartakhti_nonlinear')
     fig.show()
 
 """Figure 7"""
@@ -1706,11 +1706,11 @@ def Figure_7():
 
     # Save the data as csv file
     save_data(df_Figure_7_nonlinear, 'data_Figure_7_nonlinear.csv',
-                                r'..\data\reproduced_data_Sartakhti_nonlinear')
+                                r'..\data\data_model_Sartakhti_nonlinear')
     save_data(df_Figure_7_linear, 'data_Figure_7_linear.csv',
-                                r'..\data\reproduced_data_Sartakhti_nonlinear')
+                                r'..\data\data_model_Sartakhti_nonlinear')
     save_data(df_Figure_7_linear, 'data_Figure_7_linear.csv',
-                                r'..\data\reproduced_data_Sartakhti_nonlinear')
+                                r'..\data\data_model_Sartakhti_nonlinear')
 
     # Create a Figure and axes for subplots
     fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(14,6))
@@ -1731,7 +1731,7 @@ def Figure_7():
     axes[1].legend(['fraction OC', 'fraction OB', 'fraction MM'])
     plt.tight_layout()
     save_Figure(plt, 'Line_plot_Figure_7_nonlinear',
-                    r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
+                    r'..\visualisation\results_model_Sartakhti_nonlinear')
     plt.show()
 
 
@@ -1744,7 +1744,7 @@ def Figure_7():
             caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
     fig.update_layout(title_text= 'Nonlinear benefits (Figure 7)')
     save_ternary(fig, 'Ternary_plot_Figure_7_nonlinear',
-                    r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
+                    r'..\visualisation\results_model_Sartakhti_nonlinear')
     fig.show()
 
     # Make a line plot of linear data
@@ -1755,7 +1755,7 @@ def Figure_7():
     plt.title('Linear benefits (Figure 7)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'Line_plot_Figure_7_linear',
-                    r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
+                    r'..\visualisation\results_model_Sartakhti_nonlinear')
     plt.show()
 
     # Make a ternary plot  of linear data
@@ -1767,7 +1767,7 @@ def Figure_7():
             caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
     fig.update_layout(title_text= 'Linear benefits (Figure 7)')
     save_ternary(fig, 'Ternary_plot_Figure_7_linear',
-                    r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
+                    r'..\visualisation\results_model_Sartakhti_nonlinear')
     fig.show()
 
 """Figure 8"""
@@ -1923,11 +1923,11 @@ def Figure_8():
 
     # Save the data as csv file
     save_data(df_Figure_8_nonlinear, 'data_Figure_8_nonlinear.csv',
-                                r'..\data\reproduced_data_Sartakhti_nonlinear')
+                                r'..\data\data_model_Sartakhti_nonlinear')
     save_data(df_Figure_8_linear, 'data_Figure_8_linear.csv',
-                                r'..\data\reproduced_data_Sartakhti_nonlinear')
+                                r'..\data\data_model_Sartakhti_nonlinear')
     save_data(df_fitness_nonlinear, 'data_fitness_Figure_8_linear.csv',
-                                r'..\data\reproduced_data_Sartakhti_nonlinear')
+                                r'..\data\data_model_Sartakhti_nonlinear')
 
     # Create a Figure and axes for subplots
     fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(14,6))
@@ -1948,7 +1948,7 @@ def Figure_8():
     axes[1].legend(['fraction OC', 'fraction OB', 'fraction MM'])
     plt.tight_layout()
     save_Figure(plt, 'Line_plot_Figure_8_nonlinear',
-                    r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
+                    r'..\visualisation\results_model_Sartakhti_nonlinear')
     plt.show()
 
     # Make a ternary plot of nonlinear data
@@ -1960,7 +1960,7 @@ def Figure_8():
             caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
     fig.update_layout(title_text= 'Nonlinear benefits (Figure 8)')
     save_ternary(fig, 'Ternary_plot_Figure_8_nonlinear',
-                    r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
+                    r'..\visualisation\results_model_Sartakhti_nonlinear')
     fig.show()
 
     # Make a line plot of linear data
@@ -1971,7 +1971,7 @@ def Figure_8():
     plt.title('Linear benefits (Figure 8)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'Line_plot_Figure_8_linear',
-                    r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
+                    r'..\visualisation\results_model_Sartakhti_nonlinear')
     plt.show()
 
     # Make a ternary plot of linear data
@@ -1983,7 +1983,7 @@ def Figure_8():
             caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
     fig.update_layout(title_text= 'Linear benefits (Figure 8)')
     save_ternary(fig, 'Ternary_plot_Figure_8_linear',
-                    r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
+                    r'..\visualisation\results_model_Sartakhti_nonlinear')
     fig.show()
 
 """Figure 9"""
@@ -2042,7 +2042,7 @@ def Figure_9():
 
     # Save the data as csv file
     save_data(df_Figure_9_no_treatment, 'data_Figure_9_no_treatment.csv',
-                                r'..\data\reproduced_data_Sartakhti_nonlinear')
+                                r'..\data\data_model_Sartakhti_nonlinear')
 
     # Reset initial values for each h iteration
     xOC = 0.5
@@ -2073,7 +2073,7 @@ def Figure_9():
 
     # Save the data as csv file
     save_data(df_Figure_9_reducing_MM, 'data_Figure_9_reducing_MM.csv',
-                                r'..\data\reproduced_data_Sartakhti_nonlinear')
+                                r'..\data\data_model_Sartakhti_nonlinear')
 
     # Reset initial values for each h iteration
     xOC = 0.4
@@ -2104,7 +2104,7 @@ def Figure_9():
 
     # Save the data as csv file
     save_data(df_Figure_9_increasing_h, 'data_Figure_9_increasing_h.csv',
-                                r'..\data\reproduced_data_Sartakhti_nonlinear')
+                                r'..\data\data_model_Sartakhti_nonlinear')
 
     # Make a line plot of no treatment
     df_Figure_9_no_treatment.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
@@ -2114,7 +2114,7 @@ def Figure_9():
     plt.title('No treatment (Figure 9)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'Line_plot_Figure_9_reducing_MM',
-                    r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
+                    r'..\visualisation\results_model_Sartakhti_nonlinear')
     plt.show()
 
     # Make a ternary plot to show the effect of a decrease in MM cells
@@ -2134,7 +2134,7 @@ def Figure_9():
     fig1.data[1].update(line=dict(color='blue'))
     fig1.update_layout(title_text= 'Reducing MM cells (Figure 9)')
     save_ternary(fig1, 'Ternary_plot_Figure_9_reducing_MM',
-                    r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
+                    r'..\visualisation\results_model_Sartakhti_nonlinear')
     fig1.show()
 
     # Make a line plot of the effect of a decrease in MM cells
@@ -2145,7 +2145,7 @@ def Figure_9():
     plt.title('Reducing MM cells (Figure 9)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'Line_plot_Figure_9_reducing_MM',
-                    r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
+                    r'..\visualisation\results_model_Sartakhti_nonlinear')
     plt.show()
 
     # Make a ternary plot to show the effect of an increase in h
@@ -2164,7 +2164,7 @@ def Figure_9():
     fig3.data[1].update(line=dict(color='blue'))
     fig3.update_layout(title_text= 'Increasing h (Figure 9)')
     save_ternary(fig3, 'Ternary_plot_Figure_9_increasing_h',
-                    r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
+                    r'..\visualisation\results_model_Sartakhti_nonlinear')
     fig3.show()
 
     # Make a line plot of the effect of a increase in the h value
@@ -2175,7 +2175,7 @@ def Figure_9():
     plt.title('Increase of the inflection point h (Figure 9)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'Line_plot_Figure_9_increasing_h',
-                    r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
+                    r'..\visualisation\results_model_Sartakhti_nonlinear')
     plt.show()
 
 """Figure 10"""
@@ -2203,7 +2203,7 @@ def Figure_10():
 
     # Save the data as csv file
     save_data(df_Figure_10, 'data_Figure_10.csv',
-                                r'..\data\reproduced_data_Sartakhti_nonlinear')
+                                r'..\data\data_model_Sartakhti_nonlinear')
 
     # Make a plot
     fig, ax = plt.subplots(figsize=(10, 6))
@@ -2220,7 +2220,7 @@ def Figure_10():
     plt.ylabel('Benefit')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'Benefit_function_Figure_10',
-                    r'..\visualisation\reproduced_results_Sartakhti_nonlinear')
+                    r'..\visualisation\results_model_Sartakhti_nonlinear')
     plt.show()
 
 if __name__ == "__main__":

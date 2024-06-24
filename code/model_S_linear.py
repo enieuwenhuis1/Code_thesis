@@ -497,9 +497,9 @@ def Figure_2():
 
     # Save the data as csv file
     save_data(df_Figure_2_first_line, 'df_Figure_2_first_line.csv',
-                                    r'..\data\reproduced_data_Sartakhti_linear')
+                                    r'..\data\data_model_Sartakhti_linear')
     save_data(df_Figure_2_second_line, 'df_Figure_2_second_line.csv',
-                                    r'..\data\reproduced_data_Sartakhti_linear')
+                                    r'..\data\data_model_Sartakhti_linear')
 
     # determine the fitness values
     df_fitness_first_line = frac_to_fitness_values(df_Figure_2_first_line, N, c1,
@@ -529,7 +529,7 @@ def Figure_2():
                                                             loc='upper right')
     plt.tight_layout()
     save_Figure(plt, 'line_plot_Figure_2_first_line_red',
-                        r'..\visualisation\reproduced_results_Sartakhti_linear')
+                        r'..\visualisation\results_model_Sartakhti_linear')
     plt.show()
 
     # Create a Figure with subplots
@@ -554,7 +554,7 @@ def Figure_2():
                                                                 loc='upper right')
     plt.tight_layout()
     save_Figure(plt, 'line_plot_Figure_2_second_line_blue',
-                        r'..\visualisation\reproduced_results_Sartakhti_linear')
+                        r'..\visualisation\results_model_Sartakhti_linear')
     plt.show()
 
     # Determine the direction of both lines in a ternary plot
@@ -576,7 +576,7 @@ def Figure_2():
             caxis=dict(ticks='outside', tickvals=[0, 0.25, 0.5, 0.75, 1]),))
     fig1.update_layout(title_text='Dynamics for a scenario where c2<c1<c3 (Figure 2)')
     save_ternary(fig1, 'Ternary_plot_Figure_2',
-                        r'..\visualisation\reproduced_results_Sartakhti_linear')
+                        r'..\visualisation\results_model_Sartakhti_linear')
     fig1.show()
 
 """Figure 3"""
@@ -640,11 +640,11 @@ def Figure_3():
 
     # Save the data as csv file
     save_data(df_Figure_3_first_line, 'df_Figure_3_first_line.csv',
-                                r'..\data\reproduced_data_Sartakhti_linear')
+                                r'..\data\data_model_Sartakhti_linear')
     save_data(df_Figure_3_second_line, 'df_Figure_3_second_line.csv',
-                                r'..\data\reproduced_data_Sartakhti_linear')
+                                r'..\data\data_model_Sartakhti_linear')
     save_data(df_Figure_3_third_line, 'df_Figure_3_third_line.csv',
-                                r'..\data\reproduced_data_Sartakhti_linear')
+                                r'..\data\data_model_Sartakhti_linear')
 
     # Make a plot with three subplos
     fig1, axes = plt.subplots(1, 3, figsize=(15, 5))
@@ -672,7 +672,7 @@ def Figure_3():
     axes[2].legend(loc ='upper right')
     plt.tight_layout()
     save_Figure(fig1, 'Line_plot_Figure_3',
-                     r'..\visualisation\reproduced_results_Sartakhti_linear')
+                     r'..\visualisation\results_model_Sartakhti_linear')
     plt.show()
 
 """ Figure 5"""
@@ -720,9 +720,9 @@ def Figure_5():
 
     # Save the data as csv file
     save_data(df_Figure_5_first_line, 'df_Figure_5_first_line.csv',
-                                    r'..\data\reproduced_data_Sartakhti_linear')
+                                    r'..\data\data_model_Sartakhti_linear')
     save_data(df_Figure_5_second_line, 'df_Figure_5_second_line.csv',
-                                    r'..\data\reproduced_data_Sartakhti_linear')
+                                    r'..\data\data_model_Sartakhti_linear')
 
     # Determine the fitness values
     df_fitness_first_line = frac_to_fitness_values(df_Figure_5_first_line, N, c1,
@@ -752,7 +752,7 @@ def Figure_5():
                                                             loc ='upper right')
     plt.tight_layout()
     save_Figure(plt, 'line_plot_Figure_5_first_line_red',
-                        r'..\visualisation\reproduced_results_Sartakhti_linear')
+                        r'..\visualisation\results_model_Sartakhti_linear')
     plt.show()
 
     # Create a Figure and axes for subplots
@@ -777,7 +777,7 @@ def Figure_5():
                                                             loc ='upper right')
     plt.tight_layout()
     save_Figure(plt, 'line_plot_Figure_5_second_line_blue',
-                        r'..\visualisation\reproduced_results_Sartakhti_linear')
+                        r'..\visualisation\results_model_Sartakhti_linear')
     plt.show()
 
     # Make a ternary plot
@@ -796,7 +796,7 @@ def Figure_5():
     fig1.data[1].update(line=dict(color='blue'))
     fig1.update_layout(title_text= 'Dynamics for a scenario where c2<c1<c3 (Figure 5)')
     save_ternary(fig1, 'Ternary_plot_Figure_5',
-                        r'..\visualisation\reproduced_results_Sartakhti_linear')
+                        r'..\visualisation\results_model_Sartakhti_linear')
     fig1.show()
 
 """Figure 8A"""
@@ -844,9 +844,9 @@ def Figure_8A():
 
     # Save the data as csv file
     save_data(df_Figure_8A_first_line, 'df_Figure_8A_first_line.csv',
-                                    r'..\data\reproduced_data_Sartakhti_linear')
+                                    r'..\data\data_model_Sartakhti_linear')
     save_data(df_Figure_8A_second_line, 'df_Figure_8A_second_line.csv',
-                                    r'..\data\reproduced_data_Sartakhti_linear')
+                                    r'..\data\data_model_Sartakhti_linear')
 
     # Make a plot
     df_Figure_8A_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
@@ -856,7 +856,7 @@ def Figure_8A():
     plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 8A)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_8A_first_line_red',
-                        r'..\visualisation\reproduced_results_Sartakhti_linear')
+                        r'..\visualisation\results_model_Sartakhti_linear')
     plt.show()
 
     # Make a plot
@@ -867,7 +867,7 @@ def Figure_8A():
     plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 8A)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_8A_second_line_blue',
-                        r'..\visualisation\reproduced_results_Sartakhti_linear')
+                        r'..\visualisation\results_model_Sartakhti_linear')
     plt.show()
 
     # Make a ternary plot
@@ -886,7 +886,7 @@ def Figure_8A():
     fig1.data[1].update(line=dict(color='blue'))
     fig1.update_layout(title_text= 'Dynamics for a scenario where c2<c1<c3 (Figure 8A)')
     save_ternary(fig1, 'Ternary_plot_Figure_8A',
-                        r'..\visualisation\reproduced_results_Sartakhti_linear')
+                        r'..\visualisation\results_model_Sartakhti_linear')
     fig1.show()
 
 """Figure 8B"""
@@ -935,9 +935,9 @@ def Figure_8B():
 
     # Save the data as csv file
     save_data(df_Figure_8B_first_line, 'df_Figure_8B_first_line.csv',
-                                   r'..\data\reproduced_data_Sartakhti_linear')
+                                   r'..\data\data_model_Sartakhti_linear')
     save_data(df_Figure_8B_second_line, 'df_Figure_8B_second_line.csv',
-                                   r'..\data\reproduced_data_Sartakhti_linear')
+                                   r'..\data\data_model_Sartakhti_linear')
 
     # Make a plot
     df_Figure_8B_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
@@ -947,7 +947,7 @@ def Figure_8B():
     plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 8B)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_8B_first_line_red',
-                        r'..\visualisation\reproduced_results_Sartakhti_linear')
+                        r'..\visualisation\results_model_Sartakhti_linear')
     plt.show()
 
     # Make a plot
@@ -958,7 +958,7 @@ def Figure_8B():
     plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 8B)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_8B_second_line_blue',
-                        r'..\visualisation\reproduced_results_Sartakhti_linear')
+                        r'..\visualisation\results_model_Sartakhti_linear')
     plt.show()
 
     # Make a ternary plot
@@ -977,7 +977,7 @@ def Figure_8B():
     fig1.data[1].update(line=dict(color='blue'))
     fig1.update_layout(title_text= 'Dynamics for a scenario where c2<c1<c3 (Figure 8B)')
     save_ternary(fig1, 'Ternary_plot_Figure_8B',
-                        r'..\visualisation\reproduced_results_Sartakhti_linear')
+                        r'..\visualisation\results_model_Sartakhti_linear')
     fig1.show()
 
 """SENARIO 2"""
@@ -1027,9 +1027,9 @@ def Figure_9A():
 
     # Save the data as csv file
     save_data(df_Figure_9A_first_line, 'df_Figure_9A_first_line.csv',
-                                    r'..\data\reproduced_data_Sartakhti_linear')
+                                    r'..\data\data_model_Sartakhti_linear')
     save_data(df_Figure_9A_second_line, 'df_Figure_9A_second_line.csv',
-                                    r'..\data\reproduced_data_Sartakhti_linear')
+                                    r'..\data\data_model_Sartakhti_linear')
 
     # Make a plot
     df_Figure_9A_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
@@ -1039,7 +1039,7 @@ def Figure_9A():
     plt.title('Dynamics for a scenario where c2=c1=c3 (Figure 9A)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_9A_first_line_red',
-                        r'..\visualisation\reproduced_results_Sartakhti_linear')
+                        r'..\visualisation\results_model_Sartakhti_linear')
     plt.show()
 
     # Make a plot
@@ -1050,7 +1050,7 @@ def Figure_9A():
     plt.title('Dynamics for a scenario where c2=c1=c3 (Figure 9A)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_9A_second_line_blue',
-                        r'..\visualisation\reproduced_results_Sartakhti_linear')
+                        r'..\visualisation\results_model_Sartakhti_linear')
     plt.show()
 
     # Make a ternary plot
@@ -1070,7 +1070,7 @@ def Figure_9A():
     fig1.data[1].update(line=dict(color='blue'))
     fig1.update_layout(title_text= 'Dynamics for a scenario where c2=c1=c3 (Figure 9A)')
     save_ternary(fig1, 'Ternary_plot_Figure_9A',
-                        r'..\visualisation\reproduced_results_Sartakhti_linear')
+                        r'..\visualisation\results_model_Sartakhti_linear')
     fig1.show()
 
 """ Figure 9B """
@@ -1118,9 +1118,9 @@ def Figure_9B():
 
     # Save the data as csv file
     save_data(df_Figure_9B_first_line, 'df_Figure_9B_first_line.csv',
-                                    r'..\data\reproduced_data_Sartakhti_linear')
+                                    r'..\data\data_model_Sartakhti_linear')
     save_data(df_Figure_9B_second_line, 'df_Figure_9B_second_line.csv',
-                                    r'..\data\reproduced_data_Sartakhti_linear')
+                                    r'..\data\data_model_Sartakhti_linear')
 
     # Make a plot
     df_Figure_9B_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
@@ -1130,7 +1130,7 @@ def Figure_9B():
     plt.title('Dynamics for a scenario where c2=c1=c3 (Figure 9B)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_9B_first_line_red',
-                        r'..\visualisation\reproduced_results_Sartakhti_linear')
+                        r'..\visualisation\results_model_Sartakhti_linear')
     plt.show()
 
     # Make a plot
@@ -1141,7 +1141,7 @@ def Figure_9B():
     plt.title('Dynamics for a scenario where c2=c1=c3 (Figure 9B)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_9B_second_line_blue',
-                        r'..\visualisation\reproduced_results_Sartakhti_linear')
+                        r'..\visualisation\results_model_Sartakhti_linear')
     plt.show()
 
     # Make a ternary plot
@@ -1161,7 +1161,7 @@ def Figure_9B():
     fig1.data[1].update(line=dict(color='blue'))
     fig1.update_layout(title_text= 'Dynamics for a scenario where c2=c1=c3 (Figure 9B)')
     save_ternary(fig1, 'Ternary_plot_Figure_9B',
-                        r'..\visualisation\reproduced_results_Sartakhti_linear')
+                        r'..\visualisation\results_model_Sartakhti_linear')
     fig1.show()
 
 """ Figure 9C """
@@ -1209,9 +1209,9 @@ def Figure_9C():
 
     # Save the data as csv file
     save_data(df_Figure_9C_first_line, 'df_Figure_9C_first_line.csv',
-                                    r'..\data\reproduced_data_Sartakhti_linear')
+                                    r'..\data\data_model_Sartakhti_linear')
     save_data(df_Figure_9C_second_line, 'df_Figure_9C_second_line.csv',
-                                    r'..\data\reproduced_data_Sartakhti_linear')
+                                    r'..\data\data_model_Sartakhti_linear')
 
     # Make a plot
     df_Figure_9C_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
@@ -1221,7 +1221,7 @@ def Figure_9C():
     plt.title('Dynamics for a scenario where c2=c1=c3 (Figure 9C)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_9C_first_line_red',
-                        r'..\visualisation\reproduced_results_Sartakhti_linear')
+                        r'..\visualisation\results_model_Sartakhti_linear')
     plt.show()
 
     # Make a plot
@@ -1232,7 +1232,7 @@ def Figure_9C():
     plt.title('Dynamics for a scenario where c2=c1=c3 (Figure 9C)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_9C_second_line_blue',
-                        r'..\visualisation\reproduced_results_Sartakhti_linear')
+                        r'..\visualisation\results_model_Sartakhti_linear')
     plt.show()
 
     # Make a ternary plot
@@ -1251,7 +1251,7 @@ def Figure_9C():
     fig1.data[1].update(line=dict(color='blue'))
     fig1.update_layout(title_text= 'Dynamics for a scenario where c2=c1=c3 (Figure 9C)')
     save_ternary(fig1, 'Ternary_plot_Figure_9C',
-                        r'..\visualisation\reproduced_results_Sartakhti_linear')
+                        r'..\visualisation\results_model_Sartakhti_linear')
     fig1.show()
 
 """SENARIO 3"""
@@ -1300,9 +1300,9 @@ def Figure_10A():
 
     # Save the data as csv file
     save_data(df_Figure_10A_first_line, 'df_Figure_10A_first_line.csv',
-                                    r'..\data\reproduced_data_Sartakhti_linear')
+                                    r'..\data\data_model_Sartakhti_linear')
     save_data(df_Figure_10A_second_line, 'df_Figure_10A_second_line.csv',
-                                    r'..\data\reproduced_data_Sartakhti_linear')
+                                    r'..\data\data_model_Sartakhti_linear')
 
     # Make a plot
     df_Figure_10A_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
@@ -1312,7 +1312,7 @@ def Figure_10A():
     plt.title('Dynamics for a scenario where c3<c1<c2 (Figure 10A)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_10A_first_line_red',
-                        r'..\visualisation\reproduced_results_Sartakhti_linear')
+                        r'..\visualisation\results_model_Sartakhti_linear')
     plt.show()
 
     # Make a plot
@@ -1323,7 +1323,7 @@ def Figure_10A():
     plt.title('Dynamics for a scenario where c3<c1<c2 (Figure 10A)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_10A_second_line_blue',
-                        r'..\visualisation\reproduced_results_Sartakhti_linear')
+                        r'..\visualisation\results_model_Sartakhti_linear')
     plt.show()
 
     # Make a ternary plot
@@ -1343,7 +1343,7 @@ def Figure_10A():
     fig1.data[1].update(line=dict(color='blue'))
     fig1.update_layout(title_text= 'Dynamics for a scenario where c3<c1<c2 (Figure 10A)')
     save_ternary(fig1, 'Ternary_plot_Figure_10A',
-                        r'..\visualisation\reproduced_results_Sartakhti_linear')
+                        r'..\visualisation\results_model_Sartakhti_linear')
     fig1.show()
 
 """Figure 10B"""
@@ -1390,9 +1390,9 @@ def Figure_10B():
     'xOB': y[:, 1], 'xMM': y[:, 2]})
 
     save_data(df_Figure_10B_first_line, 'df_Figure_10B_first_line.csv',
-                                    r'..\data\reproduced_data_Sartakhti_linear')
+                                    r'..\data\data_model_Sartakhti_linear')
     save_data(df_Figure_10B_second_line, 'df_Figure_10B_second_line.csv',
-                                    r'..\data\reproduced_data_Sartakhti_linear')
+                                    r'..\data\data_model_Sartakhti_linear')
 
     # Make a plot
     df_Figure_10B_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
@@ -1402,7 +1402,7 @@ def Figure_10B():
     plt.title('Dynamics for a scenario where c3<c1<c2 (Figure 10B)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_10B_first_line_red',
-                        r'..\visualisation\reproduced_results_Sartakhti_linear')
+                        r'..\visualisation\results_model_Sartakhti_linear')
     plt.show()
 
     df_Figure_10B_second_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
@@ -1412,7 +1412,7 @@ def Figure_10B():
     plt.title('Dynamics for a scenario where c3<c1<c2 (Figure 10B)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_10B_second_line_blue',
-                        r'..\visualisation\reproduced_results_Sartakhti_linear')
+                        r'..\visualisation\results_model_Sartakhti_linear')
     plt.show()
 
     # Make a ternary plot
@@ -1432,7 +1432,7 @@ def Figure_10B():
     fig1.data[1].update(line=dict(color='blue'))
     fig1.update_layout(title_text= 'Dynamics for a scenario where c3<c1<c2 (Figure 10B)')
     save_ternary(fig1, 'Ternary_plot_Figure_10B',
-                        r'..\visualisation\reproduced_results_Sartakhti_linear')
+                        r'..\visualisation\results_model_Sartakhti_linear')
     fig1.show()
 
 """Figure 11"""
@@ -1479,7 +1479,7 @@ def Figure_11():
     df_Figure_11_first_line = combine_dataframes(df_1, df_2)
 
     save_data(df_Figure_11_first_line, 'df_Figure_11_line.csv',
-                                    r'..\data\reproduced_data_Sartakhti_linear')
+                                    r'..\data\data_model_Sartakhti_linear')
 
 
     # Make a plot
@@ -1490,7 +1490,7 @@ def Figure_11():
     plt.title('Effect reducing the MM cell fraction (Figure 11)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'Line_plot_Figure_11',
-                        r'..\visualisation\reproduced_results_Sartakhti_linear')
+                        r'..\visualisation\results_model_Sartakhti_linear')
     plt.show()
 
     # Make a ternary plot
@@ -1505,7 +1505,7 @@ def Figure_11():
     # Add both lines to one ternary plot
     fig1.update_layout(title_text= 'Effect reducing MM cells (Figure 11)')
     save_ternary(fig1, 'Ternary_plot_Figure_11',
-                        r'..\visualisation\reproduced_results_Sartakhti_linear')
+                        r'..\visualisation\results_model_Sartakhti_linear')
     fig1.show()
 
 """Figure 12 A middle"""
@@ -1554,9 +1554,9 @@ def Figure_12A_middle():
 
     # Save the data as csv file
     save_data(df_Figure_12A_middle_first_line, 'df_Figure_12A_middle_first_line.csv',
-                                    r'..\data\reproduced_data_Sartakhti_linear')
+                                    r'..\data\data_model_Sartakhti_linear')
     save_data(df_Figure_12A_middle_second_line, 'df_Figure_12A_middle_second_line.csv',
-                                    r'..\data\reproduced_data_Sartakhti_linear')
+                                    r'..\data\data_model_Sartakhti_linear')
 
     # Make a plot
     df_Figure_12A_middle_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
@@ -1566,7 +1566,7 @@ def Figure_12A_middle():
     plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12A middle)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_12A_middle_first_line_red',
-                        r'..\visualisation\reproduced_results_Sartakhti_linear')
+                        r'..\visualisation\results_model_Sartakhti_linear')
     plt.show()
 
     # Make a plot
@@ -1577,7 +1577,7 @@ def Figure_12A_middle():
     plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12A middle)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_12A_middle_second_line_blue',
-                        r'..\visualisation\reproduced_results_Sartakhti_linear')
+                        r'..\visualisation\results_model_Sartakhti_linear')
     plt.show()
 
     # Make a ternary plot
@@ -1599,7 +1599,7 @@ def Figure_12A_middle():
     fig1.data[1].update(line=dict(color='blue'))
     fig1.update_layout(title_text= 'Dynamics for a scenario where c2<c1<c3 (Figure 12A middle)')
     save_ternary(fig1, 'Ternary_plot_Figure_12A_middle',
-                    r'..\visualisation\reproduced_results_Sartakhti_linear')
+                    r'..\visualisation\results_model_Sartakhti_linear')
     fig1.show()
 
 """Figure 12 A right"""
@@ -1648,9 +1648,9 @@ def Figure_12A_right():
 
     # Save the data as csv file
     save_data(df_Figure_12A_right_first_line, 'df_Figure_12A_right_first_line.csv',
-                                    r'..\data\reproduced_data_Sartakhti_linear')
+                                    r'..\data\data_model_Sartakhti_linear')
     save_data(df_Figure_12A_right_second_line, 'df_Figure_12A_right_second_line.csv',
-                                    r'..\data\reproduced_data_Sartakhti_linear')
+                                    r'..\data\data_model_Sartakhti_linear')
 
     # Make a plot
     df_Figure_12A_right_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
@@ -1660,7 +1660,7 @@ def Figure_12A_right():
     plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12A right)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_12A_right_first_line_red',
-                        r'..\visualisation\reproduced_results_Sartakhti_linear')
+                        r'..\visualisation\results_model_Sartakhti_linear')
     plt.show()
 
     # Make a plot
@@ -1671,7 +1671,7 @@ def Figure_12A_right():
     plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12A right)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_12A_right_second_line_blue',
-                        r'..\visualisation\reproduced_results_Sartakhti_linear')
+                        r'..\visualisation\results_model_Sartakhti_linear')
     plt.show()
 
     # Make a ternary plot
@@ -1693,7 +1693,7 @@ def Figure_12A_right():
     fig1.data[1].update(line=dict(color='blue'))
     fig1.update_layout(title_text= 'Dynamics for a scenario where c2<c1<c3 (Figure 12A right)')
     save_ternary(fig1, 'Ternary_plot_Figure_12A_right',
-                        r'..\visualisation\reproduced_results_Sartakhti_linear')
+                        r'..\visualisation\results_model_Sartakhti_linear')
     fig1.show()
 
 """ Figure 12B middle"""
@@ -1741,9 +1741,9 @@ def Figure_12B_middle():
 
     # Save the data as csv file
     save_data(df_Figure_12B_middle_first_line, 'df_Figure_12B_middle_first_line.csv',
-                                    r'..\data\reproduced_data_Sartakhti_linear')
+                                    r'..\data\data_model_Sartakhti_linear')
     save_data(df_Figure_12B_middle_second_line, 'df_Figure_12B_middle_second_line.csv',
-                                    r'..\data\reproduced_data_Sartakhti_linear')
+                                    r'..\data\data_model_Sartakhti_linear')
 
     # Make a plot
     df_Figure_12B_middle_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
@@ -1753,7 +1753,7 @@ def Figure_12B_middle():
     plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12B middle)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_12B_middle_first_line_red',
-                        r'..\visualisation\reproduced_results_Sartakhti_linear')
+                        r'..\visualisation\results_model_Sartakhti_linear')
     plt.show()
 
     # Make a plot
@@ -1764,7 +1764,7 @@ def Figure_12B_middle():
     plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12B middle)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_12B_middle_second_line_blue',
-                        r'..\visualisation\reproduced_results_Sartakhti_linear')
+                        r'..\visualisation\results_model_Sartakhti_linear')
     plt.show()
 
     # Make a ternary plot
@@ -1786,7 +1786,7 @@ def Figure_12B_middle():
     fig1.data[1].update(line=dict(color='blue'))
     fig1.update_layout(title_text= 'Dynamics for a scenario where c2<c1<c3 (Figure 12B middle)')
     save_ternary(fig1, 'Ternary_plot_Figure_12B_middle',
-                        r'..\visualisation\reproduced_results_Sartakhti_linear')
+                        r'..\visualisation\results_model_Sartakhti_linear')
 
     fig1.show()
 
@@ -1835,9 +1835,9 @@ def Figure_12B_right():
 
     # Save the data as csv file
     save_data(df_Figure_12B_right_first_line, 'df_Figure_12B_right_first_line.csv',
-                                    r'..\data\reproduced_data_Sartakhti_linear')
+                                    r'..\data\data_model_Sartakhti_linear')
     save_data(df_Figure_12B_right_second_line, 'df_Figure_12B_right_second_line.csv',
-                                    r'..\data\reproduced_data_Sartakhti_linear')
+                                    r'..\data\data_model_Sartakhti_linear')
 
     # Make a plot
     df_Figure_12B_right_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
@@ -1847,7 +1847,7 @@ def Figure_12B_right():
     plt.title('Dynamics for a scenario where c3=c2<c1 (Figure 12B right)')
     plt.legend(loc ='upper right')
     save_Figure(plt,'line_plot_Figure_12B_right_first_line_red',
-                        r'..\visualisation\reproduced_results_Sartakhti_linear')
+                        r'..\visualisation\results_model_Sartakhti_linear')
     plt.show()
 
     # Make a plot
@@ -1858,7 +1858,7 @@ def Figure_12B_right():
     plt.title('Dynamics for a scenario where c3=c2<c1 (Figure 12B right)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_12B_right_second_line_blue',
-                        r'..\visualisation\reproduced_results_Sartakhti_linear')
+                        r'..\visualisation\results_model_Sartakhti_linear')
     plt.show()
 
     # Make a ternary plot
@@ -1880,7 +1880,7 @@ def Figure_12B_right():
     fig1.data[1].update(line=dict(color='blue'))
     fig1.update_layout(title_text= 'Dynamics for a scenario where c3=c2<c1 (Figure 12B right)')
     save_ternary(fig1, 'Ternary_plot_Figure_12B_right',
-                        r'..\visualisation\reproduced_results_Sartakhti_linear')
+                        r'..\visualisation\results_model_Sartakhti_linear')
 
     fig1.show()
 
@@ -1930,9 +1930,9 @@ def Figure_12C_middle():
 
     # Save the data as csv file
     save_data(df_Figure_12C_middle_first_line, 'df_Figure_12C_middle_first_line.csv',
-                                    r'..\data\reproduced_data_Sartakhti_linear')
+                                    r'..\data\data_model_Sartakhti_linear')
     save_data(df_Figure_12C_middle_second_line, 'df_Figure_12C_middle_second_line.csv',
-                                    r'..\data\reproduced_data_Sartakhti_linear')
+                                    r'..\data\data_model_Sartakhti_linear')
 
     # Make a plot
     df_Figure_12C_middle_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
@@ -1942,7 +1942,7 @@ def Figure_12C_middle():
     plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12C middle)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_12C_middle_first_line_red',
-                        r'..\visualisation\reproduced_results_Sartakhti_linear')
+                        r'..\visualisation\results_model_Sartakhti_linear')
     plt.show()
 
     # Make a plot
@@ -1953,7 +1953,7 @@ def Figure_12C_middle():
     plt.title('Dynamics for a scenario where c2<c1<c3 (Figure 12C middle)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_12C_middle_second_line_blue',
-                        r'..\visualisation\reproduced_results_Sartakhti_linear')
+                        r'..\visualisation\results_model_Sartakhti_linear')
     plt.show()
 
     # Make a ternary plot
@@ -1975,7 +1975,7 @@ def Figure_12C_middle():
     fig1.data[1].update(line=dict(color='blue'))
     fig1.update_layout(title_text= 'Dynamics for a scenario where c2<c1<c3 (Figure 12C middle)')
     save_ternary(fig1, 'Ternary_plot_Figure_12C_middle',
-                        r'..\visualisation\reproduced_results_Sartakhti_linear')
+                        r'..\visualisation\results_model_Sartakhti_linear')
     fig1.show()
 
 """ Figure 12C right"""
@@ -2023,9 +2023,9 @@ def Figure_12C_right():
 
     # Save the data as csv file
     save_data(df_Figure_12C_right_first_line, 'df_Figure_12C_right_first_line.csv',
-                                    r'..\data\reproduced_data_Sartakhti_linear')
+                                    r'..\data\data_model_Sartakhti_linear')
     save_data(df_Figure_12C_right_second_line, 'df_Figure_12C_right_second_line.csv',
-                                    r'..\data\reproduced_data_Sartakhti_linear')
+                                    r'..\data\data_model_Sartakhti_linear')
 
     # Make a plot
     df_Figure_12C_right_first_line.plot(x= 'Generation', y= ['xOC', 'xOB', 'xMM'],
@@ -2035,7 +2035,7 @@ def Figure_12C_right():
     plt.title('Dynamics for a scenario where c3<c2<c1 (Figure 12C right)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_12C_right_first_line_red',
-                        r'..\visualisation\reproduced_results_Sartakhti_linear')
+                        r'..\visualisation\results_model_Sartakhti_linear')
     plt.show()
 
     # Make a plot
@@ -2046,7 +2046,7 @@ def Figure_12C_right():
     plt.title('Dynamics for a scenario where c3<c2<c1 (Figure 12C right)')
     plt.legend(loc ='upper right')
     save_Figure(plt, 'line_plot_Figure_12C_right_second_line_blue',
-                        r'..\visualisation\reproduced_results_Sartakhti_linear')
+                        r'..\visualisation\results_model_Sartakhti_linear')
     plt.show()
 
     # Make a ternary plot
@@ -2068,7 +2068,7 @@ def Figure_12C_right():
     fig1.data[1].update(line=dict(color='blue'))
     fig1.update_layout(title_text= 'Dynamics for a scenario where c3<c2<c1 (Figure 12C right)')
     save_ternary(fig1, 'Ternary_plot_Figure_12C_right',
-                    r'..\visualisation\reproduced_results_Sartakhti_linear')
+                    r'..\visualisation\results_model_Sartakhti_linear')
     fig1.show()
 
 if __name__ == "__main__":
