@@ -126,9 +126,9 @@ These are automatically run when the specific function is run.
 THE DATA
 The folder data contains a folder per model with all the generated data that is
 used to make figures and tables. The folders data contains are:
-* reproduced_data_Sartakhti_nonlinear: contains all the data obtained with the
-                        model based on the paper of Sartakhti et al., 2018.
-* reproduced_data_Sartakhti_linear: contains all the data obtained with the model
+* data_model_Sartakhti_nonlinear: contains all the data obtained with the model
+                        based on the paper of Sartakhti et al., 2018.
+* data_model_Sartakhti_linear: contains all the data obtained with the model
                         based on the paper of Sartakhti et al., 2016.
 * data_model_fractions: contains all the data obtained from the model simulating
                         cell type fractions.
@@ -152,9 +152,9 @@ used to make figures and tables. The folders data contains are:
 THE VISUALISATION
 The folder visualisation contains a folder per model in which all the made figures
 are stored. The folders which visualisation contains are:
-* reproduced_results_Sartakhti_nonlinear: contains all the reproduced figures of
-                            the paper of Sartakhti et al., 2018.
-* reproduced_results_Sartakhti_linear: contains all the reproduced figures of the
+* results_model_Sartakhti_nonlinear: contains all the reproduced figures of the
+                            paper of Sartakhti et al., 2018.
+* results_model_Sartakhti_linear: contains all the reproduced figures of the
                             paper of Sartakhti et al., 2016.
 * results_model_fractions: contains all the figures obtained from the model
                             simulating cell type fractions.
