@@ -1,7 +1,7 @@
 Author:       Eva Nieuwenhuis
 Student ID:   13717405
-University:   UvA
 Group:        Biosystems Data Analysis Group
+Course:       Bachelor project biomedical science, UvA
 
 MATHEMATICAL MODEL MULTIPLE MYELOMA
 The goal was to make fraction and number models that simulate the interactions
@@ -111,7 +111,7 @@ NUMBER MODEL WITH RESISTANCE MUTATIONS: MM_model_nr_IH_inf_mutation.py
 MM_model_nr_IH_inf_mutation.py contains the code with the mathematical formulas
 simulating the number dynamics of the MMd, MMr, OC and OB. The MMd can become MMr
 via a mutation that happens at a specified rate. It contains code to make figures
-showing the effect of the WMMd  IH, the MMd GF IH and a combination on the cell
+showing the effect of the WMMd IH, the MMd GF IH and IH combination on the cell
 numbers for different administration periods and strengths. Furthermore, it
 contains a (weighted) optimisation to find the best administration duration,
 holiday duration and IH strength simultaneously. The IHs not only affect the MMd
